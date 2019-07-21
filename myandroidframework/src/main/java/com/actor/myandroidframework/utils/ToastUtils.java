@@ -113,8 +113,8 @@ public class ToastUtils {
             StackTraceElement[] stackTrace = e.getStackTrace();//堆栈轨迹
 //          for (StackTraceElement stackTraceElement:stackTrace) {//有一些信息,通常取第一条
             StackTraceElement stackTraceElement = stackTrace[0];
-//          stackTraceElement.getClassName();//包名+类名,示例:com.kuchuan.wisdompolice.activity.BaseActivity
-            String fileName = stackTraceElement.getFileName();//这个class的名称,示例:BaseActivity.java
+//          stackTraceElement.getClassName();//包名+类名,示例:com.kuchuan.wisdompolice.activity.ActorBaseActivity
+            String fileName = stackTraceElement.getFileName();//这个class的名称,示例:ActorBaseActivity.java
             String methodName = stackTraceElement.getMethodName();
             int lineNumber = stackTraceElement.getLineNumber();
             System.out.println(fileName + "的" +methodName + "方法" + lineNumber + "行,异常");

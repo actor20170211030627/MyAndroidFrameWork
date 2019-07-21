@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--rotate:旋转
+    Degrees:角度
+    从0° 到 1440° (4圈,间接控制旋转速度)-->
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@drawable/kprogresshud_spinner"
+        android:fromDegrees="0"
+        android:toDegrees="1440">
+
+</rotate>

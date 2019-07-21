@@ -4,9 +4,25 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 
 import com.actor.myandroidframework.utils.SPUtils;
+import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
+import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumConfig;
+import com.zhy.http.okhttp.cookie.CookieJarImpl;
+import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
+
+import java.net.Proxy;
+import java.util.Locale;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * 自定义的Application继承本类, 需要在清单文件中注册
+ * Description: 自定义的Application 继承本类, 然后在清单文件中注册
+ * Copyright  : Copyright (c) 2019
+ * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
+ * Author     : 李大发
+ * Date       : 2019/7/21 on 16:59
  */
 public abstract class ActorApplication extends Application/* implements Thread.UncaughtExceptionHandler*/ {
 
@@ -22,7 +38,42 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         if (!isDebugMode) {//2.如果是正式环境,在onCreate中设置默认未捕获异常线程
             Thread.setDefaultUncaughtExceptionHandler(new MyHandler());
         }
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+//                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+//                .addInterceptor(new AddHeaderInterceptor())
+//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this))//401登陆过期
+                .cookieJar(new CookieJarImpl(new PersistentCookieStore(this)))
+                .cache(new Cache(getFilesDir(), 1024*1024*10));//10Mb;
+        if (isDebugMode) {
+            builder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
+        } else {
+            builder.proxy(Proxy.NO_PROXY);
+        }
+        initOkHttpClient(builder);
+
+        /**
+         * 配置画廊
+         */
+        Album.initialize(AlbumConfig.newBuilder(this)
+                .setAlbumLoader(new GlideAlbumLoader()) // 设置Album加载器。
+                .setLocale(Locale.getDefault()) //Locale.CHINA 比如强制设置在任何语言下都用中文显示。
+                .build());
     }
+
+    /**
+     * 初始化OkHttpClient, 主要是添加超时&拦截器, 示例:
+     * builder.connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+     *          .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+     *          .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+     *          .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
+     *          .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
+     * OkHttpClient okHttpClient = builder.build();
+     * OkHttpUtils.initClient(okHttpClient);
+     */
+    protected abstract void initOkHttpClient(OkHttpClient.Builder builder);
 
     private class MyHandler implements Thread.UncaughtExceptionHandler {
         @Override
