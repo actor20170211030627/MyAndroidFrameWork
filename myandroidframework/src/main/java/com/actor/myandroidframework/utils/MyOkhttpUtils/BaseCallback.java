@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ToastUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.IOException;
@@ -67,7 +67,8 @@ public abstract class BaseCallback<T> extends Callback<T> {
                 ResponseBody body = response.body();
                 if (body != null) {//如果数据量比较大,重写本方法,自己子线程解析
                     try {//解析非json类型数据会抛异常
-                        return JSONObject.parseObject(body.string(), genericity);
+                        return GsonUtils.fromJson(body.string(), genericity);//Gson
+//                        return JSONObject.parseObject(body.string(), genericity);//FastJson
                     } catch (Exception e) {
                         e.printStackTrace();
                         onJsonParseException(response, id, e);

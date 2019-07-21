@@ -1,6 +1,5 @@
 package com.actor.myandroidframework.adapter;
 
-import android.support.annotation.DrawableRes;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 /**
- * Description: 适用于 ViewPager 的 pager 不是 Fragment 的情况, 比如轮播图
+ * Description: 适用于 ViewPager 的 pager 不是 Fragment 的情况, 比如轮播图示例:
  *
  * 1.用法
  * viewPager.setAdapter(new MyPagerAdapter(imageRes));

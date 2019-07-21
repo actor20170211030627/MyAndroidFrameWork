@@ -63,10 +63,10 @@ dependencies {
     api 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    //https://github.com/alibaba/fastjson
+    //https://github.com/google/gson
     //不混淆Bean类. 示例:
     //-keep class com.package.xxx.info.** { *; }
-    api 'com.alibaba:fastjson:1.1.71.android'
+//    api 'com.google.code.gson:gson:2.8.5'//AndroidUtilCode已经依赖了Gson
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
@@ -74,6 +74,11 @@ dependencies {
     //https://github.com/hongyangAndroid/okhttputils
     api 'com.zhy:okhttputils:2.6.2'
     api 'com.squareup.okhttp3:logging-interceptor:3.11.0'//okhttp官方Log拦截器,版本要和okhttp3一致
+
+    //https://github.com/square/retrofit
+    api 'com.squareup.retrofit2:retrofit:2.5.0'
+    //https://github.com/square/retrofit/tree/master/retrofit-converters/gson
+    api 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     //https://github.com/bumptech/glide
     api 'com.github.bumptech.glide:glide:4.9.0'

@@ -4,12 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.request.RequestCall;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,7 +133,8 @@ public class MyOkHttpUtils {
     }
 
     public static <T> void postJson(String url, Map<String, Object> jsonMap, BaseCallback<T> callback) {
-        postJson(url, null, JSONObject.toJSONString(jsonMap), callback);
+//        postJson(url, null, JSONObject.toJSONString(jsonMap), callback);//FastJson
+        postJson(url, null, GsonUtils.toJson(jsonMap), callback);
     }
 
     /**
