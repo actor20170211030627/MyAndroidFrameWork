@@ -16,6 +16,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ToastUtils;
+import com.actor.myandroidframework.widget.LoadingDialog;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -208,9 +209,28 @@ public abstract class ActorBaseFragment extends Fragment {
     }
 
 
+    //显示加载Diaong=============================================
+    private LoadingDialog loadingDialog;
+    protected void showLoadingDialog() {
+        getLoadingDialog().show();
+    }
+
+    protected LoadingDialog getLoadingDialog() {
+        if (loadingDialog == null) loadingDialog = new LoadingDialog(activity);
+        return loadingDialog;
+    }
+
+    //隐藏加载Diaong
+    protected void dismissLoadingDialog() {
+        if (loadingDialog != null) loadingDialog.dismiss();
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        dismissLoadingDialog();
         MyOkHttpUtils.cancelTag(this);
+//        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
     }
 }

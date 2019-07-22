@@ -11,18 +11,19 @@ import com.actor.myandroidframework.application.ActorApplication;
 import java.io.File;
 
 /**
- * Description: 类的描述
- * Copyright  : Copyright (c) 2018
- * Company    : 重庆酷川科技有限公司 www.kuchuanyun.com
- * Author     : 李大发
- * Date       : 2018/7/29 on 19:12
+ * Description: 文件帮助类
  * 注意添加权限:
  * <!--模拟器中sdcard中创建文件夹的权限-->
  * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
  * <!--允许挂载和反挂载文件系统可移动存储-->
  * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+ *
+ * Copyright  : Copyright (c) 2018
+ * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+ * Author     : 李大发
+ * Date       : 2018/7/29 on 19:12
+ * @version 1.0
  */
-
 public class FileUtils {
 
     private static Context context = ActorApplication.instance;

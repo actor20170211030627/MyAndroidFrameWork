@@ -175,6 +175,8 @@ public class ActorBaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        dismissLoadingDialog();
         MyOkHttpUtils.cancelTag(this);//取消网络请求
+//        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
     }
 }
