@@ -30,6 +30,16 @@ public class PermissionRequestUtils {
 
 //        com.blankj.utilcode.util.PermissionUtils
 
+    public static void requestPermission(Context context, PermissionCallBack callBack, List<String> permissions) {
+        if (permissions != null && permissions.size() > 0) {
+            String[] permis = new String[permissions.size()];
+            for (int i = 0; i < permissions.size(); i++) {
+                permis[i] = permissions.get(i);
+            }
+            requestPermission(context, callBack, permis);
+        }
+    }
+
     /**
      * 申请单/多个权限
      * 示例:{@link com.yanzhenjie.permission.runtime.Permission#CAMERA}
