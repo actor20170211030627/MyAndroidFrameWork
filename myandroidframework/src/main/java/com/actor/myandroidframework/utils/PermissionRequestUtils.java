@@ -21,6 +21,7 @@ import java.util.List;
  * 提交问题或者贡献代码：https://github.com/yanzhenjie/AndPermission
  * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
+ * https://yanzhenjie.com/AndPermission/cn/
  * Author     : 李大发
  * Date       : 2019/5/30 on 19:09
  * @version 1.0
