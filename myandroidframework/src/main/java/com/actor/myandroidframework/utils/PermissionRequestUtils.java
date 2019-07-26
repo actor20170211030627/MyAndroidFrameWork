@@ -1,4 +1,4 @@
-package com.ly.hihifriend.utils;
+package com.actor.myandroidframework.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
