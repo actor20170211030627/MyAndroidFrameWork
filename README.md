@@ -6,7 +6,7 @@
 集成框架包括:
 <ol>
     <li>
-        //参与了编译, 如果报错需自己项目引入
+        //参与了编译, 如果报错需自己项目引入 <br/>
         compileOnly 'com.android.support:appcompat-v7:28.0.0' <br/>
         compileOnly 'com.android.support:design:28.0.0' <br/>
         compileOnly 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
