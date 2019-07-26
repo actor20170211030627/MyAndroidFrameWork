@@ -6,8 +6,8 @@
 集成框架包括:
 <ol>
     <li>
-        compileOnly 'com.android.support:appcompat-v7:28.0.0' <br/>
-        compileOnly 'com.android.support:design:28.0.0' <br/>
+        implementation 'com.android.support:appcompat-v7:28.0.0' <br/>
+        implementation 'com.android.support:design:28.0.0' <br/>
         implementation 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
     </li>
     <li>
