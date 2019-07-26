@@ -6,59 +6,65 @@
 集成框架包括:
 <ol>
     <li>
+        //参与了编译, 如果报错需自己项目引入
+        compileOnly 'com.android.support:appcompat-v7:28.0.0' <br/>
+        compileOnly 'com.android.support:design:28.0.0' <br/>
+        compileOnly 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
+    </li>
+    <li>
         //https://github.com/JakeWharton/butterknife <br/>
         api 'com.jakewharton:butterknife:8.8.1' <br/>
-        annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1' <br/>
+        annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1' <br/> <br/>
     </li>
     <li>
         //https://github.com/google/gson <br/>
         //不混淆Bean类. 示例: <br/>
         //-keep class com.package.xxx.info.** { *; } <br/>
-        //api 'com.google.code.gson:gson:2.8.5'//AndroidUtilCode已经依赖了Gson <br/>
+        //api 'com.google.code.gson:gson:2.8.5'//AndroidUtilCode已经依赖了Gson <br/> <br/>
     </li>
     <li>
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper <br/>
-        api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' <br/>
+        api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' <br/> <br/>
     </li>
     <li>
         //https://github.com/hongyangAndroid/okhttputils <br/>
         api 'com.zhy:okhttputils:2.6.2' <br/>
-        api 'com.squareup.okhttp3:logging-interceptor:3.11.0'//okhttp官方Log拦截器,版本要和okhttp3一致 <br/>
+        api 'com.squareup.okhttp3:logging-interceptor:3.11.0'//okhttp官方Log拦截器,版本要和okhttp3一致 <br/> <br/>
     </li>
     <li>
         //https://github.com/square/retrofit <br/>
         api 'com.squareup.retrofit2:retrofit:2.5.0' <br/>
         //https://github.com/square/retrofit/tree/master/retrofit-converters/gson <br/>
-        api 'com.squareup.retrofit2:converter-gson:2.5.0' <br/>
+        api 'com.squareup.retrofit2:converter-gson:2.5.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/bumptech/glide <br/>
         api 'com.github.bumptech.glide:glide:4.9.0' <br/>
-        annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/>
+        annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/yanzhenjie/Album <br/>
-        api 'com.yanzhenjie:album:2.1.3'//图片选择 <br/>
+        api 'com.yanzhenjie:album:2.1.3'//图片选择 <br/> <br/>
     </li>
     <li>
         //https://github.com/Blankj/AndroidUtilCode <br/>
-        api 'com.blankj:utilcode:1.24.7'//许多工具 <br/>
+        api 'com.blankj:utilcode:1.24.7'//许多工具 <br/> <br/>
     </li>
     <li>
         //https://github.com/laobie/StatusBarUtil <br/>
-        api 'com.jaeger.statusbarutil:library:1.5.1'//修改状态栏颜色&透明度等 <br/>
+        api 'com.jaeger.statusbarutil:library:1.5.1'//修改状态栏颜色&透明度等 <br/> <br/>
     </li>
     <li>
         //https://github.com/H07000223/FlycoDialog_Master <br/>
-        api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'//各种Dialog & Popup <br/>
+        api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'//各种Dialog & Popup <br/> <br/>
     </li>
     <li>
         //https://github.com/yanzhenjie/AndPermission <br/>
-        api 'com.yanzhenjie.permission:support:2.0.1'//严振杰权限 <br/>
+        api 'com.yanzhenjie.permission:support:2.0.1'//严振杰权限 <br/> <br/>
     </li>
     <li>
         //https://github.com/RuffianZhong/RWidgetHelper <br/>
-        api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/>
+        api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/> <br/>
     </li>
 </ol>
 
