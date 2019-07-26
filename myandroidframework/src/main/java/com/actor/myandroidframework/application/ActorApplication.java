@@ -88,7 +88,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
                     SPUtils.putString(EXCEPTION, exception.concat("\n\n\n").concat(thread).concat("\n\n").concat(e.toString()));
                 }
             }
-            onException(t, e);
+            onUncaughtException(t, e);
 //        Intent intent = new Intent(this, LoginActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        PendingIntent restartIntent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -105,7 +105,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      * @param thread 线程
      * @param e 堆栈信息
      */
-    protected abstract void onException(Thread thread, Throwable e);
+    protected abstract void onUncaughtException(Thread thread, Throwable e);
 
     /**
      * 获取崩溃信息

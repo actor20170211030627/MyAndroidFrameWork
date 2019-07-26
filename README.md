@@ -6,15 +6,9 @@
 集成框架包括:
 <ol>
     <li>
-        //参与了编译, 如果报错需自己项目引入 <br/>
         compileOnly 'com.android.support:appcompat-v7:28.0.0' <br/>
         compileOnly 'com.android.support:design:28.0.0' <br/>
-        compileOnly 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/JakeWharton/butterknife <br/>
-        api 'com.jakewharton:butterknife:8.8.1' <br/>
-        annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1' <br/> <br/>
+        implementation 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
     </li>
     <li>
         //https://github.com/google/gson <br/>
@@ -40,7 +34,7 @@
     <li>
         //https://github.com/bumptech/glide <br/>
         api 'com.github.bumptech.glide:glide:4.9.0' <br/>
-        annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
+        //annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'//未集成,可手动集成 <br/> <br/>
     </li>
     <li>
         //https://github.com/yanzhenjie/Album <br/>
