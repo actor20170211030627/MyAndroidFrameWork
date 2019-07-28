@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 
 import com.actor.myandroidframework.utils.SPUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
@@ -28,6 +29,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
 
     public static ActorApplication instance;
     public        boolean          isDebugMode = false;//用于配置"正式环境"的isDebug的值,★★★注意:上线前一定要改成false★★★
+    public int screenWidth, screenHeight;//屏幕宽高
     private static final String    EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
 
     @Override
@@ -38,6 +40,8 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         if (!isDebugMode) {//2.如果是正式环境,在onCreate中设置默认未捕获异常线程
             Thread.setDefaultUncaughtExceptionHandler(new MyHandler());
         }
+        screenWidth = ScreenUtils.getScreenWidth();
+        screenHeight = ScreenUtils.getScreenHeight();
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
 //                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
