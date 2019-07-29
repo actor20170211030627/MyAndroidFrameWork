@@ -14,10 +14,10 @@ import retrofit2.Response;
 
 /**
  * Description: retrofit2 的 Callback
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/5/9 on 10:27
+ * @version 1.0
  */
 public abstract class  BaseCallback2<T> implements Callback<T> {
 
@@ -35,16 +35,16 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
+        logFormat("onError: call=%s, throwable=%s, id=%d", call, t);
         if (isStatusCodeError) return;
         t.printStackTrace();
-        logError("onError:" + t.getMessage());
         if (t.getClass() == SocketTimeoutException.class) {
-            ToastUtils.show("连接服务器超时,请联系管理员或稍后重试!");
+            toast("连接服务器超时,请联系管理员或稍后重试!");
         } else if (t.getClass() == ConnectException.class) {
-            ToastUtils.show("网络连接失败,请检查网络是否打开!");
+            toast("网络连接失败,请检查网络是否打开!");
         } else {
             //e.getMessage()示例:failed to connect to /111.11.111.111 (port 8080) after 10000ms
-            ToastUtils.show("错误信息:".concat(t.getMessage()).concat(",请联系管理员!"));
+            toast("错误信息:".concat(t.getMessage()).concat(",请联系管理员!"));
         }
     }
 
@@ -57,10 +57,9 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
      * @param id
      */
     public void onStatusCodeError(int errCode, Call<T> response, Response<T> id) {
+        logFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
         isStatusCodeError = true;
-        String s = String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode);
-        logError(s);
-        ToastUtils.show(s);
+        toast(String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode));
     }
 
     protected static void logError(String msg) {
@@ -69,5 +68,9 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
 
     protected static void logFormat(String format, Object... args) {
         LogUtils.formatError(format, false, args);
+    }
+
+    protected void toast(String msg) {
+        ToastUtils.show(msg);
     }
 }

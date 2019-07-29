@@ -116,12 +116,8 @@ public abstract class BaseCallback<T> extends Callback<T> {
     protected void onStatusCodeError(int errCode, Response response, int id) {
         logFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
         isStatusCodeError = true;
-        if (errCode == 401) {//我们现在项目规定401是过期, 具体项目视情况而定
-            toast("登录过期, 请重新登录!");
-        } else {
-            String s = String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode);
-            toast(s);
-        }
+        String s = String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode);
+        toast(s);
     }
 
     protected void onJsonParseException(Response response, int id, Exception e) {
