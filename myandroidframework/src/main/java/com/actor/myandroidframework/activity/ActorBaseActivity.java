@@ -29,10 +29,15 @@ import java.util.Map;
  */
 public class ActorBaseActivity extends AppCompatActivity {
 
+//    private   FrameLayout  flContent;  //主要内容的帧布局
+//    private   LinearLayout llLoading; //加载中的布局
+//    protected TextView     tvLoading;  //例:正在加载中,请稍后...
+//    private   LinearLayout llEmpty; //没数据
+//    protected ACache              aCache = ActorApplication.instance.aCache;
+
     protected Activity            activity;
     protected Intent              intent;
     protected Map<String, Object> params = new LinkedHashMap<>();
-//    protected ACache              aCache = ActorApplication.instance.aCache;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
