@@ -43,6 +43,16 @@ public abstract class ActorBaseFragment extends Fragment {
     protected Map<String, Object> params = new LinkedHashMap<>();
 //    protected ACache              aCache = ActorApplication.instance.aCache;
 
+    //使用newInstance()的方式返回Fragment对象
+//    public static ActorBaseFragment newInstance() {
+//        ActorBaseFragment fragment = new ActorBaseFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
+
     /**
      * 获取这个Fragment所依附的Activity对象
      * 初始化 & 系统恢复页面数据 & 旋转屏幕 时, 会回调这个方法
