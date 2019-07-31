@@ -32,6 +32,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     public int screenWidth, screenHeight;//屏幕宽高
     private static final String    EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
     public OkHttpClient okHttpClient;
+    public String baseUrl = getBaseUrl();//http(s)://www.xxx.xx
 
     @Override
     public void onCreate() {
@@ -82,6 +83,12 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      * OkHttpUtils.initClient(okHttpClient);
      */
     protected abstract OkHttpClient getOkHttpClient(OkHttpClient.Builder builder);
+
+    /**
+     * 返回baseUrl
+     * @return 示例return: "http(s)://www.xxx.xx";
+     */
+    protected abstract String getBaseUrl();
 
     private class MyHandler implements Thread.UncaughtExceptionHandler {
         @Override

@@ -22,16 +22,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitNetwork {
 
     private static OkHttpClient        okHttpClient     = getOkHttpClient();
-    private static String baseUrl;
+    public static String baseUrl = ActorApplication.instance.baseUrl;//http(s)://www.xxx.xx
     private static Converter.Factory   converterFactory = getConverterFactory();
     private static CallAdapter.Factory callAdapterFactory = getCallAdapterFactory();
     private static Map<String, Object> apis              = new HashMap<>();
 
     private static DownloadFileApi downloadFileApi;
 
-    public RetrofitNetwork(String baseUrl) {
-        RetrofitNetwork.baseUrl = baseUrl;
-    }
 
     protected static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) okHttpClient = ActorApplication.instance.okHttpClient;
@@ -44,7 +41,7 @@ public class RetrofitNetwork {
         return GsonConverterFactory.create();//Gson
     }
 
-    //返回CallAdapterFactory
+    //返回CallAdapterFactory, 如果需要, 可重写此方法
     protected static CallAdapter.Factory getCallAdapterFactory() {
         //return RxJava2CallAdapterFactory.create();
         return null;
