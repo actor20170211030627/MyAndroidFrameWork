@@ -31,6 +31,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     public        boolean          isDebugMode = false;//用于配置"正式环境"的isDebug的值,★★★注意:上线前一定要改成false★★★
     public int screenWidth, screenHeight;//屏幕宽高
     private static final String    EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
+    public OkHttpClient okHttpClient;
 
     @Override
     public void onCreate() {
@@ -56,7 +57,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         } else {
             builder.proxy(Proxy.NO_PROXY);
         }
-        initOkHttpClient(builder);
+        okHttpClient = getOkHttpClient(builder);
 
         /**
          * 配置画廊
@@ -74,10 +75,13 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      *          .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
      *          .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
      *          .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
+     *
+     * // 构建 OkHttpClient 时,将 OkHttpClient.Builder() 传入 with() 方法,进行初始化配置
+     * ProgressManager.getInstance().with(builder);//可监听Glide,Download,Upload进度, 如果不需要就不配置
      * OkHttpClient okHttpClient = builder.build();
      * OkHttpUtils.initClient(okHttpClient);
      */
-    protected abstract void initOkHttpClient(OkHttpClient.Builder builder);
+    protected abstract OkHttpClient getOkHttpClient(OkHttpClient.Builder builder);
 
     private class MyHandler implements Thread.UncaughtExceptionHandler {
         @Override
