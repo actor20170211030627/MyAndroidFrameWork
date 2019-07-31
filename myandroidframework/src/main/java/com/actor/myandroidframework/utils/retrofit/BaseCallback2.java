@@ -17,17 +17,18 @@ import retrofit2.Response;
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/5/9 on 10:27
- * @version 1.0
+ * @version 1.0.1
  */
 public abstract class  BaseCallback2<T> implements Callback<T> {
 
-    private boolean isStatusCodeError = false;
+    protected boolean isStatusCodeError = false;
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
             onOk(call, response);
         } else {
+            isStatusCodeError = true;
             onStatusCodeError(response.code(), call, response);
             onFailure(call, new HttpException(response));
         }
@@ -58,7 +59,6 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
      */
     public void onStatusCodeError(int errCode, Call<T> response, Response<T> id) {
         logFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
-        isStatusCodeError = true;
         toast(String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode));
     }
 
