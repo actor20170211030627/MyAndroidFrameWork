@@ -241,7 +241,7 @@ public abstract class ActorBaseFragment extends Fragment {
 
 
     //Retrofit区=============================================
-    protected Call putCall(Call call) {//放入List, onDestroy的时候全部取消请求
+    protected <T> Call<T> putCall(Call<T> call) {//放入List, onDestroy的时候全部取消请求
         if (calls == null) calls = new ArrayList<>();
         calls.add(call);
         return call;
