@@ -37,7 +37,7 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         logFormat("onError: call=%s, throwable=%s, id=%d", call, t);
-        if (isStatusCodeError) return;
+        if (t == null || isStatusCodeError) return;
         t.printStackTrace();
         if (t.getClass() == SocketTimeoutException.class) {
             toast("连接服务器超时,请联系管理员或稍后重试!");
