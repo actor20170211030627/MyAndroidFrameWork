@@ -109,8 +109,8 @@ public abstract class BaseCallback<T> extends Callback<T> {
     }
 
     /**
-     * 状态码错误
-     * @param errCode
+     * 状态码错误, 如果要自己处理错误码, 可以重写本方法
+     * @param errCode 错误码
      * @param response
      * @param id
      */
