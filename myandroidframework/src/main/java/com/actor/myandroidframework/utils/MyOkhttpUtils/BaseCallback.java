@@ -29,7 +29,7 @@ import okhttp3.ResponseBody;
  * @version 1.2 重写onResponse, 增加okOk
  * @version 1.3 增加onParseNetworkResponseIsNull
  * @version 1.4 把tag等修改成public, 外界可以获取
- * @version 1.4.1 修改一些小细节
+ * @version 1.4.2 修改一些小细节
  */
 public abstract class BaseCallback<T> extends Callback<T> {
 
@@ -48,6 +48,7 @@ public abstract class BaseCallback<T> extends Callback<T> {
     @Override
     public boolean validateReponse(Response response, int id) {
         if (super.validateReponse(response, id)) return true;
+        isStatusCodeError = true;
         onStatusCodeError(response.code(), response, id);
         return false;//return false:直接走onError()
     }
@@ -115,7 +116,6 @@ public abstract class BaseCallback<T> extends Callback<T> {
      */
     protected void onStatusCodeError(int errCode, Response response, int id) {
         logFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
-        isStatusCodeError = true;
         String s = String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode);
         toast(s);
     }
