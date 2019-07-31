@@ -20,7 +20,6 @@ import android.view.ViewGroup;
  * 很多页面的时候, 推荐使用
  * 如果viewpager中的Fragment不想重复请求网络, 可以设置:viewpager.setOffscreenPageLimit(int limit);
  *
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/27 on 10:12

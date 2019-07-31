@@ -5,7 +5,6 @@ import android.os.Looper;
 
 /**
  * Description: 线程工具类,让程序运行在特定线程!
- * Copyright  : Copyright (c) 2015
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
  * Author     : 李大发
  * Date       : 2017/3/19 on 19:01.

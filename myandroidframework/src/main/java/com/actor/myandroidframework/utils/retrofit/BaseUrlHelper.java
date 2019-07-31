@@ -12,7 +12,6 @@ import okhttp3.HttpUrl;
  * 修改host:
  * baseUrlHelper.setHost("www.baidu.com");//不要写前缀http(s)://协议
  *
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/7 on 00:29

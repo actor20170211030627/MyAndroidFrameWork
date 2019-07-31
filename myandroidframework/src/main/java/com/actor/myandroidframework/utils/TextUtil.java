@@ -14,7 +14,6 @@ import java.util.Map;
 
 /**
  * Description: getText(),判空,显示/隐藏键盘
- * Copyright  : Copyright (c) 2018
  * Date       : 2018/4/20 on 11:14
  * @version 1.0
  */

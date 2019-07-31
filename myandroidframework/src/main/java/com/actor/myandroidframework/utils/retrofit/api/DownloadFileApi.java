@@ -8,7 +8,6 @@ import retrofit2.http.Url;
 
 /**
  * Description: 下载文件
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/15 on 10:10

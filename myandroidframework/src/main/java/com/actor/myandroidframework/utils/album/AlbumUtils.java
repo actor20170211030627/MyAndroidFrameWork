@@ -32,7 +32,6 @@ import java.util.Map;
  *     <li>{@link #galleryAlbum(Context, ArrayList, int, boolean, Action)}通过AlbumFile path预览图片</li>
  *     <li>{@link #gallery(Context, ArrayList, int, boolean, Action)}通过String path预览图片</li>
  * </ol>
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/2 on 15:03

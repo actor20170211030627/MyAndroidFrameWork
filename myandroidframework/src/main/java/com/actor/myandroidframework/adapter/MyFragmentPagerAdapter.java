@@ -31,7 +31,6 @@ import android.view.ViewGroup;
  *
  * 2.ExpandableListView不用重写上面的方法(以前的注意事项, 现在不一定适用)
  *
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/27 on 19:50

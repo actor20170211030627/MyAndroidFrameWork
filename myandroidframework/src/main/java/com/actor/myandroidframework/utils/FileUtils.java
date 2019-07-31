@@ -18,7 +18,6 @@ import java.io.File;
  * <!--允许挂载和反挂载文件系统可移动存储-->
  * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
  *
- * Copyright  : Copyright (c) 2018
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
  * Author     : 李大发
  * Date       : 2018/7/29 on 19:12

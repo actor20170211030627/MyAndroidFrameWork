@@ -15,13 +15,16 @@ import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ToastUtils;
 import com.actor.myandroidframework.widget.LoadingDialog;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import retrofit2.Call;
+
 /**
  * Description: Activity基类
- * Copyright  : Copyright (c) 2017
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
  * Author     : 李大发
  * Date       : 2017/5/27 on 12:45.
@@ -38,6 +41,7 @@ public class ActorBaseActivity extends AppCompatActivity {
     protected Activity            activity;
     protected Intent              intent;
     protected Map<String, Object> params = new LinkedHashMap<>();
+    protected List<Call> calls;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -177,11 +181,27 @@ public class ActorBaseActivity extends AppCompatActivity {
         if (loadingDialog != null) loadingDialog.dismiss();
     }
 
+
+    //Retrofit区=============================================
+    protected Call putCall(Call call) {//放入List, onDestroy的时候全部取消请求
+        if (calls == null) calls = new ArrayList<>();
+        calls.add(call);
+        return call;
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         dismissLoadingDialog();
         MyOkHttpUtils.cancelTag(this);//取消网络请求
+        if (calls != null && calls.size() > 0) {//取消Retrofit的网络请求
+            for (Call call : calls) {
+                if (call != null) call.cancel();
+            }
+            calls.clear();
+        }
+        calls = null;
 //        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
     }
 }

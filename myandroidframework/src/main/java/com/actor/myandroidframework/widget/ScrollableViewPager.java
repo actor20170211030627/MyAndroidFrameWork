@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 
 /**
  * Description: 设置能否左右滑动的ViewPager
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/7 on 15:39

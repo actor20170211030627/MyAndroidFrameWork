@@ -32,7 +32,6 @@ import okhttp3.Response;
 
 /**
  * Description: get/post方式请求数据, 上传单个/多个文件,下载文件, getBitmap
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/13 on 17:37

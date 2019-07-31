@@ -13,7 +13,6 @@ import android.widget.EditText;
  *
  * 在 代码 或 AndroidManifest.xml 中设置: android:windowSoftInputMode="adjustResize|stateHidden"
  *
- * Copyright  : Copyright (c) 2017
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
  * Author     : 李大发
  * Date       : 2017/5/23 on 20:27

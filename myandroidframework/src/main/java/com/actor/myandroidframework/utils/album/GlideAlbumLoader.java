@@ -8,7 +8,6 @@ import com.yanzhenjie.album.AlbumLoader;
 
 /**
  * Description: 用Glide或者Picasso实现AlbumLoader,用于画廊预览图片
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/12 on 9:42

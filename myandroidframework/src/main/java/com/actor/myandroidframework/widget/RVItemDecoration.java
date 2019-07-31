@@ -12,7 +12,6 @@ import android.view.View;
  * Description:设置RecuclerView间距.Decoration:装饰物
  * 设置RecyclerView的LinearLayoutManager&GridLayoutManager&StaggeredGridLayoutManager水平/垂直间距
  * 示例用法:recyclerView.addItemDecoration(new RVItemDecoration(UiUtils.dp2px(20), UiUtils.dp2px(20)));
- * Copyright  : Copyright (c) 2018
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/7/21 on 16:31

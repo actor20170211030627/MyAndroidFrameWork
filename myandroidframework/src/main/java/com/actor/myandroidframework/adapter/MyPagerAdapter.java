@@ -13,7 +13,6 @@ import java.util.List;
  * 1.用法
  * viewPager.setAdapter(new MyPagerAdapter(imageRes));
  *
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/27 on 20:03
