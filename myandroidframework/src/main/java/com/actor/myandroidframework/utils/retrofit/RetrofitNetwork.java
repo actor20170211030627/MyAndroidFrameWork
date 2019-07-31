@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Date       : 2019/3/15 on 9:20
  * @version 1.0
  */
-public class ActorNetwork {
+public class RetrofitNetwork {
 
     private static OkHttpClient        okHttpClient     = getOkHttpClient();
     private static String baseUrl;
@@ -29,8 +29,8 @@ public class ActorNetwork {
 
     private static DownloadFileApi downloadFileApi;
 
-    public ActorNetwork(String baseUrl) {
-        ActorNetwork.baseUrl = baseUrl;
+    public RetrofitNetwork(String baseUrl) {
+        RetrofitNetwork.baseUrl = baseUrl;
     }
 
     protected static OkHttpClient getOkHttpClient() {
