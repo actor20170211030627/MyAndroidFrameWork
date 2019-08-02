@@ -11,6 +11,11 @@
         implementation 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
     </li>
     <li>
+        //https://github.com/JakeWharton/butterknife <br/>
+        api 'com.jakewharton:butterknife:10.1.0' <br/>
+        annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0' <br/> <br/>
+        </li>
+    <li>
         //https://github.com/google/gson <br/>
         //不混淆Bean类. 示例: <br/>
         //-keep class com.package.xxx.info.** { *; } <br/>
@@ -81,6 +86,14 @@ Add it in your root build.gradle at the end of repositories:
 
 **Step 2.** Add the dependency, the last version:
 [![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork)
+
+    android {
+      ...
+      compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+      }
+    }
 
     dependencies {
             implementation 'com.github.actor20170211030627:MyAndroidFrameWork:last_version'

@@ -31,6 +31,7 @@ public class MainActivity extends ActorBaseActivity {
         ButterKnife.bind(this);
         toast("yes~~");
 
+        tvHello.setText("ButterKnife is ok~");
         Glide.with(this).load(girl).into(iv);
     }
 }
