@@ -10,12 +10,6 @@
         implementation 'com.android.support:design:28.0.0' <br/>
         implementation 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
     </li>
-    <li>
-        //https://github.com/JakeWharton/butterknife <br/>
-        api 'com.jakewharton:butterknife:10.1.0' <br/>
-        annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0' <br/> <br/>
-        </li>
-    <li>
         //https://github.com/google/gson <br/>
         //不混淆Bean类. 示例: <br/>
         //-keep class com.package.xxx.info.** { *; } <br/>
