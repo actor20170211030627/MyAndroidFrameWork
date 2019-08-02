@@ -12,9 +12,16 @@ import okhttp3.OkHttpClient;
  * Date       : 2019/7/27 on 02:35
  */
 public class MyApplication extends ActorApplication {
+
+    //初始化okhttpclient
     @Override
-    protected void initOkHttpClient(OkHttpClient.Builder builder) {
-        //初始化okhttpclient
+    protected OkHttpClient getOkHttpClient(OkHttpClient.Builder builder) {
+        return null;
+    }
+
+    @Override
+    protected String getBaseUrl() {
+        return null;
     }
 
     @Override
