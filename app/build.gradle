@@ -37,5 +37,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation project(path: ':myandroidframework')
-//    implementation 'com.github.actor20170211030627:MyAndroidFrameWork:1.1.6'
+//    implementation 'com.github.actor20170211030627:MyAndroidFrameWork:1.1.7'
 }
