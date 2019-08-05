@@ -2,6 +2,7 @@ package com.actor.myandroidframework.utils.retrofit;
 
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.retrofit.api.DownloadFileApi;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class RetrofitNetwork {
 
 
     protected static OkHttpClient getOkHttpClient() {
-        if (okHttpClient == null) okHttpClient = ActorApplication.instance.okHttpClient;
+        if (okHttpClient == null) okHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
         return okHttpClient;
     }
 
