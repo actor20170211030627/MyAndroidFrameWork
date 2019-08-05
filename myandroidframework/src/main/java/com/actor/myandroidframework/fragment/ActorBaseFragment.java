@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.fragment;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -144,12 +145,34 @@ public abstract class ActorBaseFragment extends Fragment {
         }
     }
 
+    /**
+     * 共享元素方式跳转
+     * @param view 共享元素, 需要在xml或者java文件中设置TransitionName
+     */
+    public void startActivity(Intent intent, View view) {//TransitionName
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(activity, view, view.getTransitionName());
+            startActivity(intent, compat.toBundle());
+        } else startActivity(intent);
+    }
+
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
         if (activity != null) {
             activity.overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
         }
+    }
+
+    /**
+     * 共享元素方式跳转
+     * @param view 共享元素, 需要在xml或者java文件中设置TransitionName
+     */
+    public void startActivityForResult(Intent intent, int requestCode, @NonNull View view) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(activity, view, view.getTransitionName());
+            startActivityForResult(intent, requestCode, compat.toBundle());
+        } else startActivityForResult(intent, requestCode);
     }
 
     @Override

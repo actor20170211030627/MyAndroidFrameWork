@@ -1,12 +1,15 @@
 package com.actor.myandroidframework.activity;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -87,10 +90,32 @@ public class ActorBaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
     }
 
+    /**
+     * 共享元素方式跳转
+     * @param view 共享元素, 需要在xml或者java文件中设置TransitionName
+     */
+    public void startActivity(Intent intent, @NonNull View view) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+            startActivity(intent, compat.toBundle());
+        } else startActivity(intent);
+    }
+
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
+    }
+
+    /**
+     * 共享元素方式跳转
+     * @param view 共享元素, 需要在xml或者java文件中设置TransitionName
+     */
+    public void startActivityForResult(Intent intent, int requestCode, @NonNull View view) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+            startActivityForResult(intent, requestCode, compat.toBundle());
+        } else startActivityForResult(intent, requestCode);
     }
 
     @Override
