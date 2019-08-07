@@ -43,6 +43,7 @@ public abstract class ActorBaseFragment extends Fragment {
 //    protected TextView               tvLoading;  //例:正在加载中,请稍后...
 //    private   LinearLayout           llEmpty; //没数据
     protected Activity            activity;
+    protected Fragment            fragment;
     protected Intent              intent;
     protected Map<String, Object> params = new LinkedHashMap<>();
     protected List<Call>          calls;
@@ -67,6 +68,7 @@ public abstract class ActorBaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+        fragment = this;
 //        Bundle arguments = getArguments();
 //        if (arguments != null) {
 //            mParam1 = arguments.getString(ARG_PARAM1);
@@ -249,10 +251,14 @@ public abstract class ActorBaseFragment extends Fragment {
     //显示加载Diaong=============================================
     private LoadingDialog loadingDialog;
     protected void showLoadingDialog() {
-        getLoadingDialog().show();
+        getLoadingDialog(true).show();
     }
 
-    protected LoadingDialog getLoadingDialog() {
+    protected void showLoadingDialog(boolean cancelable) {
+        getLoadingDialog(cancelable).show();
+    }
+
+    protected LoadingDialog getLoadingDialog(boolean cancelable) {
         if (loadingDialog == null) loadingDialog = new LoadingDialog(activity);
         return loadingDialog;
     }

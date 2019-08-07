@@ -193,11 +193,16 @@ public class ActorBaseActivity extends AppCompatActivity {
     //显示加载Diaong=============================================
     private LoadingDialog loadingDialog;
     protected void showLoadingDialog() {
-        getLoadingDialog().show();
+        getLoadingDialog(true).show();
     }
 
-    protected LoadingDialog getLoadingDialog() {
+    protected void showLoadingDialog(boolean cancelable) {
+        getLoadingDialog(cancelable).show();
+    }
+
+    protected LoadingDialog getLoadingDialog(boolean cancelable) {
         if (loadingDialog == null) loadingDialog = new LoadingDialog(this);
+        loadingDialog.setCancelAble(cancelable);
         return loadingDialog;
     }
 

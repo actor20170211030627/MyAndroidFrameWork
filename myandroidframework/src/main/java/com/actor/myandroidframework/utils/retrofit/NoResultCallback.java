@@ -9,8 +9,9 @@ import retrofit2.Response;
  * Author     : 李大发
  * Date       : 2019/6/8 on 17:52
  * @version 1.1
+ * @version 1.1.1 将泛型中的Object改成T
  */
-public class NoResultCallback extends BaseCallback2<Object> {
+public class NoResultCallback<T> extends BaseCallback2<T> {
 
 
     private boolean isShowErrorInfo = false;
@@ -27,12 +28,12 @@ public class NoResultCallback extends BaseCallback2<Object> {
     }
 
     @Override
-    public void onResponse(Call<Object> call, Response<Object> response) {
+    public void onResponse(Call<T> call, Response<T> response) {
         if (isShowErrorInfo) super.onResponse(call, response);
     }
 
     @Override
-    public void onError(Call<Object> call, Throwable t) {
+    public void onError(Call<T> call, Throwable t) {
         super.onError(call, t);
         if (isShowErrorInfo) super.onError(call, t);
     }

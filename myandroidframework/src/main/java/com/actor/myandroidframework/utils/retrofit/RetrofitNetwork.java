@@ -19,14 +19,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Author     : 李大发
  * Date       : 2019/3/15 on 9:20
  * @version 1.0
+ * @version 1.1 修改一点点东西
  */
 public class RetrofitNetwork {
 
-    private static OkHttpClient        okHttpClient     = getOkHttpClient();
-    public static String baseUrl = ActorApplication.instance.baseUrl;//http(s)://www.xxx.xx
-    private static Converter.Factory   converterFactory = getConverterFactory();
-    private static CallAdapter.Factory callAdapterFactory = getCallAdapterFactory();
-    private static Map<String, Object> apis              = new HashMap<>();
+    protected static OkHttpClient        okHttpClient = getOkHttpClient();
+    protected static final String        baseUrl = ActorApplication.instance.baseUrl;//http(s)://www.xxx.xx
+    protected static Converter.Factory   converterFactory = getConverterFactory();
+    protected static CallAdapter.Factory callAdapterFactory = getCallAdapterFactory();
+    private static final Map<String, Object> apis = new HashMap<>();
 
     private static DownloadFileApi downloadFileApi;
 
@@ -38,8 +39,11 @@ public class RetrofitNetwork {
 
     //返回json转换成Bean的Facory
     protected static Converter.Factory getConverterFactory() {
-        //return new Retrofit2ConverterFactory();//FastJson
-        return GsonConverterFactory.create();//Gson
+        if (converterFactory == null) {
+            //converterFactory = new Retrofit2ConverterFactory();//FastJson
+            converterFactory = GsonConverterFactory.create();//Gson
+        }
+        return converterFactory;
     }
 
     //返回CallAdapterFactory, 如果需要, 可重写此方法
