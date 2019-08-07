@@ -144,7 +144,7 @@ public class ActorBaseActivity extends AppCompatActivity {
 
 
     //判空区=============================================
-    protected boolean isEmpty(Object obj) {
+    protected boolean isEmpty(Object... obj) {
         return !isNoEmpty(obj);
     }
 
