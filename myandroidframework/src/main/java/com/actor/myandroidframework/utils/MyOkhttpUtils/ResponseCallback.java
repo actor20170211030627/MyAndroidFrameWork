@@ -1,7 +1,6 @@
 package com.actor.myandroidframework.utils.MyOkhttpUtils;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.util.GsonUtils;
 
@@ -12,10 +11,11 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Description: 不解析,返回原生Response<T>, 示例new Response<LoginInfo(解析的类)> {}
+ * Description: 不解析,返回原生Response<T>, 示例new ResponseCallback<LoginInfo> {}
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/17 on 15:31
+ * @version 1.1
  */
 public abstract class ResponseCallback<T> extends BaseCallback<Response> {
 
@@ -38,38 +38,55 @@ public abstract class ResponseCallback<T> extends BaseCallback<Response> {
                 ResponseBody body = response.body();
                 if (body != null) {
                     try {
-                        onResponse(response, id, (T) body.string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        onResponse(response, id, null);
-                    }
-                } else onResponse(response, id, null);
-            } else {
-                ResponseBody body = response.body();
-                if (body != null) {
-                    String string;
-                    try {
-                        string = body.string();
-                        try {
-//                            onResponse(response, id, JSONObject.parseObject(string, genericity));//FastJson
-                            onResponse(response, id, GsonUtils.fromJson(string, genericity));//FastJson
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            onJsonParseException(response, id, e);
+                        String string = body.string();
+                        if (string != null) {
+                            onResponse(response, id, (T) string);
+                        } else {
+                            isParseNetworkResponseIsNull = true;
+                            onParseNetworkResponseIsNull(id);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        onResponse(response, id, null);
+                        isParseNetworkResponseIsNull = true;
+                        onParseNetworkResponseIsNull(id);
                     }
-                } else onResponse(response, id, null);
+                } else {
+                    isParseNetworkResponseIsNull = true;
+                    onParseNetworkResponseIsNull(id);
+                }
+            } else {
+                ResponseBody body = response.body();
+                if (body != null) {
+                    try {
+                        String string = body.string();
+//                        T t = JSONObject.parseObject(string, genericity);//FastJson
+                        T t = GsonUtils.fromJson(string, genericity);//FastJson
+                        if (t != null) {
+                            onResponse(response, id, t);
+                        } else {
+                            isParseNetworkResponseIsNull = true;
+                            onParseNetworkResponseIsNull(id);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        isJsonParseException = true;
+                        onJsonParseException(response, id, e);
+                    }
+                } else {
+                    isParseNetworkResponseIsNull = true;
+                    onParseNetworkResponseIsNull(id);
+                }
             }
-        } else onResponse(null, id, null);
+        } else {
+            isParseNetworkResponseIsNull = true;
+            onParseNetworkResponseIsNull(id);
+        }
     }
 
     //加了final, 子类不要重写这个类
     @Override
-    protected final void onOk(@NonNull Response info, int id) {
+    public final void onOk(@NonNull Response info, int id) {
     }
 
-    protected abstract void onResponse(Response response, int id, @Nullable T info);
+    protected abstract void onResponse(Response response, int id, @NonNull T info);
 }

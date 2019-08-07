@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.ConnectException;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Locale;
 
@@ -29,10 +28,13 @@ import okhttp3.ResponseBody;
  * @version 1.3 增加onParseNetworkResponseIsNull
  * @version 1.4 把tag等修改成public, 外界可以获取
  * @version 1.4.2 修改一些小细节
+ * @version 1.4.3 修改Format错误导致崩溃问题 & 修改取消请求后, onError崩溃问题(增加call.isCanceled()判断)
  */
 public abstract class BaseCallback<T> extends Callback<T> {
 
-    protected boolean isStatusCodeError = false;
+    protected boolean isStatusCodeError = false;//状态码错误
+    protected boolean isParseNetworkResponseIsNull = false;//解析成的实体entity=null
+    protected boolean isJsonParseException = false;//Json解析异常
     public Object tag;
 
     public BaseCallback(Object tag) {
@@ -49,6 +51,7 @@ public abstract class BaseCallback<T> extends Callback<T> {
         if (super.validateReponse(response, id)) return true;
         isStatusCodeError = true;
         onStatusCodeError(response.code(), response, id);
+        onError(id, null, null);//主要作用是调用子类的onError方法
         return false;//return false:直接走onError()
     }
 
@@ -71,7 +74,9 @@ public abstract class BaseCallback<T> extends Callback<T> {
 //                        return JSONObject.parseObject(body.string(), genericity);//FastJson
                     } catch (Exception e) {
                         e.printStackTrace();
+                        isJsonParseException = true;
                         onJsonParseException(response, id, e);
+                        onError(id, null, e);//主要作用是调用子类的onError方法
                         return null;
                     }
                 } else return null;
@@ -83,28 +88,42 @@ public abstract class BaseCallback<T> extends Callback<T> {
     public void onResponse(T response, int id) {
         if (response != null) {
             onOk(response, id);
-        } else onParseNetworkResponseIsNull(id);
+        } else {
+            isParseNetworkResponseIsNull = true;
+            if (!isJsonParseException) {//如果不是Json解析错误的原因, 而是其它原因
+                onParseNetworkResponseIsNull(id);
+                onError(id, null, null);//主要作用是调用子类的onError方法
+            }
+        }
     }
 
-    protected abstract void onOk(@NonNull T info, int id);
+    public abstract void onOk(@NonNull T info, int id);
 
+    /**
+     * 请求出错
+     * 为何是final? 因为:
+     * 如果是调用MyOkHttpUtils.cancelTag(tag);主动取消请求并且退出了页面的话,
+     * 这个onError方法还是会调用, 如果你在ui层重写了这个onError方法并且做了ui修改, 那么很可能会造成错误!
+     * 所以这个方法修饰了final(子类不能重写).
+     * 如果要重写, 请重写这个方法: {@link #onError(int, Call, Exception)}
+     */
     @Override
-    public void onError(Call call, Exception e, int id) {//连接错误or没网or?
+    public final void onError(Call call, Exception e, int id) {//连接错误or没网or?
         logFormat("onError: call=%s, e=%s, id=%d", call, e, id);
-        if (e == null || isStatusCodeError) return;
-        e.printStackTrace();
-        if (e.getClass() == SocketTimeoutException.class) {
+        if (call == null || call.isCanceled() || e == null) return;
+        onError(id, call, e);
+    }
+
+    //不能重写上面那个方法, 要重写就重写这个
+    public void onError(int id, Call call, Exception e) {
+        if (isStatusCodeError || isJsonParseException || isParseNetworkResponseIsNull) return;
+        if (e instanceof SocketTimeoutException) {
             toast("连接服务器超时,请联系管理员或稍后重试!");
-        } else if (e.getClass() == ConnectException.class) {
+        } else if (e instanceof ConnectException) {
             toast("网络连接失败,请检查网络是否打开!");
-        } else if (e.getClass() == SocketException.class) {
-            //java.net.SocketException: Socket closed, 调用 MyOkHttpUtils.cancelTag(this); 后会出现
-        } else if (e.getClass() == IOException.class) {
-            //java.io.IOException: Canceled, 调用 MyOkHttpUtils.cancelTag(this); 后会出现
         } else {
-            //e.getMessage()示例:failed to connect to /111.11.111.111 (port 8080) after 10000ms
             toast("错误信息:".concat(e.getMessage()).concat(",请联系管理员!"));
-        }//
+        }
     }
 
     /**
@@ -113,18 +132,18 @@ public abstract class BaseCallback<T> extends Callback<T> {
      * @param response
      * @param id
      */
-    protected void onStatusCodeError(int errCode, Response response, int id) {
+    public void onStatusCodeError(int errCode, Response response, int id) {
         logFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
         String s = String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode);
         toast(s);
     }
 
-    protected void onJsonParseException(Response response, int id, Exception e) {
+    public void onJsonParseException(Response response, int id, Exception e) {
         logFormat("数据解析错误: response=%s, id=%d, e=%s", response, id, e);
         ToastUtils.showJsonParseException(e, "数据解析错误,请联系管理员");
     }
 
-    protected void onParseNetworkResponseIsNull(int id) {
+    public void onParseNetworkResponseIsNull(int id) {
         logFormat("数据解析为空: tag=%s, id=%d", tag, id);
         toast("数据解析为空,请检查网络连接");
     }
@@ -134,11 +153,11 @@ public abstract class BaseCallback<T> extends Callback<T> {
         return  ((ParameterizedType) type).getActualTypeArguments()[0];
     }
 
-    protected static void logError(String msg) {
+    protected void logError(String msg) {
         LogUtils.Error(msg, false);
     }
 
-    protected static void logFormat(String format, Object... args) {
+    protected void logFormat(String format, Object... args) {
         LogUtils.formatError(format, false, args);
     }
 

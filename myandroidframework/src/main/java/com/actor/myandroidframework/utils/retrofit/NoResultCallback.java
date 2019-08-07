@@ -8,6 +8,7 @@ import retrofit2.Response;
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/8 on 17:52
+ * @version 1.1
  */
 public class NoResultCallback extends BaseCallback2<Object> {
 
@@ -31,8 +32,9 @@ public class NoResultCallback extends BaseCallback2<Object> {
     }
 
     @Override
-    public void onFailure(Call<Object> call, Throwable t) {
-        if (isShowErrorInfo) super.onFailure(call, t);
+    public void onError(Call<Object> call, Throwable t) {
+        super.onError(call, t);
+        if (isShowErrorInfo) super.onError(call, t);
     }
 
     @Override
