@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ThreadUtils;
 import com.actor.myandroidframework.utils.ToastUtils;
-import com.blankj.utilcode.util.GsonUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.IOException;
@@ -70,9 +70,11 @@ public abstract class BaseCallback<T> extends Callback<T> {
             } else {
                 ResponseBody body = response.body();
                 if (body != null) {
-                    try {//解析非json类型数据会抛异常
-                        return GsonUtils.fromJson(body.string(), genericity);//Gson
-//                        return JSONObject.parseObject(body.string(), genericity);//FastJson
+                    try {
+                        //数据类型不对 & 非json类型数据, 都会抛异常
+//                        return GsonUtils.fromJson(body.string(), genericity);//Gson
+                        //解析非json类型数据会抛异常
+                        return JSONObject.parseObject(body.string(), genericity);//FastJson
                     } catch (Exception e) {
                         e.printStackTrace();
                         isJsonParseException = true;

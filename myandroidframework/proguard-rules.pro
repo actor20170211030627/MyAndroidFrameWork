@@ -122,6 +122,14 @@
 # 混淆见上方okhttp
 ##----------End: proguard configuration for Retrofit-------------
 
+##---------------Begin: proguard configuration for fastjson------
+-keepattributes Signature
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.*{*;}
+##不混淆Fastjson的Bean类(★★★下面这个路径要自己改★★★)
+#-keep class com.package.xxx.info.** { *; }
+##---------------End: proguard configuration for fastjson--------
+
 ##------------Begin: proguard configuration for Glide------------
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule

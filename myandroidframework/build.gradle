@@ -81,6 +81,9 @@ dependencies {
     //https://github.com/square/retrofit/tree/master/retrofit-converters/gson
     api 'com.squareup.retrofit2:converter-gson:2.5.0'
 
+    //https://github.com/alibaba/fastjson
+    api 'com.alibaba:fastjson:1.1.71.android'
+
     //https://github.com/bumptech/glide
     api 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'

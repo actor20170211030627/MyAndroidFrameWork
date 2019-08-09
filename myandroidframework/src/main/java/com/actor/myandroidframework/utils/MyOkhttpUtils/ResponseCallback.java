@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils.MyOkhttpUtils;
 
 import android.support.annotation.NonNull;
 
-import com.blankj.utilcode.util.GsonUtils;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -62,8 +62,8 @@ public abstract class ResponseCallback<T> extends BaseCallback<Response> {
                 if (body != null) {
                     try {
                         String string = body.string();
-//                        T t = JSONObject.parseObject(string, genericity);//FastJson
-                        T t = GsonUtils.fromJson(string, genericity);//FastJson
+                        T t = JSONObject.parseObject(string, genericity);//FastJson
+//                        T t = GsonUtils.fromJson(string, genericity);//Gson
                         if (t != null) {
                             onResponse(response, id, t);
                         } else {

@@ -30,6 +30,11 @@
         api 'com.squareup.retrofit2:converter-gson:2.5.0' <br/> <br/>
     </li>
     <li>
+        //https://github.com/alibaba/fastjson <br/>
+        //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
+        api 'com.alibaba:fastjson:1.1.71.android' <br/> <br/>
+    </li>
+    <li>
         //https://github.com/bumptech/glide <br/>
         api 'com.github.bumptech.glide:glide:4.9.0' <br/>
         annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
