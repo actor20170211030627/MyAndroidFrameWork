@@ -3,6 +3,7 @@ package com.actor.myandroidframework.utils.MyOkhttpUtils;
 import android.support.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.ThreadUtils;
 import com.actor.myandroidframework.utils.ToastUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -29,6 +30,7 @@ import okhttp3.ResponseBody;
  * @version 1.4 把tag等修改成public, 外界可以获取
  * @version 1.4.2 修改一些小细节
  * @version 1.4.3 修改Format错误导致崩溃问题 & 修改取消请求后, onError崩溃问题(增加call.isCanceled()判断)
+ * @version 1.4.4 修改错误线程问题, 添加ThreadUtils.runOnUiThread
  */
 public abstract class BaseCallback<T> extends Callback<T> {
 
@@ -47,16 +49,15 @@ public abstract class BaseCallback<T> extends Callback<T> {
     }
 
     @Override
-    public boolean validateReponse(Response response, int id) {
+    public boolean validateReponse(Response response, int id) {//sub thread
         if (super.validateReponse(response, id)) return true;
         isStatusCodeError = true;
-        onStatusCodeError(response.code(), response, id);
-        onError(id, null, null);//主要作用是调用子类的onError方法
-        return false;//return false:直接走onError()
+        ThreadUtils.runOnUiThread(() -> onStatusCodeError(response.code(), response, id));
+        return false;//return false:直接走onError(Call call, Exception e, int id)
     }
 
     @Override
-    public T parseNetworkResponse(Response response, int id) throws IOException {
+    public T parseNetworkResponse(Response response, int id) throws IOException {//sub thread
         if (response != null) {
             Type genericity = getClassGenericity(this);
             if (genericity == Response.class || genericity == Object.class) {
@@ -68,15 +69,18 @@ public abstract class BaseCallback<T> extends Callback<T> {
                 } else return null;
             } else {
                 ResponseBody body = response.body();
-                if (body != null) {//如果数据量比较大,重写本方法,自己子线程解析
+                if (body != null) {
                     try {//解析非json类型数据会抛异常
                         return GsonUtils.fromJson(body.string(), genericity);//Gson
 //                        return JSONObject.parseObject(body.string(), genericity);//FastJson
                     } catch (Exception e) {
                         e.printStackTrace();
                         isJsonParseException = true;
-                        onJsonParseException(response, id, e);
-                        onError(id, null, e);//主要作用是调用子类的onError方法
+                        ThreadUtils.runOnUiThread(() -> {
+                            onJsonParseException(response, id, e);
+                            onError(id, null, e);//主要作用是调用子类的onError方法
+                        });
+
                         return null;
                     }
                 } else return null;
@@ -85,7 +89,7 @@ public abstract class BaseCallback<T> extends Callback<T> {
     }
 
     @Override
-    public void onResponse(T response, int id) {
+    public void onResponse(T response, int id) {//main thread
         if (response != null) {
             onOk(response, id);
         } else {

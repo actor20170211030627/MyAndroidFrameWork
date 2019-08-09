@@ -44,15 +44,18 @@ public abstract class ResponseCallback<T> extends BaseCallback<Response> {
                         } else {
                             isParseNetworkResponseIsNull = true;
                             onParseNetworkResponseIsNull(id);
+                            onError(id, null, null);//主要作用是调用子类的onError方法
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                         isParseNetworkResponseIsNull = true;
                         onParseNetworkResponseIsNull(id);
+                        onError(id, null, null);//主要作用是调用子类的onError方法
                     }
                 } else {
                     isParseNetworkResponseIsNull = true;
                     onParseNetworkResponseIsNull(id);
+                    onError(id, null, null);//主要作用是调用子类的onError方法
                 }
             } else {
                 ResponseBody body = response.body();
@@ -66,20 +69,24 @@ public abstract class ResponseCallback<T> extends BaseCallback<Response> {
                         } else {
                             isParseNetworkResponseIsNull = true;
                             onParseNetworkResponseIsNull(id);
+                            onError(id, null, null);//主要作用是调用子类的onError方法
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                         isJsonParseException = true;
                         onJsonParseException(response, id, e);
+                        onError(id, null, null);//主要作用是调用子类的onError方法
                     }
                 } else {
                     isParseNetworkResponseIsNull = true;
                     onParseNetworkResponseIsNull(id);
+                    onError(id, null, null);//主要作用是调用子类的onError方法
                 }
             }
         } else {
             isParseNetworkResponseIsNull = true;
             onParseNetworkResponseIsNull(id);
+            onError(id, null, null);//主要作用是调用子类的onError方法
         }
     }
 
