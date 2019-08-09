@@ -32,7 +32,7 @@
     <li>
         //https://github.com/bumptech/glide <br/>
         api 'com.github.bumptech.glide:glide:4.9.0' <br/>
-        //annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'//未集成,可手动集成 <br/> <br/>
+        annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/yanzhenjie/Album <br/>
