@@ -12,7 +12,7 @@
     </li>
         //https://github.com/google/gson <br/>
         //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
-        //api 'com.google.code.gson:gson:2.8.5'//AndroidUtilCode已经依赖了Gson <br/> <br/>
+        //api 'com.google.code.gson:gson:2.8.5'//converter-gson & AndroidUtilCode已经依赖了Gson2.8.2 <br/> <br/>
     </li>
     <li>
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper <br/>
