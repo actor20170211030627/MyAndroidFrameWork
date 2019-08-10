@@ -67,7 +67,7 @@ dependencies {
     //https://github.com/google/gson
     //不混淆Bean类. 示例:
     //-keep class com.package.xxx.info.** { *; }
-    //api 'com.google.code.gson:gson:2.8.5'//AndroidUtilCode已经依赖了Gson
+    //api 'com.google.code.gson:gson:2.8.5'//converter-gson & AndroidUtilCode已经依赖了Gson2.8.2
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
