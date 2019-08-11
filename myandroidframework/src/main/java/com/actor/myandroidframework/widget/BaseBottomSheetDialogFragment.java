@@ -39,7 +39,7 @@ import com.actor.myandroidframework.R;
  * FullSheetDialogFragment dialogFragment = new FullSheetDialogFragment();//继承本类
  * dialogFragment.setPeekHeight(100);
  * dialogFragment.setMaxHeight(300);
- * dialogFragment.show(getSupportFragmentManager(), "dialog");
+ * dialogFragment.show(getSupportFragmentManager());
  *
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
@@ -129,7 +129,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     /**
-     * 子类在这个方法中初始化
+     * 子类在这个方法中初始化, 每次show()都会调用...
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
