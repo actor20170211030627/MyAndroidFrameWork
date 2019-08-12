@@ -1,0 +1,34 @@
+<resources>
+    <style name="BaseBottomDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+
+        <item name="windowNoTitle">true</item><!--去掉标题栏-->
+
+        <item name="android:windowFrame">@null</item><!--边框-->
+
+        <!--去掉弹窗背景(原生背景带有外边距), 改为纯白色,如果不改,Dialog有一个默认padding-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--#0011dddd-->
+        <!--<item name="android:windowBackground">@color/white</item>-->
+
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <!--<item name="android:windowIsTranslucent">false</item>&lt;!&ndash;半透明&ndash;&gt;-->
+        <item name="android:windowContentOverlay">@null</item><!--设置窗体内容背景-->
+
+        <item name="android:backgroundDimEnabled">false</item><!--是否模糊-->
+
+        <!--设置弹窗动画样式-->
+        <item name="android:windowAnimationStyle">@style/BaseBottomDialogAnim</item>
+    </style>
+
+    <!--弹窗的动画样式-->
+    <!--模仿系统键盘动画 系统styles.xml中查找,默认是-->
+    <!--<style name="Animation.InputMethod">-->
+    <!--<item name="windowEnterAnimation">@anim/input_method_enter</item>-->
+    <!--<item name="windowExitAnimation">@anim/input_method_exit</item>-->
+    <!--</style>-->
+    <style name="BaseBottomDialogAnim">
+        <!--进入动画-->
+        <item name="android:windowEnterAnimation">@anim/address_dialog_enter</item>
+        <!--退出动画-->
+        <item name="android:windowExitAnimation">@anim/address_dialog_exit</item>
+    </style>
+</resources>
