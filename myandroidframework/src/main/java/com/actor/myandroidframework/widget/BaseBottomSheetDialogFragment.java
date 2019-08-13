@@ -45,6 +45,7 @@ import com.actor.myandroidframework.R;
  * Author     : 李大发
  * Date       : 2019/6/13 on 14:05
  * @version 1.0
+ * @version 1.1 增加 {{@link #dismissAllowingStateLoss()}} 方法
  */
 public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
@@ -180,22 +181,34 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     public void show(FragmentManager fragmentManager) {
+//        boolean added = isAdded();
+//        boolean cancelable = isCancelable();
+//        boolean detached = isDetached();
+//        boolean hidden = isHidden();
+//        boolean inLayout = isInLayout();
+//        boolean removing = isRemoving();
+//        boolean resumed = isResumed();
+//        boolean stateSaved = isStateSaved();
+//        boolean visible = isVisible();
         //要判断一下, 否则快速调用会报错: isAdded
         if (!isAdded()) super.show(fragmentManager, TAG);
     }
 
     /**
-     * 有时候会引起空指针问题:
+     * @deprecated 跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错:
+     * java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
      * {@link android.support.v4.app.DialogFragment#dismissInternal(boolean)}
-     * 105行 getFragmentManager() = null
+     * 在'Activity/Fragment/子类中'调用时, 建议使用: {@link #dismissAllowingStateLoss()}
      */
+    @Deprecated
     @Override
     public void dismiss() {
-        try {
-            super.dismiss();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
+    }
+
+    @Override
+    public void dismissAllowingStateLoss() {
+        super.dismissAllowingStateLoss();
     }
 
     /**
