@@ -10,6 +10,7 @@
         implementation 'com.android.support:design:28.0.0' <br/>
         implementation 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
     </li>
+    <li>
         //https://github.com/google/gson <br/>
         //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
         //api 'com.google.code.gson:gson:2.8.5'//converter-gson & AndroidUtilCode已经依赖了Gson2.8.2 <br/> <br/>
@@ -66,9 +67,14 @@
 </ol>
 
 ## 2.ButterKnife没有集成, 因为只能在自己项目用, 所以需要自己集成
-https://github.com/JakeWharton/butterknife
+    //https://github.com/JakeWharton/butterknife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-## 3.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置(不过混淆后报错什么的我自己还没试过...):
+## 3.minSdkVersion 16
+    如果您项目的minSdkVersion小于16, 可能会报错: Manifest merger failed with multiple errors, see logs
+
+## 4.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置(不过混淆后报错什么的我自己还没试过...):
 <pre>
     android {
         ...
@@ -81,7 +87,7 @@ https://github.com/JakeWharton/butterknife
     }
 </pre>
 
-## 4.How to
+## 5.How to
 To get a Git project into your build:
 
 **Step 1.** Add the JitPack repository to your build file
@@ -112,5 +118,5 @@ Add it in your root build.gradle at the end of repositories:
             implementation 'com.github.actor20170211030627:MyAndroidFrameWork:last_version'
     }
 
-## 5.License
+## 6.License
  Apache 2.0.
