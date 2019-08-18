@@ -39,7 +39,10 @@ public class ThreadUtils {
     public static boolean isRunOnUiThread(){
         return Looper.myLooper() == Looper.getMainLooper();
 
-        //int mainThreadId = getMainThreadId();//使用线程id的比较
+//        return Thread.currentThread() == Looper.getMainLooper().getThread();
+//        return Thread.currentThread().getId() == Looper.getMainLooper().getThread().getId();
+
+//        int mainThreadId = ActorApplication.instance.mainThreadId;//使用线程id的比较
         //int currentThreadId = android.os.Process.myTid();//当前线程的id
         //return mainThreadId == currentThreadId;
     }

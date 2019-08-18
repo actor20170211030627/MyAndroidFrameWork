@@ -30,7 +30,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
 
     public static ActorApplication instance;
     public        boolean          isDebugMode = false;//用于配置"正式环境"的isDebug的值,★★★注意:上线前一定要改成false★★★
-    public int screenWidth, screenHeight;//屏幕宽高
+    public int mainThreadId, screenWidth, screenHeight;//屏幕宽高
     private static final String    EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
     public String baseUrl = getBaseUrl();//https://api.github.com
 
@@ -38,6 +38,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     public void onCreate() {
         super.onCreate();
         instance = this;
+        mainThreadId = android.os.Process.myTid();//当前线程的id, 这儿是主线程id
         if (getMode()) isDebugMode = true;//如果是"debug环境",那么值就一定是true(加判断是因为要让正式环境也可以开debug模式)
         if (!isDebugMode) {//2.如果是正式环境,在onCreate中设置默认未捕获异常线程
             Thread.setDefaultUncaughtExceptionHandler(new MyHandler());

@@ -195,20 +195,20 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     /**
-     * @deprecated 跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错:
+     * 1.跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错:
      * java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
      * {@link android.support.v4.app.DialogFragment#dismissInternal(boolean)}
-     * 在'Activity/Fragment/子类中'调用时, 建议使用: {@link #dismissAllowingStateLoss()}
+     * 解决方法: 使用{@link #dismissAllowingStateLoss()}方法
      */
-    @Deprecated
     @Override
     public void dismiss() {
-        super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
+        if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
+//        bottomSheetBehavior.setHideable(true);
     }
 
     @Override
     public void dismissAllowingStateLoss() {
-        super.dismissAllowingStateLoss();
+        if (getFragmentManager() != null) super.dismissAllowingStateLoss();
     }
 
     /**

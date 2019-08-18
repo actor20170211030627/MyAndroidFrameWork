@@ -26,7 +26,7 @@ public class RetrofitNetwork {
     protected static final String        baseUrl = ActorApplication.instance.baseUrl;//http(s)://www.xxx.xx
     protected static Converter.Factory   converterFactory = getConverterFactory();
     protected static CallAdapter.Factory callAdapterFactory = getCallAdapterFactory();
-    private static final Map<String, Object> apis = new HashMap<>();
+    protected static final Map<String, Object> apis = new HashMap<>();
 
     private static DownloadFileApi downloadFileApi;
 
@@ -78,15 +78,16 @@ public class RetrofitNetwork {
 
     //下载文件示例
     public static DownloadFileApi getDownloadFileApi() {
-        if (downloadFileApi == null) {
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(converterFactory);
-            if (callAdapterFactory != null) builder.addCallAdapterFactory(callAdapterFactory);
-            Retrofit retrofit = builder.build();
-            downloadFileApi = retrofit.create(DownloadFileApi.class);
-        }
-        return downloadFileApi;
+//        if (downloadFileApi == null) {
+//            Retrofit.Builder builder = new Retrofit.Builder()
+//                    .client(okHttpClient)
+//                    .baseUrl(baseUrl)
+//                    .addConverterFactory(converterFactory);
+//            if (callAdapterFactory != null) builder.addCallAdapterFactory(callAdapterFactory);
+//            Retrofit retrofit = builder.build();
+//            downloadFileApi = retrofit.create(DownloadFileApi.class);
+//        }
+//        return downloadFileApi;
+        return getApi(DownloadFileApi.class);
     }
 }

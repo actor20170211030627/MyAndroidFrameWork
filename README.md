@@ -1,9 +1,6 @@
 # MyAndroidFrameWork
 ## 安卓常用组件&框架, 不用每次都搭建框架
-
-[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-
-## 1.集成框架包括:
+### 1.集成框架包括:
 <ol>
     <li>
         implementation 'com.android.support:appcompat-v7:28.0.0' <br/>
@@ -71,7 +68,7 @@
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-## 3.minSdkVersion 16
+## 3.minSdkVersion [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
     如果您项目的minSdkVersion小于16, 可能会报错: Manifest merger failed with multiple errors, see logs
 
 ## 4.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置(不过混淆后报错什么的我自己还没试过...):
@@ -119,4 +116,4 @@ Add it in your root build.gradle at the end of repositories:
     }
 
 ## 6.License
- Apache 2.0.
+[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

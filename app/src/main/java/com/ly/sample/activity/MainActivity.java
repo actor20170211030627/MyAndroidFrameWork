@@ -1,30 +1,27 @@
-package com.ly.sample;
+package com.ly.sample.activity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.actor.myandroidframework.activity.ActorBaseActivity;
+import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.bumptech.glide.Glide;
+import com.ly.sample.MyBottomSheetDialogFragment;
+import com.ly.sample.R;
+import com.ly.sample.info.GithubInfo;
+import com.ly.sample.retrofit.NetWork;
+import com.ly.sample.utils.Global;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MainActivity extends ActorBaseActivity {
 
-    //林允儿
-//    public static final String girl                  = "https://timgsa.baidu" +
-//            ".com/timg?image&quality=80&size=b10000_10000&sec=1553570762&di" +
-//            "=345ca57cc11ccf228e3ff8c2b33af03b&src=http://ww2.sinaimg" +
-//            ".cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
-    public static final String girl = "http://ww2.sinaimg" +
-            ".cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
-
-    @BindView(R.id.tv_hello)
-    TextView  tvHello;
     @BindView(R.id.iv)
     ImageView iv;
 
@@ -35,23 +32,43 @@ public class MainActivity extends ActorBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        toast("yes~~");
 
-        tvHello.setText("ButterKnife is ok~");
-        Glide.with(this).load(girl).into(iv);
+        Glide.with(this).load(Global.girl).into(iv);
         bottomSheetDialogFragment = new MyBottomSheetDialogFragment();
         bottomSheetDialogFragment.setPeekHeight(ConvertUtils.dp2px(100));//首次弹出高度, 可不设置
 //        bottomSheetDialogFragment.setMaxHeight(ConvertUtils.dp2px(300));//最大弹出高度, 可不设置
         bottomSheetDialogFragment.setDimAmount(0.3F);//设置背景昏暗度
     }
 
-    @OnClick({R.id.btn_bottom_sheet_dialog_fragment})
+    @OnClick({R.id.btn_get_api, R.id.btn_bottom_sheet_dialog_fragment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.btn_get_api:
+                getGithubApi();
+                break;
             case R.id.btn_bottom_sheet_dialog_fragment:
                 bottomSheetDialogFragment.show(getSupportFragmentManager());
-                iv.postDelayed(() -> bottomSheetDialogFragment.dismiss(), 5000);//5s后消失
                 break;
         }
+    }
+
+    private void getGithubApi() {
+        showLoadingDialog();
+        NetWork.getGithubApi().get().enqueue(new BaseCallback2<GithubInfo>() {
+            @Override
+            public void onOk(Call<GithubInfo> call, Response<GithubInfo> response) {
+                dismissLoadingDialog();
+                GithubInfo body = response.body();
+                if (body != null) {
+                    toast(body.hub_url);
+                }
+            }
+
+            @Override
+            public void onError(Call<GithubInfo> call, Throwable t) {
+                super.onError(call, t);
+                dismissLoadingDialog();
+            }
+        });
     }
 }
