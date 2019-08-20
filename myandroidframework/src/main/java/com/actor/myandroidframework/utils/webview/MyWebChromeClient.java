@@ -12,13 +12,14 @@ import com.actor.myandroidframework.utils.LogUtils;
 
 /**
  * Description: WebChromeClient主要辅助WebView处理Javascript的对话框、网站图标、网站title、加载进度等
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/11 on 11:33
+ * @version 1.0
  */
 public class MyWebChromeClient extends WebChromeClient {
 
+    //可重写此方法, 获取标题
     @Override
     public void onReceivedTitle(WebView view, String title) {//获取网页标题
         super.onReceivedTitle(view, title);

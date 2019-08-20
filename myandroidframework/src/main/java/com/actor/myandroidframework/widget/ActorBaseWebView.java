@@ -1,23 +1,37 @@
-package com.actor.myandroidframework.utils.webview;
+package com.actor.myandroidframework.widget;
 
+import android.content.Context;
 import android.os.Build;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.actor.myandroidframework.utils.webview.MyWebChromeClient;
+import com.actor.myandroidframework.utils.webview.MyWebViewClient;
+
 /**
- * Description: WebView初始化
+ * Description: WebView常用初始化
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
- * Date       : 2019/3/11 on 11:37
+ * Date       : 2019-8-20 on 10:34
+ *
  * @version 1.0
  */
-public class WebViewUtils {
+public class ActorBaseWebView extends WebView {
 
-    public static void init(WebView webView) {
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setWebChromeClient(new MyWebChromeClient());
+    public ActorBaseWebView(Context context) {
+        super(context);
+    }
 
-        WebSettings webSettings = webView.getSettings();
+    /**
+     * 初始化
+     * @param webViewClient 可传入new MyWebViewClient(), 或者写个类extends MyWebViewClient然后自定义一些自己的方法
+     * @param webChromeClient 可传入new MyWebChromeClient(), 或者写个类extends MyWebChromeClient然后自定义一些自己的方法
+     */
+    public void init(MyWebViewClient webViewClient, MyWebChromeClient webChromeClient) {
+        setWebViewClient(webViewClient);
+        setWebChromeClient(webChromeClient);
+
+        WebSettings webSettings = getSettings();
         //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
@@ -41,7 +55,8 @@ public class WebViewUtils {
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
 
         //字体
-        webSettings.setTextSize(WebSettings.TextSize.NORMAL);//设置网页字体大小
+        webSettings.setTextSize(WebSettings.TextSize.NORMAL);//设置网页字体大小, 过时, 用下面方法↓
+        webSettings.setTextZoom(100);//设置页面的文本缩放百分比, 默认100
 
         //缓存cache
         webSettings.setDomStorageEnabled(false);//设置缓存,没数据也可加载
