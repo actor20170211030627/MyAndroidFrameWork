@@ -75,4 +75,36 @@ public class ActorBaseWebView extends WebView {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
     }
+
+    /**
+     * 网页加载h5文档
+     * @param data html文档 字符串
+     */
+    public void loadData(String data) {
+        loadData(data, "text/html; charset=UTF-8", "UTF-8");
+    }
+
+    /**
+     * 注意在Activity / Fragment的onResume() 方法中调用本方法
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    /**
+     * 注意在Activity / Fragment的onPause() 方法中调用本方法
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    /**
+     * 注意在Activity的onDestroy() / Fragment的onDestroyView() 方法中调用本方法
+     */
+    @Override
+    public void destroy() {
+        super.destroy();
+    }
 }
