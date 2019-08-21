@@ -11,17 +11,17 @@ import java.util.List;
  * Description: 适用于 ViewPager 的 pager 不是 Fragment 的情况, 比如轮播图示例:
  *
  * 1.用法
- * viewPager.setAdapter(new MyPagerAdapter(imageRes));
+ * viewPager.setAdapter(new BasePagerAdapter(imageRes));
  *
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/27 on 20:03
  */
-public class MyPagerAdapter extends PagerAdapter {
+public class BasePagerAdapter extends PagerAdapter {
 	
     private List<Integer> imageRes;
 
-    public MyPagerAdapter(List<Integer> imageRes) {
+    public BasePagerAdapter(List<Integer> imageRes) {
         this.imageRes = imageRes;
     }
 

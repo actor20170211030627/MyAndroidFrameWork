@@ -20,7 +20,7 @@ import android.view.WindowManager;
 import com.actor.myandroidframework.R;
 
 /**
- * Description:从底部弹出的Fragment
+ * Description:从底部弹出的DialogFragment, 能上下拖拽滑动
  *
  * 方法执行顺序
  * show(FragmentManager manager, String tag)

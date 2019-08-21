@@ -18,7 +18,7 @@ import com.actor.myandroidframework.utils.LogUtils;
  * Date       : 2019/3/11 on 11:24
  * @version 1.0 修改{@link #shouldOverrideUrlLoading(WebView, String)}方法, 判断http/s
  */
-public class MyWebViewClient extends WebViewClient {
+public class BaseWebViewClient extends WebViewClient {
 
     /**
      * 加载网页发生证书认证错误,不显示图片,还有正确解决方法:https://www.jianshu.com/p/56e2b0bf9ab2

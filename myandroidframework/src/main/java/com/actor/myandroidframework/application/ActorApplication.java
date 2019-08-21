@@ -112,7 +112,8 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     }
 
     /**
-     * 当正式环境中App崩溃的时候
+     * 当正式环境中App崩溃的时候会回调这个方法.
+     * 如果是debug环境, 不会抓取bug并且不会回调这个方法
      * @param thread 线程
      * @param e 堆栈信息
      *

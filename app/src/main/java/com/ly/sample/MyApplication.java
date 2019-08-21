@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient;
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/7/27 on 02:35
+ * @version 1.1
  */
 public class MyApplication extends ActorApplication {
 
@@ -29,6 +30,20 @@ public class MyApplication extends ActorApplication {
         return "https://api.github.com";
     }
 
+    /**
+     *
+     * @param thread 线程
+     * @param e 堆栈信息
+     *
+     * 示例处理:
+     * Intent intent = new Intent(this, LoginActivity.class);
+     * intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+     * PendingIntent restartIntent = PendingIntent.getActivity(this, 0, intent, 0);
+     * //定时器
+     * AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+     * mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent);//1000:1秒钟后重启应用
+     * System.exit(-1);//退出
+     */
     @Override
     protected void onUncaughtException(Thread thread, Throwable e) {
 //        Intent intent = new Intent(this, LoginActivity.class);

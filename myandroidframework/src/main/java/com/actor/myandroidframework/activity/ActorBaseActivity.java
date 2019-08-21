@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -134,6 +135,12 @@ public class ActorBaseActivity extends AppCompatActivity {
         return s == null? defaultStr : s;
     }
 
+    //"输入内容不能少于30字"示例:              输入内容不能少于%1$d字,      30
+    protected String getStringRes(@StringRes int stringResId, String... format) {
+        return getString(stringResId, format);
+    }
+
+    //获取格式化后的String, 例: "我的姓名是%s, 我的年龄是%d", "张三", 23
     protected String getStringFormat(String format, Object... args) {
         return String.format(Locale.getDefault(), format, args);
     }

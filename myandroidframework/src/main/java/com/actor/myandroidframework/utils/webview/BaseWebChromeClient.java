@@ -17,7 +17,7 @@ import com.actor.myandroidframework.utils.LogUtils;
  * Date       : 2019/3/11 on 11:33
  * @version 1.0
  */
-public class MyWebChromeClient extends WebChromeClient {
+public class BaseWebChromeClient extends WebChromeClient {
 
     //可重写此方法, 获取标题
     @Override

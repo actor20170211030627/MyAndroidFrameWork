@@ -6,38 +6,49 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
 /**
- * Description: ViewPager的Adapter, 填充Fragment
- * 如果需要处理有很多页，并且数据动态性较大、占用内存较多的情况，应该使用(对fragment进行完全的添加和删除操)
- * 或者闪屏页面, 几张大图的时候, 也可以选择这个, 管理占用更少内存
- * 在ViewPager左右滑动过程中, 会重复至少执行4个生命周期:
- * onCreate -> onCreateView -> onDestoryView -> onDestroy
- * 即, Fragment在滑动过程中被销毁了
- * 很多页面的时候, 推荐使用
+ * Description:
+ * FragmentPagerAdapter基类, 处理系统 系统恢复页面数据 & 旋转屏幕 等
+ * FragmentPagerAdapter主要用于页面较少的情况, 会使Fragment重复走生命周期:
+ * onCreateView -> onDestroyView
+ * 即, 没有执行onDestroy, Fragment并没有被销毁
+ * 只有几个页面的时候, 推荐使用.
  * 如果viewpager中的Fragment不想重复请求网络, 可以设置:viewpager.setOffscreenPageLimit(int limit);
+ *
+ * 1.★注意事项★:(以前的注意事项, 现在不一定适用)
+ *   如果在ViewPager中嵌套ListView ,GridView ...要在ListView ,GridView ...的"Adapter"中重写下面方法,
+ *   否则报错:java.lang.IllegalArgumentException: The observer is null.
+ *   @Override
+ *   public void unregisterDataSetObserver(DataSetObserver observer) {
+ *       if (observer != null) {
+ *           super.unregisterDataSetObserver(observer);
+ *       }
+ *   }
+ *
+ * 2.ExpandableListView不用重写上面的方法(以前的注意事项, 现在不一定适用)
  *
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
- * Date       : 2019/3/27 on 10:12
+ * Date       : 2019/3/27 on 19:50
  * @version 1.1
  */
-public abstract class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private int sizeForMyFragmentStatePagerAdapter;
     private SparseArray<Fragment> fragmentsForMyFragmentStatePagerAdapter;
     private String[] titles;
 
-    public MyFragmentStatePagerAdapter(FragmentManager fm, int size) {
+    public BaseFragmentPagerAdapter(FragmentManager fm, int size) {
         super(fm);
         this.sizeForMyFragmentStatePagerAdapter = size;
-        fragmentsForMyFragmentStatePagerAdapter = new SparseArray<>(size);
+        fragmentsForMyFragmentStatePagerAdapter = new SparseArray<>();
     }
 
-    public MyFragmentStatePagerAdapter(FragmentManager fm, @NonNull String[] titles) {
+    public BaseFragmentPagerAdapter(FragmentManager fm, @NonNull String[] titles) {
         super(fm);
         this.sizeForMyFragmentStatePagerAdapter = titles.length;
         fragmentsForMyFragmentStatePagerAdapter = new SparseArray<>(sizeForMyFragmentStatePagerAdapter);
@@ -56,7 +67,8 @@ public abstract class MyFragmentStatePagerAdapter extends FragmentStatePagerAdap
      * 获取Fragment
      * @param position 第几个Fragment
      */
-    public @Nullable <T extends Fragment> T getFragment(int position) {
+    public @Nullable
+    <T extends Fragment> T  getFragment(int position) {
         if (fragmentsForMyFragmentStatePagerAdapter.size() > position) {
             return (T) fragmentsForMyFragmentStatePagerAdapter.get(position);
         }
@@ -64,7 +76,6 @@ public abstract class MyFragmentStatePagerAdapter extends FragmentStatePagerAdap
     }
 
     //获取每个pager的title
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return titles == null ? null : titles.length > position ? titles[position] : null;
@@ -84,11 +95,41 @@ public abstract class MyFragmentStatePagerAdapter extends FragmentStatePagerAdap
         return fragment;
     }
 
+//    @Override
+//    public Object instantiateItem(ViewGroup container, int position) {
+//        Fragment fragment = fragments.get(position);
+//        //判断当前的fragment是否已经被添加进入Fragmentanager管理器中
+//        if (!fragment.isAdded()) {
+//            FragmentTransaction transaction = manager.beginTransaction();
+//            transaction.add(fragment, fragment.getClass().getSimpleName());
+//            //不保存系统参数，自己控制加载的参数
+//            transaction.commitAllowingStateLoss();
+//            //手动调用,立刻加载Fragment片段
+//            manager.executePendingTransactions();
+//        }
+//        //必须判空,否则报错
+//        if (fragment.getView() != null && fragment.getView().getParent() == null) {
+//            //添加布局
+//            container.addView(fragment.getView());
+//        }
+//        return fragment.getView();
+//    }
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         fragmentsForMyFragmentStatePagerAdapter.remove(position);
         super.destroyItem(container, position, object);
     }
+
+//    @Override
+//    public void destroyItem(ViewGroup container, int position, Object object) {
+    //移除布局,如果什么都不写,就不移除布局,就不会重复请求网络
+//        if (fragments.get(position).getView() != null) {
+//            container.removeView(fragments.get(position).getView());
+//        }
+//    }
+
+
 
     /**
      * (以前的注意事项, 现在不一定适用)
@@ -105,7 +146,9 @@ public abstract class MyFragmentStatePagerAdapter extends FragmentStatePagerAdap
      * (以前的注意事项, 现在不一定适用)
      */
     @Override
-    public void registerDataSetObserver(@NonNull DataSetObserver observer) {
-        super.registerDataSetObserver(observer);
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        if (observer != null) {
+            super.unregisterDataSetObserver(observer);
+        }
     }
 }

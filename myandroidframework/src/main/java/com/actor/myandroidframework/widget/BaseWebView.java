@@ -5,8 +5,8 @@ import android.os.Build;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.actor.myandroidframework.utils.webview.MyWebChromeClient;
-import com.actor.myandroidframework.utils.webview.MyWebViewClient;
+import com.actor.myandroidframework.utils.webview.BaseWebChromeClient;
+import com.actor.myandroidframework.utils.webview.BaseWebViewClient;
 
 /**
  * Description: WebView常用初始化
@@ -16,18 +16,18 @@ import com.actor.myandroidframework.utils.webview.MyWebViewClient;
  *
  * @version 1.0
  */
-public class ActorBaseWebView extends WebView {
+public class BaseWebView extends WebView {
 
-    public ActorBaseWebView(Context context) {
+    public BaseWebView(Context context) {
         super(context);
     }
 
     /**
      * 初始化
-     * @param webViewClient 可传入new MyWebViewClient(), 或者写个类extends MyWebViewClient然后自定义一些自己的方法
-     * @param webChromeClient 可传入new MyWebChromeClient(), 或者写个类extends MyWebChromeClient然后自定义一些自己的方法
+     * @param webViewClient 可传入new BaseWebViewClient(), 或者写个类extends MyWebViewClient然后自定义一些自己的方法
+     * @param webChromeClient 可传入new BaseWebChromeClient(), 或者写个类extends MyWebChromeClient然后自定义一些自己的方法
      */
-    public void init(MyWebViewClient webViewClient, MyWebChromeClient webChromeClient) {
+    public void init(BaseWebViewClient webViewClient, BaseWebChromeClient webChromeClient) {
         setWebViewClient(webViewClient);
         setWebChromeClient(webChromeClient);
 

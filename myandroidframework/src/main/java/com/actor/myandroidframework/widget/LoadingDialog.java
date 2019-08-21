@@ -24,6 +24,7 @@ import com.actor.myandroidframework.R;
  * Author     : 李大发
  * Date       : 2019/6/28 on 16:43
  * @version 1.0
+ * todo 动态修改view 宽高 转速
  */
 public class LoadingDialog extends Dialog {
 

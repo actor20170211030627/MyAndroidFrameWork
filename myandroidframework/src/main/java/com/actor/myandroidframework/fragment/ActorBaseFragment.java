@@ -193,6 +193,7 @@ public abstract class ActorBaseFragment extends Fragment {
         return s == null? defaultStr : s;
     }
 
+    //获取格式化后的String, 例: "我的姓名是%s, 我的年龄是%d", "张三", 23
     protected String getStringFormat(String format, Object... args) {
         return String.format(Locale.getDefault(), format, args);
     }

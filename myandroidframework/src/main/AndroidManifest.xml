@@ -24,5 +24,17 @@
     <application
         android:networkSecurityConfig="@xml/network_security_config">
 
+        <!--悬浮评论-->
+        <activity
+            android:name=".widget.floatingeditor.FloatEditorActivity"
+            android:theme="@style/NoTitleDialogTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
+        </activity>
+
+        <!--从底部弹出的 非全屏 Activity-->
+        <activity
+            android:name=".activity.BaseBottomActivity"
+            android:theme="@style/BottomSheet">
+        </activity>
     </application>
 </manifest>
