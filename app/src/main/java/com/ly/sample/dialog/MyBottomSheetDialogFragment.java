@@ -1,4 +1,4 @@
-package com.ly.sample;
+package com.ly.sample.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.actor.myandroidframework.utils.ToastUtils;
 import com.actor.myandroidframework.widget.BaseBottomSheetDialogFragment;
+import com.ly.sample.R;
 
 /**
  * Description: 类的描述
@@ -19,7 +20,7 @@ import com.actor.myandroidframework.widget.BaseBottomSheetDialogFragment;
  */
 public class MyBottomSheetDialogFragment extends BaseBottomSheetDialogFragment {
 
-    private TextView tv;
+    private TextView tvContent;
 
     @Override
     public int getLayoutId() {
@@ -30,8 +31,9 @@ public class MyBottomSheetDialogFragment extends BaseBottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tv = view.findViewById(R.id.tv);
-        tv.setOnClickListener(new View.OnClickListener() {
+        tvContent = view.findViewById(R.id.tv_content);
+        tvContent.setText("this is BaseBottomSheetDialogFragment,\n你可以请求网络等,\n Click me!(点击我试一下)");
+        tvContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtils.show("clicked in BaseBottomSheetDialogFragment!");

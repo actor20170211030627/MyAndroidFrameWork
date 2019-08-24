@@ -3,11 +3,11 @@
     <!--android:style/Theme.Dialog-->
     <!--Theme.AppCompat.Dialog-->
     <!--Theme.MaterialComponents.Light.BottomSheetDialog-->
-    <style name="BottomSheet" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BaseBottomActivity" parent="Theme.AppCompat.Light.NoActionBar">
         <!--不要显示actionbar-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!--<item name="android:windowNoTitle">true</item>设置这个没作用-->
+        <item name="android:windowNoTitle">true</item><!--设置这个没什么用啊??-->
 
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -16,5 +16,8 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <!--@style/bottom_sheet_animation-->
+
+        <!--如果不全屏, 会有一半概率出现状态栏-->
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>

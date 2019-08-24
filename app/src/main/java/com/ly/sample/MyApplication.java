@@ -1,6 +1,7 @@
 package com.ly.sample;
 
 import com.actor.myandroidframework.application.ActorApplication;
+import com.ly.sample.utils.Global;
 
 import okhttp3.OkHttpClient;
 
@@ -27,7 +28,7 @@ public class MyApplication extends ActorApplication {
 
     @Override
     protected String getBaseUrl() {
-        return "https://api.github.com";
+        return Global.BASE_URL;
     }
 
     /**

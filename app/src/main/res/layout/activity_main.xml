@@ -12,23 +12,38 @@
     <ImageView
         android:id="@+id/iv"
         android:layout_width="200dp"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp"
+        android:transitionName="iv"/>
 
     <Button
-        android:id="@+id/btn_get_api"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_internet"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="点击获取GithubApi"
+        android:text="internet网络 &amp; image图片"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:transitionName="btn"/>
 
     <Button
-        android:id="@+id/btn_bottom_sheet_dialog_fragment"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_switch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BottomSheetDialogFragment"
-        android:textAllCaps="false"/>
+        android:text="TextView &amp; ViewSwitch切换"
+        android:textAllCaps="false"
+        android:transitionName="btn"/>
+
+    <Button
+        android:id="@+id/btn_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BottomDialog, BottomSheetDialog,
+        \nBottomSheetDialogFragment\n
+        FloatEditorActivity, BaseBottomActivity
+        \n\n从底部弹出的Dialog &amp; DialogFragment &amp; 悬浮输入 &amp; Activity等"
+        android:textAllCaps="false"
+        android:transitionName="btn"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="没时间写sample, 更多功能等你自己发掘..."/>
 </LinearLayout>

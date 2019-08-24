@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ly.sample.activity.SwitcherActivity">
+
+    <com.actor.myandroidframework.widget.BaseTextSwitcher
+        android:id="@+id/bts"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:btsMaxLinesNoMarquee="1"
+        app:btsOrientation="vertical"
+        app:btsSingleLineMarquee="true"
+        app:btsSwitchIntervalMs="2000"
+        app:btsTextColor="@color/colorAccent"
+        app:btsTextSize="28sp"
+        app:btsTextStyle="bold|italic">
+    </com.actor.myandroidframework.widget.BaseTextSwitcher>
+
+    <com.actor.myandroidframework.widget.BaseViewSwitcher
+        android:id="@+id/bvs"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:bvsOrientation="horizontal"
+        app:bvsSwitchIntervalMs="1000">
+    </com.actor.myandroidframework.widget.BaseViewSwitcher>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始Start"
+            android:textAllCaps="false"
+            android:transitionName="btn"/>
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="停止Stop"
+            android:textAllCaps="false"
+            android:transitionName="btn"/>
+    </LinearLayout>
+</LinearLayout>

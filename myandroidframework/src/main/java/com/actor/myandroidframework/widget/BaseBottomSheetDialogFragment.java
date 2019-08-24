@@ -180,6 +180,10 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
         if (dimAmount >= 0) this.dimAmount = dimAmount;
     }
 
+    /**
+     * @param fragmentManager 如果在Activity中, 传入:getSupportFragmentManager()
+     *                        如果是Fragment中, 传入:getChildFragmentManager()
+     */
     public void show(FragmentManager fragmentManager) {
 //        boolean added = isAdded();
 //        boolean cancelable = isCancelable();

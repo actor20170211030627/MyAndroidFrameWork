@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseViewSwitcher">
+
+        <!--切换间隔, 单位ms, 至少100ms, 否则不生效. 默认3000ms-->
+        <attr name="bvsSwitchIntervalMs" format="integer"/>
+
+        <!--切换方向: 水平/垂直, 默认垂直-->
+        <attr name="bvsOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

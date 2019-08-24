@@ -10,7 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.TextActivity">
+        <activity android:name=".activity.NetWorkAndImageActivity">
+        </activity>
+        <activity android:name=".activity.BottomSheetDialogActivity">
+        </activity>
+        <activity android:name=".activity.SwitcherActivity">
         </activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -19,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activity.TextActivity">
+        </activity>
+        <activity
+            android:name=".activity.MyBaseBottomActivity"
+            android:theme="@style/BaseBottomActivity"/>
     </application>
 
 </manifest>

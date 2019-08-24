@@ -26,7 +26,8 @@ import android.view.Window;
  * 示例使用:
  * BaseBottomSheetDialog dialog = new BaseBottomSheetDialog(this);
  * dialog.setContentView(R.layout.dialog_bottom_sheet);
- * Button btn = dialog.getView(R.id.button0);
+ * baseBottomSheetDialog.setOnClickListener(...)//点击事件
+ * Button btn = dialog.findViewById(R.id.button0);
  * dialog.setPeekHeight(dp2px(322))
  *         .setMaxHeight(dp2px(322))
  *         .setDimAmount(0.2F)
@@ -193,12 +194,12 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
      */
     public BaseBottomSheetDialog addOnclickListener(@IdRes int resId) {
         if (onClickListener == null) throw new NullPointerException("请先setOnClickListener");
-        getView(resId).setOnClickListener(onClickListener);
+        findViewById(resId).setOnClickListener(onClickListener);
         return this;
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends View> T getView(@IdRes int resId) {
+    public <T extends View> T findViewById(@IdRes int resId) {
         View view = views.get(resId);
         if (view == null) {
             view = contentView.findViewById(resId);
@@ -211,7 +212,7 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
      * view设置 VISIBLE
      */
     public BaseBottomSheetDialog setVisible(@IdRes int resId) {
-        getView(resId).setVisibility(View.VISIBLE);
+        findViewById(resId).setVisibility(View.VISIBLE);
         return this;
     }
 
@@ -219,7 +220,7 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
      * view设置 INVISIBLE
      */
     public BaseBottomSheetDialog setInVisible(@IdRes int resId) {
-        getView(resId).setVisibility(View.INVISIBLE);
+        findViewById(resId).setVisibility(View.INVISIBLE);
         return this;
     }
 
@@ -227,7 +228,7 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
      * view设置 GONE
      */
     public BaseBottomSheetDialog setGone(@IdRes int resId) {
-        getView(resId).setVisibility(View.GONE);
+        findViewById(resId).setVisibility(View.GONE);
         return this;
     }
 

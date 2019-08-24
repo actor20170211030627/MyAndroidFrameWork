@@ -16,4 +16,6 @@ public class Global {
 //            ".cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
     public static final String girl = "http://ww2.sinaimg" +
             ".cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
+
+    public static final String BASE_URL = "https://api.github.com";
 }

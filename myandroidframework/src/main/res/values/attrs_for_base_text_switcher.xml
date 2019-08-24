@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseTextSwitcher">
+
+        <!--字体颜色-->
+        <attr name="btsTextColor" format="color"/>
+
+        <!--字体大小-->
+        <attr name="btsTextSize" format="dimension"/>
+
+        <!-- Style (normal, bold, italic, bold|italic) for the text.正常(默认)|加粗|斜体 -->
+        <attr name="btsTextStyle" format="flags">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+
+        <!--切换间隔, 单位ms, 至少100ms, 否则不生效. 默认3000ms-->
+        <attr name="btsSwitchIntervalMs" format="integer"/>
+
+        <!--切换方向: 水平/垂直, 默认垂直-->
+        <attr name="btsOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+
+        <!--是否是 "单行&跑马灯", 默认true -->
+        <attr name="btsSingleLineMarquee" format="boolean"/>
+
+        <!--最大行数,
+            1.如果btsSingleLineMarquee="true", 那么这个属性无效.
+            2.如果btsSingleLineMarquee="false":
+                    2.1.如果设置了这个属性, TextView将设置最大行数
+                    2.2.如果没有设置这个属性, TextView有多少行就占多少行-->
+        <attr name="btsMaxLinesNoMarquee" format="integer"/>
+    </declare-styleable>
+</resources>
