@@ -74,6 +74,10 @@
 }
 ##-----------------BaseRecyclerViewAdapterHelper-----------------
 
+##-----Begin: proguard configuration for EasySwipeMenuLayout-----
+-keep class com.guanaj.easyswipemenulibrary.State
+##------End: proguard configuration for EasySwipeMenuLayout------
+
 ##---------------Begin: proguard configuration for okhttputils---
 #okhttputils
 -dontwarn com.zhy.http.**
