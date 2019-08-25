@@ -17,6 +17,10 @@
         api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' <br/> <br/>
     </li>
     <li>
+        //https://github.com/anzaizai/EasySwipeMenuLayout <br/>
+        api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'//侧滑删除 <br/> <br/>
+    </li>
+    <li>
         //https://github.com/hongyangAndroid/okhttputils <br/>
         api 'com.zhy:okhttputils:2.6.2' <br/>
         api 'com.squareup.okhttp3:logging-interceptor:3.11.0'//okhttp官方Log拦截器,版本要和okhttp3一致 <br/> <br/>
