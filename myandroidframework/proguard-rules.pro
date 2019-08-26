@@ -151,6 +151,12 @@
 -dontwarn com.yanzhenjie.mediascanner.**
 ##------------End: proguard configuration for Album--------------
 
+##------------Begin: proguard configuration for banner-----------
+-keep class com.youth.banner.** {
+    *;
+ }
+##------------End: proguard configuration for banner-------------
+
 ##-------Begin: proguard configuration for AndroidUtilCode-------
 -dontwarn com.blankj.utilcode.**
 ##-------End: proguard configuration for AndroidUtilCode---------

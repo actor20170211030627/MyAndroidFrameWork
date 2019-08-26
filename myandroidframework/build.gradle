@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 2019082501
-        versionName "1.2.4"
+        versionCode 2019082601
+        versionName "1.2.5"
 
         consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -93,6 +93,9 @@ dependencies {
 
     //https://github.com/yanzhenjie/Album
     api 'com.yanzhenjie:album:2.1.3'//图片选择
+
+    //https://github.com/youth5201314/banner
+    api 'com.youth.banner:banner:1.4.10'//轮播图
 
     //https://github.com/Blankj/AndroidUtilCode
     api 'com.blankj:utilcode:1.24.7'//许多工具

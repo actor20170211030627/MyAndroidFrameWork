@@ -46,6 +46,10 @@
         api 'com.yanzhenjie:album:2.1.3'//图片选择 <br/> <br/>
     </li>
     <li>
+        //https://github.com/youth5201314/banner <br/>
+        api 'com.youth.banner:banner:1.4.10'//轮播图 <br/> <br/>
+    </li>
+    <li>
         //https://github.com/Blankj/AndroidUtilCode <br/>
         api 'com.blankj:utilcode:1.24.7'//许多工具 <br/> <br/>
     </li>
