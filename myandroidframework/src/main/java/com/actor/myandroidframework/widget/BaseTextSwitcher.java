@@ -101,6 +101,10 @@ public class BaseTextSwitcher extends TextSwitcher {
     private int maxLinesNoMarquee = 0;//最大行数
     private OnItemClickListener onItemClickListener;
 
+    public BaseTextSwitcher(Context context) {
+        this(context, null);
+    }
+
     public BaseTextSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
         if (attrs != null) {

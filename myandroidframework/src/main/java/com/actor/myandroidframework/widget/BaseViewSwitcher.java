@@ -86,6 +86,10 @@ public class BaseViewSwitcher extends ViewSwitcher {
     private OnSwitcherListener onSwitcherListener;//切换监听
     private LayoutParams layoutParams;
 
+    public BaseViewSwitcher(Context context) {
+        this(context, null);
+    }
+
     public BaseViewSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
