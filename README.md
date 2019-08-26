@@ -50,6 +50,10 @@
         api 'com.youth.banner:banner:1.4.10'//轮播图 <br/> <br/>
     </li>
     <li>
+        //https://github.com/Bigkoo/Android-PickerView
+        api 'com.contrarywind:Android-PickerView:4.1.8'//时间选择器等等等
+    </li>
+    <li>
         //https://github.com/Blankj/AndroidUtilCode <br/>
         api 'com.blankj:utilcode:1.24.7'//许多工具 <br/> <br/>
     </li>

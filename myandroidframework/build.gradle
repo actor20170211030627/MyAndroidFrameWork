@@ -97,6 +97,9 @@ dependencies {
     //https://github.com/youth5201314/banner
     api 'com.youth.banner:banner:1.4.10'//轮播图
 
+    //https://github.com/Bigkoo/Android-PickerView
+    api 'com.contrarywind:Android-PickerView:4.1.8'//时间选择器等等等
+
     //https://github.com/Blankj/AndroidUtilCode
     api 'com.blankj:utilcode:1.24.7'//许多工具
 
