@@ -142,6 +142,7 @@ public class FileUtils {
 
     /**
      * 获取外部文件夹:SD卡/项目名
+     * return example: /storage/emulated/0/hihifriend
      */
     public static String getExternalStorageDir() {
         String packageLastName = getPackageLastName();
