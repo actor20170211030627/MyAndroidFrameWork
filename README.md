@@ -80,7 +80,7 @@
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-##3.Screenshot
+## 3.Screenshot
 <img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=35%></img>
 <img src="captures/BaseBottomSheetDialogFragment.gif" width=35%></img> <br/>
 <img src="captures/BaseRatingBar.gif" width=35%></img>
