@@ -136,8 +136,8 @@ public class ActorBaseActivity extends AppCompatActivity {
     }
 
     //"输入内容不能少于30字"示例:              输入内容不能少于%1$d字,      30
-    protected String getStringRes(@StringRes int stringResId, String... format) {
-        return getString(stringResId, format);
+    protected String getStringRes(@StringRes int stringResId, Object... formatArgs) {
+        return getString(stringResId, formatArgs);
     }
 
     //获取格式化后的String, 例: "我的姓名是%s, 我的年龄是%d", "张三", 23

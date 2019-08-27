@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
         Glide.with(this).load(Global.girl).into(iv);
     }
 
-    @OnClick({R.id.btn_internet, R.id.btn_switch, R.id.btn_bottom_sheet})
+    @OnClick({R.id.btn_internet, R.id.btn_switch, R.id.btn_bottom_sheet, R.id.btn_custom_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
@@ -39,6 +39,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_bottom_sheet://从底部弹出的Dialog & DialogFragment等
                 startActivity(new Intent(this, BottomSheetDialogActivity.class), view);
+                break;
+            case R.id.btn_custom_view://自定义View
+                startActivity(new Intent(this, CustomViewActivity.class), view);
                 break;
         }
     }
