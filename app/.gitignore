@@ -1,1 +1,3 @@
-/build
+/build/generated/
+/build/intermediates/
+/build/tmp/
