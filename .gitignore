@@ -1,8 +1,5 @@
 .gradle/
 .idea/
 .svn/
-app/build/generated/
-app/build/intermediates/
-app/build/tmp/
 *.iml
 local.properties
