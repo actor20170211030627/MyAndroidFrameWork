@@ -1,0 +1,4 @@
+<resources>
+    <!--写成 ?android:attr/actionBarSize 会报错: Failed to resolve attribute at index 6-->
+    <dimen name="action_bar_size">55dp</dimen>
+</resources>
