@@ -9,8 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"><!--Android P(9.0)的默认所有Http的请求都被阻止, 并且这个属性的默认值从true改变为false-->
+        android:theme="@style/AppTheme">
 
         <activity android:name=".activity.CustomViewActivity">
         </activity>

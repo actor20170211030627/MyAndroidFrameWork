@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="internet网络 &amp; image图片"
-        android:textAllCaps="false"
         android:transitionName="btn"/>
 
     <Button
@@ -29,7 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView &amp; ViewSwitch切换"
-        android:textAllCaps="false"
         android:transitionName="btn"/>
 
     <Button
@@ -40,7 +38,6 @@
         \nBottomSheetDialogFragment\n
         FloatEditorActivity, BaseBottomActivity
         \n\n从底部弹出的Dialog &amp; DialogFragment &amp; 悬浮输入 &amp; Activity等"
-        android:textAllCaps="false"
         android:transitionName="btn"/>
 
     <Button
@@ -48,7 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="自定义View"
-        android:textAllCaps="false"
         android:transitionName="btn"/>
 
     <TextView

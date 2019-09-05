@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-40:12
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-42:12
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\5a5a6c91d8fdb1c56929db6b36044ea8\AndroidManifest.xml:17:1-73:12
 MERGED from [com.jaeger.statusbarutil:library:1.5.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\6982fdbe15670bc5e7b3a2a8af9f603d\AndroidManifest.xml:2:1-13:12
 MERGED from [com.ruffian.library:RWidgetHelper:1.1.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\d039e82c0ad1ef963f9e62fa7ec8dc45\AndroidManifest.xml:2:1-11:12
@@ -52,27 +52,27 @@ MERGED from [com.youth.banner:banner:1.4.10] C:\Users\Administrator\.gradle\cach
 MERGED from [com.blankj:utilcode:1.24.7] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\02424efa9a32bb9868066335d275bd8c\AndroidManifest.xml:2:1-35:12
 MERGED from [com.flyco.dialog:FlycoDialog_Lib:1.3.2] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\6b1840984fc9ae171cd004186856f526\AndroidManifest.xml:2:1-11:12
 MERGED from [com.yanzhenjie:mediascanner:1.0.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\c58a16bc5ad74404ea445ec015decfdc\AndroidManifest.xml:17:1-25:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
 	package
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:3:11-34
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-35:12
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-36:12
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:5:5-33:19
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:5-38:19
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:5-38:19
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:5:5-34:19
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:5-40:19
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:5-40:19
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\5a5a6c91d8fdb1c56929db6b36044ea8\AndroidManifest.xml:29:5-71:19
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\5a5a6c91d8fdb1c56929db6b36044ea8\AndroidManifest.xml:29:5-71:19
 MERGED from [com.jaeger.statusbarutil:library:1.5.1] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\6982fdbe15670bc5e7b3a2a8af9f603d\AndroidManifest.xml:11:5-20
@@ -108,51 +108,53 @@ MERGED from [com.blankj:utilcode:1.24.7] C:\Users\Administrator\.gradle\caches\t
 	android:allowBackup
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:7:9-35
 	android:networkSecurityConfig
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:18-78
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:9-69
 	android:theme
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:12:9-40
+	android:usesCleartextTraffic
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:9-44
 	android:name
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:6:9-38
 activity#com.ly.sample.activity.CustomViewActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:13:9-14:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:14:9-15:20
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:13:19-62
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:14:19-62
 activity#com.ly.sample.activity.NetWorkAndImageActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:15:9-16:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:16:9-17:20
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:15:19-67
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:16:19-67
 activity#com.ly.sample.activity.BottomSheetDialogActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:17:9-18:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:18:9-19:20
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:17:19-69
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:18:19-69
 activity#com.ly.sample.activity.SwitcherActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:19:9-20:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:20:9-21:20
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:19:19-60
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:20:19-60
 activity#com.ly.sample.activity.MainActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:21:9-27:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:22:9-28:20
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:21:19-56
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:22:19-56
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:22:13-26:29
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:23:13-27:29
 action#android.intent.action.MAIN
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:23:17-68
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:24:17-68
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:23:25-66
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:24:25-66
 category#android.intent.category.LAUNCHER
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:25:17-76
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:26:17-76
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:25:27-74
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:26:27-74
 activity#com.ly.sample.activity.TextActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:28:9-29:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:29:9-30:20
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:28:19-56
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:29:19-56
 activity#com.ly.sample.activity.MyBaseBottomActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:30:9-32:56
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:31:9-33:56
 	android:theme
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:32:13-54
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:33:13-54
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:31:13-58
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:32:13-58
 uses-sdk
 INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
@@ -292,13 +294,13 @@ MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\Administrator\.gradle\caches\t
 	android:name
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:22-62
 activity#com.actor.myandroidframework.widget.floatingeditor.FloatEditorActivity
-ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:9-37:20
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-39:77
 	android:windowSoftInputMode
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:13-74
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-74
 	android:theme
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:13-54
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-54
 	android:name
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:13-98
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-98
 uses-permission#android.permission.RECORD_AUDIO
 ADDED from [com.yanzhenjie:album:2.1.3] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\5a5a6c91d8fdb1c56929db6b36044ea8\AndroidManifest.xml:27:5-71
 	android:name
