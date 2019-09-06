@@ -12,22 +12,19 @@
         android:id="@+id/btn_bottom_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BottomDialog"
-        android:textAllCaps="false"/>
+        android:text="BottomDialog"/>
 
     <Button
         android:id="@+id/btn_bottom_sheet_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BottomSheetDialog"
-        android:textAllCaps="false"/>
+        android:text="BottomSheetDialog"/>
 
     <Button
         android:id="@+id/btn_bottom_sheet_dialog_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BottomSheetDialogFragment"
-        android:textAllCaps="false"/>
+        android:text="BottomSheetDialogFragment"/>
 
     <TextView
         android:id="@+id/tv_content"
@@ -40,14 +37,12 @@
         android:id="@+id/btn_float_edit_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FloatEditorActivity"
-        android:textAllCaps="false"/>
+        android:text="FloatEditorActivity"/>
 
     <Button
         android:id="@+id/btn_bottom_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BaseBottomActivity"
-        android:transitionName="btn"
-        android:textAllCaps="false"/>
+        android:transitionName="btn"/>
 </LinearLayout>
