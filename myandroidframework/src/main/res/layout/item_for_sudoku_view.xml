@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--android:scaleType="centerCrop"-->
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_holder_light_for_sudoke_view"/>
+
+    <!--视频暂停三角形-->
+    <ImageView
+        android:id="@+id/iv_play_pause"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/icon_pause_for_sudoku_view"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/iv_pic"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintLeft_toLeftOf="@id/iv_pic"
+        app:layout_constraintRight_toRightOf="@id/iv_pic"
+        app:layout_constraintTop_toTopOf="@id/iv_pic"
+        app:layout_constraintWidth_percent="0.3"
+        tools:visibility="visible"/>
+</android.support.constraint.ConstraintLayout>
