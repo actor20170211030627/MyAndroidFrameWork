@@ -20,6 +20,12 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Description: 主页->网络&图片
+ * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
+ * Author     : 李大发
+ * Date       : 2019-9-6 on 14:23
+ */
 public class NetWorkAndImageActivity extends BaseActivity {
 
     @BindView(R.id.iv)
@@ -30,9 +36,11 @@ public class NetWorkAndImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_net_work_and_image);
         ButterKnife.bind(this);
-
-        setTitle("主页->网络&图片");
-        Glide.with(this).load(Global.girl).circleCrop().into(iv);
+        Glide.with(this).load(Global.girl)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .circleCrop()
+                .into(iv);
     }
 
     @OnClick({R.id.btn_get_okhttp, R.id.btn_get_retrofit})

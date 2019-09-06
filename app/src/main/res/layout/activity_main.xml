@@ -1,54 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:transitionName="iv"
-        tools:src="@mipmap/ic_launcher"/>
-
-    <Button
-        android:id="@+id/btn_internet"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="internet网络 &amp; image图片"
-        android:transitionName="btn"/>
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="主页"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btn_switch"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView &amp; ViewSwitch切换"
-        android:transitionName="btn"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="BottomDialog, BottomSheetDialog,
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:transitionName="iv"
+                tools:src="@mipmap/ic_launcher" />
+
+            <Button
+                android:id="@+id/btn_internet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="internet网络 &amp; image图片"
+                android:transitionName="btn" />
+
+            <Button
+                android:id="@+id/btn_bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BottomDialog, BottomSheetDialog,
         \nBottomSheetDialogFragment\n
         FloatEditorActivity, BaseBottomActivity
         \n\n从底部弹出的Dialog &amp; DialogFragment &amp; 悬浮输入 &amp; Activity等"
-        android:transitionName="btn"/>
+                android:transitionName="btn" />
 
-    <Button
-        android:id="@+id/btn_custom_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="自定义View"
-        android:transitionName="btn"/>
+            <Button
+                android:id="@+id/btn_viewpager_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ViewPager &amp; Fragment多层嵌套"
+                android:transitionName="btn" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="没时间写sample, 更多功能等你自己发掘..."/>
+            <Button
+                android:id="@+id/btn_is_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="判空, 线程, 权限, SPUtils, EventBus"
+                android:transitionName="btn" />
+
+            <Button
+                android:id="@+id/btn_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView &amp; ViewSwitch切换"
+                android:transitionName="btn" />
+
+            <Button
+                android:id="@+id/btn_custom_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="自定义View"
+                android:transitionName="btn" />
+
+            <Button
+                android:id="@+id/btn_nine_grid_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="九宫格NineGridView" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:text="View on Github:\n
+        https://github.com/actor20170211030627/MyAndroidFrameWork" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="没时间写sample, 集成的很多框架有很多功能, 更多功能等你自己发掘..." />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

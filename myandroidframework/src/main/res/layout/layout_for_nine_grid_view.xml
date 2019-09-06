@@ -8,28 +8,28 @@
 
     <!--android:scaleType="centerCrop"-->
     <ImageView
-        android:id="@+id/iv_pic_for_sudoku_view"
+        android:id="@+id/iv_pic_for_nine_grid_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.4"
-        tools:src="@drawable/ic_holder_light_for_sudoke_view"/>
+        tools:src="@drawable/ic_holder_light_for_nine_grid_view"/>
 
     <!--视频暂停三角形-->
     <ImageView
-        android:id="@+id/iv_play_pause_for_sudoku_view"
+        android:id="@+id/iv_play_pause_for_nine_grid_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/icon_pause_for_sudoku_view"
+        android:src="@drawable/icon_pause_for_nine_grid_view"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/iv_pic_for_sudoku_view"
+        app:layout_constraintBottom_toBottomOf="@id/iv_pic_for_nine_grid_view"
         app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintLeft_toLeftOf="@id/iv_pic_for_sudoku_view"
-        app:layout_constraintRight_toRightOf="@id/iv_pic_for_sudoku_view"
-        app:layout_constraintTop_toTopOf="@id/iv_pic_for_sudoku_view"
+        app:layout_constraintLeft_toLeftOf="@id/iv_pic_for_nine_grid_view"
+        app:layout_constraintRight_toRightOf="@id/iv_pic_for_nine_grid_view"
+        app:layout_constraintTop_toTopOf="@id/iv_pic_for_nine_grid_view"
         app:layout_constraintWidth_percent="0.3"
         tools:visibility="visible"/>
 
@@ -37,7 +37,7 @@
      butterknife找到的RecyclerView指向了这个RecyclerView,
      下方那个RecyclerView就没找出来...-->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_for_sudoku_view"
+        android:id="@+id/recycler_view_for_nine_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
@@ -45,6 +45,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="3"
-        tools:listitem="@layout/item_for_sudoku_view">
+        tools:listitem="@layout/item_for_nine_grid_view">
     </android.support.v7.widget.RecyclerView>
 </android.support.constraint.ConstraintLayout>

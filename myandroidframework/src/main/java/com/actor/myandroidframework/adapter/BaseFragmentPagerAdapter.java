@@ -56,7 +56,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
     /**
-     * 务必返回: XxxFragment.newInstance(Xxx... xxx); ,这样系统恢复时, 会重写调用Fragment的onCreate
+     * 务必返回: XxxFragment.newInstance(Xxx... xxx); ,这样系统恢复时, 会重新调用Fragment的onCreate
      * @param position
      * @return
      */

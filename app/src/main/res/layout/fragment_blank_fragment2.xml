@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ly.sample.fragment.BlankFragment2">
+
+    <com.actor.myandroidframework.widget.SwipeRefreshLayoutCompatViewPager
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="第1个Table, content=第1个Fragment,\n
+        可以下拉刷新哦 ↓"
+            android:textColor="@color/colorAccent" />
+    </com.actor.myandroidframework.widget.SwipeRefreshLayoutCompatViewPager>
+
+</FrameLayout>

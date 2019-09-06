@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ly.sample">
+    package="com.ly.sample">
 
     <application
         android:name=".MyApplication"
@@ -10,27 +10,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activity.CustomViewActivity">
-        </activity>
-        <activity android:name=".activity.NetWorkAndImageActivity">
-        </activity>
-        <activity android:name=".activity.BottomSheetDialogActivity">
-        </activity>
-        <activity android:name=".activity.SwitcherActivity">
-        </activity>
+        <activity android:name=".activity.IsEmptyActivity"></activity>
+        <activity android:name=".activity.ViewPagerAndFragmentActivity" />
+        <activity android:name=".activity.NineGridViewActivity" />
+        <activity android:name=".activity.CustomViewActivity" />
+        <activity android:name=".activity.NetWorkAndImageActivity" />
+        <activity android:name=".activity.BottomSheetDialogActivity" />
+        <activity android:name=".activity.SwitcherActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TextActivity">
-        </activity>
+        <activity android:name=".activity.TextActivity" />
         <activity
             android:name=".activity.MyBaseBottomActivity"
-            android:theme="@style/BaseBottomActivity"/>
+            android:theme="@style/BaseBottomActivity" />
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Description: 自定义view
+ * Description: 主页->自定义View
  * Author     : 李大发
  * Date       : 2019-8-27 on 17:37
  */
@@ -24,7 +24,6 @@ public class CustomViewActivity extends BaseActivity {
         setContentView(R.layout.activity_custom_view);
         ButterKnife.bind(this);
 
-        setTitle("主页->自定义View");
         baseRatingBar.setOnStarChangeListener(new BaseRatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(BaseRatingBar baseRatingBar, float rating, boolean fromUser) {

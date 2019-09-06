@@ -53,7 +53,6 @@ public class MyApplication extends ActorApplication {
 //        //定时器
 //        AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 //        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent);//1000:1秒钟后重启应用
-//        System.exit(-1);//退出
-//        //android.os.Process.killProcess(android.os.Process.myPid());//也一样是退出
+        System.exit(-1);//退出
     }
 }

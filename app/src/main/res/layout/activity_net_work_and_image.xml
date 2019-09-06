@@ -8,6 +8,15 @@
     android:orientation="vertical"
     tools:context="com.ly.sample.activity.NetWorkAndImageActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="主页->网络&amp;图片"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
     <ImageView
         android:id="@+id/iv"
         android:layout_width="200dp"

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ly.sample.activity.IsEmptyActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="主页->判空, 线程, 权限, SPUtils, EventBus"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入内容"
+        android:imeOptions="actionNext"
+        android:inputType="text" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="8"
+        app:counterOverflowTextAppearance="@style/counterOverflowTextColor"
+        app:counterTextAppearance="@style/counterTextColor"
+        app:errorTextAppearance="@style/counterOverflowTextColor"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/colorPrimary">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入密码"
+            android:imeOptions="actionNext"
+            android:inputType="numberPassword" />
+    </android.support.design.widget.TextInputLayout>
+
+    <!--
+    gteArrowRightVisiable: 右边箭头显示状态, 默认与gteInputEnable相反, 可自定义
+    gteDigits: 输入限制, 比如这儿只能输入 0~9
+    gteHint: hint
+    gteImeOptions: 键盘右下角显示状态, actionDone=完成
+    gteInputEnable: 是否能输入, 默认true
+    gteInputType: 输入类型
+    gteItemName: 左侧文字
+    gteMaxLength: 最大输入长度
+    gteRedStarVisiable: 左侧红点显示状态, 默认visible
+    gteText: 显示的文字
+    -->
+    <com.ly.sample.widget.GridTableEditText
+        android:id="@+id/gte_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:gteArrowRightVisiable="gone"
+        app:gteDigits="@string/digits_phone"
+        app:gteHint="请输入手机号"
+        app:gteImeOptions="actionDone"
+        app:gteInputEnable="true"
+        app:gteInputType="phone"
+        app:gteItemName="自定义View: "
+        app:gteMaxLength="11"
+        app:gteRedStarVisiable="visible"
+        app:gteText="" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:columnCount="2">
+
+        <TextView android:text="其它判空" />
+
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:text="清空数据" />
+
+        <TextView android:text="CharSequence" />
+
+        <Switch
+            android:id="@+id/switch_string"
+            android:layout_marginLeft="20dp"
+            android:checked="true"
+            android:text="string = null;    " />
+
+        <TextView android:text="Array数组" />
+
+        <Switch
+            android:id="@+id/switch_array"
+            android:layout_marginLeft="20dp"
+            android:checked="true"
+            android:text="arrays = new String[0];    " />
+
+        <TextView android:text="Collection" />
+
+        <Switch
+            android:id="@+id/switch_collection"
+            android:layout_marginLeft="20dp"
+            android:checked="true"
+            android:text="list.clear();    " />
+
+        <TextView android:text="Map" />
+
+        <Switch
+            android:id="@+id/switch_map"
+            android:layout_marginLeft="20dp"
+            android:checked="true"
+            android:text="map.clear();    " />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btn_is_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="判空"
+        android:transitionName="btn" />
+</LinearLayout>

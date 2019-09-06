@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="TransparentBottomSheetStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <!--Button按钮字体小写-->
+        <item name="android:textAllCaps">false</item>
+
         <item name="bottomSheetStyle">@style/SheetStyle</item>
 
         <item name="android:windowFrame">@null</item>

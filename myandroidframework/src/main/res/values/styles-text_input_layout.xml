@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TextInputLayout的Style, 如果不满意, 可以按照这个styles文件自定义一份-->
+
+    <!--如果EditText中输入长度没超过,下方counter的颜色-->
+    <style name="counterTextColor"
+           parent="Base.TextAppearance.AppCompat.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--如果EditText中输入长度超过了,hint和下划线的提示-->
+    <style name="counterOverflowTextColor"
+           parent="Base.TextAppearance.AppCompat.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--获取焦点后,上面Label的颜色,大小-->
+    <style name="HintAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+</resources>

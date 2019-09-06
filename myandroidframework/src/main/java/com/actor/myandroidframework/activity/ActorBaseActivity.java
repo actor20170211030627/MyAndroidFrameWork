@@ -192,8 +192,8 @@ public class ActorBaseActivity extends AppCompatActivity {
 
 
     //toast区=============================================
-    protected void toast(CharSequence notify){
-        ToastUtils.show(notify);
+    protected void toast(Object notify){
+        ToastUtils.show(String.valueOf(notify));
     }
 
 

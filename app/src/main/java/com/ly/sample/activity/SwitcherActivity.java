@@ -15,6 +15,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Description: 主页->切换
+ * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
+ * Author     : 李大发
+ * Date       : 2019-9-6 on 14:23
+ */
 public class SwitcherActivity extends BaseActivity {
 
     @BindView(R.id.bts)
@@ -28,7 +34,6 @@ public class SwitcherActivity extends BaseActivity {
         setContentView(R.layout.activity_switcher);
         ButterKnife.bind(this);
 
-        setTitle("主页->切换");
         List<CharSequence> datas = new ArrayList<>();
         datas.add("11111111fsdlkjdfioiorioiodvmiowfmvoifi");
         datas.add("222dfsdiook,poopeg,po,;d,pv,o,vopv,ov,");

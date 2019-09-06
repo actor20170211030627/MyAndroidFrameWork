@@ -1,5 +1,7 @@
 <resources>
     <style name="BaseBottomDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <!--Button按钮字体小写-->
+        <item name="android:textAllCaps">false</item>
 
         <item name="windowNoTitle">true</item><!--去掉标题栏-->
 

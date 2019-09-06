@@ -10,5 +10,5 @@ import com.actor.myandroidframework.activity.ActorBaseActivity;
  */
 public class BaseActivity extends ActorBaseActivity {
 
-    //可自定义一些其它方法
+    //可自定义一些你想要的其它方法
 }

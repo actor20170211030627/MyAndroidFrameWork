@@ -3,7 +3,7 @@
     <!--android:style/Theme.Dialog-->
     <!--Theme.AppCompat.Dialog-->
     <!--Theme.MaterialComponents.Light.BottomSheetDialog-->
-    <style name="BaseBottomActivity" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BaseBottomActivity" parent="AppThemeForMyAndroidFrameWork">
         <!--不要显示actionbar-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

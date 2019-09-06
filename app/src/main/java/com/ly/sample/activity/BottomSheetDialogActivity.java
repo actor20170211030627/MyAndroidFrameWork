@@ -17,6 +17,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Description: 主页->BottomSheetDialog
+ * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
+ * Author     : 李大发
+ * Date       : 2019-9-6 on 14:24
+ */
 public class BottomSheetDialogActivity extends BaseActivity {
 
     @BindView(R.id.tv_content)
@@ -32,8 +38,7 @@ public class BottomSheetDialogActivity extends BaseActivity {
         setContentView(R.layout.activity_bottom_sheet_dialog);
         ButterKnife.bind(this);
 
-        setTitle("主页->BottomSheetDialog");
-        //几种Dialog的方法风格不一致, 因为没时间, 所以...
+        //几种Dialog调用的方法风格不一致, 因为没时间, 所以...
 
 
 
