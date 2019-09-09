@@ -1,0 +1,79 @@
+package com.ly.sample.activity;
+
+import android.os.Bundle;
+
+import com.actor.myandroidframework.utils.ThreadUtils;
+import com.ly.sample.R;
+
+/**
+ * Description: 主页->线程, 权限, SPUtils, EventBus
+ * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
+ * Author     : 李大发
+ * Date       : 2019-9-9 on 16:16
+ */
+public class OtherActivity extends BaseActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_other);
+
+        /////////////////////1.ThreadUtils线程/////////////////////
+        ThreadUtils.runOnSubThread(new Runnable() {//在主线程运行
+            @Override
+            public void run() {
+                logError(ThreadUtils.isRunOnUiThread());//是否运行在主线程
+            }
+        });
+        ThreadUtils.runOnUiThread(new Runnable() {//在子线程运行
+            @Override
+            public void run() {
+                logError(ThreadUtils.isRunOnUiThread());
+            }
+        });
+        ThreadUtils.handler.postDelayed(new Runnable() {//延时一秒后, 在主线程运行
+            @Override
+            public void run() {
+                logError("ThreadUtils.handler.postDelayed");
+            }
+        }, 1_000);
+
+
+        /////////////////////2.PermissionRequestUtils权限/////////////////////
+//        PermissionRequestUtils.requestPermission();
+//        PermissionRequestUtils.go2Setting();
+//        PermissionRequestUtils.installApk();
+        //...
+
+
+        /////////////////////3.SPUtils/////////////////////
+//        SPUtils.putBoolean();
+//        SPUtils.putInt();
+//        SPUtils.putString();
+//        SPUtils.putFloat();
+//        SPUtils.putLong();
+//        SPUtils.putStringSet();
+
+//        SPUtils.getBoolean();
+//        SPUtils.getInt();
+//        SPUtils.getString();
+//        SPUtils.getStringNoNull();//如果为null, 返回 ""
+//        SPUtils.getFloat();
+//        SPUtils.getLong();
+//        SPUtils.getStringSet();
+//        SharedPreferences sharedPreference = SPUtils.getSharedPreference();
+//        Map<String, ?> all = SPUtils.getAll();
+
+//        SPUtils.remove("key");
+//        SPUtils.removeAll();
+//        boolean contains = SPUtils.contails("key");
+//        SPUtils.registerOnSharedPreferenceChangeListener();
+//        SPUtils.unregisterOnSharedPreferenceChangeListener();
+
+
+        /////////////////////4.EventBus/////////////////////
+//        EventBus.getInstance().post(new EventBusEvent<>(1, "msg"));
+//        EventBus.getInstance().post(new EventBusEvent<GithubInfo>(1, new GithubInfo()));
+//        EventBus.getInstance().post(new EventBusEvent<GithubInfo>(1, "msg", new GithubInfo()));
+    }
+}

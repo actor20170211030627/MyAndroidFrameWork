@@ -235,8 +235,8 @@ public abstract class ActorBaseFragment extends Fragment {
 
 
     //打印日志区=============================================
-    protected void logError(String msg) {
-        LogUtils.Error(msg, false);
+    protected void logError(Object msg) {
+        LogUtils.Error(String.valueOf(msg), false);
     }
 
     protected void logFormat(String format, Object... args) {

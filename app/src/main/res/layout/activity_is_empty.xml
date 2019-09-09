@@ -12,7 +12,7 @@
         android:layout_height="@dimen/action_bar_size"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:text="主页->判空, 线程, 权限, SPUtils, EventBus"
+        android:text="主页->判空"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
@@ -62,12 +62,12 @@
         android:layout_height="wrap_content"
         app:gteArrowRightVisiable="gone"
         app:gteDigits="@string/digits_phone"
-        app:gteHint="请输入手机号"
+        app:gteHint="请输入数字(0~9)"
         app:gteImeOptions="actionDone"
         app:gteInputEnable="true"
-        app:gteInputType="phone"
+        app:gteInputType="number"
         app:gteItemName="自定义View: "
-        app:gteMaxLength="11"
+        app:gteMaxLength="6"
         app:gteRedStarVisiable="visible"
         app:gteText="" />
 
@@ -90,7 +90,8 @@
             android:id="@+id/switch_string"
             android:layout_marginLeft="20dp"
             android:checked="true"
-            android:text="string = null;    " />
+            android:switchPadding="10dp"
+            android:text="string = null;" />
 
         <TextView android:text="Array数组" />
 
@@ -98,7 +99,8 @@
             android:id="@+id/switch_array"
             android:layout_marginLeft="20dp"
             android:checked="true"
-            android:text="arrays = new String[0];    " />
+            android:switchPadding="10dp"
+            android:text="arrays = new String[0];" />
 
         <TextView android:text="Collection" />
 
@@ -106,7 +108,8 @@
             android:id="@+id/switch_collection"
             android:layout_marginLeft="20dp"
             android:checked="true"
-            android:text="list.clear();    " />
+            android:switchPadding="10dp"
+            android:text="list.size() = 0" />
 
         <TextView android:text="Map" />
 
@@ -114,7 +117,8 @@
             android:id="@+id/switch_map"
             android:layout_marginLeft="20dp"
             android:checked="true"
-            android:text="map.clear();    " />
+            android:switchPadding="10dp"
+            android:text="map.size() = 0" />
     </GridLayout>
 
     <Button

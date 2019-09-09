@@ -36,7 +36,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.btn_internet, R.id.btn_bottom_sheet, R.id.btn_viewpager_fragment,
-            R.id.btn_is_empty, R.id.btn_switch, R.id.btn_custom_view, R.id.btn_nine_grid_view})
+            R.id.btn_is_empty, R.id.btn_switch, R.id.btn_custom_view, R.id.btn_nine_grid_view,
+            R.id.btn_other})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
@@ -48,7 +49,7 @@ public class MainActivity extends BaseActivity {
             case R.id.btn_viewpager_fragment://ViewPager & Fragment多层嵌套
                 startActivity(new Intent(this, ViewPagerAndFragmentActivity.class), view);
                 break;
-            case R.id.btn_is_empty://判空, 线程, 权限, SPUtils, EventBus
+            case R.id.btn_is_empty://判空
                 startActivity(new Intent(this, IsEmptyActivity.class), view);
                 break;
             case R.id.btn_switch://切换
@@ -59,6 +60,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(new Intent(this, NineGridViewActivity.class));
+                break;
+            case R.id.btn_other://线程, 权限, SPUtils, EventBus
+                startActivity(new Intent(this, OtherActivity.class));
                 break;
         }
     }

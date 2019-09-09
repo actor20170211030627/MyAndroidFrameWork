@@ -63,7 +63,7 @@
                 android:id="@+id/btn_is_empty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="判空, 线程, 权限, SPUtils, EventBus"
+                android:text="判空"
                 android:transitionName="btn" />
 
             <Button
@@ -85,6 +85,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="九宫格NineGridView" />
+
+            <Button
+                android:id="@+id/btn_other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="线程, 权限, SPUtils, EventBus" />
 
             <Button
                 android:layout_width="wrap_content"

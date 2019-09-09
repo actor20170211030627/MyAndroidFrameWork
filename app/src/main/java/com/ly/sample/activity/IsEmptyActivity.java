@@ -23,7 +23,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
- * Description: 主页->判空, 线程, 权限, SPUtils, EventBus
+ * Description: 主页->判空
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 17:47
@@ -54,35 +54,24 @@ public class IsEmptyActivity extends BaseActivity {
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
         switch (buttonView.getId()) {
             case R.id.switch_string:
-                string = isChecked ? null : "Not Null";
-                buttonView.setText("string = \"Not Null\"");
+                string = isChecked ? null : "\"aa\"";
+                buttonView.setText(getStringFormat("string = %s", string));
                 break;
             case R.id.switch_array:
-                if (isChecked) {//清空
-                    arrays = new String[0];
-                    buttonView.setText("arrays = new String[0];");
-                } else {
-                    arrays = new String[1];
-                    buttonView.setText("arrays = new String[1];");
-                }
+                arrays = new String[isChecked ? 0 : 1];
+                buttonView.setText(getStringFormat("arrays = new String[%d];", arrays.length));
                 break;
             case R.id.switch_collection:
                 if (isChecked) {
                     list.clear();
-                    buttonView.setText("list.clear();");
-                } else {
-                    list.add("Not Null");
-                    buttonView.setText("list.add(\"Not Null\");");
-                }
+                } else list.add("Not Null");
+                buttonView.setText(getStringFormat("list.size() = %d", list.size()));
                 break;
             case R.id.switch_map:
                 if (isChecked) {
                     map.clear();
-                    buttonView.setText("map.clear();");
-                } else {
-                    map.put("key", "Not Null");
-                    buttonView.setText("map.put(\"key\", \"Not Null\");");
-                }
+                } else map.put("key", "Not Null");
+                buttonView.setText(getStringFormat("map.size() = %d", map.size()));
                 break;
         }
     }
