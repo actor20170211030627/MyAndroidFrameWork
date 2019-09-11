@@ -49,6 +49,10 @@ public abstract class ActorBaseFragment extends Fragment {
     protected List<Call>          calls;
 //    protected ACache              aCache = ActorApplication.instance.aCache;
 
+    private boolean             isVisible;//是否可见
+    private boolean             isPrepared;//onViewCreated已经执行完毕
+    private boolean             isLazyLoaded = false;//第一次是否已经加载
+
     //使用newInstance()的方式返回Fragment对象
 //    public static ActorBaseFragment newInstance() {
 //        ActorBaseFragment fragment = new ActorBaseFragment();
@@ -58,6 +62,23 @@ public abstract class ActorBaseFragment extends Fragment {
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
+
+
+    /**
+     * @see #onCreate(Bundle) 之前调用, 当Fragment可见/不可见的时候
+     * 使用ViewPager + Fragment, 当ViewPager切换Fragment时会回调这个方法.
+     * 如果isVisibleToUser=false, "不要使用控件 & 操作UI界面"
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        logFormat(getClass().getName().concat(": isVisibleToUser=%b"), isVisibleToUser);
+        isVisible = isVisibleToUser;
+        if (isPrepared && isVisible && !isLazyLoaded) {
+            firstTimeLoadData();
+            isLazyLoaded = true;
+        }
+    }
 
     /**
      * 获取这个Fragment所依附的Activity对象
@@ -76,6 +97,21 @@ public abstract class ActorBaseFragment extends Fragment {
 //        }
     }
 
+    /**
+     * @see #onCreate(Bundle) 和 {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} 之间进行调用
+     * 使用{@link android.support.v4.app.FragmentManager} 进行add hide show时会回调这个方法
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        logFormat(getClass().getName().concat(": hidden=%b"), hidden);
+        isVisible = !hidden;
+        if (isPrepared && isVisible && !isLazyLoaded) {
+            firstTimeLoadData();
+            isLazyLoaded = true;
+        }
+    }
+
     //生成这个Fragment所包装的View对象
     @Nullable
     @Override
@@ -85,7 +121,8 @@ public abstract class ActorBaseFragment extends Fragment {
 //        return view;
     }
 
-    @Override   //这个Fragment所包装的View对象创建完成之后会进行的回调, 初始化View
+    //这个Fragment所包装的View对象创建完成之后会进行的回调, 初始化View
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 //        View baseView = getLayoutInflater().inflate(R.layout.activity_base, null);//加载基类布局
 //        flContent = baseView.findViewById(R.id.fl_content);
@@ -96,32 +133,30 @@ public abstract class ActorBaseFragment extends Fragment {
         super.onViewCreated(/*baseView*/view, savedInstanceState);
     }
 
+    /**
+     * @see #onViewCreated(View, Bundle) 之后
+      */
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        isPrepared = true;
+        if (isVisible && !isLazyLoaded) {
+            firstTimeLoadData();
+            isLazyLoaded = true;
+        }
+    }
+
+    /**
+     * 第一次加载数据(可用于Fragment第一次可见的时候再请求网络)
+     */
+    protected void firstTimeLoadData() {
+    }
+
     //跳转Activity后返回, 会回调
     @Override
     public void onResume() {
         super.onResume();
         logError(getClass().getName());
-    }
-
-    //使用add hide show时会回调这个方法
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        logFormat(getClass().getName().concat(": hidden=%b"), hidden);
-    }
-
-    /**
-     * 当Fragment可见/不可见的时候
-     * 使用ViewPager + Fragment, 当ViewPager切换Fragment时会回调这个方法.
-     * 在onCreateView之前调用的, 如果isVisibleToUser=false, "不要使用控件 & 操作UI界面"
-     */
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        logFormat(getClass().getName().concat(": isVisibleToUser=%b"), isVisibleToUser);
-        if(isVisibleToUser/*getUserVisibleHint()*/) {//当可见的时候
-            //do something...
-        }
     }
 
     //是否显示加载中...
