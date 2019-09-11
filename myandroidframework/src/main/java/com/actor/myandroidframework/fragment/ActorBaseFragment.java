@@ -159,6 +159,13 @@ public abstract class ActorBaseFragment extends Fragment {
         logError(getClass().getName());
     }
 
+    /**
+     * “内存重启”时, onCreated, onViewCreated会有保存的数据
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    }
+
     //是否显示加载中...
 //    protected void showLoading(boolean isShow) {
 //        llLoading.setVisibility(isShow ? View.VISIBLE : View.GONE);

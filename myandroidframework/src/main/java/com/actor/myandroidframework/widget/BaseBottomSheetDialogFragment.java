@@ -54,7 +54,6 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //    private String mParam1;
 //    private String mParam2;
 
-    private static final String TAG = "BaseBottomSheetDialogFragment";
     private int                 mPeekHeight = -1;//设置首次弹出高度
     private int                 mMaxHeight;//最大高度
     private float               dimAmount = -1F;//背景灰度, [0, 1]
@@ -195,7 +194,10 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //        boolean stateSaved = isStateSaved();
 //        boolean visible = isVisible();
         //要判断一下, 否则快速调用会报错: isAdded
-        if (!isAdded()) super.show(fragmentManager, TAG);
+        if (!isAdded()) {
+            //第2个参数tag的作用: fragmentManager.findFragmentByTag(tag); 恢复的时候会调用
+            super.show(fragmentManager, getClass().getName());
+        }
     }
 
     /**
