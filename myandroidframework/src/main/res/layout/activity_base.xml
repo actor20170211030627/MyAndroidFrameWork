@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_empty"
+            android:src="@drawable/ic_empty_for_layout_empty"
             android:visibility="gone"
             tools:visibility="visible"/>
 

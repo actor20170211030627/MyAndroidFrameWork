@@ -3,4 +3,90 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- Red红色区域 -->
+    <color name="red_FE588C">#FE588C</color>
+    <color name="red">#F00</color>
+    <color name="red_trans_CC99">#CC99</color><!-- 有透明度 -->
+
+    <!-- Green绿色区域 -->
+    <color name="progressbar_green">#a1fb4c</color>
+    <color name="green_0CBB24">#0CBB24</color>
+    <color name="green_53BB8E">#53BB8E</color>
+    <color name="green_079481">#079481</color>
+    <color name="green_30E7BB">#30E7BB</color>
+    <color name="green_14B9C8">#14B9C8</color><!-- tap相似颜色 -->
+
+    <!-- Blue蓝色区域 -->
+    <color name="blue_titlebar">#5DCFFB</color>
+    <color name="blue_5ECCFD">#5ECCFD</color>
+    <color name="color_00CCFF">#00CCFF</color>
+    <color name="blue_2EABFB">#2EABFB</color>
+    <color name="blue_15AFED">#15AFED</color>
+    <color name="blue_68ACFA">#68ACFA</color>
+    <color name="blue_6998F1">#6998F1</color>
+    <color name="blue_1596EA">#1596EA</color>
+    <color name="blue_4597D8">#4597D8</color>
+    <color name="blue_3285FD">#3285FD</color>
+    <color name="blue_467DEC">#467DEC</color>
+    <color name="blue_2F73D8">#2F73D8</color>
+    <color name="blue_2A6ED2">#2A6ED2</color>
+    <color name="blue_trans_6633B5E5">#6633B5E5</color><!-- 有透明度 -->
+
+    <!-- Gray灰色区域 -->
+    <color name="gray_FCFCFC">#FCFCFC</color>
+    <color name="gray_F8F8F8">#F8F8F8</color>
+    <color name="gray_F5F7FA">#F5F7FA</color>
+    <color name="gray_fcfcfc">#fcfcfc</color>
+    <color name="gray_F2F2F2">#F2F2F2</color>
+    <color name="gray_EEE">#EEE</color>
+    <color name="gray_ebebeb">#ebebeb</color>
+    <color name="gray_E3E3E3">#E3E3E3</color><!-- 可作背景 -->
+    <color name="gray_dcdcdc">#dcdcdc</color>
+    <color name="grey_CCC">#CCC</color>
+    <color name="gray_cecece">#CECECE</color>
+    <color name="gray_c0c4cc">#c0c4cc</color>
+    <color name="gray_bebebe">#bebebe</color>
+    <color name="gray_bbbbbb">#bbbbbb</color>
+    <color name="gray_C4C4C4">#C4C4C4</color>
+    <color name="gray_aeb3c0">#aeb3c0</color>
+    <color name="gray_989898">#989898</color>
+    <color name="gray_999">#999999</color><!-- 可作画线line颜色 -->
+    <color name="gray_707070">#707070</color>
+    <color name="gray_716c69">#716c69</color>
+    <color name="gray_666">#666666</color>
+    <color name="gray_4d4d4d">#4d4d4d</color>
+    <color name="gray_2a2a2a">#2a2a2a</color>
+    <color name="gray_333">#333333</color>
+    <color name="gray_trans_30000000">#30000000</color><!-- 有透明度 -->
+    <color name="gray_trans_60000000">#60000000</color>
+    <color name="gray_trans_FF737373">#FF737373</color>
+    <color name="gray_trans_80000000">#80000000</color>
+
+    <!-- Orange橘色 -->
+    <color name="orange_FF6430">#FF6430</color>
+    <color name="orange_F15022">#F15022</color>
+
+    <!-- Yellow黄色 -->
+    <color name="yellow_FEFACD">#FEFACD</color>
+    <color name="yellow_FFFF00">#FFFF00</color>
+    <color name="yellow_FFF67D">#FFF67D</color>
+    <color name="yellow_FEEE75">#FEEE75</color>
+    <color name="yellow_FFDF00">#FFDF00</color>
+    <color name="yellow_FFD800">#FFD800</color>
+    <color name="yellow_FDC72E">#FDC72E</color>
+    <color name="yellow_FFBE00">#FFBE00</color>
+    <color name="yellow_FFB900">#FFB900</color>
+    <color name="yellow_EE9B0F">#EE9B0F</color>
+    <color name="yellow_EC9946">#EC9946</color>
+
+    <!-- Purple紫色 -->
+    <color name="purple_BD91FE">#BD91FE</color>
+
+    <!-- Other其它颜色 -->
+    <color name="trans">#0000</color><!-- 透明 -->
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="red_EC4651">#EC4651</color>
+    <color name="yellow_EC5D46">#EC5D46</color>
 </resources>

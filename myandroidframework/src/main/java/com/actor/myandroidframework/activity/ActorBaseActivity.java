@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.actor.myandroidframework.R;
@@ -18,6 +19,7 @@ import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ToastUtils;
 import com.actor.myandroidframework.widget.LoadingDialog;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -224,6 +226,42 @@ public class ActorBaseActivity extends AppCompatActivity {
         if (calls == null) calls = new ArrayList<>();
         calls.add(call);
         return call;
+    }
+
+
+    //下拉刷新 & 上拉加载更多 & 空布局区=============================================
+    /**
+     * 设置上拉加载更多 & 空布局
+     * 1.下拉刷新时:
+     * page = 1;
+     * getList();
+     *
+     * 2.上拉加载更多时:
+     * if (items.size() < total) getList();
+     *
+     * 3.获取数据成功:
+     * if (rows != null) {
+     *     if (page ++ == 1) items.clear();
+     *     myAdapter.addData(rows);
+     * }
+     * if (items.size() < total) {
+     *     myAdapter.loadMoreComplete();//加载完成
+     * } else myAdapter.loadMoreEnd();//已经没有数据了
+     *
+     * 4.获取数据失败(点击"重试"时, 会调用 '上拉加载更多' 里的onLoadMoreRequested();回调方法):
+     * myAdapter.loadMoreFail();//加载失败
+     *
+     * @param adapter 不能为空
+     * @param recyclerView 不能为空
+     * @param listener 不能为空
+     */
+    protected void setLoadMore$Empty(BaseQuickAdapter adapter, RecyclerView recyclerView, BaseQuickAdapter.RequestLoadMoreListener listener) {
+        setLoadMore$Empty(R.layout.layout_for_empty, adapter, recyclerView, listener);
+    }
+
+    protected void setLoadMore$Empty(@LayoutRes int layoutId, BaseQuickAdapter adapter, RecyclerView recyclerView, BaseQuickAdapter.RequestLoadMoreListener listener) {
+        adapter.setOnLoadMoreListener(listener, recyclerView);//上拉加载更多
+        adapter.setEmptyView(layoutId, recyclerView);//空布局
     }
 
 
