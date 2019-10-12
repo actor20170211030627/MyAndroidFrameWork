@@ -10,11 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.OtherActivity"></activity>
+        <activity android:name=".activity.CustomKeyboardViewActivity"></activity>
+        <activity android:name=".activity.OtherActivity" />
         <activity android:name=".activity.IsEmptyActivity" />
         <activity android:name=".activity.ViewPagerAndFragmentActivity" />
         <activity android:name=".activity.NineGridViewActivity" />
-        <activity android:name=".activity.CustomViewActivity" />
+        <activity android:name=".activity.CustomRatingBarActivity" />
         <activity android:name=".activity.NetWorkAndImageActivity" />
         <activity android:name=".activity.BottomSheetDialogActivity" />
         <activity android:name=".activity.SwitcherActivity" />

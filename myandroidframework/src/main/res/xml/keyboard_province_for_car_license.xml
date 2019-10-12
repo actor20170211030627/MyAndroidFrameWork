@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:horizontalGap="2%p"
+    android:keyWidth="8%p"
+    android:keyHeight="40dp"
+    android:verticalGap="1%p">
+
+    <Row>
+        <Key
+            android:horizontalGap="1%p"
+            android:keyLabel="京" />
+        <Key
+            android:keyLabel="津" />
+        <Key
+            android:keyLabel="冀" />
+        <Key
+            android:keyLabel="鲁" />
+        <Key
+            android:keyLabel="晋" />
+        <Key
+            android:keyLabel="蒙" />
+        <Key
+            android:keyLabel="辽" />
+        <Key
+            android:keyLabel="吉" />
+        <Key
+            android:keyLabel="黑" />
+        <Key
+            android:keyLabel="沪" />
+    </Row>
+
+    <Row>
+        <Key
+            android:horizontalGap="1%p"
+            android:keyLabel="苏" />
+        <Key
+            android:keyLabel="浙" />
+        <Key
+            android:keyLabel="皖" />
+        <Key
+            android:keyLabel="闽" />
+        <Key
+            android:keyLabel="赣" />
+        <Key
+            android:keyLabel="豫" />
+        <Key
+            android:keyLabel="鄂" />
+        <Key
+            android:keyLabel="湘" />
+        <Key
+            android:keyLabel="粤" />
+        <Key
+            android:keyLabel="桂" />
+    </Row>
+
+    <Row>
+        <Key
+            android:horizontalGap="1%p"
+            android:keyLabel="渝" />
+        <Key
+            android:keyLabel="川" />
+        <Key
+            android:keyLabel="贵" />
+        <Key
+            android:keyLabel="云" />
+        <Key
+            android:keyLabel="藏" />
+        <Key
+            android:keyLabel="陕" />
+        <Key
+            android:keyLabel="甘" />
+        <Key
+            android:keyLabel="青" />
+        <Key
+            android:keyLabel="警" />
+        <Key
+            android:keyLabel="学" />
+    </Row>
+
+    <!--1 - 2%p * 9 = 82%p-->
+    <!--82%p - 6 * 8%p = 34%p-->
+    <!--34%p / 3 = 11.33333%p-->
+    <Row>
+        <!--收起键盘, Keyboard.KEYCODE_SHIFT = -1-->
+        <Key
+            android:codes="-1"
+            android:horizontalGap="1%p"
+            android:isModifier="true"
+            android:isSticky="true"
+            android:keyWidth="11.33333%p"
+            android:keyLabel="ABC" />
+        <Key
+            android:keyLabel="琼" />
+        <Key
+            android:keyLabel="新" />
+        <Key
+            android:keyLabel="宁" />
+        <Key
+            android:keyLabel="港" />
+        <Key
+            android:keyLabel="澳" />
+        <Key
+            android:keyLabel="台" />
+
+        <!--收起键盘, Keyboard.KEYCODE_DONE = -4-->
+        <Key
+            android:codes="-4"
+            android:keyWidth="11.33333%p"
+            android:keyIcon="@drawable/key_board_hide_for_custom_keyboard" />
+
+        <!--删除, Keyboard.KEYCODE_DELETE = -5-->
+        <Key
+            android:codes="-5"
+            android:isRepeatable="true"
+            android:keyWidth="11.33333%p"
+            android:keyIcon="@drawable/delete_for_custom_key_board" />
+    </Row>
+</Keyboard>

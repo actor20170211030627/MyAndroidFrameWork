@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ly.sample.activity.CustomViewActivity">
+    tools:context="com.ly.sample.activity.CustomRatingBarActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_size"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:text="主页->自定义View"
+        android:text="主页->自定义RatingBar"
         android:textColor="@color/white"
         android:textSize="18sp" />
 

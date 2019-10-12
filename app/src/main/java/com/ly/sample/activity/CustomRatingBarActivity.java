@@ -9,11 +9,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Description: 主页->自定义View
+ * Description: 主页->自定义RatingBar
  * Author     : 李大发
  * Date       : 2019-8-27 on 17:37
  */
-public class CustomViewActivity extends BaseActivity {
+public class CustomRatingBarActivity extends BaseActivity {
 
     @BindView(R.id.base_rating_bar)
     BaseRatingBar baseRatingBar;

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.ly.sample.activity.CustomKeyboardViewActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="主页->自定义KeyBoardView"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <com.actor.myandroidframework.widget.keyboard.CustomKeyboardEditText
+        android:id="@+id/custom_keyboard_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入车牌号"
+            android:imeOptions="actionNext" />
+    </com.actor.myandroidframework.widget.keyboard.CustomKeyboardEditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入"
+        android:imeOptions="actionDone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/red_trans_CC99"
+        android:gravity="center"
+        android:text="长按'W'会有惊喜哟(long press 'W')"
+        android:textColor="@color/white" />
+
+    <!--        <View-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:background="#515151" />-->
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/key_board_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ececec"
+        android:keyBackground="@drawable/shape_rec_border_for_key_preview"
+        android:keyPreviewHeight="35dp"
+        android:keyPreviewLayout="@layout/layout_for_key_preview"
+        android:keyPreviewOffset="-36px"
+        android:keyTextColor="#515151"
+        android:keyTextSize="18sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:popupLayout="@layout/layout_for_pupop_layout"
+        android:shadowColor="#515151"
+        android:shadowRadius="0.5" />
+</LinearLayout>
