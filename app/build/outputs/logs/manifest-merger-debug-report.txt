@@ -167,7 +167,7 @@ category#android.intent.category.LAUNCHER
 ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:26:17-77
 	android:name
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:26:27-74
-activity#com.ly.sample.activity.TextActivity
+activity#com.ly.sample.activity.TestActivity
 ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:29:9-59
 	android:name
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:29:19-56

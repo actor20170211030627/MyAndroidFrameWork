@@ -67,6 +67,9 @@ public class MainActivity extends BaseActivity {
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(new Intent(this, OtherActivity.class));
                 break;
+            case R.id.tv_test://Test
+                startActivity(new Intent(this, TestActivity.class));
+                break;
         }
     }
 }

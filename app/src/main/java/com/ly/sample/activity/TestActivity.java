@@ -9,19 +9,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Description: 判空等
+ * Description: 临时测试
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/8/18 on 22:22
  *
  * @version 1.0
  */
-public class TextActivity extends BaseActivity {
+public class TestActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_text);
+        setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
     }
 

@@ -93,9 +93,11 @@ public class IsEmptyActivity extends BaseActivity {
          */
         //如果String, Array, List, Map 不需要提示的话, 也可以这样一次性判断
 //        if (isNoEmpty(etContent, textInputLayout, gtePhone, string, arrays, list, map)) {
-        if (isNoEmpty(etContent, textInputLayout, gtePhone) && isNoEmpty(string, "string = null了啊..")
-                && isNoEmpty(arrays, "arrays里没有元素哟") && isNoEmpty(list, "list里没有数据")
-                && isNoEmpty(map, "map里没有数据")) {
+        if (isNoEmpty(etContent, textInputLayout, gtePhone) &&
+                isNoEmpty(string, "string = null了啊..") &&
+                isNoEmpty(arrays, "arrays里没有元素哟") &&
+                isNoEmpty(list, "list里没有数据") &&
+                isNoEmpty(map, "map里没有数据")) {
             toast("恭喜, 都不为空!");
         }
     }
