@@ -51,8 +51,8 @@
         api 'com.youth.banner:banner:1.4.10'//轮播图 <br/> <br/>
     </li>
     <li>
-        //https://github.com/Bigkoo/Android-PickerView
-        api 'com.contrarywind:Android-PickerView:4.1.8'//时间选择器等等等
+        //https://github.com/Bigkoo/Android-PickerView <br/>
+        api 'com.contrarywind:Android-PickerView:4.1.8'//时间选择器等等等 <br/> <br/>
     </li>
     <li>
         //https://github.com/Blankj/AndroidUtilCode <br/>
