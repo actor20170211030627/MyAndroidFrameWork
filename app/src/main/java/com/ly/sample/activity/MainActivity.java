@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.bumptech.glide.Glide;
 import com.ly.sample.R;
+import com.ly.sample.service.CheckUpdateService;
 import com.ly.sample.utils.Global;
 
 import butterknife.BindView;
@@ -23,6 +26,8 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.iv)
     ImageView iv;
+    @BindView(R.id.tv_version)
+    TextView tvVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,11 @@ public class MainActivity extends BaseActivity {
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(iv);
+
+        tvVersion.setText(getStringFormat("VersionName: %s(VersionCode: %d)",
+                AppUtils.getAppVersionName(), AppUtils.getAppVersionCode()));
+
+        startService(new Intent(this, CheckUpdateService.class));
     }
 
     @OnClick({R.id.btn_internet, R.id.btn_bottom_sheet, R.id.btn_viewpager_fragment,
@@ -67,9 +77,15 @@ public class MainActivity extends BaseActivity {
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(new Intent(this, OtherActivity.class));
                 break;
-            case R.id.tv_test://Test
+            case R.id.tv_test://Test Only
                 startActivity(new Intent(this, TestActivity.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, CheckUpdateService.class));
     }
 }

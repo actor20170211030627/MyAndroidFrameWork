@@ -55,8 +55,14 @@ public abstract class GetFileCallback extends BaseCallback<File> {
         super.onBefore(request, id);
     }
 
+    /**
+     * 下载进度
+     * @param progress 进度[0, 1]
+     * @param total 总大小
+     * @param id 请求时传入的id, 默认0
+     */
     @Override
-    public void inProgress(float progress, long total, int id) {//进度条
+    public void inProgress(float progress, long total, int id) {
         super.inProgress(progress, total, id);
 //        logFormat("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
     }

@@ -3,6 +3,8 @@ package com.ly.sample;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.ly.sample.utils.Global;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -17,9 +19,9 @@ public class MyApplication extends ActorApplication {
     //配置Builder
     @Override
     protected OkHttpClient.Builder getOkHttpClientBuilder(OkHttpClient.Builder builder) {
-//        builder.connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+        builder.connectTimeout(60_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+                .readTimeout(60_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+                .writeTimeout(60_000L, TimeUnit.MILLISECONDS);//默认10s, 可不设置
 //                .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
 //                .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
         //ProgressManager.getInstance().with(builder);//可监听Glide,Download,Upload进度, 如果不需要就不配置

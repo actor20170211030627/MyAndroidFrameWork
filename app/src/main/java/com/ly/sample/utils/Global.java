@@ -19,6 +19,15 @@ public class Global {
 
     public static final String BASE_URL = "https://api.github.com";
 
+    public static final String CHECK_UPDATE = "https://github.com/actor20170211030627/" +
+            "MyAndroidFrameWork" +
+            "/raw/master/app/build/outputs/apk/debug/output.json";
+
+    public static final String DOWNLOAD_URL = "https://github.com/actor20170211030627/" +
+            "MyAndroidFrameWork" +
+            "/raw/master/app/build/outputs/apk/debug/" +
+            "app-debug" +
+            ".apk";
 
 
 
