@@ -23,6 +23,10 @@ import okhttp3.Call;
 
 /**
  * Description: 检查更新
+ * 1.添加权限: <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+ * 2.修改请求地址
+ * 3.在清单文件中注册!!!
+ *
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/10/19 on 14:39
