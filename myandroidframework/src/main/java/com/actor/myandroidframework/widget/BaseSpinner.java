@@ -18,6 +18,7 @@ import android.widget.Spinner;
  * Date       : 2019/10/20 on 16:21
  *
  * @version 1.0 增加重复选中的监听
+ * TODO 设置字体颜色/大小/居中
  */
 @SuppressLint("AppCompatCustomView")
 public class BaseSpinner extends Spinner {

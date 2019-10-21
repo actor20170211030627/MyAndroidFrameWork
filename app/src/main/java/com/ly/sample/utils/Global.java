@@ -19,15 +19,24 @@ public class Global {
 
     public static final String BASE_URL = "https://api.github.com";
 
-    public static final String CHECK_UPDATE = "https://github.com/actor20170211030627/" +
+    //GET/POST, 这个也可以检测更新
+//    public static final String CHECK_UPDATE = "https://github.com/actor20170211030627/" +
+//            "MyAndroidFrameWork" +
+//            "/raw/master/app/build/outputs/apk/debug/output.json";
+    //必须GET
+    public static final String CHECK_UPDATE = "https://raw.githubusercontent.com/" +
+            "actor20170211030627/" +
             "MyAndroidFrameWork" +
-            "/raw/master/app/build/outputs/apk/debug/output.json";
+            "/master/app/build/outputs/apk/debug/output.json";
 
-    public static final String DOWNLOAD_URL = "https://github.com/actor20170211030627/" +
+    //这个也可以下载
+//    public static final String DOWNLOAD_URL = "https://github.com/actor20170211030627/" +
+//            "MyAndroidFrameWork" +
+//            "/raw/master/app/build/outputs/apk/debug/app-debug.apk";
+    public static final String DOWNLOAD_URL = "https://raw.githubusercontent.com/" +
+            "actor20170211030627/" +
             "MyAndroidFrameWork" +
-            "/raw/master/app/build/outputs/apk/debug/" +
-            "app-debug" +
-            ".apk";
+            "/master/app/build/outputs/apk/debug/app-debug.apk";
 
 
 
