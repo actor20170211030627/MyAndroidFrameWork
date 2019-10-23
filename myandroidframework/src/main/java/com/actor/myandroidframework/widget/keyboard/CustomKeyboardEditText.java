@@ -6,8 +6,6 @@ import android.inputmethodservice.KeyboardView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -30,47 +28,53 @@ import java.util.Locale;
  * 3.原生EditText有文字时, 双击会选中文字
  *
  * 示例用法:
- * <com.actor.testapplication.widget.CustomKeyBoardEditText
+ * <com.actor.myandroidframework.widget.CustomKeyBoardEditText
  *     android:id="@+id/custom_keyboard_edittext"
  *     android:layout_width="match_parent"
  *     android:layout_height="wrap_content">
+ *
+ *     <!--EditText不需要写id-->
  *     <EditText
  *         android:layout_width="match_parent"
  *         android:layout_height="wrap_content"
  *         android:hint="请输入车牌号" />
- * </com.actor.testapplication.widget.CustomKeyBoardEditText>
+ * </com.actor.myandroidframework.widget.CustomKeyBoardEditText>
  *
  * customKeyBoardEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
- *         customKeyBoardEditText.new OnKeyboardActionListener() {});
+ *         customKeyBoardEditText.new OnKeyboardActionListener() {
+ *             @Override
+ *             public void onKey(int primaryCode, int[] keyCodes) {
+ *                 if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法
+ *                     changeKeyboard();
+ *                 } else super.onKey(primaryCode, keyCodes);
+ *             }
+ *
+ *             //还可以重写其它方法, override other methods...
+ *         });
  *
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/10/10 on 16:22
  *
  * @version 1.0
+ * @version 1.0.1 把上层View改成TextView, 修复了换行时, 上层View不能及时遮盖下层EditText,
+ *          导致能点击到下方EditText的bug
  */
 public class CustomKeyboardEditText extends FrameLayout {
 
     private EditText           editText;
     private KeyboardView       keyboardView;//键盘View
-    private TextWatcher        textWatcher;
 
     public CustomKeyboardEditText(Context context) {
         super(context);
-        init(context);
     }
 
     public CustomKeyboardEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
     public CustomKeyboardEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    private void init(Context context) {
     }
 
     @Override
@@ -83,45 +87,35 @@ public class CustomKeyboardEditText extends FrameLayout {
         editText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) keyboardView.setVisibility(View.GONE);
+                if (hasFocus) {
+                    hideSystemShowCustomKeyBoard(null);
+                } else keyboardView.setVisibility(View.GONE);
             }
         });
-        editText.addTextChangedListener(textWatcher = new MyTextWatcher());
-        View view = new View(getContext());//上方覆盖一层
-//        view.setBackgroundColor(getResources().getColor(R.color.red_trans_CC99));
-        view.setOnTouchListener(new OnTouchListener() {
+        TextView tv = new TextView(getContext());//上方覆盖一层
+        tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+//        tv.setBackgroundColor(getResources().getColor(R.color.red_trans_CC99));//标记范围
+        tv.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                editText.requestFocus();
-                float x = event.getX();
-                float y = event.getY();
-                int offsetForPosition = editText.getOffsetForPosition(x, y);
-                editText.setSelection(offsetForPosition);
-                hideSoftInputMethod(editText);
-                keyboardView.setVisibility(View.VISIBLE);
+                hideSystemShowCustomKeyBoard(event);
                 return true;
             }
         });
-        addView(view);
+        addView(tv);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setViewWH();
-    }
-
-    /**
-     * 设置View宽高 = editText的高度
-     */
-    protected void setViewWH() {
-        int width = editText.getMeasuredWidth();
-        int height = editText.getMeasuredHeight();
-        View view = getChildAt(1);
-        LayoutParams layoutParams1 = (LayoutParams) view.getLayoutParams();
-        layoutParams1.width = width;
-        layoutParams1.height = height;
-        view.setLayoutParams(layoutParams1);
+    //隐藏系统键盘, 显示自定义键盘
+    protected void hideSystemShowCustomKeyBoard(MotionEvent event) {
+        editText.requestFocus();
+        if (event != null) {
+            float x = event.getX();
+            float y = event.getY();
+            int offsetForPosition = editText.getOffsetForPosition(x, y);
+            editText.setSelection(offsetForPosition);
+        }
+        hideSoftInputMethod(editText);
+        keyboardView.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -145,6 +139,7 @@ public class CustomKeyboardEditText extends FrameLayout {
         hideSoftInputMethod(editText);
     }
 
+    //设置监听: new customKeyBoardEditText.new OnKeyboardActionListener() {}
     public class OnKeyboardActionListener implements KeyboardView.OnKeyboardActionListener {
 
         @Override
@@ -237,25 +232,6 @@ public class CustomKeyboardEditText extends FrameLayout {
         }
     }
 
-    //文字变化监听
-    private class MyTextWatcher implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            setViewWH();
-        }
-    }
-
     protected String getStringFormat(String format, Object... args) {
         return String.format(Locale.getDefault(), format, args);
     }
@@ -291,18 +267,5 @@ public class CustomKeyboardEditText extends FrameLayout {
      */
     public List<Keyboard.Key> getKeys() {
         return getKeyboard().getKeys();
-    }
-
-    /**
-     * @return 文字变化监听
-     */
-    public TextWatcher getTextWatcher() {
-        return textWatcher;
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (textWatcher != null) editText.removeTextChangedListener(textWatcher);
     }
 }

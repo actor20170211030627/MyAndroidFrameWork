@@ -44,12 +44,11 @@ public class CheckUpdateService extends Service {
         return null;
     }
 
-    //https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/output.json
     @Override
     public void onCreate() {
         super.onCreate();
         //check update检查更新
-        MyOkHttpUtils.post(Global.CHECK_UPDATE, null, new BaseCallback<List<CheckUpdateInfo>>(this) {
+        MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<List<CheckUpdateInfo>>(this) {
             @Override
             public void onOk(@NonNull List<CheckUpdateInfo> info, int id) {
                 if (info.size() == 0) return;
@@ -83,7 +82,6 @@ public class CheckUpdateService extends Service {
         alertDialog.show();
     }
 
-    //https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/app-debug.apk"
     private void downloadApk() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
