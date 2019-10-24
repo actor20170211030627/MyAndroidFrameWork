@@ -84,7 +84,7 @@
 ## 3.Screenshot
 <img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=35%></img>
 <img src="captures/BaseBottomSheetDialogFragment.gif" width=35%></img> <br/>
-<img src="captures/CustomKeyboardEditText.gif" width=35%></img>
+<img src="captures/KeyboardEditText.gif" width=35%></img>
 <img src="captures/BaseRatingBar.gif" width=35%></img>
 
     and other features, you can download apk ↓(更多功能下载apk体验...)

@@ -28,7 +28,7 @@ import java.util.Locale;
  * 3.原生EditText有文字时, 双击会选中文字
  *
  * 示例用法:
- * <com.actor.myandroidframework.widget.CustomKeyBoardEditText
+ * <com.actor.myandroidframework.widget.KeyboardEditText
  *     android:id="@+id/custom_keyboard_edittext"
  *     android:layout_width="match_parent"
  *     android:layout_height="wrap_content">
@@ -38,10 +38,10 @@ import java.util.Locale;
  *         android:layout_width="match_parent"
  *         android:layout_height="wrap_content"
  *         android:hint="请输入车牌号" />
- * </com.actor.myandroidframework.widget.CustomKeyBoardEditText>
+ * </com.actor.myandroidframework.widget.KeyboardEditText>
  *
- * customKeyBoardEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
- *         customKeyBoardEditText.new OnKeyboardActionListener() {
+ * keyBoardEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+ *         keyBoardEditText.new OnKeyboardActionListener() {
  *             @Override
  *             public void onKey(int primaryCode, int[] keyCodes) {
  *                 if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法
@@ -60,20 +60,20 @@ import java.util.Locale;
  * @version 1.0.1 把上层View改成TextView, 修复了换行时, 上层View不能及时遮盖下层EditText,
  *          导致能点击到下方EditText的bug
  */
-public class CustomKeyboardEditText extends FrameLayout {
+public class KeyboardEditText extends FrameLayout {
 
     private EditText           editText;
     private KeyboardView       keyboardView;//键盘View
 
-    public CustomKeyboardEditText(Context context) {
+    public KeyboardEditText(Context context) {
         super(context);
     }
 
-    public CustomKeyboardEditText(Context context, AttributeSet attrs) {
+    public KeyboardEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomKeyboardEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public KeyboardEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -82,7 +82,7 @@ public class CustomKeyboardEditText extends FrameLayout {
         super.onFinishInflate();
         editText = (EditText) getChildAt(0);//android.support.v7.widget.AppCompatEditText
         if (editText == null) {
-            throw new RuntimeException("请在布局文件xml <CustomKeyBoardEditText 中添加EditText");
+            throw new RuntimeException("请在布局文件xml <KeyboardEditText 中添加EditText");
         }
         editText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
@@ -123,7 +123,7 @@ public class CustomKeyboardEditText extends FrameLayout {
      * @param keyboardView 键盘
      * @param xmlLayoutResId 键盘布局, R.xml.xxx
      * @param onKeyboardActionListener 键盘事件监听, 可传null, 可重写一些你想重写的方法, 传入示例:
-     *                                 customKeyBoardEditText.new OnKeyboardActionListener() {}
+     *                                 keyBoardEditText.new OnKeyboardActionListener() {}
      */
     public void setKeyboardView(@NonNull KeyboardView keyboardView, @XmlRes int xmlLayoutResId,
                                 @Nullable OnKeyboardActionListener onKeyboardActionListener) {
@@ -139,7 +139,7 @@ public class CustomKeyboardEditText extends FrameLayout {
         hideSoftInputMethod(editText);
     }
 
-    //设置监听: new customKeyBoardEditText.new OnKeyboardActionListener() {}
+    //设置监听: new keyBoardEditText.new OnKeyboardActionListener() {}
     public class OnKeyboardActionListener implements KeyboardView.OnKeyboardActionListener {
 
         @Override

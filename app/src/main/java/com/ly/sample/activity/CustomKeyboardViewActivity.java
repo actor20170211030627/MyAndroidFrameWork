@@ -4,7 +4,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 
-import com.actor.myandroidframework.widget.keyboard.CustomKeyboardEditText;
+import com.actor.myandroidframework.widget.keyboard.KeyboardEditText;
 import com.ly.sample.R;
 
 import butterknife.BindView;
@@ -18,9 +18,9 @@ import butterknife.ButterKnife;
 public class CustomKeyboardViewActivity extends BaseActivity {
 
     @BindView(R.id.custom_keyboard_edittext)
-    CustomKeyboardEditText customKeyBoardEditText;
+    KeyboardEditText keyBoardEditText;
     @BindView(R.id.key_board_view)
-    KeyboardView           keyboardView;
+    KeyboardView     keyboardView;
 
     private boolean isChange = true;//软键盘切换判断
 
@@ -33,8 +33,8 @@ public class CustomKeyboardViewActivity extends BaseActivity {
         setContentView(R.layout.activity_custom_keyboard_view);
         ButterKnife.bind(this);
 
-        customKeyBoardEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
-                customKeyBoardEditText.new OnKeyboardActionListener() {
+        keyBoardEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+                keyBoardEditText.new OnKeyboardActionListener() {
                     @Override
                     public void onKey(int primaryCode, int[] keyCodes) {
                         if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法

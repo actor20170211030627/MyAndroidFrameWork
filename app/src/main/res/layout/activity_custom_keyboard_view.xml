@@ -17,7 +17,7 @@
         android:textColor="@color/white"
         android:textSize="18sp" />
 
-    <com.actor.myandroidframework.widget.keyboard.CustomKeyboardEditText
+    <com.actor.myandroidframework.widget.keyboard.KeyboardEditText
         android:id="@+id/custom_keyboard_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:hint="请输入车牌号"
             android:imeOptions="actionNext" />
-    </com.actor.myandroidframework.widget.keyboard.CustomKeyboardEditText>
+    </com.actor.myandroidframework.widget.keyboard.KeyboardEditText>
 
     <EditText
         android:layout_width="match_parent"
