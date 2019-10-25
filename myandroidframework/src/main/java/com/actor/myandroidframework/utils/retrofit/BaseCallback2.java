@@ -73,7 +73,7 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
     }
 
     protected void logError(String msg) {
-        LogUtils.Error(msg, false);
+        LogUtils.error(msg, false);
     }
 
     protected void logFormat(String format, Object... args) {

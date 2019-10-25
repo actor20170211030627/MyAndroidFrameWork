@@ -4,7 +4,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 
-import com.actor.myandroidframework.widget.keyboard.KeyboardEditText;
+import com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText;
 import com.ly.sample.R;
 
 import butterknife.BindView;
@@ -18,7 +18,9 @@ import butterknife.ButterKnife;
 public class CustomKeyboardViewActivity extends BaseActivity {
 
     @BindView(R.id.custom_keyboard_edittext)
-    KeyboardEditText keyBoardEditText;
+    KeyboardInputEditText keyboardInputEditText;
+    @BindView(R.id.custom_keyboard_edittext2)
+    KeyboardInputEditText keyboardInputEditText2;
     @BindView(R.id.key_board_view)
     KeyboardView     keyboardView;
 
@@ -33,8 +35,19 @@ public class CustomKeyboardViewActivity extends BaseActivity {
         setContentView(R.layout.activity_custom_keyboard_view);
         ButterKnife.bind(this);
 
-        keyBoardEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
-                keyBoardEditText.new OnKeyboardActionListener() {
+        keyboardInputEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+                keyboardInputEditText.new OnKeyboardActionListener2() {
+                    @Override
+                    public void onKey(int primaryCode, int[] keyCodes) {
+                        if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法
+                            changeKeyboard();
+                        } else super.onKey(primaryCode, keyCodes);
+                    }
+
+                    //还可以重写其它方法, override other methods...
+                });
+        keyboardInputEditText2.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+                keyboardInputEditText2.new OnKeyboardActionListener2() {
                     @Override
                     public void onKey(int primaryCode, int[] keyCodes) {
                         if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法

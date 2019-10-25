@@ -29,7 +29,7 @@ public class BaseWebViewClient extends WebViewClient {
     @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 //        super.onReceivedSslError(view, handler, error);//取消
-        LogUtils.Error("加载网页发生证书认证错误", false);
+        LogUtils.error("加载网页发生证书认证错误", false);
         handler.proceed();//忽略错误
     }
 

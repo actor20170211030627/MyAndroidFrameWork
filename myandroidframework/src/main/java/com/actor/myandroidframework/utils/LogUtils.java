@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.actor.myandroidframework.application.ActorApplication;
 
-import java.util.Map;
-
 /**
  * Description: println,log
  * 注意:在正式环境中获取行号=-1,没时间研究为什么.
@@ -29,38 +27,6 @@ public class LogUtils {
      */
     public static void println(Object msg, boolean isDirectCall){
         if (isDebugMode) privatePrintln(isDirectCall, msg);
-    }
-
-    /**
-     * 打印网络和参数
-     * @param url
-     * @param params
-     * @param isDirectCall 是否直接调用本方法
-     */
-    public static void printlnInterner$Params(String url, Map<String,String> params, boolean isDirectCall){
-        if (isDebugMode) {
-            privatePrintln(isDirectCall, url);
-            String path = "";
-            if (url != null && !url.endsWith("?")) path = url + "?";
-            int i = 0;
-            if (params != null) {
-                String keyValue = "";
-                for (String s:params.keySet()) {
-                    if (i == 0) {
-                        keyValue = s + "=" + params.get(s);
-                        privatePrintln(isDirectCall, keyValue);
-                        path = path + keyValue;
-                        i ++;
-                    } else {
-                        keyValue = "&" + s + "=" + params.get(s);
-                        privatePrintln(isDirectCall, keyValue);
-                        path = path + keyValue;
-                    }
-                }
-            }
-            privatePrintln(isDirectCall, path);
-            System.out.println(" \n\n--------------------------分割线--------------------------\n\n ");
-        }
     }
 
     /**
@@ -101,23 +67,23 @@ public class LogUtils {
     }
 
     //=====================================下面是Log区=======================================
-    public static void Verbose(String message, boolean isDirectCall) {//v
+    public static void verbose(String message, boolean isDirectCall) {//v
         if (isDebugMode) printlnLogInfo(Level.Verbose, message, isDirectCall);
     }
 
-    public static void Debug(String message, boolean isDirectCall) {//d
+    public static void debug(String message, boolean isDirectCall) {//d
         if (isDebugMode) printlnLogInfo(Level.Debug, message, isDirectCall);
     }
 
-    public static void Info(String message, boolean isDirectCall) {//i
+    public static void info(String message, boolean isDirectCall) {//i
         if (isDebugMode) printlnLogInfo(Level.Info, message, isDirectCall);
     }
 
-    public static void Warn(String message, boolean isDirectCall) {//w
+    public static void warn(String message, boolean isDirectCall) {//w
         if (isDebugMode) printlnLogInfo(Level.Warn, message, isDirectCall);
     }
 
-    public static void Error(String message, boolean isDirectCall) {//e
+    public static void error(String message, boolean isDirectCall) {//e
         if (isDebugMode) printlnLogInfo(Level.Error, message, isDirectCall);
     }
 
@@ -171,8 +137,6 @@ public class LogUtils {
                 break;
             case Error:
                 Log.e(fileName, logInfoStringBuilder.toString());
-                break;
-            default:
                 break;
         }
 

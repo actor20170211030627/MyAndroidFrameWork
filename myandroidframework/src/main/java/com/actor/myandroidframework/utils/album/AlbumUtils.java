@@ -245,7 +245,7 @@ public class AlbumUtils {
                 .onCancel(new Action<String>() {
                     @Override
                     public void onAction(@NonNull String result) {
-                        LogUtils.Error("拍照取消!" + result, false);
+                        LogUtils.error("拍照取消!" + result, false);
                     }
                 })
                 .start();

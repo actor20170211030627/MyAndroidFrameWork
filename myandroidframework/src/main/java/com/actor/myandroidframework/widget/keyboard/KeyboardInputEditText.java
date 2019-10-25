@@ -3,9 +3,11 @@ package com.actor.myandroidframework.widget.keyboard;
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -14,9 +16,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -28,8 +33,8 @@ import java.util.Locale;
  * 3.原生EditText有文字时, 双击会选中文字
  *
  * 示例用法:
- * <com.actor.myandroidframework.widget.KeyboardEditText
- *     android:id="@+id/custom_keyboard_edittext"
+ * <com.actor.myandroidframework.widget.KeyboardInputEditText
+ *     android:id="@+id/keyboard_input_edit_text"
  *     android:layout_width="match_parent"
  *     android:layout_height="wrap_content">
  *
@@ -38,10 +43,10 @@ import java.util.Locale;
  *         android:layout_width="match_parent"
  *         android:layout_height="wrap_content"
  *         android:hint="请输入车牌号" />
- * </com.actor.myandroidframework.widget.KeyboardEditText>
+ * </com.actor.myandroidframework.widget.KeyboardInputEditText>
  *
- * keyBoardEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
- *         keyBoardEditText.new OnKeyboardActionListener() {
+ * keyboardInputEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+ *         keyboardInputEditText.new OnKeyboardActionListener2() {
  *             @Override
  *             public void onKey(int primaryCode, int[] keyCodes) {
  *                 if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法
@@ -59,21 +64,32 @@ import java.util.Locale;
  * @version 1.0
  * @version 1.0.1 把上层View改成TextView, 修复了换行时, 上层View不能及时遮盖下层EditText,
  *          导致能点击到下方EditText的bug
+ * @version 1.0.2
+ *      1.增加方法:
+ *        {{@link #setKeyboardView(KeyboardView, Keyboard, OnKeyboardActionListener)}}
+ *      2.这个类不能 implements TextUtil.GetTextAble, 不能用TextUtil.isNoEmpty()判空,
+ *        因为会主动弹出系统键盘.
+ *      3.增加方法 {@link #setOnFocusChangeListener(OnFocusChangeListener)},
+ *        {@link #getOnKeyboardActionListener()}
+ *      4.解决一个页面多个EditText共用一个KeyboardView, 导致输入时只能显示在最后一个EditText的问题
  */
-public class KeyboardEditText extends FrameLayout {
+public class KeyboardInputEditText extends FrameLayout {
 
-    private EditText           editText;
-    private KeyboardView       keyboardView;//键盘View
+    private static final String TAG = "KeyboardInputEditText";
+    private EditText              editText;
+    private KeyboardView          keyboardView;//键盘View
+    private OnFocusChangeListener onFocusChangeListener;//EditText焦点改名的监听
+    private OnKeyboardActionListener onKeyboardActionListener;
 
-    public KeyboardEditText(Context context) {
+    public KeyboardInputEditText(Context context) {
         super(context);
     }
 
-    public KeyboardEditText(Context context, AttributeSet attrs) {
+    public KeyboardInputEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public KeyboardEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public KeyboardInputEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -82,13 +98,21 @@ public class KeyboardEditText extends FrameLayout {
         super.onFinishInflate();
         editText = (EditText) getChildAt(0);//android.support.v7.widget.AppCompatEditText
         if (editText == null) {
-            throw new RuntimeException("请在布局文件xml <KeyboardEditText 中添加EditText");
+            throw new RuntimeException("请在.xml布局文件的 <KeyboardInputEditText 中添加EditText");
         }
         editText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                if (onFocusChangeListener != null) onFocusChangeListener.onFocusChange(v, hasFocus);
                 if (hasFocus) {
                     hideSystemShowCustomKeyBoard(null);
+                    //因为一个页面有可能会多个EditText共用一个KeyboardView, 所以获取每个EditText绑定的监听
+                    OnKeyboardActionListener listener =
+                            (OnKeyboardActionListener) v.getTag(R.id.tag_to_get_okkeyboardlistener);
+                    if (listener != null) {
+                        onKeyboardActionListener = listener;
+                        keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
+                    }
                 } else keyboardView.setVisibility(View.GONE);
             }
         });
@@ -120,27 +144,49 @@ public class KeyboardEditText extends FrameLayout {
 
     /**
      * 设置键盘
-     * @param keyboardView 键盘
+     * @param keyboardView 键盘View
      * @param xmlLayoutResId 键盘布局, R.xml.xxx
      * @param onKeyboardActionListener 键盘事件监听, 可传null, 可重写一些你想重写的方法, 传入示例:
-     *                                 keyBoardEditText.new OnKeyboardActionListener() {}
+     *                                 keyboardInputEditText.new OnKeyboardActionListener2() {}
      */
     public void setKeyboardView(@NonNull KeyboardView keyboardView, @XmlRes int xmlLayoutResId,
                                 @Nullable OnKeyboardActionListener onKeyboardActionListener) {
-        this.keyboardView = keyboardView;
         Keyboard keyboard = new Keyboard(getContext(), xmlLayoutResId);
+        setKeyboardView(keyboardView, keyboard, onKeyboardActionListener);
+    }
+
+    /**
+     * 设置键盘
+     * @param keyboardView 键盘View
+     * @param keyboard 键盘, 可传null
+     * @param onKeyboardActionListener 键盘事件监听, 可传null, 可重写一些你想重写的方法, 传入示例:
+     *                                 keyboardInputEditText.new OnKeyboardActionListener2() {}
+     */
+    public void setKeyboardView(@NonNull KeyboardView keyboardView, @Nullable Keyboard keyboard,
+                                @Nullable OnKeyboardActionListener onKeyboardActionListener) {
+        this.keyboardView = keyboardView;
         if (onKeyboardActionListener == null) {
-            onKeyboardActionListener = new OnKeyboardActionListener();
+            onKeyboardActionListener = getOnKeyboardActionListenerByReflect();
+            if (onKeyboardActionListener == null) {
+                onKeyboardActionListener = new OnKeyboardActionListener2();
+//                keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
+            }
+        } else {
+//            keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
         }
-        List<Keyboard.Key> modifierKeys = keyboard.getModifierKeys();//isModifier=true时, ABC
-        keyboardView.setKeyboard(keyboard);
-        keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
+        this.onKeyboardActionListener = onKeyboardActionListener;
+        //因为一个页面有可能会多个EditText共用一个KeyboardView, 所以给每个EditText绑定一个监听
+        editText.setTag(R.id.tag_to_get_okkeyboardlistener, onKeyboardActionListener);
+        if (keyboard != null) {
+            List<Keyboard.Key> modifierKeys = keyboard.getModifierKeys();//isModifier=true时, ABC
+            keyboardView.setKeyboard(keyboard);
+        }
         keyboardView.setVisibility(View.GONE);
         hideSoftInputMethod(editText);
     }
 
-    //设置监听: new keyBoardEditText.new OnKeyboardActionListener() {}
-    public class OnKeyboardActionListener implements KeyboardView.OnKeyboardActionListener {
+    //设置监听: new keyboardInputEditText.new OnKeyboardActionListener2() {}
+    public class OnKeyboardActionListener2 implements KeyboardView.OnKeyboardActionListener {
 
         @Override
         public void onPress(int primaryCode) {//按下key时执行s
@@ -237,9 +283,17 @@ public class KeyboardEditText extends FrameLayout {
     }
 
     protected void logError(Object object) {
-        LogUtils.Error(String.valueOf(object), false);
+        LogUtils.error(String.valueOf(object), false);
     }
 
+
+    /**
+     * @param onFocusChangeListener EditText焦点改名的监听
+     */
+    @Override
+    public void setOnFocusChangeListener(OnFocusChangeListener onFocusChangeListener) {
+        this.onFocusChangeListener = onFocusChangeListener;
+    }
 
     /**
      * 禁掉系统软键盘
@@ -256,6 +310,24 @@ public class KeyboardEditText extends FrameLayout {
     }
 
     /**
+     * @return 输入框的内容
+     */
+    public Editable getText() {
+        return getEditText().getText();
+    }
+
+    public void setText(CharSequence text) {
+        getEditText().setText(text);
+    }
+
+    /**
+     * @return 输入框提示文字
+     */
+    public CharSequence getHint() {
+        return getEditText().getHint();
+    }
+
+    /**
      * @return 键盘
      */
     public Keyboard getKeyboard() {
@@ -266,6 +338,41 @@ public class KeyboardEditText extends FrameLayout {
      * @return 当前键盘的keys
      */
     public List<Keyboard.Key> getKeys() {
-        return getKeyboard().getKeys();
+        Keyboard keyboard = getKeyboard();
+        if (keyboard != null) return keyboard.getKeys();
+        return null;
+    }
+
+    /**
+     * @return 键盘行为现在的监听
+     */
+    public OnKeyboardActionListener getOnKeyboardActionListener() {
+        return onKeyboardActionListener;
+    }
+
+    //通过反射获取键盘现在绑定的监听
+    private OnKeyboardActionListener getOnKeyboardActionListenerByReflect() {
+        try {
+            Method method = keyboardView.getClass().getDeclaredMethod("getOnKeyboardActionListener");
+            method.setAccessible(true);
+            return (OnKeyboardActionListener) method.invoke(keyboardView);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 清空输入框焦点
+     */
+    @Override
+    public void clearFocus() {
+        setFocusableInTouchMode(true);//设置父类focusableInTouchMode
+        setFocusable(true);//设置父类focusable
+        requestFocus();//设置父类获取focus
     }
 }

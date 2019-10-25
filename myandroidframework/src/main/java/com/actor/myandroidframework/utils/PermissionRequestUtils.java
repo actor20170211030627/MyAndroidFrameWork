@@ -165,7 +165,7 @@ public class PermissionRequestUtils {
     }
 
 //    private static void logError(String msg) {
-//        LogUtils.Error(msg, false);
+//        LogUtils.error(msg, false);
 //    }
 
     //////////////////////////////////////////////////////////////

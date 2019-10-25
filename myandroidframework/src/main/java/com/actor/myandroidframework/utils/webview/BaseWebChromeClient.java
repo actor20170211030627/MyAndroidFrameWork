@@ -23,7 +23,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     @Override
     public void onReceivedTitle(WebView view, String title) {//获取网页标题
         super.onReceivedTitle(view, title);
-        LogUtils.Error("网页标题:" + title, false);
+        LogUtils.error("网页标题:" + title, false);
     }
 
     @Override

@@ -185,7 +185,7 @@ public class ActorBaseActivity extends AppCompatActivity {
 
     //打印日志区=============================================
     protected void logError(Object msg) {
-        LogUtils.Error(String.valueOf(msg), false);
+        LogUtils.error(String.valueOf(msg), false);
     }
 
     protected void logFormat(String format, Object... args) {
