@@ -18,39 +18,54 @@ import android.widget.Spinner;
  * Date       : 2019/10/20 on 16:21
  *
  * @version 1.0 增加重复选中的监听
- * TODO 设置字体颜色/大小/居中
+ * @version 1.0.1 禁止OnItemSelectedListener默认会自动调用一次的问题
+ *
+ * TODO 设置字体颜色/大小/居中, 更加简单的api&属性
  */
 @SuppressLint("AppCompatCustomView")
 public class BaseSpinner extends Spinner {
 
     public BaseSpinner(Context context) {
         super(context);
+        init();
     }
 
     public BaseSpinner(Context context, int mode) {
         super(context, mode);
+        init();
     }
 
     public BaseSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode) {
         super(context, attrs, defStyleAttr, mode);
+        init();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, int mode) {
         super(context, attrs, defStyleAttr, defStyleRes, mode);
+        init();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, int mode, Resources.Theme popupTheme) {
         super(context, attrs, defStyleAttr, defStyleRes, mode, popupTheme);
+        init();
+    }
+
+    protected void init() {
+        //https://www.cnblogs.com/jooy/p/9165769.html
+        //禁止OnItemSelectedListener默认会自动调用一次
+        setSelection(0, true);
     }
 
     @Override
@@ -76,7 +91,7 @@ public class BaseSpinner extends Spinner {
     }
 
     /**
-     * @deprecated 重复选中时不会回调, 用这个:
+     * @deprecated 重复选中时不会回调, 用这个↓
      * @see #setOnItemSelectedListener(OnItemSelectedListener2)
      */
     @Deprecated

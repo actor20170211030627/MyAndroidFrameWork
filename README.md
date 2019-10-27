@@ -74,6 +74,11 @@
         //https://github.com/RuffianZhong/RWidgetHelper <br/>
         api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/> <br/>
     </li>
+    <li>
+        //https://github.com/promeG/TinyPinyin <br/>
+        api 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB <br/>
+        //api 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'//可选，适用于Android的中国地区词典 <br/> <br/>
+    </li>
 </ol>
 
 ## 2.ButterKnife没有集成, 因为只能在自己项目用, 所以需要自己集成
@@ -85,6 +90,7 @@
 <img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=35%></img>
 <img src="captures/BaseBottomSheetDialogFragment.gif" width=35%></img> <br/>
 <img src="captures/KeyboardInputEditText.gif" width=35%></img>
+<img src="captures/QuickSearchBar.gif" width=35%></img> <br/>
 <img src="captures/BaseRatingBar.gif" width=35%></img>
 
     and other features, you can download apk ↓(更多功能下载apk体验...)

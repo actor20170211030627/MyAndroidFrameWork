@@ -326,24 +326,37 @@ public abstract class ActorBaseFragment extends Fragment {
     //下拉刷新 & 上拉加载更多 & 空布局区=============================================
     /**
      * 设置上拉加载更多 & 空布局
-     * 1.下拉刷新时:
-     * page = 1;
-     * getList();
+     * private List<Item> items = new ArrayList<>();//数据列表
+     * private total = 1;
+     * getList(boolean isRefresh);
+     * 1.下拉刷新:
+     * getList(true);
      *
-     * 2.上拉加载更多时:
-     * if (items.size() < total) getList();
+     * 2.上拉加载:
+     * getList(false);
      *
-     * 3.获取数据成功:
-     * if (rows != null) {
-     *     if (page ++ == 1) items.clear();
-     *     myAdapter.addData(rows);
+     * 3.获取数据时:
+     * params.put(Global.page, getPage(isRefresh, items, Global.SIZE));
+     *
+     * 4.获取数据成功:
+     * onOk {
+     *     total = data.totalCount;
+     *     List rows = data.rows;
+     *     if (rows != null) {
+     *         ifPage1(items, items, Global.SIZE);
+     *         myAdapter.addData(rows);
+     *     }
+     *     if (items.size() < total) {
+     *         myAdapter.loadMoreComplete();//加载完成
+     *     } else myAdapter.loadMoreEnd();//已经没有数据了
      * }
-     * if (items.size() < total) {
-     *     myAdapter.loadMoreComplete();//加载完成
-     * } else myAdapter.loadMoreEnd();//已经没有数据了
      *
-     * 4.获取数据失败(点击"重试"时, 会调用 '上拉加载更多' 里的onLoadMoreRequested();回调方法):
-     * myAdapter.loadMoreFail();//加载失败
+     * 5.获取数据失败:
+     * onError() {
+     *     myAdapter.loadMoreFail();//加载失败
+     * }
+     *
+     * 6.获取数据失败(点击"重试"时, 会调用 '上拉加载更多' 里的onLoadMoreRequested();回调方法
      *
      * @param adapter 不能为空
      * @param recyclerView 不能为空
@@ -356,6 +369,26 @@ public abstract class ActorBaseFragment extends Fragment {
     protected void setLoadMore$Empty(@LayoutRes int layoutId, BaseQuickAdapter adapter, RecyclerView recyclerView, BaseQuickAdapter.RequestLoadMoreListener listener) {
         adapter.setOnLoadMoreListener(listener, recyclerView);//上拉加载更多
         adapter.setEmptyView(layoutId, recyclerView);//空布局
+    }
+
+    /**
+     * 获取'下拉刷新/上拉加载'列表page
+     * @param isRefresh 是否是下拉刷新
+     * @param items 列表数据集合
+     * @param size 每次加载多少条
+     */
+    protected int getPage(boolean isRefresh, @NonNull List items, int size) {
+        if (isRefresh) return 1;
+        return items.size() / size + 1;
+    }
+
+    /**
+     * 如果'下拉刷新'列表, page=1, 清空旧数据
+     * @param items 列表数据集合
+     * @param size 每次加载多少条
+     */
+    protected void ifPage1(@NonNull List items, int size) {
+        if (items.size() < size) items.clear();
     }
 
 

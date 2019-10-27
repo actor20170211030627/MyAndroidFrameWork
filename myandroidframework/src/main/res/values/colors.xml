@@ -59,6 +59,7 @@
     <color name="gray_2a2a2a">#2a2a2a</color>
     <color name="gray_333">#333333</color>
     <color name="gray_trans_30000000">#30000000</color><!-- 有透明度 -->
+    <color name="gray_trans_50000000">#50000000</color>
     <color name="gray_trans_60000000">#60000000</color>
     <color name="gray_trans_FF737373">#FF737373</color>
     <color name="gray_trans_80000000">#80000000</color>

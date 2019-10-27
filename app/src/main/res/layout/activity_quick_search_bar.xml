@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ly.sample.activity.QuickSearchBarActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="主页->快速查找条QuickSearchBar"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        tools:listitem="@layout/item_select_dealer" />
+
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/rtv_tips"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:background_normal="@color/blue_2EABFB"
+        app:corner_radius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/quicksearchbar"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        tools:text="A"
+        tools:visibility="visible" />
+
+    <!--
+    app:qsbBackgroundPressed="@drawable/shape_rec_cor_for_quicksearchbar"//默认背景(default)
+    app:qsbShowTimeMs="2000"                    //字母A默认显示时间2s
+    app:qsbTextColorNormal="@color/gray_8c8c8c" //默认字体颜色8c8c8c
+    app:qsbTextColorPressed="@color/colorAccent"//默认按下时字体颜色colorAccent
+    app:qsbTextSize="10sp"                      //字体大小, 默认10sp
+    -->
+    <com.actor.myandroidframework.widget.QuickSearchBar
+        android:id="@+id/quicksearchbar"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+</android.support.constraint.ConstraintLayout>

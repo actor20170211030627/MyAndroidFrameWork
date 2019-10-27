@@ -114,4 +114,8 @@ dependencies {
 
     //https://github.com/RuffianZhong/RWidgetHelper
     api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式
+
+    //https://github.com/promeG/TinyPinyin
+    api 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB
+    //api 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'//可选，适用于Android的中国地区词典
 }

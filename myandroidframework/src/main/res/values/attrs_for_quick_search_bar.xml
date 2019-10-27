@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--这是QuickSearchBar的属性-->
+    <declare-styleable name="QuickSearchBar">
+
+        <!--按下时背景, 有默认值-->
+        <attr name="qsbBackgroundPressed" format="reference|color" />
+
+        <!--设置字母显示时间, 默认2000-->
+        <attr name="qsbShowTimeMs" format="integer" />
+
+        <!--正常字体颜色, 默认#8c8c8c-->
+        <attr name="qsbTextColorNormal" format="color" />
+
+        <!--按下时的字体颜色, 默认colorAccent-->
+        <attr name="qsbTextColorPressed" format="color" />
+
+        <!--字体大小, 默认10sp-->
+        <attr name="qsbTextSize" format="dimension" />
+    </declare-styleable>
+</resources>

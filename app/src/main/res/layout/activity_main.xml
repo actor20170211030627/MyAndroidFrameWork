@@ -93,6 +93,12 @@
                 android:text="九宫格NineGridView" />
 
             <Button
+                android:id="@+id/btn_quick_search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="快速查找条QuickSearchBar" />
+
+            <Button
                 android:id="@+id/btn_other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
