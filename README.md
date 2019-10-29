@@ -15,7 +15,7 @@
     </li>
     <li>
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper <br/>
-        api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46' <br/> <br/>
+        api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50' <br/> <br/>
     </li>
     <li>
         //https://github.com/anzaizai/EasySwipeMenuLayout <br/>
@@ -35,7 +35,7 @@
     <li>
         //https://github.com/alibaba/fastjson <br/>
         //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
-        api 'com.alibaba:fastjson:1.1.71.android' <br/> <br/>
+        api 'com.alibaba:fastjson:1.2.9' <br/> <br/>
     </li>
     <li>
         //https://github.com/bumptech/glide <br/>
@@ -56,7 +56,7 @@
     </li>
     <li>
         //https://github.com/Blankj/AndroidUtilCode <br/>
-        api 'com.blankj:utilcode:1.24.7'//许多工具 <br/> <br/>
+        api 'com.blankj:utilcode:1.25.9'//许多工具 <br/> <br/>
     </li>
     <li>
         //https://github.com/laobie/StatusBarUtil <br/>

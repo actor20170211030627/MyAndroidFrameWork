@@ -231,6 +231,19 @@ public class ActorBaseActivity extends AppCompatActivity {
 
     //下拉刷新 & 上拉加载更多 & 空布局区=============================================
     /**
+     * 设置空布局
+     * @param adapter 不能为空
+     * @param recyclerView 不能为空
+     */
+    protected void setEmptyView(BaseQuickAdapter adapter, RecyclerView recyclerView) {
+        setEmptyView(R.layout.layout_for_empty, adapter, recyclerView);
+    }
+
+    protected void setEmptyView(@LayoutRes int layoutId, BaseQuickAdapter adapter, RecyclerView recyclerView) {
+        adapter.setEmptyView(layoutId, recyclerView);
+    }
+
+    /**
      * 设置上拉加载更多 & 空布局
      * private List<Item> items = new ArrayList<>();//数据列表
      * private total = 1;
@@ -293,8 +306,10 @@ public class ActorBaseActivity extends AppCompatActivity {
      * @param items 列表数据集合
      * @param size 每次加载多少条
      */
-    protected void ifPage1(@NonNull List items, int size) {
-        if (items.size() < size) items.clear();
+    protected boolean ifPage1(@NonNull List items, int size) {
+        boolean isPage1 = items.size() < size;
+        if (isPage1) items.clear();
+        return isPage1;
     }
 
 
