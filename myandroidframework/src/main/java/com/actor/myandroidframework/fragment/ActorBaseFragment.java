@@ -306,6 +306,7 @@ public abstract class ActorBaseFragment extends Fragment {
 
     protected LoadingDialog getLoadingDialog(boolean cancelable) {
         if (loadingDialog == null) loadingDialog = new LoadingDialog(activity);
+        loadingDialog.setCancelAble(cancelable);
         return loadingDialog;
     }
 

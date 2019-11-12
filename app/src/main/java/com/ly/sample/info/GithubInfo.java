@@ -2,7 +2,6 @@ package com.ly.sample.info;
 
 /**
  * Description: 类的描述
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/8/18 on 20:55

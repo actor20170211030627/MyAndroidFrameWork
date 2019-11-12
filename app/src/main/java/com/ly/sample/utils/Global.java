@@ -2,7 +2,6 @@ package com.ly.sample.utils;
 
 /**
  * Description: 全局变量, GlobalConstants
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/8/18 on 22:15

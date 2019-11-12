@@ -15,7 +15,6 @@ import com.actor.myandroidframework.R;
 
 /**
  * Description: 从底部弹出的Dialog, 不能上下拖拽滑动
- * Copyright  : Copyright (c) 2019
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/8/11 on 23:26
