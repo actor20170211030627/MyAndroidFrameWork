@@ -4,11 +4,6 @@
 ### 1.集成框架包括:
 <ol>
     <li>
-        implementation 'com.android.support:appcompat-v7:28.0.0' <br/>
-        implementation 'com.android.support:design:28.0.0' <br/>
-        implementation 'com.android.support.constraint:constraint-layout:1.1.3'//约束布局 <br/> <br/>
-    </li>
-    <li>
         //https://github.com/google/gson <br/>
         //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
         //api 'com.google.code.gson:gson:2.8.5'//converter-gson & AndroidUtilCode已经依赖了Gson2.8.2 <br/> <br/>
@@ -74,14 +69,13 @@
         //https://github.com/RuffianZhong/RWidgetHelper <br/>
         api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/> <br/>
     </li>
-    <li>
-        //https://github.com/promeG/TinyPinyin <br/>
-        api 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB <br/>
-        //api 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'//可选，适用于Android的中国地区词典 <br/> <br/>
-    </li>
 </ol>
 
-## 2.ButterKnife没有集成, 因为只能在自己项目用, 所以需要自己集成
+## 2.1. 需要在自己项目中集成<code>v7</code>包和<code>constraint</code>, 否则报错
+    implementation 'com.android.support:appcompat-v7:version xxx' <br/>
+    implementation 'com.android.support.constraint:constraint-layout:version xxx'//约束布局
+
+## 2.2. ButterKnife没有集成, 如果使用, 需要自己集成
     //https://github.com/JakeWharton/butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

@@ -9,11 +9,15 @@ import android.view.View;
 import com.actor.myandroidframework.widget.QuickSearchBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.github.promeg.pinyinhelper.Pinyin;
+import com.github.promeg.pinyinhelper.PinyinMapDict;
 import com.ly.sample.R;
 import com.ruffian.library.widget.RTextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +46,17 @@ public class QuickSearchBarActivity extends BaseActivity {
         setContentView(R.layout.activity_quick_search_bar);
         ButterKnife.bind(this);
 
+        Pinyin.init(Pinyin.newConfig()
+                .with(new PinyinMapDict() {
+                    @Override
+                    public Map<String, String[]> mapping() {
+                        HashMap<String, String[]> map = new HashMap<>();
+                        map.put("重庆",  new String[]{"CHONG", "QING"});
+//                        map.put("解",  new String[]{"XIE"});
+                        return map;
+                    }
+                }));
+
         myAdapter = new MyAdapter(R.layout.item_select_dealer, items);
         recyclerView.setAdapter(myAdapter);
         //setListener
@@ -65,13 +80,15 @@ public class QuickSearchBarActivity extends BaseActivity {
         items.add(new Item("-/----/---"));  //#
         items.add(new Item("啊啊啊啊啊啊啊"));//a
         items.add(new Item("摇一摇"));        //y
+        items.add(new Item("重庆朝天门"));    //c
         items.add(new Item("宝宝贝贝吧"));    //b
         items.add(new Item("小星星"));        //x
         items.add(new Item("冲冲冲"));        //c
         items.add(new Item("反反复复"));      //f
-        items.add(new Item("烦烦烦"));      //f
+        items.add(new Item("烦烦烦"));       //f
         items.add(new Item("错错错"));        //c
         items.add(new Item("我我我我"));      //w
+        items.add(new Item("重庆火锅"));      //c
         items.add(new Item("v8会员"));        //v
         items.add(new Item("呵呵呵"));        //h
         items.add(new Item("通天塔"));        //t

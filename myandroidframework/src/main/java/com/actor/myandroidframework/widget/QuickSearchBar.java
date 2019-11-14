@@ -36,6 +36,11 @@ import java.util.Map;
  * Date       : 2017/3/22 on 20:55.
  *
  * 用法:
+ * 1.由于pinyin不常用, 所以如果使用本类, 需要在自己project中添加依赖:
+ * //https://github.com/promeG/TinyPinyin
+ * implementation 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB
+ * //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'//可选，适用于Android的中国地区词典
+ *
  * 1. 布局文件中
  * <com.yunweipei.aftersale.widget.QuickSearchBar
  *     android:id="@+id/quicksearchbar"
@@ -247,7 +252,7 @@ public class QuickSearchBar extends View {
                         } else {
                             boolean isChinese = Pinyin.isChinese(c);//是数字, 字母, 等
                             if (isChinese) {
-                                String pinyin = Pinyin.toPinyin(c);
+                                String pinyin = Pinyin.toPinyin(sortString, "");
                                 if (TextUtils.isEmpty(pinyin)) {
                                     item.letter = SECTIONS[0];
                                 } else {
