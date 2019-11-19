@@ -1,15 +1,12 @@
 package com.actor.myandroidframework.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Spinner;
 
 /**
  * Description: Spinner功能增加
@@ -18,12 +15,13 @@ import android.widget.Spinner;
  * Date       : 2019/10/20 on 16:21
  *
  * @version 1.0 增加重复选中的监听
- * @version 1.0.1 禁止OnItemSelectedListener默认会自动调用一次的问题
+ * @version 1.0.1 禁止OnItemSelectedListener默认会自动调用一次的问题: {@link #init()}
  *
  * TODO 设置字体颜色/大小/居中, 更加简单的api&属性
  */
-@SuppressLint("AppCompatCustomView")
-public class BaseSpinner extends Spinner {
+public class BaseSpinner extends AppCompatSpinner {
+
+    private int prePosition;
 
     public BaseSpinner(Context context) {
         super(context);
@@ -50,21 +48,15 @@ public class BaseSpinner extends Spinner {
         init();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, int mode) {
-        super(context, attrs, defStyleAttr, defStyleRes, mode);
-        init();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, int mode, Resources.Theme popupTheme) {
-        super(context, attrs, defStyleAttr, defStyleRes, mode, popupTheme);
+    public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode, Resources.Theme popupTheme) {
+        super(context, attrs, defStyleAttr, mode, popupTheme);
         init();
     }
 
     protected void init() {
         //https://www.cnblogs.com/jooy/p/9165769.html
         //禁止OnItemSelectedListener默认会自动调用一次
+        setSelection(0);//不写这句貌似都可以
         setSelection(0, true);
     }
 
@@ -73,7 +65,8 @@ public class BaseSpinner extends Spinner {
         super.setSelection(position);
         OnItemSelectedListener2 listener = (OnItemSelectedListener2) getOnItemSelectedListener();
         if (listener == null) return;
-        boolean sameSelected = position == getSelectedItemPosition();
+        boolean sameSelected = position == prePosition;
+        prePosition = position;
         if (sameSelected) {
             listener.onItemReSelected(this, getSelectedView(), position, getSelectedItemId());
         }
@@ -84,7 +77,8 @@ public class BaseSpinner extends Spinner {
         super.setSelection(position, animate);
         OnItemSelectedListener2 listener = (OnItemSelectedListener2) getOnItemSelectedListener();
         if (listener == null) return;
-        boolean sameSelected = position == getSelectedItemPosition();
+        boolean sameSelected = position == prePosition;
+        prePosition = position;
         if (sameSelected) {
             listener.onItemReSelected(this, getSelectedView(), position, getSelectedItemId());
         }

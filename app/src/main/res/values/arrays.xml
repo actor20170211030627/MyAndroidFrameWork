@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="please_choose_data">
+        <item>日期(不限)</item>
+        <item>今天</item>
+        <item>昨天</item>
+        <item>本月</item>
+        <item>上月</item>
+        <item>自定义</item>
+    </string-array>
+
+    <string-array name="qrcode_state">
+        <item>条码状态(不限)</item>
+        <item>已上传</item>
+        <item>未上传</item>
+        <item>部分上传</item>
+        <item>上传失败</item>
+    </string-array>
+</resources>

@@ -1,10 +1,13 @@
 package com.ly.sample.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 
+import com.actor.myandroidframework.widget.BaseSpinner;
 import com.ly.sample.R;
-import com.yanzhenjie.album.mvp.BaseActivity;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -18,11 +21,28 @@ import butterknife.OnClick;
  */
 public class TestActivity extends BaseActivity {
 
+    @BindView(R.id.sp_data)
+    BaseSpinner spData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
+
+        spData.setOnItemSelectedListener(new BaseSpinner.OnItemSelectedListener2() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                toast("选中了: " + position);
+                logError("选中了: " + position);
+            }
+
+            @Override
+            public void onItemReSelected(AdapterView<?> parent, View view, int position, long id) {
+                toast("选中了: " + position);
+                logError("重复选中了: " + position);
+            }
+        });
     }
 
     @OnClick(R.id.btn_result_ok)

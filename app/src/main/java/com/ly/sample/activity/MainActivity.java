@@ -28,6 +28,7 @@ public class MainActivity extends BaseActivity {
     ImageView iv;
     @BindView(R.id.tv_version)
     TextView tvVersion;
+    private Intent checkUpdateIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,10 @@ public class MainActivity extends BaseActivity {
         tvVersion.setText(getStringFormat("VersionName: %s(VersionCode: %d)",
                 AppUtils.getAppVersionName(), AppUtils.getAppVersionCode()));
 
-        startService(new Intent(this, CheckUpdateService.class));
+        startService(checkUpdateIntent = new Intent(this, CheckUpdateService.class));
+
+        onBackPressed();
+        startActivity(new Intent(this, TestActivity.class));
     }
 
     @OnClick({R.id.btn_internet, R.id.btn_bottom_sheet, R.id.btn_viewpager_fragment,
@@ -89,6 +93,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, CheckUpdateService.class));
+        stopService(checkUpdateIntent);
     }
 }

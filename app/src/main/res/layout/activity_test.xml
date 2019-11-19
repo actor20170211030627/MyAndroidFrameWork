@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context="com.ly.sample.activity.TestActivity">
+
+    <com.actor.myandroidframework.widget.BaseSpinner
+        android:id="@+id/sp_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dropDownVerticalOffset="25.5dp"
+        android:entries="@array/please_choose_data"
+        android:padding="10dp"
+        android:spinnerMode="dropdown" />
+
 
     <Button
         android:id="@+id/btn_result_ok"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="result Ok"
-        android:layout_height="wrap_content"/>
+        android:visibility="gone" />
 </LinearLayout>
