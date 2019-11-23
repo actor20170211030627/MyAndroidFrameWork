@@ -161,3 +161,8 @@
 -dontwarn com.blankj.utilcode.**
 ##-------End: proguard configuration for AndroidUtilCode---------
 
+##--------Begin: proguard configuration for ProgressManager------
+-keep class me.jessyan.progressmanager.** { *; }
+-keep interface me.jessyan.progressmanager.** { *; }
+##--------End: proguard configuration for ProgressManager--------
+

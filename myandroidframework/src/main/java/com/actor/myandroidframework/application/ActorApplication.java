@@ -2,8 +2,10 @@ package com.actor.myandroidframework.application;
 
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.SPUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -16,6 +18,7 @@ import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 import java.net.Proxy;
 import java.util.Locale;
 
+import me.jessyan.progressmanager.ProgressManager;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -30,16 +33,13 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public abstract class ActorApplication extends Application/* implements Thread.UncaughtExceptionHandler*/ {
 
-    public static ActorApplication instance;
     public        boolean          isDebugMode = false;//用于配置"正式环境"的isDebug的值,★★★注意:上线前一定要改成false★★★
     public int mainThreadId, screenWidth, screenHeight;//屏幕宽高
     private static final String    EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
-    public String baseUrl = getBaseUrl();//https://api.github.com
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
         mainThreadId = android.os.Process.myTid();//当前线程的id, 这儿是主线程id
         if (getMode()) isDebugMode = true;//如果是"debug环境",那么值就一定是true(加判断是因为要让正式环境也可以开debug模式)
         if (!isDebugMode) {//2.如果是正式环境,在onCreate中设置默认未捕获异常线程
@@ -47,6 +47,10 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         }
         screenWidth = ScreenUtils.getScreenWidth();
         screenHeight = ScreenUtils.getScreenHeight();
+
+        //配置信息
+        ConfigUtils.baseUrl = getBaseUrl();
+        ConfigUtils.isDebugMode = isDebugMode;
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
 //                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
@@ -59,6 +63,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
 
         OkHttpClient.Builder newBuilder = getOkHttpClientBuilder(builder);
         if (newBuilder == null) newBuilder = builder;
+        ProgressManager.getInstance().with(newBuilder);//可监听Glide,Download,Upload进度
         if (isDebugMode) {
             //最后才添加日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
             newBuilder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
@@ -83,9 +88,8 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      *          .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
      *          .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
      *          .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
-     *
-     * ProgressManager.getInstance().with(builder);//可监听Glide,Download,Upload进度, 如果不需要就不配置
      * return builder;
+     *
      * @return 返回builder, 可以返回null
      */
     protected abstract @Nullable OkHttpClient.Builder getOkHttpClientBuilder(OkHttpClient.Builder builder);
@@ -94,7 +98,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      * 返回baseUrl, 用于配置Retrofit的baseUrl
      * @return 示例return: "https://api.github.com";
      */
-    protected abstract String getBaseUrl();
+    protected abstract @NonNull String getBaseUrl();
 
     private class MyHandler implements Thread.UncaughtExceptionHandler {
         @Override

@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.actor.myandroidframework.utils.MyOkhttpUtils.BaseCallback;
 import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
+import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.bumptech.glide.Glide;
 import com.ly.sample.R;
 import com.ly.sample.info.GithubInfo;
@@ -17,6 +19,8 @@ import com.ly.sample.utils.Global;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.progressmanager.ProgressListener;
+import me.jessyan.progressmanager.body.ProgressInfo;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -30,6 +34,9 @@ public class NetWorkAndImageActivity extends BaseActivity {
 
     @BindView(R.id.iv)
     ImageView iv;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    private boolean alreadyDownload = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +48,22 @@ public class NetWorkAndImageActivity extends BaseActivity {
                 .error(R.mipmap.ic_launcher)
                 .circleCrop()
                 .into(iv);
+
+        RetrofitNetwork.addOnDownloadListener(Global.PICPICK_DOWNLOAD_URL, new ProgressListener() {
+            @Override
+            public void onProgress(ProgressInfo progressInfo) {
+                logError(progressInfo.getPercent());
+                progressBar.setProgress(progressInfo.getPercent());
+            }
+
+            @Override
+            public void onError(long id, Exception e) {
+                toast("下载错误: ".concat(e.getMessage()));
+            }
+        });
     }
 
-    @OnClick({R.id.btn_get_okhttp, R.id.btn_get_retrofit})
+    @OnClick({R.id.btn_get_okhttp, R.id.btn_get_retrofit, R.id.btn_download})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_get_okhttp:
@@ -51,6 +71,9 @@ public class NetWorkAndImageActivity extends BaseActivity {
                 break;
             case R.id.btn_get_retrofit:
                 getByRetrofit();
+                break;
+            case R.id.btn_download:
+                downloadApk();
                 break;
         }
     }
@@ -90,5 +113,12 @@ public class NetWorkAndImageActivity extends BaseActivity {
                 dismissLoadingDialog();
             }
         });
+    }
+
+    private void downloadApk() {
+        if (!alreadyDownload) {
+            MyOkHttpUtils.getFile(Global.PICPICK_DOWNLOAD_URL, null);
+            alreadyDownload = true;
+        }
     }
 }

@@ -3,10 +3,8 @@ package com.actor.myandroidframework.utils;
 import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.text.format.Formatter;
 import android.text.TextUtils;
-
-import com.actor.myandroidframework.application.ActorApplication;
+import android.text.format.Formatter;
 
 import java.io.File;
 
@@ -25,7 +23,7 @@ import java.io.File;
  */
 public class FileUtils {
 
-    private static Context context = ActorApplication.instance;
+    private static Context context = ConfigUtils.APPLICATION;
 
     /**
      * 根据文件大小自动转为以B,KB, MB, GB
@@ -142,7 +140,7 @@ public class FileUtils {
 
     /**
      * 获取外部文件夹:SD卡/项目名
-     * return example: /storage/emulated/0/hihifriend
+     * return example: /storage/emulated/0/appname
      */
     public static String getExternalStorageDir() {
         String packageLastName = getPackageLastName();

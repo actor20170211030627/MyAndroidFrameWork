@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 2019101401
-        versionName "1.2.6"
+        versionCode 2019112101
+        versionName "1.2.7"
 
         consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -113,6 +113,9 @@ dependencies {
 
     //https://github.com/RuffianZhong/RWidgetHelper
     api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式
+
+    //https://github.com/JessYanCoding/ProgressManager
+    api 'me.jessyan:progressmanager:1.5.0'//Okhttp/Retofit/Glide下载进度监听
 
     //https://github.com/promeG/TinyPinyin
     compileOnly 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB

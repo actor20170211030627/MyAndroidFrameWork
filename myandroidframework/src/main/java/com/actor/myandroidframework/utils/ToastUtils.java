@@ -5,8 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import com.actor.myandroidframework.application.ActorApplication;
-
 /**
  * Created by Kevin.
  * Changed by actor.
@@ -14,9 +12,9 @@ import com.actor.myandroidframework.application.ActorApplication;
  */
 public class ToastUtils {
 
-    private static final boolean isDebugMode = ActorApplication.instance.isDebugMode;
+    private static final boolean isDebugMode = ConfigUtils.isDebugMode;
     private static Toast toast;
-    private static Context context = ActorApplication.instance;
+    private static Context context = ConfigUtils.APPLICATION;
 
     //使用主线程looper初始化handler,保证handler发送的消息运行在主线程
     public static final Handler handler = new Handler(Looper.getMainLooper());

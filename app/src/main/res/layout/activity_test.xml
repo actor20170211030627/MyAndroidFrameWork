@@ -22,6 +22,5 @@
         android:id="@+id/btn_result_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="result Ok"
-        android:visibility="gone" />
+        android:text="result Ok" />
 </LinearLayout>

@@ -39,7 +39,7 @@ public class TestActivity extends BaseActivity {
 
             @Override
             public void onItemReSelected(AdapterView<?> parent, View view, int position, long id) {
-                toast("选中了: " + position);
+                toast("重复选中了: " + position);
                 logError("重复选中了: " + position);
             }
         });

@@ -37,6 +37,9 @@ public class Global {
             "/master/app/build/outputs/apk/debug/app-debug.apk";
 
 
+    //thanks: https://www.cr173.com/soft/2134.html
+    public static final String PICPICK_DOWNLOAD_URL = "http://cr3.197946.com/picpick_portable_5.0.7.zip";
+
 
     public static final String CONTENT = "CONTENT";
     public static final String ID = "ID";

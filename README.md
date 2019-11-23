@@ -69,6 +69,10 @@
         //https://github.com/RuffianZhong/RWidgetHelper <br/>
         api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/> <br/>
     </li>
+    <li>
+        //https://github.com/JessYanCoding/ProgressManager <br/>
+        api 'me.jessyan:progressmanager:1.5.0'//Okhttp/Retofit/Glide下载进度监听 <br/> <br/>
+    </li>
 </ol>
 
 ## 2.1. 需要在自己项目中集成<code>v7</code>包和<code>constraint</code>, 否则报错

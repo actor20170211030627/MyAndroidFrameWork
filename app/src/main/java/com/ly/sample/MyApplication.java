@@ -1,5 +1,7 @@
 package com.ly.sample;
 
+import android.support.annotation.NonNull;
+
 import com.actor.myandroidframework.application.ActorApplication;
 import com.ly.sample.utils.Global;
 
@@ -24,10 +26,10 @@ public class MyApplication extends ActorApplication {
                 .writeTimeout(60_000L, TimeUnit.MILLISECONDS);//默认10s, 可不设置
 //                .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
 //                .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
-        //ProgressManager.getInstance().with(builder);//可监听Glide,Download,Upload进度, 如果不需要就不配置
         return builder;
     }
 
+    @NonNull
     @Override
     protected String getBaseUrl() {
         return Global.BASE_URL;

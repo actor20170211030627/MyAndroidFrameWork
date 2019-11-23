@@ -1,12 +1,14 @@
 package com.actor.myandroidframework.utils.retrofit;
 
-import com.actor.myandroidframework.application.ActorApplication;
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.retrofit.api.DownloadFileApi;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import me.jessyan.progressmanager.ProgressListener;
+import me.jessyan.progressmanager.ProgressManager;
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -22,10 +24,10 @@ import retrofit2.Retrofit;
  */
 public class RetrofitNetwork {
 
-    protected static OkHttpClient        okHttpClient = getOkHttpClient();
-    protected static final String        baseUrl = ActorApplication.instance.baseUrl;//http(s)://www.xxx.xx
-    protected static Converter.Factory   converterFactory = getConverterFactory();
-    protected static CallAdapter.Factory callAdapterFactory = getCallAdapterFactory();
+    protected static OkHttpClient        okHttpClient;
+    protected static String              baseUrl = ConfigUtils.baseUrl;
+    protected static Converter.Factory   converterFactory;
+    protected static CallAdapter.Factory callAdapterFactory;
     protected static final Map<String, Object> apis = new HashMap<>();
 
     private static DownloadFileApi downloadFileApi;
@@ -47,28 +49,30 @@ public class RetrofitNetwork {
 
     //返回CallAdapterFactory, 如果需要, 可重写此方法
     protected static CallAdapter.Factory getCallAdapterFactory() {
-        //return RxJava2CallAdapterFactory.create();
-        return null;
+        if (callAdapterFactory == null) {
+//            callAdapterFactory = RxJava2CallAdapterFactory.create();
+        }
+        return callAdapterFactory;
     }
 
     // Okhttp/Retofit上传进度监听
-//    public static void addOnUploadListener(String url, ProgressListener progressListener) {
-//        ProgressManager.getInstance().addRequestListener(url, progressListener);
-//    }
+    public static void addOnUploadListener(String url, ProgressListener progressListener) {
+        ProgressManager.getInstance().addRequestListener(url, progressListener);
+    }
 
     //Okhttp/Retofit/Glide下载进度监听,此操作请在页面初始化时进行,切勿多次注册同一个(内容相同)监听器.就算多注册也不报错...
-//    public static void addOnDownloadListener(String url, ProgressListener progressListener) {
-//        ProgressManager.getInstance().addResponseListener(url, progressListener);
-//    }
+    public static void addOnDownloadListener(String url, ProgressListener progressListener) {
+        ProgressManager.getInstance().addResponseListener(url, progressListener);
+    }
 
     public static <T> T getApi(Class<T> apiClass) {
         Object aClass = apis.get(apiClass.getName());
         if (aClass == null) {
             Retrofit.Builder builder = new Retrofit.Builder()
-                    .client(okHttpClient)
+                    .client(getOkHttpClient())
                     .baseUrl(baseUrl)
-                    .addConverterFactory(converterFactory);
-            if (callAdapterFactory != null) builder.addCallAdapterFactory(callAdapterFactory);
+                    .addConverterFactory(getConverterFactory());
+            if (getCallAdapterFactory() != null) builder.addCallAdapterFactory(getCallAdapterFactory());
             Retrofit retrofit = builder.build();
             aClass = retrofit.create(apiClass);
             apis.put(apiClass.getName(), aClass);

@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
-import com.actor.myandroidframework.application.ActorApplication;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +21,7 @@ public class SPUtils {
     public static SharedPreferences getSharedPreference() {
         if (sharedPreferences == null) {
             //ActorApplication.instance.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ActorApplication.instance);//获取默认
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ConfigUtils.APPLICATION);//获取默认
         }
         return sharedPreferences;
     }

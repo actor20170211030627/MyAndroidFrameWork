@@ -6,8 +6,8 @@ android {
         applicationId "com.ly.myandroidframework"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 19102701
-        versionName "1.2.8"
+        versionCode 19112101
+        versionName "1.2.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    //https://github.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':myandroidframework')
 //    implementation 'com.github.actor20170211030627:MyAndroidFrameWork:1.1.7'
 

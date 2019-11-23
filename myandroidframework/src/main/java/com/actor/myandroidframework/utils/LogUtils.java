@@ -3,8 +3,6 @@ package com.actor.myandroidframework.utils;
 import android.os.Looper;
 import android.util.Log;
 
-import com.actor.myandroidframework.application.ActorApplication;
-
 /**
  * Description: println,log
  * 注意:在正式环境中获取行号=-1,没时间研究为什么.
@@ -14,7 +12,7 @@ import com.actor.myandroidframework.application.ActorApplication;
  * @version 1.0
  */
 public class LogUtils {
-    private static boolean isDebugMode = ActorApplication.instance.isDebugMode;
+    private static boolean isDebugMode = ConfigUtils.isDebugMode;
 
     private LogUtils(){
         throw new UnsupportedOperationException("u can't instantiate me...");

@@ -8,12 +8,4 @@
         <item>上月</item>
         <item>自定义</item>
     </string-array>
-
-    <string-array name="qrcode_state">
-        <item>条码状态(不限)</item>
-        <item>已上传</item>
-        <item>未上传</item>
-        <item>部分上传</item>
-        <item>上传失败</item>
-    </string-array>
 </resources>
