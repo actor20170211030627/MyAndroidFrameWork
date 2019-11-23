@@ -7,15 +7,6 @@
     android:orientation="vertical"
     tools:context="com.ly.sample.activity.NineGridViewActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_size"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="主页->九宫格"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
     <com.actor.myandroidframework.widget.NineGridView.NineGridView
         android:id="@+id/nine_grid_view"
         android:layout_width="match_parent"

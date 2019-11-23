@@ -8,15 +8,6 @@
     android:orientation="vertical"
     tools:context="com.ly.sample.activity.SwitcherActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_size"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="主页->切换"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
     <com.actor.myandroidframework.widget.BaseTextSwitcher
         android:id="@+id/bts"
         android:layout_width="match_parent"

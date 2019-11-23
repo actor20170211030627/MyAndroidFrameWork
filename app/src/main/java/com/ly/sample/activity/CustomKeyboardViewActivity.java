@@ -35,6 +35,7 @@ public class CustomKeyboardViewActivity extends BaseActivity {
         setContentView(R.layout.activity_custom_keyboard_view);
         ButterKnife.bind(this);
 
+        setTitle("主页->自定义KeyBoardView");
         keyboardInputEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
                 keyboardInputEditText.new OnKeyboardActionListener2() {
                     @Override

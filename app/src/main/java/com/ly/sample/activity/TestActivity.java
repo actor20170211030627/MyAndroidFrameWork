@@ -30,6 +30,7 @@ public class TestActivity extends BaseActivity {
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
 
+        setTitle("Test Only");
         spData.setOnItemSelectedListener(new BaseSpinner.OnItemSelectedListener2() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

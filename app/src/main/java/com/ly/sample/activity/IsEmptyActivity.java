@@ -47,7 +47,7 @@ public class IsEmptyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_is_empty);
         ButterKnife.bind(this);
-
+        setTitle("主页->判空");
     }
 
     @OnCheckedChanged({R.id.switch_string, R.id.switch_array, R.id.switch_collection, R.id.switch_map})

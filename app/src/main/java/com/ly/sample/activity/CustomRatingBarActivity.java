@@ -24,6 +24,7 @@ public class CustomRatingBarActivity extends BaseActivity {
         setContentView(R.layout.activity_custom_view);
         ButterKnife.bind(this);
 
+        setTitle("主页->自定义RatingBar");
         baseRatingBar.setOnStarChangeListener(new BaseRatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(BaseRatingBar baseRatingBar, float rating, boolean fromUser) {

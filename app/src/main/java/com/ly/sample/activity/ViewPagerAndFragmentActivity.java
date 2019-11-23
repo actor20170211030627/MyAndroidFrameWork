@@ -33,6 +33,8 @@ public class ViewPagerAndFragmentActivity extends BaseActivity {
         setContentView(R.layout.activity_view_pager_and_fragment);
         ButterKnife.bind(this);
 
+        setTitle("主页->ViewPager & Fragment多层嵌套");
+
         /**
          * 在Activity中传入: getSupportFragmentManager()
          * 在Fragment中传入: getChildFragmentManager()

@@ -34,6 +34,7 @@ public class SwitcherActivity extends BaseActivity {
         setContentView(R.layout.activity_switcher);
         ButterKnife.bind(this);
 
+        setTitle("主页->切换");
         List<CharSequence> datas = new ArrayList<>();
         datas.add("11111111fsdlkjdfioiorioiodvmiowfmvoifi");
         datas.add("222dfsdiook,poopeg,po,;d,pv,o,vopv,ov,");

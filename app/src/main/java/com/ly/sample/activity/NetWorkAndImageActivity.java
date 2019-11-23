@@ -43,6 +43,8 @@ public class NetWorkAndImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_net_work_and_image);
         ButterKnife.bind(this);
+
+        setTitle("主页->网络&图片");
         Glide.with(this).load(Global.girl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)

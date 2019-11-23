@@ -7,15 +7,6 @@
     android:orientation="vertical"
     tools:context="com.ly.sample.activity.ViewPagerAndFragmentActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_size"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="主页->ViewPager &amp; Fragment多层嵌套"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
     <ToggleButton
         android:id="@+id/toggle_button"
         android:layout_width="match_parent"

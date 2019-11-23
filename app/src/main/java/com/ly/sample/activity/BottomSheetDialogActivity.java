@@ -38,6 +38,8 @@ public class BottomSheetDialogActivity extends BaseActivity {
         setContentView(R.layout.activity_bottom_sheet_dialog);
         ButterKnife.bind(this);
 
+        setTitle("主页->BottomSheetDialog");
+
         //几种Dialog调用的方法风格不一致, 因为没时间, 所以...
 
 

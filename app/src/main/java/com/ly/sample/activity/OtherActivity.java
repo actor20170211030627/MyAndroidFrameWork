@@ -18,6 +18,8 @@ public class OtherActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other);
 
+        setTitle("主页->线程, 权限, SPUtils, EventBus");
+
         /////////////////////1.ThreadUtils线程/////////////////////
         ThreadUtils.runOnSubThread(new Runnable() {//在主线程运行
             @Override

@@ -33,6 +33,7 @@
         <activity
             android:name=".activity.MyBaseBottomActivity"
             android:theme="@style/BaseBottomActivity" />
+        <activity android:name=".activity.Export2ExcelActivity" />
 
         <service android:name=".service.CheckUpdateService" />
     </application>

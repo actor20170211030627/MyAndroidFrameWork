@@ -21,7 +21,7 @@ import android.widget.AdapterView;
  */
 public class BaseSpinner extends AppCompatSpinner {
 
-    private int prePosition;
+    private int prePosition = -1;
 
     public BaseSpinner(Context context) {
         super(context);

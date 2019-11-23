@@ -33,6 +33,7 @@ public class NineGridViewActivity extends BaseActivity {
         setContentView(R.layout.activity_nine_grid_view);
         ButterKnife.bind(this);
 
+        setTitle("主页->九宫格");
         for (int i = 0; i < 9; i++) {
             items.add(new PicOrVideo(Global.girl, i % 4 == 0));
         }

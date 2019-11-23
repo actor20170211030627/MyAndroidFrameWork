@@ -46,6 +46,7 @@ public class QuickSearchBarActivity extends BaseActivity {
         setContentView(R.layout.activity_quick_search_bar);
         ButterKnife.bind(this);
 
+        setTitle("主页->快速查找条QuickSearchBar");
         Pinyin.init(Pinyin.newConfig()
                 .with(new PinyinMapDict() {
                     @Override
