@@ -1,11 +1,11 @@
 package com.ly.sample.activity;
 
-import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 
 import com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText;
 import com.ly.sample.R;
+import com.ly.sample.dialog.KeyboardBottomDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +24,7 @@ public class CustomKeyboardViewActivity extends BaseActivity {
     @BindView(R.id.key_board_view)
     KeyboardView     keyboardView;
 
-    private boolean isChange = true;//软键盘切换判断
-
-    private Keyboard province_keyboard;//车牌省键盘
-    private Keyboard number_keyboar;//车牌数字键盘
+    private KeyboardBottomDialog keyboardBottomDialog;//键盘Dialog
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,41 +33,55 @@ public class CustomKeyboardViewActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setTitle("主页->自定义KeyBoardView");
-        keyboardInputEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+
+        //第一种方式, 键盘在Dialog里
+        keyboardBottomDialog = new KeyboardBottomDialog(this);
+        keyboardInputEditText.setupWithDialog(keyboardBottomDialog);
+        keyboardInputEditText.setKeyboardView(keyboardBottomDialog.getKeyboardView(),
+                R.xml.keyboard_province_for_car_license,
+                R.xml.keyboard_abc123_for_car_license,
                 keyboardInputEditText.new OnKeyboardActionListener2() {
+
                     @Override
                     public void onKey(int primaryCode, int[] keyCodes) {
-                        if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法
-                            changeKeyboard();
-                        } else super.onKey(primaryCode, keyCodes);
+                        switch (primaryCode) {
+//                            case Keyboard.KEYCODE_SHIFT://切换输入法
+//                                keyboardInputEditText.switchKeyboard();
+//                                break;
+                            default:
+                                super.onKey(primaryCode, keyCodes);
+                                break;
+                        }
+                        //没有输入内容时软键盘重置为省份简称软键盘
+                        if (keyboardInputEditText.getText().length() == 0) {
+                            keyboardInputEditText.switchKeyboard(true);
+                        } else if (keyboardInputEditText.getText().length() == 1) {
+                            keyboardInputEditText.switchKeyboard(false);
+                        }
                     }
 
                     //还可以重写其它方法, override other methods...
                 });
-        keyboardInputEditText2.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+
+
+        //第2种方式, 键盘在xml布局中
+        keyboardInputEditText2.setKeyboardView(keyboardView,
+                R.xml.keyboard_province_for_car_license,
+                R.xml.keyboard_abc123_for_car_license,
                 keyboardInputEditText2.new OnKeyboardActionListener2() {
                     @Override
                     public void onKey(int primaryCode, int[] keyCodes) {
-                        if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法
-                            changeKeyboard();
-                        } else super.onKey(primaryCode, keyCodes);
+                        super.onKey(primaryCode, keyCodes);
+
+                        //没有输入内容时软键盘重置为省份简称软键盘
+                        if (keyboardInputEditText2.getText().length() == 0) {
+                            keyboardInputEditText2.switchKeyboard(true);
+                        } else if (keyboardInputEditText2.getText().length() == 1) {
+                            keyboardInputEditText2.switchKeyboard(false);
+                        }
                     }
 
                     //还可以重写其它方法, override other methods...
                 });
-        province_keyboard = keyboardView.getKeyboard();
-        number_keyboar = new Keyboard(this, R.xml.keyboard_abc123_for_car_license);
-    }
-
-    /**
-     * 按切换键时切换软键盘
-     */
-    public void changeKeyboard() {
-        if (isChange) {
-            keyboardView.setKeyboard(number_keyboar);
-        } else {
-            keyboardView.setKeyboard(province_keyboard);
-        }
-        isChange = !isChange;
     }
 }

@@ -65,16 +65,19 @@ public class NetWorkAndImageActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_get_okhttp, R.id.btn_get_retrofit, R.id.btn_download})
+    @OnClick({R.id.btn_get_okhttp, R.id.btn_post_body_okhttp, R.id.btn_get_retrofit, R.id.btn_download})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_get_okhttp:
+            case R.id.btn_get_okhttp://MyOkHttpUtils方式获取数据
                 getByOkHttpUtils();
                 break;
-            case R.id.btn_get_retrofit:
+            case R.id.btn_post_body_okhttp://MyOkHttpUtils方式通过body传递数据
+                postBodyByOkHttpUtils();
+                break;
+            case R.id.btn_get_retrofit://Retrofit方式获取数据
                 getByRetrofit();
                 break;
-            case R.id.btn_download:
+            case R.id.btn_download://下载进度测试
                 downloadApk();
                 break;
         }
@@ -96,6 +99,35 @@ public class NetWorkAndImageActivity extends BaseActivity {
                 dismissLoadingDialog();
             }
         });
+    }
+
+    private void postBodyByOkHttpUtils() {
+        String data = "{\"vehicleColor\":0,\"appId\":\"6ecfb9d3-dba0-492e-8ba1-6c343a00a8ba\"," +
+                "\"userIdNum\":\"520202197209130410\",\"vehiclePlate\":\"贵B75509\"," +
+                "\"userIdType\":101,\"userId\":\"d0de68f221d94cdfb3a21cea6ee88029\"}";
+        params.clear();
+        params.put("staffId", "kf0001");
+        params.put("sign", 123);
+        params.put("userId", "d0de68f221d94cdfb3a21cea6ee88029");
+        params.put("token", 123);
+        params.put("channelType", 2);
+        params.put("data", data);
+        params.put("appId", "6ecfb9d3-dba0-492e-8ba1-6c343a00a8ba");
+        params.put("keyType", 0);
+        params.put("channelId", "5201010600401130013");
+        params.put("orgCode", 52010102042L);
+        params.put("stamp", "1576040229984");
+        params.put("terminalId", "999999999999");
+        params.put("key", 0);
+        params.put("agentId", 52010102042L);
+        params.put("zip", 0);
+        MyOkHttpUtils.postBody("http://222.85.144.65:9001/etc/inform/v2/check_contract", params,
+                new BaseCallback<Object>(this) {
+                    @Override
+                    public void onOk(@NonNull Object info, int id) {
+
+                    }
+                });
     }
 
     private void getByRetrofit() {

@@ -4,7 +4,7 @@ ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-41
 INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-41:12
 INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-41:12
 INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-41:12
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-42:12
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-45:12
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5b261118a004bb74808eb795b948764c\AndroidManifest.xml:17:1-73:12
 MERGED from [com.jaeger.statusbarutil:library:1.5.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\6af375600aaeda6410a9d67791802bb9\AndroidManifest.xml:2:1-13:12
 MERGED from [com.ruffian.library:RWidgetHelper:1.1.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\03a4e73cdb6d6639b1523e31ffaa0d27\AndroidManifest.xml:2:1-11:12
@@ -78,8 +78,8 @@ ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:5:5-78
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:5:22-75
 application
 ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:7:5-39:19
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:5-40:19
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:5-40:19
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-43:19
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-43:19
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5b261118a004bb74808eb795b948764c\AndroidManifest.xml:29:5-71:19
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5b261118a004bb74808eb795b948764c\AndroidManifest.xml:29:5-71:19
 MERGED from [com.jaeger.statusbarutil:library:1.5.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\6af375600aaeda6410a9d67791802bb9\AndroidManifest.xml:11:5-20
@@ -115,11 +115,11 @@ MERGED from [com.blankj:utilcode:1.25.9] C:\Users\actor\.gradle\caches\transform
 	android:allowBackup
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:9:9-35
 	android:networkSecurityConfig
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:9-69
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:9-69
 	android:theme
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:14:9-40
 	android:usesCleartextTraffic
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:9-44
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:9-44
 	android:name
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:8:9-38
 activity#com.ly.sample.activity.QuickSearchBarActivity
@@ -332,20 +332,24 @@ ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframewor
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:9-44
 	android:name
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:9-68
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:5-83
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:22-80
 uses-permission#android.permission.CAMERA
-ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:5-65
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:5-65
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5b261118a004bb74808eb795b948764c\AndroidManifest.xml:24:5-65
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5b261118a004bb74808eb795b948764c\AndroidManifest.xml:24:5-65
 	android:name
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:22-62
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:22-62
 activity#com.actor.myandroidframework.widget.floatingeditor.FloatEditorActivity
-ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-39:77
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:9-42:77
 	android:windowSoftInputMode
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-74
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:13-74
 	android:theme
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-54
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:13-54
 	android:name
-		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-98
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-98
 uses-permission#android.permission.RECORD_AUDIO
 ADDED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5b261118a004bb74808eb795b948764c\AndroidManifest.xml:27:5-71
 	android:name

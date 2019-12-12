@@ -35,7 +35,7 @@ public abstract class BaseBottomDialog extends Dialog {
     /**
      * 设置你自定义Dialog的layout
      */
-    protected abstract  @LayoutRes int getLayoutResId();
+    protected abstract @LayoutRes int getLayoutResId();
 
     //只会创建一次
     @Override
@@ -64,7 +64,7 @@ public abstract class BaseBottomDialog extends Dialog {
     }
 
     /**
-     * 设置窗口后面灰色大背景的亮度[0-1]
+     * 设置窗口后面灰色大背景的亮度[0-1], 0最亮
      * @param dimAmount 昏暗的数量
      */
     public void setDimAmount(@FloatRange(from = 0, to = 1) float dimAmount) {

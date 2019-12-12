@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.widget;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.FloatRange;
 import android.support.annotation.LayoutRes;
@@ -21,6 +22,7 @@ import com.actor.myandroidframework.R;
 
 /**
  * Description:从底部弹出的DialogFragment, 能上下拖拽滑动
+ *              不要在show()方法之前获取View, 实在要这样的话, 换成其它方案(Dialog)
  *
  * 方法执行顺序
  * show(FragmentManager manager, String tag)
@@ -44,8 +46,10 @@ import com.actor.myandroidframework.R;
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/13 on 14:05
+ *
  * @version 1.0
- * @version 1.1 增加 {{@link #dismissAllowingStateLoss()}} 方法
+ * @version 1.1 增加方法:
+ *      @see #dismissAllowingStateLoss()
  */
 public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
@@ -59,7 +63,6 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     private float               dimAmount = -1F;//背景灰度, [0, 1]
     private Window              mWindow;
     private BottomSheetBehavior bottomSheetBehavior;//<FrameLayout>?//里面有一些方法
-    private View                contentView;
 
     private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
             = new BottomSheetBehavior.BottomSheetCallback() {
@@ -85,6 +88,8 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         }
+
+        //这里是拖拽中的回调，根据slideOffset可以做一些动画
         @Override
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {
         }
@@ -125,7 +130,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return contentView = inflater.inflate(getLayoutId(), container);
+        return inflater.inflate(getLayoutId(), container);
     }
 
     /**
@@ -160,6 +165,9 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
         }
     }
 
+    /**
+     * @param peekHeight 设置show()时弹出高度
+     */
     public void setPeekHeight(int peekHeight) {
         if (peekHeight >= 0) mPeekHeight = peekHeight;
     }
@@ -184,6 +192,12 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
      *                        如果是Fragment中, 传入:getChildFragmentManager()
      */
     public void show(FragmentManager fragmentManager) {
+        show(fragmentManager, getClass().getName());
+    }
+
+    //第2个参数tag的作用: fragmentManager.findFragmentByTag(tag); 恢复的时候会调用
+    @Override
+    public void show(FragmentManager manager, String tag) {
 //        boolean added = isAdded();
 //        boolean cancelable = isCancelable();
 //        boolean detached = isDetached();
@@ -194,9 +208,8 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //        boolean stateSaved = isStateSaved();
 //        boolean visible = isVisible();
         //要判断一下, 否则快速调用会报错: isAdded
-        if (!isAdded()) {
-            //第2个参数tag的作用: fragmentManager.findFragmentByTag(tag); 恢复的时候会调用
-            super.show(fragmentManager, getClass().getName());
+        if (!isAdded()/* && manager.findFragmentByTag(tag) == null*/) {
+            super.show(manager, tag);
         }
     }
 
@@ -223,6 +236,11 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //    public void hide() {
 //        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 //    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+    }
 
     //调用dismiss();后会回调
 //    @Override

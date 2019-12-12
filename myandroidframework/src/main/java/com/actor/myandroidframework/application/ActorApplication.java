@@ -1,13 +1,13 @@
 package com.actor.myandroidframework.application;
 
 import android.app.Application;
-import android.content.pm.ApplicationInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.SPUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
@@ -155,11 +155,12 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      * <application android:debuggable="true" tools:ignore="HardcodedDebugMode"
      */
     private boolean getMode(){
-        try {
-            ApplicationInfo info= getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) !=0 ;
-        } catch (Exception e) {
-            return false;
-        }
+        return AppUtils.isAppDebug();
+//        try {
+//            ApplicationInfo info= getApplicationInfo();
+//            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) !=0 ;
+//        } catch (Exception e) {
+//            return false;
+//        }
     }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.CookieJar;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,6 +41,7 @@ import okhttp3.Response;
  * @version 1.3.5 添加一个post有请求头的方法 {@link #post(String, Map, int, boolean, BaseCallback)}
  * @version 1.3.6 增加同步sync方法
  * @version 1.3.7 get/post中增加传入id参数
+ * @version 1.3.8 增加方法 {@link #postBody(String, Map, BaseCallback)}
  */
 public class MyOkHttpUtils {
 
@@ -282,6 +284,31 @@ public class MyOkHttpUtils {
             }
         }
         builder.build().execute(callback);
+    }
+
+    /**
+     * 把参数通过body传到服务器
+     * @param url       地址
+     * @param params    参数
+     * @param callback  回调, 如果要使用id, 在这个回调的构造方法中传入!!
+     * @param <T>       要解析成什么类型的对象
+     */
+    public static <T> void postBody(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
+        FormBody.Builder builder = new FormBody.Builder();
+        Map<String, String> cleanNullParamMap = cleanNullParamMap(params);
+        if (cleanNullParamMap != null) {
+            for (Map.Entry<String, String> entity : cleanNullParamMap.entrySet()) {
+                builder.add(entity.getKey(), entity.getValue());
+            }
+        }
+        FormBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+        OkHttpUtils.getInstance().getOkHttpClient()
+                .newCall(request)
+                .enqueue(callback);
     }
 
     /**

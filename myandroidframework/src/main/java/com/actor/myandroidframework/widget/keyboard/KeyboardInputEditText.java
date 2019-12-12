@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.widget.keyboard;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -45,15 +46,14 @@ import java.util.Locale;
  *         android:hint="请输入车牌号" />
  * </com.actor.myandroidframework.widget.KeyboardInputEditText>
  *
- * keyboardInputEditText.setKeyboardView(keyboardView, R.xml.keyboard_province_for_car_license,
+ * keyboardInputEditText.setKeyboardView(keyboardView,
+ *         R.xml.keyboard_province_for_car_license,
+ *         R.xml.keyboard_abc123_for_car_license,//第2种键盘, 可用于切换
  *         keyboardInputEditText.new OnKeyboardActionListener2() {
  *             @Override
  *             public void onKey(int primaryCode, int[] keyCodes) {
- *                 if (primaryCode == Keyboard.KEYCODE_SHIFT) {//切换输入法
- *                     changeKeyboard();
- *                 } else super.onKey(primaryCode, keyCodes);
+ *                 super.onKey(primaryCode, keyCodes);
  *             }
- *
  *             //还可以重写其它方法, override other methods...
  *         });
  *
@@ -66,20 +66,37 @@ import java.util.Locale;
  *          导致能点击到下方EditText的bug
  * @version 1.0.2
  *      1.增加方法:
- *        {{@link #setKeyboardView(KeyboardView, Keyboard, OnKeyboardActionListener)}}
+ *        @see #setKeyboardView(KeyboardView, Keyboard, OnKeyboardActionListener)
  *      2.这个类不能 implements TextUtil.GetTextAble, 不能用TextUtil.isNoEmpty()判空,
  *        因为会主动弹出系统键盘.
- *      3.增加方法 {@link #setOnFocusChangeListener(OnFocusChangeListener)},
- *        {@link #getOnKeyboardActionListener()}
+ *      3.增加方法:
+ *        @see #setOnFocusChangeListener(OnFocusChangeListener)
+ *        @see #getOnKeyboardActionListener()
  *      4.解决一个页面多个EditText共用一个KeyboardView, 导致输入时只能显示在最后一个EditText的问题
+ * @version 1.0.3
+ *      增加方法:
+ *          @see #setOnKeyboardViewVisibleChangeListener(OnKeyboardViewVisibleChangeListener)
+ *          @see #setupWithView(View)
+ *          @see #setupWithDialog(Dialog)
+ * @version 1.0.5
+ *      增加方法:
+ *          @see #setKeyboardView(KeyboardView, int, int, OnKeyboardActionListener)
+ *          @see #setKeyboardView(KeyboardView, Keyboard, Keyboard, OnKeyboardActionListener)
+ *          @see #switchKeyboard()
+ *          @see #switchKeyboard(boolean)
  */
 public class KeyboardInputEditText extends FrameLayout {
 
-    private static final String TAG = "KeyboardInputEditText";
-    private EditText              editText;
-    private KeyboardView          keyboardView;//键盘View
-    private OnFocusChangeListener onFocusChangeListener;//EditText焦点改名的监听
-    private OnKeyboardActionListener onKeyboardActionListener;
+    private static final String                              TAG = "KeyboardInputEditText";
+    private              EditText                            editText;
+    private              KeyboardView                        keyboardView;//键盘View
+    private              Keyboard                            firstKeyboard;//第1种键盘
+    private              Keyboard                            secondKeyboard;//第2种键盘, 可用于切换
+    private              OnFocusChangeListener               onFocusChangeListener;//EditText焦点改名的监听
+    private              OnKeyboardActionListener            onKeyboardActionListener;
+    private              OnKeyboardViewVisibleChangeListener onKeyboardViewVisibleChangeListener;//键盘visible监听
+    private Dialog keyboardViewDialog;//包含 KeyboardView 的Dialog, 控制show() & dismiss()
+    private View keyboardViewContainer;//包含 KeyboardView 的View, 控制VISIBLE & GONE
 
     public KeyboardInputEditText(Context context) {
         super(context);
@@ -111,9 +128,13 @@ public class KeyboardInputEditText extends FrameLayout {
                             (OnKeyboardActionListener) v.getTag(R.id.tag_to_get_okkeyboardlistener);
                     if (listener != null) {
                         onKeyboardActionListener = listener;
-                        keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
+                        if (keyboardView != null) {
+                            keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
+                        }
                     }
-                } else keyboardView.setVisibility(View.GONE);
+                } else {
+                    showHideVisibleGoneNotify(false);
+                }
             }
         });
         TextView tv = new TextView(getContext());//上方覆盖一层
@@ -139,49 +160,70 @@ public class KeyboardInputEditText extends FrameLayout {
             editText.setSelection(offsetForPosition);
         }
         hideSoftInputMethod(editText);
-        keyboardView.setVisibility(View.VISIBLE);
+        showHideVisibleGoneNotify(true);
     }
 
     /**
-     * 设置键盘
-     * @param keyboardView 键盘View
-     * @param xmlLayoutResId 键盘布局, R.xml.xxx
-     * @param onKeyboardActionListener 键盘事件监听, 可传null, 可重写一些你想重写的方法, 传入示例:
-     *                                 keyboardInputEditText.new OnKeyboardActionListener2() {}
+     * 设置键盘, 只有一种键盘, 不需要切换
      */
-    public void setKeyboardView(@NonNull KeyboardView keyboardView, @XmlRes int xmlLayoutResId,
+    public void setKeyboardView(@NonNull KeyboardView keyboardView, @XmlRes int firstKeyboard,
                                 @Nullable OnKeyboardActionListener onKeyboardActionListener) {
-        Keyboard keyboard = new Keyboard(getContext(), xmlLayoutResId);
-        setKeyboardView(keyboardView, keyboard, onKeyboardActionListener);
+        Keyboard keyboard1 = new Keyboard(getContext(), firstKeyboard);
+        setKeyboardView(keyboardView, keyboard1, null, onKeyboardActionListener);
     }
-
     /**
      * 设置键盘
-     * @param keyboardView 键盘View
-     * @param keyboard 键盘, 可传null
+     *
+     * @param keyboardView             键盘View
+     * @param firstKeyboard            第1种键盘布局, R.xml.xxx
+     * @param secondKeyboard           第2种键盘布局, R.xml.xxx, 可用于键盘切换
      * @param onKeyboardActionListener 键盘事件监听, 可传null, 可重写一些你想重写的方法, 传入示例:
      *                                 keyboardInputEditText.new OnKeyboardActionListener2() {}
      */
-    public void setKeyboardView(@NonNull KeyboardView keyboardView, @Nullable Keyboard keyboard,
+    public void setKeyboardView(@NonNull KeyboardView keyboardView, @XmlRes int firstKeyboard,
+                                @XmlRes int secondKeyboard,
+                                @Nullable OnKeyboardActionListener onKeyboardActionListener) {
+        Keyboard keyboard1 = new Keyboard(getContext(), firstKeyboard);
+        Keyboard keyboard2 = new Keyboard(getContext(), secondKeyboard);
+        setKeyboardView(keyboardView, keyboard1, keyboard2, onKeyboardActionListener);
+    }
+
+    /**
+     * 设置键盘, 只有一种键盘, 不需要切换
+     */
+    public void setKeyboardView(@NonNull KeyboardView keyboardView, @Nullable Keyboard firstKeyboard,
+                                @Nullable OnKeyboardActionListener onKeyboardActionListener) {
+        setKeyboardView(keyboardView, firstKeyboard, null, onKeyboardActionListener);
+    }
+    /**
+     * 设置键盘
+     *
+     * @param keyboardView             键盘View
+     * @param firstKeyboard            键盘, 可传null
+     * @param secondKeyboard           第2种键盘布局, R.xml.xxx, 可用于键盘切换
+     * @param onKeyboardActionListener 键盘事件监听, 可传null, 可重写一些你想重写的方法, 传入示例:
+     *                                 keyboardInputEditText.new OnKeyboardActionListener2() {}
+     */
+    public void setKeyboardView(@NonNull KeyboardView keyboardView, @Nullable Keyboard firstKeyboard,
+                                @Nullable Keyboard secondKeyboard,
                                 @Nullable OnKeyboardActionListener onKeyboardActionListener) {
         this.keyboardView = keyboardView;
+        this.firstKeyboard = firstKeyboard;
+        this.secondKeyboard = secondKeyboard;
+        setupWithView(keyboardView);
         if (onKeyboardActionListener == null) {
             onKeyboardActionListener = getOnKeyboardActionListenerByReflect();
             if (onKeyboardActionListener == null) {
                 onKeyboardActionListener = new OnKeyboardActionListener2();
-//                keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
             }
-        } else {
-//            keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
         }
         this.onKeyboardActionListener = onKeyboardActionListener;
         //因为一个页面有可能会多个EditText共用一个KeyboardView, 所以给每个EditText绑定一个监听
         editText.setTag(R.id.tag_to_get_okkeyboardlistener, onKeyboardActionListener);
-        if (keyboard != null) {
-            List<Keyboard.Key> modifierKeys = keyboard.getModifierKeys();//isModifier=true时, ABC
-            keyboardView.setKeyboard(keyboard);
+        if (firstKeyboard != null) {
+            List<Keyboard.Key> modifierKeys = firstKeyboard.getModifierKeys();//isModifier=true时, ABC
+            keyboardView.setKeyboard(firstKeyboard);
         }
-        keyboardView.setVisibility(View.GONE);
         hideSoftInputMethod(editText);
     }
 
@@ -202,14 +244,15 @@ public class KeyboardInputEditText extends FrameLayout {
 
         /**
          * 点击key时执行(点击并松开), 可重写此方法
+         *
          * @param primaryCode 按键的Unicode编码, 比如:
-         *      Keyboard.KEYCODE_SHIFT = -1;
-         *      Keyboard.KEYCODE_MODE_CHANGE = -2;
-         *      Keyboard.KEYCODE_CANCEL = -3;
-         *      Keyboard.KEYCODE_DONE = -4;
-         *      Keyboard.KEYCODE_DELETE = -5;
-         *      Keyboard.KEYCODE_ALT = -6;
-         *      自定义...
+         *                    Keyboard.KEYCODE_SHIFT = -1;
+         *                    Keyboard.KEYCODE_MODE_CHANGE = -2;
+         *                    Keyboard.KEYCODE_CANCEL = -3;
+         *                    Keyboard.KEYCODE_DONE = -4;
+         *                    Keyboard.KEYCODE_DELETE = -5;
+         *                    Keyboard.KEYCODE_ALT = -6;
+         *                    自定义...
          * @param keyCodes
          */
         @Override
@@ -219,6 +262,7 @@ public class KeyboardInputEditText extends FrameLayout {
                 case Keyboard.KEYCODE_SHIFT:// 设置shift状态然后刷新页面
 //                    pinyin26KB.setShifted(!pinyin26KB.isShifted());
 //                    keyboardView.invalidateAllKeys();
+                    switchKeyboard();
                     break;
                 case Keyboard.KEYCODE_DELETE://点击删除键，长按连续删除
 //                    int start1 = editText.getSelectionStart();
@@ -229,7 +273,7 @@ public class KeyboardInputEditText extends FrameLayout {
                     editText.dispatchKeyEvent(event);
                     break;
                 case Keyboard.KEYCODE_DONE:
-                    keyboardView.setVisibility(GONE);
+                    showHideVisibleGoneNotify(false);
                     break;
                 default:// 按下字母键
                     int start = editText.getSelectionStart();
@@ -365,6 +409,19 @@ public class KeyboardInputEditText extends FrameLayout {
         }
         return null;
     }
+    //隐藏Dialog | View | notify
+    private void showHideVisibleGoneNotify(boolean visible) {
+        if (keyboardViewDialog != null) {
+            if (visible) {
+                keyboardViewDialog.show();
+            } else keyboardViewDialog.dismiss();
+        } else if (keyboardViewContainer != null) {//默认keyboardView
+            keyboardViewContainer.setVisibility(visible ? VISIBLE : GONE);
+        }
+        if (onKeyboardViewVisibleChangeListener != null) {
+            onKeyboardViewVisibleChangeListener.onKeyboardViewVisibleChanged(visible);
+        }
+    }
 
     /**
      * 清空输入框焦点
@@ -374,5 +431,46 @@ public class KeyboardInputEditText extends FrameLayout {
         setFocusableInTouchMode(true);//设置父类focusableInTouchMode
         setFocusable(true);//设置父类focusable
         requestFocus();//设置父类获取focus
+    }
+
+    /**
+     * @param keyboardViewContainer 包含 KeyboardView 的View, 控制VISIBLE & GONE, 默认keyboardView
+     */
+    public void setupWithView(View keyboardViewContainer) {
+        this.keyboardViewContainer = keyboardViewContainer;
+    }
+
+    /**
+     * @param keyboardViewDialog 包含 KeyboardView 的Dialog, 控制show() & dismiss()
+     */
+    public void setupWithDialog(Dialog keyboardViewDialog) {
+        this.keyboardViewDialog = keyboardViewDialog;
+    }
+
+    /**
+     * 按切换键时切换软键盘
+     */
+    public void switchKeyboard() {
+        keyboardView.setKeyboard(getKeyboard() == firstKeyboard ? secondKeyboard : firstKeyboard);
+    }
+
+    /**
+     * 指定切换软键盘
+     * @param isFirstKeyboard 是否是第一种键盘
+     */
+    public void switchKeyboard(boolean isFirstKeyboard) {
+        keyboardView.setKeyboard(isFirstKeyboard ? firstKeyboard : secondKeyboard);
+    }
+
+    /**
+     * KeyboardView visible改变监听, 如果设置了上方的 setupWithView | setupWithDialog, 不用再设置监听
+     * @param listener new KeyboardInputEditText.OnKeyboardViewVisibleChangeListener() {}
+     */
+    public void setOnKeyboardViewVisibleChangeListener(OnKeyboardViewVisibleChangeListener listener) {
+        onKeyboardViewVisibleChangeListener = listener;
+    }
+
+    public interface OnKeyboardViewVisibleChangeListener {
+        void onKeyboardViewVisibleChanged(boolean visible);
     }
 }

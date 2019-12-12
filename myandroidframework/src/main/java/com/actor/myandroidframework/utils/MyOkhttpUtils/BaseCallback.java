@@ -32,16 +32,27 @@ import okhttp3.ResponseBody;
  * @version 1.4.2 修改一些小细节
  * @version 1.4.3 修改Format错误导致崩溃问题 & 修改取消请求后, onError崩溃问题(增加call.isCanceled()判断)
  * @version 1.4.4 修改错误线程问题, 添加ThreadUtils.runOnUiThread
+ * @version 1.4.5
+ *              1.实现接口: {@link okhttp3.Callback}
+ *              2.重写方法: {@link #onFailure(Call, IOException)}
+ *              3.重写方法: {@link #onResponse(Call, Response)}
+ *              4.增加构造方法: {@link #BaseCallback(Object, int)}
  */
-public abstract class BaseCallback<T> extends Callback<T> {
+public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Callback {
 
     protected boolean isStatusCodeError = false;//状态码错误
     protected boolean isParseNetworkResponseIsNull = false;//解析成的实体entity=null
     protected boolean isJsonParseException = false;//Json解析异常
-    public Object tag;
+    public    Object  tag;
+    public    int     id;
 
     public BaseCallback(Object tag) {
         this.tag = tag;
+    }
+
+    public BaseCallback(Object tag, int id) {
+        this.tag = tag;
+        this.id = id;
     }
 
     @Override
@@ -102,6 +113,19 @@ public abstract class BaseCallback<T> extends Callback<T> {
 
     public abstract void onOk(@NonNull T info, int id);
 
+    //okhttp3.Callback的方法
+    @Override
+    public final void onFailure(Call call, IOException e) {//sub thread
+        ThreadUtils.runOnUiThread(() -> onError(call, e, id));
+    }
+    //okhttp3.Callback的方法
+    @Override
+    public final void onResponse(Call call, Response response) throws IOException {//sub thread
+        if (validateReponse(response, id)) {
+            T t = parseNetworkResponse(response, id);
+            ThreadUtils.runOnUiThread(() -> onResponse(t, id));
+        }
+    }
     /**
      * 请求出错
      * 为何是final? 因为:

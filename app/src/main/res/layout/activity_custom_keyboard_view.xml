@@ -66,5 +66,7 @@
         android:paddingBottom="5dp"
         android:popupLayout="@layout/layout_for_pupop_layout"
         android:shadowColor="#515151"
-        android:shadowRadius="0.5" />
+        android:shadowRadius="0.5"
+        android:visibility="gone"
+        tools:visibility="visible" />
 </LinearLayout>
