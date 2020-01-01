@@ -40,8 +40,9 @@
     <color name="gray_fcfcfc">#fcfcfc</color>
     <color name="gray_F2F2F2">#F2F2F2</color>
     <color name="gray_EEE">#EEE</color>
+    <color name="gray_background">@color/gray_EEE</color><!-- 默认背景色 -->
     <color name="gray_ebebeb">#ebebeb</color>
-    <color name="gray_E3E3E3">#E3E3E3</color><!-- 可作背景 -->
+    <color name="gray_E3E3E3">#E3E3E3</color>
     <color name="gray_dcdcdc">#dcdcdc</color>
     <color name="grey_CCC">#CCC</color>
     <color name="gray_cecece">#CECECE</color>

@@ -6,4 +6,19 @@
     <string name="send_for_float_edit_activity">发送</string>
     <string name="min_input_limit_warn">输入内容不能少于%1$d字</string>
     <string name="max_input_limit_warn">输入内容不能超过%1$d字</string>
+
+    <string name="digits_phone">0123456789</string>
+    <string name="digits_num">-0123456789.</string>
+    <string name="digits_num_unsigned">0123456789.</string>
+    <string name="digits_id_card">0123456789xX</string>
+    <!--大小写字母-->
+    <string name="digits_26letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="digits_26letter_small">abcdefghijklmnopqrstuvwxyz</string>
+    <string name="digits_26letter_capital">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <!--数字 + 大小写字母-->
+    <string name="digits_num_26letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
+    <string name="regex_num">[^0-9]</string>
+    <string name="regex_26letter">[^a-zA-Z]</string>
+    <string name="regex_chinese">[^\u4E00-\u9FA5]</string>
 </resources>

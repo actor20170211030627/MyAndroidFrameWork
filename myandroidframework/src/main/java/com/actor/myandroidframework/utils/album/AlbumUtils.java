@@ -234,6 +234,8 @@ public class AlbumUtils {
 
     /**
      * 拍照 {@link com.yanzhenjie.album.app.album.AlbumActivity#clickCamera(View)}
+     * //int rotateDegree = ImageUtils.getRotateDegree(result);//??
+     * int[] size = ImageUtils.getSize(result);//可根据宽高判断照片横竖
      * @param context
      */
     public static void takePhoto(Context context, Action<String> listener) {

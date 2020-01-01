@@ -5,21 +5,15 @@
     <!--网络请求-->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--模拟器中sdcard中创建文件夹的权限-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--允许挂载和反挂载文件系统可移动存储-->
-    <uses-permission
-        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-        tools:ignore="ProtectedPermissions" />
-
     <!--安装/更新App-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!--Album的权限,拍照,图片选择,图片大图预览(包括网络图片)-->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--sdcard中创建文件夹的权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--允许挂载和反挂载文件系统可移动存储-->
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />

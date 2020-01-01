@@ -16,7 +16,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入车牌号"
+            android:hint="请输入车牌号(键盘在Dialog中)"
             android:imeOptions="actionNext" />
     </com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText>
 
@@ -28,11 +28,24 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入车牌号2"
+            android:hint="请输入车牌号2(键盘在布局xml)"
+            android:imeOptions="actionNext" />
+    </com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText>
+
+    <com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText
+        android:id="@+id/custom_keyboard_edittext3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入车牌号3(键盘在布局xml)"
             android:imeOptions="actionNext" />
     </com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText>
 
     <EditText
+        android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入"
@@ -46,27 +59,17 @@
         android:text="长按'W'会有惊喜哟(long press 'W')"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btn" />
+
     <!--        <View-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="1dp"-->
     <!--            android:background="#515151" />-->
 
-    <android.inputmethodservice.KeyboardView
-        android:id="@+id/key_board_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ececec"
-        android:keyBackground="@drawable/shape_rec_border_for_key_preview"
-        android:keyPreviewHeight="35dp"
-        android:keyPreviewLayout="@layout/layout_for_key_preview"
-        android:keyPreviewOffset="-36px"
-        android:keyTextColor="#515151"
-        android:keyTextSize="18sp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:popupLayout="@layout/layout_for_pupop_layout"
-        android:shadowColor="#515151"
-        android:shadowRadius="0.5"
-        android:visibility="gone"
-        tools:visibility="visible" />
+    <!--键盘-->
+    <include layout="@layout/dialog_keyboard_bottom" />
 </LinearLayout>
