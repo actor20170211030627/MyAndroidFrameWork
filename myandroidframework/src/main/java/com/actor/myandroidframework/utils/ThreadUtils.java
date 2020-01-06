@@ -11,7 +11,7 @@ import android.os.Looper;
  * @version 1.0
  */
 public class ThreadUtils {
-    public static Handler handler = new Handler(Looper.getMainLooper());//handler.postDelayed
+    public static final Handler handler = new Handler(Looper.getMainLooper());//handler.postDelayed
 
     /**
      * 通常用于处理UI操作

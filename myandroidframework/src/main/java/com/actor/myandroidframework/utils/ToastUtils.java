@@ -32,7 +32,7 @@ public class ToastUtils {
         return Looper.myLooper() == Looper.getMainLooper();
     }
 
-    private static Toast getToast(CharSequence text) {
+    public static Toast getToast(CharSequence text) {
         if (toast == null) {
             toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
         } else toast.setText(text);//防止多个Toast重叠一直显示
