@@ -24,7 +24,7 @@ public class AssetsUtils {
     /**
      * 把文件传到/data/data/包名/files/xxx.xxx
      * @param isCover 当本地已经存在相同文件的时候,是否覆盖
-     * @param assetPath 文件在assets目录下的路径, 示例: BuSuanZi.txt 或 test/xxx.xxx(assets的test文件夹下)
+     * @param assetPath 文件在assets目录下的路径, 示例: BuSuanZi.txt 或 test/xxx.xxx(assets下的test文件夹)
      */
     public static void copyFile2FilesDir(Context context, boolean isCover, String assetPath) {
         File file = new File(context.getFilesDir().getAbsolutePath(), assetPath);
@@ -91,8 +91,6 @@ public class AssetsUtils {
 
     /**
      * 读取表情配置文件
-     * @param context
-     * @return
      */
     public static List<String> getEmojiFile(Context context) {
         try {
@@ -111,7 +109,7 @@ public class AssetsUtils {
     }
 
     /**
-     * 获取assets下所有的文件/文件夹(如果文件夹里没文件, 获取不到这个文件夹)
+     * 获取assets下所有的文件/文件夹(如果文件夹里没文件, 获取不到这个文件夹), 读取结果需自己过滤
      * @return 所有文件/夹 名称
      */
     public static String[] getFiles(Context context) {
@@ -125,8 +123,7 @@ public class AssetsUtils {
 
     /**
      * 获取assets/文件夹 里的所有文件, 无序的
-     * @param context
-     * @param assetsDirName assets/文件夹名称
+     * @param assetsDirName assets/文件夹名称, 示例: emoji(assets目录下emoji文件夹)
      * @return 所有文件/夹 名称
      */
     public static String[] getFilesFromDir(Context context, String assetsDirName) {

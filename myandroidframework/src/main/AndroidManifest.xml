@@ -5,6 +5,9 @@
     <!--网络请求-->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--网络状态变化-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <!--安装/更新App-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
