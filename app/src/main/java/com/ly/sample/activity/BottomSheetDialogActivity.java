@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.actor.myandroidframework.widget.BaseBottomDialog;
-import com.actor.myandroidframework.widget.BaseBottomSheetDialog;
+import com.actor.myandroidframework.dialog.BaseBottomDialog;
+import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.widget.floatingeditor.EditorCallback;
 import com.actor.myandroidframework.widget.floatingeditor.FloatEditorActivity;
 import com.blankj.utilcode.util.ConvertUtils;

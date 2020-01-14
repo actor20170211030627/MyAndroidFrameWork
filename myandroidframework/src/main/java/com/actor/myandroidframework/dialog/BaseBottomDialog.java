@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.myandroidframework.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

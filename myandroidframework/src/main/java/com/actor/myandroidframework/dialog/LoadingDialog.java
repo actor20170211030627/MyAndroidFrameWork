@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.myandroidframework.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -73,11 +73,11 @@ public class LoadingDialog extends Dialog {
     }
 
     /**
-     * 设置背景透明度
+     * 设置窗口后面灰色大背景的亮度[0-1], 0最亮
      */
     public LoadingDialog setDimAmount(@FloatRange(from = 0, to = 1) float dimAmount){
         Window window = getWindow();
-        if (window != null) window.setDimAmount(0.2f);//设置窗口后面灰色大背景的亮度[0-1]
+        if (window != null) window.setDimAmount(0.2f);
         return this;
     }
 

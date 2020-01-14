@@ -19,7 +19,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ToastUtils;
-import com.actor.myandroidframework.widget.LoadingDialog;
+import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;

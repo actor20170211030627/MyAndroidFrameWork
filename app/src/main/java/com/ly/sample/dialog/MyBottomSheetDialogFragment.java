@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.utils.ToastUtils;
-import com.actor.myandroidframework.widget.BaseBottomSheetDialogFragment;
+import com.actor.myandroidframework.fragment.BaseBottomSheetDialogFragment;
 import com.ly.sample.R;
 
 /**

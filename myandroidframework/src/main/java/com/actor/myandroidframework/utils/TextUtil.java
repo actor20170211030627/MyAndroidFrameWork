@@ -64,7 +64,7 @@ public class TextUtil {
     }
 
     /**
-     * 判断EditText/TextView/TextInputLayout/GridTableEditText是否为空
+     * 判断 EditText/TextView/TextInputLayout/GetTextAble 是否为空
      * 如果为空且是EditText,就跳到相应的EditText,且打开键盘
      * @param obj
      * @param notify 如果为空,toast的信息,如果不提示,传null.

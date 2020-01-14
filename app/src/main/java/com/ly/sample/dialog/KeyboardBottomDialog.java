@@ -5,7 +5,7 @@ import android.inputmethodservice.KeyboardView;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.actor.myandroidframework.widget.BaseBottomDialog;
+import com.actor.myandroidframework.dialog.BaseBottomDialog;
 import com.ly.sample.R;
 
 /**

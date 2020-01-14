@@ -7,9 +7,13 @@
     <string name="min_input_limit_warn">输入内容不能少于%1$d字</string>
     <string name="max_input_limit_warn">输入内容不能超过%1$d字</string>
 
+    <!--手机-->
     <string name="digits_phone">0123456789</string>
+    <!--数字-->
     <string name="digits_num">-0123456789.</string>
+    <!--正数-->
     <string name="digits_num_unsigned">0123456789.</string>
+    <!--身份证-->
     <string name="digits_id_card">0123456789xX</string>
     <!--大小写字母-->
     <string name="digits_26letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
