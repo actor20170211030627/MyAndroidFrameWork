@@ -296,11 +296,11 @@ public abstract class ActorBaseFragment extends Fragment {
 
     //显示加载Diaong=============================================
     private LoadingDialog loadingDialog;
-    protected void showLoadingDialog() {
+    public void showLoadingDialog() {
         getLoadingDialog(true).show();
     }
 
-    protected void showLoadingDialog(boolean cancelable) {
+    public void showLoadingDialog(boolean cancelable) {
         getLoadingDialog(cancelable).show();
     }
 
@@ -311,7 +311,7 @@ public abstract class ActorBaseFragment extends Fragment {
     }
 
     //隐藏加载Diaong
-    protected void dismissLoadingDialog() {
+    public void dismissLoadingDialog() {
         if (loadingDialog != null) loadingDialog.dismiss();
     }
 

@@ -38,7 +38,7 @@ import okhttp3.Response;
  * @version 1.3.2 修复上传中文文件抛异常问题
  * @version 1.3.3 传参Map<String, String>修改成Map<String, Object>
  * @version 1.3.4 添加tag(),cancel功能
- * @version 1.3.5 添加一个post有请求头的方法 {@link #post(String, Map, int, boolean, BaseCallback)}
+ * @version 1.3.5 添加一个post有请求头的方法 {@link #post(String, Map, BaseCallback)}
  * @version 1.3.6 增加同步sync方法
  * @version 1.3.7 get/post中增加传入id参数
  * @version 1.3.8 增加方法 {@link #postBody(String, Map, BaseCallback)}
@@ -46,7 +46,7 @@ import okhttp3.Response;
 public class MyOkHttpUtils {
 
     public static <T> void get(String url, Map<String, Object> params, BaseCallback<T> callback) {
-        get(url, null, params, 0, callback);
+        get(url, null, params, callback);
     }
 
     /**
@@ -54,15 +54,15 @@ public class MyOkHttpUtils {
      * @param url       地址
      * @param headers   请求头
      * @param params    参数,一般用LinkedHashMap<String, Object>
-     * @param id        请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
      * @param callback  回调
      * @param <T>       要解析成什么类型的对象,示例:JSONObject, String, BaseInfo...
      */
-    public static <T> void get(String url, Map<String, Object> headers, Map<String, Object> params, int id, BaseCallback<T> callback) {
+    public static <T> void get(String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
         OkHttpUtils.get().url(url).tag(callback == null ? null : callback.tag)
                 .headers(cleanNullParamMap(headers))
                 .params(cleanNullParamMap(params))
-                .id(id)
+                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
+                .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
     }
 
@@ -83,42 +83,41 @@ public class MyOkHttpUtils {
     }
 
     public static <T> void post(String url, Map<String, Object> params, BaseCallback<T> callback) {
-        post(url, params, 0, false, callback);
-    }
-
-    /**
-     * post同步请求, 比如token过期后重新获取token, 在同一线程内刷新token
-     */
-    public static Response postSync(String url, Map<String, Object> params, boolean hasHeaders, Object tag) {
-        Response execute = null;
-        try {
-            execute = OkHttpUtils.post().url(url)
-                    .tag(tag)
-                    .headers(hasHeaders ? cleanNullParamMap(params) : null)
-                    .params(cleanNullParamMap(params))
-                    .build().execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return execute;
+        post(url, params, callback);
     }
 
     /**
      * post方式请求网络
      * @param url       地址
      * @param params    请求参数, 放在请求体中
-     * @param id        请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
-     * @param hasHeaders 是否有请求头, 这个框架header和params放在一起
      * @param callback  监听
      * @param <T>       要解析成什么类型的对象
      */
-    public static <T> void post(String url, Map<String, Object> params, int id, boolean hasHeaders, BaseCallback<T> callback) {
+    public static <T> void post(String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
         OkHttpUtils.post().url(url)
                 .tag(callback == null ? null : callback.tag)
-                .headers(hasHeaders ? cleanNullParamMap(params) : null)
+                .headers(cleanNullParamMap(headers))
                 .params(cleanNullParamMap(params))
-                .id(id)
+                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
+                .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
+    }
+
+    /**
+     * post同步请求, 比如token过期后重新获取token, 在同一线程内刷新token
+     */
+    public static Response postSync(String url, Map<String, Object> headers, Map<String, Object> params, Object tag) {
+        Response execute = null;
+        try {
+            execute = OkHttpUtils.post().url(url)
+                    .tag(tag)
+                    .headers(cleanNullParamMap(headers))
+                    .params(cleanNullParamMap(params))
+                    .build().execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return execute;
     }
 
     /**
@@ -178,6 +177,7 @@ public class MyOkHttpUtils {
                     //.addHeader()//不要通过addHeader去设置contentType
                     //一定要设置MediaType:设置Content-Type 标头中包含的媒体类型值
                     .mediaType(mediaType)
+                    .id(callback == null ? 0 : callback.id)
                     .build()
 //                    .connTimeOut(15000).readTimeOut(15000).writeTimeOut(15000)
                     .execute(callback);
@@ -197,12 +197,14 @@ public class MyOkHttpUtils {
      * 将文件作为请求体，发送到服务器
      * @param url
      * @param file
-     * @param callback
+     * @param callback 回调
      * @param <T> 要解析成什么类型的对象
      */
     public static <T> void postFile(String url, File file, BaseCallback<T> callback) {
         OkHttpUtils.postFile().url(url).tag(callback == null ? null : callback.tag)
-                .file(file).build().execute(callback);
+                .file(file)
+                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值(如果用不着,可瞎传一个数字)
+                .id(callback == null ? 0 : callback.id).build().execute(callback);
     }
 
     /**
@@ -283,7 +285,7 @@ public class MyOkHttpUtils {
                 }
             }
         }
-        builder.build().execute(callback);
+        builder.id(callback == null ? 0 : callback.id).build().execute(callback);
     }
 
     /**
