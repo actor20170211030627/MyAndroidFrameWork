@@ -275,7 +275,7 @@ public class MyOkHttpUtils {
                 if (file != null && file.isFile()) {
                     try {
                         /**
-                         * FIXME 文件名UTF-8转码,避免上传中文文件时以下方法抛异常问题,后面版本好像已经修复了这个问题
+                         * fixed 文件名UTF-8转码,避免上传中文文件时以下方法抛异常问题,后面版本好像已经修复了这个问题
                          * @see okhttp3.Headers#checkValue(String, String)
                          */
                         builder.addFile(fileName, URLEncoder.encode(file.getName(), "UTF-8"), file);
