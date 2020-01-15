@@ -14,11 +14,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ToastUtils;
-import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -162,17 +162,23 @@ public class ActorBaseActivity extends AppCompatActivity {
     }
 
     /**
-     * @param objs 参数的类型为:
+     * @param objs 判断对象是否不为空, 如果是 EditText/TextInputLayout/GetTextAble,
+     *            且为空, 就跳到相应的EditText, 包括如下类型:
      * <ol>
-     *      <li>{@link android.widget.TextView}</li>
-     *      <li>{@link android.support.design.widget.TextInputLayout}</li>
-     *      <li>{@link TextUtil.GetTextAble}</li>
      *      <li>{@link CharSequence}</li>
      *      <li>{@link java.lang.reflect.Array}</li>
-     *      <li>{@link java.util.Collection}</li>
+     *      <li>{@link java.util.Collection Collection(包括: List, Set, Queue)}</li>
      *      <li>{@link java.util.Map}</li>
+     *      <li>{@link android.widget.TextView}</li>
+     *      <li>{@link com.actor.myandroidframework.utils.TextUtil.GetTextAble}</li>
+     *      <li>{@link android.support.design.widget.TextInputLayout}</li>
+     *      <li>{@link android.util.SparseArray}</li>
+     *      <li>{@link android.util.SparseBooleanArray}</li>
+     *      <li>{@link android.util.SparseIntArray}</li>
+     *      <li>{@link android.util.SparseLongArray}</li>
+     *      <li>{@link android.support.v4.util.SparseArrayCompat}</li>
      * </ol>
-     * @return 都不为空,返回true
+     * @return 都不为空, 返回true
      */
     protected boolean isNoEmpty(Object... objs) {
         return TextUtil.isNoEmpty(objs);
