@@ -252,7 +252,7 @@ public class ActorBaseActivity extends AppCompatActivity {
     /**
      * 设置上拉加载更多 & 空布局
      * private List<Item> items = new ArrayList<>();//数据列表
-     * private total = 1;
+     * private total;
      * getList(boolean isRefresh);
      * 1.下拉刷新:
      * getList(true);
@@ -268,7 +268,7 @@ public class ActorBaseActivity extends AppCompatActivity {
      *     total = data.totalCount;
      *     List rows = data.rows;
      *     if (rows != null) {
-     *         ifPage1(items, items, Global.SIZE);
+     *         ifRefreshClear(isRefresh, items);
      *         myAdapter.addData(rows);
      *     }
      *     if (items.size() < total) {
@@ -308,14 +308,11 @@ public class ActorBaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 如果'下拉刷新'列表, page=1, 清空旧数据
+     * 如果'下拉刷新'列表, 清空旧数据
      * @param items 列表数据集合
-     * @param size 每次加载多少条
      */
-    protected boolean ifPage1(@NonNull List items, int size) {
-        boolean isPage1 = items.size() < size;
-        if (isPage1) items.clear();
-        return isPage1;
+    protected void ifRefreshClear(boolean isRefresh, @NonNull List items) {
+        if (isRefresh) items.clear();
     }
 
 

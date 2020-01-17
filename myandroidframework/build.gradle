@@ -119,4 +119,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
     compileOnly 'net.sourceforge.jexcelapi:jxl:2.6.12'//导出到Excel
+
+    //https://github.com/greenrobot/greenDAO
+    compileOnly 'org.greenrobot:greendao:3.2.2'//数据库
 }

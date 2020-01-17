@@ -368,7 +368,7 @@ public class AlbumUtils {
     }
 
     /**
-     * fixme  路径转 AlbumFile, 添加后再进入相册会失效
+     * FIXME  路径转 AlbumFile, 添加后再进入相册会失效
      * @see com.yanzhenjie.album.app.album.data.MediaReader#scanImageFile(Map, AlbumFolder) 转换
      * @param path
      * @return
