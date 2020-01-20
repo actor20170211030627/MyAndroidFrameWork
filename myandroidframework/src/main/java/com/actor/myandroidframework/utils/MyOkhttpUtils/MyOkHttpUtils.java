@@ -83,7 +83,7 @@ public class MyOkHttpUtils {
     }
 
     public static <T> void post(String url, Map<String, Object> params, BaseCallback<T> callback) {
-        post(url, params, callback);
+        post(url, null, params, callback);
     }
 
     /**
@@ -418,7 +418,7 @@ public class MyOkHttpUtils {
      */
     private static final Map<String, String> returnMap = new LinkedHashMap<>();
     private synchronized static Map<String, String> cleanNullParamMap(@Nullable Map<String, Object> map) {
-        if (map == null || map.size() == 0) return null;
+        if (map == null || map.isEmpty()) return null;
         returnMap.clear();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
