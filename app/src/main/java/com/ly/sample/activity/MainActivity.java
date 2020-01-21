@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, SwitcherActivity.class), view);
                 break;
             case R.id.btn_custom_ratingbar://自定义View
-                startActivity(new Intent(this, CustomRatingBarActivity.class), view);
+                startActivity(new Intent(this, CustomViewActivity.class), view);
                 break;
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(new Intent(this, NineGridViewActivity.class));

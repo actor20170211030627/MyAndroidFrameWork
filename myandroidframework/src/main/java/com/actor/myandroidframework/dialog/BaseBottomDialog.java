@@ -1,14 +1,10 @@
 package com.actor.myandroidframework.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.FloatRange;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
-import android.view.Window;
 import android.view.WindowManager;
 
 import com.actor.myandroidframework.R;
@@ -20,58 +16,28 @@ import com.actor.myandroidframework.R;
  * Date       : 2019/8/11 on 23:26
  * @version 1.0
  */
-public abstract class BaseBottomDialog extends Dialog {
-
-    private static final String TAG = "BaseBottomDialog";
-    protected            Window mWindow;
-    protected float               dimAmount = 0.5F;//背景灰度, [0, 1]
+public abstract class BaseBottomDialog extends BaseDialog {
 
     public BaseBottomDialog(@NonNull Context context) {
-        super(context, R.style.BaseBottomDialog);//给dialog设置样式, 去掉标题栏
-
-        setContentView(getLayoutResId());
+        super(context, R.style.BaseBottomDialog);
     }
 
-    /**
-     * 设置你自定义Dialog的layout
-     */
-    protected abstract @LayoutRes int getLayoutResId();
+    public BaseBottomDialog(@NonNull Context context, int themeResId) {
+        super(context, themeResId);
+    }
 
-    //只会创建一次
+    protected BaseBottomDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mWindow = getWindow();//获取当前dialog所在的窗口对象
-        WindowManager.LayoutParams params = mWindow.getAttributes();//获取当前窗口的属性, 布局参数
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;//重心位置改为靠下居中显示
-        params.dimAmount = dimAmount;
-        mWindow.setAttributes(params);//将修改后的布局参数作用到窗口上
-        mWindow.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//FLAG_BLUR_BEHIND模糊, FLAG_DIM_BEHIND暗淡
-
-//        findViewById()//可以初始化控件等
-    }
-
-    //每次show的时候都会调用
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-    }
-    //每次dismiss的时候都会调用
-    @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-    }
-
-    /**
-     * 设置窗口后面灰色大背景的亮度[0-1], 0最亮
-     * @param dimAmount 昏暗的数量
-     */
-    public void setDimAmount(@FloatRange(from = 0, to = 1) float dimAmount) {
-        this.dimAmount = dimAmount;
-    }
-
-    protected void logError(String text) {
-        Log.e(TAG, "logError: ".concat(text));
+        if (window != null) {
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            if (attributes != null) {
+                attributes.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;//重心位置改为靠下居中显示
+            }
+        }
     }
 }

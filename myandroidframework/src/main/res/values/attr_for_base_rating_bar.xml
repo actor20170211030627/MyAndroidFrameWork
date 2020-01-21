@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseRatingBar">
+        <!--星星间距-->
+        <attr name="brbStarInterval" format="dimension"/>
+        <!--星星高度-->
+        <attr name="brbStarHeight" format="dimension"/>
+        <!--星星总的显示个数-->
+        <attr name="brbNumStars" format="integer"/>
+        <!--空的星星图片-->
+        <attr name="brbEmptyDrawable" format="reference"/>
+        <!--满的星星图片-->
+        <attr name="brbFullDrawable" format="reference"/>
+
+        <!--设置默认显示多少星星-->
+        <attr name="brbRating" format="float"/>
+
+        <!--步长-->
+        <attr name="brbStepSize" format="float"/>
+
+        <!--是否只是起到指示作用(是否能编辑)-->
+        <attr name="brbIsIndicator" format="boolean"/>
+
+        <!--宽高比例, 默认1: ratio = 宽/高-->
+        <attr name="brbRatio" format="float"/>
+    </declare-styleable>
+</resources>

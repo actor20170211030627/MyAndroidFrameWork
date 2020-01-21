@@ -67,7 +67,7 @@
                 android:id="@+id/btn_custom_ratingbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="自定义RatingBar"
+                android:text="自定义View"
                 android:transitionName="btn" />
 
             <Button

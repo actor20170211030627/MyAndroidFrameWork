@@ -9,6 +9,12 @@
     tools:context="com.ly.sample.activity.BottomSheetDialogActivity">
 
     <Button
+        android:id="@+id/btn_test_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TestDialog"/>
+
+    <Button
         android:id="@+id/btn_bottom_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

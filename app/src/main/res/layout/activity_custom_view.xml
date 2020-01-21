@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ly.sample.activity.CustomRatingBarActivity">
+    tools:context="com.ly.sample.activity.CustomViewActivity">
 
     <com.actor.myandroidframework.widget.BaseRatingBar
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:transitionName="btn"
-        app:brbRating="3.3"/>
+        app:brbRating="3.3" />
 
     <com.actor.myandroidframework.widget.BaseRatingBar
         android:id="@+id/base_rating_bar"
@@ -25,7 +24,7 @@
         app:brbRatio="0.7"
         app:brbStarHeight="60dp"
         app:brbStarInterval="10dp"
-        app:brbStepSize="0.1"/>
+        app:brbStepSize="0.1" />
 
     <com.actor.myandroidframework.widget.BaseRatingBar
         android:layout_width="match_parent"
@@ -38,7 +37,7 @@
         app:brbRatio="2"
         app:brbStarHeight="35dp"
         app:brbStarInterval="1dp"
-        app:brbStepSize="0.2"/>
+        app:brbStepSize="0.2" />
 
     <com.actor.myandroidframework.widget.BaseRatingBar
         android:layout_width="match_parent"
@@ -51,5 +50,22 @@
         app:brbRatio="0.5"
         app:brbStarHeight="90dp"
         app:brbStarInterval="10dp"
-        app:brbStepSize="0.5"/>
+        app:brbStepSize="0.5" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_999">
+
+        <com.actor.myandroidframework.widget.BaseSpinner
+            android:id="@+id/base_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:dropDownVerticalOffset="25.5dp"
+            android:entries="@array/please_choose_data"
+            android:padding="10dp"
+            android:spinnerMode="dropdown" />
+    </FrameLayout>
 </LinearLayout>

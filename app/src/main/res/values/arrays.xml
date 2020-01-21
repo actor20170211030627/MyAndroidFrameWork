@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="please_choose_data">
-        <item>日期(不限)</item>
+        <item>BaseSpinner(增加了重复选中监听)</item>
         <item>今天</item>
         <item>昨天</item>
         <item>本月</item>

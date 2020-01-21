@@ -146,10 +146,10 @@ activity#com.ly.sample.activity.NineGridViewActivity
 ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:20:9-67
 	android:name
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:20:19-64
-activity#com.ly.sample.activity.CustomRatingBarActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:21:9-70
+activity#com.ly.sample.activity.CustomViewActivity
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:21:9-65
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:21:19-67
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:21:19-62
 activity#com.ly.sample.activity.NetWorkAndImageActivity
 ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:22:9-70
 	android:name

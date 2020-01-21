@@ -12,6 +12,7 @@ import com.actor.myandroidframework.widget.floatingeditor.FloatEditorActivity;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.ly.sample.R;
 import com.ly.sample.dialog.MyBottomSheetDialogFragment;
+import com.ly.sample.dialog.TestDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,8 +29,9 @@ public class BottomSheetDialogActivity extends BaseActivity {
     @BindView(R.id.tv_content)
     TextView tvContent;
 
-    private BaseBottomDialog baseBottomDialog;
-    private BaseBottomSheetDialog baseBottomSheetDialog;
+    private TestDialog                  alertDialog;
+    private BaseBottomDialog            baseBottomDialog;
+    private BaseBottomSheetDialog       baseBottomSheetDialog;
     private MyBottomSheetDialogFragment bottomSheetDialogFragment;
 
     @Override
@@ -43,6 +45,7 @@ public class BottomSheetDialogActivity extends BaseActivity {
         //几种Dialog调用的方法风格不一致, 因为没时间, 所以...
 
 
+        alertDialog = new TestDialog(this);
 
         //你也可以写个Dialog extends BaseBottomDialog, 就是把所有这个Dialog应该有的功能写到你的Dialog中,
         //一处编写, 到处使用...
@@ -103,11 +106,14 @@ public class BottomSheetDialogActivity extends BaseActivity {
         bottomSheetDialogFragment.setDimAmount(0.3F);//设置背景昏暗度
     }
 
-    @OnClick({R.id.btn_bottom_dialog, R.id.btn_bottom_sheet_dialog,
+    @OnClick({R.id.btn_test_dialog, R.id.btn_bottom_dialog, R.id.btn_bottom_sheet_dialog,
             R.id.btn_bottom_sheet_dialog_fragment, R.id.btn_float_edit_activity,
             R.id.btn_bottom_activity})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.btn_test_dialog:
+                alertDialog.show();
+                break;
             case R.id.btn_bottom_dialog:
                 baseBottomDialog.show();
                 break;

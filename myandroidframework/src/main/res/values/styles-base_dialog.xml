@@ -1,0 +1,27 @@
+<resources>
+    <style name="BaseDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <!--去掉标题栏-->
+        <item name="windowNoTitle">true</item>
+
+        <!--设置Dialog的windowFrame框, 作用未知-->
+        <item name="android:windowFrame">@null</item>
+
+        <!--去掉弹窗背景(原生背景带有外边距), 改为透明色, 如果不改, Dialog有一个默认padding-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--#0011dddd-->
+
+        <!--是否浮现在activity之上, 作用未知-->
+        <item name="android:windowIsFloating">true</item>
+
+        <!--半透明-->
+        <item name="android:windowIsTranslucent">false</item>
+
+        <!--全屏, 作用未知-->
+        <item name="android:windowFullscreen">true</item>
+
+        <!--窗口内容不覆盖, 作用未知-->
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!--显示区域以外是否使用黑色半透明背景, 作用未知-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>

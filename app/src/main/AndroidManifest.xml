@@ -18,7 +18,7 @@
         <activity android:name=".activity.IsEmptyActivity" />
         <activity android:name=".activity.ViewPagerAndFragmentActivity" />
         <activity android:name=".activity.NineGridViewActivity" />
-        <activity android:name=".activity.CustomRatingBarActivity" />
+        <activity android:name=".activity.CustomViewActivity" />
         <activity android:name=".activity.NetWorkAndImageActivity" />
         <activity android:name=".activity.BottomSheetDialogActivity" />
         <activity android:name=".activity.SwitcherActivity" />
