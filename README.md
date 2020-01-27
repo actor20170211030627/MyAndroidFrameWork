@@ -55,7 +55,7 @@
     </li>
     <li>
         //https://github.com/Blankj/AndroidUtilCode <br/>
-        api 'com.blankj:utilcode:1.25.9'//许多工具 <br/> <br/>
+        api 'com.blankj:utilcode:1.26.0'//许多工具 <br/> <br/>
     </li>
     <li>
         //https://github.com/laobie/StatusBarUtil <br/>

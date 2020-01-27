@@ -27,9 +27,9 @@ public class CustomKeyboardViewActivity extends BaseActivity {
     @BindView(R.id.custom_keyboard_edittext3)
     KeyboardInputEditText keyboardInputEditText3;
     @BindView(R.id.edit_text)
-    EditText editText;
+    EditText              editText;
     @BindView(R.id.keyboard_view)
-    KeyboardView     keyboardView;
+    KeyboardView          keyboardView;
 
     private KeyboardBottomDialog keyboardBottomDialog;//键盘Dialog
 
@@ -61,11 +61,10 @@ public class CustomKeyboardViewActivity extends BaseActivity {
                                 break;
                         }
                         //没有输入内容时软键盘重置为省份简称软键盘
-                        if (keyboardInputEditText.getText().length() == 0) {
-                            keyboardInputEditText.switchKeyboard(true);
-                        }
                         // FIXME: 2019/12/23 会索引越界
-//                        else if (keyboardInputEditText.getText().length() == 1) {
+//                        if (keyboardInputEditText.getText().length() == 0) {
+//                            keyboardInputEditText.switchKeyboard(true);
+//                        } else if (keyboardInputEditText.getText().length() == 1) {
 //                            keyboardInputEditText.switchKeyboard(false);
 //                        }
                     }
@@ -84,10 +83,9 @@ public class CustomKeyboardViewActivity extends BaseActivity {
                         super.onKey(primaryCode, keyCodes);
 
                         //没有输入内容时软键盘重置为省份简称软键盘
-                        if (keyboardInputEditText2.getText().length() == 0) {
-                            keyboardInputEditText2.switchKeyboard(true);
-                        }
-//                        else if (keyboardInputEditText2.getText().length() == 1) {
+//                        if (keyboardInputEditText2.getText().length() == 0) {
+//                            keyboardInputEditText2.switchKeyboard(true);
+//                        } else if (keyboardInputEditText2.getText().length() == 1) {
 //                            keyboardInputEditText2.switchKeyboard(false);
 //                        }
                     }
@@ -106,8 +104,7 @@ public class CustomKeyboardViewActivity extends BaseActivity {
                         //没有输入内容时软键盘重置为省份简称软键盘
 //                        if (keyboardInputEditText3.getText().length() == 0) {
 //                            keyboardInputEditText3.switchKeyboard(true);
-//                        }
-//                        else if (keyboardInputEditText3.getText().length() == 1) {
+//                        } else if (keyboardInputEditText3.getText().length() == 1) {
 //                            keyboardInputEditText3.switchKeyboard(false);
 //                        }
                     }

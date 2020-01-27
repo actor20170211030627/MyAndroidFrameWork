@@ -21,11 +21,11 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Description: 自定义键盘的EditText
@@ -87,7 +87,6 @@ import java.util.Locale;
  */
 public class KeyboardInputEditText extends FrameLayout {
 
-    private static final String                              TAG = "KeyboardInputEditText";
     private              EditText                            editText;
     private              KeyboardView                        keyboardView;//键盘View
     private              Keyboard                            firstKeyboard;//第1种键盘
@@ -97,6 +96,8 @@ public class KeyboardInputEditText extends FrameLayout {
     private              OnKeyboardViewVisibleChangeListener onKeyboardViewVisibleChangeListener;//键盘visible监听
     private Dialog keyboardViewDialog;//包含 KeyboardView 的Dialog, 控制show() & dismiss()
     private View keyboardViewContainer;//包含 KeyboardView 的View, 控制VISIBLE & GONE
+    private boolean isFirstKeyboard = true;//是否是第1种键盘
+    private              boolean                             isResetKeyboard;
 
     public KeyboardInputEditText(Context context) {
         super(context);
@@ -132,7 +133,12 @@ public class KeyboardInputEditText extends FrameLayout {
                             keyboardView.setOnKeyboardActionListener(onKeyboardActionListener);
                         }
                     }
+                    //如果一个页面中其它EditText重新设置了键盘, 再设置回来
+                    if (getKeyboard() != firstKeyboard && getKeyboard() != secondKeyboard) {
+                        keyboardView.setKeyboard(isFirstKeyboard ? firstKeyboard : secondKeyboard);
+                    }
                 } else {
+                    isFirstKeyboard = getKeyboard() == firstKeyboard;
                     showHideVisibleGoneNotify(false);
                 }
             }
@@ -232,14 +238,14 @@ public class KeyboardInputEditText extends FrameLayout {
 
         @Override
         public void onPress(int primaryCode) {//按下key时执行s
-            logError(getStringFormat("按下key时执行, primaryCode = %d", primaryCode));
+            logFormat("按下key时执行, primaryCode = %d", primaryCode);
             keyboardView.setPreviewEnabled(primaryCode >= 0);
         }
 
         @Override
         public void onRelease(int primaryCode) {
             //释放key时执行
-            logError(getStringFormat("释放key时执行, primaryCode = %d", primaryCode));
+            logFormat("释放key时执行, primaryCode = %d", primaryCode);
         }
 
         /**
@@ -257,31 +263,31 @@ public class KeyboardInputEditText extends FrameLayout {
          */
         @Override
         public void onKey(int primaryCode, int[] keyCodes) {
-            logError(getStringFormat("primaryCode=%d, keyCodes=%s", primaryCode, Arrays.toString(keyCodes)));
+            logFormat("primaryCode=%d, keyCodes=%s", primaryCode, Arrays.toString(keyCodes));
             switch (primaryCode) {
-                case Keyboard.KEYCODE_SHIFT:// 设置shift状态然后刷新页面
+                case Keyboard.KEYCODE_SHIFT://-1 设置shift状态然后刷新页面
 //                    pinyin26KB.setShifted(!pinyin26KB.isShifted());
-//                    keyboardView.invalidateAllKeys();
                     switchKeyboard();
                     break;
-                case Keyboard.KEYCODE_DELETE://点击删除键，长按连续删除
-//                    int start1 = editText.getSelectionStart();
-//                    if (editText.length() > 0 && start1 > 0) {
-//                        editText.getText().delete(start1 - 1, start1);
-//                    }
-                    KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-                    editText.dispatchKeyEvent(event);
+                case Keyboard.KEYCODE_MODE_CHANGE://-2
                     break;
-                case Keyboard.KEYCODE_DONE:
+                case Keyboard.KEYCODE_CANCEL://-3 取消
+                    break;
+                case Keyboard.KEYCODE_DONE://-4
                     showHideVisibleGoneNotify(false);
                     break;
+                case Keyboard.KEYCODE_DELETE://-5 点击删除键，长按连续删除
+                    onDeletePressed();
+                    break;
+                case Keyboard.KEYCODE_ALT://-6
+                    break;
                 default:// 按下字母键
-                    int start = editText.getSelectionStart();
-                    int end = editText.getSelectionEnd();
+                    int start1 = editText.getSelectionStart();
+//                    int end = editText.getSelectionEnd();
                     boolean isInsert = false;
                     for (Keyboard.Key key : getKeys()) {
-                        if (keyCodes[0] == key.codes[0]) {
-                            editText.getText().insert(start, key.label);
+                        if (primaryCode == key.codes[0]) {
+                            editText.getText().insert(start1, key.label);
                             isInsert = true;
                             break;
                         }
@@ -289,7 +295,7 @@ public class KeyboardInputEditText extends FrameLayout {
                     //其他code值, 比如小键盘没有在keys里面, 所以在这儿判断
                     if (!isInsert) {
                         String s = Character.toString((char) primaryCode);
-                        editText.getText().insert(start, s);
+                        editText.getText().insert(start1, s);
                     }
                     break;
             }
@@ -322,12 +328,19 @@ public class KeyboardInputEditText extends FrameLayout {
         }
     }
 
-    protected String getStringFormat(String format, Object... args) {
-        return String.format(Locale.getDefault(), format, args);
+    /**
+     * 删除键
+     */
+    public void onDeletePressed() {
+        KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL);
+        editText.onKeyDown(KeyEvent.KEYCODE_DEL, event);
     }
 
     protected void logError(Object object) {
         LogUtils.error(String.valueOf(object), false);
+    }
+    protected void logFormat(String format, Object... args) {
+        LogUtils.formatError(String.valueOf(format), false, args);
     }
 
 
@@ -381,7 +394,7 @@ public class KeyboardInputEditText extends FrameLayout {
     /**
      * @return 当前键盘的keys
      */
-    public List<Keyboard.Key> getKeys() {
+    public @Nullable List<Keyboard.Key> getKeys() {
         Keyboard keyboard = getKeyboard();
         if (keyboard != null) return keyboard.getKeys();
         return null;
@@ -451,7 +464,7 @@ public class KeyboardInputEditText extends FrameLayout {
      * 按切换键时切换软键盘
      */
     public void switchKeyboard() {
-        keyboardView.setKeyboard(getKeyboard() == firstKeyboard ? secondKeyboard : firstKeyboard);
+        switchKeyboard(getKeyboard() == secondKeyboard);
     }
 
     /**
@@ -459,7 +472,34 @@ public class KeyboardInputEditText extends FrameLayout {
      * @param isFirstKeyboard 是否是第一种键盘
      */
     public void switchKeyboard(boolean isFirstKeyboard) {
-        keyboardView.setKeyboard(isFirstKeyboard ? firstKeyboard : secondKeyboard);
+        boolean isKeyboard1 = getKeyboard() == firstKeyboard;//当前是否是第1种键盘
+        //根据当前键盘判断是否要重设键盘
+        isResetKeyboard = isFirstKeyboard != isKeyboard1;
+        if (isResetKeyboard) {
+            keyboardView.setKeyboard(isFirstKeyboard ? firstKeyboard : secondKeyboard);
+        }
+    }
+    /**
+     * FIXME: 2019/12/23 未解决
+     * 重新设置键盘后, 如果新键盘keys个数比原键盘keys个数少,
+     * 并且目前有键盘key在点击, 而KeyboardView的onTouchEvent没走/完?,
+     * 就不会更新KeyboardView中的mRepeatKeyIndex变量(这个变量指按下的按键在keys中的position)
+     * 就非常容易出错, 比如:
+     * 一直按住删除, 当text长度=1时, 从数字键盘(36个key)切换到省市键盘(39个key), 就会报错:
+     * java.lang.ArrayIndexOutOfBoundsException: length=36; index=38
+     * @see KeyboardView#repeatKey()
+     */
+    protected void reSetmRepeatKeyIndex(int index) {
+        logError("index = " + index);
+        try {
+            Field field = keyboardView.getClass().getDeclaredField("mRepeatKeyIndex");
+            field.setAccessible(true);
+            field.set(keyboardView, index);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
