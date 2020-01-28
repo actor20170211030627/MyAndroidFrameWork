@@ -3,13 +3,16 @@ package com.ly.sample.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 import com.actor.myandroidframework.widget.BaseRatingBar;
 import com.actor.myandroidframework.widget.BaseSpinner;
+import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.ly.sample.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Description: 主页->自定义View
@@ -19,9 +22,17 @@ import butterknife.ButterKnife;
 public class CustomViewActivity extends BaseActivity {
 
     @BindView(R.id.base_rating_bar)
-    BaseRatingBar baseRatingBar;
+    BaseRatingBar       baseRatingBar;
     @BindView(R.id.base_spinner)
-    BaseSpinner   baseSpinner;
+    BaseSpinner         baseSpinner;
+    @BindView(R.id.itil1)
+    ItemTextInputLayout itil1;
+    @BindView(R.id.btn)
+    Button btn;
+
+    private String[] btns = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
+    private String[] digits = {"[^0-9]", "[^a-zA-Z0-9\u4E00-\u9FA5]", "[^a-z]"};
+    private int  pos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +62,17 @@ public class CustomViewActivity extends BaseActivity {
                 toast("重复选中了: " + position);
             }
         });
+    }
+
+    @OnClick({R.id.btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn:
+                if (++ pos == btns.length) pos = 0;
+//                itil1.setDigits("123456", true);
+                itil1.setDigitsRegex(digits[pos], true);
+                btn.setText(btns[pos]);
+                break;
+        }
     }
 }

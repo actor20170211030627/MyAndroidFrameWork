@@ -68,4 +68,22 @@
             android:padding="10dp"
             android:spinnerMode="dropdown" />
     </FrameLayout>
+
+    <com.actor.myandroidframework.widget.ItemTextInputLayout
+        android:id="@+id/itil1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:itilGravity="right|center_vertical"
+        app:itilImeOptions="actionDone"
+        app:itilInputType="text"
+        app:itilDigits="@string/digits_phone"
+        app:itilItemName="item1" />
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="只能输入数字"
+        android:transitionName="btnTest" />
 </LinearLayout>
