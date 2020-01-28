@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 import android.support.annotation.StringRes;
@@ -98,7 +99,9 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
         super(context, attrs, defStyleAttr);
         density = getResources().getDisplayMetrics().density;
         int layoutId = R.layout.item_text_input_layout;
-        if (attrs != null) {
+        if (attrs == null) {
+            inflate(context, layoutId);
+        } else {
             //根据xml中属性, 给view赋值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemTextInputLayout);
             //左侧红点是否显示
@@ -130,18 +133,10 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
             //右侧箭头位置图片
             Drawable arrowSrc = typedArray.getDrawable(R.styleable.ItemTextInputLayout_itilArrowRightSrc);
             //Item自定义View
-            int resourceId = typedArray.getResourceId(R.styleable.ItemTextInputLayout_itilCustomLayout, 0);
+            int resourceId = typedArray.getResourceId(R.styleable.ItemTextInputLayout_itilCustomLayout, layoutId);
             typedArray.recycle();
 
-            if (resourceId != 0) layoutId = resourceId;
-            //设置view, 并找到子view
-            View inflate = View.inflate(context, layoutId, this);
-            spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_itil);
-            tvRedStar = inflate.findViewById(R.id.tv_red_star_for_itil);
-            tv1 = inflate.findViewById(R.id.tv_item_name_for_itil);
-            et1 = inflate.findViewById(R.id.et_input_for_itil);
-            ivArrowRight = inflate.findViewById(R.id.iv_arrow_right_for_itil);
-
+            inflate(context, resourceId);
             tvRedStar.setVisibility(redStarVisiable * 4);
             if (!inputEnable) setInputEnable(false);
             if (itilItemName != null) {
@@ -173,6 +168,15 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
             setPaddingRightText(paddingRightText);
             if (arrowSrc != null) setIvArrowRight(arrowSrc, null, null);
         }
+    }
+    private void inflate(Context context, @LayoutRes int resource) {
+        //设置view, 并找到子view
+        View inflate = View.inflate(context, resource, this);
+        spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_itil);
+        tvRedStar = inflate.findViewById(R.id.tv_red_star_for_itil);
+        tv1 = inflate.findViewById(R.id.tv_item_name_for_itil);
+        et1 = inflate.findViewById(R.id.et_input_for_itil);
+        ivArrowRight = inflate.findViewById(R.id.iv_arrow_right_for_itil);
     }
 
     /**
