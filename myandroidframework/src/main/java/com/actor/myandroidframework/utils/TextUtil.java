@@ -15,12 +15,28 @@ import android.util.SparseLongArray;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.actor.myandroidframework.R;
+import com.blankj.utilcode.util.KeyboardUtils;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 
 /**
- * Description: getText(),判空,显示/隐藏键盘
+ * Description: 如下功能:
+ * <ol>
+ *     <li>{@link #getText(Object)} 获取Text</li>
+ *     <li>{@link #isNoEmpty(Object...)} 判断Objects是否为空</li>
+ *     <li>{@link #isNoEmpty(Object, CharSequence)} 判断Object是否为空, 如果为空: toast(charsequence);</li>
+ *     <li>{@link #equals(CharSequence, CharSequence)} 判断2个字符序列equals</li>
+ *     <li>{@link #getStringFormat(String, Object...)} 获取格式化后的String</li>
+ *     <li>{@link #concat(CharSequence...)} 连接多个字符序列</li>
+ *     <li>{@link #isDigitsOnly(CharSequence)} 是否只包含数字</li>
+ *     <li>{@link #getReverse(CharSequence)} 获取反转字符串</li>
+ *     <li>{@link #getTrimmedLength(CharSequence)} 获取trim后字符长度</li>
+ *     <li>{@link #htmlEncode(String)} 获取html格式的字符串</li>
+ * </ol>
  * Date       : 2018/4/20 on 11:14
  * @version 1.0
  */
@@ -28,54 +44,75 @@ public class TextUtil {
 
     /**
      * 获取text
-     * @param obj
-     * @return
+     * @param obj 参数类型, 包括:
+     *            <ol>
+     *                <li>{@link GetTextAble}</li>
+     *                <li>{@link TextView}</li>
+     *                <li>{@link TextInputLayout}</li>
+     *                <li>{@link Object#toString()}</li>
+     *            </ol>
+     * @return 返回获取的text
      */
-    public static String getText(Object obj) {
-        if (obj == null) return null;
-        if (obj instanceof TextView) {
-            return getText((TextView) obj);
-        } else if (obj instanceof TextInputLayout) {
-            return getText((TextInputLayout) obj);
-        } else if (obj instanceof GetTextAble) {//实现本类的接口
-            return getText((GetTextAble) obj);
-        } else return obj.toString();
+    public static String getText(@NonNull Object obj) {
+        if (obj instanceof GetTextAble)     return getText((GetTextAble) obj);//实现本类的接口
+        if (obj instanceof TextView)        return getText((TextView) obj);
+        if (obj instanceof TextInputLayout) return getText((TextInputLayout) obj);
+        return obj.toString();
     }
 
-    private static String getText(TextView textView){
+    protected static String getText(GetTextAble getTextAble){
+        CharSequence text = getTextAble.getText();
+        if (text != null) return text.toString().trim();
+        return null;
+    }
+
+    protected static String getText(TextView textView){
         return textView.getText().toString().trim();
     }
 
-    private static String getText(@NonNull TextInputLayout textInputLayout) {
-        return getText(textInputLayout.getEditText());
+    protected static String getText(TextInputLayout textInputLayout) {
+        EditText editText = textInputLayout.getEditText();
+        if (editText != null) return getText(editText);
+        return null;
     }
 
-    private static String getText(GetTextAble getTextAble){
-        return getTextAble.getText().toString().trim();
+    /**
+     * 判断obj是否为空
+     * @param obj 参数类型, 包括:
+     *            <ol>
+     *                <li>{@link GetTextAble}</li>
+     *                <li>{@link TextView}</li>
+     *                <li>{@link TextInputLayout}</li>
+     *                <li>others...</li>
+     *            </ol>
+     * @return obj是否不为空
+     */
+    protected static boolean isNoEmpty(@NonNull Object obj) {
+        //实现本类的接口
+        if (obj instanceof GetTextAble)     return isNoEmpty((GetTextAble) obj, ((GetTextAble) obj).getHint());
+        if (obj instanceof TextView)        return isNoEmpty((TextView) obj, ((TextView) obj).getHint());
+        if (obj instanceof TextInputLayout) return isNoEmpty((TextInputLayout) obj, ((TextInputLayout) obj).getHint());
+        return isNoEmpty(obj, (CharSequence) null);
     }
 
     /**
      * @return 都不为空, 返回true
      */
-    public static boolean isNoEmpty(Object... objs) {
-        if (objs == null) return false;
-        boolean isNoEmpty;
+    public static boolean isNoEmpty(@NonNull Object... objs) {
         for (Object obj : objs) {
-            if (obj instanceof TextView) {
-                isNoEmpty = isNoEmpty((TextView) obj, ((TextView) obj).getHint());
-            } else if (obj instanceof GetTextAble) {
-                isNoEmpty = isNoEmpty((GetTextAble) obj, ((GetTextAble) obj).getHint());
-            } else if (obj instanceof TextInputLayout) {
-                isNoEmpty = isNoEmpty((TextInputLayout) obj, ((TextInputLayout) obj).getHint());
-            } else isNoEmpty = isNoEmpty(obj, null);
-            if (!isNoEmpty) return false;
+            if (!isNoEmpty(obj)) return false;
         }
         return true;
     }
 
     /**
-     * @param obj 判断对象是否不为空, 如果是 EditText/TextInputLayout/GetTextAble,
-     *            且为空, 就跳到相应的EditText, 包括如下类型:
+     * @param obj 判断对象是否不为空
+     *            1.如果是 EditText/TextInputLayout, 且输入为空, 就将光标定位到相应的EditText且弹出系统键盘.
+     *            2.如果是 {@link GetTextAble}
+     *              且 {@link GetTextAble#getEditText()}!=null
+     *              且 {@link GetTextAble#keyboardShowAbleIfEditText()},
+     *              且 输入为空, 就将光标定位到相应的EditText且弹出系统键盘
+     *            obj 包括如下类型:
      * <ol>
      *      <li>{@link CharSequence}</li>
      *      <li>{@link java.lang.reflect.Array}</li>
@@ -89,131 +126,191 @@ public class TextUtil {
      *      <li>{@link android.util.SparseIntArray}</li>
      *      <li>{@link android.util.SparseLongArray}</li>
      *      <li>{@link android.support.v4.util.SparseArrayCompat}</li>
+     *      <li>{@link Object#toString()}</li>
      * </ol>
-     * @param notify 如果为空 & notify != null, toast(notify)
+     * @param notify 如果为空 & notify != null, toast(notify);
      * @return 是否不为空
      */
     public static boolean isNoEmpty(Object obj, CharSequence notify) {
         if (obj == null) {
             if (notify != null) ToastUtils.show(notify);
             return false;
-        }else if (obj instanceof CharSequence) {//字符序列
+        }
+        if (obj instanceof CharSequence) {//字符序列
             boolean isEmpty = ((CharSequence) obj).length() == 0;
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
-        } else if (obj.getClass().isArray()) {//数组
+        }
+        if (obj.getClass().isArray()) {//数组
             boolean isEmpty = Array.getLength(obj) == 0;
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
-        } else if (obj instanceof Collection) {//List, Set, Queue
+        }
+        if (obj instanceof Collection) {//List, Set, Queue
             boolean isEmpty = ((Collection) obj).isEmpty();
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
-        } else if (obj instanceof Map) {//Map
+        }
+        if (obj instanceof Map) {//Map
             boolean isEmpty = ((Map) obj).isEmpty();
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
-        } else if (obj instanceof TextView) {
-            return isNoEmpty((TextView) obj, notify);
-        } else if (obj instanceof GetTextAble) {
-            return isNoEmpty((GetTextAble) obj, notify);
-        } else if (obj instanceof TextInputLayout) {
-            return isNoEmpty((TextInputLayout) obj, notify);
-        } else if (obj instanceof SparseArray) {//稀疏数组<int, Object>, android特有, 主要是替换Map
+        }
+        if (obj instanceof GetTextAble)     return isNoEmpty((GetTextAble) obj, notify);
+        if (obj instanceof TextView)        return isNoEmpty((TextView) obj, notify);
+        if (obj instanceof TextInputLayout) return isNoEmpty((TextInputLayout) obj, notify);
+
+        if (obj instanceof SparseArray) {//稀疏数组<int, Object>, android特有, 主要是替换Map
             boolean isEmpty = ((SparseArray) obj).size() == 0;
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
-        } else if (obj instanceof SparseBooleanArray) {//<int, boolean>
+        }
+        if (obj instanceof SparseBooleanArray) {//<int, boolean>
             boolean isEmpty = ((SparseBooleanArray) obj).size() == 0;
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
-        } else if (obj instanceof SparseIntArray) {//<int, int>
+        }
+        if (obj instanceof SparseIntArray) {//<int, int>
             boolean isEmpty = ((SparseIntArray) obj).size() == 0;
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {//18, android4.3
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {//18, android4.3
             if (obj instanceof SparseLongArray) {//<int, long>
                 boolean isEmpty = ((SparseLongArray) obj).size() == 0;
                 if (isEmpty && notify != null) ToastUtils.show(notify);
                 return !isEmpty;
             }
-        } else if (obj instanceof SparseArrayCompat) {//v4包, <int, Object>
+        }
+        if (obj instanceof SparseArrayCompat) {//v4包, <int, Object>
             boolean isEmpty = ((SparseArrayCompat) obj).isEmpty();
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
         }
-        return true;
+        return !TextUtils.isEmpty(obj.toString());
     }
 
-    private static boolean isNoEmpty(TextView textView, CharSequence notify) {
+    protected static boolean isNoEmpty(GetTextAble getTextAble, CharSequence nofify) {
+        boolean noEmpty = isNoEmpty(getTextAble.getText(), nofify);
+        //输入内容为空
+        if (!noEmpty) {
+            EditText editText = getTextAble.getEditText();
+            //EditText!=null & 键盘能弹出
+            if (editText != null && getTextAble.keyboardShowAbleIfEditText()) {
+                editText.requestFocus();//先获取焦点
+                KeyboardUtils.showSoftInput(editText);
+            }
+        }
+        return noEmpty;
+    }
+
+    protected static boolean isNoEmpty(TextView textView, CharSequence notify) {
         if (TextUtils.isEmpty(getText(textView))) {
-            if (!TextUtils.isEmpty(notify)) ToastUtils.show(notify);
-            if (textView instanceof EditText) KeyBoardUtils.showOrHideSoftInput((EditText) textView,true);
+            if (notify != null) ToastUtils.show(notify);
+            if (textView instanceof EditText) {
+                textView.requestFocus();//先获取焦点
+                KeyboardUtils.showSoftInput(textView);
+            }
             return false;
         }
         return true;
     }
 
     /**
-     * 判断TextInputLayout是否为空,并在下方提示
-     * @param textInputLayout
-     * @param notify 如果为空,下方提示的信息,如果不提示,传null.
-     * @return
+     * 判断TextInputLayout是否为空, 并在下方提示
+     * @param textInputLayout Android 5.0出现的一个MD风格控件
+     * @param notify 如果为空, 下方提示的信息, 如果不提示, 传null.
      */
-    private static boolean isNoEmpty(final TextInputLayout textInputLayout, final CharSequence notify) {
-        textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    protected static boolean isNoEmpty(TextInputLayout textInputLayout, CharSequence notify) {
+        EditText editText = textInputLayout.getEditText();
+        if (editText != null) {
+            TextWatcher textWatcher = (TextWatcher) textInputLayout.getTag(R.id.tag_to_get_textwatcher);
+            if (textWatcher == null) {
+                textWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtils.isEmpty(getText(textInputLayout.getEditText()))) {
-                    textInputLayout.setErrorEnabled(true);
-                    if (!TextUtils.isEmpty(notify)) {
-                        textInputLayout.setError(notify);
-                        ToastUtils.show(notify);
                     }
-                } else {
-                    textInputLayout.setErrorEnabled(false);
-                }
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (TextUtils.isEmpty(getText(textInputLayout))) {
+                            textInputLayout.setErrorEnabled(true);
+                            if (notify != null) {
+                                textInputLayout.setError(notify);
+                                ToastUtils.show(notify);
+                            }
+                        } else textInputLayout.setErrorEnabled(false);
+                    }
 
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                };
+                textInputLayout.setTag(R.id.tag_to_get_textwatcher, textWatcher);
+                editText.addTextChangedListener(textWatcher);
             }
-        });
-        if (TextUtils.isEmpty(getText(textInputLayout.getEditText()))) {
-            if (!TextUtils.isEmpty(notify)) {
+        }
+        if (TextUtils.isEmpty(getText(textInputLayout))) {
+            if (notify != null) {
                 textInputLayout.setError(notify);
                 ToastUtils.show(notify);
             }
-            KeyBoardUtils.showOrHideSoftInput(textInputLayout.getEditText(),true);
+            if (editText != null) {
+                editText.requestFocus();//先获取焦点
+                KeyboardUtils.showSoftInput(editText);
+            }
             return false;
         }
         return true;
     }
 
-    private static boolean isNoEmpty(GetTextAble getTextAble, CharSequence nofify) {
-        return isNoEmpty(getTextAble.getEditText(), nofify);
-    }
-
     /**
-     * 判断是否equals
-     * @param a
-     * @param b
-     * @return
+     * @return 返回是否equals
      */
-    public static boolean equals(@Nullable String a, @Nullable String b) {
+    public static boolean equals(@Nullable CharSequence a, @Nullable CharSequence b) {
         return TextUtils.equals(a, b);
     }
 
+    /**
+     * 返回格式化后的String, 示例: ("name = %s, age = %d", "张三", 23) => (name = 张三, age = 23)
+     * 具体格式化方式可参考:
+     * GitHub:
+     * https://github.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
+     * 码云:
+     * https://gitee.com/actor2017/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
+     */
+    public static String getStringFormat(String format, Object... args) {
+        return String.format(Locale.getDefault(), format, args);
+    }
+
     public interface GetTextAble {
-        CharSequence getText();
-        CharSequence getHint();
-        EditText getEditText();
+
+        /**
+         * @return 返回输入的内容, 用于判断是否已经有输入的内容
+         */
+        @Nullable CharSequence getText();
+
+        /**
+         * @return 返回提示信息, 用于没有输入内容时, toast的提示内容
+         */
+        @Nullable CharSequence getHint();
+
+        /**
+         * @return 如果有EditText就返回EditText(判断输入内容为空时, 光标定位到这个EditText & 默认弹出系统键盘),
+         *         否则返回 null
+         */
+        @Nullable EditText getEditText();
+
+        /**
+         * 如果{@link #getEditText()} 返回的EditText!=null, 并且EditText输入内容为空,
+         * toast(getHint()) 后,  系统键盘是否自动弹出
+         * @return 默认true 可以弹出, 可重写此方法
+         */
+        default boolean keyboardShowAbleIfEditText() {
+            return true;
+        }
     }
 
     /**==============================其它方法===================================*/
@@ -228,27 +325,21 @@ public class TextUtil {
 
     /**
      * 返回是否只包含数字
-     * @param str
-     * @return
      */
     public static boolean isDigitsOnly(CharSequence str) {
         return TextUtils.isDigitsOnly(str);
     }
 
     /**
-     * 获取反转字符串
-     * @param source
-     * @return
+     * @return 获取反转字符串
      */
     public static CharSequence getReverse(CharSequence source) {
-        if (source == null) return null;
-        return TextUtils.getReverse(source, 0, source.length());
+        if (source != null) return TextUtils.getReverse(source, 0, source.length());
+        return null;
     }
 
     /**
      * 获取trim后字符长度
-     * @param s
-     * @return
      */
     public static int getTrimmedLength(CharSequence s) {
         if (s == null) return 0;
@@ -256,7 +347,7 @@ public class TextUtil {
     }
 
     /**
-     * 获取html格式的字符串,https://blog.csdn.net/yang28242687/article/details/64967167
+     * 获取html格式的字符串, https://blog.csdn.net/yang28242687/article/details/64967167
      * <ol>
      *     <li>< 转换为 &#038;lt;</li>
      *     <li>> 转换为 &#038;gt;</li>

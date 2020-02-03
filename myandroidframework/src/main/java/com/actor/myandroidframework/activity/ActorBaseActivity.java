@@ -1,7 +1,6 @@
 package com.actor.myandroidframework.activity;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -9,6 +8,8 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,7 +25,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -95,11 +95,20 @@ public class ActorBaseActivity extends AppCompatActivity {
 
     /**
      * 共享元素方式跳转
-     * @param view 共享元素, 需要在xml或者java文件中设置TransitionName
+     * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
-    public void startActivity(Intent intent, @NonNull View view) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+    public void startActivity(Intent intent, @NonNull View... sharedElements) {
+//        ActivityUtils.startActivity(this, intent, sharedElements);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && sharedElements.length > 0) {
+            //单个共享元素方式跳转, 如果是图片的话跳转到下个页面有可能变形
+//            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+            int len = sharedElements.length;
+            @SuppressWarnings("unchecked")
+            Pair<View, String>[] pairs = new Pair[len];
+            for (int i = 0; i < len; i++) {
+                pairs[i] = Pair.create(sharedElements[i], sharedElements[i].getTransitionName());
+            }
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, pairs);
             startActivity(intent, compat.toBundle());
         } else startActivity(intent);
     }
@@ -112,11 +121,19 @@ public class ActorBaseActivity extends AppCompatActivity {
 
     /**
      * 共享元素方式跳转
-     * @param view 共享元素, 需要在xml或者java文件中设置TransitionName
+     * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
-    public void startActivityForResult(Intent intent, int requestCode, @NonNull View view) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+    public void startActivityForResult(Intent intent, int requestCode, @NonNull View... sharedElements) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && sharedElements.length > 0) {
+            //单个共享元素方式跳转, 如果是图片的话跳转到下个页面有可能变形
+//            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+            int len = sharedElements.length;
+            @SuppressWarnings("unchecked")
+            Pair<View, String>[] pairs = new Pair[len];
+            for (int i = 0; i < len; i++) {
+                pairs[i] = Pair.create(sharedElements[i], sharedElements[i].getTransitionName());
+            }
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, pairs);
             startActivityForResult(intent, requestCode, compat.toBundle());
         } else startActivityForResult(intent, requestCode);
     }
@@ -128,7 +145,9 @@ public class ActorBaseActivity extends AppCompatActivity {
     }
 
 
-    //返回String区=============================================
+    ///////////////////////////////////////////////////////////////////////////
+    // 返回String区
+    ///////////////////////////////////////////////////////////////////////////
     protected String getNoNullString(String s) {
         return s == null? "" : s;
     }
@@ -144,7 +163,7 @@ public class ActorBaseActivity extends AppCompatActivity {
 
     //获取格式化后的String, 例: "我的姓名是%s, 我的年龄是%d", "张三", 23
     protected String getStringFormat(String format, Object... args) {
-        return String.format(Locale.getDefault(), format, args);
+        return TextUtil.getStringFormat(format, args);
     }
 
     public static String getText(Object obj){
@@ -152,18 +171,40 @@ public class ActorBaseActivity extends AppCompatActivity {
     }
 
 
-    //判空区=============================================
-    protected boolean isEmpty(Object... obj) {
-        return !isNoEmpty(obj);
+    ///////////////////////////////////////////////////////////////////////////
+    // 判空区
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 只要有一个为空, 就返回true
+     */
+    protected boolean isEmpty(@NonNull Object... objs) {
+        return !isNoEmpty(objs);
     }
 
+    /**
+     * 只要有一个为空, 就返回true
+     * @param notify 为空时, toast 提示的内容
+     */
     protected boolean isEmpty(Object obj, CharSequence notify) {
         return !isNoEmpty(obj, notify);
     }
 
     /**
-     * @param objs 判断对象是否不为空, 如果是 EditText/TextInputLayout/GetTextAble,
-     *            且为空, 就跳到相应的EditText, 包括如下类型:
+     * @param objs 判断对象是否都不为空
+     * @return 都不为空, 返回true
+     */
+    protected boolean isNoEmpty(@NonNull Object... objs) {
+        return TextUtil.isNoEmpty(objs);
+    }
+
+    /**
+     * @param obj 判断对象是否不为空
+     *            1.如果是 EditText/TextInputLayout, 且输入为空, 就将光标定位到相应的EditText且弹出系统键盘.
+     *            2.如果是 {@link TextUtil.GetTextAble}
+     *              且 {@link TextUtil.GetTextAble#getEditText()}!=null
+     *              且 {@link TextUtil.GetTextAble#keyboardShowAbleIfEditText()},
+     *              且 输入为空, 就将光标定位到相应的EditText且弹出系统键盘
+     *            obj 包括如下类型:
      * <ol>
      *      <li>{@link CharSequence}</li>
      *      <li>{@link java.lang.reflect.Array}</li>
@@ -177,35 +218,42 @@ public class ActorBaseActivity extends AppCompatActivity {
      *      <li>{@link android.util.SparseIntArray}</li>
      *      <li>{@link android.util.SparseLongArray}</li>
      *      <li>{@link android.support.v4.util.SparseArrayCompat}</li>
+     *      <li>{@link Object#toString()}</li>
      * </ol>
-     * @return 都不为空, 返回true
+     * @param notify 如果为空 & notify != null, toast(notify);
+     * @return 是否不为空
      */
-    protected boolean isNoEmpty(Object... objs) {
-        return TextUtil.isNoEmpty(objs);
-    }
-
     protected boolean isNoEmpty(Object obj, CharSequence notify) {
         return TextUtil.isNoEmpty(obj, notify);
     }
 
 
-    //打印日志区=============================================
+    ///////////////////////////////////////////////////////////////////////////
+    // 打印日志区
+    ///////////////////////////////////////////////////////////////////////////
     protected void logError(Object msg) {
         LogUtils.error(String.valueOf(msg), false);
     }
 
+    /**
+     * 打印格式化后的字符串
+     */
     protected void logFormat(String format, Object... args) {
         LogUtils.formatError(format, false, args);
     }
 
 
-    //toast区=============================================
+    ///////////////////////////////////////////////////////////////////////////
+    // toast区
+    ///////////////////////////////////////////////////////////////////////////
     protected void toast(Object notify){
         ToastUtils.show(String.valueOf(notify));
     }
 
 
-    //显示加载Diaong=============================================
+    ///////////////////////////////////////////////////////////////////////////
+    // 显示加载Diaong
+    ///////////////////////////////////////////////////////////////////////////
     private LoadingDialog loadingDialog;
     public void showLoadingDialog() {
         getLoadingDialog(true).show();
@@ -227,7 +275,9 @@ public class ActorBaseActivity extends AppCompatActivity {
     }
 
 
-    //Retrofit区=============================================
+    ///////////////////////////////////////////////////////////////////////////
+    // Retrofit区
+    ///////////////////////////////////////////////////////////////////////////
     protected <T> Call<T> putCall(Call<T> call) {//放入List, onDestroy的时候全部取消请求
         if (calls == null) calls = new ArrayList<>();
         calls.add(call);
@@ -235,7 +285,9 @@ public class ActorBaseActivity extends AppCompatActivity {
     }
 
 
-    //下拉刷新 & 上拉加载更多 & 空布局区=============================================
+    ///////////////////////////////////////////////////////////////////////////
+    // 下拉刷新 & 上拉加载更多 & 空布局
+    ///////////////////////////////////////////////////////////////////////////
     /**
      * 设置空布局
      * @param adapter 不能为空

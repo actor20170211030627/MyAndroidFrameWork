@@ -7,8 +7,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.ly.sample.R;
-import com.ly.sample.widget.GridTableEditText;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,16 +31,16 @@ import butterknife.OnClick;
 public class IsEmptyActivity extends BaseActivity {
 
     @BindView(R.id.et_content)
-    EditText          etContent;
+    EditText            etContent;
     @BindView(R.id.text_input_layout)
-    TextInputLayout   textInputLayout;
-    @BindView(R.id.gte_phone)
-    GridTableEditText gtePhone; //注意: GridTableEditText implements TextUtil.GetTextAble
+    TextInputLayout     textInputLayout;
+    @BindView(R.id.itil_phone)
+    ItemTextInputLayout itilPhone; //注意: ItemTextInputLayout implements TextUtil.GetTextAble
 
     private String string;
     private String[] arrays;
-    private List<String> list = new ArrayList<>();
-    private Map<Object, Object> map = new HashMap<>();
+    private List<String> list = new ArrayList<>(1);
+    private Map<Object, Object> map = new HashMap<>(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +92,8 @@ public class IsEmptyActivity extends BaseActivity {
          * @return 都不为空, 返回true
          */
         //如果String, Array, List, Map 不需要提示的话, 也可以这样一次性判断
-//        if (isNoEmpty(etContent, textInputLayout, gtePhone, string, arrays, list, map)) {
-        if (isNoEmpty(etContent, textInputLayout, gtePhone) &&
+//        if (isNoEmpty(etContent, textInputLayout, itilPhone, string, arrays, list, map)) {
+        if (isNoEmpty(etContent, textInputLayout, itilPhone) &&
                 isNoEmpty(string, "string = null了啊..") &&
                 isNoEmpty(arrays, "arrays里没有元素哟") &&
                 isNoEmpty(list, "list里没有数据") &&

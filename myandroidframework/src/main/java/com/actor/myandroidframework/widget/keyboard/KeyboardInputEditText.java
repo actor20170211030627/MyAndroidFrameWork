@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.TextUtil;
 import com.blankj.utilcode.util.KeyboardUtils;
 
 import java.lang.reflect.Field;
@@ -67,12 +68,10 @@ import java.util.List;
  * @version 1.0.2
  *      1.增加方法:
  *        @see #setKeyboardView(KeyboardView, Keyboard, OnKeyboardActionListener)
- *      2.这个类不能 implements TextUtil.GetTextAble, 不能用TextUtil.isNoEmpty()判空,
- *        因为会主动弹出系统键盘.
- *      3.增加方法:
+ *      2.增加方法:
  *        @see #setOnFocusChangeListener(OnFocusChangeListener)
  *        @see #getOnKeyboardActionListener()
- *      4.解决一个页面多个EditText共用一个KeyboardView, 导致输入时只能显示在最后一个EditText的问题
+ *      3.解决一个页面多个EditText共用一个KeyboardView, 导致输入时只能显示在最后一个EditText的问题
  * @version 1.0.3
  *      增加方法:
  *          @see #setOnKeyboardViewVisibleChangeListener(OnKeyboardViewVisibleChangeListener)
@@ -85,7 +84,7 @@ import java.util.List;
  *          @see #switchKeyboard()
  *          @see #switchKeyboard(boolean)
  */
-public class KeyboardInputEditText extends FrameLayout {
+public class KeyboardInputEditText extends FrameLayout implements TextUtil.GetTextAble {
 
     private              EditText                            editText;
     private              KeyboardView                        keyboardView;//键盘View
@@ -126,7 +125,7 @@ public class KeyboardInputEditText extends FrameLayout {
                     hideSystemShowCustomKeyBoard(null);
                     //因为一个页面有可能会多个EditText共用一个KeyboardView, 所以获取每个EditText绑定的监听
                     OnKeyboardActionListener listener =
-                            (OnKeyboardActionListener) v.getTag(R.id.tag_to_get_okkeyboardlistener);
+                            (OnKeyboardActionListener) v.getTag(R.id.tag_to_get_onkeyboardlistener);
                     if (listener != null) {
                         onKeyboardActionListener = listener;
                         if (keyboardView != null) {
@@ -225,7 +224,7 @@ public class KeyboardInputEditText extends FrameLayout {
         }
         this.onKeyboardActionListener = onKeyboardActionListener;
         //因为一个页面有可能会多个EditText共用一个KeyboardView, 所以给每个EditText绑定一个监听
-        editText.setTag(R.id.tag_to_get_okkeyboardlistener, onKeyboardActionListener);
+        editText.setTag(R.id.tag_to_get_onkeyboardlistener, onKeyboardActionListener);
         if (firstKeyboard != null) {
             List<Keyboard.Key> modifierKeys = firstKeyboard.getModifierKeys();//isModifier=true时, ABC
             keyboardView.setKeyboard(firstKeyboard);
@@ -362,6 +361,7 @@ public class KeyboardInputEditText extends FrameLayout {
     /**
      * @return 输入框
      */
+    @Override
     public EditText getEditText() {
         return editText;
     }
@@ -369,6 +369,7 @@ public class KeyboardInputEditText extends FrameLayout {
     /**
      * @return 输入框的内容
      */
+    @Override
     public Editable getText() {
         return getEditText().getText();
     }
@@ -380,8 +381,15 @@ public class KeyboardInputEditText extends FrameLayout {
     /**
      * @return 输入框提示文字
      */
+    @Override
     public CharSequence getHint() {
         return getEditText().getHint();
+    }
+
+    //如果输入内容为空, 不弹出系统键盘
+    @Override
+    public boolean keyboardShowAbleIfEditText() {
+        return false;
     }
 
     /**

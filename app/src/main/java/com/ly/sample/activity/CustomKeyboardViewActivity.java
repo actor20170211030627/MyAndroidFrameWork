@@ -115,5 +115,8 @@ public class CustomKeyboardViewActivity extends BaseActivity {
 
     @OnClick(R.id.btn)
     public void onViewClicked(View view) {
+        if (isNoEmpty(keyboardInputEditText, keyboardInputEditText2, keyboardInputEditText3)) {
+            toast("恭喜, 输入完成!");
+        }
     }
 }

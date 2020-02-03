@@ -36,31 +36,32 @@
     </android.support.design.widget.TextInputLayout>
 
     <!--
-    gteArrowRightVisiable: 右边箭头显示状态, 默认与gteInputEnable相反, 可自定义
-    gteDigits: 输入限制, 比如这儿只能输入 0~9
-    gteHint: hint
-    gteImeOptions: 键盘右下角显示状态, actionDone=完成
-    gteInputEnable: 是否能输入, 默认true
-    gteInputType: 输入类型
-    gteItemName: 左侧文字
-    gteMaxLength: 最大输入长度
-    gteRedStarVisiable: 左侧红点显示状态, 默认visible
-    gteText: 显示的文字
+    itilArrowRightVisiable: 右边箭头显示状态, 默认与itilInputEnable相反, 可自定义
+    itilDigits: 输入限制, 比如这儿只能输入 0~9
+    itilHint: hint
+    itilImeOptions: 键盘右下角显示状态, actionDone=完成
+    itilInputEnable: 是否能输入, 默认true
+    itilInputType: 输入类型
+    itilItemName: 左侧文字
+    itilMaxLength: 最大输入长度
+    itilRedStarVisiable: 左侧红点显示状态, 默认visible
+    itilText: 显示的文字
+    ...
     -->
-    <com.ly.sample.widget.GridTableEditText
-        android:id="@+id/gte_phone"
+    <com.actor.myandroidframework.widget.ItemTextInputLayout
+        android:id="@+id/itil_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:gteArrowRightVisiable="gone"
-        app:gteDigits="@string/digits_phone"
-        app:gteHint="请输入数字(0~9)"
-        app:gteImeOptions="actionDone"
-        app:gteInputEnable="true"
-        app:gteInputType="number"
-        app:gteItemName="自定义View: "
-        app:gteMaxLength="6"
-        app:gteRedStarVisiable="visible"
-        app:gteText="" />
+        app:itilArrowRightVisiable="gone"
+        app:itilDigits="@string/digits_phone"
+        app:itilHint="请输入数字(0~9)"
+        app:itilImeOptions="actionDone"
+        app:itilInputEnable="true"
+        app:itilInputType="number"
+        app:itilItemName="自定义View: "
+        app:itilMaxLength="6"
+        app:itilRedStarVisiable="visible"
+        app:itilText="" />
 
     <GridLayout
         android:layout_width="match_parent"

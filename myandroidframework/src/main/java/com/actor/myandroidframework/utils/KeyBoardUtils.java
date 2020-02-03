@@ -3,6 +3,7 @@ package com.actor.myandroidframework.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -18,14 +19,16 @@ import android.widget.EditText;
  * Date       : 2017/5/23 on 20:27
  * LastUpdate : 2019/04/18
  * Version    : v1.0.1
+ * @deprecated 请使用更好的工具类: {@link com.blankj.utilcode.util.KeyboardUtils}
  */
+@Deprecated
 public class KeyBoardUtils {
     /**
      * 显示/隐藏软键盘
      * @param editText 必须是edittext,否则不起作用
      * @param isShow 是否显示软键盘
      */
-    public static void showOrHideSoftInput(EditText editText, boolean isShow) {
+    public static void showOrHideSoftInput(@NonNull EditText editText, boolean isShow) {
         InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         editText.requestFocus();//必须设置,否则如果焦点不在这个view的话,输入法弹不出来
         if (isShow) {

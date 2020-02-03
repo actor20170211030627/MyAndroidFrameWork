@@ -1,11 +1,11 @@
 package com.actor.myandroidframework.utils.retrofit;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ToastUtils;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,7 +69,7 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
      */
     public void onStatusCodeError(int errCode, Call<T> call, Response<T> response) {
         logFormat("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
-        toast(String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode));
+        toast(TextUtil.getStringFormat("错误码:%d,请联系管理员!", errCode));
     }
 
     protected void logError(String msg) {

@@ -3,6 +3,7 @@ package com.actor.myandroidframework.utils.MyOkhttpUtils;
 import android.support.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ThreadUtils;
 import com.actor.myandroidframework.utils.ToastUtils;
 import com.alibaba.fastjson.JSONObject;
@@ -13,7 +14,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Request;
@@ -160,8 +160,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * @param id
      */
     public void onStatusCodeError(int errCode, Response response, int id) {
-        logFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
-        String s = String.format(Locale.getDefault(), "错误码:%d,请联系管理员!", errCode);
+        String s = TextUtil.getStringFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
+        logFormat(s);
         toast(s);
     }
 

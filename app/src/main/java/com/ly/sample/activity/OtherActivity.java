@@ -20,7 +20,9 @@ public class OtherActivity extends BaseActivity {
 
         setTitle("主页->线程, 权限, SPUtils, EventBus");
 
-        /////////////////////1.ThreadUtils线程/////////////////////
+        ///////////////////////////////////////////////////////////////////////////
+        // 1.ThreadUtils线程
+        ///////////////////////////////////////////////////////////////////////////
         ThreadUtils.runOnSubThread(new Runnable() {//在主线程运行
             @Override
             public void run() {
@@ -41,14 +43,18 @@ public class OtherActivity extends BaseActivity {
         }, 1_000);
 
 
-        /////////////////////2.PermissionRequestUtils权限/////////////////////
+        ///////////////////////////////////////////////////////////////////////////
+        // 2.PermissionRequestUtils权限
+        ///////////////////////////////////////////////////////////////////////////
 //        PermissionRequestUtils.requestPermission();
 //        PermissionRequestUtils.go2Setting();
 //        PermissionRequestUtils.installApk();
         //...
 
 
-        /////////////////////3.SPUtils/////////////////////
+        ///////////////////////////////////////////////////////////////////////////
+        // 3.SPUtils
+        ///////////////////////////////////////////////////////////////////////////
 //        SPUtils.putBoolean();
 //        SPUtils.putInt();
 //        SPUtils.putString();
@@ -73,7 +79,9 @@ public class OtherActivity extends BaseActivity {
 //        SPUtils.unregisterOnSharedPreferenceChangeListener();
 
 
-        /////////////////////4.EventBus/////////////////////
+        ///////////////////////////////////////////////////////////////////////////
+        // 4.EventBus
+        ///////////////////////////////////////////////////////////////////////////
 //        EventBus.getInstance().post(new EventBusEvent<>(1, "msg"));
 //        EventBus.getInstance().post(new EventBusEvent<GithubInfo>(1, new GithubInfo()));
 //        EventBus.getInstance().post(new EventBusEvent<GithubInfo>(1, "msg", new GithubInfo()));

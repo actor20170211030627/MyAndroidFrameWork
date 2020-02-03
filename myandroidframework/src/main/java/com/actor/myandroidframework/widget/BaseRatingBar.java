@@ -224,8 +224,8 @@ public class BaseRatingBar extends View {
                 starRating = Math.round(rating / starStepSize) * starStepSize;
             }
             if (starRating > starCount) starRating = starCount;//比如步长0.3时, 会出现5.1的情况
-            //FIXME 浮点运算会出现这种情况: 0.3 * 3 = 0.90000004 (步长0.3)
         }
+        //浮点运算会出现这种情况: 0.3 * 3 = 0.90000004 (步长0.3)
         if (onRatingBarChangeListener != null) {
             onRatingBarChangeListener.onRatingChanged(this, starRating, fromUser);
         }
