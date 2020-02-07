@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.QuickSearchBarActivity"></activity>
+        <activity android:name=".activity.ViewPagerActivity"></activity>
+        <activity android:name=".activity.SharedElementActivity" />
+        <activity android:name=".activity.QuickSearchBarActivity" />
         <activity android:name=".activity.CustomKeyboardViewActivity" />
         <activity android:name=".activity.OtherActivity" />
         <activity android:name=".activity.IsEmptyActivity" />
@@ -29,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TestActivity" />
         <activity
             android:name=".activity.MyBaseBottomActivity"
             android:theme="@style/BaseBottomActivity" />

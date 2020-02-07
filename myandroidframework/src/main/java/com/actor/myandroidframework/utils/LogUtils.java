@@ -34,7 +34,7 @@ public class LogUtils {
 //        long threadID = Thread.currentThread().getId();
         //获取文件名.即xxx.java
         String fileName = stackTraceElement.getFileName();
-        //获取类名.即包名+类名
+        //字节名, 包名 + 类名: com.google.package.activity.ActorBaseActivity
 //        String className = stackTraceElement.getClassName();
         //文件名,例:LoginActivity
 //        String simpleName = stackTraceElement.getClass().getSimpleName();
@@ -93,7 +93,7 @@ public class LogUtils {
 //        long threadID = Thread.currentThread().getId();
         //获取文件名.即xxx.java
         String fileName = stackTraceElement.getFileName();
-        //获取类名.即包名+类名
+        //字节名, 包名 + 类名: com.google.package.activity.ActorBaseActivity
 //        String className = stackTraceElement.getClassName();
         //获取方法名称
         String methodName = stackTraceElement.getMethodName();

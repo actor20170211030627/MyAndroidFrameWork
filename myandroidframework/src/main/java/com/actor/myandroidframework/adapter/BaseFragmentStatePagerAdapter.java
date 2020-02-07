@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * Description: ViewPager的Adapter, 填充Fragment
  * 如果需要处理有很多页，并且数据动态性较大、占用内存较多的情况，应该使用(对fragment进行完全的添加和删除操)
@@ -20,28 +22,36 @@ import android.view.ViewGroup;
  * 很多页面的时候, 推荐使用
  * 如果viewpager中的Fragment不想重复请求网络, 可以设置:viewpager.setOffscreenPageLimit(int limit);
  *
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/27 on 10:12
  * @version 1.1
  */
 public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
-    private int sizeForMyFragmentStatePagerAdapter;
-    private SparseArray<Fragment> fragmentsForMyFragmentStatePagerAdapter;
-    private String[] titles;
+    protected int                   sizeOfMyFragmentStatePagerAdapter;
+    protected SparseArray<Fragment> fragmentsOfMyFragmentStatePagerAdapter;
+    protected String[]              titles;
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, int size) {
         super(fm);
-        this.sizeForMyFragmentStatePagerAdapter = size;
-        fragmentsForMyFragmentStatePagerAdapter = new SparseArray<>(size);
+        this.sizeOfMyFragmentStatePagerAdapter = size;
+        fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(size);
     }
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, @NonNull String[] titles) {
         super(fm);
-        this.sizeForMyFragmentStatePagerAdapter = titles.length;
-        fragmentsForMyFragmentStatePagerAdapter = new SparseArray<>(sizeForMyFragmentStatePagerAdapter);
+        this.sizeOfMyFragmentStatePagerAdapter = titles.length;
+        fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(sizeOfMyFragmentStatePagerAdapter);
         this.titles = titles;
+    }
+
+    public BaseFragmentStatePagerAdapter(FragmentManager fm, List<String> titles) {
+        super(fm);
+        if (titles != null) {
+            this.sizeOfMyFragmentStatePagerAdapter = titles.size();
+            fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(sizeOfMyFragmentStatePagerAdapter);
+            this.titles = (String[]) titles.toArray();
+        }
     }
 
     /**
@@ -57,8 +67,8 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
      * @param position 第几个Fragment
      */
     public @Nullable <T extends Fragment> T getFragment(int position) {
-        if (fragmentsForMyFragmentStatePagerAdapter.size() > position) {
-            return (T) fragmentsForMyFragmentStatePagerAdapter.get(position);
+        if (fragmentsOfMyFragmentStatePagerAdapter.size() > position) {
+            return (T) fragmentsOfMyFragmentStatePagerAdapter.get(position);
         }
         return null;
     }
@@ -72,7 +82,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
 
     @Override
     public int getCount() {
-        return sizeForMyFragmentStatePagerAdapter;
+        return sizeOfMyFragmentStatePagerAdapter;
     }
 
     //实例化
@@ -80,22 +90,27 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        fragmentsForMyFragmentStatePagerAdapter.put(position, fragment);
+        fragmentsOfMyFragmentStatePagerAdapter.put(position, fragment);
         return fragment;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        fragmentsForMyFragmentStatePagerAdapter.remove(position);
+        fragmentsOfMyFragmentStatePagerAdapter.remove(position);
         super.destroyItem(container, position, object);
     }
 
     /**
-     * (以前的注意事项, 现在不一定适用)
-     * 当"切换账号"的时候, 如果FragmentFactory不clear(); fragment就不会销毁, 调用下方super会空指针:
-     * java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.Object android
-     * .util.SparseArray.get(int)' on a null object reference
+     * @param container
+     * @param position 切换到了某个position
+     * @param object ViewPager切换到了 position, position 位置的 Fragment
      */
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+//        Fragment currentFragment = (Fragment) object;
+    }
+
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
         super.restoreState(state, loader);

@@ -33,6 +33,13 @@
                 android:transitionName="btn" />
 
             <Button
+                android:id="@+id/btn_shared_element"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SharedElement 元素共享跳转"
+                android:transitionName="btn" />
+
+            <Button
                 android:id="@+id/btn_bottom_sheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,7 +115,6 @@
         https://github.com/actor20170211030627/MyAndroidFrameWork" />
 
             <TextView
-                android:id="@+id/tv_test"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="没时间写sample, 集成的很多框架有很多功能, 更多功能等你自己发掘..." />

@@ -7,9 +7,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +19,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ToastUtils;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -197,19 +196,7 @@ public abstract class ActorBaseFragment extends Fragment {
      * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
     public void startActivity(Intent intent, @NonNull View... sharedElements) {
-//        ActivityUtils.startActivity(activity, intent, sharedElements);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && sharedElements.length > 0) {
-            //单个共享元素方式跳转, 如果是图片的话跳转到下个页面有可能变形
-//            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
-            int len = sharedElements.length;
-            @SuppressWarnings("unchecked")
-            Pair<View, String>[] pairs = new Pair[len];
-            for (int i = 0; i < len; i++) {
-                pairs[i] = Pair.create(sharedElements[i], sharedElements[i].getTransitionName());
-            }
-            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
-            startActivity(intent, compat.toBundle());
-        } else startActivity(intent);
+        ActivityUtils.startActivity(activity, intent, sharedElements);
     }
 
     @Override
@@ -225,18 +212,7 @@ public abstract class ActorBaseFragment extends Fragment {
      * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
     public void startActivityForResult(Intent intent, int requestCode, @NonNull View... sharedElements) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && sharedElements.length > 0) {
-            //单个共享元素方式跳转, 如果是图片的话跳转到下个页面有可能变形
-//            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
-            int len = sharedElements.length;
-            @SuppressWarnings("unchecked")
-            Pair<View, String>[] pairs = new Pair[len];
-            for (int i = 0; i < len; i++) {
-                pairs[i] = Pair.create(sharedElements[i], sharedElements[i].getTransitionName());
-            }
-            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
-            startActivityForResult(intent, requestCode, compat.toBundle());
-        } else startActivityForResult(intent, requestCode);
+        ActivityUtils.startActivityForResult(this, intent, requestCode, sharedElements);
     }
 
     @Override

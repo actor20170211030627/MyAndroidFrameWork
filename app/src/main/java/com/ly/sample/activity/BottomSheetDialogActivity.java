@@ -133,7 +133,7 @@ public class BottomSheetDialogActivity extends BaseActivity {
                 }, null);
                 break;
             case R.id.btn_bottom_activity:
-                startActivity(new Intent(this, MyBaseBottomActivity.class), view);
+                startActivity(new Intent(this, MyBaseBottomActivity.class), false, view);
                 break;
         }
     }

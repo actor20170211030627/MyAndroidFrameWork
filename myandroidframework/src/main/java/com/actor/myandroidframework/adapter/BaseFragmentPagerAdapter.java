@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * Description:
  * FragmentPagerAdapter基类, 处理系统 系统恢复页面数据 & 旋转屏幕 等
@@ -31,28 +33,36 @@ import android.view.ViewGroup;
  *
  * 2.ExpandableListView不用重写上面的方法(以前的注意事项, 现在不一定适用)
  *
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/27 on 19:50
  * @version 1.1
  */
 public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private int sizeForMyFragmentStatePagerAdapter;
-    private SparseArray<Fragment> fragmentsForMyFragmentStatePagerAdapter;
-    private String[] titles;
+    protected int                   sizeOfMyFragmentStatePagerAdapter;
+    protected SparseArray<Fragment> fragmentsOfMyFragmentStatePagerAdapter;
+    protected String[]              titles;
 
     public BaseFragmentPagerAdapter(FragmentManager fm, int size) {
         super(fm);
-        this.sizeForMyFragmentStatePagerAdapter = size;
-        fragmentsForMyFragmentStatePagerAdapter = new SparseArray<>();
+        this.sizeOfMyFragmentStatePagerAdapter = size;
+        fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>();
     }
 
     public BaseFragmentPagerAdapter(FragmentManager fm, @NonNull String[] titles) {
         super(fm);
-        this.sizeForMyFragmentStatePagerAdapter = titles.length;
-        fragmentsForMyFragmentStatePagerAdapter = new SparseArray<>(sizeForMyFragmentStatePagerAdapter);
+        this.sizeOfMyFragmentStatePagerAdapter = titles.length;
+        fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(sizeOfMyFragmentStatePagerAdapter);
         this.titles = titles;
+    }
+
+    public BaseFragmentPagerAdapter(FragmentManager fm, List<String> titles) {
+        super(fm);
+        if (titles != null) {
+            this.sizeOfMyFragmentStatePagerAdapter = titles.size();
+            fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(sizeOfMyFragmentStatePagerAdapter);
+            this.titles = (String[]) titles.toArray();
+        }
     }
 
     /**
@@ -67,10 +77,9 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
      * 获取Fragment
      * @param position 第几个Fragment
      */
-    public @Nullable
-    <T extends Fragment> T  getFragment(int position) {
-        if (fragmentsForMyFragmentStatePagerAdapter.size() > position) {
-            return (T) fragmentsForMyFragmentStatePagerAdapter.get(position);
+    public @Nullable <T extends Fragment> T  getFragment(int position) {
+        if (fragmentsOfMyFragmentStatePagerAdapter.size() > position) {
+            return (T) fragmentsOfMyFragmentStatePagerAdapter.get(position);
         }
         return null;
     }
@@ -83,7 +92,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return sizeForMyFragmentStatePagerAdapter;
+        return sizeOfMyFragmentStatePagerAdapter;
     }
 
     //实例化
@@ -91,7 +100,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        fragmentsForMyFragmentStatePagerAdapter.put(position, fragment);
+        fragmentsOfMyFragmentStatePagerAdapter.put(position, fragment);
         return fragment;
     }
 
@@ -117,26 +126,21 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        fragmentsForMyFragmentStatePagerAdapter.remove(position);
+        fragmentsOfMyFragmentStatePagerAdapter.remove(position);
         super.destroyItem(container, position, object);
     }
 
-//    @Override
-//    public void destroyItem(ViewGroup container, int position, Object object) {
-    //移除布局,如果什么都不写,就不移除布局,就不会重复请求网络
-//        if (fragments.get(position).getView() != null) {
-//            container.removeView(fragments.get(position).getView());
-//        }
-//    }
-
-
-
     /**
-     * (以前的注意事项, 现在不一定适用)
-     * 当"切换账号"的时候, 如果FragmentFactory不clear(); fragment就不会销毁, 调用下方super会空指针:
-     * java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.Object android
-     * .util.SparseArray.get(int)' on a null object reference
+     * @param container
+     * @param position 切换到了某个position
+     * @param object ViewPager切换到了 position, position 位置的 Fragment
      */
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+//        Fragment currentFragment = (Fragment) object;
+    }
+
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
         super.restoreState(state, loader);

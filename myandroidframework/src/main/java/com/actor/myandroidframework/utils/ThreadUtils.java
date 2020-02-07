@@ -11,6 +11,8 @@ import android.os.Looper;
  * @version 1.0
  */
 public class ThreadUtils {
+
+    //使用主线程looper初始化handler,保证handler发送的消息运行在主线程
     public static final Handler handler = new Handler(Looper.getMainLooper());//handler.postDelayed
 
     /**
