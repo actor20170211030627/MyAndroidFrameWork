@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
-import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.request.RequestCall;
 
@@ -151,11 +150,11 @@ public class MyOkHttpUtils {
      * @param <T>       要解析成什么类型的对象
      */
     public static <T> void postJson(String url, Map<String, Object> params, String json, BaseCallback<T> callback) {
-        //postString的时候,没有addParams方法,参数只能拼在url后面
+        //postString的时候, 参数拼在url后面
         if (params != null && params.size() > 0) {
             boolean isFirstParams = true;
-            if (!url.endsWith("?")) url.concat("?");
             StringBuilder urlBuilder = new StringBuilder(url);
+            if (!url.endsWith("?")) urlBuilder.append("?");
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 String key = entry.getKey();
                 if (!TextUtils.isEmpty(key)) {
@@ -342,47 +341,61 @@ public class MyOkHttpUtils {
                 .execute(callback);
     }
 
-    /**
-     * 同步请求示例
-     * @param url
-     * @param tag 传this(activity or fragment),在onDestroy的时候:MyOkHttpUtils.cancelTag(this);
-     */
-    public static void getSync(String url, Object tag) {
-        try {
-            Response response = OkHttpUtils
-                    .get()
-                    .url(url)
-                    .tag(tag)
-                    .build()
-                    .execute();
-            if (response.isSuccessful()) {
-                String result = response.body().string();
-                //do something...
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static <T> void delete(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody requestBody = RequestBody.create(mediaType, JSONObject.toJSONString(params));
+        OkHttpUtils.delete().url(url).tag(callback == null ? null : callback.tag)
+                .requestBody(requestBody)
+                .id(callback == null ? 0 : callback.id)
+                .build().execute(callback);
     }
 
-    public static void otherRequest(String url, Callback callback) {
-        OkHttpUtils
-                .put()//also can use delete() ,head() , patch()
-                .url("http://11111.com")
-                .requestBody("may be something")//String
-//                .requestBody(RequestBody.create(null, "may be something"))//RequestBody
+    public static <T> void put(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody requestBody = RequestBody.create(mediaType, JSONObject.toJSONString(params));
+        OkHttpUtils.put().url(url).tag(callback == null ? null : callback.tag)
+                .requestBody(requestBody)
+                .id(callback == null ? 0 : callback.id)
+                .build().execute(callback);
+    }
+
+    public static <T> void customRequest(String url, Map<String, Object> params, BaseCallback<T> callback) {
+        //自定义put
+        RequestBody requestBody = RequestBody.create((MediaType) null, "json or something");
+        OkHttpUtils.put()//also can use delete() ,head() , patch()
+                .url(url)
+                .requestBody("String")
+                .requestBody(requestBody)// String/RequestBody
                 .build()
                 .execute(callback);
 
-        try {
-            OkHttpUtils
-                    .head()
-                    .url(url)
-                    .addParams("name", "zhy")
-                    .build()
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
+        OkHttpUtils.head()
+                .url(url)
+                .addParams("name", "zhy")
+                .build()
+                .execute(callback);
+
+        //自定义POST
+        boolean isFirstParams = true;
+        StringBuilder urlBuilder = new StringBuilder(url);
+        if (!url.contains("?")) urlBuilder.append("?");
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key = entry.getKey();
+            if (!TextUtils.isEmpty(key)) {
+                String value = getNoNullString(entry.getValue());
+                if (isFirstParams) {
+                    urlBuilder.append(key).append("=").append(value);
+                    isFirstParams = false;
+                } else urlBuilder.append("&").append(key).append("=").append(value);
+            }
         }
+        url = urlBuilder.toString();
+        Request request = new Request.Builder()
+                .method("POST",requestBody)
+                .url(url)
+                .build();
+        OkHttpClient client = OkHttpUtils.getInstance().getOkHttpClient();
+        client.newCall(request).enqueue(callback);
     }
 
     /**

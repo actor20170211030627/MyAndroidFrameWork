@@ -8,6 +8,7 @@ import android.support.v4.util.SparseArrayCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.LongSparseArray;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
@@ -125,7 +126,9 @@ public class TextUtil {
      *      <li>{@link android.util.SparseBooleanArray}</li>
      *      <li>{@link android.util.SparseIntArray}</li>
      *      <li>{@link android.util.SparseLongArray}</li>
+     *      <li>{@link LongSparseArray}</li>
      *      <li>{@link android.support.v4.util.SparseArrayCompat}</li>
+     *      <li>{@link android.support.v4.util.LongSparseArray}</li>
      *      <li>{@link Object#toString()}</li>
      * </ol>
      * @param notify 如果为空 & notify != null, toast(notify);
@@ -182,8 +185,18 @@ public class TextUtil {
                 return !isEmpty;
             }
         }
+        if (obj instanceof LongSparseArray) {//<long, Object>
+            boolean isEmpty = ((LongSparseArray) obj).size() == 0;
+            if (isEmpty && notify != null) ToastUtils.show(notify);
+            return !isEmpty;
+        }
         if (obj instanceof SparseArrayCompat) {//v4包, <int, Object>
             boolean isEmpty = ((SparseArrayCompat) obj).isEmpty();
+            if (isEmpty && notify != null) ToastUtils.show(notify);
+            return !isEmpty;
+        }
+        if (obj instanceof android.support.v4.util.LongSparseArray) {//<long, Object>
+            boolean isEmpty = ((android.support.v4.util.LongSparseArray) obj).isEmpty();
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
         }
