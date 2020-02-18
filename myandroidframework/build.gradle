@@ -32,6 +32,14 @@ android {
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         classpath += configurations.compile
     }
+    task makeJar(type: Jar) {
+//        baseName 'sdk'//指定生成的jar名
+//        from('build/intermediates/classes/debug/org/cmdmac/cloud/pluginsdk/')//从哪里打包class文件
+//        into('org/cmdmac/cloud/pluginsdk/')//打包到jar后的目录结构
+        //去掉不需要打包的目录和文件('test/', 'BuildConfig.class', 'R.class')
+        exclude('DaoMaster.class', 'DaoSession.class')
+//        exclude{ it.name.startsWith('R$');}//去掉R$开头的文件
+    }
     // 打包文档jar
     task javadocJar(type: Jar, dependsOn: javadoc) {
         classifier = 'javadoc'
@@ -40,6 +48,7 @@ android {
     artifacts {
         archives sourcesJar
         archives javadocJar
+        archives makeJar
     }
 
     //Lambda表达式, 在android节点内添加

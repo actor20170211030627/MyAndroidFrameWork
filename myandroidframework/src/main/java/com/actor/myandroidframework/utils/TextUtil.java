@@ -195,7 +195,7 @@ public class TextUtil {
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;
         }
-        if (obj instanceof android.support.v4.util.LongSparseArray) {//<long, Object>
+        if (obj instanceof android.support.v4.util.LongSparseArray) {//v4包, <long, Object>
             boolean isEmpty = ((android.support.v4.util.LongSparseArray) obj).isEmpty();
             if (isEmpty && notify != null) ToastUtils.show(notify);
             return !isEmpty;

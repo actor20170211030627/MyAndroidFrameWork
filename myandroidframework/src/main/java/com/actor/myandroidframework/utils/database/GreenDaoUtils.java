@@ -2,6 +2,7 @@ package com.actor.myandroidframework.utils.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
 import com.greendao.gen.DaoMaster;
 import com.greendao.gen.DaoSession;
@@ -64,7 +65,8 @@ public class GreenDaoUtils {
     /**
      * @param context application
      * @param isDebug 如果是debug模式, 数据库操作会打印日志
-     * @param daoClasses 实体对应的dao, 示例: ItemEntityDao.class, ...
+     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
+     *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
      */
     public static void init(Context context, boolean isDebug, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         if (instalce == null) instalce = new GreenDaoUtils(context, isDebug, daoClasses);
@@ -213,15 +215,15 @@ public class GreenDaoUtils {
     // 删
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * 删, 会调用 {@link #deleteByKey(AbstractDao, Object)} 方法
+     * 删, 会调用 {@link #deleteByKey(AbstractDao, Object)} 方法, 如果entity的主键key=null, 会报错:
+     * {@link org.greenrobot.greendao.DaoException DaoException("Entity has no key")}
+     *
      * @param dao 具体实体对应的dao
      * @param entity 具体实体
      * @param <T> 实体
      * @param <K> 实体的id类型
-     * @deprecated 一般结合查询方法，查询出一条记录之后删除, 否则可能会报错
      */
-    @Deprecated
-    public static <T, K> void delete(AbstractDao<T, K> dao, T entity) {
+    public static <T, K> void delete(AbstractDao<T, K> dao, @NonNull T entity) {
         dao.delete(entity);
     }
 
