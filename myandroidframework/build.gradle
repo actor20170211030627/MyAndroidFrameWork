@@ -50,8 +50,9 @@ android {
 //        extension "aar"
 //        from unZipAarFile
 //        destinationDir excludeAarFile
-        exclude 'DaoMaster.java'
-        exclude 'DaoSession.java'
+//        exclude 'DaoMaster.java'
+//        exclude 'DaoSession.java'
+        exclude('DaoMaster.class', 'DaoSession.class')
     }
     artifacts {
         archives sourcesJar
