@@ -20,12 +20,12 @@ android {
         }
     }
 
-    sourceSets {
-        main {
-            java.exclude("com/greendao/gen/DaoMaster.java")
-            java.exclude("com/greendao/gen/DaoSession.java")
-        }
-    }
+//    sourceSets {
+//        main {
+//            java.exclude("com/greendao/gen/DaoMaster.java")
+//            java.exclude("com/greendao/gen/DaoSession.java")
+//        }
+//    }
     //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
     // 打包源码jar
     task sourcesJar(type: Jar) {
