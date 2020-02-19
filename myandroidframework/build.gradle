@@ -43,9 +43,20 @@ android {
         classifier = 'javadoc'
         from javadoc.destinationDir
     }
+    task excludeAar(type: Zip) {
+//        group 'ex'
+//        description '生成一个排除之后的aar包'
+//        baseName excludeAarName
+//        extension "aar"
+//        from unZipAarFile
+//        destinationDir excludeAarFile
+        exclude 'DaoMaster.java'
+        exclude 'DaoSession.java'
+    }
     artifacts {
         archives sourcesJar
         archives javadocJar
+        archives excludeAar
     }
 
     //Lambda表达式, 在android节点内添加
