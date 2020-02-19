@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
     compileSdkVersion 28
@@ -37,11 +36,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    greendao {
-        schemaVersion 1                 //指定数据库schema版本号，迁移等操作会用到
-        daoPackage 'com.greendao.gen'   //dao的包名，包名默认是entity所在的包
-        targetGenDir 'src/main/java'    //生成数据库文件的目录
-    }
 }
 
 dependencies {
@@ -60,7 +54,7 @@ dependencies {
 
     //https://github.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':myandroidframework')
-//    implementation 'com.github.actor20170211030627:MyAndroidFrameWork:1.1.7'
+//    implementation 'com.github.actor20170211030627:MyAndroidFrameWork:1.3.0'
 
     //https://github.com/promeG/TinyPinyin
     implementation 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB
@@ -68,7 +62,4 @@ dependencies {
 
     // https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
     implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'//导出到Excel
-
-    //https://github.com/greenrobot/greenDAO
-    implementation 'org.greenrobot:greendao:3.2.2'//数据库
 }

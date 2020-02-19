@@ -20,12 +20,6 @@ android {
         }
     }
 
-//    sourceSets {
-//        main {
-//            java.exclude("com/greendao/gen/DaoMaster.java")
-//            java.exclude("com/greendao/gen/DaoSession.java")
-//        }
-//    }
     //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
     // 打包源码jar
     task sourcesJar(type: Jar) {
@@ -43,21 +37,9 @@ android {
         classifier = 'javadoc'
         from javadoc.destinationDir
     }
-    task excludeAar(type: Zip) {
-//        group 'ex'
-//        description '生成一个排除之后的aar包'
-//        baseName excludeAarName
-//        extension "aar"
-//        from unZipAarFile
-//        destinationDir excludeAarFile
-//        exclude 'DaoMaster.java'
-//        exclude 'DaoSession.java'
-        exclude('DaoMaster.class', 'DaoSession.class')
-    }
     artifacts {
         archives sourcesJar
         archives javadocJar
-        archives excludeAar
     }
 
     //Lambda表达式, 在android节点内添加
@@ -137,7 +119,4 @@ dependencies {
 
     // https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
     compileOnly 'net.sourceforge.jexcelapi:jxl:2.6.12'//导出到Excel
-
-    //https://github.com/greenrobot/greenDAO
-    compileOnly 'org.greenrobot:greendao:3.2.2'//数据库
 }
