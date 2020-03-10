@@ -23,6 +23,12 @@ public class MyApplication extends ActorApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        /**
+         * @param context application
+         * @param isDebug 如果是debug模式, 数据库操作会打印日志
+         * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
+         *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
+         */
         GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class/*, ...*/);
     }
 

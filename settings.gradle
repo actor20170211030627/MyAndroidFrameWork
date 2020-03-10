@@ -1,1 +1,1 @@
-include ':app', ':myandroidframework', ':greendaogen'
+include ':app', ':myandroidframework', ':tempgen'
