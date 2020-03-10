@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="activity.DatabaseActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.actor.myandroidframework.widget.ItemTextInputLayout
+            android:id="@+id/itil_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itilImeOptions="actionNext"
+            app:itilInputType="text"
+            app:itilItemName="Name姓名: "
+            app:itilRedStarVisiable="invisible" />
+
+        <com.actor.myandroidframework.widget.ItemRadioGroupLayout
+            android:id="@+id/irgl_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:irglItemName="Sex性别: "
+            app:irglTexts="Girl女,Boy男,Unknown未知" />
+
+        <com.actor.myandroidframework.widget.ItemTextInputLayout
+            android:id="@+id/itil_idcard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itilDigits="@string/digits_id_card"
+            app:itilImeOptions="actionDone"
+            app:itilInputType="textVisiblePassword"
+            app:itilItemName="IdCard身份证: "
+            app:itilMaxLength="18" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add增"
+            android:transitionName="btn" />
+
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update改" />
+
+        <Button
+            android:id="@+id/btn_query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Query查" />
+
+        <Button
+            android:id="@+id/btn_query_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QueryAll查全部" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:text="↓ Item 点击 &amp; Delete点击(↓ Item click &amp; Delete click)" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1px"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_data_base_person" />
+</LinearLayout>

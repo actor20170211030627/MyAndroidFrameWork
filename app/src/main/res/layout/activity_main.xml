@@ -64,6 +64,13 @@
                 android:transitionName="btn" />
 
             <Button
+                android:id="@+id/btn_database"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="数据库(GreenDao)"
+                android:transitionName="btn" />
+
+            <Button
                 android:id="@+id/btn_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

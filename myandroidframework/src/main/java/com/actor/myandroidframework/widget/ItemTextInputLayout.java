@@ -81,11 +81,11 @@ import com.actor.myandroidframework.utils.TextUtil;
 public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTextAble {
 
     private TextView  tvRedStar;
-    private TextView  tv1;
+    private TextView  tvItem;
     private EditText  et1;
     private ImageView ivArrowRight;
-    private float     density;//px = dp * density;
     private Space     spaceMarginTop;
+    private float     density;//px = dp * density;
 
     public ItemTextInputLayout(Context context) {
         this(context,null);
@@ -169,12 +169,12 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
             if (arrowSrc != null) setIvArrowRight(arrowSrc, null, null);
         }
     }
-    private void inflate(Context context, @LayoutRes int resource) {
+    protected void inflate(Context context, @LayoutRes int resource) {
         //设置view, 并找到子view
         View inflate = View.inflate(context, resource, this);
         spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_itil);
         tvRedStar = inflate.findViewById(R.id.tv_red_star_for_itil);
-        tv1 = inflate.findViewById(R.id.tv_item_name_for_itil);
+        tvItem = inflate.findViewById(R.id.tv_item_name_for_itil);
         et1 = inflate.findViewById(R.id.et_input_for_itil);
         ivArrowRight = inflate.findViewById(R.id.iv_arrow_right_for_itil);
     }
@@ -190,7 +190,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
      * @return 返回Item的TextView
      */
     public TextView getTextViewItem() {
-        return tv1;
+        return tvItem;
     }
 
     /**

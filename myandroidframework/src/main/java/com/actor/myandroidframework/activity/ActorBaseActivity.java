@@ -264,7 +264,7 @@ public class ActorBaseActivity extends AppCompatActivity {
         return TextUtil.getStringFormat(format, args);
     }
 
-    public static String getText(Object obj){
+    protected String getText(Object obj){
         return TextUtil.getText(obj);
     }
 

@@ -8,4 +8,12 @@
         <item>上月</item>
         <item>自定义</item>
     </string-array>
+
+    <string-array name="languages">
+        <item>c语言</item>
+        <item>java</item>
+        <item>php</item>
+        <item>xml</item>
+        <item>html</item>
+    </string-array>
 </resources>

@@ -69,19 +69,52 @@
             android:spinnerMode="dropdown" />
     </FrameLayout>
 
+    <com.actor.myandroidframework.widget.ItemRadioGroupLayout
+        android:id="@+id/item_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:irglCheckedPosition="0"
+        app:irglCustomLayout="@layout/item_radio_group_layout"
+        app:irglGravity="right|center_vertical"
+        app:irglItemName="性别: "
+        app:irglMarginTop="3dp"
+        app:irglRedStarVisiable="visible"
+        app:irglTexts="男,女,未知" />
+
+    <com.actor.myandroidframework.widget.ItemSpinnerLayout
+        android:id="@+id/item_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:islCustomLayout="@layout/item_spinner_layout"
+        app:islEntries="@array/languages"
+        app:islItemName="请选择: "
+        app:islMarginTop="3dp"
+        app:islRedStarVisiable="visible" />
+
     <com.actor.myandroidframework.widget.ItemTextInputLayout
         android:id="@+id/itil1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
+        app:itilCustomLayout="@layout/item_text_input_layout"
+        app:itilDigits="@string/digits_phone"
         app:itilGravity="right|center_vertical"
         app:itilImeOptions="actionDone"
+        app:itilInputEnable="true"
         app:itilInputType="text"
-        app:itilDigits="@string/digits_phone"
-        app:itilItemName="item1" />
+        app:itilItemName="item1"
+        app:itilMaxLength="15"
+        app:itilRedStarVisiable="visible" />
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/btn_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check position 2"
+        android:transitionName="btnTest" />
+
+    <Button
+        android:id="@+id/btn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="只能输入数字"

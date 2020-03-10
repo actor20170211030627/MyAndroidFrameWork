@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--这是ItemRadioGroupLayout的属性-->
+    <declare-styleable name="ItemRadioGroupLayout">
+
+        <!--左边的红点是否显示-->
+        <attr name="irglRedStarVisiable" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+        <!--左边的文字-->
+        <attr name="irglItemName" format="string" />
+
+        <!--RadioButton居中类型, 默认start|center_vertical-->
+        <attr name="irglGravity" format="flags">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="center_vertical" value="0x10" />
+            <flag name="fill_vertical" value="0x70" />
+            <flag name="center_horizontal" value="0x01" />
+            <flag name="fill_horizontal" value="0x07" />
+            <flag name="center" value="0x11" />
+            <flag name="fill" value="0x77" />
+            <flag name="clip_vertical" value="0x80" />
+            <flag name="clip_horizontal" value="0x08" />
+            <flag name="start" value="0x00800003" />
+            <flag name="end" value="0x00800005" />
+        </attr>
+
+        <!--marginTop距离顶部的间距, 默认1dp-->
+        <attr name="irglMarginTop" format="dimension" />
+
+        <!--多个RadioButton的text, 用','分隔开-->
+        <attr name="irglTexts" format="string" />
+
+        <!--选中第几个, 默认0-->
+        <attr name="irglCheckedPosition" format="integer" />
+
+        <!--不使用默认布局, 自定义布局-->
+        <attr name="irglCustomLayout" format="reference" />
+    </declare-styleable>
+</resources>

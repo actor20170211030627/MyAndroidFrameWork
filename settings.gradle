@@ -1,1 +1,1 @@
-include ':app', ':myandroidframework'
+include ':app', ':myandroidframework', ':greendaogen'

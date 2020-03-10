@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ItemSpinnerLayout">
+
+        <!--左边的红点是否显示-->
+        <attr name="islRedStarVisiable" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+            <enum name="gone" value="2"/>
+        </attr>
+
+        <!--左边的文字-->
+        <attr name="islItemName" format="string"/>
+
+        <!--给spinner设置本地数据源,示例:@array/languages(不要写成@arrays)-->
+        <attr name="islEntries" format="reference"/>
+
+        <!--marginTop距离顶部的间距, 默认1dp-->
+        <attr name="islMarginTop" format="dimension" />
+
+        <!--不使用默认布局, 自定义布局-->
+        <attr name="islCustomLayout" format="reference" />
+    </declare-styleable>
+
+    <!-- 这是entries的本地示例写法,用于给spinner赋值,
+         写在:values/arrays.xml里面(标准写法,好像也可以不写在这里面?)
+    <?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string-array name="languages">
+            <item>c语言</item>
+            <item>java</item>
+            <item>php</item>
+            <item>xml</item>
+            <item>html</item>
+        </string-array>
+    </resources>
+    -->
+</resources>

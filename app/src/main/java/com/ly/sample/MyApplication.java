@@ -3,6 +3,8 @@ package com.ly.sample;
 import android.support.annotation.NonNull;
 
 import com.actor.myandroidframework.application.ActorApplication;
+import com.actor.myandroidframework.utils.database.GreenDaoUtils;
+import com.greendao.gen.ItemEntityDao;
 import com.ly.sample.utils.Global;
 
 import java.util.concurrent.TimeUnit;
@@ -17,6 +19,12 @@ import okhttp3.OkHttpClient;
  * @version 1.1
  */
 public class MyApplication extends ActorApplication {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class/*, ...*/);
+    }
 
     //配置Builder
     @Override
