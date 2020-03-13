@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.ly.sample.activity.ThirdActivity">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:transitionName="btn" />
+
+        <Button
+            android:id="@+id/btn_get_user_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取用户信息"
+            android:transitionName="btn" />
+
+        <Button
+            android:id="@+id/btn_share_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享图片"
+            android:transitionName="btn" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退出"
+            android:transitionName="btn" />
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="result"
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/et_target_qq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="@string/digits_phone"
+        android:hint="请输入对方QQ号"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:maxLength="11" />
+
+    <Button
+        android:id="@+id/btn_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="聊天"
+        android:transitionName="btn" />
+</LinearLayout>

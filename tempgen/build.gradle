@@ -25,8 +25,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //https://github.com/greenrobot/greenDAO
-    api 'org.greenrobot:greendao:3.2.2'//数据库(在'myandroidframework'中可见, 不会再往上传递)
-
-    api files('libs/open_sdk_r6019_lite.jar')//QQ登录('myandroidframework'中用'compileOnly'会打进aar包中)
+    //https://github.com/greenrobot/greenDAO 数据库(在'myandroidframework'中可见, 不会再往上传递)
+    api 'org.greenrobot:greendao:3.2.2'
 }

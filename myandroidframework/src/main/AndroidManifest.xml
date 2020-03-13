@@ -29,6 +29,6 @@
         <activity
             android:name=".widget.floatingeditor.FloatEditorActivity"
             android:theme="@style/NoTitleDialogTheme"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
     </application>
 </manifest>
