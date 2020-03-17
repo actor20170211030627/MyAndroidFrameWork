@@ -34,7 +34,7 @@ import java.util.List;
  * @see R.styleable#ItemSpinnerLayout_islRedStarVisiable //visible/invisible/gone
  * 2.左侧提示文字
  * @see R.styleable#ItemSpinnerLayout_islItemName        //请选择语言：
- * 3.右侧spinner的填充内容
+ * 3.右侧spinner的填充内容, 写在:values/arrays.xml里面<string-array name="">
  * @see R.styleable#ItemSpinnerLayout_islEntries         //@array/xxx
  * 4.marginTop, 默认1dp
  * @see R.styleable#ItemSpinnerLayout_islMarginTop       //1dp

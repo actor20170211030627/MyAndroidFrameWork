@@ -36,6 +36,7 @@ public class ThirdActivity extends BaseActivity {
     TextView tvResult;
     @BindView(R.id.et_target_qq)
     TextView etTargetQq;
+    private boolean isQrCode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,16 @@ public class ThirdActivity extends BaseActivity {
         QQUtils.setAppId("222222");
     }
 
-    @OnClick({R.id.btn_login, R.id.btn_get_user_info, R.id.btn_share_img, R.id.btn_logout,
-            R.id.btn_chat})
+    @OnClick({R.id.btn_login, R.id.btn_login_qr_account_password, R.id.btn_get_user_info,
+            R.id.btn_share_img, R.id.btn_logout, R.id.btn_chat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login://登录
                 QQUtils.login(this, "all", true, listener);
+                break;
+            case R.id.btn_login_qr_account_password://二维码登录or账号密码登录
+                isQrCode = !isQrCode;
+                QQUtils.loginQrCode$AccountPassword(this, "all", isQrCode, listener);
                 break;
             case R.id.btn_get_user_info://获取用户信息
                 QQUtils.getUserInfo(new BaseUiListener() {

@@ -10,6 +10,7 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ToastUtils;
 import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.AuthAgent;
 import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.Tencent;
 
@@ -37,14 +38,16 @@ import org.json.JSONObject;
  *                 <data android:scheme="tencent222222" /><!--这儿替换成: "tencent" + appid-->
  *             </intent-filter>
  *         </activity>
- *         <!--QQ设置QQ头像, ...-->
+ *         <!--设置QQ头像, ...-->
  *         <activity
  *             android:name="com.tencent.connect.common.AssistActivity"
  *             android:configChanges="orientation|keyboardHidden"
  *             android:screenOrientation="behind"
  *             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
  *
- * 4.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
+ * 4.在Application中设置appid: {@link #setAppId(String)}
+ *
+ * 5.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
  *
  * Author     : 李大发
  * Date       : 2020/3/5 on 12:28
@@ -76,7 +79,7 @@ public class QQUtils {
      * @param scope 应用需要获得哪些接口的权限，由“，”分隔。例如：
      *              SCOPE = “get_simple_userinfo,add_topic”；所有权限用“all”
      * @param qrcode 是否开启二维码登录，没有安装手Q时候使用二维码登录，一般用电视等设备。
-     *               (如果使用二维码, 就没有网页输入账号密码登录的界面了)
+     *               (如果true使用二维码, 就没有网页输入账号密码登录的界面了)
      */
     public static void login(Activity activity, String scope, boolean qrcode, BaseUiListener listener) {
         //校验登录态,如果缓存的登录态有效，可以直接使用缓存而不需要再次拉起手Q
@@ -95,6 +98,18 @@ public class QQUtils {
             int code = getTencent().login(activity, scope, listener, qrcode);
             logResultCode(code);
         }
+    }
+
+    /**
+     * 强制二维码登录 or 强制输入账号密码登录
+     * @param qrcode 如果true, 强制二维码登录. 如果false, 强制输入账号密码登录
+     * @param listener
+     */
+    public static void loginQrCode$AccountPassword(Activity activity, String scope, boolean qrcode,
+                                                   BaseUiListener listener) {
+        //强制唤起扫码界面（无论是否安装手Q）
+        activity.getIntent().putExtra(AuthAgent.KEY_FORCE_QR_LOGIN, true);
+        login(activity, scope, qrcode, listener);
     }
 
     /**

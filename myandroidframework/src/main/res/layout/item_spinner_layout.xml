@@ -35,7 +35,7 @@
             android:minWidth="90dp"
             android:textColor="#333333"
             android:textSize="17sp"
-            tools:text="请选择语言：" />
+            tools:text="islItemName：" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner_for_isl"

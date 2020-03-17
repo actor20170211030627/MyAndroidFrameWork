@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.activity;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
@@ -240,6 +241,21 @@ public class ActorBaseActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.pre_enter, R.anim.next_exit);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 打开Service
+    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public ComponentName startService(Intent intent) {
+        //Android 8.0 不再允许后台service直接通过startService方式去启动，否则就会引起IllegalStateException
+        //android8.0以上通过startForegroundService启动service
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return startForegroundService(intent);
+        } else {
+            return super.startService(intent);
+        }
     }
 
 

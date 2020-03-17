@@ -42,6 +42,14 @@
         annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
     </li>
     <li>
+        //https://github.com/Blankj/AndroidUtilCode <br/>
+        api 'com.blankj:utilcode:1.26.0'//许多工具 <br/> <br/>
+    </li>
+    <li>
+        //https://github.com/greenrobot/EventBus <br/>
+        api 'org.greenrobot:eventbus:3.2.0' <br/> <br/>
+    </li>
+    <li>
         //https://github.com/yanzhenjie/Album <br/>
         api 'com.yanzhenjie:album:2.1.3'//图片选择 <br/> <br/>
     </li>
@@ -52,10 +60,6 @@
     <li>
         //https://github.com/Bigkoo/Android-PickerView <br/>
         api 'com.contrarywind:Android-PickerView:4.1.8'//时间选择器等等等 <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/Blankj/AndroidUtilCode <br/>
-        api 'com.blankj:utilcode:1.26.0'//许多工具 <br/> <br/>
     </li>
     <li>
         //https://github.com/laobie/StatusBarUtil <br/>

@@ -151,6 +151,19 @@
 -dontwarn com.yanzhenjie.mediascanner.**
 ##------------End: proguard configuration for Album--------------
 
+##--------------------------EventBus-----------------------------
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(Java.lang.Throwable);
+}
+##--------------------------EventBus-----------------------------
+
 ##------------Begin: proguard configuration for banner-----------
 -keep class com.youth.banner.** {
     *;
@@ -177,3 +190,15 @@ public static java.lang.String TABLENAME;
 # If you do not use RxJava:
 -dontwarn rx.**
 ##-----------End: proguard configuration for GreenDao------------
+
+## 微信登录分享等
+## https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
+-keep class com.tencent.mm.opensdk.** {
+    *;
+}
+-keep class com.tencent.wxop.** {
+    *;
+}
+-keep class com.tencent.mm.sdk.** {
+    *;
+}
