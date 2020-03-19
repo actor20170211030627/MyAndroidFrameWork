@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -12,16 +13,52 @@ import java.util.Set;
  * Editor by actor.
  * SharedPreferences 共享参数的工具类
  * @version 1.0
+ * @version 1.1 fix bug
  */
 public class SPUtils {
 
-//    private static final String PREF_NAME = "config_sputils";
+    /**
+     * @see PreferenceManager#getDefaultSharedPreferences(Context) //获取默认 SharedPreferences
+     * @see PreferenceManager#getDefaultSharedPreferencesName(Context) //默认'SharedPreferences'名称
+     * @deprecated 由于未知原因, 如果使用默认 SharedPreferences 或 默认名称 创建的 SharedPreferences,
+     * 当应用崩溃后, 存储的数据会丢失!
+     */
+    @Deprecated
+    private static final String BAD_NAME = ConfigUtils.APPLICATION.getPackageName() + "_preferences";
+    /**
+     * 取的 {@link com.blankj.utilcode.util.SPUtils} 一样的默认名称
+     */
+    private static final String DEFAULT_NAME = "spUtils";
     private static SharedPreferences sharedPreferences;
+
+    /**
+     * @param name sp名称
+     * @param mode 模式
+     * @see android.content.Context#MODE_PRIVATE
+     *          代表私有访问模式,在Android 2.3及以前这个访问模式是可以跨进程的,
+     *          之后的版本这个模式就只能访问同一进程下的数据.
+     *
+     * @see android.content.Context#MODE_MULTI_PROCESS
+     *          在Android 2.3及以前，这个标志位都是默认开启的，允许多个进程访问同一个SharedPrecferences对象。
+     *          而Android 2.3以后的版本，须将MODE_MULTI_PROCESS这个值传递给mode参数，才能开启多进程访问。
+     *
+     * @see android.content.Context#MODE_WORLD_READABLE 表示当前文件可以被其他应用读取
+     *
+     * @see android.content.Context#MODE_WORLD_WRITEABLE 表示当前文件可以被其他应用写入
+     * @return
+     */
+    public static void setSharedPreference(String name, int mode) {
+        if (sharedPreferences == null) {
+            if (BAD_NAME.equals(name)) name = DEFAULT_NAME;
+            sharedPreferences = ConfigUtils.APPLICATION.getSharedPreferences(name, mode);
+        }
+    }
 
     public static SharedPreferences getSharedPreference() {
         if (sharedPreferences == null) {
-            //ActorApplication.instance.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ConfigUtils.APPLICATION);//获取默认
+            //不能获取默认的 SharedPreferences, 有bug
+//            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ConfigUtils.APPLICATION);
+            sharedPreferences = ConfigUtils.APPLICATION.getSharedPreferences(DEFAULT_NAME, Context.MODE_PRIVATE);
         }
         return sharedPreferences;
     }
