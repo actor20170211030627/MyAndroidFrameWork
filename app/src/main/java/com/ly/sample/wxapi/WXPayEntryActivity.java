@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.wxapi;
+package com.ly.sample.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.tencent.WeChatUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
@@ -18,7 +19,20 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * Description: 微信支付必须要求返回界面, 这个activity必须放在: 包名/wxapi/目录下
- * 1.已在清单文件中注册
+ * 1.在清单文件中注册
+ *     <!--微信支付-->
+ *     <!--android:exported=“true”，这个属性代表着运行被外界程序所启动这个Activity-->
+ *     <activity
+ *         android:name=".wxapi.WXPayEntryActivity"
+ *         android:exported="true"
+ *         android:launchMode="singleTop">
+ *         <!--<intent-filter>-->
+ *         <!--<action android:name="android.intent.action.VIEW"/>-->
+ *         <!--<category android:name="android.intent.category.DEFAULT"/>-->
+ *         <!--<data android:scheme="wx8aee7894414e5f5a"/>-->
+ *         <!--</intent-filter>-->
+ *     </activity>
+ *
  * 2.回调
  * /**
  *  * Eventbus微信支付回调

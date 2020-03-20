@@ -1,6 +1,8 @@
 package com.ly.sample.activity;
 
 import com.actor.myandroidframework.activity.ActorBaseActivity;
+import com.blankj.utilcode.util.CacheDiskUtils;
+import com.ly.sample.MyApplication;
 
 /**
  * Description: 基类
@@ -9,6 +11,9 @@ import com.actor.myandroidframework.activity.ActorBaseActivity;
  * @version 1.0
  */
 public class BaseActivity extends ActorBaseActivity {
+
+    //硬盘缓存
+    protected CacheDiskUtils aCache = MyApplication.instance.aCache;
 
     protected void onSharedElementBacked(int oldPosition, int currentPosition) {
 //        recyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {

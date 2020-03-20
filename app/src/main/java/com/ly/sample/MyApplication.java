@@ -20,9 +20,14 @@ import okhttp3.OkHttpClient;
  */
 public class MyApplication extends ActorApplication {
 
+    public static MyApplication instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        instance = this;
+
         /**
          * @param context application
          * @param isDebug 如果是debug模式, 数据库操作会打印日志

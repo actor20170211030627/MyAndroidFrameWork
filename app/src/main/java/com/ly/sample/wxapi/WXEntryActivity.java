@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.wxapi;
+package com.ly.sample.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.tencent.WeChatUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -22,11 +23,18 @@ import org.greenrobot.eventbus.EventBus;
  * a. 在你的包名相应目录下新建一个 wxapi 目录，并在该 wxapi 目录下新增一个 WXEntryActivity 类，该类继承自 Activity
  *    并在 manifest 文件里面加上exported、taskAffinity及launchMode属性，
  *    其中exported设置为true，taskAffinity设置为你的包名，launchMode设置为singleTask
+ *     <!--微信登录-->
+ *     <activity
+ *         android:name=".wxapi.WXEntryActivity"
+ *         android:exported="true"
+ *         android:launchMode="singleTask"
+ *         android:taskAffinity="${applicationId}" />
+ *
  * b. 实现 IWXAPIEventHandler 接口，微信发送的请求将回调到 onReq 方法，
  *    发送到微信请求的响应结果将回调到 onResp 方法
  * c. 在 WXEntryActivity 中将接收到的 intent 及实现了 IWXAPIEventHandler 接口的对象传递给 IWXAPI 接口的 handleIntent 方法
  *
- * 以上3个步骤都已完成, 不许额外操作
+ * a步骤还未完成, 不许额外操作
  *
  * 微信分享/登录 返回页面
  * Copyright  : Copyright (c) 2019

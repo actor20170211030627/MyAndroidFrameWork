@@ -30,24 +30,5 @@
             android:name=".widget.floatingeditor.FloatEditorActivity"
             android:theme="@style/NoTitleDialogTheme"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
-
-        <!--微信登录-->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:taskAffinity="${applicationId}" />
-        <!--微信支付-->
-        <!--android:exported=“true”，这个属性代表着运行被外界程序所启动这个Activity-->
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.VIEW"/>-->
-            <!--<category android:name="android.intent.category.DEFAULT"/>-->
-            <!--<data android:scheme="wx8aee7894414e5f5a"/>-->
-            <!--</intent-filter>-->
-        </activity>
     </application>
 </manifest>

@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.actor.myandroidframework.utils.SPUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.CacheDiskUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
@@ -35,6 +35,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
 
     public        boolean          isDebugMode = false;//用于配置"正式环境"的isDebug的值,★★★注意:上线前一定要改成false★★★
     public int mainThreadId, screenWidth, screenHeight;//屏幕宽高
+    public CacheDiskUtils aCache;                      //硬盘缓存
     private static final String    EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
 
     @Override
@@ -52,6 +53,10 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         ConfigUtils.baseUrl = getBaseUrl();
         ConfigUtils.isDebugMode = isDebugMode;
 
+        //配置硬盘缓存
+        aCache = CacheDiskUtils.getInstance(getFilesDir());
+
+        //配置okhttp
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
 //                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
 //                .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
@@ -104,13 +109,22 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         @Override
         public void uncaughtException(Thread t, Throwable e) {//3.重写未捕获异常
             if (e != null) {
-                String exception = SPUtils.getString(EXCEPTION);
                 String thread = t == null ? "" : t.toString();
+                StackTraceElement[] stackTrace = e.getStackTrace();
+                StringBuilder sb = new StringBuilder();
+                if (stackTrace != null) {
+                    for (StackTraceElement element : stackTrace) {
+                        sb.append(element.toString());
+                        sb.append("\n");
+                    }
+                }
+                //SPUtils 在发生异常的时候, 存储会回滚. 所以这儿用 CacheDiskUtils
+                String exception = aCache.getString(EXCEPTION);
                 if (exception == null) {
-                    SPUtils.putString(EXCEPTION, thread.concat("\n\n").concat(e.toString()));
+                    aCache.put(EXCEPTION, thread.concat("\n").concat(sb.toString()));
                 } else {
                     if (exception.length() > 2 << 16) exception = "";//131 072
-                    SPUtils.putString(EXCEPTION, exception.concat("\n\n\n").concat(thread).concat("\n\n").concat(e.toString()));
+                    aCache.put(EXCEPTION, exception.concat("\n\n\n").concat(thread).concat("\n").concat(sb.toString()));
                 }
             }
             onUncaughtException(t, e);
@@ -139,8 +153,8 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      * 获取崩溃信息
      */
     public String getCrashExceptionInfo() {
-        String string = SPUtils.getString(EXCEPTION);
-        SPUtils.remove(EXCEPTION);
+        String string = aCache.getString(EXCEPTION);
+        boolean remove = aCache.remove(EXCEPTION);
         return string;
     }
 

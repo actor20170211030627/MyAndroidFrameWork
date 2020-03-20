@@ -5,34 +5,45 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by Kevin.
  * Editor by actor.
- * SharedPreferences 共享参数的工具类
+ * SharedPreferences 共享参数的工具类, 实现类:
+ *      @see android.app.SharedPreferencesImpl
+ * https://www.jianshu.com/p/2a4b411383d4
+ * 1.创建前提
+ *    ①.后台杀死
+ *    ②.在MainActivity创建一个崩溃代码: int x = 1 / 0;
+ * 2.如果使用默认 {@link PreferenceManager#getDefaultSharedPreferences(Context)}
+ *   或 {@link PreferenceManager#getDefaultSharedPreferencesName(Context)} 创建的 SharedPreferences,
+ *   ①: 会丢数据.  或  'LoginActivity'保存账号后进入'MainActivity', 遇到②, 存储的数据会丢失!
+ * 3.如果使用自定义名称创建 SharedPreferences, ①: 不会丢数据. ②: 会丢数据
+ * 4.如果使用 {@link com.blankj.utilcode.util.SPStaticUtils}, 和上方一样效果
+ * 5.上方应该是数据回滚(.bak)造成的结果, 如果对这个问题很介意, 可以使用:
+ *   @see com.blankj.utilcode.util.CacheDiskUtils#getInstance(File) 如果想长期存储,
+ *   file 传 'getFilesDir()'. 已经在 ActorApplication 中配置, 直接用:
+ *   @see com.actor.myandroidframework.application.ActorApplication#aCache 就行!
+ *
  * @version 1.0
  * @version 1.1 fix bug
  */
 public class SPUtils {
 
-    /**
-     * @see PreferenceManager#getDefaultSharedPreferences(Context) //获取默认 SharedPreferences
-     * @see PreferenceManager#getDefaultSharedPreferencesName(Context) //默认'SharedPreferences'名称
-     * @deprecated 由于未知原因, 如果使用默认 SharedPreferences 或 默认名称 创建的 SharedPreferences,
-     * 当应用崩溃后, 存储的数据会丢失!
-     */
+    //这个名字有问题, 见上方第 2 条
     @Deprecated
-    private static final String BAD_NAME = ConfigUtils.APPLICATION.getPackageName() + "_preferences";
+    protected static final String BAD_NAME = ConfigUtils.APPLICATION.getPackageName() + "_preferences";
     /**
      * 取的 {@link com.blankj.utilcode.util.SPUtils} 一样的默认名称
      */
-    private static final String DEFAULT_NAME = "spUtils";
-    private static SharedPreferences sharedPreferences;
+    protected static final String DEFAULT_NAME = "spUtils";
+    protected static SharedPreferences sharedPreferences;
 
     /**
-     * @param name sp名称
+     * @param name sp名称, 注意不要使用 {@link #BAD_NAME}
      * @param mode 模式
      * @see android.content.Context#MODE_PRIVATE
      *          代表私有访问模式,在Android 2.3及以前这个访问模式是可以跨进程的,
@@ -49,7 +60,6 @@ public class SPUtils {
      */
     public static void setSharedPreference(String name, int mode) {
         if (sharedPreferences == null) {
-            if (BAD_NAME.equals(name)) name = DEFAULT_NAME;
             sharedPreferences = ConfigUtils.APPLICATION.getSharedPreferences(name, mode);
         }
     }
