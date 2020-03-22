@@ -4,4 +4,4 @@
     android:id="@+id/view_pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ly.sample.activity.ViewPagerActivity" />
+    tools:context="com.actor.sample.activity.ViewPagerActivity" />

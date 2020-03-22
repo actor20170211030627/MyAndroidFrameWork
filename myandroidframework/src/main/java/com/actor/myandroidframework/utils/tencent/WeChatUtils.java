@@ -44,9 +44,9 @@ import java.util.concurrent.ExecutionException;
  *      implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
  * 2.相关类, 可参考:
  *   //登录等功能
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/ly/sample/wxapi/WXEntryActivity.java
+ *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java
  *   //支付功能
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/ly/sample/wxapi/WXPayEntryActivity.java
+ *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
  *
  * Author     : 李大发
  * Date       : 2020/3/14 on 11:46

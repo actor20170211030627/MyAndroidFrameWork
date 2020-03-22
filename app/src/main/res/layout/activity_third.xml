@@ -7,14 +7,21 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.ly.sample.activity.ThirdActivity">
+    tools:context="com.actor.sample.activity.ThirdActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_trans_CC99"
+        android:padding="5dp"
+        android:text="QQ区" />
 
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_login_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录"
@@ -28,7 +35,7 @@
             android:transitionName="btn" />
 
         <Button
-            android:id="@+id/btn_get_user_info"
+            android:id="@+id/btn_get_user_info_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="获取用户信息"
@@ -50,7 +57,7 @@
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
-        android:id="@+id/tv_result"
+        android:id="@+id/tv_result_qq"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="result"
@@ -72,4 +79,46 @@
         android:layout_height="wrap_content"
         android:text="聊天"
         android:transitionName="btn" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/red_trans_CC99"
+        android:padding="5dp"
+        android:text="微信区" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_login_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:transitionName="btn" />
+
+        <Button
+            android:id="@+id/btn_share_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享文字(还可以分享其它)"
+            android:transitionName="btn" />
+
+        <Button
+            android:id="@+id/btn_get_user_info_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取用户信息"
+            android:transitionName="btn" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_result_wechat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="result"
+        android:padding="10dp" />
 </LinearLayout>

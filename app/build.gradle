@@ -4,12 +4,25 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.ly.myandroidframework"
+        applicationId "com.actor.myandroidframework"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 20012001
         versionName "1.2.9"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //在 defaultConfig { 中添加ndk
+        ndk {
+            //"armeabi", "armeabi-v7a", "x86","arm64-v8a","x86_64", 'mips', 'mips64'
+            abiFilters "armeabi"
+        }
+    }
+    //添加so库,与buildTypes { 同级
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
     signingConfigs {
         debug {
@@ -82,4 +95,9 @@ dependencies {
 
     //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
+
+    //http://lbs.baidu.com/index.php?title=sdk/download&action#selected=location_all 百度定位/地图/检索 等
+    implementation files('libs/BaiduLBS_aar_android_V1.1.9_100665344.aar')
+
+    //极光推送
 }

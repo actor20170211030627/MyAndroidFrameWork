@@ -32,4 +32,13 @@ public class EventBusEvent<T> {
         this.msg = msg;
         this.obj = obj;
     }
+
+    @Override
+    public String toString() {
+        return "EventBusEvent{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", obj=" + obj +
+                '}';
+    }
 }

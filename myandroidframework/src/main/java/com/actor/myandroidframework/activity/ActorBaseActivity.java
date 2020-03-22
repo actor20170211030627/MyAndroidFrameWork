@@ -105,9 +105,9 @@ public class ActorBaseActivity extends AppCompatActivity {
     /**
      * 共享元素方式跳转, 示例:
      * GitHub:
-     * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/ly/sample/activity/SharedElementActivity.java
+     * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java
      * 码云:
-     * https://gitee.com/actor2017/MyAndroidFrameWork/blob/master/app/src/main/java/com/ly/sample/activity/SharedElementActivity.java
+     * https://gitee.com/actor2017/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java
      * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.
      *                             例: A界面: RecyclerView <--> B界面: ViewPager, 返回后更新A界面共享元素position
      *                             如果true, A界面需要重写2个方法:

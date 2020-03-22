@@ -8,7 +8,7 @@
     tools:context=".activity.Export2ExcelActivity">
 
     <TextView
-        android:id="@+id/tv_result"
+        android:id="@+id/tv_result_qq"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Excel已导出至："

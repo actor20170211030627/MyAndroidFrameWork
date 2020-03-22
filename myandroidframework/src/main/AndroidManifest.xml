@@ -30,5 +30,13 @@
             android:name=".widget.floatingeditor.FloatEditorActivity"
             android:theme="@style/NoTitleDialogTheme"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+
+        <!--百度定位服务-->
+        <!--http://lbsyun.baidu.com/index.php?title=android-locsdk/guide/create-project/android-studio-->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+        </service>
     </application>
 </manifest>

@@ -1,4 +1,4 @@
-package com.ly.sample;
+package com.actor.sample;
 
 import org.junit.Test;
 

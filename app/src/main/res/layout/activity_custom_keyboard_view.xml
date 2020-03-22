@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.ly.sample.activity.CustomKeyboardViewActivity">
+    tools:context="com.actor.sample.activity.CustomKeyboardViewActivity">
 
     <com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText
         android:id="@+id/custom_keyboard_edittext"
