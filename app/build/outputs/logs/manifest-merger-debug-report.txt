@@ -1,24 +1,13 @@
 -- Merging decision tree log ---
-activity#com.actor.sample.wxapi.WXEntryActivity
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:90:9-94:55
-	android:launchMode
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:93:13-44
-	android:exported
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:92:13-36
-	android:taskAffinity
-		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:94:13-52
-	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:91:13-50
 manifest
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
 MERGED from [BaiduLBS_aar_android_V1.1.9_100665344.aar] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\614280f7e8c7fd28c24ae1a94727c435\AndroidManifest.xml:2:1-16:12
 MERGED from [com.android.support:multidex:1.0.2] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\fe917425900bce42876e4f5daf6ab9c5\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-v4:28.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\e6157b1a68746e6518618501bf7319ac\AndroidManifest.xml:17:1-22:12
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-51:12
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-135:12
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:17:1-73:12
 MERGED from [com.jaeger.statusbarutil:library:1.5.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\1061a7c8942ebf6a99e51d31c3fa1e2e\AndroidManifest.xml:2:1-13:12
 MERGED from [com.ruffian.library:RWidgetHelper:1.1.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\7f5f599800452fba0c6a1648148d91a1\AndroidManifest.xml:2:1-11:12
@@ -27,6 +16,8 @@ MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\actor\.gradle\cac
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\75a478b9259991c13731d82b2f61209f\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android:flexbox:1.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\095e321829a930f954f9294e49a2fbf5\AndroidManifest.xml:17:1-27:12
 MERGED from [com.jakewharton:butterknife:8.8.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5a19e0403aabcef0c12fc581bd06b42d\AndroidManifest.xml:2:1-7:12
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:2:1-163:12
+MERGED from [cn.jiguang.sdk:jcore:2.3.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\2ef8b939c99c1449bca94ac70f0c49fc\AndroidManifest.xml:2:1-14:12
 MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\737e25e5e27686b0d388c29626941cc9\AndroidManifest.xml:17:1-22:12
 MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\b3b18471f6d9f14c6fd80f281409e5bb\AndroidManifest.xml:2:1-12:12
 MERGED from [com.yanzhenjie.permission:support:2.0.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\0a3d90d10ff90ea7e8d59cdfaff182ff\AndroidManifest.xml:17:1-40:12
@@ -69,71 +60,87 @@ MERGED from [com.youth.banner:banner:1.4.10] C:\Users\actor\.gradle\caches\trans
 MERGED from [com.flyco.dialog:FlycoDialog_Lib:1.3.2] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\f4d7a7d75314a7869050f0a00f140d03\AndroidManifest.xml:2:1-11:12
 MERGED from [me.jessyan:progressmanager:1.5.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\4e639d950ac1dffd83860131863afe6e\AndroidManifest.xml:2:1-11:12
 MERGED from [com.yanzhenjie:mediascanner:1.0.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\e0531c4bbe2b31b7bbd77da114dc6f05\AndroidManifest.xml:17:1-25:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
-INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
 	package
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:4:5-31
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-110:12
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:1-73:12
 		INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:6:5-78
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:29:5-78
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:29:5-78
 	android:name
 		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:6:22-75
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:10:5-81
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:8:5-81
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:30:5-81
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:30:5-81
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:10:22-78
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:8:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:12:5-79
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:9:5-79
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:32:5-79
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:32:5-79
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:12:22-76
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:9:22-76
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:14:5-76
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:10:5-76
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:25:5-76
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:25:5-76
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:14:22-73
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:10:22-73
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:16:5-79
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:11:5-79
 MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-79
 MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-79
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:24:5-79
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:24:5-79
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:16:22-76
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:11:22-76
 uses-permission#android.permission.CHANGE_WIFI_STATE
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:18:5-76
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:12:5-76
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:31:5-76
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:31:5-76
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:18:22-73
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:12:22-73
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:20:5-81
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:13:5-81
 MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:5-81
 MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:5-81
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:26:5-81
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:26:5-81
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:20:5-81
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:20:5-81
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:20:22-78
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:13:22-78
 uses-permission#android.permission.INTERNET
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:22:5-67
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:14:5-67
 MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-67
 MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-67
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:18:5-67
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:18:5-67
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:22:22-64
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:14:22-64
 application
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:24:5-108:19
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:16:5-71:19
 MERGED from [BaiduLBS_aar_android_V1.1.9_100665344.aar] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\614280f7e8c7fd28c24ae1a94727c435\AndroidManifest.xml:14:5-20
 MERGED from [BaiduLBS_aar_android_V1.1.9_100665344.aar] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\614280f7e8c7fd28c24ae1a94727c435\AndroidManifest.xml:14:5-20
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:5-49:19
-MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:5-49:19
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:5-133:19
+MERGED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:5-133:19
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:29:5-71:19
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:29:5-71:19
 MERGED from [com.jaeger.statusbarutil:library:1.5.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\1061a7c8942ebf6a99e51d31c3fa1e2e\AndroidManifest.xml:11:5-20
@@ -142,6 +149,10 @@ MERGED from [com.android.support:design:28.0.0] C:\Users\actor\.gradle\caches\tr
 MERGED from [com.android.support:design:28.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\06782db1e4a8c54c576b723a62232699\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\75a478b9259991c13731d82b2f61209f\AndroidManifest.xml:9:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\75a478b9259991c13731d82b2f61209f\AndroidManifest.xml:9:5-20
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:38:5-161:19
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:38:5-161:19
+MERGED from [cn.jiguang.sdk:jcore:2.3.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\2ef8b939c99c1449bca94ac70f0c49fc\AndroidManifest.xml:11:5-12:19
+MERGED from [cn.jiguang.sdk:jcore:2.3.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\2ef8b939c99c1449bca94ac70f0c49fc\AndroidManifest.xml:11:5-12:19
 MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\b3b18471f6d9f14c6fd80f281409e5bb\AndroidManifest.xml:10:5-20
 MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\b3b18471f6d9f14c6fd80f281409e5bb\AndroidManifest.xml:10:5-20
 MERGED from [com.yanzhenjie.permission:support:2.0.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\0a3d90d10ff90ea7e8d59cdfaff182ff\AndroidManifest.xml:24:5-38:19
@@ -159,163 +170,149 @@ MERGED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transform
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\82da67dce7f8e0beacc7d2ab27ebb3d9\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:30:9-35
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:22:9-35
 	android:label
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:28:9-41
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:20:9-41
 	tools:ignore
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:32:9-48
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:24:9-48
 	android:roundIcon
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:29:9-54
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:21:9-54
 	android:icon
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:27:9-43
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:19:9-43
 	android:allowBackup
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:26:9-35
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:18:9-35
 	android:networkSecurityConfig
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:9-69
 	android:theme
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:31:9-40
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:23:9-40
 	android:usesCleartextTraffic
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:9-44
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:25:9-38
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:17:9-38
+activity#com.actor.sample.activity.JPushActivity
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:25:9-69
+	android:name
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:25:19-57
 activity#com.actor.sample.activity.BaiDuMapActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:33:9-63
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:26:9-63
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:33:19-60
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:26:19-60
 activity#com.actor.sample.activity.ThirdActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:34:9-60
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:27:9-60
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:34:19-57
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:27:19-57
 activity#com.actor.sample.activity.ViewPagerActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:35:9-64
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:28:9-64
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:35:19-61
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:28:19-61
 activity#com.actor.sample.activity.SharedElementActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:36:9-68
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:29:9-68
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:36:19-65
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:29:19-65
 activity#com.actor.sample.activity.QuickSearchBarActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:37:9-69
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:30:9-69
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:37:19-66
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:30:19-66
 activity#com.actor.sample.activity.CustomKeyboardViewActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:38:9-73
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:31:9-73
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:38:19-70
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:31:19-70
 activity#com.actor.sample.activity.OtherActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:39:9-60
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:32:9-60
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:39:19-57
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:32:19-57
 activity#com.actor.sample.activity.IsEmptyActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:40:9-62
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:33:9-62
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:40:19-59
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:33:19-59
 activity#com.actor.sample.activity.ViewPagerAndFragmentActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:41:9-75
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:34:9-75
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:41:19-72
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:34:19-72
 activity#com.actor.sample.activity.NineGridViewActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:42:9-67
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:35:9-67
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:42:19-64
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:35:19-64
 activity#com.actor.sample.activity.CustomViewActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:43:9-65
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:36:9-65
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:43:19-62
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:36:19-62
 activity#com.actor.sample.activity.NetWorkAndImageActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:44:9-70
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:37:9-70
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:44:19-67
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:37:19-67
 activity#com.actor.sample.activity.BottomSheetDialogActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:45:9-72
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:38:9-72
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:45:19-69
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:38:19-69
 activity#com.actor.sample.activity.SwitcherActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:46:9-63
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:39:9-63
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:46:19-60
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:39:19-60
 activity#com.actor.sample.activity.MainActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:47:9-53:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:40:9-46:20
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:47:19-56
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:40:19-56
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:48:13-52:29
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:41:13-45:29
 action#android.intent.action.MAIN
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:49:17-69
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:42:17-69
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:49:25-66
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:42:25-66
 category#android.intent.category.LAUNCHER
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:51:17-77
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:44:17-77
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:51:27-74
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:44:27-74
 activity#com.actor.sample.activity.MyBaseBottomActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:54:9-56:57
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:47:9-49:57
 	android:theme
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:56:13-54
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:49:13-54
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:55:13-58
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:48:13-58
 activity#com.actor.sample.activity.Export2ExcelActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:57:9-67
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:50:9-67
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:57:19-64
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:50:19-64
 activity#com.actor.sample.activity.DatabaseActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:58:9-63
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:51:9-63
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:58:19-60
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:51:19-60
 service#com.actor.sample.service.CheckUpdateService
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:60:9-63
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:53:9-63
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:60:18-60
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:53:18-60
 meta-data#com.baidu.lbsapi.API_KEY
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:63:9-65:63
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:54:9-56:64
 	android:value
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:65:13-61
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:56:13-61
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:64:13-52
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:55:13-52
 activity#com.tencent.tauth.AuthActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:68:9-80:20
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:58:9-70:20
 	android:launchMode
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:70:13-44
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:60:13-44
 	android:noHistory
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:71:13-37
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:61:13-37
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:69:13-58
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:59:13-58
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:tencent222222
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:72:13-79:29
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:62:13-69:29
 action#android.intent.action.VIEW
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:73:17-69
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:63:17-69
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:73:25-66
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:63:25-66
 category#android.intent.category.DEFAULT
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:75:17-76
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:65:17-76
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:75:27-73
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:65:27-73
 category#android.intent.category.BROWSABLE
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:76:17-78
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:66:17-78
 	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:76:27-75
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:66:27-75
 data
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:78:17-56
+ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:68:17-56
 	android:scheme
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:78:23-53
-activity#com.tencent.connect.common.AssistActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:83:9-87:75
-	android:screenOrientation
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:86:13-47
-	android:configChanges
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:85:13-63
-	android:theme
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:87:13-72
-	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:84:13-69
-activity#com.actor.sample.wxapi.WXPayEntryActivity
-ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:97:9-107:20
-	android:launchMode
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:100:13-43
-	android:exported
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:99:13-36
-	android:name
-		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:98:13-53
+		ADDED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml:68:23-53
 uses-sdk
 INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from F:\Android\MyAndroidFrameWork\app\src\main\AndroidManifest.xml
@@ -344,6 +341,10 @@ MERGED from [com.google.android:flexbox:1.0.0] C:\Users\actor\.gradle\caches\tra
 MERGED from [com.google.android:flexbox:1.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\095e321829a930f954f9294e49a2fbf5\AndroidManifest.xml:23:5-25:41
 MERGED from [com.jakewharton:butterknife:8.8.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5a19e0403aabcef0c12fc581bd06b42d\AndroidManifest.xml:5:5-43
 MERGED from [com.jakewharton:butterknife:8.8.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\5a19e0403aabcef0c12fc581bd06b42d\AndroidManifest.xml:5:5-43
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:7:5-9:41
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:7:5-9:41
+MERGED from [cn.jiguang.sdk:jcore:2.3.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\2ef8b939c99c1449bca94ac70f0c49fc\AndroidManifest.xml:7:5-9:41
+MERGED from [cn.jiguang.sdk:jcore:2.3.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\2ef8b939c99c1449bca94ac70f0c49fc\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\737e25e5e27686b0d388c29626941cc9\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\737e25e5e27686b0d388c29626941cc9\AndroidManifest.xml:20:5-44
 MERGED from [com.github.bumptech.glide:glide:4.9.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\b3b18471f6d9f14c6fd80f281409e5bb\AndroidManifest.xml:6:5-8:41
@@ -452,10 +453,14 @@ uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:5-80
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:25:5-80
 MERGED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:25:5-80
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:21:5-80
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:21:5-80
 	android:name
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:22-77
 uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
 ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:5-29:47
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:23:5-84
+MERGED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:23:5-84
 	tools:ignore
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:9-44
 	android:name
@@ -469,13 +474,113 @@ ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframewor
 	android:name
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-98
 service#com.baidu.location.f
-ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:9-48:19
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:9-49:19
+	tools:node
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:48:13-32
 	android:process
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:47:13-38
 	android:enabled
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:46:13-35
 	android:name
 		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:13-48
+activity#com.tencent.connect.common.AssistActivity
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:53:9-57:75
+	android:screenOrientation
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:56:13-47
+	android:configChanges
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:55:13-63
+	android:theme
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:57:13-72
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:54:13-69
+activity#${applicationId}.wxapi.WXEntryActivity
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:61:9-67:75
+	android:label
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:64:13-45
+	android:launchMode
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:65:13-44
+	android:exported
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:63:13-36
+	android:theme
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:67:13-72
+	android:taskAffinity
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:66:13-52
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:62:13-66
+activity#com.actor.sample.wxapi.WXEntryActivity
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:61:9-67:75
+	android:label
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:64:13-45
+	android:launchMode
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:65:13-44
+	android:exported
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:63:13-36
+	android:theme
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:67:13-72
+	android:taskAffinity
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:66:13-52
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:62:13-66
+activity#${applicationId}.wxapi.WXPayEntryActivity
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:70:9-73:46
+	android:launchMode
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:73:13-43
+	android:exported
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:13-36
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:71:13-69
+activity#com.actor.sample.wxapi.WXPayEntryActivity
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:70:9-73:46
+	android:launchMode
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:73:13-43
+	android:exported
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:13-36
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:71:13-69
+service#com.actor.myandroidframework.utils.jpush.PushService
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:80:9-88:19
+	android:process
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:84:13-40
+	android:enabled
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:82:13-35
+	android:exported
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:83:13-37
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:81:13-80
+intent-filter#action:name:cn.jiguang.user.service.action
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:85:13-87:29
+action#cn.jiguang.user.service.action
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:86:17-73
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:86:25-70
+receiver#com.actor.myandroidframework.utils.jpush.MyJPushMessageReceiver
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:96:9-105:20
+	android:enabled
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:98:13-35
+	android:exported
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:99:13-37
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:97:13-91
+intent-filter#action:name:cn.jpush.android.intent.RECEIVE_MESSAGE+category:name:${applicationId}
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:100:13-104:29
+intent-filter#action:name:cn.jpush.android.intent.RECEIVE_MESSAGE+category:name:com.actor.sample
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:100:13-104:29
+action#cn.jpush.android.intent.RECEIVE_MESSAGE
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:101:17-82
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:101:25-79
+category#${applicationId}
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:103:17-61
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:103:27-58
+category#com.actor.sample
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:103:17-61
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:103:27-58
+receiver#com.actor.myandroidframework.utils.jpush.MyWakedResultReceiver
+ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:108:9-99
+	android:name
+		ADDED from [:myandroidframework] F:\Android\MyAndroidFrameWork\myandroidframework\build\intermediates\library_manifest\debug\AndroidManifest.xml:108:19-96
 uses-permission#android.permission.RECORD_AUDIO
 ADDED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:27:5-71
 	android:name
@@ -558,6 +663,244 @@ ADDED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms
 		ADDED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:69:17-62
 	android:name
 		ADDED from [com.yanzhenjie:album:2.1.3] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\3beed661ff6c2e4729cb7539ec20300c\AndroidManifest.xml:68:17-67
+permission#${JPUSH_PKGNAME}.permission.JPUSH_MESSAGE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:11:5-13:47
+	android:protectionLevel
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:13:9-44
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:12:9-65
+permission#com.actor.sample.permission.JPUSH_MESSAGE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:11:5-13:47
+	android:protectionLevel
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:13:9-44
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:12:9-65
+uses-permission#${JPUSH_PKGNAME}.permission.JPUSH_MESSAGE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:16:5-81
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:16:22-78
+uses-permission#com.actor.sample.permission.JPUSH_MESSAGE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:16:5-81
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:16:22-78
+uses-permission#android.permission.RECEIVE_USER_PRESENT
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:17:5-79
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:17:22-76
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:19:5-75
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:19:22-72
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:22:5-73
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:22:22-70
+uses-permission#android.permission.VIBRATE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:28:5-66
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:28:22-63
+uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:33:5-85
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:33:22-82
+uses-permission#android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:34:5-89
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:34:22-86
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:35:5-79
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:35:22-76
+uses-permission#android.permission.GET_TASKS
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:36:5-68
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:36:22-65
+activity#cn.jpush.android.ui.PopWinActivity
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:41:9-52:20
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:43:13-36
+	android:theme
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:44:13-49
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:42:13-62
+intent-filter#action:name:cn.jpush.android.ui.PopWinActivity+category:name:${JPUSH_PKGNAME}+category:name:android.intent.category.DEFAULT
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:45:13-51:29
+intent-filter#action:name:cn.jpush.android.ui.PopWinActivity+category:name:android.intent.category.DEFAULT+category:name:com.actor.sample
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:45:13-51:29
+action#cn.jpush.android.ui.PopWinActivity
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:48:17-77
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:48:25-74
+category#${JPUSH_PKGNAME}
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:50:17-61
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:50:27-58
+activity#cn.jpush.android.ui.PushActivity
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:55:9-66:20
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:58:13-36
+	android:configChanges
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:57:13-63
+	android:theme
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:59:13-60
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:56:13-60
+intent-filter#action:name:cn.jpush.android.ui.PushActivity+category:name:${JPUSH_PKGNAME}+category:name:android.intent.category.DEFAULT
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:60:13-65:29
+intent-filter#action:name:cn.jpush.android.ui.PushActivity+category:name:android.intent.category.DEFAULT+category:name:com.actor.sample
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:60:13-65:29
+action#cn.jpush.android.ui.PushActivity
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:61:17-75
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:61:25-72
+service#cn.jpush.android.service.PushService
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:69:9-80:19
+	android:process
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:73:13-40
+	android:enabled
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:71:13-35
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:72:13-37
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:70:13-64
+intent-filter#action:name:cn.jpush.android.intent.PUSH_TIME+action:name:cn.jpush.android.intent.PushService+action:name:cn.jpush.android.intent.REGISTER+action:name:cn.jpush.android.intent.REPORT
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:74:13-79:29
+action#cn.jpush.android.intent.REGISTER
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:75:17-75
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:75:25-72
+action#cn.jpush.android.intent.REPORT
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:76:17-73
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:76:25-70
+action#cn.jpush.android.intent.PushService
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:77:17-78
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:77:25-75
+action#cn.jpush.android.intent.PUSH_TIME
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:78:17-76
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:78:25-73
+service#cn.jpush.android.service.DaemonService
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:84:9-93:19
+	android:enabled
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:86:13-35
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:87:13-36
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:85:13-66
+intent-filter#action:name:cn.jpush.android.intent.DaemonService+category:name:${JPUSH_PKGNAME}
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:88:13-92:29
+intent-filter#action:name:cn.jpush.android.intent.DaemonService+category:name:com.actor.sample
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:88:13-92:29
+action#cn.jpush.android.intent.DaemonService
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:89:17-80
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:89:25-77
+receiver#cn.jpush.android.service.PushReceiver
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:96:9-115:20
+	android:enabled
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:98:13-35
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:99:13-37
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:97:13-65
+intent-filter#action:name:cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY+category:name:${JPUSH_PKGNAME}
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:100:13-103:29
+	android:priority
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:100:28-51
+intent-filter#action:name:cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY+category:name:com.actor.sample
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:100:13-103:29
+	android:priority
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:100:28-51
+action#cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:101:17-94
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:101:25-91
+intent-filter#action:name:android.intent.action.USER_PRESENT+action:name:android.net.conn.CONNECTIVITY_CHANGE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:104:13-107:29
+action#android.intent.action.USER_PRESENT
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:105:17-77
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:105:25-74
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:106:17-79
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:106:25-76
+intent-filter#action:name:android.intent.action.PACKAGE_ADDED+action:name:android.intent.action.PACKAGE_REMOVED+data:scheme:package
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:109:13-114:29
+action#android.intent.action.PACKAGE_ADDED
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:110:17-78
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:110:25-75
+action#android.intent.action.PACKAGE_REMOVED
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:111:17-80
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:111:25-77
+receiver#cn.jpush.android.service.AlarmReceiver
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:118:9-120:40
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:120:13-37
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:119:13-66
+receiver#cn.jpush.android.service.SchedulerReceiver
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:121:9-123:40
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:123:13-37
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:122:13-70
+provider#cn.jpush.android.service.DataProvider
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:126:9-130:43
+	android:process
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:130:13-40
+	android:authorities
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:128:13-64
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:129:13-37
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:127:13-65
+provider#cn.jpush.android.service.DownloadProvider
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:132:9-135:39
+	android:authorities
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:134:13-68
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:135:13-36
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:133:13-69
+activity#cn.jpush.android.service.JNotifyActivity
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:138:9-148:20
+	android:exported
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:140:13-36
+	android:theme
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:142:13-72
+	android:taskAffinity
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:141:13-48
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:139:13-68
+intent-filter#action:name:cn.jpush.android.intent.JNotifyActivity+category:name:${applicationId}
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:143:13-147:29
+intent-filter#action:name:cn.jpush.android.intent.JNotifyActivity+category:name:com.actor.sample
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:143:13-147:29
+action#cn.jpush.android.intent.JNotifyActivity
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:144:17-82
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:144:25-79
+receiver#cn.jpush.android.asus.AsusPushMessageReceiver
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:151:9-82
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:151:19-79
+meta-data#JPUSH_CHANNEL
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:154:9-156:48
+	android:value
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:156:13-45
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:155:13-41
+meta-data#JPUSH_APPKEY
+ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:157:9-159:47
+	android:value
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:159:13-44
+	android:name
+		ADDED from [cn.jiguang.sdk:jpush:3.5.8] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\24bebc45f3ad01e7e68419a9c63a11b6\AndroidManifest.xml:158:13-40
 activity#com.yanzhenjie.permission.bridge.BridgeActivity
 ADDED from [com.yanzhenjie.permission:support:2.0.1] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\0a3d90d10ff90ea7e8d59cdfaff182ff\AndroidManifest.xml:25:9-27:55
 	android:theme
@@ -604,13 +947,13 @@ ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms
 		ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\00787f422fe0f16489a4d3eacb47340f\AndroidManifest.xml:28:18-86
 intent-filter#action:name:${applicationId}.messenger
 ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\00787f422fe0f16489a4d3eacb47340f\AndroidManifest.xml:29:13-31:29
-intent-filter#action:name:com.actor.myandroidframework.messenger
+intent-filter#action:name:com.actor.sample.messenger
 ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\00787f422fe0f16489a4d3eacb47340f\AndroidManifest.xml:29:13-31:29
 action#${applicationId}.messenger
 ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\00787f422fe0f16489a4d3eacb47340f\AndroidManifest.xml:30:17-69
 	android:name
 		ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\00787f422fe0f16489a4d3eacb47340f\AndroidManifest.xml:30:25-66
-action#com.actor.myandroidframework.messenger
+action#com.actor.sample.messenger
 ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\00787f422fe0f16489a4d3eacb47340f\AndroidManifest.xml:30:17-69
 	android:name
 		ADDED from [com.blankj:utilcode:1.26.0] C:\Users\actor\.gradle\caches\transforms-2\files-2.1\00787f422fe0f16489a4d3eacb47340f\AndroidManifest.xml:30:25-66

@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  * Description: 九宫格 自定义item, 使用注意: List中的数据必须implements {@link GetIsVideoAble}, 否则报错.
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/5/16 on 14:47
  * @version 1.0

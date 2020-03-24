@@ -23,18 +23,19 @@ import org.greenrobot.eventbus.EventBus;
  * a. 在你的包名相应目录下新建一个 wxapi 目录，并在该 wxapi 目录下新增一个 WXEntryActivity 类，该类继承自 Activity
  *    并在 manifest 文件里面加上exported、taskAffinity及launchMode属性，
  *    其中exported设置为true，taskAffinity设置为你的包名，launchMode设置为singleTask
- *     <!--微信登录-->
+ *     <!--微信登录, 如果app没有使用 登录等 这些功能, 请别添加-->
  *     <activity
  *         android:name=".wxapi.WXEntryActivity"
  *         android:exported="true"
  *         android:launchMode="singleTask"
  *         android:taskAffinity="${applicationId}" />
+ *     注意: 已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加, 不要再在项目中添加到清单文件中!!!
  *
  * b. 实现 IWXAPIEventHandler 接口，微信发送的请求将回调到 onReq 方法，
  *    发送到微信请求的响应结果将回调到 onResp 方法
  * c. 在 WXEntryActivity 中将接收到的 intent 及实现了 IWXAPIEventHandler 接口的对象传递给 IWXAPI 接口的 handleIntent 方法
  *
- * a步骤还未完成, 需自己复制到清单文件.
+ * 注意: 以上3个步骤都已完成!!!
  *
  * 2.回调
  * //Eventbus微信登录/支付回调
@@ -44,7 +45,7 @@ import org.greenrobot.eventbus.EventBus;
  *     switch (messageEvent.code) {
  *         case WXEntryActivity.MSG_EVT_WX_LOGIN:
  *             toast("登录成功!");
- *             logError(messageEvent);
+ *             logFormat(messageEvent);
  *             break;
  *     }
  * }

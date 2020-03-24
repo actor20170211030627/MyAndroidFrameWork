@@ -6,7 +6,6 @@ import okhttp3.Request;
 
 /**
  * Description: 上传文件
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/17 on 17:46
  */

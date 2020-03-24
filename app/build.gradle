@@ -4,7 +4,7 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.actor.myandroidframework"
+        applicationId "com.actor.sample"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 20012001
@@ -17,6 +17,12 @@ android {
             //"armeabi", "armeabi-v7a", "x86","arm64-v8a","x86_64", 'mips', 'mips64'
             abiFilters "armeabi"
         }
+        //清单文件替换, 添加在 defaultConfig { 中
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "0cf598cd297e3f86949e40f5", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
     }
     //添加so库,与buildTypes { 同级
     sourceSets {
@@ -99,5 +105,8 @@ dependencies {
     //http://lbs.baidu.com/index.php?title=sdk/download&action#selected=location_all 百度定位/地图/检索 等
     implementation files('libs/BaiduLBS_aar_android_V1.1.9_100665344.aar')
 
-    //极光推送
+    //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
+    //http://docs.jiguang.cn/jpush/updates/ 最新版本号
+    implementation 'cn.jiguang.sdk:jpush:3.5.8'
+    implementation 'cn.jiguang.sdk:jcore:2.3.0'
 }

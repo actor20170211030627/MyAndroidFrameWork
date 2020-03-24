@@ -3,11 +3,13 @@ package com.actor.sample;
 import android.support.annotation.NonNull;
 
 import com.actor.myandroidframework.application.ActorApplication;
+import com.actor.myandroidframework.utils.baidu.BaiduLocationUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
+import com.actor.myandroidframework.utils.jpush.JPushUtils;
+import com.actor.sample.utils.Global;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.greendao.gen.ItemEntityDao;
-import com.actor.sample.utils.Global;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +29,6 @@ public class MyApplication extends ActorApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
         instance = this;
 
         /**
@@ -38,11 +39,20 @@ public class MyApplication extends ActorApplication {
          */
         GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class/*, ...*/);
 
+        //百度定位配置
+        BaiduLocationUtils.setLocOption(BaiduLocationUtils.getDefaultLocationClientOption());
+
         //下方是百度地图, 如果用到地图需要初始化
         SDKInitializer.initialize(this);//初始化百度地图
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
         SDKInitializer.setCoordType(CoordType.BD09LL);
+
+        //Application中初始化极光推送
+        JPushUtils.setDebugMode(isDebugMode);//设置调试模式,在 init 接口之前调用
+        JPushUtils.init(this);//初始化
+        JPushUtils.stopPush(this);//停止推送, 防止未登录就接收到消息
+        //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
     }
 
     //配置Builder

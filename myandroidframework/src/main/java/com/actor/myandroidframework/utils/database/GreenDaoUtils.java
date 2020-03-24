@@ -47,7 +47,6 @@ import java.util.List;
  * 获取某个Dao示例: ItemEntityDao dao = GreenDaoUtils.getDaoSession().getItemEntityDao();
  * 更多信息见文件: greenDao说明.java
  *
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/10/28 on 22:53
  *

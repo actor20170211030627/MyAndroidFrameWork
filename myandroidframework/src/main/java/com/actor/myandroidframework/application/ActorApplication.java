@@ -26,8 +26,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 /**
  * Description: 自定义的Application 继承本类, 然后在清单文件中注册
  *              https://github.com/actor20170211030627/MyAndroidFrameWork
- *
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/7/21 on 16:59
  */

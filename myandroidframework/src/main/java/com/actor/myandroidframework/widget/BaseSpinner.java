@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 
 /**
  * Description: Spinner功能增加
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/10/20 on 16:21
  *

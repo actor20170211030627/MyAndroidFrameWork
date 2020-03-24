@@ -43,7 +43,6 @@ import com.actor.myandroidframework.R;
  * dialogFragment.setMaxHeight(300);
  * dialogFragment.show(getSupportFragmentManager());
  *
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/13 on 14:05
  *

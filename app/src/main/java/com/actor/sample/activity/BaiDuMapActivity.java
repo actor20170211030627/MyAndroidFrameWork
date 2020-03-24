@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
-import com.actor.myandroidframework.utils.baidu.LocationUtils;
+import com.actor.myandroidframework.utils.baidu.BaiduLocationUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -46,7 +46,7 @@ public class BaiDuMapActivity extends BaseActivity {
     private MarkerOptions markerRepository;//仓库
     private MarkerOptions markerCar;//车辆
     private MarkerOptions markerCamera;//摄像头
-    private MarkerOptions markerBridge;//桥梁
+    private MarkerOptions markerBridge;//桥
 
     private double lat = 30.624659, lng = 104.10621;//中心红点
     private List<Overlay> overlayPersons;//人员覆盖物列表
@@ -96,8 +96,8 @@ public class BaiDuMapActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始定位
-                LocationUtils.getInstance().registerListener(locationListener);
-                LocationUtils.getInstance().start();
+                BaiduLocationUtils.registerListener(locationListener);
+                BaiduLocationUtils.start();
                 break;
             case R.id.btn_stop://结束定位
                 stopLocation();
@@ -114,7 +114,7 @@ public class BaiDuMapActivity extends BaseActivity {
             case R.id.iv_camera://摄像头
                 showMarkerCameraList(view);
                 break;
-            case R.id.iv_bridge://桥梁
+            case R.id.iv_bridge://桥
                 showMarkerBridgeList(view);
                 break;
         }
@@ -343,7 +343,7 @@ public class BaiDuMapActivity extends BaseActivity {
     private void showCameraInfoWindow(LatLng latLng, @NonNull Bundle extraInfo) {
         showEventInfoWindow(latLng, extraInfo);
     }
-    //显示桥梁信息窗
+    //显示桥信息窗
     private void showBridgeInfoWindow(LatLng latLng, @NonNull Bundle extraInfo) {
         showEventInfoWindow(latLng, extraInfo);
     }
@@ -365,8 +365,8 @@ public class BaiDuMapActivity extends BaseActivity {
 
     //停止定位
     private void stopLocation() {
-        LocationUtils.getInstance().unregisterListener(locationListener);
-        LocationUtils.getInstance().stop();
+        BaiduLocationUtils.unregisterListener(locationListener);
+        BaiduLocationUtils.stop();
     }
 
     private Bundle getBundle(String type, String... extra) {
@@ -393,7 +393,7 @@ public class BaiDuMapActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopLocation();
+        stopLocation();//停止定位
         infoWindowClickListener = null;
         infoWindow = null;
         mapView.onDestroy();//MapView的生命周期与Activity同步

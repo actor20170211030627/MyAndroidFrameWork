@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.utils.FileUtils;
-import com.actor.myandroidframework.utils.JExcelUtils.JExcelApiUtils;
+import com.actor.myandroidframework.utils.jExcel.JExcelApiUtils;
 import com.actor.myandroidframework.utils.PermissionRequestUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.actor.sample.R;

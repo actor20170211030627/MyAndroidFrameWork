@@ -42,11 +42,26 @@ import java.util.concurrent.ExecutionException;
  * 1.在gradle中添加依赖
  *      //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
  *      implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
- * 2.相关类, 可参考:
- *   //登录等功能
+ * 2.添加相关Activity, 必须放在: 包名.wxapi文件夹下, 可参考:
+ *   //登录等功能(如果app没有使用 登录等 这些功能, 请忽略)
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java
- *   //支付功能
+ *   //支付功能(如果app没有使用 支付 等这些功能, 请忽略)
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
+ * 3.已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加以下类,不要在自己的清单文件中再添加:
+ * WXEntryActivity, WXPayEntryActivity
+ *
+ *
+ * <!--微信支付, 如果app没有使用 支付 功能, 请别添加-->
+ * <activity
+ *     android:name=".wxapi.WXPayEntryActivity"
+ *     android:exported="true"
+ *     android:launchMode="singleTop">
+ *     <!--<intent-filter>-->
+ *     <!--<action android:name="android.intent.action.VIEW"/>-->
+ *     <!--<category android:name="android.intent.category.DEFAULT"/>-->
+ *     <!--<data android:scheme="wx8aee7894414e5f5a"/>-->
+ *     <!--</intent-filter>-->
+ * </activity>
  *
  * Author     : 李大发
  * Date       : 2020/3/14 on 11:46

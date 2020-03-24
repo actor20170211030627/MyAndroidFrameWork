@@ -39,7 +39,6 @@ import android.view.Window;
  *         .show();
  *
  * Description: 从底部弹出的Dialog, 能上下拖拽滑动
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/12 on 21:31
  * @version 1.0

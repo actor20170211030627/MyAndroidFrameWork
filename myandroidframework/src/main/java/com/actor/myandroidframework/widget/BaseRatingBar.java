@@ -23,7 +23,6 @@ import com.blankj.utilcode.util.ImageUtils;
 
 /**
  * Description: 自定义RatingBar
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-8-27 on 15:34
  *

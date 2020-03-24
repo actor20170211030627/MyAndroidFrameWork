@@ -20,7 +20,6 @@ import java.util.List;
  * 请求访问通知
  * 提交问题或者贡献代码：https://github.com/yanzhenjie/AndPermission
  * https://yanzhenjie.com/AndPermission/cn/
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/5/30 on 19:09
  * @version 1.0
@@ -164,7 +163,7 @@ public class PermissionRequestUtils {
         void onFailure(@NonNull List<String> deniedPermissions);
     }
 
-//    private static void logError(String msg) {
+//    private static void logFormat(String msg) {
 //        LogUtils.error(msg, false);
 //    }
 

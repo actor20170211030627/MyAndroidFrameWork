@@ -14,7 +14,6 @@ import retrofit2.Response;
 
 /**
  * Description: retrofit2 的 Callback
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/5/9 on 10:27
  * @version 1.0.1

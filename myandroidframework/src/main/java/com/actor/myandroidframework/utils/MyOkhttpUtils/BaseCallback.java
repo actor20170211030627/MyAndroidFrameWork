@@ -23,7 +23,6 @@ import okhttp3.ResponseBody;
 /**
  * Description: 基类, 主要处理错误事件 & 解析成实体类 & 或者泛型里什么都不传,会直接返回Response, 可参考:
  * https://github.com/hongyangAndroid/okhttputils/commit/1d717d1116cc5c81d05e58343e99229d4ccc9f08
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/17 on 16:03
  * @version 1.2 重写onResponse, 增加okOk

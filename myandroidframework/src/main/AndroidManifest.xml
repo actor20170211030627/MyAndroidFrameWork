@@ -31,12 +31,98 @@
             android:theme="@style/NoTitleDialogTheme"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
 
+
         <!--百度定位服务-->
         <!--http://lbsyun.baidu.com/index.php?title=android-locsdk/guide/create-project/android-studio-->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
+            tools:node="strict"
             android:process=":remote">
         </service>
+
+
+        <!-- 设置QQ头像, ... -->
+        <!--https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95-->
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+        <!--微信登录等-->
+        <!--https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html-->
+        <activity
+            android:name="${applicationId}.wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="${applicationId}" />
+        <!--微信支付-->
+        <!--https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5-->
+        <activity
+            android:name="${applicationId}.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+
+
+        <!--极光推送-->
+        <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
+        <!-- Since JCore2.0.0 Required SDK核心功能-->
+        <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
+        <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
+        <service android:name=".utils.jpush.PushService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+
+        <!--极光推送-->
+        <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
+        <!-- Required since 3.0.7 -->
+        <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
+        <!-- 3.3.0开始所有事件将通过该类回调 -->
+        <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
+        <receiver
+            android:name=".utils.jpush.MyJPushMessageReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+
+        <!--自定义 Receiver 接收被拉起回调-->
+        <receiver android:name=".utils.jpush.MyWakedResultReceiver" />
+
+        <!--极光推送-->
+        <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
+        <!-- User defined. 用户自定义的广播接收器-->
+        <!-- 这是3.3.0之前版本的接收方式，3.3.0开始是通过继承 JPushMessageReceiver并配置来接收所有事件回调。-->
+        <!-- 如果仍然需要在这个Receiver里接收，需要在JPushMessageReceiver 的子类里不重写对应的回调方法，或者重写方法且调用super-->
+<!--        <receiver-->
+<!--            android:name=".utils.jpush.MyReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                &lt;!&ndash;Required 用户注册 SDK 的 intent&ndash;&gt;-->
+<!--                <action android:name="cn.jpush.android.intent.REGISTRATION" />-->
+<!--                &lt;!&ndash;Required 用户接收 SDK 消息的 intent&ndash;&gt;-->
+<!--                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />-->
+<!--                &lt;!&ndash;Required 用户接收 SDK 通知栏信息的 intent&ndash;&gt;-->
+<!--                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />-->
+<!--                &lt;!&ndash;Required 用户打开自定义通知栏的 intent&ndash;&gt;-->
+<!--                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />-->
+<!--                &lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt;-->
+<!--                <action android:name="cn.jpush.android.intent.CONNECTION" />-->
+<!--                <category android:name="您应用的包名" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
     </application>
 </manifest>

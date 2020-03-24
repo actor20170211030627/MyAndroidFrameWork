@@ -20,17 +20,12 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Description: 微信支付必须要求返回界面, 这个activity必须放在: 包名/wxapi/目录下
  * 1.在清单文件中注册
- *     <!--微信支付-->
+ *     <!--微信支付, 如果app没有使用 支付 功能, 请别添加-->
  *     <activity
  *         android:name=".wxapi.WXPayEntryActivity"
  *         android:exported="true"
- *         android:launchMode="singleTop">
- *         <!--<intent-filter>-->
- *         <!--<action android:name="android.intent.action.VIEW"/>-->
- *         <!--<category android:name="android.intent.category.DEFAULT"/>-->
- *         <!--<data android:scheme="wx8aee7894414e5f5a"/>-->
- *         <!--</intent-filter>-->
- *     </activity>
+ *         android:launchMode="singleTop" />
+ *     注意: 已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加, 不要再在项目中添加到清单文件中!!!
  *
  * 2.回调
  * //Eventbus微信登录/支付回调
@@ -40,7 +35,7 @@ import org.greenrobot.eventbus.EventBus;
  *     switch (messageEvent.code) {
  *     case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT:
  *         toast("支付成功!");
- *         logError(messageEvent);
+ *         logFormat(messageEvent);
  *         break;
  * }
  *

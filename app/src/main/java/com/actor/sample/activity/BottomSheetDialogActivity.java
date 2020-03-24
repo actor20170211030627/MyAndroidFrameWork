@@ -20,7 +20,6 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->BottomSheetDialog
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 14:24
  */

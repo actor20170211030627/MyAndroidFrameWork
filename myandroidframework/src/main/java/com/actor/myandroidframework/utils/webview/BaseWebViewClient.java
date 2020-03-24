@@ -13,7 +13,6 @@ import com.actor.myandroidframework.utils.LogUtils;
 
 /**
  * Description: 类的描述
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/11 on 11:24
  * @version 1.0 修改{@link #shouldOverrideUrlLoading(WebView, String)}方法, 判断http/s

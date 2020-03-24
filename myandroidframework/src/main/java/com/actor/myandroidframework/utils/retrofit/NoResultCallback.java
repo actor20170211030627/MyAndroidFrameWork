@@ -5,7 +5,6 @@ import retrofit2.Response;
 
 /**
  * Description: 由于Call.enqueue(callback) 中callback不能=null, 所以写这个代替
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/8 on 17:52
  * @version 1.1

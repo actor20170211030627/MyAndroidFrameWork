@@ -17,7 +17,6 @@ import com.actor.myandroidframework.utils.TextUtil;
 
 /**
  * Description: 加载Dialog
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/28 on 16:43
  * @version 1.0

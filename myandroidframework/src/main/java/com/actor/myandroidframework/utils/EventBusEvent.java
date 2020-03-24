@@ -2,7 +2,6 @@ package com.actor.myandroidframework.utils;
 
 /**
  * Description: Eventbus事件实体类
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/1 on 11:54
  * @version 1.0

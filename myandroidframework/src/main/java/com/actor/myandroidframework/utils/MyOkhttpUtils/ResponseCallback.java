@@ -12,7 +12,6 @@ import okhttp3.ResponseBody;
 
 /**
  * Description: 不解析,返回原生Response<T>, 示例new ResponseCallback<LoginInfo> {}
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/17 on 15:31
  * @version 1.1

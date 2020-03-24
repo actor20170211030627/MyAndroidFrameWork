@@ -25,25 +25,20 @@ import org.json.JSONObject;
  * 2.将jar包放在libs目录下, 并且在app的gradle中添加:
  *   implementation files('libs/open_sdk_r2973327_lite.jar')//QQ登录等v3.3.7
  *
- * 3.需要在清单文件中添加:
- *         <!--以下2个activity是QQ登录-->
- *         <activity
- *             android:name="com.tencent.tauth.AuthActivity"
- *             android:launchMode="singleTask"
- *             android:noHistory="true">
- *             <intent-filter>
- *                 <action android:name="android.intent.action.VIEW" />
- *                 <category android:name="android.intent.category.DEFAULT" />
- *                 <category android:name="android.intent.category.BROWSABLE" />
- *                 <data android:scheme="tencent222222" /><!--这儿替换成: "tencent" + appid-->
- *             </intent-filter>
- *         </activity>
- *         <!--设置QQ头像, ...-->
- *         <activity
- *             android:name="com.tencent.connect.common.AssistActivity"
- *             android:configChanges="orientation|keyboardHidden"
- *             android:screenOrientation="behind"
- *             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+ * 3.需要在清单文件中添加: https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95
+ * //只需添加1个, 另外一个已经添加了的
+ * <!-- 以下1个activity是QQ登录 -->
+ * <activity
+ *     android:name="com.tencent.tauth.AuthActivity"
+ *     android:launchMode="singleTask"
+ *     android:noHistory="true">
+ *     <intent-filter>
+ *         <action android:name="android.intent.action.VIEW" />
+ *         <category android:name="android.intent.category.DEFAULT" />
+ *         <category android:name="android.intent.category.BROWSABLE" />
+ *         <data android:scheme="tencent222222" /> <!-- 这儿替换成: "tencent" + appid -->
+ *     </intent-filter>
+ * </activity>
  *
  * 4.在Application中设置appid: {@link #setAppId(String)}
  *
@@ -152,7 +147,7 @@ public class QQUtils {
         //登录成功以后，保存session会话信息如token, openid等信息到SharePreferecne中。
         getTencent().saveSession(response);
 //        String json = response.toString();
-//        logError(json);
+//        logFormat(json);
     }
 
     public static void getUserInfo(BaseUiListener listener) {
@@ -428,7 +423,7 @@ public class QQUtils {
 
 //    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        logError("-->onActivityResult " + requestCode + " resultCode=" + resultCode);
+//        logFormat("-->onActivityResult " + requestCode + " resultCode=" + resultCode);
 //        if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
 //            Tencent.onActivityResultData(requestCode, resultCode, data, listener);
 //        }

@@ -11,7 +11,6 @@ import org.json.JSONObject;
 /**
  * Description: 调用SDK已经封装好的接口时，例如：登录、快速支付登录、应用分享、应用邀请等接口，需传入该回调的实例
  * Copyright  : Copyright (c) 2019
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/18 on 15:26
  */

@@ -36,7 +36,7 @@ import java.util.Map;
 
 /**
  * description: 百度地图帮助类
- * 1-5. 和 '定位' 配置一样, 见: {@link LocationUtils}
+ * 1-5. 和 '定位' 配置一样, 见: {@link BaiduLocationUtils}
  *
  * 6.Application中初始化
  *   @Override

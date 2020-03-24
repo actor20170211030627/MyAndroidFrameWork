@@ -12,7 +12,6 @@ import com.actor.myandroidframework.utils.webview.BaseWebViewClient;
 
 /**
  * Description: WebView常用初始化
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-8-20 on 10:34
  *

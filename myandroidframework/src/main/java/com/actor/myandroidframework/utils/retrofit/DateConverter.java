@@ -16,7 +16,6 @@ import retrofit2.Retrofit;
 /**
  * Description: 将Retrofit请求参数转换成String, 如果不转, 默认调参数的toString方法
  *              使用方法: new Retrofit.Builder().addConverterFactory(DateConverter.create())
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/6/6 on 22:26
  */

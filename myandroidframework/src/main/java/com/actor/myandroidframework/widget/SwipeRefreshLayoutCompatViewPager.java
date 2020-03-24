@@ -9,7 +9,6 @@ import android.view.ViewConfiguration;
 /**
  * Description: 下拉刷新, 解决嵌套中的ViewPager横向滑动时, 非常容易把下拉刷新的小球拉下来的问题
  * https://blog.csdn.net/ding19972431/article/details/82114531
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/3/8 on 11:22
  * @version 1.0

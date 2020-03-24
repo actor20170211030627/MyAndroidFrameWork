@@ -1,6 +1,6 @@
 package com.actor.sample.bean;
 
-import com.actor.myandroidframework.utils.JExcelUtils.ExcelField;
+import com.actor.myandroidframework.utils.jExcel.ExcelField;
 
 import java.util.Date;
 

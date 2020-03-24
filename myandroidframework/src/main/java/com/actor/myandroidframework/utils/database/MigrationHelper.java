@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  * Description: 数据库迁移帮助类 https://www.jianshu.com/p/53083f782ea2
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/10/30 on 22:32
  *

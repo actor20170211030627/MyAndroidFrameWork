@@ -10,7 +10,6 @@ import android.view.WindowManager;
 
 /**
  * Description: 从底部弹出的 非全屏 Activity
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/8/22 on 00:15
  *
