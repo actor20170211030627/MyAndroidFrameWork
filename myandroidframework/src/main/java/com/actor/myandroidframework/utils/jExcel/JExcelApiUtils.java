@@ -8,9 +8,9 @@ import android.support.annotation.RequiresPermission;
 import android.util.SparseArray;
 
 import com.actor.myandroidframework.utils.ThreadUtils;
-import com.actor.myandroidframework.utils.ToastUtils;
 import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -285,7 +285,7 @@ public class JExcelApiUtils {
             context.startActivity(sendIntent);
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtils.show("未安装QQ");
+            ToastUtils.showShort("未安装QQ");
         }
     }
 
@@ -301,7 +301,7 @@ public class JExcelApiUtils {
             context.startActivity(sendIntent);
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtils.show("未安装微信");
+            ToastUtils.showShort("未安装微信");
         }
     }
 }

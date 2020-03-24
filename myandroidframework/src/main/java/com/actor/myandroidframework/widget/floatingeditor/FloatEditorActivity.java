@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.R;
-import com.actor.myandroidframework.utils.ToastUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -139,12 +139,12 @@ public class FloatEditorActivity extends Activity implements View.OnClickListene
     private boolean illegal() {
         String content = etContent.getText().toString();
         if (TextUtils.isEmpty(content) || content.length() < checkRule.minLength) {
-            ToastUtils.show(getString(R.string.min_input_limit_warn, checkRule.minLength));
+            ToastUtils.showShort(getString(R.string.min_input_limit_warn, checkRule.minLength));
             return true;
         }
 
         if (content.length() > checkRule.maxLength) {
-            ToastUtils.show(getString(R.string.max_input_limit_warn, checkRule.maxLength));
+            ToastUtils.showShort(getString(R.string.max_input_limit_warn, checkRule.maxLength));
             return true;
         }
 
@@ -152,7 +152,7 @@ public class FloatEditorActivity extends Activity implements View.OnClickListene
             Pattern pattern = Pattern.compile(checkRule.regxRule);
             Matcher matcher = pattern.matcher(content);
             if (!matcher.matches()) {
-                ToastUtils.show(getString(checkRule.regxWarn));
+                ToastUtils.showShort(getString(checkRule.regxWarn));
                 return true;
             }
         }

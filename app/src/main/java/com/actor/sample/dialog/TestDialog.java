@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.dialog.BaseDialog;
-import com.actor.myandroidframework.utils.ToastUtils;
 import com.actor.sample.R;
+import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * Description: 测试Dialog
@@ -32,7 +32,7 @@ public class TestDialog extends BaseDialog {
         TextView tv = findViewById(R.id.tv_content);
         tv.setText("this is TestDialog");
         findViewById(R.id.btn_dismiss).setOnClickListener(v -> dismiss());
-        findViewById(R.id.btn_ok).setOnClickListener(v -> ToastUtils.show("u clicked TestDialog"));
+        findViewById(R.id.btn_ok).setOnClickListener(v -> ToastUtils.showShort("u clicked TestDialog"));
     }
 
     @Override

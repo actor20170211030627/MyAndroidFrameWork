@@ -6,9 +6,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.actor.myandroidframework.utils.ToastUtils;
 import com.actor.myandroidframework.fragment.BaseBottomSheetDialogFragment;
 import com.actor.sample.R;
+import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * Description: 类的描述
@@ -36,10 +36,10 @@ public class MyBottomSheetDialogFragment extends BaseBottomSheetDialogFragment {
         tvContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.show("clicked in BaseBottomSheetDialogFragment!");
+                ToastUtils.showShort("clicked in BaseBottomSheetDialogFragment!");
             }
         });
-        view.findViewById(R.id.btn_ok).setOnClickListener(v -> ToastUtils.show("ok~"));
+        view.findViewById(R.id.btn_ok).setOnClickListener(v -> ToastUtils.showShort("ok~"));
         view.findViewById(R.id.btn_dismiss).setOnClickListener(v -> dismiss());
     }
 

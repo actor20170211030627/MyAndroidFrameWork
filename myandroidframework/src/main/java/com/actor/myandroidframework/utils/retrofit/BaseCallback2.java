@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils.retrofit;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
-import com.actor.myandroidframework.utils.ToastUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -64,11 +64,11 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
     }
 
     /**
-     * 状态码错误
+     * 状态码错误, 默认会toast, 可以重写本方法
      */
     public void onStatusCodeError(int errCode, Call<T> call, Response<T> response) {
         logFormat("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
-        toast(TextUtil.getStringFormat("错误码:%d,请联系管理员!", errCode));
+        toast(TextUtil.getStringFormat("错误码:%d, 请联系管理员!", errCode));
     }
 
     protected void logError(String msg) {
@@ -79,7 +79,11 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
         LogUtils.formatError(format, false, args);
     }
 
+    protected String getStringFormat(String format, Object... args) {
+        return TextUtil.getStringFormat(format, args);
+    }
+
     protected void toast(String msg) {
-        ToastUtils.show(msg);
+        ToastUtils.showShort(msg);
     }
 }

@@ -41,7 +41,6 @@ import java.util.Map;
 public class AlbumUtils {
 
     //拍照/录像 存放地址
-    private static String path = FileUtils.getExternalStorageDir();
     private static Widget widget;//自定义UI
     private static String title;//标题
 
@@ -260,7 +259,7 @@ public class AlbumUtils {
     public static void recordVideo(Context context, long durationMs, Action<String> listener) {
         Album.camera(context)
                 .video() // Record Video.
-                .filePath(path)
+                .filePath(FileUtils.getFilesDir().getAbsolutePath())
                 .quality(1) // Video quality, [0, 1].
                 .limitDuration(durationMs) //视频时长,单位秒 The longest duration of the video is in milliseconds.
 //                .limitBytes(Long.MAX_VALUE) // Maximum size of the video, in bytes.

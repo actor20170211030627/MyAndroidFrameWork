@@ -27,12 +27,12 @@ public abstract class GetFileCallback extends BaseCallback<File> {
 
     /**
      * 传入 "文件存储路径" & "文件名"
-     * @param downloadPath 文件存储路径, 可以为空
+     * @param downloadPath 文件存储路径, 可以为空, 默认 files 文件夹
      * @param fileName 文件名, 可以为空
      */
     public GetFileCallback(Object tag, @Nullable String downloadPath, @Nullable String fileName) {
         super(tag);
-        if (downloadPath == null) downloadPath = FileUtils.getExternalStorageDir();
+        if (downloadPath == null) downloadPath = FileUtils.getFilesDir().getAbsolutePath();
         this.downloadPath = downloadPath;
         this.fileName = fileName;
     }

@@ -6,8 +6,9 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 
 /**
  * Created by efan on 2017/4/13.
+ * @deprecated 这是jpush的logger, 不要用这个. edited 修改过
  */
-
+@Deprecated
 public class Logger {
 
     //设为false关闭日志

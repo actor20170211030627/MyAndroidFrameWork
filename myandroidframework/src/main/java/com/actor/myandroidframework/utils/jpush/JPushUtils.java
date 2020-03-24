@@ -611,23 +611,6 @@ public class JPushUtils {
     }
 
 
-    //下方4个方法, 仅用于设置, 与本类没什么关系
-    private static boolean      isNeedShowNotification = true;
-    private static Notification notification;
-    public static boolean isNeedShowNotification() {
-        return isNeedShowNotification;
-    }
-    public static void setIsNeedShowNotification(boolean isNeedShowNotification) {
-        JPushUtils.isNeedShowNotification = isNeedShowNotification;
-    }
-    public static Notification getNotification() {
-        return notification;
-    }
-    public static void setNotification(Notification notification) {
-        JPushUtils.notification = notification;
-    }
-
-
     ///////////////////////////////////////////////////////////////////////////
     // 统一推送服务（Unified Push Service，简称UPS）
     ///////////////////////////////////////////////////////////////////////////
@@ -674,5 +657,24 @@ public class JPushUtils {
      */
     public static void turnOnPush(Context context, UPSTurnCallBack callback) {
         JPushUPSManager.turnOnPush(context, callback);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 下方4个方法, 仅用于设置, 与本类没什么关系
+    ///////////////////////////////////////////////////////////////////////////
+    private static boolean      isNeedShowNotification = true;
+    private static Notification notification;
+    public static boolean isNeedShowNotification() {
+        return isNeedShowNotification;
+    }
+    public static void setIsNeedShowNotification(boolean isNeedShowNotification) {
+        JPushUtils.isNeedShowNotification = isNeedShowNotification;
+    }
+    public static Notification getNotification() {
+        return notification;
+    }
+    public static void setNotification(Notification notification) {
+        JPushUtils.notification = notification;
     }
 }

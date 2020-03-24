@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ThreadUtils;
-import com.actor.myandroidframework.utils.ToastUtils;
 import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.IOException;
@@ -104,7 +104,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         } else {
             isParseNetworkResponseIsNull = true;
             if (!isJsonParseException) {//如果不是Json解析错误的原因, 而是其它原因
-                onParseNetworkResponseIsNull(id);
+                onParseNetworkResponseIsNull(response, id);
                 onError(id, null, null);//主要作用是调用子类的onError方法
             }
         }
@@ -123,6 +123,10 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         if (validateReponse(response, id)) {
             T t = parseNetworkResponse(response, id);
             ThreadUtils.runOnUiThread(() -> onResponse(t, id));
+        } else {
+            isStatusCodeError = true;
+            ThreadUtils.runOnUiThread(() -> onStatusCodeError(response.code(), response, id));
+            onFailure(call, new IOException("状态码错误: " + response.code()));
         }
     }
     /**
@@ -153,24 +157,29 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     }
 
     /**
-     * 状态码错误, 如果要自己处理错误码, 可以重写本方法
+     * 状态码错误, 默认会toast, 可以重写本方法
      * @param errCode 错误码
-     * @param response
-     * @param id
      */
     public void onStatusCodeError(int errCode, Response response, int id) {
-        String s = TextUtil.getStringFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
+        String s = getStringFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
         logFormat(s);
         toast(s);
     }
 
+    /**
+     * 数据解析错误, 默认会toast, 可重写此方法
+     */
     public void onJsonParseException(Response response, int id, Exception e) {
-        logFormat("数据解析错误: response=%s, id=%d, e=%s", response, id, e);
-        ToastUtils.showJsonParseException(e, "数据解析错误,请联系管理员");
+        String s = getStringFormat("数据解析错误: response=%s, id=%d, e=%s", response, id, e);
+        logFormat(s);
+        toast(s);
     }
 
-    public void onParseNetworkResponseIsNull(int id) {
-        logFormat("数据解析为空: tag=%s, id=%d", tag, id);
+    /**
+     * 数据解析为空, 默认会toast, 可重写此方法
+     */
+    public void onParseNetworkResponseIsNull(T response, int id) {
+        logFormat("数据解析为空: tag=%s, response=%s, id=%d", tag, response, id);
         toast("数据解析为空,请检查网络连接");
     }
 
@@ -187,7 +196,11 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         LogUtils.formatError(format, false, args);
     }
 
+    protected String getStringFormat(String format, Object... args) {
+        return TextUtil.getStringFormat(format, args);
+    }
+
     protected void toast(String msg) {
-        ToastUtils.show(msg);
+        ToastUtils.showShort(msg);
     }
 }

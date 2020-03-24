@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.ToastUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.AuthAgent;
 import com.tencent.connect.share.QQShare;
@@ -180,7 +180,7 @@ public class QQUtils {
                                        @NonNull String targetUrl, String imgUrl, String appName,
                                        Integer extInt, BaseUiListener listener) {
         if (!Tencent.isSupportShareToQQ(CONTEXT)) {
-            ToastUtils.show("不支持分享到QQ");
+            ToastUtils.showShort("不支持分享到QQ");
             return;
         }
         Bundle params = new Bundle();
@@ -204,7 +204,7 @@ public class QQUtils {
     public static void shareToQQImg(Activity activity, @NonNull String localUrl, String appName,
                                        Integer extInt, BaseUiListener listener) {
         if (!Tencent.isSupportShareToQQ(CONTEXT)) {
-            ToastUtils.show("不支持分享到QQ");
+            ToastUtils.showShort("不支持分享到QQ");
             return;
         }
         Bundle params = new Bundle();
@@ -229,7 +229,7 @@ public class QQUtils {
                                       @NonNull String targetUrl, String imgUrl, @NonNull String audioUrl,
                                       String appName, Integer extInt, BaseUiListener listener) {
         if (!Tencent.isSupportShareToQQ(CONTEXT)) {
-            ToastUtils.show("不支持分享到QQ");
+            ToastUtils.showShort("不支持分享到QQ");
             return;
         }
         Bundle params = new Bundle();
@@ -256,7 +256,7 @@ public class QQUtils {
                                     String imgUrl, String appName, Integer extInt,
                                     BaseUiListener listener) {
         if (!Tencent.isSupportShareToQQ(CONTEXT)) {
-            ToastUtils.show("不支持分享到QQ");
+            ToastUtils.showShort("不支持分享到QQ");
             return;
         }
         Bundle params = new Bundle();

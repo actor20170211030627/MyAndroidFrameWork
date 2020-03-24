@@ -20,8 +20,8 @@ import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
-import com.actor.myandroidframework.utils.ToastUtils;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -361,7 +361,7 @@ public class ActorBaseActivity extends AppCompatActivity {
     // toast区
     ///////////////////////////////////////////////////////////////////////////
     protected void toast(Object notify){
-        ToastUtils.show(String.valueOf(notify));
+        ToastUtils.showShort(String.valueOf(notify));
     }
 
 

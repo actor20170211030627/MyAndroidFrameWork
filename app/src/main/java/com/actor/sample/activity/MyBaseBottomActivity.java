@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.activity.BaseBottomActivity;
-import com.actor.myandroidframework.utils.ToastUtils;
 import com.actor.sample.R;
+import com.blankj.utilcode.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,10 +45,10 @@ public class MyBaseBottomActivity extends BaseBottomActivity {
                 onBackPressed();
                 break;
             case R.id.btn_ok:
-                ToastUtils.show("ok~");
+                ToastUtils.showShort("ok~");
                 break;
             case R.id.tv_content:
-                ToastUtils.show("you clicked me!!");
+                ToastUtils.showShort("you clicked me!!");
                 break;
         }
     }
