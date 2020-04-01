@@ -112,4 +112,17 @@ public class BaseSpinner extends AppCompatSpinner {
         default void onNothingSelected(AdapterView<?> parent) {
         }
     }
+
+    //触摸事件
+    @Override
+    public void setOnTouchListener(OnTouchListener onTouchListener) {
+        super.setOnTouchListener(onTouchListener);
+
+        /**
+         * 重写 onTouchListener 的 onTouch 方法:
+         * 返回true: 自己处理触摸事件, 不弹出下拉框
+         * 返回false:弹出下拉框
+         */
+//        public boolean onTouch(View v, MotionEvent event) {}
+    }
 }
