@@ -67,10 +67,11 @@ public class VoiceRecorderView extends RelativeLayout {
 
     /**
      * 停止录音
+     * @param visible 停止录音后, 这个控件的显示状态
      */
-    public void stopRecording() {
+    public void stopRecording(int visible) {
         mVolumeAnim.stop();
-        setVisibility(View.GONE);
+        setVisibility(visible);
     }
 
     /**
@@ -81,11 +82,11 @@ public class VoiceRecorderView extends RelativeLayout {
         ivRecordingIcon.setImageResource(R.drawable.ic_volume_wraning);
         tvRecodingTips.setTextColor(Color.WHITE);
         tvRecodingTips.setText("录音时间太短");
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setVisibility(View.GONE);
-            }
-        }, 1000);
+//        postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                setVisibility(View.GONE);
+//            }
+//        }, 1000);
     }
 }
