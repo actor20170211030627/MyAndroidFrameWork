@@ -84,7 +84,7 @@ public class DatabaseActivity extends BaseActivity {
             case R.id.btn_add://增, 身份证不为空, 其余的根据自己需求判断
                 if (isNoEmpty(itilIdcard)) {
                     String idCard = getText(itilIdcard);
-//                    if (!RegexUtils.isIDCard15(idCard) && RegexUtils.isIDCard18(idCard)) {
+//                    if (!RegexUtils.isIDCard15(idCard) && !RegexUtils.isIDCard18(idCard)) {
 //                        toast("请输入正确的身份证(idcard error)!");
 //                        return;
 //                    }

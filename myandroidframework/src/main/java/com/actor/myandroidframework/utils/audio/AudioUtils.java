@@ -26,7 +26,7 @@ import java.io.File;
  *
  * author     : 李大发
  * date       : 2019/5/30 on 17:43
- * TODO: 2020/4/1 逻辑理顺一下...
+ * TODO: 2020/4/1 逻辑理顺一下...&hihi是录制的什么格式音频?
  */
 public class AudioUtils {
 
@@ -49,13 +49,6 @@ public class AudioUtils {
      * @param recordDir 设置录音文件存放路径, 默认: getFilesDir()
      */
     public void init(@Nullable Integer maxRecordTimeSecond, @Nullable String recordDir) {
-//        if (CURRENT_RECORD_DIR == null) {
-//            String path = Environment.getExternalStorageDirectory().getAbsolutePath()
-//                    .concat("/").concat(context.getPackageName()).concat("/record/");
-//            File file = new File(path);
-//            if (!file.exists()) file.mkdirs();
-//            CURRENT_RECORD_DIR = path.concat("auto_");
-//        }
         if (TextUtils.isEmpty(recordDir)) {
             CURRENT_RECORD_DIR = FileUtils.getFilesDir().getAbsolutePath();
         } else CURRENT_RECORD_DIR = recordDir;

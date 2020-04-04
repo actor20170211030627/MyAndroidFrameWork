@@ -8,10 +8,13 @@ import com.greendao.gen.DaoMaster;
 import com.greendao.gen.DaoSession;
 
 import org.greenrobot.greendao.AbstractDao;
+import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.greenrobot.greendao.query.WhereCondition;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -44,8 +47,51 @@ import java.util.List;
  * 3.在Application中初始化(需要先Build -> Make Project, 生成DaoMaster和DaoSession后才初始化, 否则空指针):
  *   GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class, ...);
  *
- * 获取某个Dao示例: ItemEntityDao dao = GreenDaoUtils.getDaoSession().getItemEntityDao();
- * 更多信息见文件: greenDao说明.java
+ * 4.获取某个Dao示例:
+ *   ItemEntityDao dao = GreenDaoUtils.getDaoSession().getItemEntityDao();//ItemEntityDao是生成的文件
+ *
+ * 5.使用示例:
+ *  https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java
+ *
+ * 6.{@link WhereCondition} 的一些方法:
+ *   //1. 获取 Property: AbstractDao的子类.Properties  (例: ItemEntityDao.Properties.Sex)
+ *   @see org.greenrobot.greendao.Property[] = {@link AbstractDao#getProperties()}
+ *
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#eq(Object)} //相等
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notEq(Object)} //不相等
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notEq(Object)} //不相等
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#like(String)} //模糊查询, string要用夹在%key%中间, 例: Properties.FirstName.like("%doris%"), 查询FristName包含doris的人
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#gt(Object)} //大于
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#lt(Object)} //小于
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#ge(Object)} //大于等于
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#le(Object)} //小于等于
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#between(Object, Object)} //小于等于
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#in(Object...)} //在给出的value的范围内的符合项
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#in(Collection)} //在给出的value的范围内的符合项
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notIn(Object...)} //不在给出的value的范围内的符合项
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notIn(Collection)} //不在给出的value的范围内的符合项
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#isNull()} //为空
+ *   @see WhereCondition = {@link org.greenrobot.greendao.Property#isNotNull()} //不为空
+ *   ...
+ *
+ *   //2. 获取 QueryBuilder
+ *   @see QueryBuilder = {@link AbstractDao#queryBuilder()}
+ *   @see QueryBuilder#or(WhereCondition, WhereCondition, WhereCondition...) //或者
+ *   @see QueryBuilder#whereOr(WhereCondition, WhereCondition, WhereCondition...) //或者
+ *   @see QueryBuilder#and(WhereCondition, WhereCondition, WhereCondition...) //并且
+ *   @see QueryBuilder#orderAsc(Property...) //升序(正序, 小->大)
+ *   @see QueryBuilder#orderDesc(Property...) //降序(倒序, 大->小)
+ *   @see QueryBuilder#limit(int) //限制查询返回的条数
+ *   @see QueryBuilder#offset(int) //设置数据返回偏向后移值, 结合limit使用, 例: limit(3), offset(2): 结果[1,2,3] => [3,4,5]
+ *   @see QueryBuilder#join(Property, Class) //多表查询
+ *   @see QueryBuilder#join(Class, Property)
+ *   @see QueryBuilder#join(Property, Class, Property)
+ *   @see QueryBuilder#join(Join, Property, Class, Property)
+ *   ...
+ *
+ * 7.更多信息:
+ *   https://www.jianshu.com/p/53083f782ea2
+ *   greenDao说明.java
  *
  * Author     : 李大发
  * Date       : 2019/10/28 on 22:53

@@ -13,6 +13,8 @@ import com.actor.myandroidframework.R;
 
 /**
  * description: 按住说话, 环信EaseUI里有一个 EaseVoiceRecorderView.java 可参考
+ * 示例使用:
+ * https://github.com/actor20170211030627/ChatLayout/blob/master/chatlayout/src/main/java/com/actor/chatlayout/ChatLayout.java
  * author     : 李大发
  * date       : 2019/5/30 on 21:05
  * @version 1.0

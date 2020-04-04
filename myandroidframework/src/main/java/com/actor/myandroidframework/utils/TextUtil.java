@@ -31,8 +31,8 @@ import java.util.Map;
  *     <li>{@link #getText(Object)} 获取Text</li>
  *     <li>{@link #isNoEmpty(Object...)} 判断Objects是否为空</li>
  *     <li>{@link #isNoEmpty(Object, CharSequence)} 判断Object是否为空, 如果为空: toast(charsequence);</li>
- *     <li>{@link #equals(CharSequence, CharSequence)} 判断2个字符序列equals</li>
  *     <li>{@link #getStringFormat(String, Object...)} 获取格式化后的String</li>
+ *     <li>{@link #equals(CharSequence, CharSequence)} 判断2个字符序列equals</li>
  *     <li>{@link #concat(CharSequence...)} 连接多个字符序列</li>
  *     <li>{@link #isDigitsOnly(CharSequence)} 是否只包含数字</li>
  *     <li>{@link #getReverse(CharSequence)} 获取反转字符串</li>
@@ -280,25 +280,6 @@ public class TextUtil {
         return true;
     }
 
-    /**
-     * @return 返回是否equals
-     */
-    public static boolean equals(@Nullable CharSequence a, @Nullable CharSequence b) {
-        return TextUtils.equals(a, b);
-    }
-
-    /**
-     * 返回格式化后的String, 示例: ("name = %s, age = %d", "张三", 23) => (name = 张三, age = 23)
-     * 具体格式化方式可参考:
-     * GitHub:
-     * https://github.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
-     * 码云:
-     * https://gitee.com/actor2017/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
-     */
-    public static String getStringFormat(String format, Object... args) {
-        return String.format(Locale.getDefault(), format, args);
-    }
-
     public interface GetTextAble {
 
         /**
@@ -327,7 +308,28 @@ public class TextUtil {
         }
     }
 
-    /**==============================其它方法===================================*/
+    ///////////////////////////////////////////////////////////////////////////
+    // 其它方法
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 返回格式化后的String, 示例: ("name = %s, age = %d", "张三", 23) => (name = 张三, age = 23)
+     * 具体格式化方式可参考:
+     * GitHub:
+     * https://github.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
+     * 码云:
+     * https://gitee.com/actor2017/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
+     */
+    public static String getStringFormat(String format, Object... args) {
+        return String.format(Locale.getDefault(), format, args);
+    }
+
+    /**
+     * @return 返回是否equals
+     */
+    public static boolean equals(@Nullable CharSequence a, @Nullable CharSequence b) {
+        return TextUtils.equals(a, b);
+    }
+
     /**
      * 连接字符串
      * @param text

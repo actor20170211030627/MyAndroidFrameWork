@@ -19,8 +19,7 @@ public class ThreadUtils {
      * 通常用于处理UI操作
      */
     public static void runOnUiThread(Runnable runnable) {
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            //new Thread(r).start();启动子线程(注意和下面方法的区别)
+        if (isRunOnUiThread()) {
             runnable.run();//直接方法的调用
         } else {
             handler.post(runnable);//将runnable这个任务，丢到了主线程的消息队列中
@@ -38,7 +37,7 @@ public class ThreadUtils {
      * 返回现在是否运行在主线程
      * @return
      */
-    public static boolean isRunOnUiThread(){
+    public static boolean isRunOnUiThread() {
         return Looper.myLooper() == Looper.getMainLooper();
 
 //        return Thread.currentThread() == Looper.getMainLooper().getThread();

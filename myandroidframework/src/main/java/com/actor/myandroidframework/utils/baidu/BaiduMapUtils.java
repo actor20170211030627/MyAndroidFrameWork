@@ -1,7 +1,10 @@
 package com.actor.myandroidframework.utils.baidu;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
@@ -27,6 +30,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ImageUtils;
 
 import java.util.Arrays;
@@ -36,7 +40,7 @@ import java.util.Map;
 
 /**
  * description: 百度地图帮助类
- * 1-5. 和 '定位' 配置一样, 见: {@link BaiduLocationUtils}
+ * 1-5. 配置和 {@link BaiduLocationUtils} 百度定位Utils 一样
  *
  * 6.Application中初始化
  *   @Override
@@ -66,6 +70,9 @@ public class BaiduMapUtils {
     protected static final String SHA1 = "F5:18:3E:C1:04:17:FC:B2:34:18:7A:11:1D:7E:C7:81:69:08:65:1B";
     protected static final String PACKAGE_NAME = ";com.actor.sample";//; + 包名
     protected static final Map<String, Object> params = new LinkedHashMap<>(10);
+
+    public static final String GAODE_PACKAGE_NAME = "com.autonavi.minimap";//高德地图包名
+    public static final String BAIDU_PACKAGE_NAME = "com.baidu.BaiduMap";//百度地图包名
 
     /**
      * 通过网络,根据地址获取经纬度, 返回json 的 status = 0表示获取成功
@@ -130,6 +137,78 @@ public class BaiduMapUtils {
         double v = 6371000 * tt;
         logFormat("距离: %f", v);//405415.61429350835
         return v;
+    }
+
+    /**
+     * 打开高德地图导航功能, 待测试
+     * @param slat    起点纬度
+     * @param slon    起点经度
+     * @param sname   起点名称 可不填（0,0，null）
+     * @param dlat    终点纬度
+     * @param dlon    终点经度
+     * @return 是否打开成功
+     */
+    public static boolean openGaoDeNavigation(Context context, double slon, double slat, String sname,
+                                     double dlon, double dlat) {
+        boolean appInstalled = AppUtils.isAppInstalled(GAODE_PACKAGE_NAME);//是否安装高德地图
+        if (!appInstalled) return false;
+        StringBuilder sb = new StringBuilder("amapuri://route/plan?sourceApplication=maxuslife");
+        if (slat != 0) {
+            sb.append("&sname=")
+                    .append(sname)
+                    .append("&slat=")
+                    .append(slat)
+                    .append("&slon=")
+                    .append(slon);
+        }
+        sb.append("&dlat=").append(dlat)
+                .append("&dlon=")
+                .append(dlon)
+//                .append("&dname=")
+//                .append(dname)
+                .append("&dev=0")
+                .append("&t=0");
+        String string = sb.toString();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage(GAODE_PACKAGE_NAME);
+        intent.setData(Uri.parse(string));
+        context.startActivity(intent);
+        return true;
+    }
+
+    /**
+     * 打开百度地图导航功能, 待测试
+     * @param slat    起点纬度
+     * @param slon    起点经度
+     * @param sname   起点名称 可不填（0,0，null）
+     * @param dlat    终点纬度
+     * @param dlon    终点经度
+     * @return 是否打开成功
+     */
+    public static boolean openBaiDuNavigation(Context context, double slon, double slat, String sname,
+                                     double dlon, double dlat) {
+        boolean appInstalled = AppUtils.isAppInstalled(BAIDU_PACKAGE_NAME);//是否安装百度地图
+        if (!appInstalled) return false;
+        StringBuilder sb = new StringBuilder("baidumap://map/direction?mode=driving&");
+        if (slat != 0) {
+            sb.append("origin=latlng:")
+                    .append(slat)
+                    .append(",")
+                    .append(slon)
+                    .append("|name:")
+                    .append(sname);
+        }
+        sb.append("&destination=latlng:")
+                .append(dlat)
+                .append(",")
+                .append(dlon)
+                .append("|name:");
+        String string = sb.toString();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage(BAIDU_PACKAGE_NAME);
+        intent.setData(Uri.parse(string));
+        context.startActivity(intent);
+        return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
