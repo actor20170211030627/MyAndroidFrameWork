@@ -17,28 +17,20 @@ public class Global {
 
     public static final String BASE_URL = "https://api.github.com";
 
-    //GET/POST, 这个也可以检测更新
-//    public static final String CHECK_UPDATE = "https://github.com/actor20170211030627/" +
-//            "MyAndroidFrameWork" +
-//            "/raw/master/app/build/outputs/apk/debug/output.json";
-    //必须GET
-    public static final String CHECK_UPDATE = "https://raw.githubusercontent.com/" +
-            "actor20170211030627/" +
-            "MyAndroidFrameWork" +//项目名
-            "/master/" +
-            "app" +//模块名
+    public static final String CHECK_UPDATE = "https://gitee.com/actor2017/" +
+            "MyAndroidFrameWork" +
+            "/raw/master/" +
+            "app" +
             "/build/outputs/apk/debug/output.json";
 
-    //这个也可以下载
-//    public static final String DOWNLOAD_URL = "https://github.com/actor20170211030627/" +
-//            "MyAndroidFrameWork" +
-//            "/raw/master/app/build/outputs/apk/debug/app-debug.apk";
     public static final String DOWNLOAD_URL = "https://raw.githubusercontent.com/" +
             "actor20170211030627/" +
-            "MyAndroidFrameWork" +//项目名
+            "MyAndroidFrameWork" +
             "/master/" +
-            "app" +//模块名
-            "/build/outputs/apk/debug/app-debug.apk";
+            "app" +
+            "/build/outputs/apk/debug/" +
+            "app" +
+            "-debug.apk";
 
 
     //thanks: https://www.cr173.com/soft/2134.html

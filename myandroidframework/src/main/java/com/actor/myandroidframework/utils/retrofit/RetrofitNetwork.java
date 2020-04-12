@@ -23,11 +23,11 @@ import retrofit2.Retrofit;
  */
 public class RetrofitNetwork {
 
-    protected static OkHttpClient        okHttpClient;
-    protected static String              baseUrl = ConfigUtils.baseUrl;
-    protected static Converter.Factory   converterFactory;
-    protected static CallAdapter.Factory callAdapterFactory;
-    protected static final Map<String, Object> apis = new HashMap<>();
+    protected static OkHttpClient              okHttpClient;
+    protected static String                    baseUrl = ConfigUtils.baseUrl;
+    protected static Converter.Factory         converterFactory;
+    protected static CallAdapter.Factory       callAdapterFactory;
+    protected static final Map<String, Object> APIS    = new HashMap<>();
 
     private static DownloadFileApi downloadFileApi;
 
@@ -65,7 +65,7 @@ public class RetrofitNetwork {
     }
 
     public static <T> T getApi(Class<T> apiClass) {
-        Object aClass = apis.get(apiClass.getName());
+        Object aClass = APIS.get(apiClass.getName());
         if (aClass == null) {
             Retrofit.Builder builder = new Retrofit.Builder()
                     .client(getOkHttpClient())
@@ -74,7 +74,7 @@ public class RetrofitNetwork {
             if (getCallAdapterFactory() != null) builder.addCallAdapterFactory(getCallAdapterFactory());
             Retrofit retrofit = builder.build();
             aClass = retrofit.create(apiClass);
-            apis.put(apiClass.getName(), aClass);
+            APIS.put(apiClass.getName(), aClass);
         }
         return (T) aClass;
     }

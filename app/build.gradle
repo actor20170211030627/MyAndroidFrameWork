@@ -83,7 +83,7 @@ dependencies {
 
     //https://github.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':myandroidframework')
-//    implementation 'com.github.actor20170211030627:MyAndroidFrameWork:1.3.2'
+//    implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:1.3.4'
 
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.2.2'//数据库

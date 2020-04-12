@@ -6,9 +6,6 @@
         <!--按下时背景, 有默认值-->
         <attr name="qsbBackgroundPressed" format="reference|color" />
 
-        <!--设置字母显示时间, 默认2000-->
-        <attr name="qsbShowTimeMs" format="integer" />
-
         <!--正常字体颜色, 默认#8c8c8c-->
         <attr name="qsbTextColorNormal" format="color" />
 

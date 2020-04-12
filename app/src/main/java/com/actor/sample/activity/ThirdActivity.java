@@ -135,7 +135,7 @@ public class ThirdActivity extends BaseActivity {
         }
     }
 
-    //QQ回调
+    //QQ登录回调
     private BaseUiListener listener =new BaseUiListener() {
 
         @Override
@@ -157,13 +157,13 @@ public class ThirdActivity extends BaseActivity {
 
     //Eventbus微信登录/支付回调
      @Subscribe(threadMode = ThreadMode.MAIN)
-     public void onReceivedPayResult(EventBusEvent messageEvent) {
-         if (messageEvent == null) return;
-         switch (messageEvent.code) {
+     public void onWxLoginResult(EventBusEvent eventBusEvent) {
+         if (eventBusEvent == null) return;
+         switch (eventBusEvent.code) {
              case WXEntryActivity.MSG_EVT_WX_LOGIN://登录
                  toast("登录成功!");
-                 logError(messageEvent);
-                 String code = messageEvent.msg;
+                 logError(eventBusEvent);
+                 String code = eventBusEvent.msg;
                  /**
                   * 调用后台接口获取token
                   * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=&lang=zh_CN
@@ -174,7 +174,7 @@ public class ThirdActivity extends BaseActivity {
                  break;
              case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT://支付
                  toast("支付成功!");
-                 logError(messageEvent);
+                 logError(eventBusEvent);
                  break;
          }
      }

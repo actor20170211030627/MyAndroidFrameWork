@@ -7,11 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IntRange;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +44,6 @@ import java.util.Map;
  *     android:layout_width="30dp"
  *     android:layout_height="match_parent"
  *     app:qsbBackgroundPressed="@drawable/shape_rec_cor_for_quicksearchbar" //这是默认背景(default)
- *     app:qsbShowTimeMs="2000"                     //默认2s(default)
  *     app:qsbTextColorNormal="@color/gray_8c8c8c"  //默认#8c8c8c
  *     app:qsbTextColorPressed="@color/colorAccent" //默认colorAccent
  *     app:qsbTextSize="10sp" />
@@ -57,8 +53,6 @@ import java.util.Map;
  * 注意: 列表中的数据必须 extends {@link PinYinSortAble}, 否则报错
  *
  * 设置字母监听: {@link #setOnLetterChangedListener(RecyclerView, OnLetterChangedListener)}
- *
- * 设置字母显示时间, 单位ms: {@link #setShowTime(int)}
  *
  * 设置字体正常颜色: {@link #setTextColorNormal(int)}
  *
@@ -79,37 +73,25 @@ import java.util.Map;
  */
 public class QuickSearchBar extends View {
 
-    private              Rect                        rect;
-    private              Paint                       paint;
-    private              float                       mCellWidth;       //控件宽度
-    private              float                       mCellHeight;      //控件高度 / 26
-    private              int                         showTimeMs = 2000;//字母显示时间
-    private              int                         mCurrentIndex = -1; //现在所触摸的索引
-    private              int                         textColorNormal;//正常字体颜色
-    private              int                         textColorPressed;//按下时的字体颜色, 默认colorAccent
-    private              int                         textSize;//字体大小, 默认10sp
-    private              Drawable                    pressedBackground;//按下时背景
-    private              RecyclerView                recyclerView;
-    private              Map<String, Integer>        letterMap      = new HashMap<>();
-    private              OnLetterChangedListener     letterChangedListener;
-    private              List<PinYinSortAble>        temps = new ArrayList<>();
-    private              RecyclerView.SmoothScroller smoothScroller;
-    private static final String[]                    SECTIONS = {
+    protected              Rect                        rect;
+    protected              Paint                       paint;
+    protected              float                       mCellWidth;       //控件宽度
+    protected              float                       mCellHeight;      //控件高度 / 26
+    protected              int                         mCurrentIndex = -1; //现在所触摸的索引
+    protected              int                         textColorNormal;//正常字体颜色
+    protected              int                         textColorPressed;//按下时的字体颜色, 默认colorAccent
+    protected              int                         textSize;//字体大小, 默认10sp
+    protected              Drawable                    pressedBackground;//按下时背景
+    protected              RecyclerView                recyclerView;
+    protected              Map<String, Integer>        letterMap  = new HashMap<>();
+    protected              OnLetterChangedListener     letterChangedListener;
+    protected              List<PinYinSortAble>        temps      = new ArrayList<>();
+    protected              RecyclerView.SmoothScroller smoothScroller;
+    protected static final String[]                    LETTERS    = {//字母
             "#", "A", "B", "C", "D", "E", "F", "G", "H",
             "I", "J", "K", "L", "M", "N", "O", "P", "Q",
             "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    public static final  int                         POSITION_A = 1;//"A"在上方的position, 从0开始
-
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            mHandler.removeMessages(0);
-            if (letterChangedListener != null) {
-                letterChangedListener.onTimeIsOver();
-            }
-        }
-    };
+    public static final  int                           POSITION_A = 1;//"A"在上方的position, 从0开始
 
     public QuickSearchBar(Context context) {
         this(context,null);
@@ -128,7 +110,6 @@ public class QuickSearchBar extends View {
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.QuickSearchBar);
             Drawable background = typedArray.getDrawable(R.styleable.QuickSearchBar_qsbBackgroundPressed);
-            int showTime = typedArray.getInt(R.styleable.QuickSearchBar_qsbShowTimeMs, -1);
             int textColorNormal = typedArray.getColor(R.styleable.QuickSearchBar_qsbTextColorNormal,
                     this.textColorNormal);
             int textColorPressed = typedArray.getColor(R.styleable.QuickSearchBar_qsbTextColorPressed,
@@ -136,7 +117,6 @@ public class QuickSearchBar extends View {
             int textSize = typedArray.getDimensionPixelSize(R.styleable.QuickSearchBar_qsbTextSize, -1);
             typedArray.recycle();
             if (background != null) pressedBackground = background;
-            if (showTime >= 0) showTimeMs = showTime;
             this.textColorNormal = textColorNormal;
             this.textColorPressed = textColorPressed;
             if (textSize != -1) this.textSize = textSize;
@@ -152,16 +132,16 @@ public class QuickSearchBar extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mCellWidth = getMeasuredWidth();    //控件宽度
-        mCellHeight = getMeasuredHeight() * 1.0f / SECTIONS.length;//控件高度/26
+        mCellHeight = getMeasuredHeight() * 1.0f / LETTERS.length;//控件高度/26
     }
 
     @Override
     protected void onDraw(Canvas canvas) {//canvas帆布
         super.onDraw(canvas);
-        for (int i = 0; i < SECTIONS.length; i++) {
+        for (int i = 0; i < LETTERS.length; i++) {
             //绘制图片:起点在左上角
             //绘制文字:起点在左下角
-            paint.getTextBounds(SECTIONS[i] , 0, 1, rect);
+            paint.getTextBounds(LETTERS[i] , 0, 1, rect);
             int textWidth = rect.width();   //字体宽度
             int textHeight = rect.height(); //字体高度
             float x = mCellWidth / 2 - textWidth / 2;//字体从小rect的左下角开始画
@@ -171,7 +151,7 @@ public class QuickSearchBar extends View {
             }else {
                 paint.setColor(textColorNormal);
             }
-            canvas.drawText(SECTIONS[i], x, y, paint);
+            canvas.drawText(LETTERS[i], x, y, paint);
         }
     }
 
@@ -183,14 +163,14 @@ public class QuickSearchBar extends View {
             float y = event.getY();     //相对与这个控件左上角的y坐标
             int oldIndex = mCurrentIndex;
             mCurrentIndex = (int) (y / mCellHeight);
-            if (mCurrentIndex > SECTIONS.length - 1) {
-                mCurrentIndex = SECTIONS.length - 1;
+            if (mCurrentIndex > LETTERS.length - 1) {
+                mCurrentIndex = LETTERS.length - 1;
             }
             if (mCurrentIndex < 0) {
                 mCurrentIndex = 0;
             }
             if (oldIndex != mCurrentIndex) {
-                String letter = SECTIONS[mCurrentIndex];
+                String letter = LETTERS[mCurrentIndex];
                 if (letterChangedListener != null) {
                     letterChangedListener.onLetterChanged(letter);
                 }
@@ -218,8 +198,9 @@ public class QuickSearchBar extends View {
         case MotionEvent.ACTION_UP:
         default:
             mCurrentIndex = -1;
-            mHandler.removeMessages(0);
-            mHandler.sendEmptyMessageDelayed(0, showTimeMs);
+            if (letterChangedListener != null) {
+                letterChangedListener.onActionUp();
+            }
             setBackground(null);
             //颜色
 //            setBackgroundColor(Color.TRANSPARENT);//设置透明的颜色背景
@@ -242,35 +223,35 @@ public class QuickSearchBar extends View {
                 if (item != null) {
                     String sortString = item.getSortString();//要拼音排序的字符串/字母
                     if (TextUtils.isEmpty(sortString)) {
-                        item.letter = SECTIONS[0];
+                        item.setLetter(LETTERS[0]);
                     } else {
                         char c = sortString.charAt(0);//第一个字母
                         if (c >= 'A' && c <= 'Z') {
-                            item.letter = SECTIONS[c - 'A' + POSITION_A];
+                            item.setLetter(LETTERS[c - 'A' + POSITION_A]);
                         } else if (c >= 'a' && c <= 'z') {
-                            item.letter = SECTIONS[c - 'a' + POSITION_A];
+                            item.setLetter(LETTERS[c - 'a' + POSITION_A]);
                         } else {
                             boolean isChinese = Pinyin.isChinese(c);//是数字, 字母, 等
                             if (isChinese) {
                                 String pinyin = Pinyin.toPinyin(sortString, "");
                                 if (TextUtils.isEmpty(pinyin)) {
-                                    item.letter = SECTIONS[0];
+                                    item.setLetter(LETTERS[0]);
                                 } else {
-                                    item.letter = pinyin.substring(0, 1);
+                                    item.setLetter(pinyin.substring(0, 1));
                                 }
                             } else {
-                                item.letter = SECTIONS[0];
+                                item.setLetter(LETTERS[0]);
                             }
                         }
                     }
                 }
             }
-            //2.根据 SECTIONS 排序数据
+            //2.根据 LETTERS 排序数据
             temps.clear();
-            for (String section : SECTIONS) {
+            for (String section : LETTERS) {
                 for (int i = 0; i < items.size(); i++) {
                     PinYinSortAble item = (PinYinSortAble) items.get(i);
-                    if (item != null && section.equals(item.letter)) {
+                    if (item != null && section.equals(item.getLetter())) {
                         temps.add(item);
                     }
                 }
@@ -281,7 +262,7 @@ public class QuickSearchBar extends View {
             for (int i = 0; i < temps.size(); i++) {
                 PinYinSortAble temp = temps.get(i);
                 items.add(temp);
-                String letter = temp.letter;
+                String letter = temp.getLetter();
                 if (letterMap.get(letter) == null) letterMap.put(letter, i);
             }
             temps.clear();
@@ -318,33 +299,30 @@ public class QuickSearchBar extends View {
     }
 
     /**
-     * 设置字母显示时间, 单位ms
-     */
-    public void setShowTime(@IntRange(from = 0) int showTimeMs){
-        this.showTimeMs = showTimeMs;
-        invalidate();
-    }
-
-    /**
      * @param backgroundPressed 设置按下时背景资源, 示例: R.drawable.xxx
      */
     public void setBackgroundPressed(@DrawableRes int backgroundPressed) {
         this.pressedBackground = getResources().getDrawable(backgroundPressed);
     }
 
-    public static abstract class PinYinSortAble {
+    public interface PinYinSortAble {
 
         /**
-         * letter 每一条数据经过拼音排序后返回的字符串, 例: "A", "B" ...
+         * @param letter 每一条数据经过拼音排序后返回的字符串, 例: "A", "B" ...
          */
-        public String letter;
+        void setLetter(String letter);
+
+        /**
+         * @return 返回 letter
+         */
+        String getLetter();
 
         /**
          * @return 返回要拼音排序的字符串, 可返回:
          * 1.汉字
          * 2.字母A B C...
          */
-        public abstract String getSortString();
+        String getSortString();
     }
 
     public interface OnLetterChangedListener {
@@ -354,13 +332,13 @@ public class QuickSearchBar extends View {
         void onLetterChanged(String letter);
 
         /**
-         * 显示时间已到
+         * 已经取消滑动, 松开手指
          */
-        void onTimeIsOver();
+        void onActionUp();
     }
 
     //https://www.jianshu.com/p/d1471c11e78b
-    private RecyclerView.SmoothScroller getSmoothScroller() {
+    protected RecyclerView.SmoothScroller getSmoothScroller() {
         if (smoothScroller == null) {
             smoothScroller = new LinearSmoothScroller(getContext()) {
 
@@ -378,14 +356,5 @@ public class QuickSearchBar extends View {
             };
         }
         return smoothScroller;
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (mHandler != null) {
-            mHandler.removeMessages(0);
-            mHandler = null;
-        }
     }
 }

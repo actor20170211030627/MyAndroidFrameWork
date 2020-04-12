@@ -47,25 +47,18 @@ import java.util.concurrent.ExecutionException;
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java
  *   //支付功能(如果app没有使用 支付 等这些功能, 请忽略)
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
- * 3.已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加以下类,不要在自己的清单文件中再添加:
+ * 3.已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加以下类,不要再在自己的清单文件中再添加以下2个Activity:
  * WXEntryActivity, WXPayEntryActivity
  *
+ * 4.在Application中初始化: {@link #setAppId(String)}
  *
- * <!--微信支付, 如果app没有使用 支付 功能, 请别添加-->
- * <activity
- *     android:name=".wxapi.WXPayEntryActivity"
- *     android:exported="true"
- *     android:launchMode="singleTop">
- *     <!--<intent-filter>-->
- *     <!--<action android:name="android.intent.action.VIEW"/>-->
- *     <!--<category android:name="android.intent.category.DEFAULT"/>-->
- *     <!--<data android:scheme="wx8aee7894414e5f5a"/>-->
- *     <!--</intent-filter>-->
- * </activity>
+ * 5.登录: {@link #login(String, String)}
  *
- * Author     : 李大发
- * Date       : 2020/3/14 on 11:46
+ * 6.示例使用:
+ * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
  *
+ * @author    : 李大发
+ * date       : 2020/3/14 on 11:46
  * @version 1.0
  */
 public class WeChatUtils {
@@ -481,7 +474,7 @@ public class WeChatUtils {
      *              "snsapi_userinfo,snsapi_friend,snsapi_message,snsapi_contact"
      * @param state 用于保持请求和回调的状态，授权请求后原样带回给第三方。
      *              该参数可用于防止 csrf 攻击（跨站请求伪造攻击），建议第三方带上该参数，
-     *              可设置为简单的随机数加 session 进行校验
+     *              可设置为简单的随机数加 session 进行校验    (可以瞎填任何值)
      */
     public static void login(String scope, @Nullable String state) {
         SendAuth.Req req = new SendAuth.Req();

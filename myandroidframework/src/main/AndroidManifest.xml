@@ -65,7 +65,13 @@
         <activity
             android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW"/>-->
+<!--                <category android:name="android.intent.category.DEFAULT"/>-->
+<!--                <data android:scheme="wx8aee7894414e5f5a"/>-->
+<!--            </intent-filter>-->
+        </activity>
 
 
         <!--极光推送-->

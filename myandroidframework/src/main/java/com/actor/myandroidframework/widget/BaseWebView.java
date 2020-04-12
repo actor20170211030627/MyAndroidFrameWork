@@ -2,6 +2,7 @@ package com.actor.myandroidframework.widget;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.webkit.WebSettings;
@@ -95,11 +96,68 @@ public class BaseWebView extends WebView {
     }
 
     /**
+     * 加载网页 or 本地H5
+     * @param url 例: https://www.baidu.com/ 或本地文件:
+     *           "file:///android_asset/support.html" (src/main/assets/support.html)
+     */
+    @Override
+    public void loadUrl(String url) {
+        super.loadUrl(url);
+    }
+
+    /**
      * 网页加载h5文档
      * @param data html文档 字符串
      */
     public void loadData(String data) {
         loadData(data, "text/html; charset=UTF-8", "UTF-8");
+    }
+
+    /**
+     * 注意:如果图片老是显示不出来, 有可能是手机的问题...?
+     * @param baseUrl
+     * @param data 网页内容
+     * @param mimeType text/html
+     * @param encoding utf-8
+     * @param historyUrl
+     */
+    @Override
+    public void loadDataWithBaseURL(@Nullable String baseUrl, String data,
+                                    @Nullable String mimeType, @Nullable String encoding,
+                                    @Nullable String historyUrl) {
+        super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
+    }
+
+    /**
+     * 判断是否有上一个网址
+     */
+    @Override
+    public boolean canGoBack() {
+        return super.canGoBack();
+    }
+
+    /**
+     * 是否可以前进
+     */
+    @Override
+    public boolean canGoForward() {
+        return super.canGoForward();
+    }
+
+    /**
+     * 回到上一个网址
+     */
+    @Override
+    public void goBack() {
+        super.goBack();
+    }
+
+    /**
+     * 前进
+     */
+    @Override
+    public void goForward() {
+        super.goForward();
     }
 
     /**

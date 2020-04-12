@@ -69,8 +69,13 @@ public class QuickSearchBarActivity extends BaseActivity {
             }
 
             @Override
-            public void onTimeIsOver() {
-                rtvTips.setVisibility(View.GONE);
+            public void onActionUp() {
+                rtvTips.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rtvTips.setVisibility(View.GONE);
+                    }
+                }, 2000);
             }
         });
         items.clear();
@@ -116,12 +121,23 @@ public class QuickSearchBarActivity extends BaseActivity {
         }
     }
 
-    private class Item extends QuickSearchBar.PinYinSortAble {
+    private class Item implements QuickSearchBar.PinYinSortAble {
 
         private String itemName;
+        private String letter;
 
         public Item(String itemName) {
             this.itemName = itemName;
+        }
+
+        @Override
+        public void setLetter(String letter) {
+            this.letter = letter;
+        }
+
+        @Override
+        public String getLetter() {
+            return letter;
         }
 
         @Override

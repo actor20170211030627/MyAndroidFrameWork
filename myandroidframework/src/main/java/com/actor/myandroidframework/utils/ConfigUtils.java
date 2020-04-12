@@ -18,5 +18,5 @@ public class ConfigUtils {
 
     public static boolean isDebugMode = AppUtils.isAppDebug();//是否是debug模式
 
-    public static String baseUrl = "https://www.baidu.com";//需要自己设置baseUrl
+    public static String baseUrl = "";//需要自己设置baseUrl
 }

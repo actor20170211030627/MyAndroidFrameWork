@@ -24,18 +24,24 @@ import org.greenrobot.eventbus.EventBus;
  *     <activity
  *         android:name=".wxapi.WXPayEntryActivity"
  *         android:exported="true"
- *         android:launchMode="singleTop" />
+ *         android:launchMode="singleTop" >
+ * <!--        <intent-filter>-->
+ * <!--            <action android:name="android.intent.action.VIEW"/>-->
+ * <!--            <category android:name="android.intent.category.DEFAULT"/>-->
+ * <!--            <data android:scheme="wx8aee7894414e5f5a"/>-->
+ * <!--        </intent-filter>-->
+ *     </activity>
  *     注意: 已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加, 不要再在项目中添加到清单文件中!!!
  *
  * 2.回调
  * //Eventbus微信登录/支付回调
  * @Subscribe(threadMode = ThreadMode.MAIN)
- * public void onReceivedPayResult(EventBusEvent messageEvent) {
- *     if (messageEvent == null) return;
- *     switch (messageEvent.code) {
+ * public void onReceivedPayResult(EventBusEvent eventBusEvent) {
+ *     if (eventBusEvent == null) return;
+ *     switch (eventBusEvent.code) {
  *     case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT:
  *         toast("支付成功!");
- *         logFormat(messageEvent);
+ *         logError(eventBusEvent);
  *         break;
  * }
  *

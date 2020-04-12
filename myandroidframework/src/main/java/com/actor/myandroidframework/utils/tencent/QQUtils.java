@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -44,9 +45,11 @@ import org.json.JSONObject;
  *
  * 5.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
  *
- * Author     : 李大发
- * Date       : 2020/3/5 on 12:28
+ * 6.示例使用:
+ * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
  *
+ * @author     : 李大发
+ * date       : 2020/3/5 on 12:28
  * @version 1.0
  */
 public class QQUtils {
@@ -75,6 +78,8 @@ public class QQUtils {
      *              SCOPE = “get_simple_userinfo,add_topic”；所有权限用“all”
      * @param qrcode 是否开启二维码登录，没有安装手Q时候使用二维码登录，一般用电视等设备。
      *               (如果true使用二维码, 就没有网页输入账号密码登录的界面了)
+     * @param listener 登录回调, 可见示例: {@link #baseUiListener}
+     *                 注意: 回调完成后保存session: {@link #initSessionCache(JSONObject)}
      */
     public static void login(Activity activity, String scope, boolean qrcode, BaseUiListener listener) {
         //校验登录态,如果缓存的登录态有效，可以直接使用缓存而不需要再次拉起手Q
@@ -94,6 +99,14 @@ public class QQUtils {
             logResultCode(code);
         }
     }
+    //QQ登录回调
+    private BaseUiListener baseUiListener = new BaseUiListener() {
+        @Override
+        public void doComplete(@Nullable JSONObject response) {
+            QQUtils.initSessionCache(response);
+//            logError(String.valueOf(response));
+        }
+    };
 
     /**
      * 强制二维码登录 or 强制输入账号密码登录
@@ -150,11 +163,21 @@ public class QQUtils {
 //        logFormat(json);
     }
 
+    /**
+     * https://wiki.connect.qq.com/获取Token对象
+     * 登录后需要调用获取用户信息、设置头像等接口时，需要登录返回的Token数据时，通过改接口获取。
+     */
     public static void getUserInfo(BaseUiListener listener) {
-        //https://wiki.connect.qq.com/获取Token对象
-        // 登录后需要调用获取用户信息、设置头像等接口时，需要登录返回的Token数据时，通过改接口获取。
         UserInfo userInfo = new UserInfo(CONTEXT, getTencent().getQQToken());
         userInfo.getUserInfo(listener);
+    }
+
+    /**
+     * https://wiki.connect.qq.com/获取登录用户openid
+     * openId为对当前应用进行授权的QQ用户的身份识别码，应用应将openId与应用中的用户帐号进行关系绑定，以此来支持多帐号。
+     */
+    public static String getOpenId() {
+        return getTencent().getOpenId();
     }
 
     /**
@@ -376,7 +399,7 @@ public class QQUtils {
         LogUtils.formatError(format, false, args);
     }
 
-    public static void otherMethods(Activity activity) {
+    protected static void otherMethods(Activity activity) {
         //https://wiki.connect.qq.com/设置QQ头像
         //https://wiki.connect.qq.com/设置动态头像
         //https://wiki.connect.qq.com/设置QQ表情
@@ -396,10 +419,6 @@ public class QQUtils {
         //https://wiki.connect.qq.com/获取token过期时间
         //登录成功以后，获取当前应用的Token过期时间。
         long expiresIn = getTencent().getExpiresIn();//（单位秒）
-
-        //https://wiki.connect.qq.com/获取登录用户openid
-        //openId为对当前应用进行授权的QQ用户的身份识别码，应用应将openId与应用中的用户帐号进行关系绑定，以此来支持多帐号。
-        String openid = getTencent().getOpenId();
 
         //https://wiki.connect.qq.com/设置token和过期时间
         //使用登陆接口登陆成功以后，在登陆的回调接口保存登陆返回的token和过期时间，单位秒。

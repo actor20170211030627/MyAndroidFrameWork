@@ -35,7 +35,7 @@ import java.util.List;
  * 3.原生EditText有文字时, 双击会选中文字
  *
  * 示例用法:
- * <com.actor.myandroidframework.widget.KeyboardInputEditText
+ * <com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText
  *     android:id="@+id/keyboard_input_edit_text"
  *     android:layout_width="match_parent"
  *     android:layout_height="wrap_content">
@@ -45,7 +45,7 @@ import java.util.List;
  *         android:layout_width="match_parent"
  *         android:layout_height="wrap_content"
  *         android:hint="请输入车牌号" />
- * </com.actor.myandroidframework.widget.KeyboardInputEditText>
+ * </com.actor.myandroidframework.widget.keyboard.KeyboardInputEditText>
  *
  * keyboardInputEditText.setKeyboardView(keyboardView,
  *         R.xml.keyboard_province_for_car_license,

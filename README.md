@@ -149,7 +149,7 @@ Add it in your root build.gradle at the end of repositories:
     }
 
     dependencies {
-            implementation 'com.github.actor20170211030627:MyAndroidFrameWork:last_version'
+            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:last_version'
     }
 
 ## 8.License

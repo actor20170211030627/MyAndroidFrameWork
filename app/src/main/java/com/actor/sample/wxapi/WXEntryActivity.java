@@ -40,12 +40,12 @@ import org.greenrobot.eventbus.EventBus;
  * 2.回调
  * //Eventbus微信登录/支付回调
  * @Subscribe(threadMode = ThreadMode.MAIN)
- * public void onReceivedPayResult(EventBusEvent messageEvent) {
- *     if (messageEvent == null) return;
- *     switch (messageEvent.code) {
+ * public void onWxLoginResult(EventBusEvent eventBusEvent) {
+ *     if (eventBusEvent == null) return;
+ *     switch (eventBusEvent.code) {
  *         case WXEntryActivity.MSG_EVT_WX_LOGIN:
  *             toast("登录成功!");
- *             logFormat(messageEvent);
+ *             logError(eventBusEvent);
  *             break;
  *     }
  * }
