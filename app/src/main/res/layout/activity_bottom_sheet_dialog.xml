@@ -40,10 +40,10 @@
         android:text="请输入内容↓"/>
 
     <Button
-        android:id="@+id/btn_float_edit_activity"
+        android:id="@+id/btn_float_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FloatEditorActivity"/>
+        android:text="FloatEditorDialog(就是BaseBottomDialog)"/>
 
     <Button
         android:id="@+id/btn_bottom_activity"

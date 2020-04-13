@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="BottomDialog, BottomSheetDialog,
         \nBottomSheetDialogFragment\n
-        FloatEditorActivity, BaseBottomActivity
+        FloatEditorDialog, BaseBottomActivity
         \n\n从底部弹出的Dialog &amp; DialogFragment &amp; 悬浮输入 &amp; Activity等"
                 android:transitionName="btn" />
 

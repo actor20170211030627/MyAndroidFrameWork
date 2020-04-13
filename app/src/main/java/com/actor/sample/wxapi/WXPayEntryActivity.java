@@ -45,7 +45,6 @@ import org.greenrobot.eventbus.EventBus;
  *         break;
  * }
  *
- * Copyright  : Copyright (c) 2019
  * Author     : 李大发
  * Date       : 2019/4/1 on 10:57
  */

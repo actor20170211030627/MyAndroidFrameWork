@@ -25,7 +25,6 @@ import java.util.List;
 /**
  * Description: 常用的Spinner选择布局,这是一个组合控件.
  *              注意:本控件的item数据类型只有String, 没有做其余复杂扩展.
- * Copyright  : Copyright (c) 2019
  * Author     : 李大发
  * Date       : 2019/7/10 on 17:22
  *

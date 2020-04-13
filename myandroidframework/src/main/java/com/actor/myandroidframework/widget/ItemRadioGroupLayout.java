@@ -23,7 +23,6 @@ import com.actor.myandroidframework.R;
 
 /**
  * Description: 常用的单选输入布局,这是一个组合控件.
- * Copyright  : Copyright (c) 2019
  * Author     : 李大发
  * Date       : 2019/7/10 on 17:21
  *

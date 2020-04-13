@@ -1,6 +1,5 @@
 package com.actor.myandroidframework.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -8,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +44,7 @@ public abstract class ActorBaseFragment extends Fragment {
 //    private   LinearLayout           llLoading; //加载中的布局
 //    protected TextView               tvLoading;  //例:正在加载中,请稍后...
 //    private   LinearLayout           llEmpty; //没数据
-    protected Activity            activity;
+    protected FragmentActivity    activity;
     protected Fragment            fragment;
     protected Intent              intent;
     protected Map<String, Object> params = new LinkedHashMap<>();

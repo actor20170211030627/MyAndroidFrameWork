@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="186dp"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="vertical">
 
@@ -15,38 +14,38 @@
         android:paddingRight="20dp">
 
         <TextView
-            android:id="@+id/tv_cancel_for_float_edit_activity"
+            android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel_for_float_edit_activity"
             android:textColor="#71777D"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_title_for_float_edit_activity"
+            android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text=" "
-            android:textColor="#2B333B"/>
+            android:text="Title"
+            android:textColor="#2B333B" />
 
         <TextView
-            android:id="@+id/tv_send_for_float_edit_activity"
+            android:id="@+id/tv_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/send_for_float_edit_activity"
             android:textColor="#71777D"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#D9DDE1"/>
+        android:background="#D9DDE1" />
 
     <EditText
-        android:id="@+id/et_content_for_float_edit_activity"
+        android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="@null"
@@ -58,5 +57,13 @@
         android:textColor="#2B333B"
         android:textColorHint="#B7BBBF"
         android:textCursorDrawable="@null"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_FE588C"
+        android:padding="15dp"
+        android:text="这是下方文字, 用于占位, 测试输入法是否遮挡我.."
+        android:textColor="@color/white" />
 </LinearLayout>

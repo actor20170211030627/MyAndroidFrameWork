@@ -51,9 +51,8 @@ import org.greenrobot.eventbus.EventBus;
  * }
  *
  * 微信分享/登录 返回页面
- * Copyright  : Copyright (c) 2019
- * Author     : 李大发
- * Date       : 2019/4/1 on 14:57
+ * @author     : 李大发
+ * date       : 2019/4/1 on 14:57
  */
 public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHandler {
 

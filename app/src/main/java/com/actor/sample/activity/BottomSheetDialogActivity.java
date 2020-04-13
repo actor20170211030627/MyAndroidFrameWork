@@ -7,12 +7,11 @@ import android.widget.TextView;
 
 import com.actor.myandroidframework.dialog.BaseBottomDialog;
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
-import com.actor.myandroidframework.widget.floatingeditor.EditorCallback;
-import com.actor.myandroidframework.widget.floatingeditor.FloatEditorActivity;
-import com.blankj.utilcode.util.ConvertUtils;
 import com.actor.sample.R;
+import com.actor.sample.dialog.BottomFloatEditorDialog;
 import com.actor.sample.dialog.MyBottomSheetDialogFragment;
 import com.actor.sample.dialog.TestDialog;
+import com.blankj.utilcode.util.ConvertUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +31,7 @@ public class BottomSheetDialogActivity extends BaseActivity {
     private BaseBottomDialog            baseBottomDialog;
     private BaseBottomSheetDialog       baseBottomSheetDialog;
     private MyBottomSheetDialogFragment bottomSheetDialogFragment;
+    private BottomFloatEditorDialog     bottomFloatEditorDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +58,9 @@ public class BottomSheetDialogActivity extends BaseActivity {
         baseBottomDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> toast("yes~"));
         baseBottomDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
         baseBottomDialog.setDimAmount(0.3F);//设置背景昏暗度
-        TextView tvContent = baseBottomDialog.findViewById(R.id.tv_content);
-        tvContent.setText("this is BaseBottomDialog, Click me(点击我试一下)");
-        tvContent.setOnClickListener(v -> toast("you clicked me~"));
+        TextView tvContent1 = baseBottomDialog.findViewById(R.id.tv_content);
+        tvContent1.setText("this is BaseBottomDialog, Click me(点击我试一下)");
+        tvContent1.setOnClickListener(v -> toast("you clicked me~"));
 
 
 
@@ -90,8 +90,8 @@ public class BottomSheetDialogActivity extends BaseActivity {
                 .addOnclickListener(R.id.btn_ok)
                 .addOnclickListener(R.id.tv_content)
                 .setDimAmount(0.3F);//设置背景昏暗度
-        TextView tvContent1 = baseBottomSheetDialog.findViewById(R.id.tv_content);
-        tvContent1.setText("this is BaseBottomSheetDialog, Click me(点击我试一下)");
+        TextView tvContent2 = baseBottomSheetDialog.findViewById(R.id.tv_content);
+        tvContent2.setText("this is BaseBottomSheetDialog, Click me(点击我试一下)");
 
 
 
@@ -103,35 +103,38 @@ public class BottomSheetDialogActivity extends BaseActivity {
         bottomSheetDialogFragment.setPeekHeight(ConvertUtils.dp2px(100));//首次弹出高度, 可不设置
 //        bottomSheetDialogFragment.setMaxHeight(ConvertUtils.dp2px(300));//最大弹出高度, 可不设置
         bottomSheetDialogFragment.setDimAmount(0.3F);//设置背景昏暗度
+
+
+
+        //输入框和布局悬浮在 "输入法" 之上的Dialog, 可用于输入评论.
+        bottomFloatEditorDialog = new BottomFloatEditorDialog(this, new BottomFloatEditorDialog.OnResultListener() {
+            @Override
+            public void onResult(CharSequence content) {
+                tvContent.setText(content);
+            }
+        });
     }
 
     @OnClick({R.id.btn_test_dialog, R.id.btn_bottom_dialog, R.id.btn_bottom_sheet_dialog,
-            R.id.btn_bottom_sheet_dialog_fragment, R.id.btn_float_edit_activity,
-            R.id.btn_bottom_activity})
+            R.id.btn_bottom_sheet_dialog_fragment, R.id.btn_float_edit, R.id.btn_bottom_activity})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_test_dialog:
+            case R.id.btn_test_dialog://普通Dialog
                 alertDialog.show();
                 break;
-            case R.id.btn_bottom_dialog:
+            case R.id.btn_bottom_dialog://从底部弹出的Dialog
                 baseBottomDialog.show();
                 break;
-            case R.id.btn_bottom_sheet_dialog:
+            case R.id.btn_bottom_sheet_dialog://从底部弹出, 可上下滑动的Dialog
                 baseBottomSheetDialog.show();
                 break;
-            case R.id.btn_bottom_sheet_dialog_fragment:
+            case R.id.btn_bottom_sheet_dialog_fragment://从底部弹出, 可上下滑动的DialogFragment
                 bottomSheetDialogFragment.show(getSupportFragmentManager());
                 break;
-            case R.id.btn_float_edit_activity:
-//                FloatEditorActivity.openEditor();//自定义view
-                FloatEditorActivity.openDefaultEditor(this, new EditorCallback() {
-                    @Override
-                    public void onSubmit(String content) {
-                        tvContent.setText(content);
-                    }
-                }, null);
+            case R.id.btn_float_edit://悬浮输入Dialog, 可用于评论等.
+                bottomFloatEditorDialog.show();
                 break;
-            case R.id.btn_bottom_activity:
+            case R.id.btn_bottom_activity://从底部弹出的Activity
                 startActivity(new Intent(this, MyBaseBottomActivity.class), false, view);
                 break;
         }
