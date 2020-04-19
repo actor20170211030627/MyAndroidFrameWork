@@ -2,26 +2,17 @@ package com.actor.myandroidframework.application;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.CacheDiskUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.cookie.CookieJarImpl;
-import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
+import com.zhouyou.http.EasyHttp;
 
 import java.net.Proxy;
 import java.util.Locale;
-
-import me.jessyan.progressmanager.ProgressManager;
-import okhttp3.Cache;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Description: 自定义的Application 继承本类, 然后在清单文件中注册
@@ -31,21 +22,19 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public abstract class ActorApplication extends Application/* implements Thread.UncaughtExceptionHandler*/ {
 
-    public        boolean          isDebugMode = false;//用于配置"正式环境"的isDebug的值,★★★注意:上线前一定要改成false★★★
-    public int mainThreadId, screenWidth, screenHeight;//屏幕宽高
+    private static final String EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
+    public        boolean          isDebugMode = false;//配置 isDebug 模式
     public CacheDiskUtils aCache;                      //硬盘缓存
-    private static final String    EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mainThreadId = android.os.Process.myTid();//当前线程的id, 这儿是主线程id
-        if (getMode()) isDebugMode = true;//如果是"debug环境",那么值就一定是true(加判断是因为要让正式环境也可以开debug模式)
-        if (!isDebugMode) {//2.如果是正式环境,在onCreate中设置默认未捕获异常线程
+        //如果是"debug环境", 那么值就一定是true(加判断是因为要让正式环境也可以开debug模式)
+        if (isAppDebug()) isDebugMode = true;
+        //2.如果是正式环境,在onCreate中设置默认未捕获异常线程
+        if (!isDebugMode) {
             Thread.setDefaultUncaughtExceptionHandler(new MyHandler());
         }
-        screenWidth = ScreenUtils.getScreenWidth();
-        screenHeight = ScreenUtils.getScreenHeight();
 
         //配置信息
         ConfigUtils.baseUrl = getBaseUrl();
@@ -54,56 +43,48 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         //配置硬盘缓存
         aCache = CacheDiskUtils.getInstance(getFilesDir());
 
-        //配置okhttp
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-//                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-//                .addInterceptor(new AddHeaderInterceptor())
-//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this))//401登陆过期
-                .cookieJar(new CookieJarImpl(new PersistentCookieStore(this)))
-                .cache(new Cache(getFilesDir(), 1024*1024*10));//10Mb;
-
-        OkHttpClient.Builder newBuilder = getOkHttpClientBuilder(builder);
-        if (newBuilder == null) newBuilder = builder;
-        ProgressManager.getInstance().with(newBuilder);//可监听Glide,Download,Upload进度
-        if (isDebugMode) {
-            //最后才添加日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
-            newBuilder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
-        } else {
-            newBuilder.proxy(Proxy.NO_PROXY);
-        }
-        OkHttpUtils.initClient(newBuilder.build());//配置张鸿洋的OkHttpUtils
-
-        /**
-         * 配置画廊
-         */
+        //配置画廊(图片/视频选择)
         Album.initialize(AlbumConfig.newBuilder(this)
                 .setAlbumLoader(new GlideAlbumLoader()) // 设置Album加载器。
                 .setLocale(Locale.getDefault()) //Locale.CHINA 比如强制设置在任何语言下都用中文显示。
                 .build());
+
+
+        //RxEasyHttp 默认初始化,必须调用
+        EasyHttp.init(this);
+        EasyHttp easyHttp = EasyHttp.getInstance()
+                .setBaseUrl(ConfigUtils.baseUrl);//设置全局URL  url只能是域名 或者域名+端口号
+        if (isDebugMode) {
+            easyHttp.debug("EasyHttp", true);//true表示是否打印内部异常，一般打开方便调试错误
+        } else {
+            easyHttp.setOkproxy(Proxy.NO_PROXY);
+        }
+        configEasyHttp(easyHttp);
     }
 
     /**
-     * 配置Builder, 主要是添加'超时' & '拦截器' 等, 示例:
-     * builder.connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-     *          .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-     *          .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-     *          .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
-     *          .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
-     * return builder;
+     * 配置 EasyHttp, 更多配置见:
+     *   https://github.com/zhou-you/RxEasyHttp#%E9%AB%98%E7%BA%A7%E5%88%9D%E5%A7%8B%E5%8C%96
      *
-     * @return 返回builder, 可以返回null
+     * //.setReadTimeOut(60 * 1000)//默认60秒, 以下三行可不需要设置
+     * //.setWriteTimeOut(60 * 1000)
+     * //.setConnectTimeout(60 * 1000)
+     * //.setRetryCount(3)//网络不好默认自动重试3次
+     * //.setRetryDelay(500)//每次延时500ms重试, 不需要可以设置为0
+     * //.setRetryIncreaseDelay(0)//每次延时叠加0ms
+     * //.setCacheMode(CacheMode.NO_CACHE)//默认NO_CACHE
+     *   .addCommonHeaders(headers)//设置全局公共头
+     *   .addCommonParams(params)//设置全局公共参数
      */
-    protected abstract @Nullable OkHttpClient.Builder getOkHttpClientBuilder(OkHttpClient.Builder builder);
+    protected abstract void configEasyHttp(EasyHttp easyHttp);
 
     /**
-     * 返回baseUrl, 用于配置Retrofit的baseUrl
+     * 返回baseUrl, 用于配置 "EasyHttp" 和 "Retrofit" 的 baseUrl
      * @return 示例return: "https://api.github.com";
      */
     protected abstract @NonNull String getBaseUrl();
 
-    private class MyHandler implements Thread.UncaughtExceptionHandler {
+    protected class MyHandler implements Thread.UncaughtExceptionHandler {
         @Override
         public void uncaughtException(Thread t, Throwable e) {//3.重写未捕获异常
             if (e != null) {
@@ -166,7 +147,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
      * 标签中添加属性强制设置debugable即可:
      * <application android:debuggable="true" tools:ignore="HardcodedDebugMode"
      */
-    private boolean getMode(){
+    protected boolean isAppDebug() {
         return AppUtils.isAppDebug();
 //        try {
 //            ApplicationInfo info= getApplicationInfo();

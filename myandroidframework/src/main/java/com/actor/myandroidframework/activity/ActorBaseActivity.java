@@ -18,7 +18,7 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
+import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;

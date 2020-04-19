@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.MyOkhttpUtils;
+package com.actor.myandroidframework.utils.okhttputils;
 
 import android.support.annotation.Nullable;
 
@@ -25,13 +25,17 @@ public abstract class GetFileCallback extends BaseCallback<File> {
 
     private String fileName;//目标文件存储的文件名
 
+    public GetFileCallback(Object tag, @Nullable String downloadPath, @Nullable String fileName) {
+        this(tag, 0, downloadPath, fileName);
+    }
+
     /**
      * 传入 "文件存储路径" & "文件名"
      * @param downloadPath 文件存储路径, 可以为空, 默认 files 文件夹
      * @param fileName 文件名, 可以为空
      */
-    public GetFileCallback(Object tag, @Nullable String downloadPath, @Nullable String fileName) {
-        super(tag);
+    public GetFileCallback(Object tag, int id, @Nullable String downloadPath, @Nullable String fileName) {
+        super(tag, id);
         if (downloadPath == null) downloadPath = FileUtils.getFilesDir().getAbsolutePath();
         this.downloadPath = downloadPath;
         this.fileName = fileName;

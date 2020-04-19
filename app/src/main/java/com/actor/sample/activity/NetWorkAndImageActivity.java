@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.actor.myandroidframework.utils.MyOkhttpUtils.BaseCallback;
-import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
+import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
+import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.bumptech.glide.Glide;

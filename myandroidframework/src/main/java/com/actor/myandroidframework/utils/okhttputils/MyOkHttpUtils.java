@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.MyOkhttpUtils;
+package com.actor.myandroidframework.utils.okhttputils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,7 +30,31 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * description: get/post方式请求数据, 上传单个/多个文件,下载文件, getBitmap
+ * description: get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
+ * 1.这是对鸿洋大神okhttputils的简单封装, 如果使用本类,需要添加依赖:
+ *   //https://github.com/hongyangAndroid/okhttputils
+ *   implementation 'com.zhy:okhttputils:2.6.2'
+ *   //okhttp官方Log拦截器, 版本要和okhttp3一致(如果不使用这个日志拦截器, 可不添加这个依赖)
+ *   implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+ *
+ * 2.在Application中初始化, 示例:
+ *   //配置Okhttp
+ *   OkHttpClient.Builder builder = new OkHttpClient.Builder()
+ *   //        .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+ *   //        .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+ *   //        .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+ *   //        .addInterceptor(new AddHeaderInterceptor())//可添加请求头拦截器
+ *   //        .addInterceptor(new My401Error$RefreshTokenInterceptor(this))//401登陆过期拦截器
+ *             .cookieJar(new CookieJarImpl(new PersistentCookieStore(this)))
+ *             .cache(new Cache(getFilesDir(), 1024*1024*10));//10Mb;
+ *   if (isDebugMode) {
+ *       //最后才添加日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
+ *       builder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
+ *   } else {
+ *       builder.proxy(Proxy.NO_PROXY);
+ *   }
+ *   OkHttpUtils.initClient(builder.build());//配置张鸿洋的OkHttpUtils
+ *
  * @author    : 李大发
  * date       : 2019/3/13 on 17:37
  *
@@ -46,25 +70,15 @@ public class MyOkHttpUtils {
     protected static final String BASE_URL = ConfigUtils.baseUrl;
 
     /**
-     * 临时baseUrl, 当个别接口和 'BASE_URL' 不同时, 可给这个字段赋值, 这个字段每次使用后都会重置为null
+     * 获取 BASE_URL
+     * @param url 如果是"http"开头, 直接返回url.
+     *           如果不是"http"开头, 会在前面加上 BASE_URL
+     * @return
      */
-    public static String baseUrlTemp;
-
     protected static @NonNull String getUrl(String url) {
-        if (url != null) {
-            if (url.startsWith("http://") || url.startsWith("https://")) {
-                return url;
-            } else {
-                if (baseUrlTemp != null) {
-                    String s = baseUrlTemp + url;
-                    baseUrlTemp = null;
-                    return s;
-                } else {
-                    return BASE_URL + url;
-                }
-            }
-        }
-        return BASE_URL;
+        if (url == null) return BASE_URL;
+        if (url.startsWith("http://") || url.startsWith("https://")) return url;
+        return BASE_URL + url;
     }
 
     public static <T> void get(String url, Map<String, Object> params, BaseCallback<T> callback) {
@@ -430,7 +444,7 @@ public class MyOkHttpUtils {
 
     /**
      * 取消请求
-     * @param tag 传this(activity or fragment),在onDestroy的时候:MyOkHttpUtils.cancelTag(this);
+     * @param tag 传this(activity or fragment or others),在onDestroy的时候:MyOkHttpUtils.cancelTag(this);
      */
     public static void cancelTag(Object tag) {
         OkHttpUtils.getInstance().cancelTag(tag);

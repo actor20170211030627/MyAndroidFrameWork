@@ -16,7 +16,7 @@ public class ThreadUtils {
     public static final Handler handler = new Handler(Looper.getMainLooper());//handler.postDelayed
 
     /**
-     * 通常用于处理UI操作
+     * 将任务运行到主线程, 通常用于处理UI操作
      */
     public static void runOnUiThread(Runnable runnable) {
         if (isRunOnUiThread()) {
@@ -27,24 +27,34 @@ public class ThreadUtils {
     }
 
     /**
-     * 处理耗时操作,通常用于处理网络访问
+     * 将任务运行到子线程, 处理耗时操作 ,通常用于处理网络访问
      */
     public static void runOnSubThread(Runnable runnable) {
         new Thread(runnable).start();//启动子线程
     }
 
     /**
-     * 返回现在是否运行在主线程
-     * @return
+     * @return 返回现在是否运行在主线程
      */
     public static boolean isRunOnUiThread() {
         return Looper.myLooper() == Looper.getMainLooper();
 
 //        return Thread.currentThread() == Looper.getMainLooper().getThread();
-//        return Thread.currentThread().getId() == Looper.getMainLooper().getThread().getId();
+//        return getCurrentThreadId() == getMainThreadId();
+    }
 
-//        int mainThreadId = ActorApplication.instance.mainThreadId;//使用线程id的比较
-        //int currentThreadId = android.os.Process.myTid();//当前线程的id
-        //return mainThreadId == currentThreadId;
+    /**
+     * @return 返回主线程id
+     */
+    public static long getMainThreadId() {
+        return Looper.getMainLooper().getThread().getId();
+    }
+
+    /**
+     * @return 返回当前线程id
+     */
+    public static long getCurrentThreadId() {
+        return Thread.currentThread().getId();
+//        int processId = android.os.Process.myTid();//当前"进程"的id
     }
 }

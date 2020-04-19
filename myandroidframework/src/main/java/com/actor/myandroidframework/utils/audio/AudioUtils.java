@@ -80,11 +80,6 @@ public class AudioUtils {
             if (recording) {
                 recording = false;
                 endTime = System.currentTimeMillis();
-                if (mRecordCallback != null) {
-                    if (isCanceled) {
-                        mRecordCallback.recordCancel(getRecordAudioPath(), endTime - startTime);//子线程
-                    } else mRecordCallback.recordComplete(getRecordAudioPath(), endTime - startTime);//子线程
-                }
                 if (mRecorder != null && innerRecording) {
                     try {
                         innerRecording = false;
@@ -92,6 +87,11 @@ public class AudioUtils {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+                if (mRecordCallback != null) {
+                    if (isCanceled) {
+                        mRecordCallback.recordCancel(getRecordAudioPath(), endTime - startTime);//子线程
+                    } else mRecordCallback.recordComplete(getRecordAudioPath(), endTime - startTime);//子线程
                 }
             }
         }

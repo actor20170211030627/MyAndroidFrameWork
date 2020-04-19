@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.actor.myandroidframework.utils.MyOkhttpUtils.BaseCallback;
-import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
+import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
+import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ThreadUtils;
 import com.alibaba.fastjson.JSONObject;

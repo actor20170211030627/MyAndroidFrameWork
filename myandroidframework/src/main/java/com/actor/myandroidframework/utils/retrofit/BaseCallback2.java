@@ -22,6 +22,13 @@ import retrofit2.Response;
 public abstract class  BaseCallback2<T> implements Callback<T> {
 
     protected boolean isStatusCodeError = false;
+    public    int     id;
+
+    public BaseCallback2() {}
+
+    public BaseCallback2(int id) {
+        this.id = id;
+    }
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {

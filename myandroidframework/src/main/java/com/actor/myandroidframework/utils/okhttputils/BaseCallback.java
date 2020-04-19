@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.MyOkhttpUtils;
+package com.actor.myandroidframework.utils.okhttputils;
 
 import android.support.annotation.NonNull;
 

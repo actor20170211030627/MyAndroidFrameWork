@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.MyOkhttpUtils.BaseCallback;
-import com.actor.myandroidframework.utils.MyOkhttpUtils.MyOkHttpUtils;
+import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
+import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;

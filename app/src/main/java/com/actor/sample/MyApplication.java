@@ -10,10 +10,7 @@ import com.actor.sample.utils.Global;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.greendao.gen.ItemEntityDao;
-
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
+import com.zhouyou.http.EasyHttp;
 
 /**
  * Description: 类的描述
@@ -55,15 +52,8 @@ public class MyApplication extends ActorApplication {
         //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
     }
 
-    //配置Builder
     @Override
-    protected OkHttpClient.Builder getOkHttpClientBuilder(OkHttpClient.Builder builder) {
-        builder.connectTimeout(60_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-                .readTimeout(60_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
-                .writeTimeout(60_000L, TimeUnit.MILLISECONDS);//默认10s, 可不设置
-//                .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
-//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
-        return builder;
+    protected void configEasyHttp(EasyHttp easyHttp) {
     }
 
     @NonNull
