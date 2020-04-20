@@ -4,26 +4,13 @@
   <li><a href="https://gitee.com/actor2017/MyAndroidFrameWork">Gitee码云(国内网速更快)</a></li>
 </ul>
 
-## 安卓常用组件&框架, 不用每次都搭架子
+## 安卓常用组件&框架, 懒得每次都搭架子...
 ### 1.集成框架包括:
 <ol>
     <li>
-        //https://github.com/google/gson <br/>
+        //https://github.com/google/gson converter-gson 已经依赖了Gson2.8.2 <br/>
         //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
-        //api 'com.google.code.gson:gson:2.8.5'//converter-gson & AndroidUtilCode已经依赖了Gson2.8.2 <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/CymChad/BaseRecyclerViewAdapterHelper <br/>
-        api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/anzaizai/EasySwipeMenuLayout <br/>
-        api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'//侧滑删除 <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/hongyangAndroid/okhttputils <br/>
-        api 'com.zhy:okhttputils:2.6.2' <br/>
-        api 'com.squareup.okhttp3:logging-interceptor:3.11.0'//okhttp官方Log拦截器,版本要和okhttp3一致 <br/> <br/>
+        //api 'com.google.code.gson:gson:2.8.5' <br/> <br/>
     </li>
     <li>
         //https://github.com/square/retrofit <br/>
@@ -42,44 +29,56 @@
         annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
     </li>
     <li>
-        //https://github.com/Blankj/AndroidUtilCode <br/>
-        api 'com.blankj:utilcode:1.26.0'//许多工具 <br/> <br/>
-    </li>
-    <li>
         //https://github.com/greenrobot/EventBus <br/>
         api 'org.greenrobot:eventbus:3.2.0' <br/> <br/>
     </li>
     <li>
-        //https://github.com/yanzhenjie/Album <br/>
-        api 'com.yanzhenjie:album:2.1.3'//图片选择 <br/> <br/>
+        //https://github.com/Blankj/AndroidUtilCode 许多工具 <br/>
+        api 'com.blankj:utilcode:1.26.0' <br/> <br/>
     </li>
     <li>
-        //https://github.com/youth5201314/banner <br/>
-        api 'com.youth.banner:banner:1.4.10'//轮播图 <br/> <br/>
+        //https://github.com/CymChad/BaseRecyclerViewAdapterHelper <br/>
+        api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50' <br/> <br/>
     </li>
     <li>
-        //https://github.com/Bigkoo/Android-PickerView <br/>
-        api 'com.contrarywind:Android-PickerView:4.1.8'//时间选择器等等等 <br/> <br/>
+        //https://github.com/anzaizai/EasySwipeMenuLayout 侧滑删除 <br/>
+        api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4' <br/> <br/>
     </li>
     <li>
-        //https://github.com/laobie/StatusBarUtil <br/>
-        api 'com.jaeger.statusbarutil:library:1.5.1'//修改状态栏颜色&透明度等 <br/> <br/>
+        //https://github.com/yanzhenjie/Album 图片选择 <br/>
+        api 'com.yanzhenjie:album:2.1.3' <br/> <br/>
+    </li>
+    <li>
+        //https://github.com/laobie/StatusBarUtil 修改状态栏颜色&透明度等 <br/>
+        api 'com.jaeger.statusbarutil:library:1.5.1' <br/> <br/>
+    </li>
+    <li>
+        //https://github.com/yanzhenjie/AndPermission 严振杰权限 <br/>
+        api 'com.yanzhenjie.permission:support:2.0.1' <br/> <br/>
+    </li>
+    <li>
+        //https://github.com/youth5201314/banner 轮播图 <br/>
+        api 'com.youth.banner:banner:1.4.10' <br/> <br/>
+    </li>
+    <li>
+        //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等 <br/>
+        api 'com.contrarywind:Android-PickerView:4.1.8' <br/> <br/>
     </li>
     <li>
         //https://github.com/H07000223/FlycoDialog_Master <br/>
         api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'//各种Dialog & Popup <br/> <br/>
     </li>
     <li>
-        //https://github.com/yanzhenjie/AndPermission <br/>
-        api 'com.yanzhenjie.permission:support:2.0.1'//严振杰权限 <br/> <br/>
+        //https://github.com/RuffianZhong/RWidgetHelper 圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/>
+        api 'com.ruffian.library:RWidgetHelper:1.1.0' <br/> <br/>
     </li>
     <li>
-        //https://github.com/RuffianZhong/RWidgetHelper <br/>
-        api 'com.ruffian.library:RWidgetHelper:1.1.0'//圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/> <br/>
+        //https://github.com/JessYanCoding/ProgressManager Okhttp/Retofit/Glide下载进度监听 <br/>
+        api 'me.jessyan:progressmanager:1.5.0' <br/> <br/>
     </li>
     <li>
-        //https://github.com/JessYanCoding/ProgressManager <br/>
-        api 'me.jessyan:progressmanager:1.5.0'//Okhttp/Retofit/Glide下载进度监听 <br/> <br/>
+        //https://github.com/zhou-you/RxEasyHttp minSdkVersion 19 <br/>
+        api 'com.zhouyou:rxeasyhttp:2.1.7' <br/> <br/>
     </li>
 </ol>
 
@@ -105,8 +104,8 @@
 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
 <img src="captures/qrcode.png" width=35%></img>
 
-## 5.minSdkVersion [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-    如果您项目的minSdkVersion小于16, 可能会报错: Manifest merger failed with multiple errors, see logs
+## 5.minSdkVersion [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
+    如果您项目的minSdkVersion小于19, 可能会报错: Manifest merger failed with multiple errors, see logs
 
 ## 6.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置(不过混淆后报错什么的我自己还没试过...):
 <pre>

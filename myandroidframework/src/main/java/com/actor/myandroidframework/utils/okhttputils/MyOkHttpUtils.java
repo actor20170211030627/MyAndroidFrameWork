@@ -33,9 +33,9 @@ import okhttp3.Response;
  * description: get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
  * 1.这是对鸿洋大神okhttputils的简单封装, 如果使用本类,需要添加依赖:
  *   //https://github.com/hongyangAndroid/okhttputils
- *   implementation 'com.zhy:okhttputils:2.6.2'
- *   //okhttp官方Log拦截器, 版本要和okhttp3一致(如果不使用这个日志拦截器, 可不添加这个依赖)
- *   implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+ *   compileOnly ('com.zhy:okhttputils:2.6.2') {
+ *       exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
+ *   }
  *
  * 2.在Application中初始化, 示例:
  *   //配置Okhttp
@@ -246,7 +246,7 @@ public class MyOkHttpUtils {
     /**
      * Post表单形式上传单个文件. 注意:如果是图片/视频, 需自己压缩后在上传
      * @param url       地址
-     * @param fileName  表单上传文件的name
+     * @param key       表单上传文件的key
      * @param file      文件
      * @param headers   请求体,示例:headers.put("APP-Key", "APP-Secret222");
      *                  headers.put("APP-Secret", "APP-Secret111");
@@ -254,17 +254,17 @@ public class MyOkHttpUtils {
      * @param callback  回调
      * @param <T>       要解析成什么类型的对象
      */
-    public static <T> void postFiles(@NonNull String url, String fileName, File file, Map<String, Object> headers,
+    public static <T> void postFiles(@NonNull String url, String key, File file, Map<String, Object> headers,
                                      Map<String, Object> params, PostFileCallback<T> callback) {
         List<File> files = new ArrayList<>();
         files.add(file);
-        postFiles(url, fileName, files, headers, params, callback);
+        postFiles(url, key, files, headers, params, callback);
     }
 
     /**
      * Post表单形式上传文件,同时上传多个文件. 注意:如果是图片/视频, 需自己压缩后在上传
      * @param url       地址
-     * @param fileName  表单上传文件的name
+     * @param key       表单上传文件的key
      * @param filePaths 文件路径集合
      * @param headers   请求体,示例:headers.put("APP-Key", "APP-Secret222");
      *                  headers.put("APP-Secret", "APP-Secret111");
@@ -272,7 +272,7 @@ public class MyOkHttpUtils {
      * @param callback  回调
      * @param <T>       要解析成什么类型的对象
      */
-    public static <T> void postFiles(@NonNull String url, String fileName, Collection<String> filePaths,
+    public static <T> void postFiles(@NonNull String url, String key, Collection<String> filePaths,
                                      Map<String, Object> headers, Map<String, Object> params,
                                      PostFileCallback<T> callback) {
         List<File> files = new ArrayList<>();
@@ -283,13 +283,13 @@ public class MyOkHttpUtils {
                 }
             }
         }
-        postFiles(url, fileName, files, headers, params, callback);
+        postFiles(url, key, files, headers, params, callback);
     }
 
     /**
      * Post表单形式上传文件,同时上传多个文件. 注意:如果是图片/视频, 需自己压缩后在上传
      * @param url       地址
-     * @param fileName  表单上传文件的name
+     * @param key       表单上传文件的key
      * @param files     文件集合
      * @param headers   请求体,示例:headers.put("APP-Key", "APP-Secret222");
      *                  headers.put("APP-Secret", "APP-Secret111");
@@ -297,7 +297,7 @@ public class MyOkHttpUtils {
      * @param callback  回调
      * @param <T>       要解析成什么类型的对象
      */
-    public static <T> void postFiles(@NonNull String url, String fileName, List<File> files,
+    public static <T> void postFiles(@NonNull String url, String key, List<File> files,
                                      Map<String, Object> headers, Map<String, Object> params,
                                      PostFileCallback<T> callback) {
         PostFormBuilder builder = OkHttpUtils.post().url(getUrl(url))
@@ -311,10 +311,11 @@ public class MyOkHttpUtils {
                 if (file != null && file.isFile()) {
                     try {
                         /**
-                         * fixed 文件名UTF-8转码,避免上传中文文件时以下方法抛异常问题,后面版本好像已经修复了这个问题
+                         * https://github.com/square/okhttp/issues/4564
+                         * fixed 文件名UTF-8转码,避免上传中文文件时以下方法抛异常问题
                          * @see okhttp3.Headers#checkValue(String, String)
                          */
-                        builder.addFile(fileName, URLEncoder.encode(file.getName(), "UTF-8"), file);
+                        builder.addFile(key, URLEncoder.encode(file.getName(), "UTF-8"), file);
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }

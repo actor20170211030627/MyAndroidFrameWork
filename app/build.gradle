@@ -111,7 +111,7 @@ dependencies {
     implementation 'cn.jiguang.sdk:jcore:2.3.0'
 
     //https://github.com/hongyangAndroid/okhttputils
-    implementation 'com.zhy:okhttputils:2.6.2'
-    //okhttp官方Log拦截器, 版本要和okhttp3一致(如果不使用这个日志拦截器, 可不添加这个依赖)
-//    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation ('com.zhy:okhttputils:2.6.2') {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
+    }
 }

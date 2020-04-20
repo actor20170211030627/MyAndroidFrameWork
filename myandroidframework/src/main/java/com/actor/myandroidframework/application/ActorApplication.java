@@ -10,9 +10,12 @@ import com.blankj.utilcode.util.CacheDiskUtils;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.cookie.CookieManger;
 
 import java.net.Proxy;
 import java.util.Locale;
+
+import me.jessyan.progressmanager.ProgressManager;
 
 /**
  * Description: 自定义的Application 继承本类, 然后在清单文件中注册
@@ -53,13 +56,17 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         //RxEasyHttp 默认初始化,必须调用
         EasyHttp.init(this);
         EasyHttp easyHttp = EasyHttp.getInstance()
-                .setBaseUrl(ConfigUtils.baseUrl);//设置全局URL  url只能是域名 或者域名+端口号
+                .setBaseUrl(ConfigUtils.baseUrl)//设置全局URL  url只能是域名 或者域名+端口号
+                .setCookieStore(new CookieManger(this));//cookie持久化存储，如果cookie不过期，则一直有效
         if (isDebugMode) {
             easyHttp.debug("EasyHttp", true);//true表示是否打印内部异常，一般打开方便调试错误
         } else {
             easyHttp.setOkproxy(Proxy.NO_PROXY);
         }
         configEasyHttp(easyHttp);
+
+        //可监听Glide,Download,Upload进度
+        ProgressManager.getInstance().with(EasyHttp.getOkHttpClientBuilder());
     }
 
     /**

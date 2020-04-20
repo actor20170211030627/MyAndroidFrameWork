@@ -3,6 +3,8 @@ package com.actor.myandroidframework.utils.easyhttp;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.body.UIProgressResponseCallBack;
+import com.zhouyou.http.cookie.CookieManger;
+import com.zhouyou.http.cookie.PersistentCookieStore;
 import com.zhouyou.http.request.BaseRequest;
 import com.zhouyou.http.request.CustomRequest;
 import com.zhouyou.http.request.DeleteRequest;
@@ -12,6 +14,8 @@ import com.zhouyou.http.request.PostRequest;
 import com.zhouyou.http.request.PutRequest;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -235,7 +241,17 @@ public class EasyHttpUtils {
                                        BaseCallBack6 callBack6) {
         if (files != null && !files.isEmpty()) {
             PostRequest postRequest = EasyHttp.post(url).params(params);
-            postRequest.addFileParams(key, files, progressCallback);
+            for (File file : files) {
+                try {
+                    // TODO: 2020/4/20 中文名会报错, 2.1.7后的版本可测试一下是否已修复.
+                    String fileName = URLEncoder.encode(file.getName(), "UTF-8");
+                    postRequest.params(key, file, fileName, progressCallback);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            //addFileParams 不能传中文 https://github.com/zhou-you/RxEasyHttp/issues/214
+//            postRequest.addFileParams(key, files, progressCallback);
             addHeaders(postRequest, headers);
             Disposable disposable = postRequest.execute(callBack6);
             if (callBack6 != null && callBack6.tag != null) putDisposable(callBack6.tag, disposable);
@@ -346,7 +362,60 @@ public class EasyHttpUtils {
         EasyHttp.clearCache();
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Cookie 区
+    ///////////////////////////////////////////////////////////////////////////
     /**
+     * 根据 url 获取 Cookie 列表
+     * @param url url
+     */
+    public static List<Cookie> getCookies(String url) {
+        CookieManger cookieManger = EasyHttp.getCookieJar();
+        return cookieManger.loadForRequest(HttpUrl.get(url));
+    }
+
+    /**
+     * 查看CookieManger所有cookie
+     */
+    public static List<Cookie> getAllCookies() {
+        CookieManger cookieManger = EasyHttp.getCookieJar();
+        PersistentCookieStore cookieStore = cookieManger.getCookieStore();
+        return cookieStore.getCookies();
+    }
+
+    /**
+     * 添加cookie
+     */
+    public static void addCookie(String url, String name, String value) {
+        CookieManger cookieManger = EasyHttp.getCookieJar();
+        HttpUrl httpUrl = HttpUrl.get(url);
+        Cookie.Builder builder = new Cookie.Builder();
+        Cookie cookie = builder.name(name).value(value).domain(httpUrl.host()).build();
+        cookieManger.saveFromResponse(httpUrl, cookie/*List<Cookie> cookies*/);
+    }
+
+    /**
+     * 移除cookie
+     */
+    public static void removeCookie(String url, String name, String value) {
+        CookieManger cookieManger = EasyHttp.getCookieJar();
+        HttpUrl httpUrl = HttpUrl.get(url);
+        Cookie.Builder builder = new Cookie.Builder();
+        Cookie cookie = builder.name(name).value(value).domain(httpUrl.host()).build();
+        cookieManger.remove(httpUrl,cookie);
+    }
+
+    /**
+     * 清空cookie
+     */
+    public static void removeAllCookies() {
+        CookieManger cookieManger = EasyHttp.getCookieJar();
+        cookieManger.removeAll();
+    }
+
+
+   /**
      * 将 Disposable 存起来, 页面销毁的时候取消网络请求
      * @param tag
      * @param disposable
