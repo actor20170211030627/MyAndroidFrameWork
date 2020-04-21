@@ -33,10 +33,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itilDigits="@string/digits_id_card"
-            app:itilImeOptions="actionDone"
+            app:itilImeOptions="actionNext"
             app:itilInputType="textVisiblePassword"
             app:itilItemName="IdCard身份证: "
             app:itilMaxLength="18" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.actor.myandroidframework.widget.ItemTextInputLayout
+                android:id="@+id/itil_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:itilDigits="@string/digits_num_26letter"
+                app:itilImeOptions="actionDone"
+                app:itilInputType="textVisiblePassword"
+                app:itilItemName="key: "
+                app:itilRedStarVisiable="invisible" />
+
+            <com.actor.myandroidframework.widget.ItemTextInputLayout
+                android:id="@+id/itil_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:itilImeOptions="actionDone"
+                app:itilInputType="text"
+                app:itilItemName="value: "
+                app:itilRedStarVisiable="gone" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

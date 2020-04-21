@@ -5,7 +5,7 @@
 </ul>
 
 ## 安卓常用组件&框架, 懒得每次都搭架子...
-### 1.集成框架包括:
+### 1.集成框架包括如下列表, 具体见 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/myandroidframework/build.gradle">build.gradle</a>:
 <ol>
     <li>
         //https://github.com/google/gson converter-gson 已经依赖了Gson2.8.2 <br/>

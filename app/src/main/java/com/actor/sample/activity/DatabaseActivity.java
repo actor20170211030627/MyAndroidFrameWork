@@ -2,24 +2,24 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
+import com.actor.sample.R;
+import com.actor.sample.database.ItemEntity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.greendao.gen.ItemEntityDao;
-import com.actor.sample.R;
-import com.actor.sample.database.ItemEntity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,11 +39,14 @@ public class DatabaseActivity extends BaseActivity {
     ItemRadioGroupLayout irglSex;
     @BindView(R.id.itil_idcard)
     ItemTextInputLayout  itilIdcard;
+    @BindView(R.id.itil_key)
+    ItemTextInputLayout  itilKey;
+    @BindView(R.id.itil_value)
+    ItemTextInputLayout  itilValue;
     @BindView(R.id.recycler_view)
     RecyclerView         recyclerView;
 
     private static final ItemEntityDao    DAO   = GreenDaoUtils.getDaoSession().getItemEntityDao();
-    private              List<ItemEntity> items = new ArrayList<>();
     private              MyAdapter        myAdapter;
     private              NormalDialog     deleteDialog;
     private              int              deletePosition;
@@ -54,15 +57,24 @@ public class DatabaseActivity extends BaseActivity {
         setContentView(R.layout.activity_database);
         ButterKnife.bind(this);
         setTitle("主页->数据库(GreenDao)");
-        myAdapter = new MyAdapter(R.layout.item_data_base_person, items);
+        myAdapter = new MyAdapter(R.layout.item_data_base_person);
         //item click
         myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ItemEntity person = items.get(position);
+                ItemEntity person = myAdapter.getItem(position);
                 itilName.setText(person.getName());
                 irglSex.setCheckedPosition(person.getSex());
                 itilIdcard.setText(person.getIdCard());
+                Map<String, Object> params = person.getParams();
+                if (params != null && !params.isEmpty()) {
+                    for (Map.Entry<String, Object> entry : params.entrySet()) {
+                        itilKey.setText(entry.getKey());
+                        String value = entry.getValue() == null ? null : entry.getValue() + "";
+                        itilValue.setText(value);
+                        break;
+                    }
+                }
             }
         });
         //item child click
@@ -92,9 +104,17 @@ public class DatabaseActivity extends BaseActivity {
                     //根据身份证查询, query by idCard
                     ItemEntity person = GreenDaoUtils.queryUnique(DAO, ItemEntityDao.Properties.IdCard.eq(idCard));
                     if (person == null) {
+                        String key = getText(itilKey);
+                        Map<String, Object> params = null;
+                        if (key != null) {
+                            params = new HashMap<>(1);
+                            String value = getText(itilValue);
+                            params.put(key, value);
+                        }
                         person = new ItemEntity(getText(itilName), idCard,  //name, idCard
                                 Calendar.getInstance().getTime(),           //time
-                                irglSex.getCheckedPosition());              //sex
+                                irglSex.getCheckedPosition(),               //sex
+                                params);                                    //params
                         long insertId = GreenDaoUtils.insert(DAO, person);
                         person.setId(insertId);
                         myAdapter.addData(0, person);
@@ -121,9 +141,9 @@ public class DatabaseActivity extends BaseActivity {
                 if (isNoEmpty(itilIdcard)) {
                     String idCard = getText(itilIdcard);
                     ItemEntity person = GreenDaoUtils.queryUnique(DAO, ItemEntityDao.Properties.IdCard.eq(idCard));
-                    items.clear();
+                    myAdapter.setNewData(null);
                     if (person != null) {
-                        items.add(person);
+                        myAdapter.addData(person);
                     } else {
                         toast("未找到身份证对应的人(no idcard found)!");
                     }
@@ -146,16 +166,25 @@ public class DatabaseActivity extends BaseActivity {
 
     private class MyAdapter extends BaseQuickAdapter<ItemEntity, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, @Nullable List<ItemEntity> data) {
-            super(layoutResId, data);
+        public MyAdapter(int layoutResId) {
+            super(layoutResId, null);
         }
 
         @Override
         protected void convert(@NonNull BaseViewHolder helper, ItemEntity item) {
+            Map<String, Object> params = item.getParams();
+            String param = null;
+            if (params != null && !params.isEmpty()) {
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    param = getStringFormat("参数: key=%s, value=%s", entry.getKey(), entry.getValue());
+                    break;
+                }
+            }
             helper.addOnClickListener(R.id.tv_delete)
                     .setText(R.id.tv_name, "Name姓名: " + item.getName())
                     .setText(R.id.tv_sex, "Sex性别: " + item.getSexStr())
-                    .setText(R.id.tv_id_card, "身份证IdCard: " + item.getIdCard());
+                    .setText(R.id.tv_id_card, "身份证IdCard: " + item.getIdCard())
+                    .setText(R.id.tv_params, param);
         }
     }
 
@@ -165,13 +194,13 @@ public class DatabaseActivity extends BaseActivity {
             deleteDialog.setOnBtnClickL(null, new OnBtnClickL() {//param1 取消, param2 确认
                 @Override
                 public void onBtnClick() {//yes
-                    ItemEntity person = items.get(deletePosition);
+                    ItemEntity person = myAdapter.getItem(deletePosition);
                     GreenDaoUtils.delete(DAO, person);
                     myAdapter.remove(deletePosition);
                     deleteDialog.dismiss();
                 }
             });
-            deleteDialog.content(getStringFormat("确定删除 %s 吗?", items.get(deletePosition).getName()));
+            deleteDialog.content(getStringFormat("确定删除 %s 吗?", myAdapter.getItem(deletePosition).getName()));
         }
         return deleteDialog;
     }

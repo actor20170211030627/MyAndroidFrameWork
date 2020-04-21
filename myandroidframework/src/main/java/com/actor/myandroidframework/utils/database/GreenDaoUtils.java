@@ -44,16 +44,21 @@ import java.util.List;
  *       implementation 'org.greenrobot:greendao:3.2.2' // add library
  *   }
  *
- * 3.在Application中初始化(需要先Build -> Make Project, 生成DaoMaster和DaoSession后才初始化, 否则空指针):
- *   GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class, ...);
+ * 3.写一个你想要存储到 GreenDao 的实体类, 示例 ItemEntity.java:
+ *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/database/ItemEntity.java
  *
- * 4.获取某个Dao示例:
+ * 4.Build -> Make Project, 生成 DaoMaster.java, DaoSession.java, ItemEntityDao.java
+ *
+ * 5.在Application中初始化
+ *   GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class);//参数3可传入多个 Dao.class
+ *
+ * 6.获取某个Dao示例:
  *   ItemEntityDao dao = GreenDaoUtils.getDaoSession().getItemEntityDao();//ItemEntityDao是生成的文件
  *
- * 5.使用示例:
+ * 7.使用示例:
  *  https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java
  *
- * 6.{@link WhereCondition} 的一些方法:
+ * 8.{@link WhereCondition} 的一些方法:
  *   //1. 获取 Property: AbstractDao的子类.Properties  (例: ItemEntityDao.Properties.Sex)
  *   @see org.greenrobot.greendao.Property[] = {@link AbstractDao#getProperties()}
  *
@@ -89,7 +94,7 @@ import java.util.List;
  *   @see QueryBuilder#join(Join, Property, Class, Property)
  *   ...
  *
- * 7.更多信息:
+ * 9.更多信息:
  *   https://www.jianshu.com/p/53083f782ea2
  *   greenDao说明.java
  *

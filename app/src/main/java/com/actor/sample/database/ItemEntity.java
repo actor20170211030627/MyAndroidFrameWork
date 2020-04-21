@@ -1,13 +1,18 @@
 package com.actor.sample.database;
 
+import com.alibaba.fastjson.JSONObject;
+
+import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.converter.PropertyConverter;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Description: ItemEntity对应的数据库表的实体
@@ -29,6 +34,8 @@ public class ItemEntity {
     @Transient
     public static final String[] sexs = {"Girl女", "Boy男", "Unknown未知"};
 
+
+    //下方几个是正常数据库字段
     @Id(autoincrement = true)
     private Long   id;      //表id(从0开始, 自增长. 如果自增长=true, 必须是Long)
     private String name;
@@ -41,23 +48,28 @@ public class ItemEntity {
 
     private int sex = SEX_UNKNOWN;//性别, 默认未知
 
+    //自定义字段, 不能直接存储到GreenDao, 需要转换
+    @Convert(converter = MapConverter.class, columnType = String.class)
+    private Map<String, Object> params;//参数
+
     /**
      * 由于我们的这个表的id是自增长&自动生成的, 所以id必须传null.
      * 为了避免每次都手动传null, 所以增加了这个构造方法.
      * 如果有其它参数是固定的且懒得写, 也可以这样处理(比如: userId, ...)
      */
-    public ItemEntity(String name, @NotNull String idCard, Date time, int sex) {
-        this(null, name, idCard, time, sex);
+    public ItemEntity(String name, @NotNull String idCard, Date time, int sex, Map<String, Object> params) {
+        this(null, name, idCard, time, sex, params);
     }
 
-    //@Generated: 由'Build -> Make Project'生成
-    @Generated(hash = 884245130)
-    public ItemEntity(Long id, String name, @NotNull String idCard, Date time, int sex) {
+    @Generated(hash = 938085501)
+    public ItemEntity(Long id, String name, @NotNull String idCard, Date time, int sex,
+            Map<String, Object> params) {
         this.id = id;
         this.name = name;
         this.idCard = idCard;
         this.time = time;
         this.sex = sex;
+        this.params = params;
     }
 
     //@Generated: 由'Build -> Make Project'生成
@@ -106,11 +118,35 @@ public class ItemEntity {
         this.sex = sex;
     }
 
+    public Map<String, Object> getParams() {
+        return this.params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
+
+
+
     /**
      * 自定义方法
      * @return 返回性别
      */
     public String getSexStr() {
         return sexs[getSex()];
+    }
+
+    //json和map参数转换
+    public static class MapConverter implements PropertyConverter<Map<String, Object>, String> {
+        @Override
+        public Map<String, Object> convertToEntityProperty(String databaseValue) {
+            if (databaseValue == null) return null;
+            return JSONObject.parseObject(databaseValue, Map.class);
+        }
+        @Override
+        public String convertToDatabaseValue(Map<String, Object> entityProperty) {
+            if (entityProperty == null) return null;
+            return JSONObject.toJSONString(entityProperty);
+        }
     }
 }

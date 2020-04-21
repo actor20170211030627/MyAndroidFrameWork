@@ -35,6 +35,13 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             tools:text="身份证IdCard: " />
+
+        <TextView
+            android:id="@+id/tv_params"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            tools:text="参数: " />
     </LinearLayout>
 
     <TextView
