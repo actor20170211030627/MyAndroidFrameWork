@@ -3,6 +3,7 @@ package com.actor.sample.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
@@ -17,7 +18,7 @@ import com.flyco.dialog.widget.NormalDialog;
 import com.greendao.gen.ItemEntityDao;
 
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -106,8 +107,8 @@ public class DatabaseActivity extends BaseActivity {
                     if (person == null) {
                         String key = getText(itilKey);
                         Map<String, Object> params = null;
-                        if (key != null) {
-                            params = new HashMap<>(1);
+                        if (!TextUtils.isEmpty(key)) {
+                            params = new LinkedHashMap<>(1);
                             String value = getText(itilValue);
                             params.put(key, value);
                         }
@@ -130,6 +131,12 @@ public class DatabaseActivity extends BaseActivity {
                     if (person != null) {
                         person.setName(getText(itilName));
                         person.setSex(irglSex.getCheckedPosition());
+                        String key = getText(itilKey);
+                        if (!TextUtils.isEmpty(key)) {
+                            Map<String, Object> params = person.getParams();
+                            if (params == null) params = new LinkedHashMap<>();
+                            params.put(key, getText(itilValue));
+                        }
                         GreenDaoUtils.update(DAO, person);
                         queryAll();
                     } else {

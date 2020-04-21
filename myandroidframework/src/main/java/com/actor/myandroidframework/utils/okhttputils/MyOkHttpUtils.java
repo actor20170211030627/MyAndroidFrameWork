@@ -30,8 +30,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * description: get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
- * 1.这是对鸿洋大神okhttputils的简单封装, 如果使用本类,需要添加依赖:
+ * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
+ *              由于大神已经停止更新框架, 所以正在考虑换一个网络请求框架:
+ *              @see com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils
+ *              如果你想继续使用 MyOkHttpUtils, 需要进行额外配置:
+ *
+ * 1.添加依赖:
  *   //https://github.com/hongyangAndroid/okhttputils
  *   compileOnly ('com.zhy:okhttputils:2.6.2') {
  *       exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1

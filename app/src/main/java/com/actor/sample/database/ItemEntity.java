@@ -1,7 +1,5 @@
 package com.actor.sample.database;
 
-import com.alibaba.fastjson.JSONObject;
-
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -9,14 +7,12 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.converter.PropertyConverter;
 
 import java.util.Date;
 import java.util.Map;
 
 /**
  * Description: ItemEntity对应的数据库表的实体
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2020/2/18 on 09:57
  *
@@ -127,26 +123,11 @@ public class ItemEntity {
     }
 
 
-
     /**
      * 自定义方法
      * @return 返回性别
      */
     public String getSexStr() {
         return sexs[getSex()];
-    }
-
-    //json和map参数转换
-    public static class MapConverter implements PropertyConverter<Map<String, Object>, String> {
-        @Override
-        public Map<String, Object> convertToEntityProperty(String databaseValue) {
-            if (databaseValue == null) return null;
-            return JSONObject.parseObject(databaseValue, Map.class);
-        }
-        @Override
-        public String convertToDatabaseValue(Map<String, Object> entityProperty) {
-            if (entityProperty == null) return null;
-            return JSONObject.toJSONString(entityProperty);
-        }
     }
 }

@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.widget.NineGridView;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +32,7 @@ public class NineGridView extends ConstraintLayout {
     protected RecyclerView                 recyclerViewForNineGridView;
     private OnItemClickListener            onItemClickListener;
     private MyAdapter                      myAdapter;
+    private List<GetIsVideoAble> items = new ArrayList<>(1);
 
     public NineGridView(Context context) {
         super(context);
@@ -66,11 +69,12 @@ public class NineGridView extends ConstraintLayout {
      * @param datas
      */
     public void setData(List datas) {
-        myAdapter.setNewData(datas);
-        if (myAdapter.getData().size() > 0) {
+        if (datas != null && !datas.isEmpty()) {
+            items.clear();
+            items.addAll(datas);
             setVisibility(VISIBLE);
-            if (myAdapter.getData().size() == 1) {
-                GetIsVideoAble item = myAdapter.getItem(0);
+            if (items.size() == 1) {
+                GetIsVideoAble item = items.get(0);
                 ivPicForNineGridView.setVisibility(VISIBLE);
                 ivPlayPauseForNineGridView.setVisibility(item.isVideo() ? VISIBLE : GONE);
                 recyclerViewForNineGridView.setVisibility(GONE);
@@ -80,18 +84,20 @@ public class NineGridView extends ConstraintLayout {
                         .transform(new RoundedCorners(10))
                         .into(ivPicForNineGridView);
                 ivPicForNineGridView.setOnClickListener(v -> {
-                    if (onItemClickListener != null) onItemClickListener.onItemClick(this, myAdapter.getItem(0), null, ivPicForNineGridView, 0);
+                    if (onItemClickListener != null) onItemClickListener.onItemClick(this, items.get(0), null, ivPicForNineGridView, 0);
                 });
             } else {
                 ivPicForNineGridView.setVisibility(GONE);
                 ivPlayPauseForNineGridView.setVisibility(GONE);
                 recyclerViewForNineGridView.setVisibility(VISIBLE);
-                myAdapter = new MyAdapter(R.layout.item_for_nine_grid_view, null);
-                myAdapter.setOnItemClickListener((adapter, view1, position) -> {
-                    if (onItemClickListener != null) onItemClickListener.onItemClick(this, myAdapter.getItem(position), adapter, view1, position);
-                });
-                recyclerViewForNineGridView.setAdapter(myAdapter);
-                recyclerViewForNineGridView.addItemDecoration(new BaseItemDecoration(10, 10));
+                if (myAdapter == null) {
+                    myAdapter = new MyAdapter(R.layout.item_for_nine_grid_view, items);
+                    myAdapter.setOnItemClickListener((adapter, view1, position) -> {
+                        if (onItemClickListener != null) onItemClickListener.onItemClick(this, myAdapter.getItem(position), adapter, view1, position);
+                    });
+                    recyclerViewForNineGridView.setAdapter(myAdapter);
+                    recyclerViewForNineGridView.addItemDecoration(new BaseItemDecoration(10, 10));
+                }
                 myAdapter.notifyDataSetChanged();
             }
         } else setVisibility(GONE);
@@ -110,12 +116,12 @@ public class NineGridView extends ConstraintLayout {
 
     private class MyAdapter extends BaseQuickAdapter<GetIsVideoAble, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, List items) {
+        public MyAdapter(int layoutResId, List<GetIsVideoAble> items) {
             super(layoutResId, items);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, GetIsVideoAble item) {
+        protected void convert(@NonNull BaseViewHolder helper, GetIsVideoAble item) {
             if (item != null) {
                 ImageView ivPic = helper.setVisible(R.id.iv_play_pause, item.isVideo())
                         .getView(R.id.iv_pic_for_nine_grid_view);
