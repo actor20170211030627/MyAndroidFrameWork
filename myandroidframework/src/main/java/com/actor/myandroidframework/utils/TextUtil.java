@@ -4,7 +4,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.util.SparseArrayCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -191,8 +190,8 @@ public class TextUtil {
             if (isEmpty && notify != null) ToastUtils.showShort(notify);
             return !isEmpty;
         }
-        if (obj instanceof SparseArrayCompat) {//v4包, <int, Object>
-            boolean isEmpty = ((SparseArrayCompat) obj).isEmpty();
+        if (obj instanceof android.support.v4.util.SparseArrayCompat) {//v4包, <int, Object>
+            boolean isEmpty = ((android.support.v4.util.SparseArrayCompat) obj).isEmpty();
             if (isEmpty && notify != null) ToastUtils.showShort(notify);
             return !isEmpty;
         }
@@ -364,15 +363,11 @@ public class TextUtil {
 
     /**
      * 获取html格式的字符串, https://blog.csdn.net/yang28242687/article/details/64967167
-     * <ol>
-     *     <li>< 转换为 &#038;lt;</li>
-     *     <li>> 转换为 &#038;gt;</li>
-     *     <li>& 转换为 &#038;amp;</li>
-     *     <li>' 转换为 &#038;#39;</li>
-     *     <li>" 转换为 &#038;quot;</li>
-     * </ol>
-     * @param s
-     * @return
+     * < 转换为 &lt;
+     * > 转换为 &gt;
+     * & 转换为 &amp;
+     * ' 转换为 &#39;
+     * " 转换为 &quot;
      */
     public static String htmlEncode(String s) {
         if (s == null) return null;

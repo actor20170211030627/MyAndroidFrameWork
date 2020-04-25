@@ -76,7 +76,7 @@ public abstract class BaseCallBack6<T> extends DownloadProgressCallBack<T> {
     }
 
     @Override
-    public abstract void onSuccess(T t);
+    public abstract void onSuccess(T info);
 
     @Override
     public void onError(ApiException e) {

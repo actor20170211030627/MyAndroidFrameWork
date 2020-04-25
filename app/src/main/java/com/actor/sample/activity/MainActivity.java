@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.bumptech.glide.Glide;
 import com.actor.sample.R;
 import com.actor.sample.service.CheckUpdateService;
 import com.actor.sample.utils.Global;
+import com.blankj.utilcode.util.AppUtils;
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

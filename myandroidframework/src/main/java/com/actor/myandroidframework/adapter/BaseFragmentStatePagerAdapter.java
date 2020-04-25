@@ -28,30 +28,28 @@ import java.util.List;
  */
 public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
-    protected int                   sizeOfMyFragmentStatePagerAdapter;
-    protected SparseArray<Fragment> fragmentsOfMyFragmentStatePagerAdapter;
+    protected int                   fragmentSize;
+    protected SparseArray<Fragment> fragments;
     protected String[]              titles;
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, int size) {
         super(fm);
-        this.sizeOfMyFragmentStatePagerAdapter = size;
-        fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(size);
+        this.fragmentSize = size;
+        fragments = new SparseArray<>(size);
     }
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, @NonNull String[] titles) {
         super(fm);
-        this.sizeOfMyFragmentStatePagerAdapter = titles.length;
-        fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(sizeOfMyFragmentStatePagerAdapter);
+        this.fragmentSize = titles.length;
+        fragments = new SparseArray<>(fragmentSize);
         this.titles = titles;
     }
 
-    public BaseFragmentStatePagerAdapter(FragmentManager fm, List<String> titles) {
+    public BaseFragmentStatePagerAdapter(FragmentManager fm, @NonNull List<String> titles) {
         super(fm);
-        if (titles != null) {
-            this.sizeOfMyFragmentStatePagerAdapter = titles.size();
-            fragmentsOfMyFragmentStatePagerAdapter = new SparseArray<>(sizeOfMyFragmentStatePagerAdapter);
-            this.titles = (String[]) titles.toArray();
-        }
+        this.fragmentSize = titles.size();
+        fragments = new SparseArray<>(fragmentSize);
+        this.titles = (String[]) titles.toArray();
     }
 
     /**
@@ -67,8 +65,8 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
      * @param position 第几个Fragment
      */
     public @Nullable <T extends Fragment> T getFragment(int position) {
-        if (fragmentsOfMyFragmentStatePagerAdapter.size() > position) {
-            return (T) fragmentsOfMyFragmentStatePagerAdapter.get(position);
+        if (fragments.size() > position) {
+            return (T) fragments.get(position);
         }
         return null;
     }
@@ -82,7 +80,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
 
     @Override
     public int getCount() {
-        return sizeOfMyFragmentStatePagerAdapter;
+        return fragmentSize;
     }
 
     //实例化
@@ -90,13 +88,13 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        fragmentsOfMyFragmentStatePagerAdapter.put(position, fragment);
+        fragments.put(position, fragment);
         return fragment;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        fragmentsOfMyFragmentStatePagerAdapter.remove(position);
+        fragments.remove(position);
         super.destroyItem(container, position, object);
     }
 
@@ -106,7 +104,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
      * @param object ViewPager切换到了 position, position 位置的 Fragment
      */
     @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         super.setPrimaryItem(container, position, object);
 //        Fragment currentFragment = (Fragment) object;
     }

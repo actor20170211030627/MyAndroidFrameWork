@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.activity;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -18,9 +19,9 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
-import com.actor.myandroidframework.utils.TextUtil;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -250,15 +251,23 @@ public class ActorBaseActivity extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////
     @Override
     public ComponentName startService(Intent intent) {
-        //Android 8.0 不再允许后台service直接通过startService方式去启动，否则就会引起IllegalStateException
-        //android8.0以上通过startForegroundService启动service
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return startForegroundService(intent);
-        } else {
-            return super.startService(intent);
-        }
+        return super.startService(intent);
     }
 
+    /**
+     * 启动前台服务
+     * Android 8.0 之后调用这个方法, 必须满足以下2个条件:
+     * 1.添加权限: <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+     * 2.在Service中必须调用 {@link android.app.Service#startForeground(int, Notification)}
+     *   可继承或参考 {@link com.actor.myandroidframework.service.BaseService}
+     */
+    @Override
+    public ComponentName startForegroundService(Intent service) {
+        //如果不判断, 低版本会崩溃
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            return super.startForegroundService(service);
+        } else return startService(service);
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // 返回String区

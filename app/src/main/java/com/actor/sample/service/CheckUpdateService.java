@@ -2,19 +2,20 @@ package com.actor.sample.service;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
 
-import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
+import com.actor.myandroidframework.service.BaseService;
+import com.actor.myandroidframework.utils.easyhttp.BaseCallBack6;
+import com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
-import com.blankj.utilcode.util.AppUtils;
 import com.actor.sample.info.CheckUpdateInfo;
 import com.actor.sample.utils.Global;
+import com.blankj.utilcode.util.AppUtils;
 
 import java.io.File;
 import java.util.List;
@@ -33,7 +34,7 @@ import okhttp3.Call;
  *
  * @version 1.0
  */
-public class CheckUpdateService extends Service {
+public class CheckUpdateService extends BaseService {
 
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
@@ -48,9 +49,24 @@ public class CheckUpdateService extends Service {
     public void onCreate() {
         super.onCreate();
         //check update检查更新
-        MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<List<CheckUpdateInfo>>(this) {
+//        MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<List<CheckUpdateInfo>>(this) {
+//            @Override
+//            public void onOk(@NonNull List<CheckUpdateInfo> info, int id) {
+//                if (info.size() == 0) return;
+//                CheckUpdateInfo info1 = info.get(0);
+//                if (info1 == null) return;
+//                CheckUpdateInfo.ApkDataBean apkData = info1.apkData;
+//                if (apkData != null) {
+//                    int versionCode = AppUtils.getAppVersionCode();
+//                    if (versionCode < apkData.versionCode) {
+//                        showDialog(apkData.versionName);
+//                    }
+//                }
+//            }
+//        });
+        EasyHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallBack6<List<CheckUpdateInfo>>(this) {
             @Override
-            public void onOk(@NonNull List<CheckUpdateInfo> info, int id) {
+            public void onSuccess(List<CheckUpdateInfo> info) {
                 if (info.size() == 0) return;
                 CheckUpdateInfo info1 = info.get(0);
                 if (info1 == null) return;
