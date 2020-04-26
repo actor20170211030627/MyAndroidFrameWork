@@ -31,8 +31,8 @@ import java.io.File;
 public class AudioUtils {
 
     protected boolean playing, innerRecording;
-    protected volatile Boolean             recording           = false;
-    public static    String                CURRENT_RECORD_DIR;//语音存储目录
+    protected volatile Boolean recording           = false;
+    public    String           recordDir;//语音存储目录
 
     protected String recordAudioPath;//录音文件地址
     protected long   startTime, endTime;
@@ -41,7 +41,7 @@ public class AudioUtils {
     protected          AudioRecordCallback mRecordCallback;
     protected          AudioPlayCallback   mPlayCallback;
     protected static AudioUtils    instance;
-    protected static int           maxRecordTime = 2 * 60 * 1000;//最大录音时长, 默认2分钟
+    protected int           maxRecordTime = 2 * 60 * 1000;//最大录音时长, 默认2分钟
 
     /**
      * 初始化
@@ -50,8 +50,8 @@ public class AudioUtils {
      */
     public void init(@Nullable Integer maxRecordTimeSecond, @Nullable String recordDir) {
         if (TextUtils.isEmpty(recordDir)) {
-            CURRENT_RECORD_DIR = FileUtils.getFilesDir().getAbsolutePath();
-        } else CURRENT_RECORD_DIR = recordDir;
+            this.recordDir = FileUtils.getFilesDir().getAbsolutePath();
+        } else this.recordDir = recordDir;
         if (maxRecordTimeSecond != null) maxRecordTime = maxRecordTimeSecond * 1000;
     }
 
@@ -164,7 +164,7 @@ public class AudioUtils {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 //RAW_AMR虽然被高版本废弃，但它兼容低版本还是可以用的
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
-                recordAudioPath = new File(CURRENT_RECORD_DIR, System.currentTimeMillis() + ".amr")
+                recordAudioPath = new File(recordDir, System.currentTimeMillis() + ".amr")
                         .getAbsolutePath();
                 mRecorder.setOutputFile(recordAudioPath);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);

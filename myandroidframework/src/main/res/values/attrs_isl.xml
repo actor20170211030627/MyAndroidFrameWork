@@ -12,7 +12,10 @@
         <!--左边的文字-->
         <attr name="islItemName" format="string"/>
 
-        <!--给spinner设置本地数据源,示例:@array/languages(不要写成@arrays)-->
+        <!--给spinner设置本地数据源, 用','分隔开-->
+        <attr name="islEntriesString" format="string" />
+
+        <!--给spinner设置本地数据源, 写在values/arrays.xml里, 示例:@array/languages(不要写成@arrays)-->
         <attr name="islEntries" format="reference"/>
 
         <!--marginTop距离顶部的间距, 默认1dp-->
@@ -22,8 +25,8 @@
         <attr name="islCustomLayout" format="reference" />
     </declare-styleable>
 
-    <!-- 这是entries的本地示例写法,用于给spinner赋值,
-         写在:values/arrays.xml里面(标准写法,好像也可以不写在这里面?)
+    <!-- 一般写在:values/arrays.xml里面(标准写法) -->
+    <!--
     <?xml version="1.0" encoding="utf-8"?>
     <resources>
         <string-array name="languages">

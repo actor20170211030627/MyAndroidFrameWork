@@ -34,7 +34,7 @@
             android:layout_height="40dp"
             app:tabBackground="@drawable/selector_tablayout_blue_white"
             app:tabContentStart="20dp"
-            app:tabIndicatorHeight="0dp"
+            app:tabIndicatorHeight="1dp"
             app:tabMode="scrollable"
             app:tabRippleColor="@null"
             app:tabSelectedTextColor="@color/white"

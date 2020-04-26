@@ -34,11 +34,13 @@ import com.actor.myandroidframework.R;
  * @see R.styleable#ItemRadioGroupLayout_irglGravity            //start|centerVertical
  * 4.marginTop, 默认1dp
  * @see R.styleable#ItemRadioGroupLayout_irglMarginTop          //1dp
- * 5.多个RadioButton的text, 用','分隔开
- * @see R.styleable#ItemRadioGroupLayout_irglTexts              //"男,女,未知"
- * 6.选中第几个, 默认0
+ * 5.多个RadioButton的text, 用','分隔开(5和6这俩个属性, 只需要写一种即可)
+ * @see R.styleable#ItemRadioGroupLayout_irglBtns               //"男,女,未知"
+ * 6.多个RadioButton的text, 写在:values/arrays.xml里面<string-array name="sexs">
+ * @see R.styleable#ItemRadioGroupLayout_irglBtnsArray          //@array/sexs
+ * 7.选中第几个, 默认0
  * @see R.styleable#ItemRadioGroupLayout_irglCheckedPosition    //0
- * 7.自定义布局, 注意必须有默认控件的类型和id
+ * 8.自定义布局, 注意必须有默认控件的类型和id
  * @see R.styleable#ItemRadioGroupLayout_irglCustomLayout       //R.layout.xxx
  *
  * @version 1.0
@@ -92,7 +94,9 @@ public class ItemRadioGroupLayout extends LinearLayout {
             //marginTop, 默认1dp
             int marginTop = typedArray.getDimensionPixelSize(R.styleable.ItemRadioGroupLayout_irglMarginTop, (int) density);
             //几个RadioButton的值
-            String texts = typedArray.getString(R.styleable.ItemRadioGroupLayout_irglTexts);
+            String texts = typedArray.getString(R.styleable.ItemRadioGroupLayout_irglBtns);
+            //如果有数据源, 获取数据源并加载
+            CharSequence[] entries = typedArray.getTextArray(R.styleable.ItemRadioGroupLayout_irglBtnsArray);
             //默认选中第几个
             int irglCheckedPosition = typedArray.getInt(R.styleable.ItemRadioGroupLayout_irglCheckedPosition, 0);
             //RadioButton的居中gravity
@@ -105,7 +109,11 @@ public class ItemRadioGroupLayout extends LinearLayout {
             getTextViewRedStar().setVisibility(visiable * 4);//设置红点是否显示
             if (irglItemName != null) getTextViewItem().setText(irglItemName);
             setMarginTop(marginTop);
-            if (texts != null) {
+            if (entries != null && entries.length > 0) {
+                for (CharSequence entry : entries) {
+                    addRadioButton(entry);
+                }
+            } else if (texts != null && !texts.isEmpty()) {
                 String[] split = texts.split(",");
                 for (String text : split) {
                     addRadioButton(text);
@@ -154,7 +162,7 @@ public class ItemRadioGroupLayout extends LinearLayout {
         getRadioGroup().setGravity(gravity);
     }
 
-    protected void addRadioButton(String text) {
+    protected void addRadioButton(CharSequence text) {
         AppCompatRadioButton rb = new AppCompatRadioButton(getContext());
         rb.setText(text);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

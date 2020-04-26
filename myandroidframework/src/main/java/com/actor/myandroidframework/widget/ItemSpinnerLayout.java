@@ -33,11 +33,13 @@ import java.util.List;
  * @see R.styleable#ItemSpinnerLayout_islRedStarVisiable //visible/invisible/gone
  * 2.左侧提示文字
  * @see R.styleable#ItemSpinnerLayout_islItemName        //请选择语言：
- * 3.右侧spinner的填充内容, 写在:values/arrays.xml里面<string-array name="">
- * @see R.styleable#ItemSpinnerLayout_islEntries         //@array/xxx
- * 4.marginTop, 默认1dp
+ * 3.右侧spinner的填充内容, 用','分隔开(3和4这俩个属性, 只需要写一种即可)
+ * @see R.styleable#ItemSpinnerLayout_islEntriesString   //"c语音,java,php,xml,html"
+ * 4.右侧spinner的填充内容, 写在:values/arrays.xml里面<string-array name="languages">
+ * @see R.styleable#ItemSpinnerLayout_islEntries         //@array/languages
+ * 5.marginTop, 默认1dp
  * @see R.styleable#ItemSpinnerLayout_islMarginTop       //1dp
- * 5.自定义布局, 注意必须有默认控件的类型和id
+ * 6.自定义布局, 注意必须有默认控件的类型和id
  * @see R.styleable#ItemSpinnerLayout_islCustomLayout    //R.layout.xxx
  *
  * @version 1.0
@@ -86,6 +88,8 @@ public class ItemSpinnerLayout extends LinearLayout {
             String itemName = typedArray.getString(R.styleable.ItemSpinnerLayout_islItemName);
             //marginTop, 默认1dp
             int marginTop = typedArray.getDimensionPixelSize(R.styleable.ItemSpinnerLayout_islMarginTop, (int) density);
+            //spinner的列表值, 用","隔开
+            String items = typedArray.getString(R.styleable.ItemSpinnerLayout_islEntriesString);
             //如果有数据源, 获取数据源并加载
             CharSequence[] entries = typedArray.getTextArray(R.styleable.ItemSpinnerLayout_islEntries);
 //        int resourceId = typedArray.getResourceId(R.styleable.ItemSpinnerLayout_islEntries, 0);
@@ -101,7 +105,12 @@ public class ItemSpinnerLayout extends LinearLayout {
             getTextViewRedStar().setVisibility(redStarVisiable * 4);//设置红点是否显示
             if (itemName != null) getTextViewItem().setText(itemName);
             setMarginTop(marginTop);
-            if (entries != null) setDatas(entries);
+            if (entries != null) {
+                setDatas(entries);
+            } else if (items != null && !items.isEmpty()) {
+                String[] split = items.split(",");
+                setDatas(split);
+            }
         }
     }
     protected void inflate(Context context, @LayoutRes int resource) {

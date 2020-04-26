@@ -35,7 +35,10 @@
         <attr name="irglMarginTop" format="dimension" />
 
         <!--多个RadioButton的text, 用','分隔开-->
-        <attr name="irglTexts" format="string" />
+        <attr name="irglBtns" format="string" />
+
+        <!--多个RadioButton的text, 写在values/arrays.xml里, 示例:@array/sexs(不要写成@arrays)-->
+        <attr name="irglBtnsArray" format="reference"/>
 
         <!--选中第几个, 默认0-->
         <attr name="irglCheckedPosition" format="integer" />
@@ -43,4 +46,17 @@
         <!--不使用默认布局, 自定义布局-->
         <attr name="irglCustomLayout" format="reference" />
     </declare-styleable>
+
+    <!-- 一般写在:values/arrays.xml里面(标准写法) -->
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string-array name="sexs">
+            <item>男</item>
+            <item>女</item>
+            <item>妖</item>
+            <item>未知</item>
+        </string-array>
+    </resources>
+    -->
 </resources>
