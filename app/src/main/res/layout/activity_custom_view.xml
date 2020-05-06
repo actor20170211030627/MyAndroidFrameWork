@@ -73,13 +73,13 @@
         android:id="@+id/item_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:irglBtns="男,女,未知"
         app:irglCheckedPosition="0"
         app:irglCustomLayout="@layout/item_radio_group_layout"
         app:irglGravity="right|center_vertical"
         app:irglItemName="性别: "
         app:irglMarginTop="3dp"
-        app:irglRedStarVisiable="visible"
-        app:irglTexts="男,女,未知" />
+        app:irglRedStarVisiable="visible" />
 
     <com.actor.myandroidframework.widget.ItemSpinnerLayout
         android:id="@+id/item_spinner"

@@ -17,7 +17,7 @@ public class Global {
 
     public static final String BASE_URL = "https://api.github.com";
 
-    public static final String CHECK_UPDATE = "https://gitee.com/actor2017/" +
+    public static final String CHECK_UPDATE = "https://gitee.com/actor20170211030627/" +
             "MyAndroidFrameWork" +
             "/raw/master/" +
             "app" +

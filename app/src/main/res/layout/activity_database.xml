@@ -25,8 +25,8 @@
             android:id="@+id/irgl_sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:irglItemName="Sex性别: "
-            app:irglTexts="Girl女,Boy男,Unknown未知" />
+            app:irglBtns="Girl女,Boy男,Unknown未知"
+            app:irglItemName="Sex性别: " />
 
         <com.actor.myandroidframework.widget.ItemTextInputLayout
             android:id="@+id/itil_idcard"

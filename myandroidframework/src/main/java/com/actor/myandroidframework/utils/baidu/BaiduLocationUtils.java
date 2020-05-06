@@ -24,7 +24,7 @@ import com.baidu.location.LocationClientOption.LocationMode;
  *       比较小的一个只有 "全量定位" 功能
  *       比较大的一个有 "全量定位" & "基础地图(含室内地图)" & "检索功能" 功能
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/tree/master/app/libs
- *   或 https://gitee.com/actor2017/MyAndroidFrameWork/tree/master/app/libs
+ *   或 https://gitee.com/actor20170211030627/MyAndroidFrameWork/tree/master/app/libs
  *
  * 3.添加.so库文件以及适配平台
  * http://lbsyun.baidu.com/index.php?title=android-locsdk/guide/create-project/android-studio

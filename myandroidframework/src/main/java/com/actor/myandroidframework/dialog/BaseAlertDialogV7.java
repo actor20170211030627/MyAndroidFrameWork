@@ -89,12 +89,12 @@ public abstract class BaseAlertDialogV7 extends AlertDialog {
 
     protected Window window;
 
-    protected BaseAlertDialogV7(@NonNull Context context) {
+    public BaseAlertDialogV7(@NonNull Context context) {
         super(context);
         init();
     }
 
-    protected BaseAlertDialogV7(@NonNull Context context, int themeResId) {
+    public BaseAlertDialogV7(@NonNull Context context, int themeResId) {
         super(context, themeResId);
         init();
     }

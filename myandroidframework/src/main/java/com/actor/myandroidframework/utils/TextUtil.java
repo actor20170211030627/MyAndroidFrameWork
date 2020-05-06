@@ -316,7 +316,7 @@ public class TextUtil {
      * GitHub:
      * https://github.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
      * 码云:
-     * https://gitee.com/actor2017/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
+     * https://gitee.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
      */
     public static String getStringFormat(String format, Object... args) {
         return String.format(Locale.getDefault(), format, args);

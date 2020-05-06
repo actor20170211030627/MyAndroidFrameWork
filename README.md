@@ -1,7 +1,7 @@
 ## MyAndroidFrameWork
 <ul>
   <li><a href="https://github.com/actor20170211030627/MyAndroidFrameWork">Github</a></li>
-  <li><a href="https://gitee.com/actor2017/MyAndroidFrameWork">Gitee码云(国内网速更快)</a></li>
+  <li><a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a></li>
 </ul>
 
 ## 安卓常用组件&框架, 懒得每次都搭架子...
