@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.AuthAgent;
@@ -290,6 +291,26 @@ public class QQUtils {
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, appName);
         if (extInt != null) params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, extInt);
         getTencent().shareToQQ(activity, params, listener);
+    }
+
+    /**
+     * 分享文件到QQ, 调用系统Intent分享
+     * @param filePath 文件路径
+     * @return 是否跳转到QQ分享界面
+     */
+    public static boolean shareToQQFile(Context context, String filePath) {
+        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath);
+        sendIntent.setType("*/*");
+        //这是正式版还是极速版?
+        sendIntent.setClassName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
+        try {
+            context.startActivity(sendIntent);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+//            ToastUtils.showShort("未安装QQ");
+            return false;
+        }
     }
 
     public static void shareOthers() {

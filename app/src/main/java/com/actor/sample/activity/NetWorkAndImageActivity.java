@@ -7,20 +7,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
+import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
-import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
-import com.bumptech.glide.Glide;
 import com.actor.sample.R;
 import com.actor.sample.info.GithubInfo;
 import com.actor.sample.retrofit.NetWork;
 import com.actor.sample.utils.Global;
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.jessyan.progressmanager.ProgressListener;
-import me.jessyan.progressmanager.body.ProgressInfo;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -50,19 +50,6 @@ public class NetWorkAndImageActivity extends BaseActivity {
                 .error(R.mipmap.ic_launcher)
                 .circleCrop()
                 .into(iv);
-
-        RetrofitNetwork.addOnDownloadListener(Global.PICPICK_DOWNLOAD_URL, new ProgressListener() {
-            @Override
-            public void onProgress(ProgressInfo progressInfo) {
-                logError(progressInfo.getPercent());
-                progressBar.setProgress(progressInfo.getPercent());
-            }
-
-            @Override
-            public void onError(long id, Exception e) {
-                toast("下载错误: ".concat(e.getMessage()));
-            }
-        });
     }
 
     @OnClick({R.id.btn_get_okhttp, R.id.btn_post_body_okhttp, R.id.btn_get_retrofit, R.id.btn_download})
@@ -151,7 +138,25 @@ public class NetWorkAndImageActivity extends BaseActivity {
 
     private void downloadApk() {
         if (!alreadyDownload) {
-            MyOkHttpUtils.getFile(Global.PICPICK_DOWNLOAD_URL, null);
+            MyOkHttpUtils.getFile(Global.PICPICK_DOWNLOAD_URL, new GetFileCallback(this, null, null) {
+                @Override
+                public void onOk(@NonNull File info, int id) {
+                }
+
+                @Override
+                public void onError(int id, okhttp3.Call call, Exception e) {
+                    super.onError(id, call, e);
+                    toast("下载错误: ".concat(e.getMessage()));
+                }
+
+                @Override
+                public void inProgress(float progress, long total, int id) {
+                    super.inProgress(progress, total, id);
+                    int parcent = (int) (progress/total * 100);
+//                    logError(String.valueOf(parcent));
+                    progressBar.setProgress(parcent);
+                }
+            });
             alreadyDownload = true;
         }
     }

@@ -15,17 +15,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_select_dealer" />
 
-    <com.ruffian.library.widget.RTextView
+    <TextView
         android:id="@+id/rtv_tips"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginRight="20dp"
+        android:background="@drawable/shape_rec_blue_cor5dp"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:visibility="gone"
-        app:background_normal="@color/blue_2EABFB"
-        app:corner_radius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/quicksearchbar"
         app:layout_constraintTop_toTopOf="parent"

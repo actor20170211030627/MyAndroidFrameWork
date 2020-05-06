@@ -57,24 +57,12 @@
         api 'com.yanzhenjie.permission:support:2.0.1' <br/> <br/>
     </li>
     <li>
-        //https://github.com/youth5201314/banner 轮播图 <br/>
-        api 'com.youth.banner:banner:1.4.10' <br/> <br/>
-    </li>
-    <li>
         //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等 <br/>
         api 'com.contrarywind:Android-PickerView:4.1.8' <br/> <br/>
     </li>
     <li>
         //https://github.com/H07000223/FlycoDialog_Master <br/>
         api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'//各种Dialog & Popup <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/RuffianZhong/RWidgetHelper 圆角,边框,Gradient背景渐变,控件State各个状态UI样式 <br/>
-        api 'com.ruffian.library:RWidgetHelper:1.1.0' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/JessYanCoding/ProgressManager Okhttp/Retofit/Glide下载进度监听 <br/>
-        api 'me.jessyan:progressmanager:1.5.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/zhou-you/RxEasyHttp minSdkVersion 19 <br/>

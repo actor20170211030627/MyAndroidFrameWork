@@ -15,8 +15,6 @@ import com.zhouyou.http.cookie.CookieManger;
 import java.net.Proxy;
 import java.util.Locale;
 
-import me.jessyan.progressmanager.ProgressManager;
-
 /**
  * Description: 自定义的Application 继承本类, 然后在清单文件中注册
  *              https://github.com/actor20170211030627/MyAndroidFrameWork
@@ -64,9 +62,6 @@ public abstract class ActorApplication extends Application/* implements Thread.U
             easyHttp.setOkproxy(Proxy.NO_PROXY);
         }
         configEasyHttp(easyHttp);
-
-        //可监听Glide,Download,Upload进度
-        ProgressManager.getInstance().with(EasyHttp.getOkHttpClientBuilder());
     }
 
     /**

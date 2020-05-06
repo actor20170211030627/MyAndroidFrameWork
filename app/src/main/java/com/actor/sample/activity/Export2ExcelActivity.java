@@ -69,7 +69,7 @@ public class Export2ExcelActivity extends BaseActivity {
                     public void onExportFinish(String filePath, int id) {
                         dismissLoadingDialog();
                         tvResult.setText("Excel已导出至：" + filePath);
-                        JExcelApiUtils.shareFile(activity, filePath);//分享
+                        FileUtils.shareFile(activity, filePath);//分享
                     }
 
                     @Override

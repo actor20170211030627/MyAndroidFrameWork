@@ -1,17 +1,21 @@
 package com.actor.myandroidframework.utils.tencent;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
-import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ThreadUtils;
+import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
+import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.IntentUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage;
@@ -204,7 +208,7 @@ public class WeChatUtils {
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
         //设置缩略图
-        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp[0], Bitmap.CompressFormat.PNG);
+        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp[0]);
 
         //构造一个Req
         SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -242,7 +246,7 @@ public class WeChatUtils {
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
 //        bitmap.recycle();
         //设置音乐缩略图
-        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp, Bitmap.CompressFormat.PNG);
+        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "music" + System.currentTimeMillis();
@@ -273,7 +277,7 @@ public class WeChatUtils {
 
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
 //        bitmap.recycle();
-        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp, Bitmap.CompressFormat.PNG);
+        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "video" + System.currentTimeMillis();
@@ -342,7 +346,7 @@ public class WeChatUtils {
         msg.description = description;
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
 //        bitmap.recycle();
-        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp, Bitmap.CompressFormat.PNG);
+        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "webpage" + System.currentTimeMillis();
@@ -393,13 +397,32 @@ public class WeChatUtils {
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
 //        bitmap.recycle();
         // 小程序消息封面图片，小于128k
-        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp, Bitmap.CompressFormat.PNG);
+        msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "miniProgram" + System.currentTimeMillis();
         req.message = msg;
         req.scene = scene;  //SendMessageToWX.Req.WXSceneSession 目前只支持会话
         api.sendReq(req);
+    }
+
+    /**
+     * 分享文件到微信, 调用系统Intent分享
+     * @param filePath 文件路径
+     * @return 是否跳转到微信分享界面
+     */
+    public static boolean share2Wechat(Context context, String filePath) {
+        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath);
+        sendIntent.setType("*/*");
+        sendIntent.setClassName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
+        try {
+            context.startActivity(sendIntent);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+//            ToastUtils.showShort("未安装微信");
+            return false;
+        }
     }
 
     /**

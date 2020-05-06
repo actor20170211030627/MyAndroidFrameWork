@@ -54,12 +54,22 @@ public class RetrofitNetwork {
         return callAdapterFactory;
     }
 
-    // Okhttp/Retofit上传进度监听
+    /**
+     * Okhttp/Retofit 上传进度监听, 如果使用:
+     * 1.需要添加依赖
+     * //https://github.com/JessYanCoding/ProgressManager Okhttp/Retofit/Glide下载进度监听
+     * implementation 'me.jessyan:progressmanager:1.5.0'
+     * 2.Application中初始化
+     * //可监听Glide,Download,Upload进度
+     * ProgressManager.getInstance().with(okHttpClientBuilder);
+     */
     public static void addOnUploadListener(String url, ProgressListener progressListener) {
         ProgressManager.getInstance().addRequestListener(url, progressListener);
     }
 
-    //Okhttp/Retofit/Glide下载进度监听,此操作请在页面初始化时进行,切勿多次注册同一个(内容相同)监听器.就算多注册也不报错...
+    /**
+     * Okhttp/Retofit/Glide下载进度监听,此操作请在页面初始化时进行,切勿多次注册同一个(内容相同)监听器.就算多注册也不报错...
+     */
     public static void addOnDownloadListener(String url, ProgressListener progressListener) {
         ProgressManager.getInstance().addResponseListener(url, progressListener);
     }

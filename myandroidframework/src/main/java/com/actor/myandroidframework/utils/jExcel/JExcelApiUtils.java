@@ -1,16 +1,12 @@
 package com.actor.myandroidframework.utils.jExcel;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.util.SparseArray;
 
 import com.actor.myandroidframework.utils.ThreadUtils;
-import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -261,47 +257,5 @@ public class JExcelApiUtils {
          * 导出失败
          */
         void onExportError(String filePath, int id, Exception e);
-    }
-
-    /**
-     * 分享文件, Excel
-     * @param filePath 文件路径
-     */
-    public static void shareFile(Context context, String filePath) {
-        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath, false);
-        sendIntent.setType("*/*");
-        context.startActivity(Intent.createChooser(sendIntent, "请选择需要分享的应用程序"));
-    }
-
-    /**
-     * 分享到QQ
-     * @param filePath 文件路径
-     */
-    public static void share2QQ(Context context, String filePath) {
-        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath, false);
-        sendIntent.setType("*/*");
-        sendIntent.setClassName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
-        try {
-            context.startActivity(sendIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtils.showShort("未安装QQ");
-        }
-    }
-
-    /**
-     * 分享到微信
-     * @param filePath 文件路径
-     */
-    public static void share2Wechat(Context context, String filePath) {
-        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath, false);
-        sendIntent.setType("*/*");
-        sendIntent.setClassName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
-        try {
-            context.startActivity(sendIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtils.showShort("未安装微信");
-        }
     }
 }

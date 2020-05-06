@@ -1,12 +1,15 @@
 package com.actor.myandroidframework.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+
+import com.blankj.utilcode.util.IntentUtils;
 
 import java.io.File;
 
@@ -154,5 +157,15 @@ public class FileUtils {
     public static String getExternalStoragePath(@NonNull String fileName) {
         if (TextUtils.isEmpty(fileName)) return getExternalStorageDir();
         return getExternalStorageDir() + File.separator + fileName;
+    }
+
+    /**
+     * 分享文件, 调用系统分享
+     * @param filePath 文件路径
+     */
+    public static void shareFile(Context context, String filePath) {
+        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath);
+        sendIntent.setType("*/*");
+        context.startActivity(Intent.createChooser(sendIntent, "请选择需要分享的应用程序"));
     }
 }

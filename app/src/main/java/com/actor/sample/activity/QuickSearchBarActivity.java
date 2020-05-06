@@ -5,14 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.actor.myandroidframework.widget.QuickSearchBar;
+import com.actor.sample.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.pinyinhelper.PinyinMapDict;
-import com.actor.sample.R;
-import com.ruffian.library.widget.RTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,11 +31,11 @@ import butterknife.ButterKnife;
 public class QuickSearchBarActivity extends BaseActivity {
 
     @BindView(R.id.recycler_view)
-    RecyclerView       recyclerView;
+    RecyclerView   recyclerView;
     @BindView(R.id.rtv_tips)
-    RTextView          rtvTips;
+    TextView       rtvTips;
     @BindView(R.id.quicksearchbar)
-    QuickSearchBar     quicksearchbar;
+    QuickSearchBar quicksearchbar;
 
     private MyAdapter            myAdapter;
     private List<Item> items = new ArrayList<>();
