@@ -498,6 +498,8 @@ public class ActorBaseActivity extends AppCompatActivity {
         dismissLoadingDialog();
         MyOkHttpUtils.cancelTag(this);//取消网络请求
         EasyHttpUtils.cancelSubscription(this);//取消网络请求
+        params.clear();
+        params = null;
         if (calls != null && calls.size() > 0) {//取消Retrofit的网络请求
             for (Call call : calls) {
                 if (call != null) call.cancel();

@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
@@ -26,6 +27,23 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     private static final String EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
     public        boolean          isDebugMode = false;//配置 isDebug 模式
     public CacheDiskUtils aCache;                      //硬盘缓存
+
+    /**
+     * 在 onCreate 之前调用, 可以做一些较早的初始化
+     * 常用于 MultiDex 以及插件化框架的初始化
+     */
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+    }
+
+    /**
+     * 在模拟环境中程序终止时会被调用
+     */
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
 
     @Override
     public void onCreate() {

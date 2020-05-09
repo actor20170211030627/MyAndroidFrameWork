@@ -15,7 +15,11 @@ import android.view.WindowManager;
 import com.actor.myandroidframework.R;
 
 /**
- * Description: Dialog
+ * Description: Dialog基类
+ *      注意: 如果'背景使用的shape' & 'shape下方有圆角' & '下方圆角位置的view有背景色',
+ *          有可能会造成 '下方圆角被颜色覆盖' 的问题! 解决方法:
+ *          1. shape 加上 padding(bottom) 属性
+ *          2. 下方圆角位置的view 加一个同样圆角的 shape
  * Author     : 李大发
  * Date       : 2020-1-21 on 16:49
  *
@@ -42,6 +46,7 @@ public abstract class BaseDialog extends Dialog {
     }
 
     protected void init() {
+        window = getWindow();//获取当前dialog所在的窗口对象
         int layoutResId = getLayoutResId();
         if (layoutResId != 0) setContentView(layoutResId);
     }
@@ -55,7 +60,6 @@ public abstract class BaseDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        window = getWindow();//获取当前dialog所在的窗口对象
         if (window != null) {
             WindowManager.LayoutParams params = window.getAttributes();//获取当前窗口的属性, 布局参数
             if (params != null) {
@@ -65,9 +69,9 @@ public abstract class BaseDialog extends Dialog {
                 params.dimAmount = dimAmount;
 //                int windowAnimations = params.windowAnimations;
 //                window.setAttributes(params);//将修改后的布局参数作用到窗口上
-//                window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//FLAG_BLUR_BEHIND模糊, FLAG_DIM_BEHIND暗淡
-//                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
             }
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//FLAG_BLUR_BEHIND模糊(毛玻璃效果), FLAG_DIM_BEHIND暗淡
+//            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         }
 
 //        findViewById()//可以初始化控件等

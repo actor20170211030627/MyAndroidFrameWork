@@ -13,7 +13,7 @@
         <item name="android:windowIsFloating">true</item>
 
         <!--半透明-->
-        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowIsTranslucent">true</item>
 
         <!--全屏, 作用未知-->
         <item name="android:windowFullscreen">true</item>

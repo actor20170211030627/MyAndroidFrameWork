@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -67,6 +68,13 @@ public abstract class ActorBaseFragment extends Fragment {
 //    }
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = getActivity();
+        fragment = this;
+    }
+
     /**
      * @see #onCreate(Bundle) 之前调用, 当Fragment可见/不可见的时候
      * 使用ViewPager + Fragment, 当ViewPager切换Fragment时会回调这个方法.
@@ -91,8 +99,6 @@ public abstract class ActorBaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = getActivity();
-        fragment = this;
 //        Bundle arguments = getArguments();
 //        if (arguments != null) {
 //            mParam1 = arguments.getString(ARG_PARAM1);
@@ -455,5 +461,14 @@ public abstract class ActorBaseFragment extends Fragment {
         }
         calls = null;
 //        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
+        fragment = null;
+        params.clear();
+        params = null;
     }
 }

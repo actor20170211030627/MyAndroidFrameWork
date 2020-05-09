@@ -286,7 +286,7 @@ public class GreenDaoUtils {
      * @param <T> 实体
      * @param <K> 实体的id类型
      */
-    public static <T, K> void delete(AbstractDao<T, K> dao, WhereCondition cond, WhereCondition... condMore) {
+    public static <T, K> void delete(AbstractDao<T, K> dao, @NonNull WhereCondition cond, WhereCondition... condMore) {
         dao.queryBuilder().where(cond, condMore).buildDelete()
                 .executeDeleteWithoutDetachingEntities();
     }
@@ -359,7 +359,7 @@ public class GreenDaoUtils {
      * @param <K> 实体的id类型
      * @return 查询到的实体
      */
-    public static <T, K> T queryUnique(AbstractDao<T, K> dao, WhereCondition cond,
+    public static <T, K> T queryUnique(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                        WhereCondition... condMore) {
         return dao.queryBuilder().where(cond, condMore).build().unique();
     }
@@ -373,9 +373,20 @@ public class GreenDaoUtils {
      * @param <K> 实体的id类型
      * @return 查询到的总数
      */
-    public static <T, K> long queryCount(AbstractDao<T, K> dao, WhereCondition cond,
+    public static <T, K> long queryCount(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                          WhereCondition... condMore) {
         return dao.queryBuilder().where(cond, condMore).count();
+    }
+
+    /**
+     * 查询总数, 不区分查询条件
+     * @param dao 具体实体对应的dao
+     * @param <T> 实体
+     * @param <K> 实体的id类型
+     * @return 查询到的总数
+     */
+    public static <T, K> long queryCount(AbstractDao<T, K> dao) {
+        return dao.queryBuilder().count();
     }
 
     /**
@@ -387,7 +398,7 @@ public class GreenDaoUtils {
      * @param <K> 实体的id类型
      * @return 查询到的实体列表
      */
-    public static <T, K> List<T> queryList(AbstractDao<T, K> dao, WhereCondition cond,
+    public static <T, K> List<T> queryList(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                            WhereCondition... condMore) {
         return dao.queryBuilder().where(cond, condMore)/*.build()*/.list();//不要build()也一样
     }
@@ -401,7 +412,7 @@ public class GreenDaoUtils {
      * @param <K> 实体的id类型
      * @return 查询到的实体列表
      */
-    public static <T, K> QueryBuilder<T> queryBuilder(AbstractDao<T, K> dao, WhereCondition cond,
+    public static <T, K> QueryBuilder<T> queryBuilder(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                                       WhereCondition... condMore) {
         return dao.queryBuilder().where(cond, condMore);
     }
