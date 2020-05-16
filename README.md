@@ -61,8 +61,8 @@
         api 'com.contrarywind:Android-PickerView:4.1.8' <br/> <br/>
     </li>
     <li>
-        //https://github.com/H07000223/FlycoDialog_Master <br/>
-        api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'//各种Dialog & Popup <br/> <br/>
+        //https://github.com/H07000223/FlycoDialog_Master 各种Dialog & Popup <br/>
+        api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar' <br/> <br/>
     </li>
     <li>
         //https://github.com/zhou-you/RxEasyHttp minSdkVersion 19 <br/>
@@ -86,8 +86,6 @@
 <img src="captures/QuickSearchBar.gif" width=35%></img> <br/>
 <img src="captures/BaseRatingBar.gif" width=35%></img>
 
-    and other features, you can download apk ↓(更多功能下载apk体验...)
-
 ## 4.Sample
 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
 <img src="captures/qrcode.png" width=35%></img>
@@ -95,7 +93,13 @@
 ## 5.minSdkVersion [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
     如果您项目的minSdkVersion小于19, 可能会报错: Manifest merger failed with multiple errors, see logs
 
-## 6.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置(不过混淆后报错什么的我自己还没试过...):
+## 6.<code>AndroidManifest.xml</code>合并清单文件报错
+    如果你的清单文件中的 allowBackup = false, 那么需要添加一句: tools:replace="android:allowBackup", 示例:
+    <application
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
+
+## 7.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置(不过混淆后报错什么的我自己还没试过...):
 <pre>
     android {
         ...
@@ -108,7 +112,7 @@
     }
 </pre>
 
-## 7.How to
+## 8.How to
 To get a Git project into your build:
 
 **Step 1.** Add the JitPack repository to your build file
@@ -139,5 +143,5 @@ Add it in your root build.gradle at the end of repositories:
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:last_version'
     }
 
-## 8.License
+## 9.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

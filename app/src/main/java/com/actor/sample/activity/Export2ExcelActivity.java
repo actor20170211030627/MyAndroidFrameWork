@@ -61,7 +61,7 @@ public class Export2ExcelActivity extends BaseActivity {
         PermissionRequestUtils.requestPermissionGroup(this, new PermissionRequestUtils.PermissionCallBack() {
             @SuppressLint("MissingPermission")
             @Override
-            public void onSuccessful(@NonNull List<String> deniedPermissions) {
+            public void onGranted(@NonNull List<String> deniedPermissions) {
                 showLoadingDialog();
                 JExcelApiUtils.initExcel(filePath, "测试表格顶部标题", row1Titles);
                 JExcelApiUtils.export2Excel(items, filePath, new JExcelApiUtils.OnExportChangeListener() {
@@ -81,7 +81,7 @@ public class Export2ExcelActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(@NonNull List<String> deniedPermissions) {
+            public void onDenied(@NonNull List<String> deniedPermissions) {
                 toast("没有权限");
             }
         }, Permission.Group.STORAGE);

@@ -20,6 +20,10 @@ import com.actor.myandroidframework.R;
  */
 public class BaseService extends Service {
 
+    /**
+     * 是否以 startForegroundService 的方式启动
+     */
+    public static final String IS_START_FOREGROUND_SERVICE = "IS_START_FOREGROUND_SERVICE";
     protected String channelId = toString();
     protected String name;
     protected int id = 1;
@@ -27,8 +31,28 @@ public class BaseService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+    }
 
-        //适配8.0
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        boolean foreground = intent.getBooleanExtra(IS_START_FOREGROUND_SERVICE, false);
+        //如果是以 startForegroundService 的方式启动
+        if (foreground) {
+            fitForegroundService();
+        }
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    /**
+     * 适配8.0, 示例写法, 可从写此方法
+     */
+    protected void fitForegroundService() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             name = getResources().getString(R.string.app_name);
             NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -37,11 +61,5 @@ public class BaseService extends Service {
             Notification notification = new Notification.Builder(getApplicationContext(), channelId).build();
             startForeground(id, notification);
         }
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
     }
 }

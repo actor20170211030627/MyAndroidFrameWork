@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
+import com.actor.myandroidframework.service.BaseService;
 import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
@@ -46,7 +47,7 @@ public class ActorBaseActivity extends AppCompatActivity {
 //    protected LinearLayout llLoading;//加载中的布局
 //    protected TextView     tvLoading;//例:正在加载中,请稍后...
 //    protected LinearLayout llEmpty;  //没数据
-//    protected ACache       aCache = ConfigUtils.APPLICATION.aCache;
+//    protected ACache       aCache = ActorApplication.instance.aCache;
 
     protected Activity                  activity;
     protected Intent                    intent;
@@ -101,6 +102,7 @@ public class ActorBaseActivity extends AppCompatActivity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
+        //如果自定义切换动画, 请重写这个方法
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
     }
 
@@ -265,7 +267,7 @@ public class ActorBaseActivity extends AppCompatActivity {
     public ComponentName startForegroundService(Intent service) {
         //如果不判断, 低版本会崩溃
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            return super.startForegroundService(service);
+            return super.startForegroundService(service.putExtra(BaseService.IS_START_FOREGROUND_SERVICE, true));
         } else return startService(service);
     }
 

@@ -37,7 +37,7 @@ import okhttp3.Response;
  *
  * 1.添加依赖:
  *   //https://github.com/hongyangAndroid/okhttputils
- *   compileOnly ('com.zhy:okhttputils:2.6.2') {
+ *   implementation ('com.zhy:okhttputils:2.6.2') {
  *       exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
  *   }
  *

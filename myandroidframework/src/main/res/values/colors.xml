@@ -10,12 +10,13 @@
     <color name="red_trans_CC99">#CC99</color><!-- 有透明度 -->
 
     <!-- Green绿色区域 -->
-    <color name="progressbar_green">#a1fb4c</color>
+    <color name="GREEN_A1FB4C">#a1fb4c</color>
     <color name="green_0CBB24">#0CBB24</color>
     <color name="green_53BB8E">#53BB8E</color>
     <color name="green_079481">#079481</color>
     <color name="green_30E7BB">#30E7BB</color>
     <color name="green_14B9C8">#14B9C8</color><!-- tap相似颜色 -->
+    <color name="green_0D6971">#0D6971</color>
 
     <!-- Blue蓝色区域 -->
     <color name="blue_titlebar">#5DCFFB</color>

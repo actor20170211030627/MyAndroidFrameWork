@@ -1,5 +1,6 @@
 package com.actor.sample.service;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.sample.info.CheckUpdateInfo;
 import com.actor.sample.utils.Global;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
 
 import java.io.File;
@@ -24,9 +26,8 @@ import okhttp3.Call;
 
 /**
  * Description: 检查更新
- * 1.添加权限: <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
- * 2.修改请求地址
- * 3.在清单文件中注册!!!
+ * 1.修改请求地址
+ * 2.在清单文件中注册!!!
  *
  * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
@@ -81,11 +82,12 @@ public class CheckUpdateService extends BaseService {
         });
     }
 
-    //<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     private void showDialog(String newVersionName) {
         if (newVersionName == null) newVersionName = "";
+        Activity topActivity = ActivityUtils.getTopActivity();
+        if (topActivity == null) return;
         if (alertDialog == null) {
-            alertDialog = new AlertDialog.Builder(this)
+            alertDialog = new AlertDialog.Builder(topActivity)
                     .setTitle("Update: 有新版本")
                     .setMessage("有新版本: ".concat(newVersionName).concat(", 快更新吧!"))
                     .setPositiveButton("Ok", (dialog, which) -> {

@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -19,22 +21,10 @@ import com.actor.myandroidframework.utils.LogUtils;
  */
 public class BaseWebViewClient extends WebViewClient {
 
-    /**
-     * 加载网页发生证书认证错误,不显示图片,还有正确解决方法:https://www.jianshu.com/p/56e2b0bf9ab2
-     * @param view
-     * @param handler
-     * @param error
-     */
-    @Override
-    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//        super.onReceivedSslError(view, handler, error);//取消
-        LogUtils.error("加载网页发生证书认证错误", false);
-        handler.proceed();//忽略错误
-    }
-
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {//页面开始加载
         super.onPageStarted(view, url, favicon);
+//        if (view.getVisibility() != View.VISIBLE) view.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -44,9 +34,7 @@ public class BaseWebViewClient extends WebViewClient {
 
     /**
      * 过时方法
-     * @param view
      * @param url 我们需要跳转的网址
-     * @return
      */
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -68,5 +56,42 @@ public class BaseWebViewClient extends WebViewClient {
         //使用当前的WEbView来跳转新的网址,api>=21
         view.loadUrl(request.getUrl().toString());
         return super.shouldOverrideUrlLoading(view, request);
+    }
+
+    /**
+     * 加载网页发生证书认证错误,不显示图片,还有正确解决方法:https://www.jianshu.com/p/56e2b0bf9ab2
+     */
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//        super.onReceivedSslError(view, handler, error);//取消
+        LogUtils.error("加载网页发生证书认证错误", false);
+        handler.proceed();//忽略错误
+    }
+
+    /**
+     * 当我们使用WebView加载一个html页面时，通常会在WebViewClient 的onReceivedHttpError()与onReceivedError()
+     * 去做一些错误响应的处理，但是有时候虽然页面加载成功，onReceivedHttpError()
+     * 这个方法却会返回404，为什么会返回404呢？WevView是Android系统内置的一个浏览器，同别的浏览器一样，WebView
+     * 在请求加载一个页面的同时，还会发送一个请求图标文件的请求。
+     * 比如我们采用WebView去加载一个页面：
+     * webView.loadUrl("http://192.168.5.40:9006/sso_web/html/H5/doctor/aboutUs.html");
+     * 同时还会发送一个请求图标文件的请求
+     * http://192.168.5.40:9006/favicon.ico
+     * onReceivedHttpError这个方法主要用于响应服务器返回的Http错误(状态码大于等于400)
+     * ，这个回调将被调用任何资源（IFRAME，图像等），而不仅仅是主页面。所以就会出现主页面虽然加载成功，但由于网站没有favicon.ico文件导致返回404错误。
+     */
+    @Override
+    public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+        super.onReceivedHttpError(view, request, errorResponse);
+    }
+
+    /**
+     * 向主机应用程序报告web资源加载错误。这些错误通常表明无法连接到服务器
+     */
+    @Override
+    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        super.onReceivedError(view, request, error);
+//        tvError.setVisibility(View.VISIBLE);//正在维护中...
+//        view.setVisibility(View.GONE);
     }
 }

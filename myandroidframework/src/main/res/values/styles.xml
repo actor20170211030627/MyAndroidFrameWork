@@ -12,18 +12,14 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!--全屏界面-->
-    <!--
-    <style name="FullScreen" parent="AppTheme">
+    <style name="FullScreenThemeForMyAndroidFrameWork" parent="AppTheme">
+        <!--全屏Theme-->
         <item name="android:windowFullscreen">true</item>
     </style>
-                -->
 
-    <!--启动页的快速启动Theme, 一启动就立刻显示图片-->
-    <!--
-    <style name="Splash" parent="FullScreen">
+    <style name="SplashThemeExample" parent="FullScreenThemeForMyAndroidFrameWork">
+        <!--启动页的快速启动Theme示例, 一启动就立刻显示 color/图片-->
         <item name="android:windowBackground">@drawable/star_full_for_base_rating_bar</item>
     </style>
-                -->
 
 </resources>

@@ -42,10 +42,6 @@ import retrofit2.Call;
  */
 public abstract class ActorBaseFragment extends Fragment {
 
-//    private   FrameLayout            flContent;  //主要内容的帧布局
-//    private   LinearLayout           llLoading; //加载中的布局
-//    protected TextView               tvLoading;  //例:正在加载中,请稍后...
-//    private   LinearLayout           llEmpty; //没数据
     protected FragmentActivity    activity;
     protected Fragment            fragment;
     protected Intent              intent;
@@ -83,7 +79,7 @@ public abstract class ActorBaseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        logFormat(getClass().getName().concat(": isVisibleToUser=%b"), isVisibleToUser);
+        logFormat("%s: isVisibleToUser = %b", getClass().getName(), isVisibleToUser);
         isVisible = isVisibleToUser;
         if (isPrepared && isVisible && !isLazyLoaded) {
             firstTimeLoadData();
@@ -113,7 +109,7 @@ public abstract class ActorBaseFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        logFormat(getClass().getName().concat(": hidden=%b"), hidden);
+        logFormat("%s: hidden = %b", getClass().getName(), hidden);
         isVisible = !hidden;
         if (isPrepared && isVisible && !isLazyLoaded) {
             firstTimeLoadData();
@@ -132,13 +128,7 @@ public abstract class ActorBaseFragment extends Fragment {
 
     //这个Fragment所包装的View对象创建完成之后会进行的回调, 初始化View
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        View baseView = getLayoutInflater().inflate(R.layout.activity_base, null);//加载基类布局
-//        flContent = baseView.findViewById(R.id.fl_content);
-//        llLoading = baseView.findViewById(R.id.ll_loading);
-//        tvLoading = baseView.findViewById(R.id.tv_loading);
-//        llEmpty = baseView.findViewById(R.id.ll_empty);
-//        flContent.addView(view);//将子布局添加到空的帧布局
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(/*baseView*/view, savedInstanceState);
     }
 
@@ -174,21 +164,6 @@ public abstract class ActorBaseFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
     }
-
-    //是否显示加载中...
-//    protected void showLoading(boolean isShow) {
-//        llLoading.setVisibility(isShow ? View.VISIBLE : View.GONE);
-//    }
-
-    //设置加载中...
-//    protected void setLoadingText(CharSequence loading) {
-//        tvLoading.setText(loading);
-//    }
-
-    //是否显示empty图片
-//    protected void showEmpty(boolean isShow) {
-//        llEmpty.setVisibility(isShow ? View.VISIBLE : View.GONE);
-//    }
 
     @Override
     public void startActivity(Intent intent) {
