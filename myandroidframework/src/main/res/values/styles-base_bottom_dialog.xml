@@ -12,8 +12,8 @@
     <!--</style>-->
     <style name="BaseBottomDialogAnim">
         <!--进入动画-->
-        <item name="android:windowEnterAnimation">@anim/address_dialog_enter</item>
+        <item name="android:windowEnterAnimation">@anim/bottom_slide_in</item>
         <!--退出动画-->
-        <item name="android:windowExitAnimation">@anim/address_dialog_exit</item>
+        <item name="android:windowExitAnimation">@anim/bottom_slide_out</item>
     </style>
 </resources>

@@ -3,11 +3,10 @@ package com.actor.myandroidframework.dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.FloatRange;
-import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,36 +23,31 @@ import android.view.Window;
  * 参考：http://www.voidcn.com/article/p-vtgwgqnn-nq.html
  *
  * 示例使用:
- * BaseBottomSheetDialog dialog = new BaseBottomSheetDialog(this);
- * dialog.setContentView(R.layout.dialog_bottom_sheet);
- * baseBottomSheetDialog.setOnClickListener(...)//点击事件
- * Button btn = dialog.findViewById(R.id.button0);
- * dialog.setPeekHeight(dp2px(322))
- *         .setMaxHeight(dp2px(322))
- *         .setDimAmount(0.2F)
- *         .setOnClickListener(null)
- *         .addOnclickListener(R.id.button0)
- *         .setVisible(R.id.button0)
- *         .setInVisible(R.id.button0)
- *         .setGone(R.id.button0)
- *         .show();
+ * BaseBottomSheetDialog baseBottomDialog = new BaseBottomSheetDialog(this) {
+ *     @Override
+ *     protected int getLayoutResId() {
+ *         return R.layout.dialog_bottom_sheet;
+ *     }
+ * };
+ * Button btn = baseBottomDialog.findViewById(R.id.button0);
+ * baseBottomDialog.setPeekHeight(dp2px(322));
+ * baseBottomDialog..setMaxHeight(dp2px(322))
+ * baseBottomDialog..setDimAmount(0.2F);
+ * baseBottomDialog..show();
  *
  * Description: 从底部弹出的Dialog, 能上下拖拽滑动
  * Author     : 李大发
  * Date       : 2019/6/12 on 21:31
  * @version 1.0
  */
-public class BaseBottomSheetDialog extends BottomSheetDialog {
+public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
 
-    private       int                  mPeekHeight;//设置首次弹出高度
-    private       int                  mMaxHeight;//最大高度
-    private       Window               mWindow;
-    private       BottomSheetBehavior  bottomSheetBehavior;//里面有一些方法
-    private       View                 contentView;
-    private       View.OnClickListener onClickListener;
-    private final SparseArray<View>    views = new SparseArray<>();
+    protected      int                  mPeekHeight;//设置首次弹出高度
+    protected      int                  mMaxHeight;//最大高度
+    protected     Window               mWindow;
+    protected     BottomSheetBehavior  bottomSheetBehavior;//里面有一些方法
 
-    private final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
+    protected final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
             = new BottomSheetBehavior.BottomSheetCallback() {
 
         //这里是bottomSheet 状态的改变
@@ -94,30 +88,22 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
         init();
     }
 
-    private void init() {
+    protected void init() {
         mWindow = getWindow();
+        int layoutResId = getLayoutResId();
+        if (layoutResId != 0) setContentView(layoutResId);
     }
 
     /**
-     * 设置布局, 注意: 布局里面根部局不能是ConstraintLayout, 否则不适配, 原因未知
-     * 要在外面套一层布局, 比如LinearLayout
+     * 设置你自定义Dialog的layout
+     * 注意: 布局里面根部局不能是ConstraintLayout, 否则不适配, 原因未知
+     *       要在外面套一层布局, 比如LinearLayout
      */
-    @Override
-    public void setContentView(int layoutResId) {
-//        super.setContentView(layoutResId);
-        View view = getLayoutInflater().inflate(layoutResId, null);
-        setContentView(view);
-    }
-
-    @Override
-    public void setContentView(View view) {
-        setContentView(view, null);
-    }
+    protected abstract @LayoutRes int getLayoutResId();
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
-        contentView = view;
         //内容的背景设置成透明, 默认白色
         ((View) view.getParent()).setBackgroundResource(android.R.color.transparent);
     }
@@ -128,36 +114,34 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
         if (getBottomSheetBehavior() != null) {
             bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
         }
+//        findViewById()//可以初始化控件等
     }
 
     /**
      * 设置首次弹出高度
      */
-    public BaseBottomSheetDialog setPeekHeight(int peekHeight) {
+    public void setPeekHeight(int peekHeight) {
         if (peekHeight >= 0) {
             mPeekHeight = peekHeight;
             if (getBottomSheetBehavior() != null) {
                 bottomSheetBehavior.setPeekHeight(mPeekHeight);
             }
         }
-        return this;
     }
 
     /**
      * 最大高度
      */
-    public BaseBottomSheetDialog setMaxHeight(int height) {
+    public void setMaxHeight(int height) {
         if (height > 0) mMaxHeight = height;
-        return this;
     }
 
     /**
      * 设置窗口后面灰色大背景的亮度[0-1]
      * @param dimAmount 昏暗的数量
      */
-    public BaseBottomSheetDialog setDimAmount(@FloatRange(from = 0, to = 1) float dimAmount) {
+    public void setDimAmount(@FloatRange(from = 0, to = 1) float dimAmount) {
         mWindow.setDimAmount(dimAmount);
-        return this;
     }
 
     /**
@@ -165,9 +149,8 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
      * 膨胀一次后。将此设置为true没有效果，除非sheet是可隐藏的(hideable).
      * 下滑时, 是否跳过折叠状态, 一滑到底. Behavior.setHideable=true才生效
      */
-    public BaseBottomSheetDialog setSkipCollapsed(boolean skipCollapsed) {
+    public void setSkipCollapsed(boolean skipCollapsed) {
         bottomSheetBehavior.setSkipCollapsed(skipCollapsed);
-        return this;
     }
 
     /**
@@ -175,60 +158,8 @@ public class BaseBottomSheetDialog extends BottomSheetDialog {
      * 当我们拖拽下拉的时候，bottom sheet是否能全部隐藏.
      * 如果=false, 当下拉时, 滑动到弹出高度, 再往下滑没有用. 点击外部可以隐藏
      */
-    public BaseBottomSheetDialog setHideable(boolean hideable) {
+    public void setHideable(boolean hideable) {
         if (bottomSheetBehavior != null) bottomSheetBehavior.setHideable(hideable);
-        return this;
-    }
-
-    /**
-     * 设置点击监听
-     */
-    public BaseBottomSheetDialog setOnClickListener(View.OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-        return this;
-    }
-
-    /**
-     * 添加点击事件, 需要先设置点击监听 {@link #setOnClickListener(View.OnClickListener)}
-     */
-    public BaseBottomSheetDialog addOnclickListener(@IdRes int resId) {
-        if (onClickListener == null) throw new NullPointerException("请先setOnClickListener");
-        findViewById(resId).setOnClickListener(onClickListener);
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends View> T findViewById(@IdRes int resId) {
-        View view = views.get(resId);
-        if (view == null) {
-            view = contentView.findViewById(resId);
-            views.put(resId, view);
-        }
-        return (T) view;
-    }
-
-    /**
-     * view设置 VISIBLE
-     */
-    public BaseBottomSheetDialog setVisible(@IdRes int resId) {
-        findViewById(resId).setVisibility(View.VISIBLE);
-        return this;
-    }
-
-    /**
-     * view设置 INVISIBLE
-     */
-    public BaseBottomSheetDialog setInVisible(@IdRes int resId) {
-        findViewById(resId).setVisibility(View.INVISIBLE);
-        return this;
-    }
-
-    /**
-     * view设置 GONE
-     */
-    public BaseBottomSheetDialog setGone(@IdRes int resId) {
-        findViewById(resId).setVisibility(View.GONE);
-        return this;
     }
 
     @Override

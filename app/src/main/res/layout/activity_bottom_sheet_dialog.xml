@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,43 +11,69 @@
         android:id="@+id/btn_test_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TestDialog"/>
+        android:text="TestDialog" />
 
     <Button
         android:id="@+id/btn_bottom_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BottomDialog"/>
+        android:text="BottomDialog" />
 
     <Button
         android:id="@+id/btn_bottom_sheet_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BottomSheetDialog"/>
+        android:text="BottomSheetDialog" />
 
     <Button
         android:id="@+id/btn_bottom_sheet_dialog_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BottomSheetDialogFragment"/>
+        android:text="BottomSheetDialogFragment" />
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="请输入内容↓"/>
+        android:text="请输入内容↓" />
 
     <Button
         android:id="@+id/btn_float_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FloatEditorDialog(就是BaseBottomDialog)"/>
+        android:text="FloatEditorDialog(就是BaseBottomDialog)" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--左侧弹出-->
+        <Button
+            android:id="@+id/btn_left_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BaseLeftDialog" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <!--右侧弹出-->
+        <Button
+            android:id="@+id/btn_right_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BaseRightDialog" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_bottom_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="BaseBottomActivity"
-        android:transitionName="btn"/>
+        android:transitionName="btn" />
 </LinearLayout>

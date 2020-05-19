@@ -49,6 +49,7 @@ import jxl.write.WriteException;
  * Date       : 2019/10/31 on 16:41
  * @version 1.0
  * @version 1.0.1 做了一点点修改
+ * TODO: 2020/5/19 优化一下
  */
 public class JExcelApiUtils {
 
@@ -93,7 +94,7 @@ public class JExcelApiUtils {
      * 初始化Excel表格, 高版本必须要写sd卡权限, 否则报错
      *
      * @param filePath  存放excel文件的路径（.../path/demo.xls）
-     * @param sheetName Excel表格的表名(QQ浏览器打开后会在第一行ABC...的上面一行显示, 电脑没看见显示)
+     * @param sheetName Excel表格的表名(手机打开后会在第一行显示, 电脑打开后的左下角显示)
      * @param row1Titles excel中包含的列名(第一行标题)
      */
     @RequiresPermission(allOf = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})

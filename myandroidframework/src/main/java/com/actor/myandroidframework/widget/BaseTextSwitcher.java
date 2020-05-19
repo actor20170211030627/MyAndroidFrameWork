@@ -55,8 +55,8 @@ import java.util.List;
  *     android:layout_width="match_parent"
  *     android:layout_height="100dp"
  *     //android:animateFirstView="true"    //默认true
- *     //android:inAnimation="@anim/address_dialog_enter"   //可不设置, 默认有动画
- *     //android:outAnimation="@anim/address_dialog_enter"  //可不设置, 默认有动画
+ *     //android:inAnimation="@android:anim/slide_in_right"  //可不设置, 默认有动画
+ *     //android:outAnimation="@android:anim/slide_out_left" //可不设置, 默认有动画
  *     //app:btsMaxLinesNoMarquee="1"       //最大行数, 可不设置
  *     //app:btsOrientation="vertical"      //默认vertical
  *     //app:btsSingleLineMarquee="true"    //默认true

@@ -50,7 +50,7 @@ public class BaseService extends Service {
     }
 
     /**
-     * 适配8.0, 示例写法, 可从写此方法
+     * 适配后台Service, 示例写法, 可重写此方法
      */
     protected void fitForegroundService() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -60,6 +60,8 @@ public class BaseService extends Service {
             nm.createNotificationChannel(channel);
             Notification notification = new Notification.Builder(getApplicationContext(), channelId).build();
             startForeground(id, notification);
+        } else {
+            // TODO: 2020/5/19 适配低版本
         }
     }
 }
