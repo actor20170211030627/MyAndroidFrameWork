@@ -49,6 +49,8 @@ public abstract class BaseDialog extends Dialog {
         window = getWindow();//获取当前dialog所在的窗口对象
         int layoutResId = getLayoutResId();
         if (layoutResId != 0) setContentView(layoutResId);
+
+//        findViewById();//可以初始化控件等
     }
 
     /**
@@ -74,7 +76,7 @@ public abstract class BaseDialog extends Dialog {
 //            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         }
 
-//        findViewById()//可以初始化控件等
+//        findViewById();//可以初始化控件等
     }
 
 
