@@ -52,7 +52,7 @@ public class CustomViewActivity extends BaseActivity {
             @Override
             public void onRatingChanged(BaseRatingBar baseRatingBar, float rating, boolean fromUser) {
                 String format = getStringFormat("rating=%.2f, fromUser=%b", rating, fromUser);
-                logFormat(format);
+                logError(format);
                 toast(format);//String.valueOf(rating)
             }
         });
@@ -60,7 +60,7 @@ public class CustomViewActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId, int position, boolean reChecked) {
                 String format = getStringFormat("checkedId=%d, pos=%d, reChecked=%b", checkedId, position, reChecked);
-                logFormat(format);
+                logError(format);
                 toast(format);
             }
         });

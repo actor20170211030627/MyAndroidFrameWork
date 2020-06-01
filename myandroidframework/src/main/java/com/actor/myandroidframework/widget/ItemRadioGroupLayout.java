@@ -134,8 +134,11 @@ public class ItemRadioGroupLayout extends LinearLayout {
         tvRedStar = inflate.findViewById(R.id.tv_red_star_for_irgl);
         tvItem = inflate.findViewById(R.id.tv_item_for_irgl);
         radioGroup = inflate.findViewById(R.id.rg_for_irgl);
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (onCheckedChangeListener != null) onCheckedChangeListener.onCheckedChanged(group, checkedId, getCheckedPosition(), false);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (onCheckedChangeListener != null) onCheckedChangeListener.onCheckedChanged(group, checkedId, getCheckedPosition(), false);
+            }
         });
     }
 

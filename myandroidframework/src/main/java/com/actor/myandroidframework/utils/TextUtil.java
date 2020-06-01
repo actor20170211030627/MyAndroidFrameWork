@@ -319,6 +319,8 @@ public class TextUtil {
      * https://gitee.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
      */
     public static String getStringFormat(String format, Object... args) {
+        //如果args为空, format会报错: MissingFormatArgumentException: Format specifier '%E'
+        if (args == null || args.length == 0) return format;
         return String.format(Locale.getDefault(), format, args);
     }
 

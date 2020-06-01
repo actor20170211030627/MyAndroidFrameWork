@@ -83,8 +83,11 @@ public class NineGridView extends ConstraintLayout {
                         .error(R.drawable.ic_holder_light_for_nine_grid_view)
                         .transform(new RoundedCorners(10))
                         .into(ivPicForNineGridView);
-                ivPicForNineGridView.setOnClickListener(v -> {
-                    if (onItemClickListener != null) onItemClickListener.onItemClick(this, items.get(0), null, ivPicForNineGridView, 0);
+                ivPicForNineGridView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onItemClickListener != null) onItemClickListener.onItemClick(NineGridView.this, items.get(0), null, ivPicForNineGridView, 0);
+                    }
                 });
             } else {
                 ivPicForNineGridView.setVisibility(GONE);
@@ -92,8 +95,11 @@ public class NineGridView extends ConstraintLayout {
                 recyclerViewForNineGridView.setVisibility(VISIBLE);
                 if (myAdapter == null) {
                     myAdapter = new MyAdapter(R.layout.item_for_nine_grid_view, items);
-                    myAdapter.setOnItemClickListener((adapter, view1, position) -> {
-                        if (onItemClickListener != null) onItemClickListener.onItemClick(this, myAdapter.getItem(position), adapter, view1, position);
+                    myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            if (onItemClickListener != null) onItemClickListener.onItemClick(NineGridView.this, myAdapter.getItem(position), adapter, view, position);
+                        }
                     });
                     recyclerViewForNineGridView.setAdapter(myAdapter);
                     recyclerViewForNineGridView.addItemDecoration(new BaseItemDecoration(10, 10));

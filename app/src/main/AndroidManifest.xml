@@ -34,7 +34,6 @@
         <activity android:name=".activity.ViewPagerActivity" />
         <activity android:name=".activity.SharedElementActivity" />
         <activity android:name=".activity.QuickSearchBarActivity" />
-        <activity android:name=".activity.CustomKeyboardViewActivity" />
         <activity android:name=".activity.OtherActivity" />
         <activity android:name=".activity.IsEmptyActivity" />
         <activity android:name=".activity.ViewPagerAndFragmentActivity" />

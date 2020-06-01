@@ -82,8 +82,7 @@
 ## 3.Screenshot
 <img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=35%></img>
 <img src="captures/BaseBottomSheetDialogFragment.gif" width=35%></img> <br/>
-<img src="captures/KeyboardInputEditText.gif" width=35%></img>
-<img src="captures/QuickSearchBar.gif" width=35%></img> <br/>
+<img src="captures/QuickSearchBar.gif" width=35%></img>
 <img src="captures/BaseRatingBar.gif" width=35%></img>
 
 ## 4.Sample

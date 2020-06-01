@@ -63,7 +63,12 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     public boolean validateReponse(Response response, int id) {//sub thread
         if (super.validateReponse(response, id)) return true;
         isStatusCodeError = true;
-        ThreadUtils.runOnUiThread(() -> onStatusCodeError(response.code(), response, id));
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onStatusCodeError(response.code(), response, id);
+            }
+        });
         return false;//return false:直接走onError(Call call, Exception e, int id)
     }
 
@@ -88,9 +93,12 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             } catch (Exception e) {
                 e.printStackTrace();
                 isJsonParseException = true;
-                ThreadUtils.runOnUiThread(() -> {
-                    onJsonParseException(response, id, e);
-                    onError(id, null, e);//主要作用是调用子类的onError方法
+                ThreadUtils.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onJsonParseException(response, id, e);
+                        onError(id, null, e);//主要作用是调用子类的onError方法
+                    }
                 });
                 return null;
             }
@@ -115,17 +123,32 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     //okhttp3.Callback的方法
     @Override
     public final void onFailure(Call call, IOException e) {//sub thread
-        ThreadUtils.runOnUiThread(() -> onError(call, e, id));
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onError(call, e, id);
+            }
+        });
     }
     //okhttp3.Callback的方法
     @Override
     public final void onResponse(Call call, Response response) throws IOException {//sub thread
         if (validateReponse(response, id)) {
             T t = parseNetworkResponse(response, id);
-            ThreadUtils.runOnUiThread(() -> onResponse(t, id));
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onResponse(t, id);
+                }
+            });
         } else {
             isStatusCodeError = true;
-            ThreadUtils.runOnUiThread(() -> onStatusCodeError(response.code(), response, id));
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onStatusCodeError(response.code(), response, id);
+                }
+            });
             onFailure(call, new IOException("状态码错误: " + response.code()));
         }
     }
@@ -162,7 +185,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      */
     public void onStatusCodeError(int errCode, Response response, int id) {
         String s = getStringFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
-        logFormat(s);
+        logError(s);
         toast(s);
     }
 
@@ -171,7 +194,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      */
     public void onJsonParseException(Response response, int id, Exception e) {
         String s = getStringFormat("数据解析错误: response=%s, id=%d, e=%s", response, id, e);
-        logFormat(s);
+        logError(s);
         toast(s);
     }
 

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--用于在 KeyboardInputEditText 中根据这个id获取 OnKeyboardActionListener-->
-    <item name="tag_to_get_onkeyboardlistener" type="id" />
 
     <!--用于在 TextUtil 中根据这个id获取 TextInputLayout 绑定的 TextWatcher-->
     <item name="tag_to_get_textwatcher" type="id" />

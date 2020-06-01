@@ -22,7 +22,12 @@ public abstract class PostFileCallback<T> extends BaseCallback<T> {
     @Override
     public final void onBefore(Request request, int id) {//其实运行在子线程,加了final,子类不能重写此方法
         super.onBefore(request, id);
-        ThreadUtils.runOnUiThread(() -> onBeforeTransmit(request, id));
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onBeforeTransmit(request, id);
+            }
+        });
     }
 
     public void onBeforeTransmit(Request request, int id){//可重写此方法, 运行在主线程了

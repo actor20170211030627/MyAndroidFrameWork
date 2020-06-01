@@ -161,7 +161,7 @@ public class QQUtils {
         //登录成功以后，保存session会话信息如token, openid等信息到SharePreferecne中。
         getTencent().saveSession(response);
 //        String json = response.toString();
-//        logFormat(json);
+//        logError(json);
     }
 
     /**

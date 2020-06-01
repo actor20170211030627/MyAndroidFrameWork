@@ -159,14 +159,20 @@ public class BaseTextSwitcher extends TextSwitcher {
                 tv2.setMaxLines(maxLinesNoMarquee);
             }
         }
-        tv1.setOnClickListener(v -> {//点击事件
-            if (items.size() > 0 && pos < items.size() && onItemClickListener != null) {
-                onItemClickListener.onItemClick((TextView) v, pos, items.get(pos));
+        tv1.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {//点击事件
+                if (!items.isEmpty() && pos < items.size() && onItemClickListener != null) {
+                    onItemClickListener.onItemClick((TextView) v, pos, items.get(pos));
+                }
             }
         });
-        tv2.setOnClickListener(v -> {
-            if (items.size() > 0 && pos < items.size() && onItemClickListener != null) {
-                onItemClickListener.onItemClick((TextView) v, pos, items.get(pos));
+        tv2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!items.isEmpty() && pos < items.size() && onItemClickListener != null) {
+                    onItemClickListener.onItemClick((TextView) v, pos, items.get(pos));
+                }
             }
         });
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

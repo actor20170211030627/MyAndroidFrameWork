@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--键盘按键keys的背景-->
-    <corners android:radius="5dp" />
-    <solid android:color="@color/white" />
-    <stroke
-        android:width="1px"
-        android:color="#515151" />
-</shape>

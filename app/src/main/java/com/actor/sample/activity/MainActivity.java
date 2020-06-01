@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
             R.id.btn_viewpager_fragment, R.id.btn_is_empty, R.id.btn_third, R.id.btn_baidu,
             R.id.btn_jpush, R.id.btn_database, R.id.btn_switch,
             R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar,
-            R.id.btn_export2_excel, R.id.btn_custom_keyboard_view, R.id.btn_other})
+            R.id.btn_export2_excel, R.id.btn_other})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
@@ -94,9 +94,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_export2_excel://导出到Excel
                 startActivity(new Intent(this, Export2ExcelActivity.class));
-                break;
-            case R.id.btn_custom_keyboard_view://自定义KeyBoardView
-                startActivity(new Intent(this, CustomKeyboardViewActivity.class));
                 break;
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(new Intent(this, OtherActivity.class));

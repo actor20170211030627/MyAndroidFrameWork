@@ -47,7 +47,7 @@ public class ActorBaseActivity extends AppCompatActivity {
 //    protected LinearLayout llLoading;//加载中的布局
 //    protected TextView     tvLoading;//例:正在加载中,请稍后...
 //    protected LinearLayout llEmpty;  //没数据
-//    protected ACache       aCache = ActorApplication.instance.aCache;
+//    protected CacheDiskUtils aCache = ActorApplication.instance.aCache;
 
     protected Activity                  activity;
     protected Intent                    intent;
@@ -65,7 +65,12 @@ public class ActorBaseActivity extends AppCompatActivity {
             //如果A界面跳B界面是元素共享方式, 且返回A界面时要更新A界面的共享元素位置
             if (getIntent().getBooleanExtra(BaseSharedElementCallback.EXTRA_IS_NEED_UPDATE_POSITION, false)) {
                 postponeEnterTransition();//延时动画
-                sharedElementCallback = new BaseSharedElementCallback(false, this::sharedElementPositionChanged);
+                sharedElementCallback = new BaseSharedElementCallback(false, new BaseSharedElementCallback.OnSharedElementPositionChangedListener() {
+                    @Override
+                    public View onSharedElementPositionChanged(int oldPosition, int currentPosition) {
+                        return sharedElementPositionChanged(oldPosition, currentPosition);
+                    }
+                });
                 setEnterSharedElementCallback(sharedElementCallback);
             }
         }
