@@ -2,6 +2,7 @@ package com.actor.myandroidframework.utils.retrofit;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.retrofit.api.DownloadFileApi;
+import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Description: Retrofit网络请求
@@ -40,8 +42,8 @@ public class RetrofitNetwork {
     //返回json转换成Bean的Facory
     protected static Converter.Factory getConverterFactory() {
         if (converterFactory == null) {
-            converterFactory = new Retrofit2ConverterFactory();//FastJson
-//            converterFactory = GsonConverterFactory.create();//Gson
+//            converterFactory = new Retrofit2ConverterFactory();//FastJson
+            converterFactory = GsonConverterFactory.create(GsonUtils.getGson());//Gson
         }
         return converterFactory;
     }

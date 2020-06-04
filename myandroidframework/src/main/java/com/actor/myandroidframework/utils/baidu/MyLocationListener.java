@@ -1,10 +1,10 @@
 package com.actor.myandroidframework.utils.baidu;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
+import com.blankj.utilcode.util.GsonUtils;
 
 /**
  * Description: 位置监听
@@ -34,7 +34,7 @@ public class MyLocationListener extends BDAbstractLocationListener {
 
     @Override
     public void onReceiveLocation(BDLocation location) {
-        LogUtils.error(JSONObject.toJSONString(location), false);//打印成json,有很多很多信息
+        LogUtils.error(GsonUtils.toJson(location), false);//打印成json,有很多很多信息
         //获取定位结果
 //        location.getTime();             //获取定位时间
 //        location.getLocType();          //获取定位类型

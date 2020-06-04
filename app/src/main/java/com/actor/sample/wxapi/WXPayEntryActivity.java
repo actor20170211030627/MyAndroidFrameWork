@@ -7,8 +7,7 @@ import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.tencent.WeChatUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.GsonUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -75,17 +74,19 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
         iwxapi.handleIntent(intent, this);
     }
 
+    //微信发送的请求将回调到onReq方法
     @Override
-    public void onReq(BaseReq baseReq) {//微信发送的请求将回调到onReq方法
-        if (baseReq != null) logError(JSONObject.toJSONString(baseReq));
+    public void onReq(BaseReq baseReq) {
+        String json = baseReq == null ? "null" : GsonUtils.toJson(baseReq);
+        logFormat("onReq微信发送的请求: baseReq = %s", json);
     }
 
+    //发送到微信请求的响应结果将回调到onResp方法
     @Override
-    public void onResp(BaseResp baseResp) {//发送到微信请求的响应结果将回调到onResp方法
-        String jsonString = JSON.toJSONString(baseResp);
-        //transaction 用与唯一标示一个请求null
-        LogUtils.error("jsonString: " + jsonString, true);
-
+    public void onResp(BaseResp baseResp) {
+        String json = baseResp == null ? "null" : GsonUtils.toJson(baseResp);
+        logFormat("onResp微信响应: baseResp = %s", json);
+        if (baseResp == null) return;
         switch (baseResp.getType()) {
             case ConstantsAPI.COMMAND_PAY_BY_WX://微信支付
                 switch (baseResp.errCode) {

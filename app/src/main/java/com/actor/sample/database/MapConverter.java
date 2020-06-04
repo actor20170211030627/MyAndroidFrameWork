@@ -1,6 +1,6 @@
 package com.actor.sample.database;
 
-import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.GsonUtils;
 
 import org.greenrobot.greendao.converter.PropertyConverter;
 
@@ -19,11 +19,11 @@ public class MapConverter implements PropertyConverter<Map<String, Object>, Stri
     @Override
     public Map<String, Object> convertToEntityProperty(String databaseValue) {
         if (databaseValue == null) return null;
-        return JSONObject.parseObject(databaseValue, Map.class);
+        return GsonUtils.fromJson(databaseValue, GsonUtils.getMapType(String.class, Object.class));
     }
     @Override
     public String convertToDatabaseValue(Map<String, Object> entityProperty) {
         if (entityProperty == null) return null;
-        return JSONObject.toJSONString(entityProperty);
+        return GsonUtils.toJson(entityProperty);
     }
 }

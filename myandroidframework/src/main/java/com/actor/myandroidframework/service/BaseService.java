@@ -6,8 +6,6 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.R;
 
@@ -18,7 +16,7 @@ import com.actor.myandroidframework.R;
  *
  * @version 1.0
  */
-public class BaseService extends Service {
+public abstract class BaseService extends Service {
 
     /**
      * 是否以 startForegroundService 的方式启动
@@ -33,18 +31,12 @@ public class BaseService extends Service {
         super.onCreate();
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        boolean foreground = intent.getBooleanExtra(IS_START_FOREGROUND_SERVICE, false);
-        //如果是以 startForegroundService 的方式启动
-        if (foreground) {
-            fitForegroundService();
+        if (intent != null) {
+            boolean foreground = intent.getBooleanExtra(IS_START_FOREGROUND_SERVICE, false);
+            //如果是以 startForegroundService 的方式启动
+            if (foreground) fitForegroundService();
         }
         return super.onStartCommand(intent, flags, startId);
     }

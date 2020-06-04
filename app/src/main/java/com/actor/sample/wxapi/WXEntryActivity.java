@@ -7,7 +7,7 @@ import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.tencent.WeChatUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.GsonUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -81,14 +81,18 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
         iwxapi.handleIntent(intent, this);
     }
 
+    //微信发送的请求将回调到onReq方法
     @Override
-    public void onReq(BaseReq baseReq) {//微信发送的请求将回调到onReq方法
-        if (baseReq != null) logError("baseReq:" + JSONObject.toJSONString(baseReq));
+    public void onReq(BaseReq baseReq) {
+        String json = baseReq == null ? "null" : GsonUtils.toJson(baseReq);
+        logFormat("onReq微信发送的请求: baseReq = %s", json);
     }
 
     @Override
     public void onResp(BaseResp baseResp) {
-        if (baseResp != null) logError("baseResp:" + JSONObject.toJSONString(baseResp));
+        String json = baseResp == null ? "null" : GsonUtils.toJson(baseResp);
+        logFormat("onResp微信响应: baseResp = %s", json);
+        if (baseResp == null) return;
         switch (baseResp.getType()) {
             case ConstantsAPI.COMMAND_SENDAUTH://微信登录
                 switch (baseResp.errCode) {

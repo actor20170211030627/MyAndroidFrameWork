@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
 import com.actor.myandroidframework.utils.baidu.BaiduLocationUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
+import com.actor.sample.R;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
@@ -17,7 +17,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.model.LatLng;
-import com.actor.sample.R;
+import com.blankj.utilcode.util.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -261,7 +261,7 @@ public class BaiDuMapActivity extends BaseActivity {
     private BDAbstractLocationListener locationListener = new BDAbstractLocationListener() {
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
-            String result = JSONObject.toJSONString(bdLocation);
+            String result = GsonUtils.toJson(bdLocation);
             tvResult.setText(result);
             //定位成功后, 调用stop()方法不会不会及时的停下来, 所以这儿延时5秒后再调停止
 //            tvResult.postDelayed(new Runnable() {

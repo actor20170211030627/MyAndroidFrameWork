@@ -4,7 +4,6 @@
     <declare-styleable name="ItemTextInputLayout">
 
         <!--左侧红点是否显示-->
-        <!-- 解析成int类型,enum:只能选择一个状态.    flag:可用|连接多个状态.-->
         <attr name="itilRedStarVisiable" format="enum">
             <!-- Visible on screen; the default value. -->
             <enum name="visible" value="0" />

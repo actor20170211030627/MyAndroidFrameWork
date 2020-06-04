@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
+import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.tencent.BaseUiListener;
 import com.actor.myandroidframework.utils.tencent.QQUtils;
 import com.actor.myandroidframework.utils.tencent.WeChatUtils;
@@ -129,8 +130,16 @@ public class ThirdActivity extends BaseActivity {
                 break;
             case R.id.btn_get_user_info_wechat://获取用户信息
                 //没试过...
-                if (accessToken == null) toast("请先微信登录");
-                WeChatUtils.getUserInfo(accessToken, openId, this);//这个也应该后台调用后一起返回
+                if (accessToken == null) {
+                    toast("请先微信登录");
+                    return;
+                }
+                //这个也应该后台调用后一起返回
+                WeChatUtils.getUserInfo(accessToken, openId, new BaseCallback<Object>(this) {
+                    @Override
+                    public void onOk(@NonNull Object info, int id) {
+                    }
+                });
                 break;
         }
     }

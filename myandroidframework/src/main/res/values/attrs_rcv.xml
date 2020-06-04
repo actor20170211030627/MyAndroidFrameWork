@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundCardView">
+        <!--左上圆角大小-->
+        <attr name="rcvTopLeftRadius" format="dimension" />
+        <!--右上圆角大小-->
+        <attr name="rcvTopRightRadius" format="dimension" />
+        <!--右下圆角大小-->
+        <attr name="rcvBottomRightRadius" format="dimension" />
+        <!--左下圆角大小-->
+        <attr name="rcvBottomLeftRadius" format="dimension" />
+    </declare-styleable>
+</resources>

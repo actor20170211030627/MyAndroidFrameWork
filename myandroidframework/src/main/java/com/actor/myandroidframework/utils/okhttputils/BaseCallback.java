@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ThreadUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -86,10 +86,13 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             return (T) json;
         } else {//解析成: JSONObject & JSONArray & T
             try {
-                //Gson: 数据类型不对("1"解析成int) & 非json类型数据, 都会抛异常
-//                return GsonUtils.fromJson(json, genericity);//Gson
+                /**
+                 * Gson: 数据类型不对(""解析成int) & 非json类型数据, 都会抛异常
+                 * @see com.actor.myandroidframework.utils.IntTypeAdapter
+                 */
+                return GsonUtils.fromJson(json, genericity);
                 //FastJson: 解析非json类型数据会抛异常
-                return JSONObject.parseObject(json, genericity);//FastJson
+//                return JSONObject.parseObject(json, genericity);
             } catch (Exception e) {
                 e.printStackTrace();
                 isJsonParseException = true;

@@ -20,7 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-##---------Begin: proguard configuration for ButterKnife---------
+#############################################################################
+## ButterKnife
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewBinder { *; }
@@ -30,9 +31,9 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
-##----------End: proguard configuration for ButterKnife----------
 
-##-------------Begin: proguard configuration for Gson  ----------
+#############################################################################
+## Gson
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by default, so configure it to keep all of it.
 -keepattributes Signature
@@ -61,9 +62,9 @@
 # Application classes that will be serialized/deserialized over Gson
 ##不要混淆Bean类(★★★示例:★★★)
 #-keep class com.package.xxx.info.** { *; }
-##---------------End: proguard configuration for Gson  ----------
 
-##-----------------BaseRecyclerViewAdapterHelper-----------------
+#############################################################################
+## BaseRecyclerViewAdapterHelper
 -keep class com.chad.library.adapter.** {
 *;
 }
@@ -72,13 +73,13 @@
 -keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
      <init>(...);
 }
-##-----------------BaseRecyclerViewAdapterHelper-----------------
 
-##-----Begin: proguard configuration for EasySwipeMenuLayout-----
+#############################################################################
+## EasySwipeMenuLayout
 -keep class com.guanaj.easyswipemenulibrary.State
-##------End: proguard configuration for EasySwipeMenuLayout------
 
-##---------------Begin: proguard configuration for okhttputils---
+#############################################################################
+## okhttputils
 #okhttputils
 -dontwarn com.zhy.http.**
 -keep class com.zhy.http.**{*;}
@@ -90,9 +91,9 @@
 #okio
 -dontwarn okio.**
 -keep class okio.**{*;}
-##---------------End: proguard configuration for okhttputils-----
 
-##----------Begin: proguard configuration for Retrofit-----------
+#############################################################################
+## Retrofit
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
 # EnclosingMethod is required to use InnerClasses.
 -keepattributes Signature, InnerClasses, EnclosingMethod
@@ -124,17 +125,9 @@
 
 # okhttp
 # 混淆见上方okhttp
-##----------End: proguard configuration for Retrofit-------------
 
-##---------------Begin: proguard configuration for fastjson------
--keepattributes Signature
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.*{*;}
-##不混淆Fastjson的Bean类(★★★下面这个路径要自己改★★★)
-#-keep class com.package.xxx.info.** { *; }
-##---------------End: proguard configuration for fastjson--------
-
-##------------Begin: proguard configuration for Glide------------
+#############################################################################
+## Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
@@ -144,14 +137,14 @@
 
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-##-------------End: proguard configuration for Glide-------------
 
-##------------Begin: proguard configuration for Album------------
+#############################################################################
+## Album
 -dontwarn com.yanzhenjie.album.**
 -dontwarn com.yanzhenjie.mediascanner.**
-##------------End: proguard configuration for Album--------------
 
-##--------------------------EventBus-----------------------------
+#############################################################################
+## EventBus
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
@@ -162,18 +155,18 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(Java.lang.Throwable);
 }
-##--------------------------EventBus-----------------------------
 
-##-------Begin: proguard configuration for AndroidUtilCode-------
+#############################################################################
+## AndroidUtilCode
 -dontwarn com.blankj.utilcode.**
-##-------End: proguard configuration for AndroidUtilCode---------
 
-##--------Begin: proguard configuration for ProgressManager------
+#############################################################################
+## ProgressManager
 -keep class me.jessyan.progressmanager.** { *; }
 -keep interface me.jessyan.progressmanager.** { *; }
-##--------End: proguard configuration for ProgressManager--------
 
-##-----------Begin: proguard configuration for GreenDao----------
+#############################################################################
+## GreenDao
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
 public static java.lang.String TABLENAME;
 }
@@ -183,10 +176,9 @@ public static java.lang.String TABLENAME;
 -dontwarn net.sqlcipher.database.**
 # If you do not use RxJava:
 -dontwarn rx.**
-##-----------End: proguard configuration for GreenDao------------
 
-## 微信登录分享等
-## https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
+#############################################################################
+## 微信登录分享等 https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
 -keep class com.tencent.mm.opensdk.** {
     *;
 }
@@ -197,11 +189,8 @@ public static java.lang.String TABLENAME;
     *;
 }
 
-
-
-#///////////////////////////////////////////////////////////////////////////
-#// RxEasyHttp
-#///////////////////////////////////////////////////////////////////////////
+#############################################################################
+# RxEasyHttp
 # Retrolambda
 -dontwarn java.lang.invoke.*
 

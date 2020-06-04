@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
@@ -176,8 +176,8 @@ public class MyOkHttpUtils {
     }
 
     public static <T> void postJson(String url, Map<String, Object> jsonMap, BaseCallback<T> callback) {
-        postJson(url, null, JSONObject.toJSONString(jsonMap), callback);//FastJson
-//        postJson(url, null, GsonUtils.toJson(jsonMap), callback);//Gson
+//        postJson(url, null, JSONObject.toJSONString(jsonMap), callback);//FastJson
+        postJson(url, null, GsonUtils.toJson(jsonMap), callback);//Gson
     }
 
     /**
@@ -375,26 +375,23 @@ public class MyOkHttpUtils {
      * @param callback     回调
      */
     public static void getFile(@NonNull String url, GetFileCallback callback) {
-        OkHttpUtils
-                .get()
-                .url(getUrl(url))
-                .tag(callback == null ? null : callback.tag)
+        OkHttpUtils.get().url(getUrl(url)).tag(callback == null ? null : callback.tag)
                 .build()
                 .execute(callback);
     }
 
-    public static <T> void delete(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
+    public static <T> void deleteJson(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody requestBody = RequestBody.create(mediaType, JSONObject.toJSONString(params));
+        RequestBody requestBody = RequestBody.create(mediaType, GsonUtils.toJson(params));
         OkHttpUtils.delete().url(getUrl(url)).tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
                 .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
     }
 
-    public static <T> void put(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
+    public static <T> void putJson(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody requestBody = RequestBody.create(mediaType, JSONObject.toJSONString(params));
+        RequestBody requestBody = RequestBody.create(mediaType, GsonUtils.toJson(params));
         OkHttpUtils.put().url(getUrl(url)).tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
                 .id(callback == null ? 0 : callback.id)

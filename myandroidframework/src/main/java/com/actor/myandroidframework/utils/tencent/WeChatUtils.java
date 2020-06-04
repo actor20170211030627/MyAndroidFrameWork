@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
@@ -12,10 +11,8 @@ import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ThreadUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
-import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.IntentUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage;
@@ -68,10 +65,18 @@ import java.util.concurrent.ExecutionException;
 public class WeChatUtils {
 
     // APP_ID 替换为你的应用从官方网站申请到的合法appID
-    private static String APP_ID = "wx88888888";
+    protected static String appId = "wx88888888";
+
+    /**
+     * 应用密钥 AppSecret，在微信开放平台提交应用审核通过后获得(不要放在客户端!!!)
+     * @deprecated Appsecret 是应用接口使用密钥，泄漏后将可能导致应用数据泄漏、
+     * 应用的用户数据泄漏等高风险后果；存储在客户端，极有可能被恶意窃取（如反编译获取Appsecret）；
+     */
+    @Deprecated
+    protected static String appSecret = "wx88888888";
 
     //分享图片的时候, 略缩图宽高
-    private static int THUMB_SIZE = 150;
+    protected static int thumbSize = 150;
 
     // IWXAPI 是第三方app和微信通信的openApi接口
     protected static IWXAPI api;
@@ -80,18 +85,18 @@ public class WeChatUtils {
      * @param appId 设置appid
      */
     public static void setAppId(String appId) {
-        WeChatUtils.APP_ID = appId;
+        WeChatUtils.appId = appId;
     }
 
     public static String getAppId() {
-        return APP_ID;
+        return appId;
     }
 
     /**
      * @param thumbSize 分享图片的时候, 略缩图宽高
      */
     public static void setThumbSize(int thumbSize) {
-        THUMB_SIZE = thumbSize;
+        WeChatUtils.thumbSize = thumbSize;
     }
 
     public static IWXAPI getIWXAPI() {
@@ -100,8 +105,8 @@ public class WeChatUtils {
             //注册到微信
             //要使你的程序启动后微信终端能响应你的程序，必须在代码中向微信终端注册你的 id。
             // 通过WXAPIFactory工厂，获取IWXAPI的实例
-            api = WXAPIFactory.createWXAPI(ConfigUtils.APPLICATION, APP_ID, true);
-            api.registerApp(APP_ID);// 将应用的appId注册到微信
+            api = WXAPIFactory.createWXAPI(ConfigUtils.APPLICATION, getAppId(), true);
+            api.registerApp(getAppId());// 将应用的appId注册到微信
 
             //建议动态监听微信启动广播进行注册到微信
 //        context.registerReceiver(new BroadcastReceiver() {
@@ -201,7 +206,7 @@ public class WeChatUtils {
             imgObj.imagePath = imagePath;//图片的本地路径, 图片内容大小不超过 10MB
         } else {
             imgObj = new WXImageObject(bitmap);
-            thumbBmp[0] = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+            thumbBmp[0] = Bitmap.createScaledBitmap(bitmap, thumbSize, thumbSize, true);
 //            bitmap.recycle();
         }
         if (thumbBmp[0] == null) return;
@@ -243,7 +248,7 @@ public class WeChatUtils {
         msg.title = title;
         msg.description = description;
 
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, thumbSize, thumbSize, true);
 //        bitmap.recycle();
         //设置音乐缩略图
         msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
@@ -275,7 +280,7 @@ public class WeChatUtils {
         msg.title = title;
         msg.description = description;
 
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, thumbSize, thumbSize, true);
 //        bitmap.recycle();
         msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
 
@@ -305,7 +310,7 @@ public class WeChatUtils {
         WXMediaMessage msg = new WXMediaMessage();
         final Bitmap[] thumbBmp = {null};
         if (bitmap != null) {
-            thumbBmp[0] = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+            thumbBmp[0] = Bitmap.createScaledBitmap(bitmap, thumbSize, thumbSize, true);
 //        bitmap.recycle();
         } else {
             getThumbByGlide(filePath, true, new GetThumbByGlideListener() {
@@ -344,7 +349,7 @@ public class WeChatUtils {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = description;
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, thumbSize, thumbSize, true);
 //        bitmap.recycle();
         msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
 
@@ -394,7 +399,7 @@ public class WeChatUtils {
         WXMediaMessage msg = new WXMediaMessage(miniProgramObj);
         msg.title = title;
         msg.description = description;
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, thumbSize, thumbSize, true);
 //        bitmap.recycle();
         // 小程序消息封面图片，小于128k
         msg.thumbData = ImageUtils.bitmap2Bytes(thumbBmp);
@@ -507,6 +512,85 @@ public class WeChatUtils {
     }
 
     /**
+     * (应该服务端调这个接口)
+     * 第二步：通过 {@link #login(String, String) 登录} 后返回的 code 获取 access_token
+     * appid	是	应用唯一标识，在微信开放平台提交应用审核通过后获得
+     * secret	是	应用密钥 AppSecret，在微信开放平台提交应用审核通过后获得
+     * code	是	填写第一步获取的 code 参数
+     * grant_type	是	填 authorization_code
+     *
+     * 返回Json:
+     * {
+     *   "access_token": "ACCESS_TOKEN",            //接口调用凭证, 有效期（目前为 2 个小时）
+     *   "expires_in": 7200,                        //access_token 接口调用凭证超时时间，单位（秒）
+     *   "refresh_token": "REFRESH_TOKEN",          //用户刷新 access_token, 较长的有效期（30 天），当 refresh_token 失效的后，需要用户重新授权
+     *   "openid": "OPENID",                        //授权用户唯一标识
+     *   "scope": "SCOPE",                          //用户授权的作用域，使用逗号（,）分隔
+     *   "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL" //当且仅当该移动应用已获得该用户的 userinfo 授权时，才会出现该字段
+     * }
+     * @deprecated access_token 为用户授权第三方应用发起接口调用的凭证（相当于用户登录态），存储在客户端，
+     * 可能出现恶意获取access_token 后导致的用户数据泄漏、用户微信相关接口功能被恶意发起等行为；
+     */
+    @Deprecated
+    public static void getAccessToken(String code, BaseCallback<Object> callback) {
+        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/oauth2/access_token?" +
+                "appid=%s&secret=%s&code=%s&grant_type=authorization_code", getAppId(),
+                appSecret, code);
+        MyOkHttpUtils.get(url, null, callback);
+    }
+
+    /**
+     * (应该服务端调这个接口)
+     * 刷新 access_token 有效期
+     * access_token 是调用授权关系接口的调用凭证，由于 access_token 有效期（目前为 2 个小时）较短，
+     * 当 access_token 超时后，可以使用 refresh_token 进行刷新，access_token 刷新结果有两种：
+     *   1. 若access_token已超时，那么进行refresh_token会获取一个新的access_token，新的超时时间；
+     *   2. 若access_token未超时，那么进行refresh_token不会改变access_token，但超时时间会刷新，相当于续期access_token。
+     * refresh_token 拥有较长的有效期（30 天），当 refresh_token 失效的后，需要用户重新授权。
+     *
+     * appid	是	应用唯一标识
+     * grant_type	是	填 refresh_token
+     * refresh_token	是	填写通过 access_token 获取到的 refresh_token 参数
+     *
+     * 返回Json:
+     * {
+     *   "access_token": "ACCESS_TOKEN",    //接口调用凭证
+     *   "expires_in": 7200,                //access_token 接口调用凭证超时时间，单位（秒）
+     *   "refresh_token": "REFRESH_TOKEN",  //用户刷新 access_token
+     *   "openid": "OPENID",                //授权用户唯一标识
+     *   "scope": "SCOPE"                   //用户授权的作用域，使用逗号（,）分隔
+     * }
+     * @deprecated refresh_token 为用户授权第三方应用的长效凭证，仅用于刷新access_token，但泄漏后相当于access_token 泄漏，风险同上。
+     */
+    @Deprecated
+    public static void refreshToken(String refresh_token, BaseCallback<Object> callback) {
+        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/oauth2/refresh_token?" +
+                "appid=%s&grant_type=refresh_token&refresh_token=%s", getAppId(), refresh_token);
+        MyOkHttpUtils.get(url, null, callback);
+    }
+
+    /**
+     * (应该服务端调这个接口)
+     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Authorized_API_call_UnionID.html
+     * 检验授权凭证（access_token）是否有效
+     * @param access_token	是	调用接口凭证
+     * @param openid	是	普通用户标识，对该公众帐号唯一
+     *
+     * 正确返回Json:
+     * {
+     *   "errcode": 0,
+     *   "errmsg": "ok"
+     * }
+     * @deprecated 不用调用, 就算要调用也是服务端去调
+     */
+    @Deprecated
+    public static void authToken(String access_token, String openid, BaseCallback<Object> callback) {
+        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/auth?" +
+                "access_token=%s&openid=%s", access_token, openid);
+        MyOkHttpUtils.get(url, null, callback);
+    }
+
+    /**
      * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Login_via_Scan.html
      * 扫码登录
      * 扫码登录能力，指的是开发者可在移动应用内使用此能力，拉取二维码，
@@ -554,27 +638,19 @@ public class WeChatUtils {
 //                });
     }
 
-    //通过token获取用户信息, 待测试
-    //见官方Demo 的 UserInfoActivity.java
-    public static void getUserInfo(String accessToken, String openId, Object tag) {
-        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/auth?" +
-                "access_token=%s&openid=%s", accessToken, openId);
-        MyOkHttpUtils.get(url, null, new BaseCallback<JSONObject>(tag) {
-            @Override
-            public void onOk(@NonNull JSONObject info, int id) {
-                int errcode = info.getIntValue("errcode");
-                if (errcode == 0) {
-                    String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/userinfo?" +
-                            "access_token=%s&openid=%s", accessToken, openId);
-                    MyOkHttpUtils.get(url, null, new BaseCallback<String>(tag) {
-                        @Override
-                        public void onOk(@NonNull String info, int id) {
-                            //userinfo = info
-                        }
-                    });
-                }
-            }
-        });
+    /**
+     * (应该服务端调这个接口)
+     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Authorized_API_call_UnionID.html
+     * 获取用户个人信息（UnionID 机制）
+     * @param access_token 调用凭证
+     * @param openid 普通用户的标识，对当前开发者帐号唯一
+     * @deprecated 应该后端调这个接口然后返回用户信息, 因为 access_token 保存到客户端不安全
+     */
+    @Deprecated
+    public static void getUserInfo(String access_token, String openid, BaseCallback<Object> callback) {
+        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/userinfo?" +
+                "access_token=%s&openid=%s", access_token, openid);
+        MyOkHttpUtils.get(url, null, callback);
     }
 
 
@@ -643,7 +719,7 @@ public class WeChatUtils {
                         Bitmap thumbBmp = Glide.with(ConfigUtils.APPLICATION)
                                 .asBitmap()
                                 .load(path)
-                                .submit(THUMB_SIZE, THUMB_SIZE)
+                                .submit(thumbSize, thumbSize)
                                 .get();//必须子线程
                         listener.onGetThumbByGlide(thumbBmp);
 //                    }
