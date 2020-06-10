@@ -33,31 +33,6 @@ import okhttp3.Response;
  * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
  *              由于大神已经停止更新框架, 所以正在考虑换一个网络请求框架:
  *              @see com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils
- *              如果你想继续使用 MyOkHttpUtils, 需要进行额外配置:
- *
- * 1.添加依赖:
- *   //https://github.com/hongyangAndroid/okhttputils
- *   implementation ('com.zhy:okhttputils:2.6.2') {
- *       exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
- *   }
- *
- * 2.在Application中初始化, 示例:
- *   //配置Okhttp
- *   OkHttpClient.Builder builder = new OkHttpClient.Builder()
- *   //        .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
- *   //        .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
- *   //        .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
- *   //        .addInterceptor(new AddHeaderInterceptor())//可添加请求头拦截器
- *   //        .addInterceptor(new My401Error$RefreshTokenInterceptor(this))//401登陆过期拦截器
- *             .cookieJar(new CookieJarImpl(new PersistentCookieStore(this)))
- *             .cache(new Cache(getFilesDir(), 1024*1024*10));//10Mb;
- *   if (isDebugMode) {
- *       //最后才添加日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
- *       builder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
- *   } else {
- *       builder.proxy(Proxy.NO_PROXY);
- *   }
- *   OkHttpUtils.initClient(builder.build());//配置张鸿洋的OkHttpUtils
  *
  * @author    : 李大发
  * date       : 2019/3/13 on 17:37

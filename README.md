@@ -65,6 +65,10 @@
         api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar' <br/> <br/>
     </li>
     <li>
+        //https://github.com/hongyangAndroid/okhttputils <br/>
+        api 'com.zhy:okhttputils:2.6.2' <br/> <br/>
+    </li>
+    <li>
         //https://github.com/zhou-you/RxEasyHttp minSdkVersion 19 <br/>
         api 'com.zhouyou:rxeasyhttp:2.1.7' <br/> <br/>
     </li>

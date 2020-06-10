@@ -12,6 +12,7 @@ import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cookie.CookieManger;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.net.Proxy;
 import java.util.Locale;
@@ -56,7 +57,8 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         }
 
         //配置信息
-        ConfigUtils.baseUrl = getBaseUrl();
+        String baseUrl = getBaseUrl();
+        if (baseUrl != null) ConfigUtils.baseUrl = baseUrl;
         ConfigUtils.isDebugMode = isDebugMode;
 
         //配置硬盘缓存
@@ -80,6 +82,9 @@ public abstract class ActorApplication extends Application/* implements Thread.U
             easyHttp.setOkproxy(Proxy.NO_PROXY);
         }
         configEasyHttp(easyHttp);
+
+        //配置张鸿洋的OkHttpUtils
+        OkHttpUtils.initClient(EasyHttp.getOkHttpClient());
     }
 
     /**

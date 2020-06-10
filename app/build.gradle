@@ -110,9 +110,4 @@ dependencies {
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
     implementation 'cn.jiguang.sdk:jpush:3.5.8'
     implementation 'cn.jiguang.sdk:jcore:2.3.0'
-
-    //https://github.com/hongyangAndroid/okhttputils
-    implementation ('com.zhy:okhttputils:2.6.2') {
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
-    }
 }

@@ -11,7 +11,6 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.greendao.gen.ItemEntityDao;
 import com.zhouyou.http.EasyHttp;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 /**
  * Description: 类的描述
@@ -51,8 +50,6 @@ public class MyApplication extends ActorApplication {
         JPushUtils.init(this);//初始化
         JPushUtils.stopPush(this);//停止推送, 防止未登录就接收到消息
         //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
-
-        OkHttpUtils.initClient(EasyHttp.getOkHttpClient());//配置张鸿洋的OkHttpUtils
     }
 
     @Override
