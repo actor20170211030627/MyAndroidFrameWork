@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.utils.retrofit;
 
+import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.blankj.utilcode.util.ToastUtils;
@@ -23,13 +24,24 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
 
     protected boolean isStatusCodeError = false;
     public    int     id;
+    public    Object  tag;
 
-    public BaseCallback2() {}
-
-    public BaseCallback2(int id) {
-        this.id = id;
+    public BaseCallback2(Object  tag) {
+        this(tag, 0);
     }
 
+    public BaseCallback2(Object  tag, int id) {
+        this.tag = tag;
+        this.id = id;
+        onBefore(id);
+    }
+
+    public void onBefore(int id) {
+        //开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
+        if (tag instanceof ShowLoadingDialogAble) {
+            ((ShowLoadingDialogAble) tag).showLoadingDialog();
+        }
+    }
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
@@ -60,6 +72,10 @@ public abstract class  BaseCallback2<T> implements Callback<T> {
     }
 
     public void onError(Call<T> call, Throwable t) {
+        //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
+        if (tag instanceof ShowLoadingDialogAble) {
+            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        }
         if (isStatusCodeError) return;
         if (t instanceof SocketTimeoutException) {
             toast("连接服务器超时,请联系管理员或稍后重试!");

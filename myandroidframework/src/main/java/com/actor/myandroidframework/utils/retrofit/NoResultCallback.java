@@ -12,10 +12,10 @@ import retrofit2.Response;
  */
 public class NoResultCallback<T> extends BaseCallback2<T> {
 
-
     private boolean isShowErrorInfo = false;
 
     public NoResultCallback() {
+        super(null);
     }
 
     /**
@@ -23,6 +23,7 @@ public class NoResultCallback<T> extends BaseCallback2<T> {
      * @param isShowErrorInfo
      */
     public NoResultCallback(boolean isShowErrorInfo) {
+        super(null);
         this.isShowErrorInfo = isShowErrorInfo;
     }
 
@@ -33,7 +34,6 @@ public class NoResultCallback<T> extends BaseCallback2<T> {
 
     @Override
     public void onError(Call<T> call, Throwable t) {
-        super.onError(call, t);
         if (isShowErrorInfo) super.onError(call, t);
     }
 

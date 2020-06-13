@@ -31,8 +31,6 @@ import okhttp3.Response;
 
 /**
  * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
- *              由于大神已经停止更新框架, 所以正在考虑换一个网络请求框架:
- *              @see com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils
  *
  * @author    : 李大发
  * date       : 2019/3/13 on 17:37

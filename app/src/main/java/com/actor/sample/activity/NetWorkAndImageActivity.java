@@ -1,5 +1,6 @@
 package com.actor.sample.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -44,12 +45,24 @@ public class NetWorkAndImageActivity extends BaseActivity {
         setContentView(R.layout.activity_net_work_and_image);
         ButterKnife.bind(this);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        }
+
         setTitle("主页->网络&图片");
         Glide.with(this).load(Global.girl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .circleCrop()
                 .into(iv);
+        iv.post(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startPostponedEnterTransition();
+                }
+            }
+        });
     }
 
     @OnClick({R.id.btn_get_okhttp, R.id.btn_post_body_okhttp, R.id.btn_get_retrofit, R.id.btn_download})
@@ -71,19 +84,11 @@ public class NetWorkAndImageActivity extends BaseActivity {
     }
 
     private void getByOkHttpUtils() {
-        showLoadingDialog();
         MyOkHttpUtils.get(Global.BASE_URL, null, new BaseCallback<GithubInfo>(this) {
             @Override
             public void onOk(@NonNull GithubInfo info, int id) {//info != null(不会为空, 已做判断)
                 dismissLoadingDialog();
                 toast(info.hub_url);
-            }
-
-            //可以不用重写onError方法
-            @Override
-            public void onError(int id, okhttp3.Call call, Exception e) {
-                super.onError(id, call, e);
-                dismissLoadingDialog();
             }
         });
     }
@@ -118,20 +123,12 @@ public class NetWorkAndImageActivity extends BaseActivity {
     }
 
     private void getByRetrofit() {
-        showLoadingDialog();
-        putCall(NetWork.getGithubApi().get()).enqueue(new BaseCallback2<GithubInfo>() {
+        putCall(NetWork.getGithubApi().get()).enqueue(new BaseCallback2<GithubInfo>(this) {
             @Override
             public void onOk(Call<GithubInfo> call, Response<GithubInfo> response) {
                 dismissLoadingDialog();
                 GithubInfo body = response.body();
                 if (body != null) toast(body.hub_url);
-            }
-
-            //可以不用重写onError方法
-            @Override
-            public void onError(Call<GithubInfo> call, Throwable t) {
-                super.onError(call, t);
-                dismissLoadingDialog();
             }
         });
     }

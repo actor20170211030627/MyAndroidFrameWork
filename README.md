@@ -19,11 +19,6 @@
         api 'com.squareup.retrofit2:converter-gson:2.5.0' <br/> <br/>
     </li>
     <li>
-        //https://github.com/alibaba/fastjson <br/>
-        //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
-        api 'com.alibaba:fastjson:1.2.9' <br/> <br/>
-    </li>
-    <li>
         //https://github.com/bumptech/glide <br/>
         api 'com.github.bumptech.glide:glide:4.9.0' <br/>
         annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
@@ -35,6 +30,10 @@
     <li>
         //https://github.com/Blankj/AndroidUtilCode 许多工具 <br/>
         api 'com.blankj:utilcode:1.26.0' <br/> <br/>
+    </li>
+    <li>
+        //https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案 <br/>
+        api 'me.jessyan:autosize:1.2.1' <br/> <br/>
     </li>
     <li>
         //https://github.com/CymChad/BaseRecyclerViewAdapterHelper <br/>
@@ -66,11 +65,13 @@
     </li>
     <li>
         //https://github.com/hongyangAndroid/okhttputils <br/>
-        api 'com.zhy:okhttputils:2.6.2' <br/> <br/>
+        api 'com.zhy:okhttputils:2.6.2' <br/>
+        //https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor 官方拦截器 <br/>
+        api 'com.squareup.okhttp3:logging-interceptor:3.12.2' <br/> <br/>
     </li>
     <li>
-        //https://github.com/zhou-you/RxEasyHttp minSdkVersion 19 <br/>
-        api 'com.zhouyou:rxeasyhttp:2.1.7' <br/> <br/>
+        //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp <br/>
+        api 'com.zhy:okhttputils:2.6.2' <br/> <br/>
     </li>
 </ol>
 
@@ -102,7 +103,7 @@
         android:allowBackup="false"
         tools:replace="android:allowBackup"
 
-## 7.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置(不过混淆后报错什么的我自己还没试过...):
+## 7.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:
 <pre>
     android {
         ...

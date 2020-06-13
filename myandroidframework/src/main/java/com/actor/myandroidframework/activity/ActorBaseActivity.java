@@ -17,11 +17,11 @@ import android.view.View;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
+import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.service.BaseService;
 import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
-import com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -41,7 +41,7 @@ import retrofit2.Call;
  * Date       : 2017/5/27 on 12:45.
  * @version 1.0
  */
-public class ActorBaseActivity extends AppCompatActivity {
+public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingDialogAble {
 
 //    protected FrameLayout  flContent;//主要内容的帧布局
 //    protected LinearLayout llLoading;//加载中的布局
@@ -386,21 +386,24 @@ public class ActorBaseActivity extends AppCompatActivity {
     // 显示加载Diaong
     ///////////////////////////////////////////////////////////////////////////
     private LoadingDialog loadingDialog;
+    @Override
     public void showLoadingDialog() {
-        getLoadingDialog(true).show();
+        showLoadingDialog(true);
     }
 
     public void showLoadingDialog(boolean cancelable) {
         getLoadingDialog(cancelable).show();
     }
 
-    protected LoadingDialog getLoadingDialog(boolean cancelable) {
+    @Override
+    public LoadingDialog getLoadingDialog(boolean cancelable) {
         if (loadingDialog == null) loadingDialog = new LoadingDialog(this);
         loadingDialog.setCancelAble(cancelable);
         return loadingDialog;
     }
 
     //隐藏加载Diaong
+    @Override
     public void dismissLoadingDialog() {
         if (loadingDialog != null) loadingDialog.dismiss();
     }
@@ -504,7 +507,6 @@ public class ActorBaseActivity extends AppCompatActivity {
         super.onDestroy();
         dismissLoadingDialog();
         MyOkHttpUtils.cancelTag(this);//取消网络请求
-        EasyHttpUtils.cancelSubscription(this);//取消网络请求
         params.clear();
         params = null;
         if (calls != null && calls.size() > 0) {//取消Retrofit的网络请求

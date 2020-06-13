@@ -2,6 +2,7 @@ package com.actor.myandroidframework.utils.okhttputils;
 
 import android.support.annotation.NonNull;
 
+import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
 import com.actor.myandroidframework.utils.ThreadUtils;
@@ -23,6 +24,11 @@ import okhttp3.ResponseBody;
 /**
  * Description: 基类, 主要处理错误事件 & 解析成实体类 & 或者泛型里什么都不传,会直接返回Response, 可参考:
  * https://github.com/hongyangAndroid/okhttputils/commit/1d717d1116cc5c81d05e58343e99229d4ccc9f08
+ *
+ * 在{@link #onBefore(Request, int)} 的时候, 默认会显示LoadingDialog, 可重写此方法.
+ * 在{@link #onError(int, Call, Exception)} 的时候, 默认会隐藏LoadingDialog, 可重写此方法.
+ * 在{@link #onOk(Object, int)} 方法里, 需要自己调用 "dismissLoadingDialog();" 的方法..
+ *
  * Author     : 李大发
  * Date       : 2019/4/17 on 16:03
  * @version 1.2 重写onResponse, 增加okOk
@@ -57,6 +63,10 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     @Override
     public void onBefore(Request request, int id) {
         super.onBefore(request, id);
+        //开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
+        if (tag instanceof ShowLoadingDialogAble) {
+            ((ShowLoadingDialogAble) tag).showLoadingDialog();
+        }
     }
 
     @Override
@@ -75,7 +85,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     @Override
     public T parseNetworkResponse(Response response, int id) throws IOException {//sub thread
         if (response == null) return null;
-        Type genericity = getClassGenericity(this);
+        Type genericity = getGenericityType(this);
         if (genericity == Response.class || genericity == Object.class) {
             return (T) response;
         }
@@ -172,6 +182,10 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
 
     //不能重写上面那个方法, 要重写就重写这个
     public void onError(int id, Call call, Exception e) {
+        //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
+        if (tag instanceof ShowLoadingDialogAble) {
+            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        }
         if (isStatusCodeError || isJsonParseException || isParseNetworkResponseIsNull) return;
         if (e instanceof SocketTimeoutException) {
             toast("连接服务器超时,请联系管理员或稍后重试!");
@@ -209,7 +223,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         toast("数据解析为空,请检查网络连接");
     }
 
-    protected Type getClassGenericity(Object object) {
+    protected Type getGenericityType(Object object) {
         Type type = object.getClass().getGenericSuperclass();
         return  ((ParameterizedType) type).getActualTypeArguments()[0];
     }

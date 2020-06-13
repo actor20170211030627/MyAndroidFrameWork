@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
+import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
-import com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -40,7 +40,7 @@ import retrofit2.Call;
  * Date       : 2017/5/27 on 18:22.
  * @version 1.0
  */
-public abstract class ActorBaseFragment extends Fragment {
+public abstract class ActorBaseFragment extends Fragment implements ShowLoadingDialogAble {
 
     protected FragmentActivity    activity;
     protected Fragment            fragment;
@@ -308,21 +308,24 @@ public abstract class ActorBaseFragment extends Fragment {
     // 显示加载Diaong
     ///////////////////////////////////////////////////////////////////////////
     private LoadingDialog loadingDialog;
+    @Override
     public void showLoadingDialog() {
-        getLoadingDialog(true).show();
+        showLoadingDialog(true);
     }
 
     public void showLoadingDialog(boolean cancelable) {
         getLoadingDialog(cancelable).show();
     }
 
-    protected LoadingDialog getLoadingDialog(boolean cancelable) {
+    @Override
+    public LoadingDialog getLoadingDialog(boolean cancelable) {
         if (loadingDialog == null) loadingDialog = new LoadingDialog(activity);
         loadingDialog.setCancelAble(cancelable);
         return loadingDialog;
     }
 
     //隐藏加载Diaong
+    @Override
     public void dismissLoadingDialog() {
         if (loadingDialog != null) loadingDialog.dismiss();
     }
@@ -427,7 +430,6 @@ public abstract class ActorBaseFragment extends Fragment {
         super.onDestroyView();
         dismissLoadingDialog();
         MyOkHttpUtils.cancelTag(this);//取消网络请求
-        EasyHttpUtils.cancelSubscription(this);//取消网络请求
         if (calls != null && calls.size() > 0) {//取消Retrofit的网络请求
             for (Call call : calls) {
                 if (call != null) call.cancel();

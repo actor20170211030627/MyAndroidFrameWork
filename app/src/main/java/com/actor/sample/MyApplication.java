@@ -1,6 +1,7 @@
 package com.actor.sample;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.baidu.BaiduLocationUtils;
@@ -10,7 +11,8 @@ import com.actor.sample.utils.Global;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.greendao.gen.ItemEntityDao;
-import com.zhouyou.http.EasyHttp;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Description: 类的描述
@@ -52,9 +54,14 @@ public class MyApplication extends ActorApplication {
         //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
     }
 
+    @Nullable
     @Override
-    protected void configEasyHttp(EasyHttp easyHttp) {
+    protected OkHttpClient.Builder configOkHttpClientBuilder(OkHttpClient.Builder builder) {
+        return null;
     }
+//    @Override
+//    protected void configEasyHttp(EasyHttp easyHttp) {
+//    }
 
     @NonNull
     @Override

@@ -188,28 +188,3 @@ public static java.lang.String TABLENAME;
 -keep class com.tencent.mm.sdk.** {
     *;
 }
-
-#############################################################################
-# RxEasyHttp
-# Retrolambda
--dontwarn java.lang.invoke.*
-
-# RxJava RxAndroid
--dontwarn sun.misc.**
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-    long producerIndex;
-    long consumerIndex;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode producerNode;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode consumerNode;
-}
-###rxandroid-1.2.1
--keepclassmembers class rx.android.**{*;}
-
-#RxEasyHttp
--keep class com.zhouyou.http.model.** {*;}
--keep class com.zhouyou.http.cache.model.** {*;}
--keep class com.zhouyou.http.cache.stategy.**{*;}

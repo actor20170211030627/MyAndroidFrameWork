@@ -3,6 +3,7 @@ package com.actor.myandroidframework.application;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
@@ -10,12 +11,16 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.CacheDiskUtils;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
-import com.zhouyou.http.EasyHttp;
-import com.zhouyou.http.cookie.CookieManger;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.cookie.CookieJarImpl;
+import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 
 import java.net.Proxy;
 import java.util.Locale;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Description: 自定义的Application 继承本类, 然后在清单文件中注册
@@ -64,44 +69,59 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         //配置硬盘缓存
         aCache = CacheDiskUtils.getInstance(getFilesDir());
 
+        //配置okhttp
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+//                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+//                .addInterceptor(new AddHeaderInterceptor())
+//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this))//401登陆过期重新获取token等...
+                .cookieJar(new CookieJarImpl(new PersistentCookieStore(this)))
+                .cache(new Cache(getFilesDir(), 1024*1024*10));//10Mb;
+
+        OkHttpClient.Builder newBuilder = configOkHttpClientBuilder(builder);
+        if (newBuilder == null) newBuilder = builder;
+        if (isDebugMode) {
+            //最后才添加日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
+            newBuilder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
+        } else {
+            newBuilder.proxy(Proxy.NO_PROXY);
+        }
+        OkHttpUtils.initClient(newBuilder.build());//配置张鸿洋的OkHttpUtils
+
         //配置画廊(图片/视频选择)
         Album.initialize(AlbumConfig.newBuilder(this)
                 .setAlbumLoader(new GlideAlbumLoader()) // 设置Album加载器。
                 .setLocale(Locale.getDefault()) //Locale.CHINA 比如强制设置在任何语言下都用中文显示。
                 .build());
-
-
-        //RxEasyHttp 默认初始化,必须调用
-        EasyHttp.init(this);
-        EasyHttp easyHttp = EasyHttp.getInstance()
-                .setBaseUrl(ConfigUtils.baseUrl)//设置全局URL  url只能是域名 或者域名+端口号
-                .setCookieStore(new CookieManger(this));//cookie持久化存储，如果cookie不过期，则一直有效
-        if (isDebugMode) {
-            easyHttp.debug("EasyHttp", true);//true表示是否打印内部异常，一般打开方便调试错误
-        } else {
-            easyHttp.setOkproxy(Proxy.NO_PROXY);
-        }
-        configEasyHttp(easyHttp);
-
-        //配置张鸿洋的OkHttpUtils
-        OkHttpUtils.initClient(EasyHttp.getOkHttpClient());
     }
 
+//    /**
+//     * 配置 EasyHttp, 更多配置见:
+//     *   https://github.com/zhou-you/RxEasyHttp#%E9%AB%98%E7%BA%A7%E5%88%9D%E5%A7%8B%E5%8C%96
+//     *
+//     * //.setReadTimeOut(60 * 1000)//默认60秒, 以下三行可不需要设置
+//     * //.setWriteTimeOut(60 * 1000)
+//     * //.setConnectTimeout(60 * 1000)
+//     * //.setRetryCount(3)//网络不好默认自动重试3次
+//     * //.setRetryDelay(500)//每次延时500ms重试, 不需要可以设置为0
+//     * //.setRetryIncreaseDelay(0)//每次延时叠加0ms
+//     * //.setCacheMode(CacheMode.NO_CACHE)//默认NO_CACHE
+//     *   .addCommonHeaders(headers)//设置全局公共头
+//     *   .addCommonParams(params)//设置全局公共参数
+//     */
+//    protected abstract void configEasyHttp(EasyHttp easyHttp);
+
     /**
-     * 配置 EasyHttp, 更多配置见:
-     *   https://github.com/zhou-you/RxEasyHttp#%E9%AB%98%E7%BA%A7%E5%88%9D%E5%A7%8B%E5%8C%96
-     *
-     * //.setReadTimeOut(60 * 1000)//默认60秒, 以下三行可不需要设置
-     * //.setWriteTimeOut(60 * 1000)
-     * //.setConnectTimeout(60 * 1000)
-     * //.setRetryCount(3)//网络不好默认自动重试3次
-     * //.setRetryDelay(500)//每次延时500ms重试, 不需要可以设置为0
-     * //.setRetryIncreaseDelay(0)//每次延时叠加0ms
-     * //.setCacheMode(CacheMode.NO_CACHE)//默认NO_CACHE
-     *   .addCommonHeaders(headers)//设置全局公共头
-     *   .addCommonParams(params)//设置全局公共参数
+     * 配置Builder, 主要是添加'超时' & '拦截器' 等, 示例:
+     * builder.connectTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+     *          .readTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+     *          .writeTimeout(30_000L, TimeUnit.MILLISECONDS)//默认10s, 可不设置
+     *          .addInterceptor(new AddHeaderInterceptor())//网络请求前添加请求头, 如果不添加可不设置
+     *          .addInterceptor(new My401Error$RefreshTokenInterceptor(this));//在某个项目中,401表示token过期,需要刷新token并重新请求, 根据自己项目而定
+     * @return 返回builder, 可以返回null
      */
-    protected abstract void configEasyHttp(EasyHttp easyHttp);
+    protected abstract @Nullable OkHttpClient.Builder configOkHttpClientBuilder(OkHttpClient.Builder builder);
 
     /**
      * 返回baseUrl, 用于配置 "EasyHttp" 和 "Retrofit" 的 baseUrl

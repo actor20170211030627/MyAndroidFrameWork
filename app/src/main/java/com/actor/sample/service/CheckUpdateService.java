@@ -9,8 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.service.BaseService;
-import com.actor.myandroidframework.utils.easyhttp.BaseCallBack6;
-import com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils;
+import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.sample.info.CheckUpdateInfo;
@@ -49,24 +48,9 @@ public class CheckUpdateService extends BaseService {
     public void onCreate() {
         super.onCreate();
         //check update检查更新
-//        MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<List<CheckUpdateInfo>>(this) {
-//            @Override
-//            public void onOk(@NonNull List<CheckUpdateInfo> info, int id) {
-//                if (info.size() == 0) return;
-//                CheckUpdateInfo info1 = info.get(0);
-//                if (info1 == null) return;
-//                CheckUpdateInfo.ApkDataBean apkData = info1.apkData;
-//                if (apkData != null) {
-//                    int versionCode = AppUtils.getAppVersionCode();
-//                    if (versionCode < apkData.versionCode) {
-//                        showDialog(apkData.versionName);
-//                    }
-//                }
-//            }
-//        });
-        EasyHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallBack6<List<CheckUpdateInfo>>(this) {
+        MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<List<CheckUpdateInfo>>(this) {
             @Override
-            public void onSuccess(List<CheckUpdateInfo> info) {
+            public void onOk(@NonNull List<CheckUpdateInfo> info, int id) {
                 if (info.size() == 0) return;
                 CheckUpdateInfo info1 = info.get(0);
                 if (info1 == null) return;
