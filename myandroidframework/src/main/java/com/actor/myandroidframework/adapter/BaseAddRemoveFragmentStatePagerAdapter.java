@@ -19,12 +19,12 @@ import java.util.List;
 // TODO: 2020/4/26 还没用过, 待测试...
 public abstract class BaseAddRemoveFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
-    protected List<String>          titles    = new ArrayList<>();
+    protected List<String>            titlesForFragments = new ArrayList<>();
 //    protected SparseArray<Fragment> fragments = new SparseArray<>();
 
     public BaseAddRemoveFragmentStatePagerAdapter(FragmentManager fm, @Nullable List<String> titles) {
         super(fm);
-        if (titles != null) this.titles.addAll(titles);
+        if (titles != null) this.titlesForFragments.addAll(titles);
     }
 
     /**
@@ -36,19 +36,19 @@ public abstract class BaseAddRemoveFragmentStatePagerAdapter extends FragmentSta
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return getCount() > position ? titles.get(position) : null;
+        return getCount() > position ? titlesForFragments.get(position) : null;
     }
 
     @Override
     public int getCount() {
-        return titles.size();
+        return titlesForFragments.size();
     }
 
     /**
      * 增加Fragment, 务必保证 {@link #getItem(int)} 要有新增加的 Fragment 返回
      */
     public void addFragment(String title) {
-        titles.add(title);
+        titlesForFragments.add(title);
         notifyDataSetChanged();
 //        viewPager.setCurrentItem(getCount() - 1, true);//跳到最后一个页面
 //        viewPager.setOffscreenPageLimit(getCount());//每次动态添加页面后重设viewpager缓存数量
@@ -59,7 +59,7 @@ public abstract class BaseAddRemoveFragmentStatePagerAdapter extends FragmentSta
      */
     public void removeFragment(int position/*, ViewPager viewPager*/) {
         if (getCount() > position) {
-            titles.remove(position);
+            titlesForFragments.remove(position);
 //            viewPager.removeViewAt(position);
             notifyDataSetChanged();
 //        viewPager.setOffscreenPageLimit(getCount());//每次动态删除页面后重设viewpager缓存数量

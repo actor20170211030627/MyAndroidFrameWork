@@ -358,42 +358,56 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
     }
 
     /**
-     * 设置上拉加载更多 & 空布局
-     * private List<Item> items = new ArrayList<>();//数据列表
-     * private total;
-     * getList(boolean isRefresh);
+     * 设置上拉加载更多 & 空布局, 示例:
+     *
+     * //写在常量类里面, 比如写在 Global.java 里面.
+     * public static final int SIZE = 10;
+     * public static final String page = "page";
+     * public static final String size = "size";
+     *
+     * //isRefresh: 是否是下拉刷新
+     * private void getList(boolean isRefresh) {
+     *     params.clear();
+     *     params.put(Global.page, getPage(isRefresh, myAdapter, Global.SIZE));
+     *     params.put(Global.size, Global.SIZE);
+     *     MyOkHttpUtils.get(url, params, new BaseCallback<UserBean>(this, isRefresh) {
+     *         @Override
+     *         public void onOk(@NonNull UserBean info, int id) {
+     *             dismissLoadingDialog();
+     *             int total = info.totalCount;
+     *             List<UserBean.Data> datas = info.data;
+     *             if (datas != null) {
+     *                 //如果是下拉刷新
+     *                 if (requestIsRefresh) {
+     *                     myAdapter.setNewData(datas);//设置新数据
+     *                 } else {
+     *                     myAdapter.addData(datas);//增加数据
+     *                 }
+     *             }
+     *             if (myAdapter.getData().size() < total) {
+     *                 myAdapter.loadMoreComplete();//加载完成
+     *             } else myAdapter.loadMoreEnd();//已经没有数据了
+     *         }
+     *
+     *         @Override
+     *         public void onError(int id, okhttp3.Call call, Exception e) {
+     *             super.onError(id, call, e);
+     *
+     *             //点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
+     *             myAdapter.loadMoreFail();//加载失败
+     *         }
+     *     });
+     * }
+     *
      * 1.下拉刷新:
      * getList(true);
      *
      * 2.上拉加载:
      * getList(false);
      *
-     * 3.获取数据时:
-     * params.put(Global.page, getPage(isRefresh, items, Global.SIZE));
-     *
-     * 4.获取数据成功:
-     * onOk {
-     *     total = data.totalCount;
-     *     List rows = data.rows;
-     *     if (rows != null) {
-     *         ifRefreshClear(isRefresh, items);
-     *         myAdapter.addData(rows);
-     *     }
-     *     if (items.size() < total) {
-     *         myAdapter.loadMoreComplete();//加载完成
-     *     } else myAdapter.loadMoreEnd();//已经没有数据了
-     * }
-     *
-     * 5.获取数据失败:
-     * onError() {
-     *     myAdapter.loadMoreFail();//加载失败
-     * }
-     *
-     * 6.获取数据失败(点击"重试"时, 会调用 '上拉加载更多' 里的onLoadMoreRequested();回调方法
-     *
-     * @param adapter 不能为空
+     * @param adapter      不能为空
      * @param recyclerView 不能为空
-     * @param listener 不能为空
+     * @param listener     不能为空
      */
     protected void setLoadMore$Empty(BaseQuickAdapter adapter, RecyclerView recyclerView, BaseQuickAdapter.RequestLoadMoreListener listener) {
         setLoadMore$Empty(R.layout.layout_for_empty, adapter, recyclerView, listener);
@@ -413,15 +427,6 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
     protected int getPage(boolean isRefresh, @NonNull List items, int size) {
         if (isRefresh) return 1;
         return items.size() / size + 1;
-    }
-
-    /**
-     * 如果'下拉刷新'列表, 清空旧数据
-     * @param isRefresh 是否是下拉刷新
-     * @param items 列表数据集合
-     */
-    protected void ifRefreshClear(boolean isRefresh, @NonNull List items) {
-        if (isRefresh) items.clear();
     }
 
 

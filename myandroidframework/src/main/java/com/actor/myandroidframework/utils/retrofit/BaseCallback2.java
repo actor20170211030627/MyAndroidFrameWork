@@ -17,31 +17,52 @@ import retrofit2.Response;
  * Description: retrofit2 的 Callback
  * Author     : 李大发
  * Date       : 2019/5/9 on 10:27
- * @version 1.0.1
+ *
  * @version 1.0.2 修改Format错误导致崩溃问题 & 修改取消请求后, onFailure崩溃问题(增加call.isCanceled()判断)
  */
-public abstract class  BaseCallback2<T> implements Callback<T> {
+public abstract class BaseCallback2<T> implements Callback<T> {
 
     protected boolean isStatusCodeError = false;
     public    int     id;
     public    Object  tag;
+    public    boolean requestIsRefresh  = false;//这次请求是否是(下拉)刷新
 
-    public BaseCallback2(Object  tag) {
-        this(tag, 0);
+    public BaseCallback2(Object tag) {
+        this.tag = tag;
+        onBefore(id);
     }
 
-    public BaseCallback2(Object  tag, int id) {
+    /**
+     * @param tag 如果 tag instanceof ShowLoadingDialogAble, 会自动show/dismiss LoadingDialog.
+     * @param id  1.可传入"List/RecyclerView"的position或item对应的id,
+     *              当你在List/RecyclerView中多个item"同时请求"时, 这个id可用于区别你这次请求是哪一个item发起的.
+     *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
+     *              当上传成功后, 就可根据这个id判断是上传哪一个文件.
+     */
+    public BaseCallback2(Object tag, int id) {
         this.tag = tag;
         this.id = id;
         onBefore(id);
     }
 
+    /**
+     * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
+     */
+    public BaseCallback2(Object tag, boolean isRefresh) {
+        this.tag = tag;
+        this.requestIsRefresh = isRefresh;
+        onBefore(id);
+    }
+
+    /**
+     * 开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
+     */
     public void onBefore(int id) {
-        //开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
         if (tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).showLoadingDialog();
         }
     }
+
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {

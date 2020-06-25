@@ -39,13 +39,12 @@ import retrofit2.Call;
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
  * Author     : 李大发
  * Date       : 2017/5/27 on 12:45.
+ *
  * @version 1.0
  */
 public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingDialogAble {
 
 //    protected FrameLayout  flContent;//主要内容的帧布局
-//    protected LinearLayout llLoading;//加载中的布局
-//    protected TextView     tvLoading;//例:正在加载中,请稍后...
 //    protected LinearLayout llEmpty;  //没数据
 //    protected CacheDiskUtils aCache = ActorApplication.instance.aCache;
 
@@ -80,22 +79,12 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     public void setContentView(@LayoutRes int layoutResID) {
 //        View baseView = getLayoutInflater().inflate(R.layout.activity_base, null);//加载基类布局
 //        flContent = baseView.findViewById(R.id.fl_content);
-//        llLoading = baseView.findViewById(R.id.ll_loading);
-//        tvLoading = findViewById(R.id.tv_loading);
 //        llEmpty = findViewById(R.id.ll_empty);
 //        View childView = getLayoutInflater().inflate(layoutResID, null);//加载子类布局
 //        flContent.addView(childView);//将子布局添加到空的帧布局
 //        super.setContentView(baseView);
         super.setContentView(layoutResID);
     }
-    //是否显示加载中...
-//    protected void showLoading(boolean isShow) {
-//        llLoading.setVisibility(isShow ? View.VISIBLE : View.GONE);
-//    }
-    //设置加载中...
-//    protected void setLoadingText(CharSequence loading) {
-//        tvLoading.setText(loading);
-//    }
     //是否显示empty图片
 //    protected void showEmpty(boolean isShow) {
 //        llEmpty.setVisibility(isShow ? View.VISIBLE : View.GONE);
@@ -117,6 +106,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java
      * 码云:
      * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java
+     *
      * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.
      *                             例: A界面: RecyclerView <--> B界面: ViewPager, 返回后更新A界面共享元素position
      *                             如果true, A界面需要重写2个方法:
@@ -145,7 +135,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
                 }
             }
         }
-//      //单个共享元素方式跳转, 如果是图片的话跳转到下个页面有可能变形
+//      //单个共享元素方式跳转
 //        ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
         ActivityUtils.startActivity(this, intent, sharedElements);
     }
@@ -153,11 +143,13 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
+        //如果自定义切换动画, 请重写这个方法
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
     }
 
     /**
      * 共享元素方式跳转
+     *
      * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
     public void startActivityForResult(Intent intent, int requestCode, boolean isNeedUpdatePosition, @NonNull View... sharedElements) {
@@ -176,15 +168,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
                 }
             }
         }
-//      //单个共享元素方式跳转, 如果是图片的话跳转到下个页面有可能变形
+//      //单个共享元素方式跳转
 //        ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
         ActivityUtils.startActivityForResult(this, intent, requestCode, sharedElements);
     }
 
     /**
      * B界面返回A界面
+     *
      * @param requestCode
-     * @param data B界面setResult(RESULT_OK, data);返回的值, 即使A界面startActivity, 只要B界面setResult有值, 都能收到
+     * @param data        B界面setResult(RESULT_OK, data);返回的值, 即使A界面startActivity, 只要B界面setResult有值, 都能收到
      */
     @Override
     public void onActivityReenter(int requestCode, Intent data) {
@@ -204,13 +197,15 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
 
     /**
      * RecyclerView <--> ViewPager, 共享元素跳转
-     *      在A界面的回调中, 当B界面返回A界面时, 用于获取A界面currentPosition位置的共享元素
-     *      在B界面的回调中, 当B界面返回A页面时, 需要先获取B界面currentPosition位置的共享元素
-     * @param oldPosition 跳转前在A界面的position
+     * 在A界面的回调中, 当B界面返回A界面时, 用于获取A界面currentPosition位置的共享元素
+     * 在B界面的回调中, 当B界面返回A页面时, 需要先获取B界面currentPosition位置的共享元素
+     *
+     * @param oldPosition     跳转前在A界面的position
      * @param currentPosition 跳转后在B界面的position
      * @return 返回新position位置的共享元素View, 注意这个View要设置transitionName
      */
-    protected @NonNull View sharedElementPositionChanged(int oldPosition, int currentPosition) {
+    protected @NonNull
+    View sharedElementPositionChanged(int oldPosition, int currentPosition) {
         //A界面返回示例:
 //        return recyclerView.findViewHolderForAdapterPosition(currentPosition).itemView.findViewById(R.id.image_view);
         //B界面返回示例:
@@ -231,8 +226,9 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
 
     /**
      * 共享元素跳转, B界面返回A界面时, super.onBackPressed();之前调用这个方法
-     * @param intent 用于返回A界面值的intent
-     * @param oldPosition 从A界面跳过来时的position
+     *
+     * @param intent          用于返回A界面值的intent
+     * @param oldPosition     从A界面跳过来时的position
      * @param currentPosition B界面现在的position, 用于A界面元素共享动画跳转到这个位置
      */
     protected void onBackPressedSharedElement(Intent intent, int oldPosition, int currentPosition) {
@@ -249,6 +245,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     @Override
     public void finish() {
         super.finish();
+        //如果自定义切换动画, 请重写这个方法
         overridePendingTransition(R.anim.pre_enter, R.anim.next_exit);
     }
 
@@ -266,7 +263,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      * Android 8.0 之后调用这个方法, 必须满足以下2个条件:
      * 1.添加权限: <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
      * 2.在Service中必须调用 {@link android.app.Service#startForeground(int, Notification)}
-     *   可继承或参考 {@link com.actor.myandroidframework.service.BaseService}
+     * 可继承或参考 {@link com.actor.myandroidframework.service.BaseService}
      */
     @Override
     public ComponentName startForegroundService(Intent service) {
@@ -280,11 +277,11 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     // 返回String区
     ///////////////////////////////////////////////////////////////////////////
     protected String getNoNullString(String s) {
-        return s == null? "" : s;
+        return s == null ? "" : s;
     }
 
     protected String getNoNullString(String s, String defaultStr) {
-        return s == null? defaultStr : s;
+        return s == null ? defaultStr : s;
     }
 
     //"输入内容不能少于30字"示例:              输入内容不能少于%1$d字,      30
@@ -297,7 +294,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
         return TextUtil.getStringFormat(format, args);
     }
 
-    protected String getText(Object obj){
+    protected String getText(Object obj) {
         return TextUtil.getText(obj);
     }
 
@@ -305,6 +302,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     ///////////////////////////////////////////////////////////////////////////
     // 判空区
     ///////////////////////////////////////////////////////////////////////////
+
     /**
      * 只要有一个为空, 就返回true
      */
@@ -314,6 +312,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
 
     /**
      * 只要有一个为空, 就返回true
+     *
      * @param notify 为空时, toast 提示的内容
      */
     protected boolean isEmpty(Object obj, CharSequence notify) {
@@ -329,28 +328,28 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     }
 
     /**
-     * @param obj 判断对象是否不为空
-     *            1.如果是 EditText/TextInputLayout, 且输入为空, 就将光标定位到相应的EditText且弹出系统键盘.
-     *            2.如果是 {@link TextUtil.GetTextAble}
-     *              且 {@link TextUtil.GetTextAble#getEditText()}!=null
-     *              且 {@link TextUtil.GetTextAble#keyboardShowAbleIfEditText()},
-     *              且 输入为空, 就将光标定位到相应的EditText且弹出系统键盘
-     *            obj 包括如下类型:
-     * <ol>
-     *      <li>{@link CharSequence}</li>
-     *      <li>{@link java.lang.reflect.Array}</li>
-     *      <li>{@link java.util.Collection Collection(包括: List, Set, Queue)}</li>
-     *      <li>{@link java.util.Map}</li>
-     *      <li>{@link android.widget.TextView}</li>
-     *      <li>{@link com.actor.myandroidframework.utils.TextUtil.GetTextAble}</li>
-     *      <li>{@link android.support.design.widget.TextInputLayout}</li>
-     *      <li>{@link android.util.SparseArray}</li>
-     *      <li>{@link android.util.SparseBooleanArray}</li>
-     *      <li>{@link android.util.SparseIntArray}</li>
-     *      <li>{@link android.util.SparseLongArray}</li>
-     *      <li>{@link android.support.v4.util.SparseArrayCompat}</li>
-     *      <li>{@link Object#toString()}</li>
-     * </ol>
+     * @param obj    判断对象是否不为空
+     *               1.如果是 EditText/TextInputLayout, 且输入为空, 就将光标定位到相应的EditText且弹出系统键盘.
+     *               2.如果是 {@link TextUtil.GetTextAble}
+     *               且 {@link TextUtil.GetTextAble#getEditText()}!=null
+     *               且 {@link TextUtil.GetTextAble#keyboardShowAbleIfEditText()},
+     *               且 输入为空, 就将光标定位到相应的EditText且弹出系统键盘
+     *               obj 包括如下类型:
+     *               <ol>
+     *                    <li>{@link CharSequence}</li>
+     *                    <li>{@link java.lang.reflect.Array}</li>
+     *                    <li>{@link java.util.Collection Collection(包括: List, Set, Queue)}</li>
+     *                    <li>{@link java.util.Map}</li>
+     *                    <li>{@link android.widget.TextView}</li>
+     *                    <li>{@link com.actor.myandroidframework.utils.TextUtil.GetTextAble}</li>
+     *                    <li>{@link android.support.design.widget.TextInputLayout}</li>
+     *                    <li>{@link android.util.SparseArray}</li>
+     *                    <li>{@link android.util.SparseBooleanArray}</li>
+     *                    <li>{@link android.util.SparseIntArray}</li>
+     *                    <li>{@link android.util.SparseLongArray}</li>
+     *                    <li>{@link android.support.v4.util.SparseArrayCompat}</li>
+     *                    <li>{@link Object#toString()}</li>
+     *               </ol>
      * @param notify 如果为空 & notify != null, toast(notify);
      * @return 是否不为空
      */
@@ -377,7 +376,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     ///////////////////////////////////////////////////////////////////////////
     // toast区
     ///////////////////////////////////////////////////////////////////////////
-    protected void toast(Object notify){
+    protected void toast(Object notify) {
         ToastUtils.showShort(String.valueOf(notify));
     }
 
@@ -386,6 +385,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     // 显示加载Diaong
     ///////////////////////////////////////////////////////////////////////////
     private LoadingDialog loadingDialog;
+
     @Override
     public void showLoadingDialog() {
         showLoadingDialog(true);
@@ -422,9 +422,11 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     ///////////////////////////////////////////////////////////////////////////
     // 下拉刷新 & 上拉加载更多 & 空布局
     ///////////////////////////////////////////////////////////////////////////
+
     /**
      * 设置空布局
-     * @param adapter 不能为空
+     *
+     * @param adapter      不能为空
      * @param recyclerView 不能为空
      */
     protected void setEmptyView(BaseQuickAdapter adapter, RecyclerView recyclerView) {
@@ -436,42 +438,56 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     }
 
     /**
-     * 设置上拉加载更多 & 空布局
-     * private List<Item> items = new ArrayList<>();//数据列表
-     * private total;
-     * getList(boolean isRefresh);
+     * 设置上拉加载更多 & 空布局, 示例:
+     *
+     * //写在常量类里面, 比如写在 Global.java 里面.
+     * public static final int SIZE = 10;
+     * public static final String page = "page";
+     * public static final String size = "size";
+     *
+     * //isRefresh: 是否是下拉刷新
+     * private void getList(boolean isRefresh) {
+     *     params.clear();
+     *     params.put(Global.page, getPage(isRefresh, myAdapter, Global.SIZE));
+     *     params.put(Global.size, Global.SIZE);
+     *     MyOkHttpUtils.get(url, params, new BaseCallback<UserBean>(this, isRefresh) {
+     *         @Override
+     *         public void onOk(@NonNull UserBean info, int id) {
+     *             dismissLoadingDialog();
+     *             int total = info.totalCount;
+     *             List<UserBean.Data> datas = info.data;
+     *             if (datas != null) {
+     *                 //如果是下拉刷新
+     *                 if (requestIsRefresh) {
+     *                     myAdapter.setNewData(datas);//设置新数据
+     *                 } else {
+     *                     myAdapter.addData(datas);//增加数据
+     *                 }
+     *             }
+     *             if (myAdapter.getData().size() < total) {
+     *                 myAdapter.loadMoreComplete();//加载完成
+     *             } else myAdapter.loadMoreEnd();//已经没有数据了
+     *         }
+     *
+     *         @Override
+     *         public void onError(int id, okhttp3.Call call, Exception e) {
+     *             super.onError(id, call, e);
+     *
+     *             //点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
+     *             myAdapter.loadMoreFail();//加载失败
+     *         }
+     *     });
+     * }
+     *
      * 1.下拉刷新:
      * getList(true);
      *
      * 2.上拉加载:
      * getList(false);
      *
-     * 3.获取数据时:
-     * params.put(Global.page, getPage(isRefresh, items, Global.SIZE));
-     *
-     * 4.获取数据成功:
-     * onOk {
-     *     total = data.totalCount;
-     *     List rows = data.rows;
-     *     if (rows != null) {
-     *         ifRefreshClear(isRefresh, items);
-     *         myAdapter.addData(rows);
-     *     }
-     *     if (items.size() < total) {
-     *         myAdapter.loadMoreComplete();//加载完成
-     *     } else myAdapter.loadMoreEnd();//已经没有数据了
-     * }
-     *
-     * 5.获取数据失败:
-     * onError() {
-     *     myAdapter.loadMoreFail();//加载失败
-     * }
-     *
-     * 6.获取数据失败(点击"重试"时, 会调用 '上拉加载更多' 里的onLoadMoreRequested();回调方法
-     *
-     * @param adapter 不能为空
+     * @param adapter      不能为空
      * @param recyclerView 不能为空
-     * @param listener 不能为空
+     * @param listener     不能为空
      */
     protected void setLoadMore$Empty(BaseQuickAdapter adapter, RecyclerView recyclerView, BaseQuickAdapter.RequestLoadMoreListener listener) {
         setLoadMore$Empty(R.layout.layout_for_empty, adapter, recyclerView, listener);
@@ -483,24 +499,29 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     }
 
     /**
-     * 获取'下拉刷新/上拉加载'列表page
+     * 获取'下拉刷新/上拉加载'列表page, 如果和项目逻辑不符合, 可重写此方法
      * @param isRefresh 是否是下拉刷新
-     * @param items 列表数据集合
-     * @param size 每次加载多少条
+     * @param adapter   列表Adapter extends BaseQuickAdapter
+     * @param size      每次加载多少条
      */
-    protected int getPage(boolean isRefresh, @NonNull List items, int size) {
+    protected int getPage(boolean isRefresh, @NonNull BaseQuickAdapter adapter, int size) {
         if (isRefresh) return 1;
-        return items.size() / size + 1;
+        return adapter.getData().size() / size + 1;
     }
+
 
     /**
-     * 如果'下拉刷新'列表, 清空旧数据
-     * @param items 列表数据集合
+     * 1.分屏时activity的生命周期(待验证)
+     * onPause()-onStop()-onMultiWindowModeChanged()-onDestroy()-onCreate()-onStart()-onResume()-onPause()
+     * 2.从分屏页到自己的应用, 全屏显示自己的应用(待验证)
+     * onStop()-onDestroy()-onCreate()-onStart()-onResume()-onPause()-onMultiWindowModeChanged()-onResume()​
+     * 3.boolean inMultiWindowMode = isInMultiWindowMode();//App是否处于分屏模式
      */
-    protected void ifRefreshClear(boolean isRefresh, @NonNull List items) {
-        if (isRefresh) items.clear();
+    @Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        logFormat("分屏: onMultiWindowModeChanged: isInMultiWindowMode = %b", isInMultiWindowMode);
     }
-
 
     @Override
     protected void onDestroy() {

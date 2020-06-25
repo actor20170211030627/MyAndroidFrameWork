@@ -30,7 +30,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
 
     protected int                   fragmentSize;
     protected SparseArray<Fragment> fragments;
-    protected String[]              titles;
+    protected String[]              titlesForFragments;
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, int size) {
         super(fm);
@@ -42,14 +42,14 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
         super(fm);
         this.fragmentSize = titles.length;
         fragments = new SparseArray<>(fragmentSize);
-        this.titles = titles;
+        this.titlesForFragments = titles;
     }
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, @NonNull List<String> titles) {
         super(fm);
         this.fragmentSize = titles.size();
         fragments = new SparseArray<>(fragmentSize);
-        this.titles = (String[]) titles.toArray();
+        this.titlesForFragments = (String[]) titles.toArray();
     }
 
     /**
@@ -73,7 +73,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles == null ? null : titles.length > position ? titles[position] : null;
+        return titlesForFragments == null ? null : titlesForFragments.length > position ? titlesForFragments[position] : null;
     }
 
     @Override

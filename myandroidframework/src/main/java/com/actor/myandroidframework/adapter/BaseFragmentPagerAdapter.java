@@ -41,7 +41,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     protected int                   fragmentSize;
     protected SparseArray<Fragment> fragments;
-    protected String[]              titles;
+    protected String[]              titlesForFragments;
 
     public BaseFragmentPagerAdapter(FragmentManager fm, int size) {
         super(fm);
@@ -53,7 +53,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.fragmentSize = titles.length;
         fragments = new SparseArray<>(fragmentSize);
-        this.titles = titles;
+        this.titlesForFragments = titles;
     }
 
     public BaseFragmentPagerAdapter(FragmentManager fm, List<String> titles) {
@@ -61,7 +61,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         if (titles != null) {
             this.fragmentSize = titles.size();
             fragments = new SparseArray<>(fragmentSize);
-            this.titles = (String[]) titles.toArray();
+            this.titlesForFragments = (String[]) titles.toArray();
         }
     }
 
@@ -85,7 +85,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     //获取每个pager的title
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles == null ? null : titles.length > position ? titles[position] : null;
+        return titlesForFragments == null ? null : titlesForFragments.length > position ? titlesForFragments[position] : null;
     }
 
     @Override

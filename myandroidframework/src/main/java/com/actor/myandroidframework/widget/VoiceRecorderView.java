@@ -46,6 +46,14 @@ public class VoiceRecorderView extends RelativeLayout {
         tvRecodingTips = inflate.findViewById(R.id.tv_recording_tips);
     }
 
+    public ImageView getIvRecordingIcon() {
+        return ivRecordingIcon;
+    }
+
+    public TextView getTvRecodingTips() {
+        return tvRecodingTips;
+    }
+
     /**
      * 开始录音
      */
@@ -72,7 +80,7 @@ public class VoiceRecorderView extends RelativeLayout {
      * @param visible 停止录音后, 这个控件的显示状态
      */
     public void stopRecording(int visible) {
-        mVolumeAnim.stop();
+        if (mVolumeAnim != null) mVolumeAnim.stop();
         setVisibility(visible);
     }
 
@@ -80,7 +88,7 @@ public class VoiceRecorderView extends RelativeLayout {
      * 录音时间太短
      */
     public void tooShortRecording() {
-        mVolumeAnim.stop();
+        if (mVolumeAnim != null) mVolumeAnim.stop();
         ivRecordingIcon.setImageResource(R.drawable.ic_volume_wraning);
         tvRecodingTips.setTextColor(Color.WHITE);
         tvRecodingTips.setText("录音时间太短");

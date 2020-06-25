@@ -20,7 +20,7 @@ import java.util.List;
 public abstract class BasePagerAdapter extends PagerAdapter {
 
     protected int                   sizeOfItem;
-    protected String[]              titles;
+    protected String[]              titlesForFragments;
 
     public BasePagerAdapter(int size) {
         this.sizeOfItem = size;
@@ -28,13 +28,13 @@ public abstract class BasePagerAdapter extends PagerAdapter {
 
     public BasePagerAdapter(@NonNull String[] titles) {
         this.sizeOfItem = titles.length;
-        this.titles = titles;
+        this.titlesForFragments = titles;
     }
 
     public BasePagerAdapter(List<String> titles) {
         if (titles != null) {
             this.sizeOfItem = titles.size();
-            this.titles = (String[]) titles.toArray();
+            this.titlesForFragments = (String[]) titles.toArray();
         }
     }
 
@@ -55,7 +55,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles == null ? null : titles.length > position ? titles[position] : null;
+        return titlesForFragments == null ? null : titlesForFragments.length > position ? titlesForFragments[position] : null;
     }
 
     /**

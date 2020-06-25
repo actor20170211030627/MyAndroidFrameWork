@@ -45,25 +45,46 @@ import okhttp3.ResponseBody;
  */
 public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Callback {
 
-    protected boolean isStatusCodeError = false;//状态码错误
-    protected boolean isParseNetworkResponseIsNull = false;//解析成的实体entity=null
-    protected boolean isJsonParseException = false;//Json解析异常
-    public    Object  tag;
-    public    int     id;
+    protected boolean           isStatusCodeError            = false;//状态码错误
+    protected boolean           isParseNetworkResponseIsNull = false;//解析成的实体entity=null
+    protected boolean           isJsonParseException         = false;//Json解析异常
+    public    Object            tag;
+    public    int               id;
+    public    boolean           requestIsRefresh             = false;//这次请求是否是(下拉)刷新
 
     public BaseCallback(Object tag) {
         this.tag = tag;
     }
 
+    /**
+     * @param tag 2个作用:
+     *            1.1.传入Activity(继承ActorBaseActivity)/Fragment(继承ActorBaseFragment), 用于销毁的时候取消请求.
+     *            1.2.如果是在Dialog/Others..., 需要自己调用: {@link MyOkHttpUtils#cancelTag(Object)}
+     *            2.如果 tag instanceof ShowLoadingDialogAble, 会自动show/dismiss LoadingDialog.
+     * @param id  1.可传入"List/RecyclerView"的position或item对应的id,
+     *              当你在List/RecyclerView中多个item"同时请求"时, 这个id可用于区别你这次请求是哪一个item发起的.
+     *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
+     *              当上传成功后, 就可根据这个id判断是上传哪一个文件.
+     */
     public BaseCallback(Object tag, int id) {
         this.tag = tag;
         this.id = id;
     }
 
+    /**
+     * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
+     */
+    public BaseCallback(Object tag, boolean isRefresh) {
+        this.tag = tag;
+        this.requestIsRefresh = isRefresh;
+    }
+
+    /**
+     * 开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
+     */
     @Override
     public void onBefore(Request request, int id) {
         super.onBefore(request, id);
-        //开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
         if (tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).showLoadingDialog();
         }
@@ -97,11 +118,11 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         } else {//解析成: JSONObject & JSONArray & T
             try {
                 /**
-                 * Gson: 数据类型不对(""解析成int) & 非json类型数据, 都会抛异常
+                 * Gson: 数据类型不对(""解析成int) & 非json类型数据, 默认都会抛异常
                  * @see com.actor.myandroidframework.utils.IntTypeAdapter
                  */
                 return GsonUtils.fromJson(json, genericity);
-                //FastJson: 解析非json类型数据会抛异常
+                //FastJson: bug太多也不修复一下, 删掉...
 //                return JSONObject.parseObject(json, genericity);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -143,6 +164,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             }
         });
     }
+
     //okhttp3.Callback的方法
     @Override
     public final void onResponse(Call call, Response response) throws IOException {//sub thread
@@ -165,6 +187,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             onFailure(call, new IOException("状态码错误: " + response.code()));
         }
     }
+
     /**
      * 请求出错
      * 为何是final? 因为:
@@ -198,6 +221,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
 
     /**
      * 状态码错误, 默认会toast, 可以重写本方法
+     *
      * @param errCode 错误码
      */
     public void onStatusCodeError(int errCode, Response response, int id) {
@@ -225,7 +249,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
 
     protected Type getGenericityType(Object object) {
         Type type = object.getClass().getGenericSuperclass();
-        return  ((ParameterizedType) type).getActualTypeArguments()[0];
+        return ((ParameterizedType) type).getActualTypeArguments()[0];
     }
 
     protected void logError(String msg) {
