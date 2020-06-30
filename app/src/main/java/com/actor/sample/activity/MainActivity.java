@@ -40,8 +40,8 @@ public class MainActivity extends BaseActivity {
                 .error(R.mipmap.ic_launcher)
                 .into(iv);
 
-        tvVersion.setText(getStringFormat("VersionName: %s(VersionCode: %d)",
-                AppUtils.getAppVersionName(), AppUtils.getAppVersionCode()));
+        AppUtils.AppInfo appInfo = AppUtils.getAppInfo();
+        tvVersion.setText(getStringFormat("VersionName: %s(VersionCode: %d)", appInfo.getVersionName(), appInfo.getVersionCode()));
 
         startService(checkUpdateIntent = new Intent(this, CheckUpdateService.class));
     }

@@ -128,9 +128,6 @@ dependencies {
     //https://github.com/square/okhttp
     api 'com.squareup.okhttp3:okhttp:3.12.2'
 
-    //https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor 官方拦截器
-    api 'com.squareup.okhttp3:logging-interceptor:3.12.2'
-
     //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
     api ('com.zhy:okhttputils:2.6.2') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1

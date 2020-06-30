@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
+import com.actor.myandroidframework.utils.okhttputils.log.RequestInterceptor;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.CacheDiskUtils;
 import com.yanzhenjie.album.Album;
@@ -20,7 +21,6 @@ import java.util.Locale;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Description: 自定义的Application 继承本类, 然后在清单文件中注册
@@ -82,8 +82,11 @@ public abstract class ActorApplication extends Application/* implements Thread.U
         OkHttpClient.Builder newBuilder = configOkHttpClientBuilder(builder);
         if (newBuilder == null) newBuilder = builder;
         if (isDebugMode) {
-            //最后才添加日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
-            newBuilder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
+            //最后才添加官方日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
+//            newBuilder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
+
+            //改成这个日志拦截器, 打印更全面
+            newBuilder.addInterceptor(new RequestInterceptor());
         } else {
             newBuilder.proxy(Proxy.NO_PROXY);
         }
