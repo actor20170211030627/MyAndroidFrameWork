@@ -7,8 +7,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         //noinspection HighAppVersionCode
-        versionCode 2020060101
-        versionName "1.3.6"
+        versionCode 2020063001
+        versionName "1.3.7"
 
         consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -72,8 +72,8 @@ public class MyOkHttpUtils {
      */
     public static <T> void get(String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
         OkHttpUtils.get().url(getUrl(url)).tag(callback == null ? null : callback.tag)
-                .headers(cleanNullParamMap(headers))
-                .params(cleanNullParamMap(params))
+                .headers(cleanNullParamMap(true, headers))
+                .params(cleanNullParamMap(false, params))
                 //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
                 .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
@@ -86,8 +86,8 @@ public class MyOkHttpUtils {
         Response execute = null;
         try {
             execute = OkHttpUtils.get().url(getUrl(url)).tag(tag)
-                    .headers(cleanNullParamMap(headers))
-                    .params(cleanNullParamMap(params))
+                    .headers(cleanNullParamMap(true, headers))
+                    .params(cleanNullParamMap(false, params))
                     .build().execute();
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,8 +109,8 @@ public class MyOkHttpUtils {
     public static <T> void post(String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
         OkHttpUtils.post().url(getUrl(url))
                 .tag(callback == null ? null : callback.tag)
-                .headers(cleanNullParamMap(headers))
-                .params(cleanNullParamMap(params))
+                .headers(cleanNullParamMap(true, headers))
+                .params(cleanNullParamMap(false, params))
                 //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
                 .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
@@ -124,8 +124,8 @@ public class MyOkHttpUtils {
         try {
             execute = OkHttpUtils.post().url(getUrl(url))
                     .tag(tag)
-                    .headers(cleanNullParamMap(headers))
-                    .params(cleanNullParamMap(params))
+                    .headers(cleanNullParamMap(true, headers))
+                    .params(cleanNullParamMap(false, params))
                     .build().execute();
         } catch (IOException e) {
             e.printStackTrace();
@@ -279,8 +279,8 @@ public class MyOkHttpUtils {
                                      PostFileCallback<T> callback) {
         PostFormBuilder builder = OkHttpUtils.post().url(getUrl(url))
                 .tag(callback == null ? null : callback.tag)
-                .headers(cleanNullParamMap(headers))
-                .params(cleanNullParamMap(params));
+                .headers(cleanNullParamMap(true, headers))
+                .params(cleanNullParamMap(false, params));
 //                  .files("file", files);
         if (files != null && files.size() > 0) {
             for (File file : files) {
@@ -311,7 +311,7 @@ public class MyOkHttpUtils {
      */
     public static <T> void postBody(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
         FormBody.Builder builder = new FormBody.Builder();
-        Map<String, String> cleanNullParamMap = cleanNullParamMap(params);
+        Map<String, String> cleanNullParamMap = cleanNullParamMap(false, params);
         if (cleanNullParamMap != null) {
             for (Map.Entry<String, String> entity : cleanNullParamMap.entrySet()) {
                 builder.add(entity.getKey(), entity.getValue());
@@ -438,20 +438,27 @@ public class MyOkHttpUtils {
     /**
      * 清除key值为null的参数 & 保证value != null
      * 并且转换为Map<String, String>
+     * 2个Map不能混为一用, 因为同一个请求同时有header和params的话, 是同一个请求
      * @param map
      * @return Nullable
      */
-    protected static final Map<String, String> returnMap = new LinkedHashMap<>();
-    protected synchronized static Map<String, String> cleanNullParamMap(@Nullable Map<String, Object> map) {
+    protected static final Map<String, String> returnHeaderMap = new LinkedHashMap<>();//header
+    protected static final Map<String, String> returnParamsMap = new LinkedHashMap<>();//params
+    protected synchronized static Map<String, String> cleanNullParamMap(boolean mapIsHeader, @Nullable Map<String, Object> map) {
         if (map == null || map.isEmpty()) return null;
-        returnMap.clear();
+        if (mapIsHeader) {
+            returnHeaderMap.clear();
+        } else returnParamsMap.clear();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
             if (!TextUtils.isEmpty(key)) {
-                returnMap.put(key, getNoNullString(entry.getValue()));
+                if (mapIsHeader) {
+                    returnHeaderMap.put(key, getNoNullString(entry.getValue()));
+                } else returnParamsMap.put(key, getNoNullString(entry.getValue()));
             }
         }
-        return returnMap;
+        if (mapIsHeader) return returnHeaderMap;
+        return returnParamsMap;
     }
 
     protected static String getNoNullString(Object object) {
