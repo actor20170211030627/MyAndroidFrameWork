@@ -78,12 +78,13 @@ import com.actor.myandroidframework.utils.TextUtil;
  */
 public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTextAble {
 
-    private TextView  tvRedStar;
-    private TextView  tvItem;
-    private EditText  et1;
-    private ImageView ivArrowRight;
-    private Space     spaceMarginTop;
-    private float     density;//px = dp * density;
+    protected TextView  tvRedStar;
+    protected TextView  tvItem;
+    protected EditText  et1;
+    protected ImageView ivArrowRight;
+    protected Space     spaceMarginTop;
+    protected float           density;//px = dp * density;
+    protected OnClickListener clickListener;
 
     public ItemTextInputLayout(Context context) {
         this(context,null);
@@ -96,6 +97,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
     public ItemTextInputLayout(final Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         density = getResources().getDisplayMetrics().density;
+        //可以自定义重写此布局到自己layout目录
         int layoutId = R.layout.item_text_input_layout;
         if (attrs == null) {
             inflate(context, layoutId);
@@ -103,7 +105,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
             //根据xml中属性, 给view赋值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemTextInputLayout);
             //左侧红点是否显示
-            int redStarVisiable = typedArray.getInt(R.styleable.ItemTextInputLayout_itilRedStarVisiable, 0);
+            int redStarVisiable = typedArray.getInt(R.styleable.ItemTextInputLayout_itilRedStarVisiable, VISIBLE);
             //EditText是否能输入
             boolean inputEnable = typedArray.getBoolean(R.styleable.ItemTextInputLayout_itilInputEnable, true);
             //左侧TextView的Text
@@ -135,20 +137,11 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
             typedArray.recycle();
 
             inflate(context, resourceId);
-            tvRedStar.setVisibility(redStarVisiable * 4);
+
+            tvRedStar.setVisibility(redStarVisiable * INVISIBLE);
             if (!inputEnable) setInputEnable(false);
-            if (itilItemName != null) {
-                getTextViewItem().setText(itilItemName);
-                if (itilHint == null) {//hint=null
-                    String trim = itilItemName.trim();
-                    if (trim.endsWith(":") || trim.endsWith("：")) {//去掉最后:
-                        trim = trim.substring(0, trim.length() - 1);
-                    }
-                    if (inputEnable) {//能输入
-                        setHint("请输入".concat(trim));//"请输入" + item名称
-                    } else setHint("请选择".concat(trim));//"请输入请选择 + item名称
-                } else setHint(itilHint);
-            }
+            getTextViewItem().setText(itilItemName);
+
             if (itilText != null) setText(itilText);
             if(itilImeOptions != -1) getEditText().setImeOptions(itilImeOptions);
             if (itilMaxLength >= 0) setMaxLength(itilMaxLength);
@@ -160,7 +153,27 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
                 if (inputEnable) {//如果能输入
                     ivArrowRight.setVisibility(GONE);//隐藏
                 } else ivArrowRight.setVisibility(VISIBLE);//显示
-            } else ivArrowRight.setVisibility(arrowRightVisiable * 4);//根据属性来设置显示状态
+            } else ivArrowRight.setVisibility(arrowRightVisiable * INVISIBLE);//根据属性来设置显示状态
+
+            //如果 hint = null
+            if (itilHint == null) {
+                if (itilItemName != null) {
+                    String trim = itilItemName.trim();
+                    if (trim.endsWith(":") || trim.endsWith("：")) {//去掉最后:
+                        trim = trim.substring(0, trim.length() - 1);
+                    }
+                    if (inputEnable) {//能输入
+                        setHint("请输入".concat(trim));//"请输入" + item名称
+                    } else {//不能输入
+                        if (ivArrowRight.getVisibility() == VISIBLE) {//右侧箭头显示
+                            setHint("请选择".concat(trim));//"请输入请选择 + item名称
+                        } else {
+                            //不能输入 & 右侧箭头不显示, 就不setHint()
+                        }
+                    }
+                }
+            } else setHint(itilHint);
+
             boolean gone = ivArrowRight.getVisibility() == GONE;
             if (paddingRightText == -999) paddingRightText = gone ? (int) (density * 10) : (int) (density * 5);
             setPaddingRightText(paddingRightText);
@@ -381,19 +394,14 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
     }
 
     @Override
-    public void setOnClickListener(@Nullable final OnClickListener onClickListener) {
-        //getChildAt(0) = android.widget.LinearLayout
-        getChildAt(0).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickListener != null) onClickListener.onClick(ItemTextInputLayout.this);
-            }
-        });
+    public void setOnClickListener(@Nullable OnClickListener onClickListener) {
+        super.setOnClickListener(onClickListener);
+        this.clickListener = onClickListener;
         getEditText().setOnClickListener(new OnClickListener() {//必须要设置,否则点击EditText无效
             @Override
             public void onClick(View v) {
-                if (onClickListener != null && getEditText().isClickable()) {
-                    onClickListener.onClick(ItemTextInputLayout.this);
+                if (clickListener != null && getEditText().isClickable()) {
+                    clickListener.onClick(ItemTextInputLayout.this);
                 }
             }
         });

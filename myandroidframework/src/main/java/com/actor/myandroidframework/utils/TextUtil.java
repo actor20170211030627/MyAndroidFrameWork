@@ -12,6 +12,7 @@ import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.util.SparseLongArray;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -220,7 +221,9 @@ public class TextUtil {
     protected static boolean isNoEmpty(TextView textView, CharSequence notify) {
         if (TextUtils.isEmpty(getText(textView))) {
             if (notify != null) ToastUtils.showShort(notify);
-            if (textView instanceof EditText) {
+            if (textView instanceof EditText &&
+                    textView.isFocusable() &&
+                    textView.getInputType() != EditorInfo.TYPE_NULL) {
                 textView.requestFocus();//先获取焦点
                 KeyboardUtils.showSoftInput(textView);
             }
@@ -270,7 +273,9 @@ public class TextUtil {
                 textInputLayout.setError(notify);
                 ToastUtils.showShort(notify);
             }
-            if (editText != null) {
+            if (editText != null &&
+                    editText.isFocusable() &&
+                    editText.getInputType() != EditorInfo.TYPE_NULL) {
                 editText.requestFocus();//先获取焦点
                 KeyboardUtils.showSoftInput(editText);
             }
@@ -300,10 +305,12 @@ public class TextUtil {
         /**
          * 如果{@link #getEditText()} 返回的EditText!=null, 并且EditText输入内容为空,
          * toast(getHint()) 后,  系统键盘是否自动弹出
-         * @return 默认true 可以弹出, 可重写此方法
+         * @return 默认: "EditText不为空" & "EditText可以有焦点" & "InputType()!=TYPE_NULL", 可重写此方法
          */
         default boolean keyboardShowAbleIfEditText() {
-            return true;
+            return getEditText() != null &&
+                    getEditText().isFocusable() &&
+                    getEditText().getInputType() != EditorInfo.TYPE_NULL;
         }
     }
 

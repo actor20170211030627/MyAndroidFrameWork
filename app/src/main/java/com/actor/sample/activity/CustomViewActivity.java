@@ -2,8 +2,10 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.actor.myandroidframework.widget.BaseRatingBar;
@@ -34,6 +36,8 @@ public class CustomViewActivity extends BaseActivity {
     ItemSpinnerLayout    itemSpinner;
     @BindView(R.id.itil1)
     ItemTextInputLayout  itil1;
+    @BindView(R.id.itil_can_not_input)
+    ItemTextInputLayout  itilCanNotInput;
     @BindView(R.id.btn2)
     Button               btn2;
 
@@ -79,7 +83,8 @@ public class CustomViewActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_check, R.id.btn2})
+    private boolean inPutEnable = false;
+    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.btn3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_check:
@@ -91,6 +96,24 @@ public class CustomViewActivity extends BaseActivity {
 //                itil1.setDigits("123456", true);
                 itil1.setDigitsRegex(digits[pos], true);
                 btn2.setText(btns[pos]);
+                break;
+            case R.id.itil_can_not_input:
+                toast("clicked!");
+                break;
+            case R.id.btn_input_enable:
+                inPutEnable = !inPutEnable;
+                itilCanNotInput.setInputEnable(inPutEnable);
+                break;
+            case R.id.btn3://测试不能输入&切换输入类型后键盘弹出\n(修复华为高版本手机和vivo低版本手机表现不一致)
+                EditText editText = itilCanNotInput.getEditText();
+                int inputType = editText.getInputType();
+                if (inputType == EditorInfo.TYPE_NULL) {
+                    editText.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+                } else {
+                    editText.setInputType(EditorInfo.TYPE_NULL);
+                }
+
+                boolean noEmpty = isNoEmpty(itilCanNotInput, "判空");
                 break;
         }
     }

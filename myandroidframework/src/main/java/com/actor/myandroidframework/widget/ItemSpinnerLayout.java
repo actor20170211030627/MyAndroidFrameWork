@@ -76,6 +76,7 @@ public class ItemSpinnerLayout extends LinearLayout {
 
     protected void init(Context context, AttributeSet attrs) {
         density = getResources().getDisplayMetrics().density;
+        //可以自定义重写此布局到自己layout目录
         int layoutId = R.layout.item_spinner_layout;
         if (attrs == null) {
             inflate(context, layoutId);

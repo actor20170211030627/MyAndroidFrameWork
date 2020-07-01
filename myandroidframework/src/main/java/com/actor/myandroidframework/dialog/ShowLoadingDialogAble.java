@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.dialog;
 
 import android.app.Dialog;
+import android.support.annotation.Nullable;
 
 /**
  * description: show / dismiss Dialog able
@@ -11,7 +12,7 @@ import android.app.Dialog;
  */
 public interface ShowLoadingDialogAble {
 
-    Dialog getLoadingDialog(boolean cancelable);
+    @Nullable Dialog getLoadingDialog(boolean cancelable);
 
     void showLoadingDialog();
 

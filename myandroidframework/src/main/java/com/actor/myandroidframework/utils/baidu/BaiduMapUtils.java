@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -37,6 +38,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
 
 /**
  * description: 百度地图帮助类
@@ -82,7 +85,7 @@ public class BaiduMapUtils {
      * 地理编码:
      * http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
      */
-    public static void getLngLatByNet(String address, BaseCallback callback) {
+    public static void getLngLatByNet(String address, BaseCallback<LngLatInfo> callback) {
         params.clear();
         params.put("output", "json");
         params.put("ak", AK);
@@ -103,7 +106,7 @@ public class BaiduMapUtils {
      * 逆地理编码:
      * http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding-abroad
      */
-    public static void getAddressByNet(double lng, double lat, BaseCallback callback) {
+    public static void getAddressByNet(double lng, double lat, BaseCallback<AddressInfo> callback) {
         params.clear();
         params.put("output", "json");
         params.put("latest_admin", 1);
@@ -112,6 +115,60 @@ public class BaiduMapUtils {
         params.put("mcode", SHA1.concat(PACKAGE_NAME));
         //文档写用get请求, 但是报错{"status":230,"message":"APP Mcode码校验失败"}
         MyOkHttpUtils.post(BASE_URL, params, callback);
+    }
+
+    /**
+     * 获取完整路径
+     * @param lng 经度,比如:87.593087
+     * @param lat 纬度,比如:43.795592
+     * @param callback 回调, 不能传null
+     */
+    public static void getAddressStringByNet(double lng, double lat, @NonNull OnAddressCallback callback) {
+        getAddressByNet(lng, lat, new BaseCallback<AddressInfo>(callback.tag) {
+
+            @Override
+            public void onOk(@NonNull AddressInfo info, int id) {
+                if (info.status == 0) {
+                    AddressInfo.ResultBean result = info.result;
+                    if (result != null) {
+                        double lng = 0, lat = 0;
+                        String place = null;
+                        AddressInfo.ResultBean.LocationBean location = result.location;
+                        AddressInfo.ResultBean.AddressComponentBean address = result.addressComponent;
+                        if (location != null) {
+                            lng = location.lng;
+                            lat = location.lat;
+                        }
+                        if (address != null) {//重庆市南岸区东水门大桥东北100米
+                            place = address.city + address.district +  result.sematic_description;
+                        }
+                        callback.onOk(lng, lat, place, id);
+                    } else {
+                        callback.onOk(0, 0, null, id);
+                    }
+                } else {
+                    callback.onOk(0, 0, null, id);
+                }
+            }
+            @Override
+            public void onError(int id, Call call, Exception e) {
+                super.onError(id, call, e);
+                callback.onError(id, call, e);
+            }
+        });
+    }
+    public static abstract class OnAddressCallback {
+        public Object tag;
+        public int id;
+        public OnAddressCallback(Object tag) {
+            this.tag = tag;
+        }
+        public OnAddressCallback(Object tag, int id) {
+            this.tag = tag;
+            this.id = id;
+        }
+        public abstract void onOk(double lng, double lat, @Nullable String address, int id);
+        public void onError(int id, Call call, Exception e) {}
     }
 
     /**
@@ -370,6 +427,10 @@ public class BaiduMapUtils {
     /**
      * 显示/移除 覆盖物
      * 移除该覆盖物, 移除后再调用overlay.setVisible(true);无效!!!
+     *
+     * @see #setOverlayVisible(boolean, Overlay...)
+     * @see #setOverlayVisible(boolean, List)
+     *
      * @param showOrRemove true显示, false移除
      * @param overlays 覆盖物, overlay = baiduMap.addOverlay(overlayOptions);
      */

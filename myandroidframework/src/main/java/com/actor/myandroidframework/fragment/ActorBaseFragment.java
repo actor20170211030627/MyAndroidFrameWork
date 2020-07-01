@@ -314,11 +314,13 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
     }
 
     public void showLoadingDialog(boolean cancelable) {
-        getLoadingDialog(cancelable).show();
+        LoadingDialog dialog = getLoadingDialog(cancelable);
+        if (dialog != null) dialog.show();
     }
 
     @Override
-    public LoadingDialog getLoadingDialog(boolean cancelable) {
+    public @Nullable LoadingDialog getLoadingDialog(boolean cancelable) {
+        if (activity == null) return null;//onCreate()前调用会出问题
         if (loadingDialog == null) loadingDialog = new LoadingDialog(activity);
         loadingDialog.setCancelAble(cancelable);
         return loadingDialog;

@@ -392,12 +392,14 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     }
 
     public void showLoadingDialog(boolean cancelable) {
-        getLoadingDialog(cancelable).show();
+        LoadingDialog dialog = getLoadingDialog(cancelable);
+        if (dialog != null) dialog.show();
     }
 
     @Override
-    public LoadingDialog getLoadingDialog(boolean cancelable) {
-        if (loadingDialog == null) loadingDialog = new LoadingDialog(this);
+    public @Nullable LoadingDialog getLoadingDialog(boolean cancelable) {
+        if (activity == null) return null;
+        if (loadingDialog == null) loadingDialog = new LoadingDialog(activity);
         loadingDialog.setCancelAble(cancelable);
         return loadingDialog;
     }
