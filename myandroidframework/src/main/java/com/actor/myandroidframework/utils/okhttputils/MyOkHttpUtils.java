@@ -13,8 +13,6 @@ import com.zhy.http.okhttp.request.RequestCall;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -24,7 +22,6 @@ import java.util.Map;
 import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -39,7 +36,7 @@ import okhttp3.Response;
  * @version 1.3.3 传参Map<String, String>修改成Map<String, Object>
  * @version 1.3.4 添加tag(),cancel功能
  * @version 1.3.5 增加同步sync方法
- * @version 1.3.6 增加方法 {@link #postBody(String, Map, BaseCallback)}
+ * @version 1.3.6 增加方法 {@link #postFormBody(String, Map, Map, BaseCallback)}
  */
 public class MyOkHttpUtils {
 
@@ -71,28 +68,61 @@ public class MyOkHttpUtils {
      * @param <T>       要解析成什么类型的对象,示例:JSONObject, String, BaseInfo...
      */
     public static <T> void get(String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
-        OkHttpUtils.get().url(getUrl(url)).tag(callback == null ? null : callback.tag)
-                .headers(cleanNullParamMap(true, headers))
-                .params(cleanNullParamMap(false, params))
-                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
-                .id(callback == null ? 0 : callback.id)
-                .build().execute(callback);
+        Request.Builder builder = new Request.Builder()
+                .get()
+                .url(urlAppendParams(getUrl(url), params))
+                .tag(callback == null ? null : callback.tag);
+        if (headers != null && !headers.isEmpty()) {
+            for (Map.Entry<String, Object> entry : headers.entrySet()) {
+                String key = entry.getKey();
+                if (!TextUtils.isEmpty(key)) {
+                    builder.addHeader(key, getNoNullString(entry.getValue()));
+                }
+            }
+        }
+        OkHttpUtils.getInstance().getOkHttpClient()
+                //.newBuilder().connectTimeout()...
+                .newCall(builder.build())
+                .enqueue(callback == null ? new NullCallback() : callback);//不能为空
+
+        /**
+         * 不能使用{@link OkHttpUtils#get()}, 因为↓ 这个方法组合成的url不对
+         * @see com.zhy.http.okhttp.builder.GetBuilder#appendParams(String, Map)
+         * 会导致请求时url一些不该被Encode的字符被Encode(: => %3A), 例:
+         * @see com.actor.myandroidframework.utils.baidu.BaiduMapUtils#getAddressByNet(double, double, BaseCallback)//"报错: APP Mcode码校验失败"
+         */
+//        OkHttpUtils.get().url(getUrl(url)).tag(callback == null ? null : callback.tag)
+//                .headers(cleanNullParamMap(true, headers))
+//                .params(cleanNullParamMap(false, params))
+//                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
+//                .id(callback == null ? 0 : callback.id)
+//                .build().execute(callback);
     }
 
     /**
      * get同步请求
      */
     public static Response getSync(String url, Map<String, Object> headers, Map<String, Object> params, Object tag) {
-        Response execute = null;
+        Request.Builder builder = new Request.Builder()
+                .get()
+                .url(urlAppendParams(getUrl(url), params))
+                .tag(tag);
+        if (headers != null && !headers.isEmpty()) {
+            for (Map.Entry<String, Object> entry : headers.entrySet()) {
+                String key = entry.getKey();
+                if (!TextUtils.isEmpty(key)) {
+                    builder.addHeader(key, getNoNullString(entry.getValue()));
+                }
+            }
+        }
         try {
-            execute = OkHttpUtils.get().url(getUrl(url)).tag(tag)
-                    .headers(cleanNullParamMap(true, headers))
-                    .params(cleanNullParamMap(false, params))
-                    .build().execute();
+            return OkHttpUtils.getInstance().getOkHttpClient()
+                    .newCall(builder.build())
+                    .execute();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return execute;
     }
 
     public static <T> void post(String url, Map<String, Object> params, BaseCallback<T> callback) {
@@ -113,24 +143,25 @@ public class MyOkHttpUtils {
                 .params(cleanNullParamMap(false, params))
                 //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
                 .id(callback == null ? 0 : callback.id)
-                .build().execute(callback);
+                .build()
+                //.connTimeOut(15000).readTimeOut(15000).writeTimeOut(15000)
+                .execute(callback);
     }
 
     /**
      * post同步请求, 比如token过期后重新获取token, 在同一线程内刷新token
      */
     public static Response postSync(String url, Map<String, Object> headers, Map<String, Object> params, Object tag) {
-        Response execute = null;
         try {
-            execute = OkHttpUtils.post().url(getUrl(url))
+            return OkHttpUtils.post().url(getUrl(url))
                     .tag(tag)
                     .headers(cleanNullParamMap(true, headers))
                     .params(cleanNullParamMap(false, params))
                     .build().execute();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return execute;
     }
 
     /**
@@ -164,35 +195,15 @@ public class MyOkHttpUtils {
      * @param <T>       要解析成什么类型的对象
      */
     public static <T> void postJson(String url, Map<String, Object> params, String json, BaseCallback<T> callback) {
-        //postString的时候, 参数拼在url后面
-        if (params != null && !params.isEmpty()) {
-            boolean isFirstParams = true;
-            StringBuilder urlBuilder = new StringBuilder(url);
-            if (!url.endsWith("?")) urlBuilder.append("?");
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                String key = entry.getKey();
-                if (!TextUtils.isEmpty(key)) {
-                    String value = getNoNullString(entry.getValue());
-                    if (isFirstParams) {
-                        urlBuilder.append(key).append("=").append(value);
-                        isFirstParams = false;
-                    } else urlBuilder.append("&").append(key).append("=").append(value);
-                }
-            }
-            url = urlBuilder.toString();
-        }
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         if (true) {
             OkHttpUtils.postString()
-                    .url(getUrl(url))
+                    .url(urlAppendParams(getUrl(url), params))//postString的时候, 参数拼在url后面
                     .tag(callback == null ? null : callback.tag)
                     .content(json == null ? "" : json)//判空否则会报错
-                    //.addHeader()//不要通过addHeader去设置contentType
-                    //一定要设置MediaType:设置Content-Type 标头中包含的媒体类型值
-                    .mediaType(mediaType)
+                    .mediaType(mediaType)//一定要设置MediaType:设置Content-Type 标头中包含的媒体类型值
                     .id(callback == null ? 0 : callback.id)
                     .build()
-//                    .connTimeOut(15000).readTimeOut(15000).writeTimeOut(15000)
                     .execute(callback);
         } else {
             //也可以这样直接使用Okhttp3直接请求
@@ -200,14 +211,16 @@ public class MyOkHttpUtils {
             Request request = new Request.Builder()
                     .url(getUrl(url))
                     .post(requestBody)
+                    .tag(callback == null ? null : callback.tag)
                     .build();
-            OkHttpClient client = new OkHttpClient.Builder().build();
-            client.newCall(request).enqueue(null);
+            OkHttpUtils.getInstance().getOkHttpClient()
+                    .newCall(request)
+                    .enqueue(callback == null ? new NullCallback() : callback);
         }
     }
 
     /**
-     * 将文件作为请求体，发送到服务器
+     * 将文件以流的形式，发送到服务器
      * @param url
      * @param file
      * @param callback 回调
@@ -216,8 +229,9 @@ public class MyOkHttpUtils {
     public static <T> void postFile(String url, File file, BaseCallback<T> callback) {
         OkHttpUtils.postFile().url(getUrl(url)).tag(callback == null ? null : callback.tag)
                 .file(file)
-                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值(如果用不着,可瞎传一个数字)
-                .id(callback == null ? 0 : callback.id).build().execute(callback);
+                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
+                .id(callback == null ? 0 : callback.id)
+                .build().execute(callback);
     }
 
     /**
@@ -253,7 +267,7 @@ public class MyOkHttpUtils {
                                      Map<String, Object> headers, Map<String, Object> params,
                                      PostFileCallback<T> callback) {
         List<File> files = new ArrayList<>();
-        if (filePaths != null && filePaths.size() > 0) {
+        if (filePaths != null && !filePaths.isEmpty()) {
             for (String filePath : filePaths) {
                 if (!TextUtils.isEmpty(filePath)) {
                     files.add(new File(filePath));
@@ -281,21 +295,24 @@ public class MyOkHttpUtils {
                 .tag(callback == null ? null : callback.tag)
                 .headers(cleanNullParamMap(true, headers))
                 .params(cleanNullParamMap(false, params));
-//                  .files("file", files);
-        if (files != null && files.size() > 0) {
+//                .files(key, files);
+        if (files != null && !files.isEmpty()) {
             for (File file : files) {
                 //<input type="file" name="mFile"/>注意这个mFile要和后端协商好,否则接收不到
                 if (file != null && file.isFile()) {
-                    try {
-                        /**
-                         * https://github.com/square/okhttp/issues/4564
-                         * fixed 文件名UTF-8转码,避免上传中文文件时以下方法抛异常问题
-                         * @see okhttp3.Headers#checkValue(String, String)
-                         */
-                        builder.addFile(key, URLEncoder.encode(file.getName(), "UTF-8"), file);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        /**
+//                         * https://github.com/square/okhttp/issues/4564
+//                         * @see okhttp3.Headers#checkValue(String, String)
+//                         * fixed 文件名UTF-8转码,避免上传中文文件时以下方法抛异常问题
+//                         *
+//                         * 已修复: https://github.com/square/okhttp/pull/4584
+//                         *
+//                         */
+                        builder.addFile(key, /*URLEncoder.encode(*/file.getName()/*, "UTF-8")*/, file);
+//                    } catch (UnsupportedEncodingException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         }
@@ -309,22 +326,30 @@ public class MyOkHttpUtils {
      * @param callback  回调, 如果要使用id, 在这个回调的构造方法中传入!!
      * @param <T>       要解析成什么类型的对象
      */
-    public static <T> void postBody(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
-        FormBody.Builder builder = new FormBody.Builder();
-        Map<String, String> cleanNullParamMap = cleanNullParamMap(false, params);
-        if (cleanNullParamMap != null) {
-            for (Map.Entry<String, String> entity : cleanNullParamMap.entrySet()) {
-                builder.add(entity.getKey(), entity.getValue());
+    public static <T> void postFormBody(@NonNull String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
+        Map<String, String> headerMap = cleanNullParamMap(true, headers);
+        Map<String, String> paramsMap = cleanNullParamMap(false, params);
+        FormBody.Builder formBodyBuilder = new FormBody.Builder();
+        if (paramsMap != null && !paramsMap.isEmpty()) {
+            for (Map.Entry<String, String> entity : paramsMap.entrySet()) {
+                formBodyBuilder.add(entity.getKey(), entity.getValue());
             }
         }
-        FormBody formBody = builder.build();
-        Request request = new Request.Builder()
+        Request.Builder requestBuilder = new Request.Builder()
                 .url(getUrl(url))
-                .post(formBody)
-                .build();
+                .post(formBodyBuilder.build())
+                .tag(callback == null ? null : callback.tag);
+        if (headerMap != null && !headerMap.isEmpty()) {
+            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                String key = entry.getKey();
+                if (!TextUtils.isEmpty(key)) {
+                    requestBuilder.addHeader(key, getNoNullString(entry.getValue()));
+                }
+            }
+        }
         OkHttpUtils.getInstance().getOkHttpClient()
-                .newCall(request)
-                .enqueue(callback);
+                .newCall(requestBuilder.build())
+                .enqueue(callback == null ? new NullCallback() : callback);
     }
 
     /**
@@ -343,35 +368,36 @@ public class MyOkHttpUtils {
 
     /**
      * 下载文件回调
-     *
-     * @param url
-     * @param callback     回调
+     * @param url 网址
+     * @param callback 回调
      */
-    public static void getFile(@NonNull String url, GetFileCallback callback) {
-        OkHttpUtils.get().url(getUrl(url)).tag(callback == null ? null : callback.tag)
-                .build()
-                .execute(callback);
+    public static void getFile(@NonNull String url, Map<String, Object> headers, Map<String, Object> params, GetFileCallback callback) {
+        get(url, headers, params, callback);
     }
 
-    public static <T> void deleteJson(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
+    public static <T> void deleteJson(@NonNull String url, String json, BaseCallback<T> callback) {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody requestBody = RequestBody.create(mediaType, GsonUtils.toJson(params));
+        RequestBody requestBody = RequestBody.create(mediaType, json);
         OkHttpUtils.delete().url(getUrl(url)).tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
                 .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
     }
 
-    public static <T> void putJson(@NonNull String url, Map<String, Object> params, BaseCallback<T> callback) {
+    public static <T> void putJson(@NonNull String url, String json, BaseCallback<T> callback) {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody requestBody = RequestBody.create(mediaType, GsonUtils.toJson(params));
+        RequestBody requestBody = RequestBody.create(mediaType, json);
         OkHttpUtils.put().url(getUrl(url)).tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
                 .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
     }
 
+    /**
+     * 自定义请求示例
+     */
     public static <T> void customRequest(String url, Map<String, Object> params, BaseCallback<T> callback) {
+        if (true) return;
         //自定义put
         RequestBody requestBody = RequestBody.create((MediaType) null, "json or something");
         OkHttpUtils.put()//also can use delete() ,head() , patch()
@@ -388,26 +414,13 @@ public class MyOkHttpUtils {
                 .execute(callback);
 
         //自定义POST
-        boolean isFirstParams = true;
-        StringBuilder urlBuilder = new StringBuilder(url);
-        if (!url.contains("?")) urlBuilder.append("?");
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            String key = entry.getKey();
-            if (!TextUtils.isEmpty(key)) {
-                String value = getNoNullString(entry.getValue());
-                if (isFirstParams) {
-                    urlBuilder.append(key).append("=").append(value);
-                    isFirstParams = false;
-                } else urlBuilder.append("&").append(key).append("=").append(value);
-            }
-        }
-        url = urlBuilder.toString();
         Request request = new Request.Builder()
                 .method("POST",requestBody)
-                .url(getUrl(url))
+                .url(urlAppendParams(getUrl(url), params))
                 .build();
-        OkHttpClient client = OkHttpUtils.getInstance().getOkHttpClient();
-        client.newCall(request).enqueue(callback);
+        OkHttpUtils.getInstance().getOkHttpClient()
+                .newCall(request)
+                .enqueue(callback);
     }
 
     /**
@@ -433,6 +446,37 @@ public class MyOkHttpUtils {
         if (cookieJar instanceof CookieJarImpl) {
             ((CookieJarImpl) cookieJar).getCookieStore().removeAll();
         }
+    }
+
+
+    /**
+     * 将params拼接到url后面
+     * @param url url
+     * @param params 参数
+     * @return 拼接后的url
+     */
+    protected static @NonNull String urlAppendParams(@NonNull String url, @Nullable Map<String, Object> params) {
+        if (params == null || params.isEmpty()) return url;
+        StringBuilder builder = new StringBuilder(url);
+        boolean endWihtQuestionMark;//是否'?'结尾
+        if (!url.contains("?")) {
+            builder.append("?");
+            endWihtQuestionMark = true;
+        } else {
+            endWihtQuestionMark = url.endsWith("?");
+        }
+        //http://www.xxx.com/?a=a & b=b & c=c
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key = entry.getKey();
+            if (!TextUtils.isEmpty(key)) {
+                String value = getNoNullString(entry.getValue());
+                if (endWihtQuestionMark) {
+                    builder.append(key).append("=").append(value);
+                    endWihtQuestionMark = false;
+                } else builder.append("&").append(key).append("=").append(value);
+            }
+        }
+        return builder.toString();
     }
 
     /**

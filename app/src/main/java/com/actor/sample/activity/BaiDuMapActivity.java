@@ -2,11 +2,14 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.utils.baidu.BaiduLocationUtils;
 import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
+import com.actor.myandroidframework.utils.baidu.LngLatInfo;
+import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.sample.R;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -91,7 +94,8 @@ public class BaiDuMapActivity extends BaseActivity {
         BaiduMapUtils.addOnMarkerClickListener(baiduMap, markerClickListener);
     }
 
-    @OnClick({R.id.btn_start, R.id.btn_stop, R.id.iv_person, R.id.iv_repository, R.id.iv_car,
+    @OnClick({R.id.btn_start, R.id.btn_stop, R.id.btn_get_address_by_latlng,
+            R.id.btn_get_latlng_by_address, R.id.iv_person, R.id.iv_repository, R.id.iv_car,
             R.id.iv_camera, R.id.iv_bridge})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -101,6 +105,32 @@ public class BaiDuMapActivity extends BaseActivity {
                 break;
             case R.id.btn_stop://结束定位
                 stopLocation();
+                break;
+            case R.id.btn_get_address_by_latlng://坐标→'网络'→地址
+                BaiduMapUtils.getAddressStringByNet(87.593087, 43.795592, new BaiduMapUtils.OnAddressCallback(this) {
+                    @Override
+                    public void onOk(double lng, double lat, @Nullable String address, int id) {
+                        dismissLoadingDialog();
+                        toast(address);
+                    }
+                });
+                break;
+            case R.id.btn_get_latlng_by_address://地址→'网络'→坐标
+                BaiduMapUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
+                    @Override
+                    public void onOk(@NonNull LngLatInfo info, int id) {
+                        dismissLoadingDialog();
+                        if (info.status == 0) {
+                            LngLatInfo.ResultBean result = info.result;
+                            if (result != null) {
+                                LngLatInfo.ResultBean.LocationBean location = result.location;
+                                if (location != null) {
+                                    toast(getStringFormat("lng=%f, lat=%f", location.lng, location.lat));
+                                }
+                            }
+                        } else toast(info.message);
+                    }
+                });
                 break;
             case R.id.iv_person://人
                 showMarkerPersonList(view);

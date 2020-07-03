@@ -11,20 +11,20 @@ public class LngLatInfo {
 
     /**
      * status : 0
-     * result : {"location":{"lng":106.55843415537664,"lat":29.568996245338923},"precise":0,
-     * "confidence":0,"comprehension":100,"level":"城市"}
+     * result : {"location":{"lng":116.3084202915042,"lat":40.05703033345938},"precise":1,"confidence":80,"comprehension":100,"level":"门址"}
      */
 
     public int status;
+    public String message;
     public ResultBean result;
 
     public static class ResultBean {
         /**
-         * location : {"lng":106.55843415537664,"lat":29.568996245338923}
-         * precise : 0
-         * confidence : 0
+         * location : {"lng":116.3084202915042,"lat":40.05703033345938}
+         * precise : 1
+         * confidence : 80
          * comprehension : 100
-         * level : 城市
+         * level : 门址
          */
 
         public LocationBean location;
@@ -35,39 +35,12 @@ public class LngLatInfo {
 
         public static class LocationBean {
             /**
-             * lng : 106.55843415537664
-             * lat : 29.568996245338923
+             * lng : 116.3084202915042
+             * lat : 40.05703033345938
              */
 
             public double lng;
             public double lat;
-
-            @Override
-            public String toString() {
-                return "LocationBean{" +
-                        "lng=" + lng +
-                        ", lat=" + lat +
-                        '}';
-            }
         }
-
-        @Override
-        public String toString() {
-            return "ResultBean{" +
-                    "location=" + location +
-                    ", precise=" + precise +
-                    ", confidence=" + confidence +
-                    ", comprehension=" + comprehension +
-                    ", level='" + level + '\'' +
-                    '}';
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "LngLatInfo{" +
-                "status=" + status +
-                ", result=" + result +
-                '}';
     }
 }

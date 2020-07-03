@@ -1,5 +1,7 @@
 package com.actor.myandroidframework.utils.retrofit;
 
+import android.support.annotation.Nullable;
+
 import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtil;
@@ -27,7 +29,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     public    Object  tag;
     public    boolean requestIsRefresh  = false;//这次请求是否是(下拉)刷新
 
-    public BaseCallback2(Object tag) {
+    public BaseCallback2(@Nullable Object tag) {
         this.tag = tag;
         onBefore(id);
     }
@@ -39,7 +41,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
      *              当上传成功后, 就可根据这个id判断是上传哪一个文件.
      */
-    public BaseCallback2(Object tag, int id) {
+    public BaseCallback2(@Nullable Object tag, int id) {
         this.tag = tag;
         this.id = id;
         onBefore(id);
@@ -48,7 +50,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     /**
      * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
      */
-    public BaseCallback2(Object tag, boolean isRefresh) {
+    public BaseCallback2(@Nullable Object tag, boolean isRefresh) {
         this.tag = tag;
         this.requestIsRefresh = isRefresh;
         onBefore(id);

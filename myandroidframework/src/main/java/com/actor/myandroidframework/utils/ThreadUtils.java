@@ -54,7 +54,12 @@ public class ThreadUtils {
      * @return 返回当前线程id
      */
     public static long getCurrentThreadId() {
+        //获取线程名
+//        String threadName = Thread.currentThread().getName();
+
         return Thread.currentThread().getId();
 //        int processId = android.os.Process.myTid();//当前"进程"的id
+
+
     }
 }

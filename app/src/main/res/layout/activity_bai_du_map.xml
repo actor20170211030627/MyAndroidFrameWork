@@ -37,6 +37,23 @@
         android:padding="5dp"
         app:layout_constraintTop_toBottomOf="@id/btn_start" />
 
+    <Button
+        android:id="@+id/btn_get_address_by_latlng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="坐标→'网络'→地址"
+        app:layout_constraintLeft_toLeftOf="@id/btn_start"
+        app:layout_constraintTop_toBottomOf="@id/btn_start" />
+
+    <Button
+        android:id="@+id/btn_get_latlng_by_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="地址→'网络'→坐标"
+        app:layout_constraintLeft_toRightOf="@id/btn_get_address_by_latlng"
+        app:layout_constraintTop_toTopOf="@id/btn_get_address_by_latlng" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

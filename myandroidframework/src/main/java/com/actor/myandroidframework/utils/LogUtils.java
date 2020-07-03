@@ -28,19 +28,13 @@ public class LogUtils {
     protected static void privatePrintln(boolean isDirectCall, Object msg) {
         int eleNum = isDirectCall ? 4 : 5;
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[eleNum];
-        //获取线程名
-//        String threadName = Thread.currentThread().getName();
-        //获取线程ID
-//        long threadID = Thread.currentThread().getId();
-        //获取文件名.即xxx.java
+        //获取文件名: ActorBaseActivity.java
         String fileName = stackTraceElement.getFileName();
-        //字节名, 包名 + 类名: com.google.package.activity.ActorBaseActivity
+        //ClassName = 包名 + 类名: com.google.package.activity.ActorBaseActivity
 //        String className = stackTraceElement.getClassName();
-        //文件名,例:LoginActivity
-//        String simpleName = stackTraceElement.getClass().getSimpleName();
-        // 获取方法名称
+        //获取方法名称: onCreate
         String methodName = stackTraceElement.getMethodName();
-        // 获取日志输出行数
+        //获取日志输出行数
         int lineNumber = stackTraceElement.getLineNumber();
         System.out.printf("%s %d行, 方法名:%s, 输出:%s", fileName, lineNumber, methodName, msg);
     }
@@ -87,15 +81,11 @@ public class LogUtils {
         int eleNum = isDirectCall ? 4 : 5;
         if(msg == null) msg = "null";
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[eleNum];
-        //获取线程名
-//        String threadName = Thread.currentThread().getName();
-        //获取线程ID
-//        long threadID = Thread.currentThread().getId();
-        //获取文件名.即xxx.java
+        //获取文件名: ActorBaseActivity.java
         String fileName = stackTraceElement.getFileName();
-        //字节名, 包名 + 类名: com.google.package.activity.ActorBaseActivity
+        //ClassName = 包名 + 类名: com.google.package.activity.ActorBaseActivity
 //        String className = stackTraceElement.getClassName();
-        //获取方法名称
+        //获取方法名称: onCreate
         String methodName = stackTraceElement.getMethodName();
         //获取日志输出行数
         int lineNumber = stackTraceElement.getLineNumber();
@@ -117,7 +107,6 @@ public class LogUtils {
                 Log.e(fileName, stringFormat);
                 break;
         }
-
     }
 
     protected enum Level {

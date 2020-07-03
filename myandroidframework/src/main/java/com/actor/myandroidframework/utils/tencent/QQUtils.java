@@ -27,8 +27,12 @@ import org.json.JSONObject;
  * 2.将jar包放在libs目录下, 并且在app的gradle中添加:
  *   implementation files('libs/open_sdk_r2973327_lite.jar')//QQ登录等v3.3.7
  *
- * 3.需要在清单文件中添加: https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95
- * //只需添加1个, 另外一个已经添加了的
+ * 3.在腾讯开放平台注册成为开发者，然后获取APP ID
+ *   注册开发者地址(一般是公司注册): https://open.qq.com/reg
+ *   创建应用, 获取APP ID: https://connect.qq.com/manage.html#/
+ *
+ * 4.需要在清单文件中添加: https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95
+ * //只需添加以下1个activity, 另外一个activity已经添加了的.
  * <!-- 以下1个activity是QQ登录 -->
  * <activity
  *     android:name="com.tencent.tauth.AuthActivity"
@@ -42,11 +46,11 @@ import org.json.JSONObject;
  *     </intent-filter>
  * </activity>
  *
- * 4.在Application中设置appid: {@link #setAppId(String)}
+ * 5.在Application中设置appid: {@link #setAppId(String)}
  *
- * 5.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
+ * 6.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
  *
- * 6.示例使用:
+ * 7.示例使用:
  * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
  *
  * @author     : 李大发

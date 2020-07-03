@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.utils.okhttputils;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -52,7 +53,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     public    int               id;
     public    boolean           requestIsRefresh             = false;//这次请求是否是(下拉)刷新
 
-    public BaseCallback(Object tag) {
+    public BaseCallback(@Nullable Object tag) {
         this.tag = tag;
     }
 
@@ -66,7 +67,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
      *              当上传成功后, 就可根据这个id判断是上传哪一个文件.
      */
-    public BaseCallback(Object tag, int id) {
+    public BaseCallback(@Nullable Object tag, int id) {
         this.tag = tag;
         this.id = id;
     }
@@ -74,7 +75,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     /**
      * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
      */
-    public BaseCallback(Object tag, boolean isRefresh) {
+    public BaseCallback(@Nullable Object tag, boolean isRefresh) {
         this.tag = tag;
         this.requestIsRefresh = isRefresh;
     }

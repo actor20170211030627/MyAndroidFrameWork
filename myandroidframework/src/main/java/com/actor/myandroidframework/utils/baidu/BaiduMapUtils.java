@@ -67,9 +67,11 @@ import okhttp3.Call;
  */
 public class BaiduMapUtils {
 
-    protected static final String BASE_URL = "http://api.map.baidu.com/geocoder/v2/";
-    //protected static final String BASE_URL = "http://api.map.baidu.com/geocoding/v3/";
-    protected static final String AK = "u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX";
+    //逆地理编码url, 坐标->地址
+    protected static final String URL_REVERSE_GEOCODING = "http://api.map.baidu.com/reverse_geocoding/v3/";
+    //地理编码url, 地址->坐标
+    protected static final String URL_GEOCODING = "http://api.map.baidu.com/geocoding/v3/";
+    protected static final String AK                    = "u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX";
     protected static final String SHA1 = "F5:18:3E:C1:04:17:FC:B2:34:18:7A:11:1D:7E:C7:81:69:08:65:1B";
     protected static final String PACKAGE_NAME = ";com.actor.sample";//; + 包名
     protected static final Map<String, Object> params = new LinkedHashMap<>(10);
@@ -91,8 +93,7 @@ public class BaiduMapUtils {
         params.put("ak", AK);
         params.put("address", address);
         params.put("mcode", SHA1.concat(PACKAGE_NAME));
-        //文档写用get请求, 但是报错{"status":230,"message":"APP Mcode码校验失败"}
-        MyOkHttpUtils.post(BASE_URL, params, callback);
+        MyOkHttpUtils.get(URL_GEOCODING, params, callback);
     }
 
     /**
@@ -109,12 +110,13 @@ public class BaiduMapUtils {
     public static void getAddressByNet(double lng, double lat, BaseCallback<AddressInfo> callback) {
         params.clear();
         params.put("output", "json");
-        params.put("latest_admin", 1);
         params.put("ak", AK);
+        //params.put("coordtype", "bd09ll");//默认
+        //params.put("poi_types", "酒店|房地产");
+        //params.put("extensions_poi", "1");//将上方查询点返回, 默认0不返回
         params.put("location", lat + "," + lng);
         params.put("mcode", SHA1.concat(PACKAGE_NAME));
-        //文档写用get请求, 但是报错{"status":230,"message":"APP Mcode码校验失败"}
-        MyOkHttpUtils.post(BASE_URL, params, callback);
+        MyOkHttpUtils.get(URL_REVERSE_GEOCODING, params, callback);
     }
 
     /**
@@ -132,21 +134,18 @@ public class BaiduMapUtils {
                     AddressInfo.ResultBean result = info.result;
                     if (result != null) {
                         double lng = 0, lat = 0;
-                        String place = null;
+                        String address = result.formatted_address;
                         AddressInfo.ResultBean.LocationBean location = result.location;
-                        AddressInfo.ResultBean.AddressComponentBean address = result.addressComponent;
                         if (location != null) {
                             lng = location.lng;
                             lat = location.lat;
                         }
-                        if (address != null) {//重庆市南岸区东水门大桥东北100米
-                            place = address.city + address.district +  result.sematic_description;
-                        }
-                        callback.onOk(lng, lat, place, id);
+                        callback.onOk(lng, lat, address, id);
                     } else {
                         callback.onOk(0, 0, null, id);
                     }
                 } else {
+                    toast(info.message);
                     callback.onOk(0, 0, null, id);
                 }
             }
