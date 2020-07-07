@@ -29,7 +29,7 @@
     </li>
     <li>
         //https://github.com/Blankj/AndroidUtilCode 许多工具 <br/>
-        api 'com.blankj:utilcode:1.26.0' <br/> <br/>
+        api 'com.blankj:utilcode:1.28.4' <br/> <br/>
     </li>
     <li>
         //https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案 <br/>
@@ -57,15 +57,15 @@
     </li>
     <li>
         //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等 <br/>
-        api 'com.contrarywind:Android-PickerView:4.1.8' <br/> <br/>
+        api 'com.contrarywind:Android-PickerView:4.1.9' <br/> <br/>
     </li>
     <li>
         //https://github.com/H07000223/FlycoDialog_Master 各种Dialog & Popup <br/>
         api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar' <br/> <br/>
     </li>
     <li>
-        //https://github.com/hongyangAndroid/okhttputils <br/>
-        api 'com.zhy:okhttputils:2.6.2' <br/> <br/>
+        //https://github.com/square/okhttp <br/>
+        api "com.squareup.okhttp3:okhttp:4.7.2" <br/> <br/>
     </li>
     <li>
         //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp <br/>
@@ -83,8 +83,8 @@
 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
 <img src="captures/qrcode.png" width=35%></img>
 
-## 4.minSdkVersion [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
-    如果您项目的minSdkVersion小于19, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
+## 4.minSdkVersion [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
+    如果您项目的minSdkVersion小于16, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
 
 ## 5.How to
 To get a Git project into your build:
@@ -163,5 +163,7 @@ Add it in your root build.gradle at the end of repositories:
   可以不再添加以上权限(添加也不会报错.)
 </pre>
 
-## 10.License
+## 10.有问题请升级到最新版本, 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+
+## 11.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

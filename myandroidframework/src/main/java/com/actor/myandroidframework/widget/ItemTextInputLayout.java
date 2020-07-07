@@ -337,6 +337,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTex
 //        getEditText().setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
         getEditText().setFocusable(enable);
         getEditText().setClickable(!enable);
+        getEditText().setLongClickable(enable);//长按显示粘贴
         getEditText().setFocusableInTouchMode(enable);
 //        if (enable) getEditText().requestFocus();//把光标移动到这一个et1,但是不弹出键盘
 //        getEditText().setCursorVisible(false);

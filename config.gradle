@@ -1,0 +1,51 @@
+//1.在项目的 build.gradle 中添加: apply from: "config.gradle"
+//或者 ext 也可写在项目的 build.gradle 中
+ext {
+
+//    compileSdkVersion       : 28,
+
+    android = [
+            compileSdkVersion       : 28,//rootProject.ext.android["compileSdkVersion"]
+            minSdkVersion           : 16,
+            targetSdkVersion        : 28,
+            versionCode             : 2020070301,//2020年xx月xx日xx(版本)
+            versionName             : "1.3.9"
+    ]
+
+    version = [
+            androidSupportSdkVersion: "28.0.0",
+            constraintSdkVersion    : "1.1.3",
+            butterknifeSdkVersion   : "8.8.1",
+            espressoSdkVersion      : "3.0.1",
+            canarySdkVersion        : "1.5.4",
+    ]
+
+    dependencies = [
+            //support                     rootProject.ext.dependencies["support-v4"]
+            "support-v4"               : "com.android.support:support-v4:${version["androidSupportSdkVersion"]}",
+            "appcompat-v7"             : "com.android.support:appcompat-v7:${version["androidSupportSdkVersion"]}",
+            "design"                   : "com.android.support:design:${version["androidSupportSdkVersion"]}",
+            "cardview-v7"              : "com.android.support:cardview-v7:${version["androidSupportSdkVersion"]}",
+            "annotations"              : "com.android.support:support-annotations:${version["androidSupportSdkVersion"]}",
+            "recyclerview-v7"          : "com.android.support:recyclerview-v7:${version["androidSupportSdkVersion"]}",
+            "constraint-layout"        : "com.android.support.constraint:constraint-layout:${version["constraintSdkVersion"]}",
+
+            //view
+            "butterknife"              : "com.jakewharton:butterknife:${version["butterknifeSdkVersion"]}",
+            "butterknife-compiler"     : "com.jakewharton:butterknife-compiler:${version["butterknifeSdkVersion"]}",
+
+            //tools
+            "multidex"                 : "com.android.support:multidex:1.0.3",
+            "umeng-analytics"          : "com.umeng.analytics:analytics:6.1.4",//友盟统计
+
+            //test
+            "androidJUnitRunner"       : "android.support.test.runner.AndroidJUnitRunner",
+            "junit"                    : "junit:junit:4.12",
+            "runner"                   : "com.android.support.test:runner:1.0.1",
+            "espresso-core"            : "com.android.support.test.espresso:espresso-core:${version["espressoSdkVersion"]}",
+            "espresso-contrib"         : "com.android.support.test.espresso:espresso-contrib:${version["espressoSdkVersion"]}",
+            "espresso-intents"         : "com.android.support.test.espresso:espresso-intents:${version["espressoSdkVersion"]}",
+            "canary-debug"             : "com.squareup.leakcanary:leakcanary-android:${version["canarySdkVersion"]}",
+            "canary-release"           : "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}"
+    ]
+}

@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * description: 百度地图帮助类
@@ -127,7 +128,10 @@ public class BaiduMapUtils {
      */
     public static void getAddressStringByNet(double lng, double lat, @NonNull OnAddressCallback callback) {
         getAddressByNet(lng, lat, new BaseCallback<AddressInfo>(callback.tag) {
-
+            @Override
+            public void onBefore(Request request, int id) {
+                //super.onBefore(request, id);
+            }
             @Override
             public void onOk(@NonNull AddressInfo info, int id) {
                 if (info.status == 0) {

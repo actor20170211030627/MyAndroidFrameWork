@@ -5,6 +5,12 @@
     <style name="AppThemeForMyAndroidFrameWork" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+
+        <!--
+          状态栏颜色, 4.4(19)及以上手机可代码设置状态栏颜色, 6.0(23)及以上手机可代码设置LightMode.
+          1. 6.0及以上手机: 可在 res/values-v23/ 下新建文件 colors.xml, 以适配高版本状态栏颜色.
+          2. 低版本手机: 如果设计图状态栏是白色, 为了能看见状态栏, 可把状态栏设置成灰色透明, 例: gray_trans_60000000
+        -->
         <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
         <!--<item name="colorAccent">@color/colorAccent</item>-->
 

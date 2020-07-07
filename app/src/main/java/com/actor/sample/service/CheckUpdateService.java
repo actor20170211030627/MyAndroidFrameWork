@@ -90,7 +90,7 @@ public class CheckUpdateService extends BaseService {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         }
         progressDialog.show();
-        MyOkHttpUtils.getFile(Global.DOWNLOAD_URL, new GetFileCallback(this, null, null) {
+        MyOkHttpUtils.getFile(Global.DOWNLOAD_URL, null, null, new GetFileCallback(this, null, null) {
 
             @Override
             public void inProgress(float progress, long total, int id) {

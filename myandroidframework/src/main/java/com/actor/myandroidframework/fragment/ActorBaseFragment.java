@@ -452,7 +452,7 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
         super.onDetach();
         activity = null;
         fragment = null;
-        params.clear();
+        params.clear();//如果你的Fragment在这儿报空指针, 说明你的Fragment第一次没有被彻底回收, 应该从List/Map中移除!
         params = null;
     }
 }

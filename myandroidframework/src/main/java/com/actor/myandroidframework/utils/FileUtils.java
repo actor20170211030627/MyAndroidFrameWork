@@ -47,16 +47,30 @@ public class FileUtils {
     }
 
     /**
-     * @param fileNameOrPath 文件名称/路劲
+     * 根据后缀, 返回是否是图片格式
+     * https://baike.baidu.com/item/%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F/381122?fr=aladdin
+     * @see com.blankj.utilcode.util.ImageUtils#isImage(String)
+     *
+     * @param fileNameOrPath 文件名/文件路径(都要包含后缀)
+     */
+    public static boolean isPicture(String fileNameOrPath) {
+        if (fileNameOrPath == null) return false;
+        String file = fileNameOrPath.toLowerCase();
+        return file.endsWith(".jpg") || file.endsWith(".jpeg") || file.endsWith(".png") ||
+                file.endsWith(".bmp") || file.endsWith(".gif") || file.endsWith(".ico") ||
+                file.endsWith(".webp") || file.endsWith(".tga") || file.endsWith(".tif");
+    }
+
+    /**
+     * @param fileNameOrPath 文件名称/路径
      * @return 是否是视频
      */
     public static boolean isVideo(String fileNameOrPath) {
         if (fileNameOrPath == null) return false;
         String file = fileNameOrPath.toLowerCase();
-        if (file.endsWith(".mp4") || file.endsWith(".avi") || file.endsWith(".3gp") ||
-                file.endsWith(".rmvb")|| file.endsWith(".m3u8")|| file.endsWith(".rm") ||
-                file.endsWith(".wmv")|| file.endsWith(".flv")) return true;
-        return false;
+        return file.endsWith(".mp4") || file.endsWith(".avi") || file.endsWith(".3gp") ||
+                file.endsWith(".rmvb") || file.endsWith(".m3u8") || file.endsWith(".rm") ||
+                file.endsWith(".wmv") || file.endsWith(".flv");
     }
 
     /**
@@ -66,9 +80,8 @@ public class FileUtils {
     public static boolean isDocument(String fileNameOrPath) {
         if (fileNameOrPath == null) return false;
         String file = fileNameOrPath.toLowerCase();
-        if (file.endsWith(".txt") || file.endsWith(".pdf") || file.endsWith(".doc") ||
-                file.endsWith(".docx") || file.endsWith(".xls") || file.endsWith(".xlsx")) return true;
-        return false;
+        return file.endsWith(".txt") || file.endsWith(".pdf") || file.endsWith(".doc") ||
+                file.endsWith(".docx") || file.endsWith(".xls") || file.endsWith(".xlsx");
     }
 
     /**
