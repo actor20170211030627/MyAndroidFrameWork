@@ -151,6 +151,6 @@ dependencies {
 
     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
-    compileOnly 'cn.jiguang.sdk:jpush:3.5.8'
-    compileOnly 'cn.jiguang.sdk:jcore:2.3.0'
+    compileOnly 'cn.jiguang.sdk:jpush:3.6.6'
+    compileOnly 'cn.jiguang.sdk:jcore:2.3.8'
 }

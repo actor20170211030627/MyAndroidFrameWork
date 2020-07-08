@@ -105,6 +105,6 @@ dependencies {
 
     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
-    implementation 'cn.jiguang.sdk:jpush:3.5.8'
-    implementation 'cn.jiguang.sdk:jcore:2.3.0'
+    implementation 'cn.jiguang.sdk:jpush:3.6.6'
+    implementation 'cn.jiguang.sdk:jcore:2.3.8'
 }

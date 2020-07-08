@@ -170,14 +170,14 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     public Notification getNotification(Context context, NotificationMessage notificationMessage) {
         logFormat("getNotification: context=%s, notificationMessage=%s", context, notificationMessage);
 //        return super.getNotification(context, notificationMessage);
-        return JPushUtils.getNotification();
+        return JPushUtils.getNotification(context, notificationMessage);
     }
 
     @Override
     public boolean isNeedShowNotification(Context context, NotificationMessage notificationMessage, String s) {
         logFormat("isNeedShowNotification: context=%s, notificationMessage=%s, s=%s", context, notificationMessage, s);
 //        return super.isNeedShowNotification(context, notificationMessage, s);
-        return JPushUtils.isNeedShowNotification();
+        return JPushUtils.isNeedShowNotification(context, notificationMessage, s);
     }
 
     /**
@@ -217,6 +217,10 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
 
         super.onAliasOperatorResult(context, jPushMessage);
         logFormat("alias(别名) 相关的操作: context=%s, jPushMessage=%s", context, jPushMessage);
+        if (jPushMessage != null) {
+            int errorCode = jPushMessage.getErrorCode();
+            if (errorCode != 0) logFormat("别名设置失败, 请重新设置. errCode=%d", errorCode);
+        }
     }
 
     /**

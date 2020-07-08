@@ -11,6 +11,7 @@ import java.util.Set;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.DefaultPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.ups.JPushUPSManager;
 import cn.jpush.android.ups.UPSRegisterCallBack;
@@ -44,8 +45,9 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  * dependencies {
  *     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
  *     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
- *     implementation 'cn.jiguang.sdk:jpush:3.5.8'
- *     implementation 'cn.jiguang.sdk:jcore:2.3.0'
+ *     //https://docs.jiguang.cn//jpush/client/Android/android_guide/#jcenter Gradle集成方式
+ *     implementation 'cn.jiguang.sdk:jpush:3.6.6'
+ *     implementation 'cn.jiguang.sdk:jcore:2.3.8'
  * }
  *
  * 4.在上方添加的'依赖'的AndroidManifest.xml中已经添加了 权限, 不需要额外再添加任何权限.
@@ -68,7 +70,7 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  *
  *   //登录成功后
  *   JPushUtils.resumePush(activity);//恢复推送服务
- *   JPushUtils.setAlias(activity, 0, username);//设置别名, 还有其他推送方式
+ *   JPushUtils.setAlias(activity, 0, username);//设置别名, 还有其他推送方式(注意别名设置可能失败, 要多次设置)
  *
  *   //退出app
  *   JPushUtils.stopPush(activity);
@@ -665,13 +667,13 @@ public class JPushUtils {
     ///////////////////////////////////////////////////////////////////////////
     private static boolean      isNeedShowNotification = true;
     private static Notification notification;
-    public static boolean isNeedShowNotification() {
+    public static boolean isNeedShowNotification(Context context, NotificationMessage notificationMessage, String s) {
         return isNeedShowNotification;
     }
     public static void setIsNeedShowNotification(boolean isNeedShowNotification) {
         JPushUtils.isNeedShowNotification = isNeedShowNotification;
     }
-    public static Notification getNotification() {
+    public static Notification getNotification(Context context, NotificationMessage notificationMessage) {
         return notification;
     }
     public static void setNotification(Notification notification) {
