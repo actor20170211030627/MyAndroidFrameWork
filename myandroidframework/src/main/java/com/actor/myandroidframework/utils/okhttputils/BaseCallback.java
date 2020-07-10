@@ -215,7 +215,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             toast("连接服务器超时,请联系管理员或稍后重试!");
         } else if (e instanceof ConnectException) {
             toast("网络连接失败,请检查网络是否打开!");
-        } else {
+        } else if (e != null) {
             toast("错误信息:".concat(e.getMessage()).concat(",请联系管理员!"));
         }
     }
@@ -228,7 +228,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     public void onStatusCodeError(int errCode, Response response, int id) {
         String s = getStringFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
         logError(s);
-        toast(s);
+        toast(getStringFormat("状态码错误: %d", errCode));
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     public void onJsonParseException(Response response, int id, Exception e) {
         String s = getStringFormat("数据解析错误: response=%s, id=%d, e=%s", response, id, e);
         logError(s);
-        toast(s);
+        toast("数据解析错误");
     }
 
     /**

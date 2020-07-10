@@ -104,7 +104,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
             toast("连接服务器超时,请联系管理员或稍后重试!");
         } else if (t instanceof ConnectException) {
             toast("网络连接失败,请检查网络是否打开!");
-        } else {
+        } else if (t != null) {
             toast("错误信息:".concat(t.getMessage()).concat(",请联系管理员!"));
         }
     }
@@ -114,7 +114,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      */
     public void onStatusCodeError(int errCode, Call<T> call, Response<T> response) {
         logFormat("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
-        toast(TextUtil.getStringFormat("错误码:%d, 请联系管理员!", errCode));
+        toast(getStringFormat("状态码错误: %d", errCode));
     }
 
     protected void logError(String msg) {

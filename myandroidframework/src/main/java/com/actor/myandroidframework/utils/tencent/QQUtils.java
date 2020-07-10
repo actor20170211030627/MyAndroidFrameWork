@@ -46,11 +46,21 @@ import org.json.JSONObject;
  *     </intent-filter>
  * </activity>
  *
- * 5.在Application中设置appid: {@link #setAppId(String)}
+ * 5.添加apache, Android 9.0上QQ分享报错 https://developer.umeng.com/docs/66750/detail/94386
+ * <!--在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错...-->
+ * <!--写在 AndroidManifest.xml 的 <application>标签内, 和<activity 同级 -->
+ * <uses-library
+ *     android:name="org.apache.http.legacy"
+ *     android:required="false" />
  *
- * 6.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
+ * 6.在Application中设置appid: {@link #setAppId(String)}
  *
- * 7.示例使用:
+ * 7.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
+ *
+ * 8.错误码列表
+ * https://wiki.connect.qq.com/%E5%85%AC%E5%85%B1%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E
+ *
+ * 9.示例使用:
  * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
  *
  * @author     : 李大发

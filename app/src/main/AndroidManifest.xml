@@ -22,12 +22,20 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.JPushActivity" />
         <activity android:name=".activity.BaiDuMapActivity" />
         <activity android:name=".activity.ThirdActivity" />
@@ -42,23 +50,21 @@
         <activity android:name=".activity.NetWorkAndImageActivity" />
         <activity android:name=".activity.BottomSheetDialogActivity" />
         <activity android:name=".activity.SwitcherActivity" />
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activity.MyBaseBottomActivity"
             android:theme="@style/BaseBottomActivity" />
         <activity android:name=".activity.Export2ExcelActivity" />
         <activity android:name=".activity.DatabaseActivity" />
 
-        <service android:name=".service.CheckUpdateService" /> <!-- 百度定位设置AK，在Application标签中加入 -->
+        <service android:name=".service.CheckUpdateService" />
+
+
+        <!-- 百度定位设置AK，在Application标签中加入 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX" /> <!-- value:开发者申请的AK -->
+
+
         <!-- 以下1个activity是QQ登录 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -70,9 +76,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent222222" /> <!-- 这儿替换成: "tencent" + appid -->
+                <data android:scheme="tencent101890804" /> <!-- 这儿替换成: "tencent" + appid -->
             </intent-filter>
         </activity>
+
+        <!--在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错...-->
+        <!--写在 AndroidManifest.xml 的 <application>标签内, 和<activity 同级 -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

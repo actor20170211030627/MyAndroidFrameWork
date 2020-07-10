@@ -58,7 +58,7 @@ public class ThirdActivity extends BaseActivity {
         setTitle("主页->第三方登录/分享");
 
         //在Application中设置appId, 一般是一串数字
-        QQUtils.setAppId("222222");
+        QQUtils.setAppId("101890804");//222222
 
         //在Application中设置appId
         WeChatUtils.setAppId("wx88888888");

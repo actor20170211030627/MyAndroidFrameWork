@@ -16,6 +16,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 
@@ -64,15 +65,6 @@ dependencies {
     compileOnly rootProject.ext.dependencies["appcompat-v7"]
     //约束布局
     compileOnly rootProject.ext.dependencies["constraint-layout"]
-
-    //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等v3.3.7
-    compileOnly files('libs/open_sdk_r2973327_lite.jar')
-
-    //http://lbs.baidu.com/index.php?title=sdk/download&action#selected=location_all 百度定位/地图/检索 等
-    compileOnly files('libs/BaiduLBS_aar_android_V1.1.9_100665344.aar')
-
-    //GreenDao & Others
-    compileOnly project(path: ':tempgen')
 
 
     //https://github.com/JakeWharton/butterknife
@@ -130,6 +122,10 @@ dependencies {
     api ('com.zhy:okhttputils:2.6.2') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
     }
+
+
+    //GreenDao & Others
+    compileOnly project(path: ':tempgen')
 
 
     //https://github.com/Tencent/MMKV 腾讯键值存储, 性能&可靠性远高于SharedPreferences

@@ -20,6 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# 抑制警告
+#-ignorewarnings
+
 #############################################################################
 ## ButterKnife
 -keep class butterknife.** { *; }
@@ -135,8 +138,8 @@
   public *;
 }
 
-# for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+# for DexGuard only(fixed: DexGuard 基于 ProGuard, 报错, 先注释掉)
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 #############################################################################
 ## Album
@@ -176,6 +179,20 @@ public static java.lang.String TABLENAME;
 -dontwarn net.sqlcipher.database.**
 # If you do not use RxJava:
 -dontwarn rx.**
+
+
+#############################################################################
+## baidu 百度定位, 百度地图 http://lbsyun.baidu.com/index.php?title=androidsdk/guide/buildproject#.E5.BA.94.E7.94.A8.E6.B7.B7.E6.B7.86
+-keep class com.baidu.** {*;}
+#-keep class vi.com.** {*;}     //这句不对, 没有这个包, 是↓这个
+-keep class mapsdkvi.com.** {*;}
+-dontwarn com.baidu.**
+
+
+#############################################################################
+## tencent QQ登录, 分享
+-keep class com.tencent.** {*;}
+
 
 #############################################################################
 ## 微信登录分享等 https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html

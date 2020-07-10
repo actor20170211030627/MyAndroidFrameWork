@@ -40,14 +40,17 @@ import java.util.concurrent.ExecutionException;
  * 集成/Demo下载: https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html
  * 接入指南: https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
  * 应用注册: https://open.weixin.qq.com/
+ *
  * 1.在gradle中添加依赖
  *      //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
  *      implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
+ *
  * 2.添加相关Activity, 必须放在: 包名.wxapi文件夹下, 可参考:
  *   //登录等功能(如果app没有使用 登录等 这些功能, 请忽略)
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java
  *   //支付功能(如果app没有使用 支付 等这些功能, 请忽略)
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
+ *
  * 3.已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加以下类,不要再在自己的清单文件中再添加以下2个Activity:
  * WXEntryActivity, WXPayEntryActivity
  *
