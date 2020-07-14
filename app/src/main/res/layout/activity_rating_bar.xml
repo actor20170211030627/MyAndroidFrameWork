@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.RatingBarActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_666"
+        android:padding="5dp"
+        android:text="1.原生RatingBar"
+        android:textColor="@color/white" />
+
+    <android.support.v7.widget.AppCompatRatingBar
+        android:id="@+id/rb_score1"
+        style="@style/Base.Widget.AppCompat.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="2.8"
+        android:stepSize="0.1" />
+
+    <android.support.v7.widget.AppCompatRatingBar
+        android:id="@+id/rb_score2"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="2.6"
+        android:stepSize="0.1" />
+
+    <android.support.v7.widget.AppCompatRatingBar
+        android:id="@+id/rb_score3"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="2.3"
+        android:stepSize="0.1" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray_666"
+        android:padding="5dp"
+        android:text="2.CustomRatingBar"
+        android:textColor="@color/white" />
+
+    <com.actor.myandroidframework.widget.BaseRatingBar
+        android:id="@+id/brb_1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:transitionName="btn"
+        app:brbRating="3.3"
+        app:brbStepSize="0.1" />
+
+    <com.actor.myandroidframework.widget.BaseRatingBar
+        android:id="@+id/brb_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:brbFullDrawable="@drawable/star_full"
+        app:brbIsIndicator="false"
+        app:brbNumStars="6"
+        app:brbRating="3.3"
+        app:brbRatio="0.7"
+        app:brbStarHeight="60dp"
+        app:brbStarInterval="10dp"
+        app:brbStepSize="0.3" />
+
+    <com.actor.myandroidframework.widget.BaseRatingBar
+        android:id="@+id/brb_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:brbEmptyDrawable="@drawable/star_empty"
+        app:brbFullDrawable="@drawable/star_full"
+        app:brbIsIndicator="false"
+        app:brbNumStars="5"
+        app:brbRating="3.3"
+        app:brbRatio="2"
+        app:brbStarHeight="35dp"
+        app:brbStarInterval="1dp"
+        app:brbStepSize="0.5" />
+
+    <com.actor.myandroidframework.widget.BaseRatingBar
+        android:id="@+id/brb_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:brbEmptyDrawable="@drawable/star_empty"
+        app:brbFullDrawable="@drawable/star_full"
+        app:brbIsIndicator="false"
+        app:brbNumStars="5"
+        app:brbRating="3.3"
+        app:brbRatio="0.5"
+        app:brbStarHeight="90dp"
+        app:brbStarInterval="10dp"
+        app:brbStepSize="0.7" />
+
+    <com.actor.myandroidframework.widget.BaseRatingBar
+        android:id="@+id/brb_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:brbEmptyDrawable="@drawable/location_repository"
+        app:brbFullDrawable="@drawable/star_full"
+        app:brbIsIndicator="false"
+        app:brbNumStars="8"
+        app:brbRating="3.3"
+        app:brbRatio="0.7"
+        app:brbStarHeight="50dp"
+        app:brbStarInterval="10dp"
+        app:brbStepSize="0.9" />
+</LinearLayout>

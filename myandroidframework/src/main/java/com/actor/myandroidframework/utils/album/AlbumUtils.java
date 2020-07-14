@@ -372,7 +372,7 @@ public class AlbumUtils {
      * @return
      */
     public static AlbumFile image2AlbumFile(String path, boolean checked) {
-        if (path == null || path.length() == 0) return null;
+        if (path == null || path.isEmpty()) return null;
         File file = new File(path);
         if (!file.exists() || !file.isFile()) return null;
         AlbumFile albumFile = new AlbumFile();

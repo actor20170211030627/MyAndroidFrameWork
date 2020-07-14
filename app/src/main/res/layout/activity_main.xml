@@ -1,152 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <android.support.v4.widget.NestedScrollView
+    <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:flexWrap="wrap"
+        app:justifyContent="space_between">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_internet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="internet网络 &amp; image图片"
+            android:transitionName="btn"
+            app:layout_alignSelf="flex_end" />
 
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:transitionName="iv"
+            tools:src="@mipmap/ic_launcher" />
 
-            <ImageView
-                android:id="@+id/iv"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:transitionName="iv"
-                tools:src="@mipmap/ic_launcher" />
+        <Button
+            android:id="@+id/btn_shared_element"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SharedElement 元素共享跳转"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_internet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="internet网络 &amp; image图片"
-                android:transitionName="btn" />
-
-            <Button
-                android:id="@+id/btn_shared_element"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="SharedElement 元素共享跳转"
-                android:transitionName="btn" />
-
-            <Button
-                android:id="@+id/btn_bottom_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BottomDialog, BottomSheetDialog,
+        <Button
+            android:id="@+id/btn_bottom_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BottomDialog, BottomSheetDialog,
         \nBottomSheetDialogFragment\n
         FloatEditorDialog, BaseBottomActivity
-        \n\n从底部弹出的Dialog &amp; DialogFragment &amp; 悬浮输入 &amp; Activity等"
-                android:transitionName="btn" />
+        \n从底部弹出的Dialog &amp; DialogFragment &amp; 悬浮输入 &amp; Activity等"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_viewpager_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ViewPager &amp; Fragment多层嵌套"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_viewpager_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ViewPager &amp; Fragment多层嵌套"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_is_empty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="判空"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_is_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="判空"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_third"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="第三方登录/分享"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_third"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="第三方登录/分享"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_baidu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="百度定位/地图"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_baidu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="百度定位/地图"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_jpush"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="极光推送"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_jpush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="极光推送"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_database"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="数据库(GreenDao)"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_database"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据库(GreenDao)"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView &amp; ViewSwitch切换"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView &amp; ViewSwitch切换"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_custom_ratingbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="自定义View"
-                android:transitionName="btn" />
+        <Button
+            android:id="@+id/btn_custom_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义View"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_nine_grid_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="九宫格NineGridView" />
+        <Button
+            android:id="@+id/btn_custom_ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义RatingBar"
+            android:transitionName="btn" />
 
-            <Button
-                android:id="@+id/btn_quick_search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="快速查找条QuickSearchBar" />
+        <Button
+            android:id="@+id/btn_nine_grid_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="九宫格NineGridView" />
 
-            <Button
-                android:id="@+id/btn_export2_excel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Excel导出" />
+        <Button
+            android:id="@+id/btn_quick_search_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="快速查找条QuickSearchBar" />
 
-            <Button
-                android:id="@+id/btn_other"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="线程, 权限, SPUtils, EventBus" />
+        <Button
+            android:id="@+id/btn_export2_excel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Excel导出" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="all"
-                android:text="View on Github:\n
+        <Button
+            android:id="@+id/btn_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="线程, 权限, SPUtils, EventBus" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:text="View on Github:
         https://github.com/actor20170211030627/MyAndroidFrameWork" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="没时间写sample, 集成的很多框架有很多功能, 更多功能等你自己发掘..." />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="没时间写sample, 集成的很多框架有很多功能, 更多功能等你自己发掘..." />
 
-            <TextView
-                android:id="@+id/tv_version"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/action_bar_size"
-                android:gravity="center"
-                tools:text="VersionName: 1.0.0(VersionCode: 1)" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_size"
+            android:gravity="center"
+            tools:text="VersionName: 1.0.0(VersionCode: 1)" />
+    </com.google.android.flexbox.FlexboxLayout>
+</android.support.v4.widget.NestedScrollView>

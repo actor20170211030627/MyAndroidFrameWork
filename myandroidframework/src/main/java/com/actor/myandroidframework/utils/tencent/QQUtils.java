@@ -47,7 +47,7 @@ import org.json.JSONObject;
  * </activity>
  *
  * 5.添加apache, Android 9.0上QQ分享报错 https://developer.umeng.com/docs/66750/detail/94386
- * <!--在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错...-->
+ * <!--QQUtils, 在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错...-->
  * <!--写在 AndroidManifest.xml 的 <application>标签内, 和<activity 同级 -->
  * <uses-library
  *     android:name="org.apache.http.legacy"

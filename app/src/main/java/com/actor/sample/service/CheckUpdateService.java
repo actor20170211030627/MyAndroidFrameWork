@@ -51,7 +51,7 @@ public class CheckUpdateService extends BaseService {
         MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<List<CheckUpdateInfo>>(this) {
             @Override
             public void onOk(@NonNull List<CheckUpdateInfo> info, int id) {
-                if (info.size() == 0) return;
+                if (info.isEmpty()) return;
                 CheckUpdateInfo info1 = info.get(0);
                 if (info1 == null) return;
                 CheckUpdateInfo.ApkDataBean apkData = info1.apkData;

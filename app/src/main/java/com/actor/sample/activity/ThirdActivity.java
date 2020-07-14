@@ -57,7 +57,7 @@ public class ThirdActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         setTitle("主页->第三方登录/分享");
 
-        //在Application中设置appId, 一般是一串数字
+        //在Application中设置appId, 一般是一串数字(我这儿设置的appid是QQ2786985624申请的)
         QQUtils.setAppId("101890804");//222222
 
         //在Application中设置appId
@@ -87,7 +87,7 @@ public class ThirdActivity extends BaseActivity {
                 AlbumUtils.selectImage(this, false, new Action<ArrayList<AlbumFile>>() {
                     @Override
                     public void onAction(@NonNull ArrayList<AlbumFile> result) {
-                        QQUtils.shareToQQImg(activity, result.get(0).getPath(), "安卓框架我的", null,
+                        QQUtils.shareToQQImg(activity, result.get(0).getPath(), "点我返回哟哟a", null,
                                 new BaseUiListener() {
                             @Override
                             public void doComplete(@Nullable JSONObject response) {

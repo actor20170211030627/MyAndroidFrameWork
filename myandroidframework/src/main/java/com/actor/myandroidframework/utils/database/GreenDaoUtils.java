@@ -106,11 +106,11 @@ import java.util.List;
  */
 public class GreenDaoUtils {
 
-    private static GreenDaoUtils        instalce;
-    private        DaoMaster.OpenHelper openHelper;
-    private static SQLiteDatabase       sqLiteDatabase;
-    private        DaoMaster            daoMaster;
-    private static DaoSession           daoSession;
+    protected static GreenDaoUtils        instalce;
+    protected        DaoMaster.OpenHelper openHelper;
+    protected static SQLiteDatabase       sqLiteDatabase;
+    protected        DaoMaster            daoMaster;
+    protected static DaoSession           daoSession;
 
     /**
      * @param context application
@@ -118,6 +118,7 @@ public class GreenDaoUtils {
      * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
      *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
      */
+    @SafeVarargs
     public static void init(Context context, boolean isDebug, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         if (instalce == null) instalce = new GreenDaoUtils(context, isDebug, daoClasses);
     }
@@ -125,7 +126,7 @@ public class GreenDaoUtils {
     /**
      * 设置greenDAO
      */
-    private GreenDaoUtils(Context context, boolean isDebug, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    protected GreenDaoUtils(Context context, boolean isDebug, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
         // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
         // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
@@ -148,16 +149,16 @@ public class GreenDaoUtils {
      * 不能使用默认的: {@link DaoMaster.DevOpenHelper}
      * @version 1.0
      */
-    private class UpgradeAbleOpenHelper extends DaoMaster.OpenHelper {
+    protected class UpgradeAbleOpenHelper extends DaoMaster.OpenHelper {
 
-        private Class<? extends AbstractDao<?, ?>>[] daoClasses;
+        protected Class<? extends AbstractDao<?, ?>>[] daoClasses;
 
-        private UpgradeAbleOpenHelper(Context context, String name, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        protected UpgradeAbleOpenHelper(Context context, String name, Class<? extends AbstractDao<?, ?>>... daoClasses) {
             super(context, name);
             this.daoClasses = daoClasses;
         }
 
-        private UpgradeAbleOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        protected UpgradeAbleOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, Class<? extends AbstractDao<?, ?>>... daoClasses) {
             super(context, name, factory);
             this.daoClasses = daoClasses;
         }

@@ -174,11 +174,6 @@ public class BaseRatingBar extends View {
      */
     public void setIsIndicator(boolean isIndicator) {
         this.starIsIndicator = isIndicator;
-//        if (isIndicator) {
-//            setFocusable(FOCUSABLE_AUTO);
-//        } else {
-//            setFocusable(FOCUSABLE);
-//        }
     }
 
     /**
@@ -193,8 +188,8 @@ public class BaseRatingBar extends View {
      * 设置总的星星个数
      * @see RatingBar#setNumStars(int)
      */
-    public void setNumStars(@IntRange(from = 0) int numStars){
-        if (numStars <= 0) return;
+    public void setNumStars(@IntRange(from = 1) int numStars){
+        if (numStars < 1) return;
         starCount = numStars;
         requestLayout();
 //        invalidate();
@@ -212,12 +207,13 @@ public class BaseRatingBar extends View {
      * 设置目前绘制的星星数量
      * @see RatingBar#setRating(float)
      */
-    public void setRating(float rating){
+    public void setRating(float rating) {
+        if (rating < 0) return;
         if (starStepSize == 1) {//整数星星
             starRating = (int) Math.ceil(rating);
-        }else {
-            if (rating == starCount) {//比如步长0.7的时候, 大于0.5, 此时会出现4.9一直不到5的情况
-                starRating = rating;
+        }else {//小数星星
+            if (rating >= starCount) {//比如步长0.7的时候, 大于0.5, 此时会出现4.9一直不到5的情况
+                starRating = starCount;
             } else {
 //                starRating = Math.round(rating * 10) * 1.0f / 10;
                 starRating = Math.round(rating / starStepSize) * starStepSize;

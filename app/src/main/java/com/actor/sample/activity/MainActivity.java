@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
             R.id.btn_viewpager_fragment, R.id.btn_is_empty, R.id.btn_third, R.id.btn_baidu,
-            R.id.btn_jpush, R.id.btn_database, R.id.btn_switch,
+            R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
             R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar,
             R.id.btn_export2_excel, R.id.btn_other})
     public void onViewClicked(View view) {
@@ -83,8 +83,11 @@ public class MainActivity extends BaseActivity {
             case R.id.btn_switch://切换
                 startActivity(new Intent(this, SwitcherActivity.class), false, view);
                 break;
-            case R.id.btn_custom_ratingbar://自定义View
+            case R.id.btn_custom_view://自定义View
                 startActivity(new Intent(this, CustomViewActivity.class), false, view);
+                break;
+            case R.id.btn_custom_ratingbar://自定义RatingBar
+                startActivity(new Intent(this, RatingBarActivity.class), false, view);
                 break;
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(new Intent(this, NineGridViewActivity.class));

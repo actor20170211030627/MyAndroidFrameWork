@@ -2,13 +2,10 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 
-import com.actor.myandroidframework.widget.BaseRatingBar;
 import com.actor.myandroidframework.widget.BaseSpinner;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.myandroidframework.widget.ItemSpinnerLayout;
@@ -26,8 +23,6 @@ import butterknife.OnClick;
  */
 public class CustomViewActivity extends BaseActivity {
 
-    @BindView(R.id.base_rating_bar)
-    BaseRatingBar        baseRatingBar;
     @BindView(R.id.base_spinner)
     BaseSpinner          baseSpinner;
     @BindView(R.id.item_radio_group)
@@ -52,14 +47,6 @@ public class CustomViewActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setTitle("主页->自定义View");
-        baseRatingBar.setOnStarChangeListener(new BaseRatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(BaseRatingBar baseRatingBar, float rating, boolean fromUser) {
-                String format = getStringFormat("rating=%.2f, fromUser=%b", rating, fromUser);
-                logError(format);
-                toast(format);//String.valueOf(rating)
-            }
-        });
         itemRadioGroupLayout.setOnCheckedChangeListener(new ItemRadioGroupLayout.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId, int position, boolean reChecked) {
@@ -84,7 +71,7 @@ public class CustomViewActivity extends BaseActivity {
     }
 
     private boolean inPutEnable = false;
-    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.btn3})
+    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_check:
@@ -100,20 +87,11 @@ public class CustomViewActivity extends BaseActivity {
             case R.id.itil_can_not_input:
                 toast("clicked!");
                 break;
-            case R.id.btn_input_enable:
+            case R.id.btn_input_enable://测试切换 能/不能输入
                 inPutEnable = !inPutEnable;
                 itilCanNotInput.setInputEnable(inPutEnable);
                 break;
-            case R.id.btn3://测试不能输入&切换输入类型后键盘弹出\n(修复华为高版本手机和vivo低版本手机表现不一致)
-                EditText editText = itilCanNotInput.getEditText();
-                int inputType = editText.getInputType();
-                if (inputType == EditorInfo.TYPE_NULL) {
-                    editText.setInputType(EditorInfo.TYPE_CLASS_TEXT);
-                } else {
-                    editText.setInputType(EditorInfo.TYPE_NULL);
-                }
-
-                boolean noEmpty = isNoEmpty(itilCanNotInput, "判空");
+            default:
                 break;
         }
     }

@@ -146,8 +146,8 @@ public class JExcelApiUtils {
      * @param filePath 存放excel文件的路径（.../path/demo.xls）
      * @param listener 导出监听
      */
-    public static void export2Excel(@NonNull List list, String filePath, int id, OnExportChangeListener listener) {
-        if (list.size() == 0) return;
+    public static void export2Excel(@NonNull List<Object> list, String filePath, int id, OnExportChangeListener listener) {
+        if (list.isEmpty()) return;
         new Thread(new Runnable() {
             @Override
             public void run() {

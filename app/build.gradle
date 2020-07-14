@@ -30,12 +30,6 @@ android {
         }
     }
     signingConfigs {
-        debug {
-            keyAlias 'actor'
-            keyPassword '123456'
-            storeFile file('actorKey.jks')
-            storePassword '123456'
-        }
         release {
             keyAlias 'actor'
             keyPassword '123456'
@@ -47,6 +41,7 @@ android {
         debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release//debug 使用 release 签名
         }
         release {
             minifyEnabled true
