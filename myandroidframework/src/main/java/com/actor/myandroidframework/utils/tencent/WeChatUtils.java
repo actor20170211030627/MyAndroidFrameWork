@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.actor.myandroidframework.utils.TextUtil;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.ThreadUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
@@ -536,7 +536,7 @@ public class WeChatUtils {
      */
     @Deprecated
     public static void getAccessToken(String code, BaseCallback<Object> callback) {
-        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/oauth2/access_token?" +
+        String url = TextUtils2.getStringFormat("https://api.weixin.qq.com/sns/oauth2/access_token?" +
                 "appid=%s&secret=%s&code=%s&grant_type=authorization_code", getAppId(),
                 appSecret, code);
         MyOkHttpUtils.get(url, null, callback);
@@ -567,7 +567,7 @@ public class WeChatUtils {
      */
     @Deprecated
     public static void refreshToken(String refresh_token, BaseCallback<Object> callback) {
-        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/oauth2/refresh_token?" +
+        String url = TextUtils2.getStringFormat("https://api.weixin.qq.com/sns/oauth2/refresh_token?" +
                 "appid=%s&grant_type=refresh_token&refresh_token=%s", getAppId(), refresh_token);
         MyOkHttpUtils.get(url, null, callback);
     }
@@ -588,7 +588,7 @@ public class WeChatUtils {
      */
     @Deprecated
     public static void authToken(String access_token, String openid, BaseCallback<Object> callback) {
-        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/auth?" +
+        String url = TextUtils2.getStringFormat("https://api.weixin.qq.com/sns/auth?" +
                 "access_token=%s&openid=%s", access_token, openid);
         MyOkHttpUtils.get(url, null, callback);
     }
@@ -651,7 +651,7 @@ public class WeChatUtils {
      */
     @Deprecated
     public static void getUserInfo(String access_token, String openid, BaseCallback<Object> callback) {
-        String url = TextUtil.getStringFormat("https://api.weixin.qq.com/sns/userinfo?" +
+        String url = TextUtils2.getStringFormat("https://api.weixin.qq.com/sns/userinfo?" +
                 "access_token=%s&openid=%s", access_token, openid);
         MyOkHttpUtils.get(url, null, callback);
     }

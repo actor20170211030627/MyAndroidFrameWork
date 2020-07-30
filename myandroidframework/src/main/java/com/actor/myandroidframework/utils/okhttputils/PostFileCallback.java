@@ -1,5 +1,7 @@
 package com.actor.myandroidframework.utils.okhttputils;
 
+import android.support.annotation.Nullable;
+
 import com.actor.myandroidframework.utils.ThreadUtils;
 
 import okhttp3.Request;
@@ -19,9 +21,10 @@ public abstract class PostFileCallback<T> extends BaseCallback<T> {
         super(tag, id);
     }
 
+    //其实运行在子线程,加了final,子类不能重写此方法
     @Override
-    public final void onBefore(Request request, int id) {//其实运行在子线程,加了final,子类不能重写此方法
-        super.onBefore(request, id);
+    public final void onBefore(@Nullable Request request, int id) {
+//        super.onBefore(request, id);
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -30,7 +33,9 @@ public abstract class PostFileCallback<T> extends BaseCallback<T> {
         });
     }
 
-    public void onBeforeTransmit(Request request, int id){//可重写此方法, 运行在主线程了
+    //开始请求前. 可重写此方法, 运行在主线程了
+    public void onBeforeTransmit(@Nullable Request request, int id) {
+        super.onBefore(request, id);
     }
 
     @Override

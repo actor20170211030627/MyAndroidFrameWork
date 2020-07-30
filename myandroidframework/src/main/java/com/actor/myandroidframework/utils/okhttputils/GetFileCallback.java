@@ -9,9 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
-import okhttp3.Request;
 import okhttp3.Response;
 
 /**
@@ -21,9 +19,9 @@ import okhttp3.Response;
  */
 public abstract class GetFileCallback extends BaseCallback<File> {
 
-    private String downloadPath;//目标文件存储的文件夹路径
+    protected String downloadPathForGetFile;//目标文件存储的文件夹路径
 
-    private String fileName;//目标文件存储的文件名
+    protected String fileNameForGetFile;//目标文件存储的文件名
 
     public GetFileCallback(Object tag, @Nullable String downloadPath, @Nullable String fileName) {
         this(tag, 0, downloadPath, fileName);
@@ -36,27 +34,35 @@ public abstract class GetFileCallback extends BaseCallback<File> {
      */
     public GetFileCallback(Object tag, int id, @Nullable String downloadPath, @Nullable String fileName) {
         super(tag, id);
-        if (downloadPath == null) downloadPath = FileUtils.getFilesDir().getAbsolutePath();
-        this.downloadPath = downloadPath;
-        this.fileName = fileName;
+        initPath(downloadPath, fileName);
     }
 
-    @Override
-    public void onBefore(Request request, int id) {
-        if (fileName == null) {
-            List<String> strings = request.url().pathSegments();
-            logError("下面开始下载文件, 从pathSegments(路径片段)中获取下载下载的文件名");
-//            request.url().url().toString();
-            String url = request.url().toString();
-            logError("url =" + url);
-            for (int i = 0; i < strings.size(); i++) {
-                logError(strings.get(i));
-            }
-            fileName = strings.get(strings.size() - 1);
-//            fileName = FileUtils.getFileNameFromUrl(url);
-        }
-        super.onBefore(request, id);
+    /**
+     * 初始化 文件路径 & 文件名
+     */
+    protected void initPath(String downloadPath, String fileName) {
+        if (downloadPath == null) downloadPath = FileUtils.getFilesDir().getAbsolutePath();
+        if (fileName == null) fileName = String.valueOf(System.currentTimeMillis());
+        downloadPathForGetFile = downloadPath;
+        fileNameForGetFile = fileName;
     }
+
+//    @Override
+//    public void onBefore(Request request, int id) {
+//        if (fileName == null) {
+//            List<String> strings = request.url().pathSegments();
+//            logError("下面开始下载文件, 从pathSegments(路径片段)中获取下载下载的文件名");
+////            request.url().url().toString();
+//            String url = request.url().toString();
+//            logError("url =" + url);
+//            for (int i = 0; i < strings.size(); i++) {
+//                logError(strings.get(i));
+//            }
+//            fileName = strings.get(strings.size() - 1);
+////            fileName = FileUtils.getFileNameFromUrl(url);
+//        }
+//        super.onBefore(request, id);
+//    }
 
     /**
      * 下载进度
@@ -82,11 +88,11 @@ public abstract class GetFileCallback extends BaseCallback<File> {
 
             long sum = 0;
 
-            File dir = new File(downloadPath);
+            File dir = new File(downloadPathForGetFile);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            File file = new File(dir, fileName);
+            File file = new File(dir, fileNameForGetFile);
             fos = new FileOutputStream(file);
             while ((len = is.read(buf)) != -1) {
                 sum += len;

@@ -15,11 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Space;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.R;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -103,7 +105,7 @@ public class ItemSpinnerLayout extends LinearLayout {
             typedArray.recycle();
 
             inflate(context, resourceId);
-            getTextViewRedStar().setVisibility(redStarVisiable * 4);//设置红点是否显示
+            getTextViewRedStar().setVisibility(redStarVisiable * INVISIBLE);//设置红点是否显示
             if (itemName != null) getTextViewItem().setText(itemName);
             setMarginTop(marginTop);
             if (entries != null) {
@@ -120,6 +122,10 @@ public class ItemSpinnerLayout extends LinearLayout {
         tvRedStar = view.findViewById(R.id.tv_red_star_for_isl);
         tvItem = view.findViewById(R.id.tv_item_for_isl);
         spinner = view.findViewById(R.id.spinner_for_isl);
+
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     /**
@@ -162,30 +168,26 @@ public class ItemSpinnerLayout extends LinearLayout {
      */
     public void setDatas(CharSequence[] datas) {
         if (datas != null) {
-            List<CharSequence> list = Arrays.asList(datas);
-            setDatasCharsequence(list);
+            //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
+            ArrayList<CharSequence> list = new ArrayList<>();
+            Collections.addAll(list, datas);
+            setDatas(list);
         }
     }
 
     /**
      * 设置数据, 填充Spinner
+     * @param <T> 如果数据类型 "T" 不是CharSequence或String,
+     *            重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容
+     * 注意: 每次填充的T数据类型应该一致
      */
-    public void setDatasCharsequence(List<CharSequence> datas) {
+    public <T> void setDatas(List<T> datas) {
         if (datas != null) {
-            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, datas);
-            adapter.setDropDownViewResource(android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-        }
-    }
-
-    /**
-     * 设置数据, 填充Spinner
-     */
-    public void setDatas(List<String> datas) {
-        if (datas != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, datas);
-            adapter.setDropDownViewResource(android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
+            SpinnerAdapter adapter = spinner.getAdapter();
+            if (adapter instanceof ArrayAdapter) {
+                ((ArrayAdapter) adapter).clear();
+                ((ArrayAdapter) adapter).addAll(datas);
+            }
         }
     }
 

@@ -18,7 +18,7 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.TextUtil;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -208,20 +208,20 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
     // 返回String区
     ///////////////////////////////////////////////////////////////////////////
     protected String getNoNullString(String text){
-        return text == null ? "" : text;
+        return TextUtils2.getNoNullString(text);
     }
 
-    protected String getNoNullString(String s, String defaultStr) {
-        return s == null? defaultStr : s;
+    protected String getNoNullString(String text, String defaultStr) {
+        return TextUtils2.getNoNullString(text, defaultStr);
     }
 
-    //获取格式化后的String, 例: "我的姓名是%s, 我的年龄是%d", "张三", 23
+    //获取格式化后的String, 例: getStringFormat("我的姓名是%s, 我的年龄是%d", "张三", 23)
     protected String getStringFormat(String format, Object... args) {
-        return TextUtil.getStringFormat(format, args);
+        return TextUtils2.getStringFormat(format, args);
     }
 
     protected String getText(Object obj){
-        return TextUtil.getText(obj);
+        return TextUtils2.getText(obj);
     }
 
 
@@ -248,15 +248,15 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
      * @return 都不为空, 返回true
      */
     protected boolean isNoEmpty(@NonNull Object... objs) {
-        return TextUtil.isNoEmpty(objs);
+        return TextUtils2.isNoEmpty(objs);
     }
 
     /**
      * @param obj 判断对象是否不为空
      *            1.如果是 EditText/TextInputLayout, 且输入为空, 就将光标定位到相应的EditText且弹出系统键盘.
-     *            2.如果是 {@link TextUtil.GetTextAble}
-     *              且 {@link TextUtil.GetTextAble#getEditText()}!=null
-     *              且 {@link TextUtil.GetTextAble#keyboardShowAbleIfEditText()},
+     *            2.如果是 {@link TextUtils2.GetTextAble}
+     *              且 {@link TextUtils2.GetTextAble#getEditText()}!=null
+     *              且 {@link TextUtils2.GetTextAble#keyboardShowAbleIfEditText()},
      *              且 输入为空, 就将光标定位到相应的EditText且弹出系统键盘
      *            obj 包括如下类型:
      * <ol>
@@ -265,7 +265,7 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
      *      <li>{@link java.util.Collection Collection(包括: List, Set, Queue)}</li>
      *      <li>{@link java.util.Map}</li>
      *      <li>{@link android.widget.TextView}</li>
-     *      <li>{@link com.actor.myandroidframework.utils.TextUtil.GetTextAble}</li>
+     *      <li>{@link com.actor.myandroidframework.utils.TextUtils2.GetTextAble}</li>
      *      <li>{@link android.support.design.widget.TextInputLayout}</li>
      *      <li>{@link android.util.SparseArray}</li>
      *      <li>{@link android.util.SparseBooleanArray}</li>
@@ -278,7 +278,7 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
      * @return 是否不为空
      */
     protected boolean isNoEmpty(Object obj, CharSequence notify) {
-        return TextUtil.isNoEmpty(obj, notify);
+        return TextUtils2.isNoEmpty(obj, notify);
     }
 
 
@@ -421,14 +421,14 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
     }
 
     /**
-     * 获取'下拉刷新/上拉加载'列表page
+     * 获取'下拉刷新/上拉加载'列表page, 如果和项目逻辑不符合, 可重写此方法
      * @param isRefresh 是否是下拉刷新
-     * @param items 列表数据集合
-     * @param size 每次加载多少条
+     * @param adapter   列表Adapter extends BaseQuickAdapter
+     * @param size      每次加载多少条
      */
-    protected int getPage(boolean isRefresh, @NonNull List items, int size) {
+    protected int getPage(boolean isRefresh, @NonNull BaseQuickAdapter adapter, int size) {
         if (isRefresh) return 1;
-        return items.size() / size + 1;
+        return adapter.getData().size() / size + 1;
     }
 
 

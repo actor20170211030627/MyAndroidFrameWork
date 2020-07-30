@@ -24,7 +24,7 @@ import android.widget.Space;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.R;
-import com.actor.myandroidframework.utils.TextUtil;
+import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
  * Description: 常用的Item输入布局,这是一个组合控件.
@@ -76,7 +76,7 @@ import com.actor.myandroidframework.utils.TextUtil;
  *                  @see #setIvArrowRight(int, Integer, Integer)
  *                  @see #setIvArrowRight(Drawable, Integer, Integer)
  */
-public class ItemTextInputLayout extends LinearLayout implements TextUtil.GetTextAble {
+public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetTextAble {
 
     protected TextView  tvRedStar;
     protected TextView  tvItem;

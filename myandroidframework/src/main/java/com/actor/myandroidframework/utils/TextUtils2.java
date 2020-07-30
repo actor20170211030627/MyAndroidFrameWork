@@ -42,7 +42,7 @@ import java.util.Map;
  * Date       : 2018/4/20 on 11:14
  * @version 1.0
  */
-public class TextUtil {
+public class TextUtils2 {
 
     /**
      * 获取text
@@ -121,7 +121,7 @@ public class TextUtil {
      *      <li>{@link java.util.Collection Collection(包括: List, Set, Queue)}</li>
      *      <li>{@link java.util.Map}</li>
      *      <li>{@link android.widget.TextView}</li>
-     *      <li>{@link com.actor.myandroidframework.utils.TextUtil.GetTextAble}</li>
+     *      <li>{@link com.actor.myandroidframework.utils.TextUtils2.GetTextAble}</li>
      *      <li>{@link android.support.design.widget.TextInputLayout}</li>
      *      <li>{@link android.util.SparseArray}</li>
      *      <li>{@link android.util.SparseBooleanArray}</li>
@@ -339,8 +339,22 @@ public class TextUtil {
     }
 
     /**
-     * 连接字符串
-     * @param text
+     * @return 返回不为空的字符串, 如果为空返回""
+     */
+    public static @NonNull String getNoNullString(Object object) {
+        return getNoNullString(object, "");
+    }
+
+    /**
+     * @return 返回不为空的字符串, 如果为空返回defaultStr
+     * @param defaultStr 如果object = null, 返回这个默认值
+     */
+    public static @NonNull String getNoNullString(Object object, String defaultStr) {
+        return object == null ? defaultStr == null ? "" : defaultStr : object.toString();
+    }
+
+    /**
+     * 多个字符串连接
      * @return
      */
     public static CharSequence concat(CharSequence... text) {

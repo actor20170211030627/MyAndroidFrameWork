@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseSpinner">
+
+        <!--给spinner设置本地数据源, 用','分隔开-->
+        <attr name="bsEntriesString" format="string" />
+
+        <!--spinner填充的布局, 默认: android.R.layout.simple_spinner_item-->
+        <attr name="bsResource" format="reference" />
+
+        <!--下拉列表item布局, 默认: android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item-->
+        <attr name="bsDropDownViewResource" format="reference" />
+    </declare-styleable>
+</resources>

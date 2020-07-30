@@ -71,7 +71,7 @@ public class LogUtils {
      * 打印格式化后的字符串
      */
     public static void formatError(String format, boolean isDirectCall, Object... args) {
-        if (isDebugMode) printlnLogInfo(Level.Error, TextUtil.getStringFormat(format, args), isDirectCall);
+        if (isDebugMode) printlnLogInfo(Level.Error, TextUtils2.getStringFormat(format, args), isDirectCall);
     }
 
     /**
@@ -89,7 +89,7 @@ public class LogUtils {
         String methodName = stackTraceElement.getMethodName();
         //获取日志输出行数
         int lineNumber = stackTraceElement.getLineNumber();
-        String stringFormat = TextUtil.getStringFormat("%d行, 方法名:%s, 输出:%s", lineNumber, methodName, msg);
+        String stringFormat = TextUtils2.getStringFormat("%d行, 方法名:%s, 输出:%s", lineNumber, methodName, msg);
         switch (level) {
             case Verbose:
                 Log.v(fileName, stringFormat);

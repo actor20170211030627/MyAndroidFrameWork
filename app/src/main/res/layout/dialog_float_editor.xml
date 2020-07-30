@@ -17,7 +17,7 @@
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cancel_for_float_edit_activity"
+            android:text="取消"
             android:textColor="#71777D"
             android:textSize="14sp" />
 
@@ -34,7 +34,7 @@
             android:id="@+id/tv_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/send_for_float_edit_activity"
+            android:text="发送"
             android:textColor="#71777D"
             android:textSize="14sp" />
     </LinearLayout>

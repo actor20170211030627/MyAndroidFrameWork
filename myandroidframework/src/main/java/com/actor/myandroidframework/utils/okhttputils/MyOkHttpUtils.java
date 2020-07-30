@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -49,7 +50,7 @@ public class MyOkHttpUtils {
      *           如果不是"http"开头, 会在前面加上 BASE_URL
      * @return
      */
-    protected static @NonNull String getUrl(String url) {
+    protected static String getUrl(String url) {
         if (url == null) return BASE_URL;
         if (url.startsWith("http://") || url.startsWith("https://")) return url;
         return BASE_URL + url;
@@ -65,7 +66,9 @@ public class MyOkHttpUtils {
      * @param headers   请求头
      * @param params    参数,一般用LinkedHashMap<String, Object>
      * @param callback  回调
-     * @param <T>       要解析成什么类型的对象,示例:JSONObject, String, BaseInfo...
+     * @param <T>       要解析成什么类型的对象,示例:
+     *                      JSONObject, String, List<UserInfo>,
+     *                      BaseInfo, BaseInfo<UserInfo>, BaseInfo<List<UserInfo>>, ...
      */
     public static <T> void get(String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
         Request.Builder builder = new Request.Builder()
@@ -84,6 +87,7 @@ public class MyOkHttpUtils {
                 //.newBuilder().connectTimeout()...
                 .newCall(builder.build())
                 .enqueue(callback == null ? new NullCallback() : callback);//不能为空
+        if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
 
         /**
          * 不能使用{@link OkHttpUtils#get()}, 因为↓ 这个方法组合成的url不对
@@ -91,18 +95,21 @@ public class MyOkHttpUtils {
          * 会导致请求时url一些不该被Encode的字符被Encode(: => %3A), 例:
          * @see com.actor.myandroidframework.utils.baidu.BaiduMapUtils#getAddressByNet(double, double, BaseCallback)//"报错: APP Mcode码校验失败"
          */
-//        OkHttpUtils.get().url(getUrl(url)).tag(callback == null ? null : callback.tag)
-//                .headers(cleanNullParamMap(true, headers))
-//                .params(cleanNullParamMap(false, params))
+//        OkHttpUtils.get().url(getUrl(url))
+//                .tag(callback == null ? null : callback.tag)
+//                .headers(cleanNullParamMap(headers))
+//                .params(cleanNullParamMap(params))
 //                //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
 //                .id(callback == null ? 0 : callback.id)
-//                .build().execute(callback);
+//                .build()
+////                .connTimeOut(20000).readTimeOut(20000).writeTimeOut(20000)
+//                .execute(callback);
     }
 
     /**
      * get同步请求
      */
-    public static Response getSync(String url, Map<String, Object> headers, Map<String, Object> params, Object tag) {
+    public static @Nullable Response getSync(String url, Map<String, Object> headers, Map<String, Object> params, Object tag) {
         Request.Builder builder = new Request.Builder()
                 .get()
                 .url(urlAppendParams(getUrl(url), params))
@@ -139,8 +146,8 @@ public class MyOkHttpUtils {
     public static <T> void post(String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
         OkHttpUtils.post().url(getUrl(url))
                 .tag(callback == null ? null : callback.tag)
-                .headers(cleanNullParamMap(true, headers))
-                .params(cleanNullParamMap(false, params))
+                .headers(cleanNullParamMap(headers))
+                .params(cleanNullParamMap(params))
                 //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
                 .id(callback == null ? 0 : callback.id)
                 .build()
@@ -151,12 +158,12 @@ public class MyOkHttpUtils {
     /**
      * post同步请求, 比如token过期后重新获取token, 在同一线程内刷新token
      */
-    public static Response postSync(String url, Map<String, Object> headers, Map<String, Object> params, Object tag) {
+    public static @Nullable Response postSync(String url, Map<String, Object> headers, Map<String, Object> params, Object tag) {
         try {
             return OkHttpUtils.post().url(getUrl(url))
                     .tag(tag)
-                    .headers(cleanNullParamMap(true, headers))
-                    .params(cleanNullParamMap(false, params))
+                    .headers(cleanNullParamMap(headers))
+                    .params(cleanNullParamMap(params))
                     .build().execute();
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,17 +178,19 @@ public class MyOkHttpUtils {
      * @param callback  回调
      */
     public static <T> void postString(String url, String string, BaseCallback<T> callback) {
-        OkHttpUtils.postString().url(getUrl(url)).tag(callback == null ? null : callback.tag)
-                .content(string).build().execute(callback);
+        OkHttpUtils.postString().url(getUrl(url))
+                .tag(callback == null ? null : callback.tag)
+                .content(string)
+                .build().execute(callback);
     }
 
-    public static <T> void postJson(String url, String json, BaseCallback<T> callback) {
+    public static <T> void postJson(String url, @Nullable String json, BaseCallback<T> callback) {
         postJson(url, null, json, callback);
     }
 
-    public static <T> void postJson(String url, Map<String, Object> jsonMap, BaseCallback<T> callback) {
-//        postJson(url, null, JSONObject.toJSONString(jsonMap), callback);//FastJson
-        postJson(url, null, GsonUtils.toJson(jsonMap), callback);//Gson
+    public static <T> void postJson(String url, @Nullable Map<String, Object> jsonMap, BaseCallback<T> callback) {
+//        postJson(url, null, jsonMap == null ? null : JSONObject.toJSONString(jsonMap), callback);//FastJson
+        postJson(url, null, jsonMap == null ? null : GsonUtils.toJson(jsonMap), callback);//Gson
     }
 
     /**
@@ -194,13 +203,14 @@ public class MyOkHttpUtils {
      * @param callback  回调
      * @param <T>       要解析成什么类型的对象
      */
-    public static <T> void postJson(String url, Map<String, Object> params, String json, BaseCallback<T> callback) {
+    public static <T> void postJson(String url, @Nullable Map<String, Object> params, @Nullable String json, BaseCallback<T> callback) {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        if (json == null) json = "{}";
         if (true) {
             OkHttpUtils.postString()
                     .url(urlAppendParams(getUrl(url), params))//postString的时候, 参数拼在url后面
                     .tag(callback == null ? null : callback.tag)
-                    .content(json == null ? "" : json)//判空否则会报错
+                    .content(json)//判空否则会报错
                     .mediaType(mediaType)//一定要设置MediaType:设置Content-Type 标头中包含的媒体类型值
                     .id(callback == null ? 0 : callback.id)
                     .build()
@@ -216,18 +226,20 @@ public class MyOkHttpUtils {
             OkHttpUtils.getInstance().getOkHttpClient()
                     .newCall(request)
                     .enqueue(callback == null ? new NullCallback() : callback);
+            if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
         }
     }
 
     /**
-     * 将文件以流的形式，发送到服务器
+     * 将文件以流的形式，上传到服务器
      * @param url
      * @param file
      * @param callback 回调
      * @param <T> 要解析成什么类型的对象
      */
     public static <T> void postFile(String url, File file, BaseCallback<T> callback) {
-        OkHttpUtils.postFile().url(getUrl(url)).tag(callback == null ? null : callback.tag)
+        OkHttpUtils.postFile().url(getUrl(url))
+                .tag(callback == null ? null : callback.tag)
                 .file(file)
                 //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
                 .id(callback == null ? 0 : callback.id)
@@ -278,9 +290,9 @@ public class MyOkHttpUtils {
     }
 
     /**
-     * Post表单形式上传文件,同时上传多个文件. 注意:如果是图片/视频, 需自己压缩后在上传
+     * Post表单形式上传文件,同时上传多个文件
      * @param url       地址
-     * @param key       表单上传文件的key
+     * @param key       表单上传文件的key, 例如常用的有 file、files、mFiles, 这个字段是后台定义的
      * @param files     文件集合
      * @param headers   请求体,示例:headers.put("APP-Key", "APP-Secret222");
      *                  headers.put("APP-Secret", "APP-Secret111");
@@ -293,8 +305,8 @@ public class MyOkHttpUtils {
                                      PostFileCallback<T> callback) {
         PostFormBuilder builder = OkHttpUtils.post().url(getUrl(url))
                 .tag(callback == null ? null : callback.tag)
-                .headers(cleanNullParamMap(true, headers))
-                .params(cleanNullParamMap(false, params));
+                .headers(cleanNullParamMap(headers))
+                .params(cleanNullParamMap(params));
 //                .files(key, files);
         if (files != null && !files.isEmpty()) {
             for (File file : files) {
@@ -307,7 +319,6 @@ public class MyOkHttpUtils {
 //                         * fixed 文件名UTF-8转码,避免上传中文文件时以下方法抛异常问题
 //                         *
 //                         * 已修复: https://github.com/square/okhttp/pull/4584
-//                         *
 //                         */
                         builder.addFile(key, /*URLEncoder.encode(*/file.getName()/*, "UTF-8")*/, file);
 //                    } catch (UnsupportedEncodingException e) {
@@ -327,8 +338,8 @@ public class MyOkHttpUtils {
      * @param <T>       要解析成什么类型的对象
      */
     public static <T> void postFormBody(@NonNull String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
-        Map<String, String> headerMap = cleanNullParamMap(true, headers);
-        Map<String, String> paramsMap = cleanNullParamMap(false, params);
+        Map<String, String> headerMap = cleanNullParamMap(headers);
+        Map<String, String> paramsMap = cleanNullParamMap(params);
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         if (paramsMap != null && !paramsMap.isEmpty()) {
             for (Map.Entry<String, String> entity : paramsMap.entrySet()) {
@@ -350,6 +361,7 @@ public class MyOkHttpUtils {
         OkHttpUtils.getInstance().getOkHttpClient()
                 .newCall(requestBuilder.build())
                 .enqueue(callback == null ? new NullCallback() : callback);
+        if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
     }
 
     /**
@@ -357,13 +369,8 @@ public class MyOkHttpUtils {
      * @param url 网址
      * @param callback 回调
      */
-    public static void getBitmap(@NonNull String url, GetBitmapCallback callback) {
-        OkHttpUtils.get().url(getUrl(url)).tag(callback == null ? null : callback.tag)
-                .build()
-                .connTimeOut(20000)
-                .readTimeOut(20000)
-                .writeTimeOut(20000)
-                .execute(callback);
+    public static void getBitmap(@NonNull String url, Map<String, Object> headers, Map<String, Object> params, GetBitmapCallback callback) {
+        get(url, headers, params, callback);
     }
 
     /**
@@ -378,7 +385,8 @@ public class MyOkHttpUtils {
     public static <T> void deleteJson(@NonNull String url, String json, BaseCallback<T> callback) {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = RequestBody.create(mediaType, json);
-        OkHttpUtils.delete().url(getUrl(url)).tag(callback == null ? null : callback.tag)
+        OkHttpUtils.delete().url(getUrl(url))
+                .tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
                 .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
@@ -387,7 +395,8 @@ public class MyOkHttpUtils {
     public static <T> void putJson(@NonNull String url, String json, BaseCallback<T> callback) {
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = RequestBody.create(mediaType, json);
-        OkHttpUtils.put().url(getUrl(url)).tag(callback == null ? null : callback.tag)
+        OkHttpUtils.put().url(getUrl(url))
+                .tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
                 .id(callback == null ? 0 : callback.id)
                 .build().execute(callback);
@@ -421,13 +430,14 @@ public class MyOkHttpUtils {
         OkHttpUtils.getInstance().getOkHttpClient()
                 .newCall(request)
                 .enqueue(callback);
+        if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
     }
 
     /**
      * 取消请求:RequestCall call = OkHttpUtils.get().url(url).build();
      */
     public static void cancel(RequestCall call) {
-        call.cancel();
+        if (call != null) call.cancel();
     }
 
     /**
@@ -482,30 +492,20 @@ public class MyOkHttpUtils {
     /**
      * 清除key值为null的参数 & 保证value != null
      * 并且转换为Map<String, String>
-     * 2个Map不能混为一用, 因为同一个请求同时有header和params的话, 是同一个请求
-     * @param map
-     * @return Nullable
      */
-    protected static final Map<String, String> returnHeaderMap = new LinkedHashMap<>();//header
-    protected static final Map<String, String> returnParamsMap = new LinkedHashMap<>();//params
-    protected synchronized static Map<String, String> cleanNullParamMap(boolean mapIsHeader, @Nullable Map<String, Object> map) {
+    protected static @Nullable Map<String, String> cleanNullParamMap(@Nullable Map<String, Object> map) {
         if (map == null || map.isEmpty()) return null;
-        if (mapIsHeader) {
-            returnHeaderMap.clear();
-        } else returnParamsMap.clear();
+        Map<String, String> returnMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
             if (!TextUtils.isEmpty(key)) {
-                if (mapIsHeader) {
-                    returnHeaderMap.put(key, getNoNullString(entry.getValue()));
-                } else returnParamsMap.put(key, getNoNullString(entry.getValue()));
+                returnMap.put(key, getNoNullString(entry.getValue()));
             }
         }
-        if (mapIsHeader) return returnHeaderMap;
-        return returnParamsMap;
+        return returnMap.isEmpty() ? null : returnMap;
     }
 
     protected static String getNoNullString(Object object) {
-        return object == null ? "" : object.toString();
+        return TextUtils2.getNoNullString(object);
     }
 }

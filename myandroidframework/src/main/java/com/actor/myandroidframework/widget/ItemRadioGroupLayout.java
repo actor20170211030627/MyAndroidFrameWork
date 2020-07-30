@@ -107,7 +107,7 @@ public class ItemRadioGroupLayout extends LinearLayout {
             typedArray.recycle();
 
             inflate(context, resourceId);
-            getTextViewRedStar().setVisibility(visiable * 4);//设置红点是否显示
+            getTextViewRedStar().setVisibility(visiable * INVISIBLE);//设置红点是否显示
             if (irglItemName != null) getTextViewItem().setText(irglItemName);
             setMarginTop(marginTop);
             if (entries != null && entries.length > 0) {

@@ -152,7 +152,7 @@ public class BaiDuMapActivity extends BaseActivity {
     }
 
     //显示所有人员覆盖物列表
-    private synchronized void showMarkerPersonList(View view) {
+    private void showMarkerPersonList(View view) {
         if (overlayPersons == null) {
             overlayPersons = new ArrayList<>();
             if (markerPerson == null) {
@@ -180,7 +180,7 @@ public class BaiDuMapActivity extends BaseActivity {
         }
     }
     //仓库
-    private synchronized void showMarkerRepositoryList(View view) {
+    private void showMarkerRepositoryList(View view) {
         if (overlayRepositorys == null) {
             overlayRepositorys = new ArrayList<>();
             if (markerRepository == null) {
@@ -205,7 +205,7 @@ public class BaiDuMapActivity extends BaseActivity {
         }
     }
     //车辆
-    private synchronized void showMarkerCarList(View view) {
+    private void showMarkerCarList(View view) {
         if (overlayCars == null) {
             overlayCars = new ArrayList<>();
             if (markerCar == null) {
@@ -226,7 +226,7 @@ public class BaiDuMapActivity extends BaseActivity {
         }
     }
     //摄像头
-    private synchronized void showMarkerCameraList(View view) {
+    private void showMarkerCameraList(View view) {
         if (overlayCameras == null) {
             overlayCameras = new ArrayList<>();
             if (markerCamera == null) {
@@ -259,7 +259,7 @@ public class BaiDuMapActivity extends BaseActivity {
         }
     }
     //显示所有桥
-    private synchronized void showMarkerBridgeList(View view) {
+    private void showMarkerBridgeList(View view) {
         if (overlayBridges == null) {
             overlayBridges = new ArrayList<>();
             if (markerBridge == null) {

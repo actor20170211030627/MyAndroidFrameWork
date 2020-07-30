@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.TextUtil;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.net.ConnectException;
@@ -126,7 +126,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     }
 
     protected String getStringFormat(String format, Object... args) {
-        return TextUtil.getStringFormat(format, args);
+        return TextUtils2.getStringFormat(format, args);
     }
 
     protected void toast(String msg) {

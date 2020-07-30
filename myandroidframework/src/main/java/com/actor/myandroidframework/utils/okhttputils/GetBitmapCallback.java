@@ -3,7 +3,6 @@ package com.actor.myandroidframework.utils.okhttputils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -16,11 +15,6 @@ public abstract class GetBitmapCallback extends BaseCallback<Bitmap> {
 
     public GetBitmapCallback(Object tag) {
         super(tag);
-    }
-
-    @Override
-    public void onBefore(Request request, int id) {
-        super.onBefore(request, id);
     }
 
     @Override

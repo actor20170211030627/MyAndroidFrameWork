@@ -35,7 +35,7 @@ public class IsEmptyActivity extends BaseActivity {
     @BindView(R.id.text_input_layout)
     TextInputLayout     textInputLayout;
     @BindView(R.id.itil_phone)
-    ItemTextInputLayout itilPhone; //注意: ItemTextInputLayout implements TextUtil.GetTextAble
+    ItemTextInputLayout itilPhone; //注意: ItemTextInputLayout implements TextUtils2.GetTextAble
 
     private String string;
     private String[] arrays;
@@ -83,7 +83,7 @@ public class IsEmptyActivity extends BaseActivity {
          * <ol>
          *      <li>{@link TextView}</li>
          *      <li>{@link TextInputLayout}</li>
-         *      <li>{@link com.actor.myandroidframework.utils.TextUtil.GetTextAble}</li>
+         *      <li>{@link com.actor.myandroidframework.utils.TextUtils2.GetTextAble}</li>
          *      <li>{@link CharSequence}</li>
          *      <li>{@link Array}</li>
          *      <li>{@link Collection}</li>

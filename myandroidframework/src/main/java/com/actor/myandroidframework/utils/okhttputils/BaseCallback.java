@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.TextUtil;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.ThreadUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -84,7 +84,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * 开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
      */
     @Override
-    public void onBefore(Request request, int id) {
+    public void onBefore(@Nullable Request request, int id) {
         super.onBefore(request, id);
         if (tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).showLoadingDialog();
@@ -120,7 +120,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             try {
                 /**
                  * Gson: 数据类型不对(""解析成int) & 非json类型数据, 默认都会抛异常
-                 * @see com.actor.myandroidframework.utils.IntTypeAdapter
+                 * @see com.actor.myandroidframework.utils.json.IntJsonDeserializer
                  */
                 return GsonUtils.fromJson(json, genericity);
                 //FastJson: bug太多也不修复一下, 删掉...
@@ -262,7 +262,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     }
 
     protected String getStringFormat(String format, Object... args) {
-        return TextUtil.getStringFormat(format, args);
+        return TextUtils2.getStringFormat(format, args);
     }
 
     protected void toast(String msg) {

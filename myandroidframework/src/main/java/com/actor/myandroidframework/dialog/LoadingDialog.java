@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.R;
-import com.actor.myandroidframework.utils.TextUtil;
+import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
  * Description: 加载Dialog
@@ -72,7 +72,7 @@ public class LoadingDialog extends BaseDialog {
      * @return
      */
     public LoadingDialog setMessage(CharSequence message) {
-        if (TextUtil.isNoEmpty(message)) {
+        if (TextUtils2.isNoEmpty(message)) {
             tvMessage.setVisibility(View.GONE);
         } else {
             tvMessage.setVisibility(View.VISIBLE);
