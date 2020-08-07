@@ -101,7 +101,7 @@ Add it in your root build.gradle at the end of repositories:
     }
 </pre>
 
-**Step 2.** Add the dependency, the last version:
+**Step 2.** Add the dependency, the last version(最新版本):
 [![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork)
 
     android {
@@ -113,12 +113,12 @@ Add it in your root build.gradle at the end of repositories:
     }
 
     dependencies {
-            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:last_version'
+            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:last version'
     }
 
 ## 6.1. 需要在自己项目中集成<code>v7</code>包和<code>constraint</code>, 否则报错
     implementation 'com.android.support:appcompat-v7:version xxx' <br/>
-    implementation 'com.android.support.constraint:constraint-layout:version xxx'//约束布局
+    implementation 'com.android.support.constraint:constraint-layout:version xxx'//约束布局, 版本version>=1.1.3
 
 ## 6.2. ButterKnife没有集成, 如果使用, 需要自己集成
     //https://github.com/JakeWharton/butterknife
@@ -163,7 +163,7 @@ Add it in your root build.gradle at the end of repositories:
   可以不再添加以上权限(添加也不会报错.)
 </pre>
 
-## 10.有问题请升级到最新版本, 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 10.有问题请升级到最新版本: [![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 11.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

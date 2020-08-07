@@ -14,11 +14,11 @@ import android.widget.SlidingDrawer;
  * 属性:
  * android:allowSingleTap="true"    //是否可通过单击打开或关闭. 如果是false,则用户必须通过拖动, 默认true
  * android:animateOnClick="true"    //当使用者点击handle时, 指示抽屉是否应以动画打开/关闭, 默认true
- * android:bottomOffset="0dp"       //当抽屉关闭时, 'handle底部'距离'抽屉底部'的距离marginTop, 默认=0dp
+ * android:bottomOffset="0dp"       //当抽屉关闭时, 'handle底部'距离'抽屉底部'的距离marginTop, 默认=0dp, 例:-50dp
  * android:content="@id/content"    //抽屉里内容的id, 必须设置
  * android:handle="@id/handle"      //抽屉里把手的id, 必须设置
  * android:orientation="vertical"   //下方/右方, 默认vertical下方
- * android:topOffset="0dp"          //当抽屉打开时, 'handle顶部'距离'抽屉顶部'的距离, 默认=0dp
+ * android:topOffset="0dp"          //当抽屉打开时, 'handle顶部'距离'抽屉顶部'的距离, 默认=0dp, 例:200dp
  *
  * @author    : 李大发
  * date       : 2019/4/11 on 09:58

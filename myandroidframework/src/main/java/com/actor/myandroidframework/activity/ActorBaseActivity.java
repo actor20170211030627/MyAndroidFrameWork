@@ -377,6 +377,10 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     ///////////////////////////////////////////////////////////////////////////
     // toast区
     ///////////////////////////////////////////////////////////////////////////
+    protected void toast(@StringRes int resId) {
+        ToastUtils.showShort(resId);
+    }
+
     protected void toast(Object notify) {
         ToastUtils.showShort(String.valueOf(notify));
     }

@@ -41,6 +41,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+//        MultiDex.install(this);
     }
 
     /**

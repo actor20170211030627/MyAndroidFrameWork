@@ -37,6 +37,7 @@ import java.util.Map;
  * LastUpdate : 2019/04/18
  * AlbumVersion: album:2.1.3
  * Version    : 1.2.2 增加预览一张图片的方法 {@link #gallery(Context, String, boolean, Action)}
+ * TODO 增加crop功能
  */
 public class AlbumUtils {
 

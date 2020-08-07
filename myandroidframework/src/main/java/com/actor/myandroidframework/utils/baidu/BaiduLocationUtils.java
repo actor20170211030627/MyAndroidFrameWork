@@ -63,6 +63,16 @@ import com.baidu.location.LocationClientOption.LocationMode;
  * //百度定位配置
  * BaiduLocationUtils.setLocOption(BaiduLocationUtils.getDefaultLocationClientOption());
  *
+ * 7.开始使用示例:
+ * //开始定位
+ * BaiduLocationUtils.registerListener(locationListener);//listener 可直接使用or继承or参考: {@link MyLocationListener}
+ * BaiduLocationUtils.start();
+ *
+ * //停止定位 or Activity销毁后
+ * BaiduLocationUtils.unregisterListener(locationListener);
+ * BaiduLocationUtils.stop();
+ *
+ *
  * 定位服务工具类, 抄自百度Demo LocationService.java
  *
  *
@@ -74,6 +84,8 @@ public class BaiduLocationUtils {
     protected static LocationClient       locationClient;
     //默认定位配置/自定义定位配置
     protected static LocationClientOption defaultOption, DIYoption;
+
+    protected BaiduLocationUtils() {}
 
     public static LocationClient getLocationClient() {
         synchronized (BaiduLocationUtils.class) {

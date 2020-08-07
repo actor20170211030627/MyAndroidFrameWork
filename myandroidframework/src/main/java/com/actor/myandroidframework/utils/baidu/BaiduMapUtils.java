@@ -80,6 +80,8 @@ public class BaiduMapUtils {
     public static final String GAODE_PACKAGE_NAME = "com.autonavi.minimap";//高德地图包名
     public static final String BAIDU_PACKAGE_NAME = "com.baidu.BaiduMap";//百度地图包名
 
+    protected BaiduMapUtils() {}
+
     /**
      * 通过网络,根据地址获取经纬度, 返回json 的 status = 0表示获取成功
      * lng 经度
