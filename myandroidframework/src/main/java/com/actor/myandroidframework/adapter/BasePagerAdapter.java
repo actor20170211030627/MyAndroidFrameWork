@@ -19,28 +19,32 @@ import java.util.List;
  */
 public abstract class BasePagerAdapter extends PagerAdapter {
 
-    protected int                   sizeOfItem;
+    protected int                   sizeForAdapter;
     protected String[]              titlesForFragments;
 
     public BasePagerAdapter(int size) {
-        this.sizeOfItem = size;
+        this.sizeForAdapter = size;
     }
 
     public BasePagerAdapter(@NonNull String[] titles) {
-        this.sizeOfItem = titles.length;
+        this.sizeForAdapter = titles.length;
         this.titlesForFragments = titles;
     }
 
     public BasePagerAdapter(List<String> titles) {
         if (titles != null) {
-            this.sizeOfItem = titles.size();
-            this.titlesForFragments = (String[]) titles.toArray();
+            this.sizeForAdapter = titles.size();
+            //java.lang.ClassCastException: java.lang.Object[] cannot be cast to java.lang.String[]
+//            this.titlesForFragments = (String[]) titles.toArray();
+
+            titlesForFragments = new String[sizeForAdapter];
+            titlesForFragments = titles.toArray(titlesForFragments);
         }
     }
 
     @Override
     public int getCount() {
-        return sizeOfItem;
+        return sizeForAdapter;
     }
 
     /**

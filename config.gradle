@@ -2,10 +2,10 @@
 //或者 ext 也可写在项目的 build.gradle 中
 ext {
 
-//    compileSdkVersion               : 28,
+//    compileSdkVersion               : 28,//rootProject.compileSdkVersion
 
     android = [
-            compileSdkVersion       : 28,//rootProject.ext.android["compileSdkVersion"]
+            compileSdkVersion       : 28,//rootProject.ext.android.compileSdkVersion or rootProject.ext.android["compileSdkVersion"]
             minSdkVersion           : 16,
             targetSdkVersion        : 28,
             versionCode             : 2020080702,//2020年xx月xx日xx(版本)
@@ -21,14 +21,14 @@ ext {
     ]
 
     dependencies = [
-            //support                  rootProject.ext.dependencies["support-v4"]
-            "support-v4"            : "com.android.support:support-v4:${version["androidSupportSdkVersion"]}",
-            "appcompat-v7"          : "com.android.support:appcompat-v7:${version["androidSupportSdkVersion"]}",
-            "design"                : "com.android.support:design:${version["androidSupportSdkVersion"]}",
-            "cardview-v7"           : "com.android.support:cardview-v7:${version["androidSupportSdkVersion"]}",
-            "annotations"           : "com.android.support:support-annotations:${version["androidSupportSdkVersion"]}",
-            "recyclerview-v7"       : "com.android.support:recyclerview-v7:${version["androidSupportSdkVersion"]}",
-            "constraint-layout"     : "com.android.support.constraint:constraint-layout:${version["constraintSdkVersion"]}",
+            //support                  rootProject.ext.dependencies.support_v4 or rootProject.ext.dependencies["support_v4"]
+            "support_v4"            : "com.android.support:support-v4:${version.androidSupportSdkVersion}",//${version["androidSupportSdkVersion"]}
+            "appcompat_v7"          : "com.android.support:appcompat-v7:${version.androidSupportSdkVersion}",
+            "design"                : "com.android.support:design:${version.androidSupportSdkVersion}",
+            "cardview-v7"           : "com.android.support:cardview-v7:${version.androidSupportSdkVersion}",
+            "annotations"           : "com.android.support:support-annotations:${version.androidSupportSdkVersion}",
+            "recyclerview-v7"       : "com.android.support:recyclerview-v7:${version.androidSupportSdkVersion}",
+            "constraint_layout"     : "com.android.support.constraint:constraint-layout:${version.constraintSdkVersion}",
 
             //view
             "butterknife"           : "com.jakewharton:butterknife:${version["butterknifeSdkVersion"]}",

@@ -1,4 +1,6 @@
-/build/generated/
-/build/intermediates/
-/build/tmp/
-/build/cache/
+/build/cache
+/build/generated
+/build/intermediates
+/build/reports
+/build/tmp
+/build/outputs/mapping

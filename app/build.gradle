@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
-    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
         applicationId "com.actor.sample"
-        minSdkVersion       rootProject.ext.android["minSdkVersion"]
-        targetSdkVersion    rootProject.ext.android["targetSdkVersion"]
-        versionCode         rootProject.ext.android["versionCode"]
-        versionName         rootProject.ext.android["versionName"]
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode         rootProject.ext.android.versionCode
+        versionName         rootProject.ext.android.versionName
         multiDexEnabled true
 
         //在 defaultConfig { 中添加ndk
@@ -64,9 +64,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation rootProject.ext.dependencies["support-v4"]
-    implementation rootProject.ext.dependencies["appcompat-v7"]
-    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies.support_v4
+    implementation rootProject.ext.dependencies.appcompat_v7
+    implementation rootProject.ext.dependencies.constraint_layout
 
     //https://github.com/google/flexbox-layout
     implementation 'com.google.android:flexbox:1.0.0'

@@ -28,28 +28,32 @@ import java.util.List;
  */
 public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
-    protected int                   fragmentSize;
-    protected SparseArray<Fragment> fragments;
-    protected String[]              titlesForFragments;
+    protected int                   fragmentSizeForAdapter;
+    protected SparseArray<Fragment> fragmentsForAdapter;
+    protected String[]              titlesForAdapter;
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, int size) {
         super(fm);
-        this.fragmentSize = size;
-        fragments = new SparseArray<>(size);
+        this.fragmentSizeForAdapter = size;
+        fragmentsForAdapter = new SparseArray<>(size);
     }
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, @NonNull String[] titles) {
         super(fm);
-        this.fragmentSize = titles.length;
-        fragments = new SparseArray<>(fragmentSize);
-        this.titlesForFragments = titles;
+        this.fragmentSizeForAdapter = titles.length;
+        fragmentsForAdapter = new SparseArray<>(fragmentSizeForAdapter);
+        this.titlesForAdapter = titles;
     }
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, @NonNull List<String> titles) {
         super(fm);
-        this.fragmentSize = titles.size();
-        fragments = new SparseArray<>(fragmentSize);
-        this.titlesForFragments = (String[]) titles.toArray();
+        this.fragmentSizeForAdapter = titles.size();
+        fragmentsForAdapter = new SparseArray<>(fragmentSizeForAdapter);
+        //java.lang.ClassCastException: java.lang.Object[] cannot be cast to java.lang.String[]
+//            this.titlesForAdapter = (String[]) titles.toArray();
+
+        titlesForAdapter = new String[fragmentSizeForAdapter];
+        titlesForAdapter = titles.toArray(titlesForAdapter);
     }
 
     /**
@@ -63,8 +67,8 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
      * @param position 第几个Fragment
      */
     public @Nullable <T extends Fragment> T getFragment(int position) {
-        if (fragments.size() > position) {
-            return (T) fragments.get(position);
+        if (fragmentsForAdapter.size() > position) {
+            return (T) fragmentsForAdapter.get(position);
         }
         return null;
     }
@@ -73,12 +77,12 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return titlesForFragments == null ? null : titlesForFragments.length > position ? titlesForFragments[position] : null;
+        return titlesForAdapter == null ? null : titlesForAdapter.length > position ? titlesForAdapter[position] : null;
     }
 
     @Override
     public int getCount() {
-        return fragmentSize;
+        return fragmentSizeForAdapter;
     }
 
     //实例化
@@ -86,13 +90,13 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        fragments.put(position, fragment);
+        fragmentsForAdapter.put(position, fragment);
         return fragment;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        fragments.remove(position);
+        fragmentsForAdapter.remove(position);
         super.destroyItem(container, position, object);
     }
 

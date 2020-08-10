@@ -39,29 +39,34 @@ import java.util.List;
  */
 public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    protected int                   fragmentSize;
-    protected SparseArray<Fragment> fragments;
+    protected int                   fragmentSizeForAdapter;
+    protected SparseArray<Fragment> fragmentsForAdapter;
     protected String[]              titlesForFragments;
 
     public BaseFragmentPagerAdapter(FragmentManager fm, int size) {
         super(fm);
-        this.fragmentSize = size;
-        fragments = new SparseArray<>();
+        this.fragmentSizeForAdapter = size;
+        fragmentsForAdapter = new SparseArray<>();
     }
 
     public BaseFragmentPagerAdapter(FragmentManager fm, @NonNull String[] titles) {
         super(fm);
-        this.fragmentSize = titles.length;
-        fragments = new SparseArray<>(fragmentSize);
+        this.fragmentSizeForAdapter = titles.length;
+        fragmentsForAdapter = new SparseArray<>(fragmentSizeForAdapter);
         this.titlesForFragments = titles;
     }
 
     public BaseFragmentPagerAdapter(FragmentManager fm, List<String> titles) {
         super(fm);
         if (titles != null) {
-            this.fragmentSize = titles.size();
-            fragments = new SparseArray<>(fragmentSize);
-            this.titlesForFragments = (String[]) titles.toArray();
+            this.fragmentSizeForAdapter = titles.size();
+            fragmentsForAdapter = new SparseArray<>(fragmentSizeForAdapter);
+
+            //java.lang.ClassCastException: java.lang.Object[] cannot be cast to java.lang.String[]
+//            this.titlesForFragments = (String[]) titles.toArray();
+
+            titlesForFragments = new String[fragmentSizeForAdapter];
+            titlesForFragments = titles.toArray(titlesForFragments);
         }
     }
 
@@ -75,9 +80,9 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
      * 获取Fragment
      * @param position 第几个Fragment
      */
-    public @Nullable <T extends Fragment> T  getFragment(int position) {
-        if (fragments.size() > position) {
-            return (T) fragments.get(position);
+    public @Nullable <T extends Fragment> T getFragment(int position) {
+        if (fragmentsForAdapter.size() > position) {
+            return (T) fragmentsForAdapter.get(position);
         }
         return null;
     }
@@ -90,7 +95,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return fragmentSize;
+        return fragmentSizeForAdapter;
     }
 
     //实例化
@@ -98,7 +103,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        fragments.put(position, fragment);
+        fragmentsForAdapter.put(position, fragment);
         return fragment;
     }
 
@@ -124,7 +129,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        fragments.remove(position);
+        fragmentsForAdapter.remove(position);
         super.destroyItem(container, position, object);
     }
 

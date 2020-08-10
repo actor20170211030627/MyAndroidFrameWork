@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme">
+        <!--临时Theme, 没实际作用, 实际使用子类Theme-->
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppThemeForMyAndroidFrameWork" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->

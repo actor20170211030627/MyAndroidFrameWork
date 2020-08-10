@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion       rootProject.ext.android["minSdkVersion"]
-        targetSdkVersion    rootProject.ext.android["targetSdkVersion"]
-        versionCode         rootProject.ext.android["versionCode"]
-        versionName         rootProject.ext.android["versionName"]
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode         rootProject.ext.android.versionCode
+        versionName         rootProject.ext.android.versionName
 
         consumerProguardFiles 'proguard-rules.pro'
     }
@@ -60,9 +60,9 @@ android {
 
 dependencies {
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly rootProject.ext.dependencies["appcompat-v7"]
+    compileOnly rootProject.ext.dependencies.appcompat_v7
     //约束布局
-    compileOnly rootProject.ext.dependencies["constraint-layout"]
+    compileOnly rootProject.ext.dependencies.constraint_layout
 
 
     //https://github.com/JakeWharton/butterknife
@@ -147,4 +147,11 @@ dependencies {
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
     compileOnly 'cn.jiguang.sdk:jpush:3.6.6'
     compileOnly 'cn.jiguang.sdk:jcore:2.3.8'
+
+    //最新版本: https://lbs.amap.com/api/android-sdk/download
+//    compileOnly 'com.amap.api:3dmap:7.5.0'//3D地图
+//    compileOnly 'com.amap.api:map2d:6.0.0'//2D地图
+    compileOnly 'com.amap.api:navi-3dmap:7.5.0_3dmap7.5.0'//导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap)
+    compileOnly 'com.amap.api:search:7.4.0'//搜索
+    compileOnly 'com.amap.api:location:5.1.0'//定位
 }

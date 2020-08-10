@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!--临时Theme, 打包后会使用子类Theme-->
-    <style name="AppTheme" />
-</resources>
