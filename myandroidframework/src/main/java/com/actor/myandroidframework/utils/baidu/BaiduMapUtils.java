@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.utils.baidu;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,8 @@ import android.view.View;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -50,11 +53,7 @@ import okhttp3.Request;
  *   @Override
  *   public void onCreate() {
  *       super.onCreate();
- *       //下方是百度地图, 如果用到地图需要初始化
- *       SDKInitializer.initialize(this);//初始化百度地图
- *       //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
- *       //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
- *       SDKInitializer.setCoordType(CoordType.BD09LL);
+ *       BaiduMapUtils.init(this);//初始化百度地图
  *   }
  *
  * 7.示例使用见:
@@ -331,6 +330,16 @@ public class BaiduMapUtils {
     ///////////////////////////////////////////////////////////////////////////
     // 百度地图
     ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 如果用到百度地图, 在 Application 中初始化
+     */
+    public static void init(Application application) {
+        SDKInitializer.initialize(application);
+        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
+        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
+        SDKInitializer.setCoordType(CoordType.BD09LL);
+    }
+
     /**
      * 初始化BaiduMap, 注意调用MapView的生命周期方法:
      * @see MapView#onResume() 当activity恢复时需调用 mapView.onResume()

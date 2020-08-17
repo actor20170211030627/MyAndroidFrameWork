@@ -127,5 +127,9 @@
 <!--                <category android:name="您应用的包名" />-->
 <!--            </intent-filter>-->
 <!--        </receiver>-->
+
+
+        <!-- 高德定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.location.APSService" />
     </application>
 </manifest>

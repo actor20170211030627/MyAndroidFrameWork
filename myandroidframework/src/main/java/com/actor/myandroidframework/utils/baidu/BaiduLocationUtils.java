@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.utils.baidu;
 
-import android.support.annotation.Nullable;
+import android.annotation.SuppressLint;
+import android.os.Message;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.baidu.location.BDAbstractLocationListener;
@@ -59,11 +60,7 @@ import com.baidu.location.LocationClientOption.LocationMode;
  *       android:name="com.baidu.lbsapi.API_KEY"
  *       android:value="AK"/><!--value:开发者申请的AK-->
  *
- * 6.Application中初始化
- * //百度定位配置
- * BaiduLocationUtils.setLocOption(BaiduLocationUtils.getDefaultLocationClientOption());
- *
- * 7.开始使用示例:
+ * 6.开始使用示例:
  * //开始定位
  * BaiduLocationUtils.registerListener(locationListener);//listener 可直接使用or继承or参考: {@link MyLocationListener}
  * BaiduLocationUtils.start();
@@ -73,7 +70,7 @@ import com.baidu.location.LocationClientOption.LocationMode;
  * BaiduLocationUtils.stop();
  *
  *
- * 定位服务工具类, 抄自百度Demo LocationService.java
+ * 定位服务工具类, 借鉴自百度Demo LocationService.java
  *
  *
  * @author baidu
@@ -81,61 +78,43 @@ import com.baidu.location.LocationClientOption.LocationMode;
  */
 public class BaiduLocationUtils {
 
+    @SuppressLint("StaticFieldLeak")
     protected static LocationClient       locationClient;
-    //默认定位配置/自定义定位配置
-    protected static LocationClientOption defaultOption, DIYoption;
+    //定位配置选项
+    protected static LocationClientOption clientOption;
 
     protected BaiduLocationUtils() {}
 
     public static LocationClient getLocationClient() {
-        synchronized (BaiduLocationUtils.class) {
-            if (locationClient == null) {
-                locationClient = new LocationClient(ConfigUtils.APPLICATION);
-            }
-        }
+        if (locationClient == null) locationClient = new LocationClient(ConfigUtils.APPLICATION);
         return locationClient;
     }
 
     /**
-     * 设置定位配置, 可在Application中统一初始化, 也可在另外的地方设置自定义的配置
-     * @param option
+     * 注册定位监听
      */
-    public static void setLocOption(LocationClientOption option) {
-        if (option != null) {
-            if (isStarted()) getLocationClient().stop();
-            DIYoption = option;
-            getLocationClient().setLocOption(option);
-        }
-    }
-
-    /**
-     * 获取定位配置
-     */
-    public static LocationClientOption getLocOption() {
-        return getLocationClient().getLocOption();
+    public static void registerListener(BDAbstractLocationListener listener) {
+        registerListener(null, listener);
     }
 
     /**
      * 注册定位监听
-     *
-     * @param listener
-     * @return
+     * @param option 定位配置选项
      */
-    public static void registerListener(BDAbstractLocationListener listener) {
-        if (listener != null) {
-            getLocationClient().registerLocationListener(listener);
-        }
+    public static void registerListener(LocationClientOption option, BDAbstractLocationListener listener) {
+        LocationClient client = getLocationClient();
+        client.setLocOption(option == null ? getDefaultLocationClientOption() : option);
+        /**
+         * listener会添加进List: {@link LocationClient#f(Message)}
+         */
+        client.registerLocationListener(listener);
     }
 
     /**
      * 注销定位监听
-     *
-     * @param listener
      */
     public static void unregisterListener(BDAbstractLocationListener listener) {
-        if (listener != null) {
-            getLocationClient().unRegisterLocationListener(listener);
-        }
+        getLocationClient().unRegisterLocationListener(listener);
     }
 
     /**
@@ -160,46 +139,53 @@ public class BaiduLocationUtils {
         }
     }
 
+    /**
+     * @return 是否已经开始定位
+     */
     public static boolean isStarted() {
         return getLocationClient().isStarted();
     }
 
     /**
-     * @return DefaultLocationClientOption  默认O设置
+     * 获取定位配置
      */
-    public static LocationClientOption getDefaultLocationClientOption() {
-        if (defaultOption == null) {
-            defaultOption = new LocationClientOption();
-            defaultOption.setLocationMode(LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-            defaultOption.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
-            defaultOption.setScanSpan(65000);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-            defaultOption.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-            defaultOption.setIsNeedLocationDescribe(true);//可选,默认false.设置是否需要位置语义化结果(地址描述),
-            // 可以在BDLocation.getLocationDescribe里得到,结果类似于“在北京天安门附近”
-            defaultOption.setNeedDeviceDirect(false);//可选，设置是否需要设备方向结果
-            defaultOption.setLocationNotify(false);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-            defaultOption.setIgnoreKillProcess(false);
-            //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-            defaultOption.setIsNeedLocationPoiList(false);//可选，默认false，设置是否需要POI结果，可以在BDLocation
-            // .getPoiList里得到
-            defaultOption.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-            defaultOption.setOpenGps(true);//可选，默认false,设置是否开启Gps定位
-            defaultOption.setIsNeedAltitude(false);//可选，默认false，设置定位时是否需要海拔信息，默认不需要，除基础定位版本都可用
-
-            //defaultOption.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-            defaultOption.setWifiCacheTimeOut(1 * 60 * 1000);
-            //可选，SDK7.2版本新增能力，如果您设置了这个接口，首次启动定位时，会先判断当前WiFi是否超出有效期，超出有效期的话，会先重新扫描WiFi，然后再定位
-        }
-        return defaultOption;
+    public static LocationClientOption getLocOption() {
+        return getLocationClient().getLocOption();
     }
 
     /**
-     * @return DIYOption 自定义Option设置
+     * @return 默认定位配置
      */
-    public static @Nullable LocationClientOption getDIYOption() {
-        return DIYoption;
+    public static LocationClientOption getDefaultLocationClientOption() {
+        if (clientOption == null) {
+            clientOption = new LocationClientOption();
+            clientOption.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式，高精度，低功耗，仅设备，默认高精度
+            clientOption.setCoorType("bd09ll");//设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll，默认gcj02
+            clientOption.setScanSpan(2000);//定位间隔, 默认0，即仅定位一次，设置需要大于等于1000ms才有效
+            clientOption.setIsNeedAddress(true);//是否需要地址信息，默认false
+            clientOption.setIsNeedLocationDescribe(true);//可选,默认false.设置是否需要位置语义化结果(地址描述),
+            // 可以在BDLocation.getLocationDescribe里得到,结果类似于“在北京天安门附近”
+            clientOption.setNeedDeviceDirect(false);//可选，设置是否需要设备方向结果
+            clientOption.setLocationNotify(false);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+            clientOption.setIgnoreKillProcess(false);
+            //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+            clientOption.setIsNeedLocationPoiList(false);//可选，默认false，设置是否需要POI结果，可以在BDLocation
+            // .getPoiList里得到
+            clientOption.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+            clientOption.setOpenGps(true);//可选，默认false,设置是否开启Gps定位
+            clientOption.setIsNeedAltitude(false);//可选，默认false，设置定位时是否需要海拔信息，默认不需要，除基础定位版本都可用
+
+            //defaultOption.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+            clientOption.setWifiCacheTimeOut(1 * 60 * 1000);
+            //可选，SDK7.2版本新增能力，如果您设置了这个接口，首次启动定位时，会先判断当前WiFi是否超出有效期，超出有效期的话，会先重新扫描WiFi，然后再定位
+        }
+        return clientOption;
     }
 
+    /**
+     * 触发请求当前连接wifi是否是移动热点的状态
+     * @return
+     */
     public static boolean requestHotSpotState() {
         return getLocationClient().requestHotSpotState();
     }

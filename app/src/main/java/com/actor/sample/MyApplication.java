@@ -4,12 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.actor.myandroidframework.application.ActorApplication;
-import com.actor.myandroidframework.utils.baidu.BaiduLocationUtils;
+import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
 import com.actor.sample.utils.Global;
-import com.baidu.mapapi.CoordType;
-import com.baidu.mapapi.SDKInitializer;
 import com.greendao.gen.ItemEntityDao;
 
 import okhttp3.OkHttpClient;
@@ -38,14 +36,7 @@ public class MyApplication extends ActorApplication {
          */
         GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class/*, ...*/);
 
-        //百度定位配置
-        BaiduLocationUtils.setLocOption(BaiduLocationUtils.getDefaultLocationClientOption());
-
-        //下方是百度地图, 如果用到地图需要初始化
-        SDKInitializer.initialize(this);//初始化百度地图
-        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
-        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
-        SDKInitializer.setCoordType(CoordType.BD09LL);
+        BaiduMapUtils.init(this);//初始化百度地图
 
         //Application中初始化极光推送
         JPushUtils.setDebugMode(isDebugMode);//设置调试模式,在 init 接口之前调用
