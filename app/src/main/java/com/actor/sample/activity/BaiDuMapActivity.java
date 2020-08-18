@@ -110,7 +110,6 @@ public class BaiDuMapActivity extends BaseActivity {
                 BaiduMapUtils.getAddressStringByNet(87.593087, 43.795592, new BaiduMapUtils.OnAddressCallback(this) {
                     @Override
                     public void onOk(double lng, double lat, @Nullable String address, int id) {
-                        dismissLoadingDialog();
                         toast(address);
                     }
                 });
@@ -119,7 +118,6 @@ public class BaiDuMapActivity extends BaseActivity {
                 BaiduMapUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
                     @Override
                     public void onOk(@NonNull LngLatInfo info, int id) {
-                        dismissLoadingDialog();
                         if (info.status == 0) {
                             LngLatInfo.ResultBean result = info.result;
                             if (result != null) {

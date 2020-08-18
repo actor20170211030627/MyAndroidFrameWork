@@ -12,29 +12,29 @@ import retrofit2.Response;
  */
 public class NoResultCallback<T> extends BaseCallback2<T> {
 
-    private boolean isShowErrorInfo = false;
+    private boolean isToastErrorInfo = false;
 
     public NoResultCallback() {
-        super(null);
+        this(false);
     }
 
     /**
      * 是否显示错误信息, 包括 状态码 & 网络错误
-     * @param isShowErrorInfo
+     * @param isToastErrorInfo 如果出错, 是否toast
      */
-    public NoResultCallback(boolean isShowErrorInfo) {
-        super(null);
-        this.isShowErrorInfo = isShowErrorInfo;
+    public NoResultCallback(boolean isToastErrorInfo) {
+        super(null);            //tag=null, 不会显示LoadingDialog
+        this.isToastErrorInfo = isToastErrorInfo;
     }
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-        if (isShowErrorInfo) super.onResponse(call, response);
+        if (isToastErrorInfo) super.onResponse(call, response);
     }
 
     @Override
     public void onError(Call<T> call, Throwable t) {
-        if (isShowErrorInfo) super.onError(call, t);
+        if (isToastErrorInfo) super.onError(call, t);
     }
 
     @Override

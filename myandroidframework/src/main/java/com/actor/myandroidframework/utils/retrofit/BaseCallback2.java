@@ -68,6 +68,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
+            onOkDismissLoadingDialog(id);
             onOk(call, response);
         } else {
             isStatusCodeError = true;
@@ -76,7 +77,19 @@ public abstract class BaseCallback2<T> implements Callback<T> {
         }
     }
 
+    /**
+     * 请求成功回调
+     */
     public abstract void onOk(Call<T> call, Response<T> response);
+
+    /**
+     * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
+     */
+    public void onOkDismissLoadingDialog(int id) {
+        if (tag instanceof ShowLoadingDialogAble) {
+            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        }
+    }
 
     /**
      * 请求出错

@@ -23,12 +23,11 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Description: 基类, 主要处理错误事件 & 解析成实体类 & 或者泛型里什么都不传,会直接返回Response, 可参考:
+ * Description: 返回基类, 主要处理错误事件 & 解析成实体类 & 或者泛型里什么都不传,会直接返回Response, 可参考:
  * https://github.com/hongyangAndroid/okhttputils/commit/1d717d1116cc5c81d05e58343e99229d4ccc9f08
  *
  * 在{@link #onBefore(Request, int)} 的时候, 默认会显示LoadingDialog, 可重写此方法.
  * 在{@link #onError(int, Call, Exception)} 的时候, 默认会隐藏LoadingDialog, 可重写此方法.
- * 在{@link #onOk(Object, int)} 方法里, 需要自己调用 "dismissLoadingDialog();" 的方法..
  *
  * Author     : 李大发
  * Date       : 2019/4/17 on 16:03
@@ -143,6 +142,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     @Override
     public void onResponse(T response, int id) {//main thread
         if (response != null) {
+            onOkDismissLoadingDialog(id);
             onOk(response, id);
         } else {
             isParseNetworkResponseIsNull = true;
@@ -153,7 +153,19 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         }
     }
 
+    /**
+     * 请求成功回调
+     */
     public abstract void onOk(@NonNull T info, int id);
+
+    /**
+     * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
+     */
+    public void onOkDismissLoadingDialog(int id) {
+        if (tag instanceof ShowLoadingDialogAble) {
+            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        }
+    }
 
     //okhttp3.Callback的方法
     @Override

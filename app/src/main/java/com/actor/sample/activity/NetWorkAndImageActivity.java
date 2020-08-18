@@ -109,7 +109,6 @@ public class NetWorkAndImageActivity extends BaseActivity {
         BaiduMapUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
             @Override
             public void onOk(@NonNull LngLatInfo info, int id) {
-                dismissLoadingDialog();
                 if (info.status == 0) {
                     LngLatInfo.ResultBean result = info.result;
                     if (result != null) {
@@ -147,7 +146,6 @@ public class NetWorkAndImageActivity extends BaseActivity {
                 new BaseCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id) {
-                        dismissLoadingDialog();
                         toast(info);
                     }
                 });
@@ -157,7 +155,6 @@ public class NetWorkAndImageActivity extends BaseActivity {
         putCall(NetWork.getGithubApi().get()).enqueue(new BaseCallback2<GithubInfo>(this) {
             @Override
             public void onOk(Call<GithubInfo> call, Response<GithubInfo> response) {
-                dismissLoadingDialog();
                 GithubInfo body = response.body();
                 if (body != null) toast(body.hub_url);
             }
@@ -197,7 +194,6 @@ public class NetWorkAndImageActivity extends BaseActivity {
                 null, null, new PostFileCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id) {
-                        dismissLoadingDialog();
                         toast(info);
                     }
                 });

@@ -128,7 +128,7 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     protected abstract @Nullable OkHttpClient.Builder configOkHttpClientBuilder(OkHttpClient.Builder builder);
 
     /**
-     * 返回baseUrl, 用于配置 "EasyHttp" 和 "Retrofit" 的 baseUrl
+     * 返回baseUrl, 用于配置 "MyOkHttpUtils" 和 "Retrofit" 的 baseUrl
      * @return 示例return: "https://api.github.com";
      */
     protected abstract @NonNull String getBaseUrl();

@@ -460,7 +460,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      *     MyOkHttpUtils.get(url, params, new BaseCallback<UserBean>(this, isRefresh) {
      *         @Override
      *         public void onOk(@NonNull UserBean info, int id) {
-     *             dismissLoadingDialog();
      *             int total = info.totalCount;
      *             List<UserBean.Data> datas = info.data;
      *             if (datas != null) {
