@@ -46,8 +46,10 @@ import com.amap.api.location.AMapLocationListener;
  *  GaoDeLocationUtils.setLocationListener(locationListener);
  *  GaoDeLocationUtils.startLocation();
  *
- *  //停止定位 or Activity销毁后
+ *  //注销定位监听(Activity/Fragment onDestroy前一定要注销掉)
  *  GaoDeLocationUtils.unRegisterLocationListener(locationListener);
+ *
+ *  //'全局'停止定位
  *  GaoDeLocationUtils.stopLocation();
  *
  * @author : 李大发
@@ -59,7 +61,10 @@ public class GaoDeLocationUtils {
     @SuppressLint("StaticFieldLeak")
     protected static AMapLocationClient       locationClient;
     //定位参数
-    protected static AMapLocationClientOption locationClientOption;
+    protected static AMapLocationClientOption clientOption;
+
+    protected GaoDeLocationUtils() {
+    }
 
     public static AMapLocationClient getLocationClient() {
         if (locationClient == null) {
@@ -134,13 +139,21 @@ public class GaoDeLocationUtils {
      * 获取默认定位参数
      */
     public static AMapLocationClientOption getDefaultLocationClientOption() {
-        if (locationClientOption == null) {
-            locationClientOption = new AMapLocationClientOption();
+        if (clientOption == null) {
+            clientOption = new AMapLocationClientOption();
             //定位模式: Hight_Accuracy,高精度模式. Battery_Saving,低功耗模式. Device_Sensors,仅设备模式
-            locationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-            //设置定位间隔, 单位毫秒, 最小800ms, 默认2000ms
-            locationClientOption.setInterval(2000);
+            clientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            clientOption.setGpsFirst(false);//是否gps优先，只在高精度模式下有效。默认关闭
+            clientOption.setHttpTimeOut(30_000L);//网络请求超时时间。默认为30秒。在仅设备模式下无效
+            clientOption.setInterval(2000);//定位间隔, 单位毫秒, 最小800ms, 默认2000ms
+            clientOption.setNeedAddress(true);//是否返回逆地理地址信息。默认是true
+            clientOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+            clientOption.setOnceLocationLatest(false);//是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+            AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+            clientOption.setSensorEnable(false);//是否使用传感器。默认是false
+            clientOption.setWifiScan(true); //是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+            clientOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
         }
-        return locationClientOption;
+        return clientOption;
     }
 }

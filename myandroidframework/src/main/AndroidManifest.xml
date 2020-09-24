@@ -39,38 +39,6 @@
         </service>
 
 
-        <!-- 设置QQ头像, ... -->
-        <!--https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95-->
-        <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-
-        <!--微信登录等-->
-        <!--https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html-->
-        <activity
-            android:name="${applicationId}.wxapi.WXEntryActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:taskAffinity="${applicationId}" />
-        <!--微信支付-->
-        <!--https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5-->
-        <activity
-            android:name="${applicationId}.wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW"/>-->
-<!--                <category android:name="android.intent.category.DEFAULT"/>-->
-<!--                <data android:scheme="wx8aee7894414e5f5a"/>-->
-<!--            </intent-filter>-->
-        </activity>
-
-
         <!--极光推送-->
         <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
         <!-- Since JCore2.0.0 Required SDK核心功能-->

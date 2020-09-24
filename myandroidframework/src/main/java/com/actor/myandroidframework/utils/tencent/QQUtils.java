@@ -31,9 +31,8 @@ import org.json.JSONObject;
  *   注册开发者地址(一般是公司注册): https://open.qq.com/reg
  *   创建应用, 获取APP ID: https://connect.qq.com/manage.html#/
  *
- * 4.需要在清单文件中添加: https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95
- * //只需添加以下1个activity, 另外一个activity已经添加了的.
- * <!-- 以下1个activity是QQ登录 -->
+ * 4.需要在清单文件中添加Activity: https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95
+ * <!-- QQ登录 -->
  * <activity
  *     android:name="com.tencent.tauth.AuthActivity"
  *     android:launchMode="singleTask"
@@ -45,6 +44,12 @@ import org.json.JSONObject;
  *         <data android:scheme="tencent222222" /> <!-- 这儿替换成: "tencent" + appid -->
  *     </intent-filter>
  * </activity>
+ * <!-- 设置QQ头像等... -->
+ * <activity
+ *     android:name="com.tencent.connect.common.AssistActivity"
+ *     android:configChanges="orientation|keyboardHidden"
+ *     android:screenOrientation="behind"
+ *     android:theme="@android:style/Theme.Translucent.NoTitleBar" />
  *
  * 5.添加apache, Android 9.0上QQ分享报错 https://developer.umeng.com/docs/66750/detail/94386
  * <!--QQUtils, 在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错...-->

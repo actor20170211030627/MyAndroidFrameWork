@@ -54,7 +54,7 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param bodyString
      */
 //    @Override
-    public void printJsonRequest(Request request, String bodyString) {
+    public synchronized void printJsonRequest(Request request, String bodyString) {
         final String requestBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString;
         final String tag = getTag(true);
         Log.d/*LogUtils.debugInfo*/(tag, REQUEST_UP_LINE);
@@ -70,7 +70,7 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param request
      */
 //    @Override
-    public void printFileRequest(Request request) {
+    public synchronized void printFileRequest(Request request) {
         final String tag = getTag(true);
 
         Log.d/*LogUtils.debugInfo*/(tag, REQUEST_UP_LINE);
@@ -94,7 +94,7 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param responseUrl  请求地址
      */
 //    @Override
-    public void printJsonResponse(long chainMs, boolean isSuccessful, int code, String headers, MediaType contentType,
+    public synchronized void printJsonResponse(long chainMs, boolean isSuccessful, int code, String headers, MediaType contentType,
                                   String bodyString, List<String> segments, String message, final String responseUrl) {
         bodyString = RequestInterceptor.isJson(contentType) ? CharacterHandler.jsonFormat(bodyString)
                 : RequestInterceptor.isXml(contentType) ? CharacterHandler.xmlFormat(bodyString) : bodyString;
@@ -122,7 +122,7 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param responseUrl  请求地址
      */
 //    @Override
-    public void printFileResponse(long chainMs, boolean isSuccessful, int code, String headers,
+    public synchronized void printFileResponse(long chainMs, boolean isSuccessful, int code, String headers,
                                   List<String> segments, String message, final String responseUrl) {
         final String tag = getTag(false);
         final String[] urlLine = {URL_TAG + responseUrl, N};

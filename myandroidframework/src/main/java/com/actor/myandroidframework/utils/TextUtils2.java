@@ -1,6 +1,5 @@
 package com.actor.myandroidframework.utils;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -8,22 +7,16 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.LongSparseArray;
-import android.util.SparseArray;
-import android.util.SparseBooleanArray;
-import android.util.SparseIntArray;
-import android.util.SparseLongArray;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.R;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
-import java.lang.reflect.Array;
-import java.util.Collection;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Description: 如下功能:
@@ -136,72 +129,24 @@ public class TextUtils2 {
      * @return 是否不为空
      */
     public static boolean isNoEmpty(Object obj, CharSequence notify) {
-        if (obj == null) {
-            if (notify != null) ToastUtils.showShort(notify);
-            return false;
-        }
-        if (obj instanceof CharSequence) {//字符序列
-            boolean isEmpty = ((CharSequence) obj).length() == 0;
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (obj.getClass().isArray()) {//数组
-            boolean isEmpty = Array.getLength(obj) == 0;
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (obj instanceof Collection) {//List, Set, Queue
-            boolean isEmpty = ((Collection) obj).isEmpty();
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (obj instanceof Map) {//Map
-            boolean isEmpty = ((Map) obj).isEmpty();
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
         if (obj instanceof GetTextAble)     return isNoEmpty((GetTextAble) obj, notify);
         if (obj instanceof TextView)        return isNoEmpty((TextView) obj, notify);
         if (obj instanceof TextInputLayout) return isNoEmpty((TextInputLayout) obj, notify);
 
-        if (obj instanceof SparseArray) {//稀疏数组<int, Object>, android特有, 主要是替换Map
-            boolean isEmpty = ((SparseArray) obj).size() == 0;
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (obj instanceof SparseBooleanArray) {//<int, boolean>
-            boolean isEmpty = ((SparseBooleanArray) obj).size() == 0;
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (obj instanceof SparseIntArray) {//<int, int>
-            boolean isEmpty = ((SparseIntArray) obj).size() == 0;
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {//18, android4.3
-            if (obj instanceof SparseLongArray) {//<int, long>
-                boolean isEmpty = ((SparseLongArray) obj).size() == 0;
-                if (isEmpty && notify != null) ToastUtils.showShort(notify);
-                return !isEmpty;
-            }
-        }
-        if (obj instanceof LongSparseArray) {//<long, Object>
-            boolean isEmpty = ((LongSparseArray) obj).size() == 0;
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (obj instanceof android.support.v4.util.SparseArrayCompat) {//v4包, <int, Object>
-            boolean isEmpty = ((android.support.v4.util.SparseArrayCompat) obj).isEmpty();
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        if (obj instanceof android.support.v4.util.LongSparseArray) {//v4包, <long, Object>
-            boolean isEmpty = ((android.support.v4.util.LongSparseArray) obj).isEmpty();
-            if (isEmpty && notify != null) ToastUtils.showShort(notify);
-            return !isEmpty;
-        }
-        return !TextUtils.isEmpty(obj.toString());
+//        if (obj instanceof android.support.v4.util.SparseArrayCompat) {//v4包, <int, Object>
+//            boolean isEmpty = ((android.support.v4.util.SparseArrayCompat) obj).isEmpty();
+//            if (isEmpty && notify != null) ToastUtils.showShort(notify);
+//            return !isEmpty;
+//        }
+//        if (obj instanceof android.support.v4.util.LongSparseArray) {//v4包, <long, Object>
+//            boolean isEmpty = ((android.support.v4.util.LongSparseArray) obj).isEmpty();
+//            if (isEmpty && notify != null) ToastUtils.showShort(notify);
+//            return !isEmpty;
+//        }
+
+        boolean isEmpty = ObjectUtils.isEmpty(obj);
+        if (isEmpty && notify != null) ToastUtils.showShort(notify);
+        return !isEmpty;
     }
 
     protected static boolean isNoEmpty(GetTextAble getTextAble, CharSequence nofify) {

@@ -10,6 +10,7 @@ import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
 import com.actor.myandroidframework.utils.okhttputils.log.RequestInterceptor;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.CacheDiskUtils;
+import com.blankj.utilcode.util.Utils;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -28,7 +29,7 @@ import okhttp3.OkHttpClient;
  * Author     : 李大发
  * Date       : 2019/7/21 on 16:59
  */
-public abstract class ActorApplication extends Application/* implements Thread.UncaughtExceptionHandler*/ {
+public abstract class ActorApplication extends Application/*MultiDexApplication implements Thread.UncaughtExceptionHandler*/ {
 
     private static final String EXCEPTION   = "EXCEPTION_FOR_ActorApplication";
     public        boolean          isDebugMode = false;//配置 isDebug 模式
@@ -55,17 +56,19 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     @Override
     public void onCreate() {
         super.onCreate();
-        //如果是"debug环境", 那么值就一定是true(加判断是因为要让正式环境也可以开debug模式)
-        if (isAppDebug()) isDebugMode = true;
+        Utils.init(this);
+
+        //配置全局是 debug 模式
+        ConfigUtils.isDebugMode = isDebugMode = isAppDebug();
+
         //2.如果是正式环境,在onCreate中设置默认未捕获异常线程
         if (!isDebugMode) {
             Thread.setDefaultUncaughtExceptionHandler(new MyHandler());
         }
 
-        //配置信息
+        //配置BaseUrl
         String baseUrl = getBaseUrl();
         if (baseUrl != null) ConfigUtils.baseUrl = baseUrl;
-        ConfigUtils.isDebugMode = isDebugMode;
 
         //配置硬盘缓存
         aCache = CacheDiskUtils.getInstance(getFilesDir());
@@ -187,22 +190,17 @@ public abstract class ActorApplication extends Application/* implements Thread.U
     }
 
     /**
-     * 当我们没在AndroidManifest.xml中设置其debug属性时:
-     * 使用Eclipse运行这种方式打包时其debug属性为true,使用Eclipse导出这种方式打包时其debug属性为法false.
-     * 在使用ant打包时，其值就取决于ant的打包参数是release还是debug.
+     * 当我们没在AndroidManifest.xml中设置其 debuggable="true" 属性时:
+     * <application android:debuggable="true" tools:ignore="HardcodedDebugMode"
+     *
+     * 运行:                                这种方式打包时其debug属性为true,
+     * Build->Generate Signed APK release: 这种方式打包时其debug属性为法false.
      * 因此在AndroidMainifest.xml中最好不设置android:debuggable属性置，而是由打包方式来决定其值.
      *
-     * 如果release版本也想输出日志，那么这个时候我们到 AndroidManifest.xml 中的application
-     * 标签中添加属性强制设置debugable即可:
-     * <application android:debuggable="true" tools:ignore="HardcodedDebugMode"
+     * 如果release版本也想输出日志，那么这个时候我们到 AndroidManifest.xml 中设置debuggable="true"即可.
+     * 或者重写此方法自定义返回.
      */
     protected boolean isAppDebug() {
         return AppUtils.isAppDebug();
-//        try {
-//            ApplicationInfo info= getApplicationInfo();
-//            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) !=0 ;
-//        } catch (Exception e) {
-//            return false;
-//        }
     }
 }

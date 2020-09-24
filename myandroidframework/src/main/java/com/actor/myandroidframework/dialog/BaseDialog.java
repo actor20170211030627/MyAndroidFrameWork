@@ -47,6 +47,10 @@ public abstract class BaseDialog extends Dialog {
 
     protected void init() {
         window = getWindow();//获取当前dialog所在的窗口对象
+
+        //可设置Dialog所在Window的进入&退出动画
+//        window.setWindowAnimations(R.style.dialog_bottom_in_bottom_out);
+
         int layoutResId = getLayoutResId();
         if (layoutResId != 0) setContentView(layoutResId);
 

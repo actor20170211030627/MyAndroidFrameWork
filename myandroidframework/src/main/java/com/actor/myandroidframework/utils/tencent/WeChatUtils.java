@@ -51,8 +51,23 @@ import java.util.concurrent.ExecutionException;
  *   //支付功能(如果app没有使用 支付 等这些功能, 请忽略)
  *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
  *
- * 3.已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加以下类,不要再在自己的清单文件中再添加以下2个Activity:
- * WXEntryActivity, WXPayEntryActivity
+ * 3.在 AndroidManifest.xml中添加以下2个Activity:
+ * <!--微信登录等-->
+ * <!-- https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html -->
+ * <activity
+ *     android:name=".wxapi.WXEntryActivity"
+ *     android:label="@string/app_name"
+ *     android:theme="@android:style/Theme.Translucent.NoTitleBar"
+ *     android:exported="true"
+ *     android:launchMode="singleTask"
+ *     android:taskAffinity="${applicationId}" />
+ * <!--微信支付-->
+ * <!-- https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5 -->
+ * <activity
+ *     android:name=".wxapi.WXPayEntryActivity"
+ *     android:exported="true"
+ *     android:launchMode="singleTop" >
+ * </activity>
  *
  * 4.在Application中初始化: {@link #setAppId(String)}
  *

@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils;
 
 import android.app.Application;
 
-import com.blankj.utilcode.util.AppUtils;
+import com.actor.myandroidframework.application.ActorApplication;
 import com.blankj.utilcode.util.Utils;
 
 /**
@@ -16,7 +16,11 @@ public class ConfigUtils {
 
     public static final Application APPLICATION = Utils.getApp();
 
-    public static boolean isDebugMode = AppUtils.isAppDebug();//是否是debug模式
+    /**
+     * 是否是debug模式
+     * @see ActorApplication#onCreate()
+     */
+    public static boolean isDebugMode;
 
     public static String baseUrl = "";//需要自己设置baseUrl
 }
