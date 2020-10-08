@@ -1,10 +1,11 @@
 package com.actor.myandroidframework.widget;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Description: 下拉刷新, 解决嵌套中的ViewPager横向滑动时, 非常容易把下拉刷新的小球拉下来的问题

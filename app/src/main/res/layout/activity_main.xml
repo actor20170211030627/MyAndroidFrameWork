@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -49,6 +49,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ViewPager &amp; Fragment多层嵌套"
+            android:transitionName="btn" />
+
+        <Button
+            android:id="@+id/btn_select_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文件选择"
             android:transitionName="btn" />
 
         <Button
@@ -120,12 +127,6 @@
             android:text="快速查找条QuickSearchBar" />
 
         <Button
-            android:id="@+id/btn_export2_excel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Excel导出" />
-
-        <Button
             android:id="@+id/btn_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -150,4 +151,4 @@
             android:gravity="center"
             tools:text="VersionName: 1.0.0(VersionCode: 1)" />
     </com.google.android.flexbox.FlexboxLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

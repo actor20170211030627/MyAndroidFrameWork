@@ -2,9 +2,10 @@ package com.actor.sample.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.dialog.BaseBottomDialog;
 import com.actor.sample.R;
@@ -12,7 +13,6 @@ import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * description: 从底部弹出, 可输入的Dialog, 不遮挡键盘.
- * company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * author     : 李大发
  * date       : 2020/4/13 on 17:46
  *

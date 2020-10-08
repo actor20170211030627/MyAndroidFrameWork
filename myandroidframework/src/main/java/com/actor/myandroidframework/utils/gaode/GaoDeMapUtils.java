@@ -2,8 +2,9 @@ package com.actor.myandroidframework.utils.gaode;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.IntRange;
 import android.view.View;
+
+import androidx.annotation.IntRange;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;

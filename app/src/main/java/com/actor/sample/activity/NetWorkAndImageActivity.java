@@ -2,10 +2,11 @@ package com.actor.sample.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
@@ -34,7 +35,6 @@ import retrofit2.Response;
 
 /**
  * Description: 主页->网络&图片
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 14:23
  */

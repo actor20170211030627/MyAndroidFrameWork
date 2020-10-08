@@ -3,22 +3,23 @@ package com.actor.myandroidframework.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.FloatRange;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.FloatRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentManager;
+
 import com.actor.myandroidframework.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 /**
  * Description:从底部弹出的DialogFragment, 能上下拖拽滑动
@@ -143,7 +144,8 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     /**
      * 设置布局Id, 可以适配根部局是ConstraintLayout的情况
      */
-    public abstract @LayoutRes int getLayoutId();
+    public abstract @LayoutRes
+    int getLayoutId();
 
     @Override
     public void onStart() {
@@ -151,7 +153,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
         BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
         mWindow = dialog.getWindow();
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//设置软键盘不自动弹出
-        View bottomSheet = mWindow.findViewById(android.support.design.R.id.design_bottom_sheet);
+        View bottomSheet = mWindow.findViewById(com.google.android.material.R.id.design_bottom_sheet);
         if (bottomSheet != null) {
             if (mMaxHeight > 0) {//设置最大高度
                 CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomSheet.getLayoutParams();
@@ -215,7 +217,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     /**
      * 1.跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错:
      * java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-     * {@link android.support.v4.app.DialogFragment#dismissInternal(boolean)}
+     * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean)}
      * 解决方法: 使用{@link #dismissAllowingStateLoss()}方法
      */
     @Override

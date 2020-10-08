@@ -7,7 +7,6 @@ import com.actor.sample.R;
 
 /**
  * Description: 主页->线程, 权限, SPUtils, EventBus
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-9 on 16:16
  */

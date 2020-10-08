@@ -2,7 +2,8 @@ package com.actor.myandroidframework.utils;
 
 import android.content.SharedPreferences;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.tencent.mmkv.MMKV;
 
@@ -14,7 +15,7 @@ import java.util.Set;
  * 使用:
  *   1.添加依赖
  *     //https://github.com/Tencent/MMKV 腾讯键值存储, 性能&可靠性远高于SharedPreferences
- *     implementation 'com.tencent:mmkv-static:1.1.1'
+ *     implementation 'com.tencent:mmkv-static:1.2.2'
  *   2.在Application中初始化
  *     //初始化腾讯键值 MMKV
  *     String rootDir = MMKV.initialize(this);
@@ -108,7 +109,7 @@ public class MMKVUtils {
     /**
      * 下方是String方法区域
      */
-    public static boolean putString(String key,  @Nullable String value) {
+    public static boolean putString(String key, @Nullable String value) {
         return getMMKV().encode(key, value);
     }
 

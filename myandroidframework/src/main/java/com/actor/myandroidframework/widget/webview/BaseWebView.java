@@ -1,18 +1,20 @@
-package com.actor.myandroidframework.widget;
+package com.actor.myandroidframework.widget.webview;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.actor.myandroidframework.utils.webview.BaseWebChromeClient;
-import com.actor.myandroidframework.utils.webview.BaseWebViewClient;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
+import com.actor.myandroidframework.utils.ConfigUtils;
 
 /**
  * Description: WebView常用初始化
+ *
+ * android:scrollbars="none"    不显示滚动条
+ *
  * Author     : 李大发
  * Date       : 2019-8-20 on 10:34
  *
@@ -47,58 +49,60 @@ public class BaseWebView extends WebView {
      * @param webChromeClient 可传入new BaseWebChromeClient(), 或者写个类extends MyWebChromeClient然后自定义一些自己的方法
      */
     public void init(BaseWebViewClient webViewClient, BaseWebChromeClient webChromeClient) {
+        //初始化WebSettings
+        BaseWebSettings.defaultInit(getSettings());
+
         setWebViewClient(webViewClient);
         setWebChromeClient(webChromeClient);
 
-        WebSettings webSettings = getSettings();
-        //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-
-        //设置自适应屏幕，两者合用
-        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小,支持双击缩放，同时支持手势操作放大和缩小?
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);//自适应屏幕.NARROW_COLUMNS:适应内容大小
-
-        //缩放操作
-        webSettings.setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
-        webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
-        webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
-
-        //图片
-        webSettings.setBlockNetworkImage(false);//不阻塞网络图片,解决图片不显示
-        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
-
-        //其他细节操作
-        webSettings.setAllowFileAccess(true); //设置可以访问文件
-        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-
-        //字体
-        webSettings.setTextSize(WebSettings.TextSize.NORMAL);//设置网页字体大小, 过时, 用下面方法↓
-        webSettings.setTextZoom(100);//设置页面的文本缩放百分比, 默认100
-
-        //缓存cache
-        webSettings.setDomStorageEnabled(false);//设置缓存,没数据也可加载
-//        webSettings.setAppCacheEnabled(true);//页面,图片,脚本,css,js...
-//        webSettings.setAppCachePath("path");//设置缓存目录
-//        webSettings.setAppCacheMaxSize(Long.MAX_VALUE);//过时,自动管理
-//        webSettings.setCacheMode(WebSettings.LOAD...);//设置缓存的模式,见WebView详解.md
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); //关闭webview中缓存
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//安卓5.0以上的权限
-            /**
-             * MIXED_CONTENT_ALWAYS_ALLOW：允许从任何来源加载内容，即使起源是不安全的；
-             * MIXED_CONTENT_NEVER_ALLOW：不允许Https加载Http的内容，即不允许从安全的起源去加载一个不安全的资源；
-             * MIXED_CONTENT_COMPATIBILITY_MODE：当涉及到混合式内容时，WebView 会尝试去兼容最新Web浏览器的风格。
-             **/
-            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        //设置debug
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setWebContentsDebuggingEnabled(ConfigUtils.isDebugMode);
         }
+
+        //添加js交互
+//        addJavascriptInterface(new Object(), "android");
+
+        //滚动条
+//        setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//View方法
+        //水平滚动条
+        setHorizontalScrollBarEnabled(false);
+        //垂直滚动条
+        setVerticalScrollBarEnabled(false);
+
+
+        //清除缓存(可用于 loadUrl() 前)
+//        clearCache(false);
+
+        //只清除当前页之前的历史记录
+//        clearHistory();
+
+        //清除表单数据
+//        clearFormData();
+
+        //获取当前URL
+//        getUrl();
+
+        //获取原始URL
+//        getOriginalUrl();
+
+        //添加下载监听
+//        setDownloadListener(new DownloadListener() {
+//            @Override
+//            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+//                Uri uri = Uri.parse(url);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     /**
-     * 加载网页 or 本地H5
-     * @param url 例: https://www.baidu.com/ 或本地文件:
-     *           "file:///android_asset/support.html" (src/main/assets/support.html)
+     *
+     * @param url "网页url" or "本地H5" or "javascript方法", 例:
+     *            url:            "https://www.baidu.com/"
+     *            本地h5:         "file:///android_asset/support.html" (本地路径: src/main/assets/support.html)
+     *            javascript方法: "javascript:jsMethodName(params...)"
      */
     @Override
     public void loadUrl(String url) {
@@ -144,6 +148,11 @@ public class BaseWebView extends WebView {
         return super.canGoForward();
     }
 
+    @Override
+    public boolean canGoBackOrForward(int steps) {
+        return super.canGoBackOrForward(steps);
+    }
+
     /**
      * 回到上一个网址
      */
@@ -158,6 +167,11 @@ public class BaseWebView extends WebView {
     @Override
     public void goForward() {
         super.goForward();
+    }
+
+    @Override
+    public void goBackOrForward(int steps) {
+        super.goBackOrForward(steps);
     }
 
     /**

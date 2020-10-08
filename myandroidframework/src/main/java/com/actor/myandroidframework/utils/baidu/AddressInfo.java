@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Description: 坐标解析成地址
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/23 on 09:00
  * @version 1.0

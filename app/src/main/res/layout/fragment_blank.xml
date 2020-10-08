@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:tabBackground="@drawable/selector_tablayout_blue_white"
@@ -41,15 +41,15 @@
             app:tabTextColor="@color/blue_467DEC"
             tools:background="@color/gray_E3E3E3">
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="全部" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的" />
-        </android.support.design.widget.TabLayout>
+        </com.google.android.material.tabs.TabLayout>
     </com.actor.myandroidframework.widget.ScrollableViewPager>
 </LinearLayout>

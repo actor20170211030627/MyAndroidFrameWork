@@ -1,7 +1,7 @@
 package com.actor.sample;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
@@ -14,7 +14,6 @@ import okhttp3.OkHttpClient;
 
 /**
  * Description: 类的描述
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/7/27 on 02:35
  * @version 1.1

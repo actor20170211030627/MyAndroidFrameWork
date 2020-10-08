@@ -1,6 +1,6 @@
 package com.actor.myandroidframework.utils.okhttputils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ThreadUtils;
 

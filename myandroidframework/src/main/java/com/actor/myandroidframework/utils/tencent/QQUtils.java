@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -51,12 +52,12 @@ import org.json.JSONObject;
  *     android:screenOrientation="behind"
  *     android:theme="@android:style/Theme.Translucent.NoTitleBar" />
  *
- * 5.添加apache, Android 9.0上QQ分享报错 https://developer.umeng.com/docs/66750/detail/94386
- * <!--QQUtils, 在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错...-->
- * <!--写在 AndroidManifest.xml 的 <application>标签内, 和<activity 同级 -->
- * <uses-library
- *     android:name="org.apache.http.legacy"
- *     android:required="false" />
+ * 5.Android 9.0上QQ分享报错, 添加apache. https://developer.umeng.com/docs/66750/detail/94386
+ *   需要在 AndroidManifest.xml 的 <application>标签内, 和<activity 同级添加以下内容:
+ *     <!--QQUtils, 在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错...-->
+ *     <uses-library
+ *         android:name="org.apache.http.legacy"
+ *         android:required="false" />
  *
  * 6.在Application中设置appid: {@link #setAppId(String)}
  *

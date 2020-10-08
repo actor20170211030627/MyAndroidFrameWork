@@ -21,7 +21,6 @@ import cn.jpush.android.api.JPushMessage;
 
 /**
  * description: 极光推送
- * company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * author     : 李大发
  * date       : 2020/3/24 on 20:13
  *

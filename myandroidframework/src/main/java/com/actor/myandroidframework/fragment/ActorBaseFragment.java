@@ -3,17 +3,18 @@ package com.actor.myandroidframework.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
@@ -43,8 +44,8 @@ import retrofit2.Call;
  */
 public abstract class ActorBaseFragment extends Fragment implements ShowLoadingDialogAble {
 
-    protected FragmentActivity    activity;
-    protected Fragment            fragment;
+    protected FragmentActivity activity;
+    protected Fragment         fragment;
     protected Intent              intent;
     protected Map<String, Object> params = new LinkedHashMap<>();
     protected List<Call>          calls;
@@ -105,7 +106,7 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
 
     /**
      * @see #onCreate(Bundle) 和 {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} 之间进行调用
-     * 使用{@link android.support.v4.app.FragmentManager} 进行add hide show时会回调这个方法
+     * 使用{@link androidx.fragment.app.FragmentManager} 进行add hide show时会回调这个方法
      */
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -267,12 +268,12 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
      *      <li>{@link java.util.Map}</li>
      *      <li>{@link android.widget.TextView}</li>
      *      <li>{@link com.actor.myandroidframework.utils.TextUtils2.GetTextAble}</li>
-     *      <li>{@link android.support.design.widget.TextInputLayout}</li>
+     *      <li>{@link com.google.android.material.textfield.TextInputLayout}</li>
      *      <li>{@link android.util.SparseArray}</li>
      *      <li>{@link android.util.SparseBooleanArray}</li>
      *      <li>{@link android.util.SparseIntArray}</li>
      *      <li>{@link android.util.SparseLongArray}</li>
-     *      <li>{@link android.support.v4.util.SparseArrayCompat}</li>
+     *      <li>{@link androidx.collection.SparseArrayCompat}</li>
      *      <li>{@link Object#toString()}</li>
      * </ol>
      * @param notify 如果为空 & notify != null, toast(notify);
@@ -380,19 +381,22 @@ public abstract class ActorBaseFragment extends Fragment implements ShowLoadingD
      *     MyOkHttpUtils.get(url, params, new BaseCallback<UserBean>(this, isRefresh) {
      *         @Override
      *         public void onOk(@NonNull UserBean info, int id) {
-     *             int total = info.totalCount;
+     *             //int total = info.totalCount;               //⑴. total这种方式也可以
      *             List<UserBean.Data> datas = info.data;
-     *             if (datas != null) {
+     *             //if (datas != null) {                       //⑴
+     *             if (datas != null && !datas.isEmpty()) {     //⑵. 不用total方式
      *                 //如果是下拉刷新
      *                 if (requestIsRefresh) {
      *                     myAdapter.setNewData(datas);//设置新数据
      *                 } else {
      *                     myAdapter.addData(datas);//增加数据
      *                 }
-     *             }
-     *             if (myAdapter.getData().size() < total) {
      *                 myAdapter.loadMoreComplete();//加载完成
-     *             } else myAdapter.loadMoreEnd();//已经没有数据了
+     *             } else myAdapter.loadMoreEnd();//已经没有数据了   //⑵
+     *
+     *             //if (myAdapter.getData().size() < total) {      //⑴
+     *             //    myAdapter.loadMoreComplete();//加载完成     //⑴
+     *             //} else myAdapter.loadMoreEnd();//已经没有数据了 //⑴
      *         }
      *
      *         @Override

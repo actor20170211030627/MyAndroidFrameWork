@@ -9,6 +9,10 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 
 /**
+ * added: 增加同步代码块, 让Request&Response打印不混乱.
+ */
+
+/**
  * ================================================
  * 处理字符串的工具类
  * <p>
@@ -54,14 +58,16 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param bodyString
      */
 //    @Override
-    public synchronized void printJsonRequest(Request request, String bodyString) {
-        final String requestBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString;
-        final String tag = getTag(true);
-        Log.d/*LogUtils.debugInfo*/(tag, REQUEST_UP_LINE);
-        logLines(tag, new String[]{URL_TAG + request.url()}, false);
-        logLines(tag, getRequest(request), true);
-        logLines(tag, requestBody.split(LINE_SEPARATOR), true);
-        Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+    public void printJsonRequest(Request request, String bodyString) {
+        synchronized(TAG) {
+            final String requestBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString;
+            final String tag = getTag(true);
+            Log.d/*LogUtils.debugInfo*/(tag, REQUEST_UP_LINE);
+            logLines(tag, new String[]{URL_TAG + request.url()}, false);
+            logLines(tag, getRequest(request), true);
+            logLines(tag, requestBody.split(LINE_SEPARATOR), true);
+            Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+        }
     }
 
     /**
@@ -70,14 +76,16 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param request
      */
 //    @Override
-    public synchronized void printFileRequest(Request request) {
-        final String tag = getTag(true);
+    public void printFileRequest(Request request) {
+        synchronized(TAG) {
+            final String tag = getTag(true);
 
-        Log.d/*LogUtils.debugInfo*/(tag, REQUEST_UP_LINE);
-        logLines(tag, new String[]{URL_TAG + request.url()}, false);
-        logLines(tag, getRequest(request), true);
-        logLines(tag, OMITTED_REQUEST, true);
-        Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+            Log.d/*LogUtils.debugInfo*/(tag, REQUEST_UP_LINE);
+            logLines(tag, new String[]{URL_TAG + request.url()}, false);
+            logLines(tag, getRequest(request), true);
+            logLines(tag, OMITTED_REQUEST, true);
+            Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+        }
     }
 
     /**
@@ -94,20 +102,22 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param responseUrl  请求地址
      */
 //    @Override
-    public synchronized void printJsonResponse(long chainMs, boolean isSuccessful, int code, String headers, MediaType contentType,
+    public void printJsonResponse(long chainMs, boolean isSuccessful, int code, String headers, MediaType contentType,
                                   String bodyString, List<String> segments, String message, final String responseUrl) {
-        bodyString = RequestInterceptor.isJson(contentType) ? CharacterHandler.jsonFormat(bodyString)
-                : RequestInterceptor.isXml(contentType) ? CharacterHandler.xmlFormat(bodyString) : bodyString;
+        synchronized(TAG) {
+            bodyString = RequestInterceptor.isJson(contentType) ? CharacterHandler.jsonFormat(bodyString)
+                    : RequestInterceptor.isXml(contentType) ? CharacterHandler.xmlFormat(bodyString) : bodyString;
 
-        final String responseBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString;
-        final String tag = getTag(false);
-        final String[] urlLine = {URL_TAG + responseUrl, N};
+            final String responseBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString;
+            final String tag = getTag(false);
+            final String[] urlLine = {URL_TAG + responseUrl, N};
 
-        Log.d/*LogUtils.debugInfo*/(tag, RESPONSE_UP_LINE);
-        logLines(tag, urlLine, true);
-        logLines(tag, getResponse(headers, chainMs, code, isSuccessful, segments, message), true);
-        logLines(tag, responseBody.split(LINE_SEPARATOR), true);
-        Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+            Log.d/*LogUtils.debugInfo*/(tag, RESPONSE_UP_LINE);
+            logLines(tag, urlLine, true);
+            logLines(tag, getResponse(headers, chainMs, code, isSuccessful, segments, message), true);
+            logLines(tag, responseBody.split(LINE_SEPARATOR), true);
+            Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+        }
     }
 
     /**
@@ -122,16 +132,18 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
      * @param responseUrl  请求地址
      */
 //    @Override
-    public synchronized void printFileResponse(long chainMs, boolean isSuccessful, int code, String headers,
+    public void printFileResponse(long chainMs, boolean isSuccessful, int code, String headers,
                                   List<String> segments, String message, final String responseUrl) {
-        final String tag = getTag(false);
-        final String[] urlLine = {URL_TAG + responseUrl, N};
+        synchronized(TAG) {
+            final String tag = getTag(false);
+            final String[] urlLine = {URL_TAG + responseUrl, N};
 
-        Log.d/*LogUtils.debugInfo*/(tag, RESPONSE_UP_LINE);
-        logLines(tag, urlLine, true);
-        logLines(tag, getResponse(headers, chainMs, code, isSuccessful, segments, message), true);
-        logLines(tag, OMITTED_RESPONSE, true);
-        Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+            Log.d/*LogUtils.debugInfo*/(tag, RESPONSE_UP_LINE);
+            logLines(tag, urlLine, true);
+            logLines(tag, getResponse(headers, chainMs, code, isSuccessful, segments, message), true);
+            logLines(tag, OMITTED_RESPONSE, true);
+            Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
+        }
     }
 
 

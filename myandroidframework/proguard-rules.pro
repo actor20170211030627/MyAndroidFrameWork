@@ -173,11 +173,14 @@
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
 public static java.lang.String TABLENAME;
 }
--keep class **$Properties {*;}
+-keep class **$Properties { *; }
 
-# If you do not use SQLCipher:
+# If you DO use SQLCipher:
+-keep class org.greenrobot.greendao.database.SqlCipherEncryptedHelper { *; }
+
+# If you do NOT use SQLCipher:
 -dontwarn net.sqlcipher.database.**
-# If you do not use RxJava:
+# If you do NOT use RxJava:
 -dontwarn rx.**
 
 
@@ -234,3 +237,16 @@ public static java.lang.String TABLENAME;
 ## 导航
 -keep class com.amap.api.navi.**{*;}
 -keep class com.autonavi.**{*;}
+
+
+#############################################################################
+#PictureSelector 2.0
+-keep class com.luck.picture.lib.** { *; }
+
+#Ucrop
+-dontwarn com.yalantis.ucrop**
+-keep class com.yalantis.ucrop** { *; }
+-keep interface com.yalantis.ucrop** { *; }
+
+#Okio
+-dontwarn org.codehaus.mojo.animal_sniffer.*

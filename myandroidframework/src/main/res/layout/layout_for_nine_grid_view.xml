@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -36,15 +36,15 @@
     <!--如果同一个页面的下方有一个同id的RecyclerView,
      butterknife找到的RecyclerView指向了这个RecyclerView,
      下方那个RecyclerView就没找出来...-->
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_for_nine_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
-        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="3"
         tools:listitem="@layout/item_for_nine_grid_view">
-    </android.support.v7.widget.RecyclerView>
-</android.support.constraint.ConstraintLayout>
+    </androidx.recyclerview.widget.RecyclerView>
+</androidx.constraintlayout.widget.ConstraintLayout>

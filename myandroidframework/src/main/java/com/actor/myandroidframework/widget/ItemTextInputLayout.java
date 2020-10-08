@@ -2,13 +2,8 @@ package com.actor.myandroidframework.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntRange;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.Px;
-import android.support.annotation.StringRes;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -22,6 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.StringRes;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.TextUtils2;
@@ -78,11 +80,12 @@ import com.actor.myandroidframework.utils.TextUtils2;
  */
 public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetTextAble {
 
-    protected TextView  tvRedStar;
-    protected TextView  tvItem;
-    protected EditText  et1;
-    protected ImageView ivArrowRight;
-    protected Space     spaceMarginTop;
+    protected TextView      tvRedStar;
+    protected TextView      tvItem;
+    protected EditText      et1;
+    protected ImageView     ivArrowRight;
+    protected LinearLayout  llContentForItil;
+    protected Space         spaceMarginTop;
     protected float           density;//px = dp * density;
     protected OnClickListener clickListener;
 
@@ -179,10 +182,15 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             setPaddingRightText(paddingRightText);
             if (arrowSrc != null) setIvArrowRight(arrowSrc, null, null);
         }
+        //默认白色背景
+        if (getBackground() == null) {
+            llContentForItil.setBackgroundColor(Color.WHITE);
+        }
     }
     protected void inflate(Context context, @LayoutRes int resource) {
         //设置view, 并找到子view
         View inflate = View.inflate(context, resource, this);
+        llContentForItil = inflate.findViewById(R.id.ll_content_for_itil);
         spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_itil);
         tvRedStar = inflate.findViewById(R.id.tv_red_star_for_itil);
         tvItem = inflate.findViewById(R.id.tv_item_name_for_itil);

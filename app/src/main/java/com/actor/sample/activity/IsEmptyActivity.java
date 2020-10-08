@@ -1,7 +1,6 @@
 package com.actor.sample.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->判空
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 17:47
  */

@@ -2,11 +2,13 @@ package com.actor.myandroidframework.utils.album;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.FileUtils;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
@@ -20,7 +22,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Description: Album画廊工具,有以下功能:
+ * Description: Album, 图片选择工具
+ *
+ * 1.如果使用本工具, 需要添加依赖:
+ *   //https://github.com/yanzhenjie/Album 图片选择
+ *   implementation 'com.yanzhenjie:album:2.1.3'
+ *
+ * 有以下功能:
  * <ol>
  *     <li>{@link #selectVideo$Image(Context, boolean, int, long, ArrayList, Action)}选择视频&照片</li>
  *     <li>{@link #selectImage(Context, boolean, Action)}选择单张照片</li>
@@ -37,8 +45,10 @@ import java.util.Map;
  * LastUpdate : 2019/04/18
  * AlbumVersion: album:2.1.3
  * Version    : 1.2.2 增加预览一张图片的方法 {@link #gallery(Context, String, boolean, Action)}
- * TODO 增加crop功能
+ *
+ * @deprecated 建议使用 {@link PictureSelectorUtils}
  */
+@Deprecated
 public class AlbumUtils {
 
     //拍照/录像 存放地址
@@ -321,7 +331,7 @@ public class AlbumUtils {
     /**
      * 预览一张图片
      */
-    private static ArrayList<String> checkedList = new ArrayList<>();
+    private static final ArrayList<String> checkedList = new ArrayList<>();
     public static void gallery(Context context, String checked, boolean checkable, Action<ArrayList<String>> listener) {
         if (checked != null) {
             checkedList.clear();

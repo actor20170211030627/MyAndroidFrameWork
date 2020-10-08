@@ -15,7 +15,7 @@
         android:imeOptions="actionNext"
         android:inputType="text" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,13 +27,13 @@
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/colorPrimary">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入密码"
             android:imeOptions="actionNext"
             android:inputType="numberPassword" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!--
     itilArrowRightVisiable: 右边箭头显示状态, 默认与itilInputEnable相反, 可自定义

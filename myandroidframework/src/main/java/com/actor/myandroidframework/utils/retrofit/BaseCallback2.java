@@ -1,6 +1,6 @@
 package com.actor.myandroidframework.utils.retrofit;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -24,7 +24,8 @@ import retrofit2.Response;
  */
 public abstract class BaseCallback2<T> implements Callback<T> {
 
-    protected boolean isStatusCodeError = false;
+    protected boolean isStatusCodeError     = false;
+    protected boolean isShowedLoadingDialog = false;//本次请求LoadingDialog是否show
     public    int     id;
     public    Object  tag;
     public    boolean requestIsRefresh  = false;//这次请求是否是(下拉)刷新
@@ -62,6 +63,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     public void onBefore(int id) {
         if (tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).showLoadingDialog();
+            isShowedLoadingDialog = true;
         }
     }
 
@@ -86,7 +88,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
      */
     public void onOkDismissLoadingDialog(int id) {
-        if (tag instanceof ShowLoadingDialogAble) {
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
         }
     }
@@ -109,7 +111,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
 
     public void onError(Call<T> call, Throwable t) {
         //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
-        if (tag instanceof ShowLoadingDialogAble) {
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
         }
         if (isStatusCodeError) return;

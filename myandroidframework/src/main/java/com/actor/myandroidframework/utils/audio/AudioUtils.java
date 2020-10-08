@@ -3,8 +3,9 @@ package com.actor.myandroidframework.utils.audio;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.FileUtils;
 

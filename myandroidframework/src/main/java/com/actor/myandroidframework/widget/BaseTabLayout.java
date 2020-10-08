@@ -2,12 +2,14 @@ package com.actor.myandroidframework.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * description: 让 TabLayout 更方便设置自定义View, 示例流程:

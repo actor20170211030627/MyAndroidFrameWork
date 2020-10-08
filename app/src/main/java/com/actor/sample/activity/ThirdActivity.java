@@ -2,10 +2,11 @@ package com.actor.sample.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
@@ -35,7 +36,6 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->第三方登录/分享
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2020/3/13 on 12:11
  */

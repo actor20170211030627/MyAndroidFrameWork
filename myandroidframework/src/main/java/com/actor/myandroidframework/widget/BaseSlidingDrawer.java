@@ -3,11 +3,12 @@ package com.actor.myandroidframework.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SlidingDrawer;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * Description: 抽屉布局, 防止点击穿透

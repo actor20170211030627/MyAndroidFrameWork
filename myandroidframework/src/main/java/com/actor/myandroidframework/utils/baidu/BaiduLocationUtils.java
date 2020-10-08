@@ -53,8 +53,16 @@ import com.baidu.location.LocationClientOption.LocationMode;
  * <!-- 访问网络，网络定位需要上网-->
  * <uses-permission android:name="android.permission.INTERNET" />
  *
- * 5.清单文件中添加<meta-data
+ * 5.清单文件中添加 <meta-data 和 Service
  * http://lbsyun.baidu.com/index.php?title=android-locsdk/guide/create-project/android-studio
+ *  <!--百度定位服务-->
+ *  <service
+ *      android:name="com.baidu.location.f"
+ *      android:enabled="true"
+ *      tools:node="strict"
+ *      android:process=":remote">
+ *  </service>
+ *
  *   <!--百度定位设置AK，在Application标签中加入-->
  *   <meta-data
  *       android:name="com.baidu.lbsapi.API_KEY"

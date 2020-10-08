@@ -2,14 +2,8 @@ package com.actor.myandroidframework.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntRange;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.Px;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Space;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.IntRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.actor.myandroidframework.R;
 
@@ -54,6 +56,7 @@ public class ItemRadioGroupLayout extends LinearLayout {
 
     private TextView                tvRedStar, tvItem;
     private RadioGroup              radioGroup;
+    private LinearLayout            llContentForIrgl;
     private Space                   spaceMarginTop;
     private float                   density;//px = dp * density;
     private OnCheckedChangeListener onCheckedChangeListener;
@@ -123,6 +126,10 @@ public class ItemRadioGroupLayout extends LinearLayout {
             setCheckedPosition(irglCheckedPosition);
             setGravityRadioGroup(gravity);
         }
+        //默认白色背景
+        if (getBackground() == null) {
+            llContentForIrgl.setBackgroundColor(Color.WHITE);
+        }
     }
 
     protected void inflate(Context context, @LayoutRes int resource) {
@@ -131,6 +138,7 @@ public class ItemRadioGroupLayout extends LinearLayout {
         //传null表示当前布局没有父控件,大部分都传null
         //传this表示已当前相对布局为这个布局的父控件,这样做了以后,当前空的布局就有内容了
         View inflate = View.inflate(context, resource, this);
+        llContentForIrgl = inflate.findViewById(R.id.ll_content_for_irgl);
         spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_irgl);
         tvRedStar = inflate.findViewById(R.id.tv_red_star_for_irgl);
         tvItem = inflate.findViewById(R.id.tv_item_for_irgl);

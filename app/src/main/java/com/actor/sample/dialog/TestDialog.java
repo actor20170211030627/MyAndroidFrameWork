@@ -2,9 +2,10 @@ package com.actor.sample.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.dialog.BaseDialog;
 import com.actor.sample.R;
@@ -12,7 +13,6 @@ import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * Description: 测试Dialog
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2020-1-21 on 14:45
  *

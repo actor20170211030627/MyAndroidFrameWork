@@ -1,8 +1,5 @@
 package com.actor.myandroidframework.utils;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,10 +8,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.actor.myandroidframework.R;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Locale;
 
@@ -115,14 +116,14 @@ public class TextUtils2 {
      *      <li>{@link java.util.Map}</li>
      *      <li>{@link android.widget.TextView}</li>
      *      <li>{@link com.actor.myandroidframework.utils.TextUtils2.GetTextAble}</li>
-     *      <li>{@link android.support.design.widget.TextInputLayout}</li>
+     *      <li>{@link com.google.android.material.textfield.TextInputLayout}</li>
      *      <li>{@link android.util.SparseArray}</li>
      *      <li>{@link android.util.SparseBooleanArray}</li>
      *      <li>{@link android.util.SparseIntArray}</li>
      *      <li>{@link android.util.SparseLongArray}</li>
      *      <li>{@link LongSparseArray}</li>
-     *      <li>{@link android.support.v4.util.SparseArrayCompat}</li>
-     *      <li>{@link android.support.v4.util.LongSparseArray}</li>
+     *      <li>{@link androidx.collection.SparseArrayCompat}</li>
+     *      <li>{@link androidx.collection.LongSparseArray}</li>
      *      <li>{@link Object#toString()}</li>
      * </ol>
      * @param notify 如果为空 & notify != null, toast(notify);
@@ -133,13 +134,13 @@ public class TextUtils2 {
         if (obj instanceof TextView)        return isNoEmpty((TextView) obj, notify);
         if (obj instanceof TextInputLayout) return isNoEmpty((TextInputLayout) obj, notify);
 
-//        if (obj instanceof android.support.v4.util.SparseArrayCompat) {//v4包, <int, Object>
-//            boolean isEmpty = ((android.support.v4.util.SparseArrayCompat) obj).isEmpty();
+//        if (obj instanceof androidx.collection.SparseArrayCompat) {//v4包, <int, Object>
+//            boolean isEmpty = ((androidx.collection.SparseArrayCompat) obj).isEmpty();
 //            if (isEmpty && notify != null) ToastUtils.showShort(notify);
 //            return !isEmpty;
 //        }
-//        if (obj instanceof android.support.v4.util.LongSparseArray) {//v4包, <long, Object>
-//            boolean isEmpty = ((android.support.v4.util.LongSparseArray) obj).isEmpty();
+//        if (obj instanceof androidx.collection.LongSparseArray) {//v4包, <long, Object>
+//            boolean isEmpty = ((androidx.collection.LongSparseArray) obj).isEmpty();
 //            if (isEmpty && notify != null) ToastUtils.showShort(notify);
 //            return !isEmpty;
 //        }

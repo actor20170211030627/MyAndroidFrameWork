@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
@@ -321,7 +322,7 @@ public class WeChatUtils {
      * @param scene 见↑
      */
     public static void sendReqVideoLocal(String filePath, String title, String description,
-                                    @Nullable Bitmap bitmap, int scene) {
+                                         @Nullable Bitmap bitmap, int scene) {
         WXGameVideoFileObject gameVideoFileObject = new WXGameVideoFileObject();
         gameVideoFileObject.filePath = filePath;
 
@@ -357,6 +358,7 @@ public class WeChatUtils {
      * @param webpageUrl html 链接, 限制长度不超过 10KB
      * @param title 网页标题
      * @param description 网页描述
+     * @param bitmap 分享链接右侧的图片, 注意: 需要自己回收bitmap.recycle();
      * @param scene 见↑
      */
     public static void sendReqWebpage(String webpageUrl, String title, String description,
@@ -481,7 +483,7 @@ public class WeChatUtils {
      * @param packageValue 扩展字段,这里固定填写Sign=WXPay
      * @param sign 签名
      */
-    private void wxPay(String partnerId, String prepayid, String nonceStr, String timeStamp,
+    public static boolean pay(String partnerId, String prepayid, String nonceStr, String timeStamp,
                        String packageValue, String sign) {
         PayReq req = new PayReq();
         req.appId = getAppId();//你的微信appid
@@ -492,7 +494,7 @@ public class WeChatUtils {
         req.packageValue = packageValue;//扩展字段,这里固定填写Sign=WXPay
         req.sign = sign;//签名
         //      req.extData         = "app data"; // optional
-        boolean b = getIWXAPI().sendReq(req);
+        return getIWXAPI().sendReq(req);
     }
     /**
      * 打开离线支付

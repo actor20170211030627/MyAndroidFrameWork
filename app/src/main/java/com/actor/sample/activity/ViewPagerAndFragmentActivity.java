@@ -1,9 +1,10 @@
 package com.actor.sample.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.actor.myandroidframework.adapter.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.widget.ScrollableViewPager;
@@ -16,7 +17,6 @@ import butterknife.OnCheckedChanged;
 
 /**
  * Description: 主页->ViewPager & Fragment多层嵌套
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 14:54
  */

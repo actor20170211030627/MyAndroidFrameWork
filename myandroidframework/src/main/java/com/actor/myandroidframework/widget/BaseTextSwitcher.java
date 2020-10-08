@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Handler;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -16,13 +14,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -67,11 +69,12 @@ import java.util.List;
  * </com.actor.myandroidframework.widget.BaseTextSwitcher>
  *
  * 2.在Activity/Fragment中:
+ * List<T> datas = new ArrayList<>();//任意数据类型
  * baseTextSwitcher.setDataSource(datas);
- * baseTextSwitcher.setOnItemClickListener(new BaseTextSwitcher.OnItemClickListener() {
+ * baseTextSwitcher.setOnItemClickListener(new BaseTextSwitcher.OnItemClickListener<T>() {
  *     @Override
- *     public void onItemClick(int position, CharSequence charSequence) {
- *         logFormat("pos=%d, str=%s", position, charSequence);
+ *     public void onItemClick(int position, T item) {
+ *         logFormat("pos=%d, str=%s", position, item);
  *     }
  * });
  * bts.startSwitch();//在onStart();方法中调用
@@ -79,7 +82,7 @@ import java.util.List;
  *
  * @version 1.0
  */
-public class BaseTextSwitcher extends TextSwitcher {
+public class BaseTextSwitcher<T> extends TextSwitcher implements ViewSwitcher.ViewFactory {
 
     @IntDef({HORIZONTAL, VERTICAL})
     @Retention(RetentionPolicy.SOURCE)
@@ -87,129 +90,116 @@ public class BaseTextSwitcher extends TextSwitcher {
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
 
-    private Handler handler = new Handler();
-    private int pos = 0;
-    private Runnable runnable;
-    protected List<CharSequence> items = new ArrayList<>();
-    private int textColor = -1;
-    private int textSize = -1;
-    private int textStype = 0;
-    private int switchIntervalMs = 3_000;
-    private int orientation = VERTICAL;
-    private boolean singleLineMarquee = true;//单行跑马灯效果
-    private int maxLinesNoMarquee = 0;//最大行数
-    private OnItemClickListener onItemClickListener;
+    protected Handler handlerForTextSwitcher = new Handler();
+    protected int     posForTextSwitcher     = 0;
+    protected Runnable runnableForTextSwitcher;
+    protected List<T> itemsForTextSwitcher     = new ArrayList<>();
+    protected int textColorForTextSwitcher = -1;
+    protected int textSizeForTextSwitcher              = -1;
+    protected int textStypeForTextSwitcher             = 0;
+    protected int     switchIntervalMsForTextSwitcher  = 3_000;//动画切换间隔
+    protected int     orientationForTextSwitcher       = VERTICAL;
+    protected boolean singleLineMarqueeForTextSwitcher = true;//单行跑马灯效果
+    protected int                    maxLinesNoMarqueeForTextSwitcher = 0;//最大行数
+    protected OnItemClickListener<T> onItemClickListenerForTextSwitcher;
 
     public BaseTextSwitcher(Context context) {
-        this(context, null);
+        super(context);
+        init(context, null);
     }
 
     public BaseTextSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
+    }
+
+    protected void init(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BaseTextSwitcher);
-            textColor = typedArray.getColor(R.styleable.BaseTextSwitcher_btsTextColor, -1);
-            textSize = typedArray.getDimensionPixelSize(R.styleable.BaseTextSwitcher_btsTextSize, -1);
-            textStype = typedArray.getInt(R.styleable.BaseTextSwitcher_btsTextStyle, 0);
+            textColorForTextSwitcher = typedArray.getColor(R.styleable.BaseTextSwitcher_btsTextColor, -1);
+            textSizeForTextSwitcher = typedArray.getDimensionPixelSize(R.styleable.BaseTextSwitcher_btsTextSize, -1);
+            textStypeForTextSwitcher = typedArray.getInt(R.styleable.BaseTextSwitcher_btsTextStyle, 0);
             int interval = typedArray.getInt(R.styleable.BaseTextSwitcher_btsSwitchIntervalMs, -1);
-            orientation = typedArray.getInt(R.styleable.BaseTextSwitcher_btsOrientation, VERTICAL);
-            singleLineMarquee = typedArray.getBoolean(R.styleable.BaseTextSwitcher_btsSingleLineMarquee, true);
-            if (interval >= 100) switchIntervalMs = interval;
-            if (!singleLineMarquee) {//如果不是单行跑马灯效果
+            orientationForTextSwitcher = typedArray.getInt(R.styleable.BaseTextSwitcher_btsOrientation, VERTICAL);
+            singleLineMarqueeForTextSwitcher = typedArray.getBoolean(R.styleable.BaseTextSwitcher_btsSingleLineMarquee, true);
+            if (interval >= 100) switchIntervalMsForTextSwitcher = interval;
+            if (!singleLineMarqueeForTextSwitcher) {//如果不是单行跑马灯效果
                 int max = typedArray.getInt(R.styleable.BaseTextSwitcher_btsMaxLinesNoMarquee, 0);
-                if (max > 0) maxLinesNoMarquee = max;//最大行数
+                if (max > 0) maxLinesNoMarqueeForTextSwitcher = max;//最大行数
             }
             typedArray.recycle();
         }
-        TextView tv1 = new TextView(context);
-        TextView tv2 = new TextView(context);
-        if (textColor != -1) {//字体颜色
-            tv1.setTextColor(textColor);
-            tv2.setTextColor(textColor);
-        }
-        if (textSize != -1) {//字体大小
-            tv1.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-            tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-        }
-        int style = 0;//字体style
-        if ((textStype & Typeface.BOLD) != 0) {//加粗
-            style |= Typeface.BOLD;//AssistStructure.ViewNode.TEXT_STYLE_BOLD;
-        }
-        if ((textStype & Typeface.ITALIC) != 0) {//斜体
-            style |= Typeface.ITALIC;//AssistStructure.ViewNode.TEXT_STYLE_ITALIC;
-        }
-        if (style != 0) {//加粗|斜体
-            tv1.setTypeface(Typeface.defaultFromStyle(style));
-            tv2.setTypeface(Typeface.defaultFromStyle(style));
-        }
-        tv1.setGravity(Gravity.CENTER_VERTICAL);//字体垂直居中
-        tv2.setGravity(Gravity.CENTER_VERTICAL);
-        if (singleLineMarquee) {
-            tv1.setSingleLine(true);
-            tv2.setSingleLine(true);
-            tv1.setFocusable(true);
-            tv2.setFocusable(true);
-            tv1.setFocusableInTouchMode(true);
-            tv2.setFocusableInTouchMode(true);
-            tv1.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            tv2.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        } else {
-            if (maxLinesNoMarquee > 0) {
-                tv1.setMaxLines(maxLinesNoMarquee);
-                tv2.setMaxLines(maxLinesNoMarquee);
-            }
-        }
-        tv1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {//点击事件
-                if (!items.isEmpty() && pos < items.size() && onItemClickListener != null) {
-                    onItemClickListener.onItemClick((TextView) v, pos, items.get(pos));
-                }
-            }
-        });
-        tv2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!items.isEmpty() && pos < items.size() && onItemClickListener != null) {
-                    onItemClickListener.onItemClick((TextView) v, pos, items.get(pos));
-                }
-            }
-        });
-        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        addView(tv1, 0, layoutParams);
-        addView(tv2, 1, layoutParams);
-
-        runnable = new Runnable() {
+        setFactory(this);
+        runnableForTextSwitcher = new Runnable() {
             @Override
             public void run() {
-                handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable, switchIntervalMs);
+                handlerForTextSwitcher.removeCallbacks(runnableForTextSwitcher);
+                handlerForTextSwitcher.postDelayed(runnableForTextSwitcher, switchIntervalMsForTextSwitcher);
                 showNextView();
             }
         };
     }
 
-    /**
-     * 设置数据源, 默认垂直滚动
-     */
-    public void setDataSource(CharSequence[] dataSource) {
-        if (dataSource != null) setDataSource(Arrays.asList(dataSource), orientation);
+    @Override
+    public View makeView() {
+        TextView tv = new TextView(getContext());
+        if (textColorForTextSwitcher != -1) {//字体颜色
+            tv.setTextColor(textColorForTextSwitcher);
+        }
+        if (textSizeForTextSwitcher != -1) {//字体大小
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeForTextSwitcher);
+        }
+        int style = 0;//字体style
+        if ((textStypeForTextSwitcher & Typeface.BOLD) != 0) {//加粗
+            style |= Typeface.BOLD;//AssistStructure.ViewNode.TEXT_STYLE_BOLD;
+        }
+        if ((textStypeForTextSwitcher & Typeface.ITALIC) != 0) {//斜体
+            style |= Typeface.ITALIC;//AssistStructure.ViewNode.TEXT_STYLE_ITALIC;
+        }
+        if (style != 0) {//加粗|斜体
+            tv.setTypeface(Typeface.defaultFromStyle(style));
+        }
+        tv.setGravity(Gravity.CENTER_VERTICAL);//字体垂直居中
+        if (singleLineMarqueeForTextSwitcher) {
+            tv.setSingleLine(true);
+            tv.setFocusable(true);
+            tv.setFocusableInTouchMode(true);
+            tv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        } else {
+            if (maxLinesNoMarqueeForTextSwitcher > 0) {
+                tv.setMaxLines(maxLinesNoMarqueeForTextSwitcher);
+            }
+        }
+        tv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {//点击事件
+                if (!itemsForTextSwitcher.isEmpty() && posForTextSwitcher < itemsForTextSwitcher.size() && onItemClickListenerForTextSwitcher != null) {
+                    onItemClickListenerForTextSwitcher.onItemClick((TextView) v, posForTextSwitcher, itemsForTextSwitcher.get(posForTextSwitcher));
+                }
+            }
+        });
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        tv.setLayoutParams(layoutParams);
+        return tv;
     }
 
     /**
      * 设置数据源, 默认垂直滚动
+     * @param dataSource 数据类型'T'可以是任意类型,
+     *                   如果'T'是CharSequence类型, 直接显示.
+     *                   如果'T'是其它类型Object, 会显示Object的toString()方法.
      */
-    public void setDataSource(List<CharSequence> dataSource) {
-        setDataSource(dataSource, orientation);
+    public void setDataSource(List<T> dataSource) {
+        setDataSource(dataSource, orientationForTextSwitcher);
     }
 
     /**
      * 设置数据源
      */
-    public void setDataSource(List<CharSequence> dataSource, @OrientationMode int orientation) {
+    public void setDataSource(List<T> dataSource, @OrientationMode int orientation) {
         if (dataSource == null) return;
-        items.clear();
-        items.addAll(dataSource);
+        itemsForTextSwitcher.clear();
+        itemsForTextSwitcher.addAll(dataSource);
         Animation inAnimation = getInAnimation();//进入动画
         Animation outAnimation = getOutAnimation();//退出动画
         if (inAnimation == null) {
@@ -228,13 +218,29 @@ public class BaseTextSwitcher extends TextSwitcher {
      * 展示下一个
      */
     public void showNextView() {
-        int size = items.size();
+        int size = itemsForTextSwitcher.size();
         if (size > 0) {
-            if (pos == size - 1) {
-                pos = 0;
-            } else ++ pos;
-            setText(items.get(pos));
+            if (posForTextSwitcher == size - 1) {
+                posForTextSwitcher = 0;
+            } else ++posForTextSwitcher;
+            T t = itemsForTextSwitcher.get(posForTextSwitcher);
+            if (t instanceof CharSequence) {
+                setText((CharSequence) t);
+            } else {
+                setText(String.valueOf(t));
+            }
         }
+    }
+
+    /**
+     * 获取item
+     */
+    @Nullable
+    public T getItem(@IntRange(from = 0) int position) {
+        if (!itemsForTextSwitcher.isEmpty() && position < itemsForTextSwitcher.size()) {
+            return itemsForTextSwitcher.get(position);
+        }
+        return null;
     }
 
     /**
@@ -242,32 +248,32 @@ public class BaseTextSwitcher extends TextSwitcher {
      * 也可以不调用这个方法, 自己定时调用showNextView(), 比如和轮播图同步展示时
      */
     public void startSwitch() {
-        handler.removeCallbacks(runnable);
-        handler.postDelayed(runnable, switchIntervalMs);
+        handlerForTextSwitcher.removeCallbacks(runnableForTextSwitcher);
+        handlerForTextSwitcher.postDelayed(runnableForTextSwitcher, switchIntervalMsForTextSwitcher);
     }
 
     /**
      * 停止切换
      */
     public void stopSwitcher() {
-        handler.removeCallbacks(runnable);
-        handler.removeCallbacksAndMessages(null);
+        handlerForTextSwitcher.removeCallbacks(runnableForTextSwitcher);
+        handlerForTextSwitcher.removeCallbacksAndMessages(null);
     }
 
     /**
      * item点击事件
      */
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    public void setOnItemClickListenerForTextSwitcher(OnItemClickListener<T> onItemClickListenerForTextSwitcher) {
+        this.onItemClickListenerForTextSwitcher = onItemClickListenerForTextSwitcher;
     }
 
-    public interface OnItemClickListener {
+    public interface OnItemClickListener<T> {
         /**
          * @param textView 点击的TextView
          * @param position 点击的哪一个item
-         * @param charSequence item的值
+         * @param item     item的值
          */
-        void onItemClick(TextView textView, int position, CharSequence charSequence);
+        void onItemClick(TextView textView, int position, T item);
     }
 
     //只有2个孩子

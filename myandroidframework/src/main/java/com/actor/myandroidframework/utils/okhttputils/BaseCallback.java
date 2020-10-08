@@ -1,7 +1,7 @@
 package com.actor.myandroidframework.utils.okhttputils;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -48,6 +48,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     protected boolean           isStatusCodeError            = false;//状态码错误
     protected boolean           isParseNetworkResponseIsNull = false;//解析成的实体entity=null
     protected boolean           isJsonParseException         = false;//Json解析异常
+    protected boolean           isShowedLoadingDialog        = false;//本次请求LoadingDialog是否show
     public    Object            tag;
     public    int               id;
     public    boolean           requestIsRefresh             = false;//这次请求是否是(下拉)刷新
@@ -87,6 +88,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         super.onBefore(request, id);
         if (tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).showLoadingDialog();
+            isShowedLoadingDialog = true;
         }
     }
 
@@ -162,7 +164,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
      */
     public void onOkDismissLoadingDialog(int id) {
-        if (tag instanceof ShowLoadingDialogAble) {
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
         }
     }
@@ -219,7 +221,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     //不能重写上面那个方法, 要重写就重写这个
     public void onError(int id, Call call, Exception e) {
         //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
-        if (tag instanceof ShowLoadingDialogAble) {
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
             ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
         }
         if (isStatusCodeError || isJsonParseException || isParseNetworkResponseIsNull) return;

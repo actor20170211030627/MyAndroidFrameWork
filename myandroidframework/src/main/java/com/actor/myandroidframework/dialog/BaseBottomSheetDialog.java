@@ -2,15 +2,17 @@ package com.actor.myandroidframework.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.FloatRange;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 /**
  * https://www.jianshu.com/p/7fcec871ea36
@@ -44,8 +46,8 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
 
     protected      int                  mPeekHeight;//设置首次弹出高度
     protected      int                  mMaxHeight;//最大高度
-    protected     Window               mWindow;
-    protected     BottomSheetBehavior  bottomSheetBehavior;//里面有一些方法
+    protected Window              mWindow;
+    protected BottomSheetBehavior bottomSheetBehavior;//里面有一些方法
 
     protected final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
             = new BottomSheetBehavior.BottomSheetCallback() {
@@ -99,7 +101,8 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
      * 注意: 布局里面根部局不能是ConstraintLayout, 否则不适配, 原因未知
      *       要在外面套一层布局, 比如LinearLayout
      */
-    protected abstract @LayoutRes int getLayoutResId();
+    protected abstract @LayoutRes
+    int getLayoutResId();
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
@@ -180,7 +183,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
 
     private BottomSheetBehavior getBottomSheetBehavior() {
         if (bottomSheetBehavior == null) {
-            View view = mWindow.findViewById(android.support.design.R.id.design_bottom_sheet);
+            View view = mWindow.findViewById(com.google.android.material.R.id.design_bottom_sheet);
             // setContentView() 没有调用
             if (view == null) return null;
             bottomSheetBehavior = BottomSheetBehavior.from(view);

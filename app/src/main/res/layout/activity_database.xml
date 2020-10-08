@@ -102,11 +102,11 @@
         android:background="@color/white"
         android:text="↓ Item 点击 &amp; Delete点击(↓ Item click &amp; Delete click)" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="1px"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_data_base_person" />
 </LinearLayout>

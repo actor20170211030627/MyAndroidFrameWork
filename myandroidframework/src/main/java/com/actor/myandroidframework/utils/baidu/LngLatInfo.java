@@ -2,7 +2,6 @@ package com.actor.myandroidframework.utils.baidu;
 
 /**
  * Description: 坐标
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/4/23 on 09:22
  * @version 1.0

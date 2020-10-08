@@ -1,7 +1,6 @@
 package com.actor.myandroidframework.utils.okhttputils.log;
 
-
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

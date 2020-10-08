@@ -15,7 +15,7 @@
         android:text="1.原生RatingBar"
         android:textColor="@color/white" />
 
-    <android.support.v7.widget.AppCompatRatingBar
+    <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/rb_score1"
         style="@style/Base.Widget.AppCompat.RatingBar"
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
         android:rating="2.8"
         android:stepSize="0.1" />
 
-    <android.support.v7.widget.AppCompatRatingBar
+    <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/rb_score2"
         style="?android:attr/ratingBarStyleIndicator"
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
         android:rating="2.6"
         android:stepSize="0.1" />
 
-    <android.support.v7.widget.AppCompatRatingBar
+    <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/rb_score3"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"

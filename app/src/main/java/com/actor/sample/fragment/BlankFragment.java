@@ -2,14 +2,15 @@ package com.actor.sample.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.actor.myandroidframework.adapter.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.widget.ScrollableViewPager;
@@ -23,7 +24,6 @@ import butterknife.Unbinder;
 
 /**
  * Description: 外层Fragment
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 16:40
  */

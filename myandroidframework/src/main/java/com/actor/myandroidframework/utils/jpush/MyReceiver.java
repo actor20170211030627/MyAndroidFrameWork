@@ -15,6 +15,8 @@ import cn.jpush.android.api.JPushInterface;
 
 /**
  * 自定义接收器
+ * 这是3.3.0之前版本的接收方式， 不要把这个Receiver添加到清单文件中!
+ * 因为3.3.0开始是通过继承 JPushMessageReceiver并配置来接收所有事件回调
  *
  * 如果不定义这个 Receiver，则：
  * 1) 默认用户会打开主界面

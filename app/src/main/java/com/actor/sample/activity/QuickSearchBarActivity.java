@@ -1,11 +1,12 @@
 package com.actor.sample.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.widget.QuickSearchBar;
 import com.actor.sample.R;
@@ -24,16 +25,15 @@ import butterknife.ButterKnife;
 
 /**
  * Description: 主页->快速查找条
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/10/27 on 19:30
  */
 public class QuickSearchBarActivity extends BaseActivity {
 
     @BindView(R.id.recycler_view)
-    RecyclerView   recyclerView;
+    RecyclerView recyclerView;
     @BindView(R.id.rtv_tips)
-    TextView       rtvTips;
+    TextView     rtvTips;
     @BindView(R.id.quicksearchbar)
     QuickSearchBar quicksearchbar;
 

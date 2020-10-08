@@ -3,10 +3,6 @@ package com.actor.myandroidframework.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Handler;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +10,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ViewSwitcher;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.R;
 
@@ -47,26 +48,26 @@ import java.util.List;
  * </com.actor.myandroidframework.widget.BaseViewSwitcher>
  *
  * 2.在Activity/Fragment中:
- * List<CharSequence> datas = new ArrayList<>();//可以是其它任意数据类型
- * baseViewSwitcher.init(R.layout.item_base_view_switcher, new BaseViewSwitcher.OnSwitcherListener<CharSequence>() {
+ * List<T> datas = new ArrayList<>();//任意数据类型
+ * baseViewSwitcher.init(R.layout.item_base_view_switcher, new BaseViewSwitcher.OnSwitcherListener<T>() {
  *     @Override
- *     public void onSwitch(View view, int position, CharSequence data) {
+ *     public void onSwitch(View view, int position, T item) {
  *         TextView textView = view.findViewById(R.id.tv);//找到你自己需要填充数据的view
- *         textView.setText(data);
- *         logFormat("onSwitch: view=%s, pos=%d, item=%s", view, position, data);
+ *         textView.setText(item);
+ *         logFormat("onSwitch: view=%s, pos=%d, item=%s", view, position, item);
  *     }
  * });
- * baseViewSwitcher.setOnItemClickListener(new BaseViewSwitcher.OnItemClickListener<CharSequence>() {
+ * baseViewSwitcher.setOnItemClickListener(new BaseViewSwitcher.OnItemClickListener<T>() {
  *     @Override
- *     public void onItemClick(View view, int position, CharSequence data) {
- *         logFormat("pos=%d, str=%s", position, data);
+ *     public void onItemClick(View view, int position, T item) {
+ *         logFormat("pos=%d, str=%s", position, item);
  *     }
  * });
  * baseViewSwitcher.setDataSource(datas);
  *
  * @version 1.0
  */
-public class BaseViewSwitcher extends ViewSwitcher {
+public class BaseViewSwitcher<T> extends ViewSwitcher implements ViewSwitcher.ViewFactory {
 
     @IntDef({HORIZONTAL, VERTICAL})
     @Retention(RetentionPolicy.SOURCE)
@@ -74,16 +75,16 @@ public class BaseViewSwitcher extends ViewSwitcher {
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
 
-    private Context context;
-    protected List items = new ArrayList<>();
-    private Handler handler = new Handler();
-    private int pos = 0;
-    private Runnable runnable;
-    private   int                                  switchIntervalMs = 3_000;
-    private   int                                  orientation = VERTICAL;
-    private OnItemClickListener onItemClickListener;//item点击事件
-    private OnSwitcherListener onSwitcherListener;//切换监听
-    private LayoutParams layoutParams;
+    protected List<T>  itemsForViewSwitcher   = new ArrayList<>();
+    protected Handler  handlerForViewSwitcher = new Handler();
+    protected int      posForViewSwitcher     = 0;
+    protected Runnable runnableForViewSwitcher;
+    protected int                    switchIntervalMsForViewSwitcher = 3_000;//动画切换间隔
+    protected int                    orientationForViewSwitcher      = VERTICAL;
+    protected OnItemClickListener<T> onItemClickListenerForViewSwitcher;//item点击事件
+    protected OnSwitcherListener<T>  onSwitcherListenerForViewSwitcher;//切换监听
+    protected int          layoutResIdForViewSwitcher;
+    protected LayoutParams layoutParamsForViewSwitcher;
 
     public BaseViewSwitcher(Context context) {
         this(context, null);
@@ -91,21 +92,20 @@ public class BaseViewSwitcher extends ViewSwitcher {
 
     public BaseViewSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
 
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BaseViewSwitcher);
             int interval = typedArray.getInt(R.styleable.BaseViewSwitcher_bvsSwitchIntervalMs, -1);
-            orientation = typedArray.getInt(R.styleable.BaseViewSwitcher_bvsOrientation, VERTICAL);
-            if (interval >= 100) switchIntervalMs = interval;
+            orientationForViewSwitcher = typedArray.getInt(R.styleable.BaseViewSwitcher_bvsOrientation, VERTICAL);
+            if (interval >= 100) switchIntervalMsForViewSwitcher = interval;
             typedArray.recycle();
         }
 
-        runnable = new Runnable() {
+        runnableForViewSwitcher = new Runnable() {
             @Override
             public void run() {
-                handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable, switchIntervalMs);
+                handlerForViewSwitcher.removeCallbacks(runnableForViewSwitcher);
+                handlerForViewSwitcher.postDelayed(runnableForViewSwitcher, switchIntervalMsForViewSwitcher);
                 showNextView();
             }
         };
@@ -116,19 +116,20 @@ public class BaseViewSwitcher extends ViewSwitcher {
      * @param layoutResId view的布局id
      * @param onSwitcherListener 切换监听
      */
-    public <T> void init(@LayoutRes int layoutResId, @NonNull OnSwitcherListener<T> onSwitcherListener) {
-        init(layoutResId, orientation, onSwitcherListener);
+    public void init(@LayoutRes int layoutResId, @NonNull OnSwitcherListener<T> onSwitcherListener) {
+        init(layoutResId, orientationForViewSwitcher, onSwitcherListener);
     }
 
     /**
      * 初始化, 设置View & 切换监听
-     * @param layoutResId
-     * @param orientation
-     * @param onSwitcherListener
+     * @param layoutResId 布局id
+     * @param orientation 切换方向
+     * @param onSwitcherListener 切换监听
      */
-    public <T> void init(@LayoutRes int layoutResId, @OrientationMode int orientation, @NonNull OnSwitcherListener<T> onSwitcherListener) {
-        setView(layoutResId);
-        this.onSwitcherListener = onSwitcherListener;
+    public void init(@LayoutRes int layoutResId, @OrientationMode int orientation, @NonNull OnSwitcherListener<T> onSwitcherListener) {
+        this.layoutResIdForViewSwitcher = layoutResId;
+        setFactory(this);
+        this.onSwitcherListenerForViewSwitcher = onSwitcherListener;
         Animation inAnimation = getInAnimation();//进入动画
         Animation outAnimation = getOutAnimation();//退出动画
         if (inAnimation == null) {
@@ -143,30 +144,29 @@ public class BaseViewSwitcher extends ViewSwitcher {
         }
     }
 
+    @Override
+    public View makeView() {
+        View view = LayoutInflater.from(getContext()).inflate(layoutResIdForViewSwitcher, null);//每次new, 否则报错
+        if (layoutParamsForViewSwitcher == null) layoutParamsForViewSwitcher = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        view.setLayoutParams(layoutParamsForViewSwitcher);
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemsForViewSwitcher.size() > 0 && posForViewSwitcher < itemsForViewSwitcher.size() && onItemClickListenerForViewSwitcher != null) {
+                    onItemClickListenerForViewSwitcher.onItemClick(v, posForViewSwitcher, itemsForViewSwitcher.get(posForViewSwitcher));
+                }
+            }
+        });
+        return view;
+    }
+
     /**
      * @param dataSource 设置数据源
      */
-    public <T> void setDataSource(List<T> dataSource) {
+    public void setDataSource(List<T> dataSource) {
         if (dataSource == null) return;
-        items.clear();
-        items.addAll(dataSource);
-    }
-
-    protected void setView(@LayoutRes int layoutResId) {
-        removeAllViews();
-        for (int i = 0; i < 2; i++) {//最多只能添加2个View
-            View view = LayoutInflater.from(context).inflate(layoutResId, null);//每次new, 否则报错
-            if (layoutParams == null) layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            view.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (items.size() > 0 && pos < items.size() && onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, pos, items.get(pos));
-                    }
-                }
-            });
-            addView(view, i, layoutParams);
-        }
+        itemsForViewSwitcher.clear();
+        itemsForViewSwitcher.addAll(dataSource);
     }
 
     /**
@@ -175,12 +175,12 @@ public class BaseViewSwitcher extends ViewSwitcher {
      */
     public void showNextView() {
         showNext();
-        int size = items.size();
+        int size = itemsForViewSwitcher.size();
         if (size > 0) {
-            if (pos == size - 1) {
-                pos = 0;
-            } else ++ pos;
-            if (onSwitcherListener != null) onSwitcherListener.onSwitch(getCurrentView(), pos, items.get(pos));
+            if (posForViewSwitcher == size - 1) {
+                posForViewSwitcher = 0;
+            } else ++posForViewSwitcher;
+            if (onSwitcherListenerForViewSwitcher != null) onSwitcherListenerForViewSwitcher.onSwitch(getCurrentView(), posForViewSwitcher, itemsForViewSwitcher.get(posForViewSwitcher));
         }
     }
 
@@ -189,16 +189,16 @@ public class BaseViewSwitcher extends ViewSwitcher {
      * 也可以不调用这个方法, 自己定时调用showNextView(), 比如和轮播图同步展示时
      */
     public void startSwitch() {
-        handler.removeCallbacks(runnable);
-        handler.postDelayed(runnable, switchIntervalMs);
+        handlerForViewSwitcher.removeCallbacks(runnableForViewSwitcher);
+        handlerForViewSwitcher.postDelayed(runnableForViewSwitcher, switchIntervalMsForViewSwitcher);
     }
 
     /**
      * 停止切换
      */
     public void stopSwitcher() {
-        handler.removeCallbacks(runnable);
-        handler.removeCallbacksAndMessages(null);
+        handlerForViewSwitcher.removeCallbacks(runnableForViewSwitcher);
+        handlerForViewSwitcher.removeCallbacksAndMessages(null);
     }
 
     public interface OnSwitcherListener<T> {
@@ -206,25 +206,25 @@ public class BaseViewSwitcher extends ViewSwitcher {
          * 需要自己实现数据的填充
          * @param view 切换到现在的view
          * @param position 切换到第几条
-         * @param data 第position条数据
+         * @param item 第position条数据
          */
-        void onSwitch(View view, int position, T data);
+        void onSwitch(View view, int position, T item);
     }
 
     /**
      * 设置item点击事件
      */
-    public <T> void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    public void setOnItemClickListenerForViewSwitcher(OnItemClickListener<T> onItemClickListenerForViewSwitcher) {
+        this.onItemClickListenerForViewSwitcher = onItemClickListenerForViewSwitcher;
     }
 
     public interface OnItemClickListener<T> {
         /**
          * @param view 切换到现在的view
          * @param position 点击的哪一个item
-         * @param data item的值
+         * @param item item的值
          */
-        void onItemClick(View view, int position, T data);
+        void onItemClick(View view, int position, T item);
     }
 
     //只有2个孩子

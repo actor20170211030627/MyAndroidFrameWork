@@ -7,10 +7,10 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
-import android.support.design.card.MaterialCardView;
 import android.util.AttributeSet;
 
 import com.actor.myandroidframework.R;
+import com.google.android.material.card.MaterialCardView;
 
 /**
  * description: 可自定义圆角的CardView, https://blog.csdn.net/jingzz1/article/details/104985448

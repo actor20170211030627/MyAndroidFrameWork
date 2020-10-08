@@ -2,26 +2,27 @@
 <ul>
   <li><a href="https://github.com/actor20170211030627/MyAndroidFrameWork">Github</a></li>
   <li><a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a></li>
+  <li><font color="red">注意: </font>这是 <font color='red'><b>Androidx</b></font> 版, 非Androidx版本在 <a href="./README-1.4.1.md">这儿</a>(非Androidx版本不再维护)</li>
 </ul>
 
 ## 安卓常用组件&框架, 懒得每次都搭架子...
 ### 1.集成框架包括如下列表, 具体见 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/myandroidframework/build.gradle">build.gradle</a>:
 <ol>
     <li>
-        //https://github.com/google/gson converter-gson 已经依赖了Gson2.8.2 <br/>
+        //https://github.com/google/gson converter-gson 已经依赖了Gson2.8.5 <br/>
         //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
         //api 'com.google.code.gson:gson:2.8.5' <br/> <br/>
     </li>
     <li>
         //https://github.com/square/retrofit <br/>
-        api 'com.squareup.retrofit2:retrofit:2.5.0' <br/>
+        api 'com.squareup.retrofit2:retrofit:2.9.0' <br/>
         //https://github.com/square/retrofit/tree/master/retrofit-converters/gson <br/>
-        api 'com.squareup.retrofit2:converter-gson:2.5.0' <br/> <br/>
+        api 'com.squareup.retrofit2:converter-gson:2.9.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/bumptech/glide <br/>
-        api 'com.github.bumptech.glide:glide:4.9.0' <br/>
-        annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
+        api 'com.github.bumptech.glide:glide:4.11.0' <br/>
+        annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/greenrobot/EventBus <br/>
@@ -29,7 +30,7 @@
     </li>
     <li>
         //https://github.com/Blankj/AndroidUtilCode 许多工具 <br/>
-        api 'com.blankj:utilcode:1.28.4' <br/> <br/>
+        api 'com.blankj:utilcodex:1.29.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案 <br/>
@@ -44,8 +45,8 @@
         api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4' <br/> <br/>
     </li>
     <li>
-        //https://github.com/yanzhenjie/Album 图片选择 <br/>
-        api 'com.yanzhenjie:album:2.1.3' <br/> <br/>
+        //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩)、视频、音频 <br/>
+        api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9' <br/> <br/>
     </li>
     <li>
         //https://github.com/laobie/StatusBarUtil 修改状态栏颜色&透明度等 <br/>
@@ -53,7 +54,7 @@
     </li>
     <li>
         //https://github.com/yanzhenjie/AndPermission 严振杰权限 <br/>
-        api 'com.yanzhenjie.permission:support:2.0.1' <br/> <br/>
+        api 'com.yanzhenjie:permission:2.0.3' <br/> <br/>
     </li>
     <li>
         //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等 <br/>
@@ -65,7 +66,7 @@
     </li>
     <li>
         //https://github.com/square/okhttp <br/>
-        api "com.squareup.okhttp3:okhttp:4.7.2" <br/> <br/>
+        api "com.squareup.okhttp3:okhttp:4.9.0" <br/> <br/>
     </li>
     <li>
         //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp <br/>
@@ -83,8 +84,8 @@
 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
 <img src="captures/qrcode.png" width=35%></img>
 
-## 4.minSdkVersion [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-    如果您项目的minSdkVersion小于16, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
+## 4.minSdkVersion [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
+    如果您项目的minSdkVersion小于19, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
 
 ## 5.How to
 To get a Git project into your build:
@@ -116,20 +117,22 @@ Add it in your root build.gradle at the end of repositories:
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:last version'
     }
 
-## 6.1. 需要在自己项目中集成<code>v7</code>包和<code>constraint</code>, 否则报错
-    implementation 'com.android.support:appcompat-v7:version xxx' <br/>
+## 6.1. 需要在自己项目中集成<code>constraint</code>包, 否则报错
     implementation 'com.android.support.constraint:constraint-layout:version xxx'//约束布局, 版本version>=1.1.3
 
 ## 6.2. ButterKnife没有集成, 如果使用, 需要自己集成
     //https://github.com/JakeWharton/butterknife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
 ## 7.<code>AndroidManifest.xml</code>合并清单文件报错
-    如果你的清单文件中的 allowBackup = false, 那么需要添加一句: tools:replace="android:allowBackup", 示例:
+    1.如果你的清单文件中的 allowBackup = false, 那么需要添加一句: tools:replace="android:allowBackup", 示例:
     <application
         android:allowBackup="false"
         tools:replace="android:allowBackup"
+
+    2.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found.
+      需要将 compileSdkVersion 升级到 29
 
 ## 8.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:
 <pre>

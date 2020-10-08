@@ -4,7 +4,6 @@ import com.actor.myandroidframework.fragment.ActorBaseFragment;
 
 /**
  * Description: Fragment基类
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 15:59
  *

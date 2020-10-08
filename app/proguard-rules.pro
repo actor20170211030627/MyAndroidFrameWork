@@ -20,8 +20,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# 不混淆 excel 导出
- -keep class com.actor.sample.bean.** { *; }
-
 # gson 不混淆Bean类:
  -keep class com.actor.sample.info.** { *; }

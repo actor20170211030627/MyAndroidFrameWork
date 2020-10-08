@@ -9,6 +9,7 @@ import okhttp3.MediaType;
  * @author : 李大发
  * date       : 2020/5/5 on 21:22
  * @version 1.0
+ * TODO 优化一下.
  */
 public abstract class BaseInterceptor implements Interceptor {
 

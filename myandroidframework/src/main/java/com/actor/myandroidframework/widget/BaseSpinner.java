@@ -3,12 +3,13 @@ package com.actor.myandroidframework.widget;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.actor.myandroidframework.R;
 
@@ -119,7 +120,7 @@ public class BaseSpinner extends AppCompatSpinner {
         //spinner布局
         spinnerRes = android.R.layout.simple_spinner_item;
         //下拉item布局
-        ddvr = android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item;
+        ddvr = androidx.appcompat.R.layout.support_simple_spinner_dropdown_item;
         String items = null;
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseSpinner);

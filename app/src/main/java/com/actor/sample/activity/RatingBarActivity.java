@@ -10,7 +10,6 @@ import butterknife.ButterKnife;
 
 /**
  * description: 自定义RatingBar
- * company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * @author    : 李大发
  * date       : 2020/7/14 on 11:23
  * @version 1.0

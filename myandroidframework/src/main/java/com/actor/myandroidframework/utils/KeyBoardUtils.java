@@ -3,11 +3,12 @@ package com.actor.myandroidframework.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 
 /**
  * Description: 键盘工具类 https://blog.csdn.net/mynameishuangshuai/article/details/51567357

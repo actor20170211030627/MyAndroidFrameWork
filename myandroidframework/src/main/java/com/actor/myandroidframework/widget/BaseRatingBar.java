@@ -9,14 +9,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntRange;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.actor.myandroidframework.R;
 import com.blankj.utilcode.util.ImageUtils;

@@ -1,9 +1,10 @@
 package com.actor.sample.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.activity.BaseBottomActivity;
 import com.actor.sample.R;
@@ -15,7 +16,6 @@ import butterknife.OnClick;
 
 /**
  * Description: 从底部弹出的Activity
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/8/24 on 21:58
  *

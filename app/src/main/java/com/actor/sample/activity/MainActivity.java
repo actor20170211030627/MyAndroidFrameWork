@@ -18,7 +18,6 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019-9-6 on 14:22
  */
@@ -47,10 +46,10 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
-            R.id.btn_viewpager_fragment, R.id.btn_is_empty, R.id.btn_third, R.id.btn_baidu,
-            R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
+            R.id.btn_viewpager_fragment, R.id.btn_select_file, R.id.btn_is_empty, R.id.btn_third,
+            R.id.btn_baidu, R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
             R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar,
-            R.id.btn_export2_excel, R.id.btn_other})
+            R.id.btn_other})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
@@ -64,6 +63,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_viewpager_fragment://ViewPager & Fragment多层嵌套
                 startActivity(new Intent(this, ViewPagerAndFragmentActivity.class), false, view);
+                break;
+            case R.id.btn_select_file://文件选择
+                startActivity(new Intent(this, SelectFileActivity.class), false, view);
                 break;
             case R.id.btn_is_empty://判空
                 startActivity(new Intent(this, IsEmptyActivity.class), false, view);
@@ -94,9 +96,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_quick_search_bar://快速查找条
                 startActivity(new Intent(this, QuickSearchBarActivity.class));
-                break;
-            case R.id.btn_export2_excel://导出到Excel
-                startActivity(new Intent(this, Export2ExcelActivity.class));
                 break;
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(new Intent(this, OtherActivity.class));

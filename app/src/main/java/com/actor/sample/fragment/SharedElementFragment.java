@@ -5,17 +5,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.Nullable;
+
 import com.actor.sample.R;
 import com.actor.sample.activity.ViewPagerActivity;
 import com.actor.sample.utils.Global;
 import com.actor.sample.utils.ImageConstants;
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +25,6 @@ import butterknife.Unbinder;
 
 /**
  * Description: 元素共享中的Fragment
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2020/2/6 on 18:42
  */

@@ -2,7 +2,8 @@ package com.actor.myandroidframework.utils.jpush;
 
 import android.app.Notification;
 import android.content.Context;
-import android.support.annotation.IntRange;
+
+import androidx.annotation.IntRange;
 
 import com.actor.myandroidframework.utils.LogUtils;
 
@@ -56,11 +57,38 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  * @see cn.jpush.android.ui.PopWinActivity
  * @see cn.jpush.android.ui.PushActivity
  *
- * 6.已在 MyAndroidFrameWork 的 AndroidManifest.xml中添加以下类,不用再添加:
- * @see PushService extends JCommonService
- * @see MyJPushMessageReceiver extends JPushMessageReceiver
- * @see MyReceiver 这是3.3.0之前版本的接收方式，这个没在 MyAndroidFrameWork 的 AndroidManifest.xml中配置,
- *      因为3.3.0开始是通过继承 JPushMessageReceiver并配置来接收所有事件回调
+ * 6.在AndroidManifest.xml中添加以下类:
+ * <!--极光推送-->
+ * <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
+ * <!-- Since JCore2.0.0 Required SDK核心功能-->
+ * <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
+ * <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
+ * <service android:name="com.actor.myandroidframework.utils.jpush.PushService"
+ *     android:enabled="true"
+ *     android:exported="false"
+ *     android:process=":pushcore">
+ *     <intent-filter>
+ *         <action android:name="cn.jiguang.user.service.action" />
+ *     </intent-filter>
+ * </service>
+ * <!--极光推送-->
+ * <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
+ * <!-- Required since 3.0.7 -->
+ * <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
+ * <!-- 3.3.0开始所有事件将通过该类回调 -->
+ * <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
+ * <receiver
+ *     android:name="com.actor.myandroidframework.utils.jpush.MyJPushMessageReceiver"
+ *     android:enabled="true"
+ *     android:exported="false" >
+ *     <intent-filter>
+ *         <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+ *         <category android:name="${applicationId}" />
+ *     </intent-filter>
+ * </receiver>
+ * <!--自定义Receiver, 接收被拉起回调-->
+ * <receiver android:name="com.actor.myandroidframework.utils.jpush.MyWakedResultReceiver" />
+ *
  *
  * 7.示例使用
  *   //Application中初始化极光推送

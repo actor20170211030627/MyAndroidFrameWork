@@ -7,16 +7,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.R;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -81,9 +82,9 @@ public class QuickSearchBar extends View {
     protected              int                         textColorNormal;//正常字体颜色
     protected              int                         textColorPressed;//按下时的字体颜色, 默认colorAccent
     protected              int                         textSize;//字体大小, 默认10sp
-    protected              Drawable                    pressedBackground;//按下时背景
-    protected              RecyclerView                recyclerView;
-    protected              Map<String, Integer>        letterMap  = new HashMap<>();
+    protected Drawable             pressedBackground;//按下时背景
+    protected RecyclerView         recyclerView;
+    protected Map<String, Integer> letterMap  = new HashMap<>();
     protected              OnLetterChangedListener     letterChangedListener;
     protected              List<PinYinSortAble>        temps      = new ArrayList<>();
     protected              RecyclerView.SmoothScroller smoothScroller;

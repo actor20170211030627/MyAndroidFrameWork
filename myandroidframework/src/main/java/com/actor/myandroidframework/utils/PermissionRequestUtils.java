@@ -2,7 +2,8 @@ package com.actor.myandroidframework.utils;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;

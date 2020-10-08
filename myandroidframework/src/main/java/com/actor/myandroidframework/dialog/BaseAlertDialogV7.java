@@ -1,16 +1,17 @@
 package com.actor.myandroidframework.dialog;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.FloatRange;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Description: AlertDialog, 示例:
@@ -132,7 +133,8 @@ public abstract class BaseAlertDialogV7 extends AlertDialog {
     /**
      * 设置你自定义Dialog的layout
      */
-    protected abstract @LayoutRes int getLayoutResId();
+    protected abstract @LayoutRes
+    int getLayoutResId();
 
 
     /**

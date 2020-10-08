@@ -1,10 +1,11 @@
 package com.actor.myandroidframework.utils;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.SharedElementCallback;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.SharedElementCallback;
 
 import java.util.List;
 import java.util.Map;

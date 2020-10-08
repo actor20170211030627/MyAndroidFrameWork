@@ -2,49 +2,47 @@
 //或者 ext 也可写在项目的 build.gradle 中
 ext {
 
-//    compileSdkVersion               : 28,//rootProject.compileSdkVersion
+//    compileSdkVersion               : 29,//rootProject.compileSdkVersion
 
     android = [
-            compileSdkVersion       : 28,//rootProject.ext.android.compileSdkVersion or rootProject.ext.android["compileSdkVersion"]
-            minSdkVersion           : 16,
-            targetSdkVersion        : 28,
+            buildToolsVersion       : "29.0.0",
+            compileSdkVersion       : 29,//rootProject.ext.android.compileSdkVersion or rootProject.ext.android["compileSdkVersion"]
+            minSdkVersion           : 19,
+            targetSdkVersion        : 29,
             versionCode             : 2020080702,//2020年xx月xx日xx(版本)
-            versionName             : "1.4.1"
+            versionName             : "1.5.0"
     ]
 
     version = [
             androidSupportSdkVersion: "28.0.0",
-            constraintSdkVersion    : "1.1.3",
-            butterknifeSdkVersion   : "8.8.1",
             espressoSdkVersion      : "3.0.1",
             canarySdkVersion        : "1.5.4",
     ]
 
+    //androidx 的依赖包
     dependencies = [
-            //support                  rootProject.ext.dependencies.support_v4 or rootProject.ext.dependencies["support_v4"]
-            "support_v4"            : "com.android.support:support-v4:${version.androidSupportSdkVersion}",//${version["androidSupportSdkVersion"]}
-            "appcompat_v7"          : "com.android.support:appcompat-v7:${version.androidSupportSdkVersion}",
-            "design"                : "com.android.support:design:${version.androidSupportSdkVersion}",
-            "cardview_v7"           : "com.android.support:cardview-v7:${version.androidSupportSdkVersion}",
-            "annotations"           : "com.android.support:support-annotations:${version.androidSupportSdkVersion}",
-            "recyclerview_v7"       : "com.android.support:recyclerview-v7:${version.androidSupportSdkVersion}",
-            "constraint_layout"     : "com.android.support.constraint:constraint-layout:${version.constraintSdkVersion}",
+            //                        rootProject.ext.dependencies.design or rootProject.ext.dependencies["design"]
+            "design"                : "com.google.android.material:material:${version.androidSupportSdkVersion}",
+            "support_v4"            : 'androidx.legacy:legacy-support-v4:1.0.0',//${version["androidSupportSdkVersion"]}
+            "appcompat_v7"          : 'androidx.appcompat:appcompat:1.0.0',
+            "cardview_v7"           : "androidx.cardview:cardview:${version.androidSupportSdkVersion}",
+            "annotations"           : "androidx.annotation:annotation:${version.androidSupportSdkVersion}",
+            "recyclerview_v7"       : "androidx.recyclerview:recyclerview:${version.androidSupportSdkVersion}",
+            "constraint_layout"     : 'androidx.constraintlayout:constraintlayout:1.1.3',
 
-            //view
-            "butterknife"           : "com.jakewharton:butterknife:${version["butterknifeSdkVersion"]}",
-            "butterknife-compiler"  : "com.jakewharton:butterknife-compiler:${version["butterknifeSdkVersion"]}",
 
             //tools
-            "multidex"              : "com.android.support:multidex:1.0.3",
-            "umeng-analytics"       : "com.umeng.analytics:analytics:6.1.4",//友盟统计
+            "multidex"              : "androidx.multidex:multidex:1.0.3",
+
 
             //test
             "androidJUnitRunner"    : "android.support.test.runner.AndroidJUnitRunner",
             "junit"                 : "junit:junit:4.12",
-            "runner"                : "com.android.support.test:runner:1.0.1",
-            "espresso-core"         : "com.android.support.test.espresso:espresso-core:${version["espressoSdkVersion"]}",
-            "espresso-contrib"      : "com.android.support.test.espresso:espresso-contrib:${version["espressoSdkVersion"]}",
-            "espresso-intents"      : "com.android.support.test.espresso:espresso-intents:${version["espressoSdkVersion"]}",
+            "runner"                : "androidx.test:runner:1.0.1",
+            "espresso-core"         : "androidx.test.espresso:espresso-core:${version["espressoSdkVersion"]}",
+            "espresso-contrib"      : "androidx.test.espresso:espresso-contrib:${version["espressoSdkVersion"]}",
+            "espresso-intents"      : "androidx.test.espresso:espresso-intents:${version["espressoSdkVersion"]}",
+
             "canary-debug"          : "com.squareup.leakcanary:leakcanary-android:${version["canarySdkVersion"]}",
             "canary-release"        : "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}"
     ]

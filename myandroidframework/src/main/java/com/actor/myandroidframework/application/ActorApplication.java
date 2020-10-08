@@ -2,8 +2,9 @@ package com.actor.myandroidframework.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.album.GlideAlbumLoader;
@@ -134,7 +135,8 @@ public abstract class ActorApplication extends Application/*MultiDexApplication 
      * 返回baseUrl, 用于配置 "MyOkHttpUtils" 和 "Retrofit" 的 baseUrl
      * @return 示例return: "https://api.github.com";
      */
-    protected abstract @NonNull String getBaseUrl();
+    protected abstract @NonNull
+    String getBaseUrl();
 
     protected class MyHandler implements Thread.UncaughtExceptionHandler {
         @Override

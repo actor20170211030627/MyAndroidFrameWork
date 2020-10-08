@@ -2,13 +2,8 @@ package com.actor.myandroidframework.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.IntRange;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.Px;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.Px;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.actor.myandroidframework.R;
 
@@ -53,6 +55,7 @@ public class ItemSpinnerLayout extends LinearLayout {
     private TextView         tvRedStar, tvItem;
     private AppCompatSpinner spinner;
     private Space            spaceMarginTop;
+    private LinearLayout     llContentForIsl;
     private float            density;//px = dp * density;
 
     public ItemSpinnerLayout(Context context) {
@@ -115,16 +118,21 @@ public class ItemSpinnerLayout extends LinearLayout {
                 setDatas(split);
             }
         }
+        //默认白色背景
+        if (getBackground() == null) {
+            llContentForIsl.setBackgroundColor(Color.WHITE);
+        }
     }
     protected void inflate(Context context, @LayoutRes int resource) {
         View view = View.inflate(context, R.layout.item_spinner_layout, this);
+        llContentForIsl = view.findViewById(R.id.ll_content_for_isl);
         spaceMarginTop = view.findViewById(R.id.space_margin_top_for_isl);
         tvRedStar = view.findViewById(R.id.tv_red_star_for_isl);
         tvItem = view.findViewById(R.id.tv_item_for_isl);
         spinner = view.findViewById(R.id.spinner_for_isl);
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
 

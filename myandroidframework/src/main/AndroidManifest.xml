@@ -29,49 +29,6 @@
         android:resizeableActivity="true"
         android:usesCleartextTraffic="true">
 
-        <!--百度定位服务-->
-        <!--http://lbsyun.baidu.com/index.php?title=android-locsdk/guide/create-project/android-studio-->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            tools:node="strict"
-            android:process=":remote">
-        </service>
-
-
-        <!--极光推送-->
-        <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
-        <!-- Since JCore2.0.0 Required SDK核心功能-->
-        <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
-        <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
-        <service android:name=".utils.jpush.PushService"
-            android:enabled="true"
-            android:exported="false"
-            android:process=":pushcore">
-            <intent-filter>
-                <action android:name="cn.jiguang.user.service.action" />
-            </intent-filter>
-        </service>
-
-        <!--极光推送-->
-        <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
-        <!-- Required since 3.0.7 -->
-        <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
-        <!-- 3.3.0开始所有事件将通过该类回调 -->
-        <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
-        <receiver
-            android:name=".utils.jpush.MyJPushMessageReceiver"
-            android:enabled="true"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
-
-        <!--自定义 Receiver 接收被拉起回调-->
-        <receiver android:name=".utils.jpush.MyWakedResultReceiver" />
-
         <!--极光推送-->
         <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->
         <!-- User defined. 用户自定义的广播接收器-->
@@ -95,9 +52,5 @@
 <!--                <category android:name="您应用的包名" />-->
 <!--            </intent-filter>-->
 <!--        </receiver>-->
-
-
-        <!-- 高德定位需要的服务 使用2.0的定位需要加上这个 -->
-        <service android:name="com.amap.api.location.APSService" />
     </application>
 </manifest>

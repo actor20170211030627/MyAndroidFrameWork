@@ -1,12 +1,13 @@
 package com.actor.myandroidframework.activity;
 
 import android.os.Bundle;
-import android.support.annotation.FloatRange;
-import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.Nullable;
 
 /**
  * Description: 从底部弹出的 非全屏 Activity

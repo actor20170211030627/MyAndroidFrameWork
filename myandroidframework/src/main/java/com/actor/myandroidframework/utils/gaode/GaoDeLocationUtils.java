@@ -42,7 +42,11 @@ import com.amap.api.location.AMapLocationListener;
  *  <uses-permission android:name="android.permission.BLUETOOTH" />
  *  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
  *
- * 8.开始使用示例:
+ *  8.添加服务
+ *  <!-- 高德定位需要的服务 使用2.0+的定位需要加上这个 -->
+ *  <service android:name="com.amap.api.location.APSService" />
+ *
+ * 9.开始使用示例:
  *  GaoDeLocationUtils.setLocationListener(locationListener);
  *  GaoDeLocationUtils.startLocation();
  *
@@ -92,6 +96,9 @@ public class GaoDeLocationUtils {
      *         amapLocation.getAccuracy();//获取精度信息
      *         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
      *         df.format(new Date(amapLocation.getTime()));//定位时间
+     *
+     *         //如果你只需要定位一次, 需要在这儿注销掉监听, 否则可能会一直定时回调
+     *         GaoDeLocationUtils.unRegisterLocationListener(locationListener);
      *     } else {
      *         logFormat("高德定位出错: ErrCode=%d, ErrorInfo=%s", amapLocation.getErrorCode(), amapLocation.getErrorInfo());
      *     }

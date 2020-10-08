@@ -1,10 +1,11 @@
 package com.actor.sample.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
@@ -28,14 +29,13 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->数据库
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2020/2/18 on 11:15
  */
 public class DatabaseActivity extends BaseActivity {
 
     @BindView(R.id.itil_name)
-    ItemTextInputLayout  itilName;
+    ItemTextInputLayout itilName;
     @BindView(R.id.irgl_sex)
     ItemRadioGroupLayout irglSex;
     @BindView(R.id.itil_idcard)
@@ -43,9 +43,9 @@ public class DatabaseActivity extends BaseActivity {
     @BindView(R.id.itil_key)
     ItemTextInputLayout  itilKey;
     @BindView(R.id.itil_value)
-    ItemTextInputLayout  itilValue;
+    ItemTextInputLayout itilValue;
     @BindView(R.id.recycler_view)
-    RecyclerView         recyclerView;
+    RecyclerView        recyclerView;
 
     private static final ItemEntityDao    DAO   = GreenDaoUtils.getDaoSession().getItemEntityDao();
     private              MyAdapter        myAdapter;
@@ -134,7 +134,10 @@ public class DatabaseActivity extends BaseActivity {
                         String key = getText(itilKey);
                         if (!TextUtils.isEmpty(key)) {
                             Map<String, Object> params = person.getParams();
-                            if (params == null) params = new LinkedHashMap<>();
+                            if (params == null) {
+                                params = new LinkedHashMap<>();
+                                person.setParams(params);
+                            }
                             params.put(key, getText(itilValue));
                         }
                         GreenDaoUtils.update(DAO, person);

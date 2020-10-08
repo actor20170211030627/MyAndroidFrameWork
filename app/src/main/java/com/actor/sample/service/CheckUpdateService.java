@@ -5,8 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.service.BaseService;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
@@ -27,7 +28,6 @@ import okhttp3.Call;
  * 1.修改请求地址
  * 2.在清单文件中注册!!!
  *
- * Company    : 重庆市了赢科技有限公司 http://www.liaoin.com/
  * Author     : 李大发
  * Date       : 2019/10/19 on 14:39
  *

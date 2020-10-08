@@ -1,12 +1,13 @@
 package com.actor.myandroidframework.widget.NineGridView;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.widget.BaseItemDecoration;
@@ -27,10 +28,10 @@ import java.util.List;
  */
 public class NineGridView extends ConstraintLayout {
 
-    protected ImageView                    ivPicForNineGridView;
-    protected ImageView                    ivPlayPauseForNineGridView;
-    protected RecyclerView                 recyclerViewForNineGridView;
-    private OnItemClickListener            onItemClickListener;
+    protected ImageView           ivPicForNineGridView;
+    protected ImageView           ivPlayPauseForNineGridView;
+    protected RecyclerView        recyclerViewForNineGridView;
+    private   OnItemClickListener onItemClickListener;
     private MyAdapter                      myAdapter;
     private List<GetIsVideoAble> items = new ArrayList<>(1);
 

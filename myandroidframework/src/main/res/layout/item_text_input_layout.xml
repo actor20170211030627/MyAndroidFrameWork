@@ -12,10 +12,10 @@
         android:layout_height="1dp" />
 
     <LinearLayout
+        android:id="@+id/ll_content_for_itil"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#fff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="10dp">
@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#fff"
+            android:background="@null"
             android:minHeight="40dp"
             android:textColor="#666666"
             android:textColorHint="#999999"

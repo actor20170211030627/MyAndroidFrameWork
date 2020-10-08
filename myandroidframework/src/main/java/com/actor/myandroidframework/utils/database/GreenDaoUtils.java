@@ -2,7 +2,8 @@ package com.actor.myandroidframework.utils.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.greendao.gen.DaoMaster;
 import com.greendao.gen.DaoSession;
@@ -26,7 +27,7 @@ import java.util.List;
  *           mavenCentral() // add repository
  *       }
  *       dependencies {
- *           classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
+ *           classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
  *       }
  *   }
  *
@@ -41,7 +42,7 @@ import java.util.List;
  *   }
  *   dependencies {
  *       //https://github.com/greenrobot/greenDAO
- *       implementation 'org.greenrobot:greendao:3.2.2' // add library
+ *       implementation 'org.greenrobot:greendao:3.3.0' // add library
  *   }
  *
  * 3.写一个你想要存储到 GreenDao 的实体类, 示例 ItemEntity.java:
