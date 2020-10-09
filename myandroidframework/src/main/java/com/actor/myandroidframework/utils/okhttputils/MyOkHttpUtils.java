@@ -49,7 +49,6 @@ public class MyOkHttpUtils {
      * 获取 BASE_URL
      * @param url 如果是"http"开头, 直接返回url.
      *           如果不是"http"开头, 会在前面加上 BASE_URL
-     * @return
      */
     protected static String getUrl(String url) {
         if (url == null) return BASE_URL;
