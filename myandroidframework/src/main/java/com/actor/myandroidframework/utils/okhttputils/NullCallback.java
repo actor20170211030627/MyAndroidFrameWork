@@ -18,10 +18,10 @@ import okhttp3.Response;
 public class NullCallback implements Callback {
 
     @Override
-    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+    public final void onFailure(@NotNull Call call, @NotNull IOException e) {
     }
 
     @Override
-    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+    public final void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
     }
 }

@@ -88,20 +88,26 @@ public class GaoDeLocationUtils {
      * 设置定位监听
      * @param option 自定义定位选项
      * @param listener 监听, 示例处理结果:
-     * if (amapLocation != null) {
-     *     if (amapLocation.getErrorCode() == 0) {//定位成功
+     * if (amapLocation == null) {
+     *     return;
+     * }
+     * switch (amapLocation.getErrorCode()) {
+     *     case 0://定位成功
      *         amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
      *         amapLocation.getLatitude();//获取纬度
      *         amapLocation.getLongitude();//获取经度
      *         amapLocation.getAccuracy();//获取精度信息
-     *         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-     *         df.format(new Date(amapLocation.getTime()));//定位时间
+     *         new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(amapLocation.getTime()));//定位时间
      *
      *         //如果你只需要定位一次, 需要在这儿注销掉监听, 否则可能会一直定时回调
      *         GaoDeLocationUtils.unRegisterLocationListener(locationListener);
-     *     } else {
+     *         break;
+     *     case 12://缺少定位权限,请在设备的设置中开启app的定位权限(弹出下拉通知栏,并打开定位开关)
+     *         showLocationNotOpenDialog();
+     *         break;
+     *     default:
      *         logFormat("高德定位出错: ErrCode=%d, ErrorInfo=%s", amapLocation.getErrorCode(), amapLocation.getErrorInfo());
-     *     }
+     *         break;
      * }
      */
     public static void setLocationListener(AMapLocationClientOption option, AMapLocationListener listener) {

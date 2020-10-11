@@ -1,13 +1,1 @@
-<resources>
-    <style name="BaseLeftDialog" parent="BaseDialog">
-        <!--设置弹窗动画样式-->
-        <item name="android:windowAnimationStyle">@style/BaseLeftDialogAnim</item>
-    </style>
-
-    <style name="BaseLeftDialogAnim">
-        <!--进入动画-->
-        <item name="android:windowEnterAnimation">@anim/left_slide_in</item>
-        <!--退出动画-->
-        <item name="android:windowExitAnimation">@anim/left_slide_out</item>
-    </style>
-</resources>
+<resources>    <style name="BaseLeftDialog" parent="BaseDialog">        <!--设置弹窗动画样式-->        <item name="android:windowAnimationStyle">@style/BaseLeftDialogAnim</item>    </style>    <style name="BaseLeftDialogAnim">        <!--进入动画-->        <item name="android:windowEnterAnimation">@anim/left_slide_in</item>        <!--退出动画-->        <item name="android:windowExitAnimation">@anim/left_slide_out</item>    </style></resources>
