@@ -3,7 +3,7 @@ package com.actor.myandroidframework.utils.okhttputils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
+import com.actor.myandroidframework.dialog.ShowLoadingDialogable;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.ThreadUtils;
@@ -86,8 +86,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     @Override
     public void onBefore(@Nullable Request request, int id) {
         super.onBefore(request, id);
-        if (tag instanceof ShowLoadingDialogAble) {
-            ((ShowLoadingDialogAble) tag).showLoadingDialog();
+        if (tag instanceof ShowLoadingDialogable) {
+            ((ShowLoadingDialogable) tag).showLoadingDialog();
             isShowedLoadingDialog = true;
         }
     }
@@ -121,7 +121,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             try {
                 /**
                  * Gson: 数据类型不对(""解析成int) & 非json类型数据, 默认都会抛异常
-                 * @see com.actor.myandroidframework.utils.json.IntJsonDeserializer
+                 * @see com.actor.myandroidframework.utils.gson.IntJsonDeserializer
                  */
                 return GsonUtils.fromJson(json, genericity);
                 //FastJson: bug太多也不修复一下, 删掉...
@@ -149,7 +149,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         } else {
             isParseNetworkResponseIsNull = true;
             if (!isJsonParseException) {//如果不是Json解析错误的原因, 而是其它原因
-                onParseNetworkResponseIsNull(response, id);
+                onParseNetworkResponseIsNull(id);
                 onError(id, null, null);//主要作用是调用子类的onError方法
             }
         }
@@ -164,8 +164,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
      */
     public void onOkDismissLoadingDialog(int id) {
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
-            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
+            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
         }
     }
 
@@ -221,8 +221,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     //不能重写上面那个方法, 要重写就重写这个
     public void onError(int id, Call call, Exception e) {
         //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
-            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
+            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
         }
         if (isStatusCodeError || isJsonParseException || isParseNetworkResponseIsNull) return;
         if (e instanceof SocketTimeoutException) {
@@ -257,8 +257,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     /**
      * 数据解析为空, 默认会toast, 可重写此方法
      */
-    public void onParseNetworkResponseIsNull(T response, int id) {
-        logFormat("数据解析为空: tag=%s, response=%s, id=%d", tag, response, id);
+    public void onParseNetworkResponseIsNull(int id) {
+        logFormat("数据解析为空: tag=%s, id=%d", tag, id);
         toast("数据解析为空,请检查网络连接");
     }
 

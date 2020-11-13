@@ -10,7 +10,7 @@ import com.amap.api.maps.model.LatLng;
  * date       : 2020/8/10 on 19:01
  * @version 1.0
  */
-class GaoDeUiSettingUtils {
+public class GaoDeUiSettingUtils {
 
     /**
      * https://lbs.amap.com/api/android-sdk/guide/create-map/mylocation

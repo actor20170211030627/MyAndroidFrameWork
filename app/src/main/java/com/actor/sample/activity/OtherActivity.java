@@ -22,24 +22,24 @@ public class OtherActivity extends BaseActivity {
         ///////////////////////////////////////////////////////////////////////////
         // 1.ThreadUtils线程
         ///////////////////////////////////////////////////////////////////////////
-        ThreadUtils.runOnSubThread(new Runnable() {//在主线程运行
+        ThreadUtils.runOnUiThread(new Runnable() {//在主线程运行
             @Override
             public void run() {
-                logError(ThreadUtils.isRunOnUiThread());//是否运行在主线程
+                logError(ThreadUtils.isMainThread());//是否运行在主线程
             }
         });
-        ThreadUtils.runOnUiThread(new Runnable() {//在子线程运行
+        ThreadUtils.runOnSubThread(new Runnable() {//在子线程运行
             @Override
             public void run() {
-                logError(ThreadUtils.isRunOnUiThread());
+                logError(ThreadUtils.isMainThread());
             }
         });
-        ThreadUtils.handler.postDelayed(new Runnable() {//延时一秒后, 在主线程运行
+        ThreadUtils.HANDLER.postDelayed(new Runnable() {//延时一秒后, 在主线程运行
             @Override
             public void run() {
                 logError("ThreadUtils.handler.postDelayed");
             }
-        }, 1_000);
+        }, 1_000L);
 
 
         ///////////////////////////////////////////////////////////////////////////

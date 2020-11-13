@@ -12,7 +12,7 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 public class Logger {
 
     //设为false关闭日志
-    private static final boolean LOG_ENABLE = ConfigUtils.isDebugMode/*true*/;//edited 修改过
+    private static final boolean LOG_ENABLE = ConfigUtils.IS_APP_DEBUG/*true*/;//edited 修改过
 
     public static void i(String tag, String msg){
         if (LOG_ENABLE){

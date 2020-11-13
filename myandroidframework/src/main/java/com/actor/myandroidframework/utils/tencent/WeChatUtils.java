@@ -278,7 +278,7 @@ public class WeChatUtils {
         req.scene = scene;
         //官网有这句, Demo没这句...
 //        req.userOpenId = getOpenId();
-        api.sendReq(req);
+        getIWXAPI().sendReq(req);
     }
 
     /**
@@ -309,7 +309,7 @@ public class WeChatUtils {
         req.scene = scene;
         //官网有这句, Demo没这句...
 //        req.userOpenId = getOpenId();
-        api.sendReq(req);
+        getIWXAPI().sendReq(req);
     }
 
     /**
@@ -349,7 +349,7 @@ public class WeChatUtils {
         req.transaction = "appdata" + System.currentTimeMillis();
         req.message = msg;
         req.scene = scene;
-        api.sendReq(req);
+        getIWXAPI().sendReq(req);
     }
 
     /**
@@ -379,7 +379,7 @@ public class WeChatUtils {
         req.scene = scene;
         //官网有这句, Demo没这句...
 //        req.userOpenId = getOpenId();
-        api.sendReq(req);
+        getIWXAPI().sendReq(req);
     }
 
     /**
@@ -428,7 +428,7 @@ public class WeChatUtils {
         req.transaction = "miniProgram" + System.currentTimeMillis();
         req.message = msg;
         req.scene = scene;  //SendMessageToWX.Req.WXSceneSession 目前只支持会话
-        api.sendReq(req);
+        getIWXAPI().sendReq(req);
     }
 
     /**
@@ -501,7 +501,7 @@ public class WeChatUtils {
      */
     public static boolean payOffline() {
         if (getWXAppSupportAPI() >= Build.OFFLINE_PAY_SDK_INT) {
-            return api.sendReq(new JumpToOfflinePay.Req());
+            return getIWXAPI().sendReq(new JumpToOfflinePay.Req());
         }
         return false;//not supported
     }

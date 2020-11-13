@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
-import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
+import com.actor.myandroidframework.dialog.ShowLoadingDialogable;
 import com.actor.myandroidframework.service.BaseService;
 import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -43,7 +43,7 @@ import retrofit2.Call;
  *
  * @version 1.0
  */
-public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingDialogAble {
+public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingDialogable {
 
 //    protected FrameLayout  flContent;//主要内容的帧布局
 //    protected LinearLayout llEmpty;  //没数据
@@ -463,16 +463,17 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      *         public void onOk(@NonNull UserBean info, int id) {
      *             //int total = info.totalCount;               //⑴. total这种方式也可以
      *             List<UserBean.Data> datas = info.data;
-     *             //if (datas != null) {                       //⑴
-     *             if (datas != null && !datas.isEmpty()) {     //⑵. 不用total方式
+     *             if (datas != null) {
      *                 //如果是下拉刷新
      *                 if (requestIsRefresh) {
      *                     myAdapter.setNewData(datas);//设置新数据
      *                 } else {
      *                     myAdapter.addData(datas);//增加数据
      *                 }
-     *                 myAdapter.loadMoreComplete();//加载完成
-     *             } else myAdapter.loadMoreEnd();//已经没有数据了   //⑵
+     *             }
+     *             if (datas != null && !datas.isEmpty()) {         //⑵
+     *                 myAdapter.loadMoreComplete();//加载完成       //⑵
+     *             } else myAdapter.loadMoreEnd();//已经没有数据了    //⑵
      *
      *             //if (myAdapter.getData().size() < total) {      //⑴
      *             //    myAdapter.loadMoreComplete();//加载完成     //⑴

@@ -25,9 +25,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitNetwork {
 
-    protected static OkHttpClient              okHttpClient;
-    protected static String                    baseUrl = ConfigUtils.baseUrl;
-    protected static Converter.Factory         converterFactory;
+    protected static OkHttpClient      okHttpClient;
+    protected static final String      BASE_URL = ConfigUtils.baseUrl;
+    protected static Converter.Factory converterFactory;
     protected static CallAdapter.Factory       callAdapterFactory;
     protected static final Map<String, Object> APIS    = new HashMap<>();
 
@@ -81,7 +81,7 @@ public class RetrofitNetwork {
         if (aClass == null) {
             Retrofit.Builder builder = new Retrofit.Builder()
                     .client(getOkHttpClient())
-                    .baseUrl(baseUrl)
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(getConverterFactory());
             if (getCallAdapterFactory() != null) builder.addCallAdapterFactory(getCallAdapterFactory());
             Retrofit retrofit = builder.build();

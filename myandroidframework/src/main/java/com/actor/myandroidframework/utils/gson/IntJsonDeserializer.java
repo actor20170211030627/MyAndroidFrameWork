@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.json;
+package com.actor.myandroidframework.utils.gson;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

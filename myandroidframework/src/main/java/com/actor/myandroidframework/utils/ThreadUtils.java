@@ -17,21 +17,30 @@ import java.util.SortedSet;
  * Author     : 李大发
  * Date       : 2017/3/19 on 19:01.
  * @version 1.0
+ *
+ * @deprecated 使用这个: {@link com.blankj.utilcode.util.ThreadUtils}
  */
+@Deprecated
 public class ThreadUtils {
 
     //使用主线程looper初始化handler,保证handler发送的消息运行在主线程
-    public static final Handler handler = new Handler(Looper.getMainLooper());
+    public static final Handler HANDLER = com.blankj.utilcode.util.ThreadUtils.getMainHandler();
 
     /**
      * 将任务运行到主线程, 通常用于处理UI操作
      */
     public static void runOnUiThread(Runnable runnable) {
-        if (isRunOnUiThread()) {
-            runnable.run();//直接方法的调用
-        } else {
-            handler.post(runnable);//将runnable这个任务，丢到了主线程的消息队列中
-        }
+        com.blankj.utilcode.util.ThreadUtils.runOnUiThread(runnable);
+    }
+
+    /**
+     * 在"主线程"中延时任务
+     * 注意: 如果在Activity/Fragment/Dialog等有生命周期的类中延时, 需要在run方法中判断这个类是否已经退出,
+     *       如果已经被销毁就应该不要再调用run里面的代码, 否则可能引起异常.
+     * @param delayMillis 延时多少毫秒后运行
+     */
+    public static void runOnUiThreadDelayed(Runnable runnable, long delayMillis) {
+        com.blankj.utilcode.util.ThreadUtils.runOnUiThreadDelayed(runnable, delayMillis);
     }
 
     /**
@@ -42,20 +51,10 @@ public class ThreadUtils {
     }
 
     /**
-     * 在"主线程"中延时任务
-     * 注意: 如果在Activity/Fragment/Dialog等有生命周期的类中延时, 需要在run方法中判断这个类是否已经退出,
-     *       如果已经被销毁就应该不要再调用run里面的代码, 否则可能引起异常.
-     * @param delayMillis 延时多少毫秒后运行
-     */
-    public static void postDelayedOnUiThread(Runnable runnable, long delayMillis) {
-        handler.postDelayed(runnable, delayMillis);
-    }
-
-    /**
      * @return 返回现在是否运行在主线程
      */
-    public static boolean isRunOnUiThread() {
-        return Looper.myLooper() == Looper.getMainLooper();
+    public static boolean isMainThread() {
+        return com.blankj.utilcode.util.ThreadUtils.isMainThread();
 
 //        return Thread.currentThread() == Looper.getMainLooper().getThread();
 //        return getCurrentThreadId() == getMainThreadId();

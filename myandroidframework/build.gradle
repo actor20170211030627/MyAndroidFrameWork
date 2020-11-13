@@ -155,4 +155,17 @@ dependencies {
 
     //https://github.com/yanzhenjie/Album 图片选择
     compileOnly 'com.yanzhenjie:album:2.1.3'
+
+    // 友盟分享SDK, https://developer.umeng.com/docs/128606/detail/129620
+    //基础组件库和分享核心库
+    compileOnly 'com.umeng.umsdk:common:2.2.5'
+    compileOnly 'com.umeng.umsdk:share-core:7.0.2'
+    compileOnly 'com.umeng.umsdk:share-board:7.0.2'
+
+    //分享SDK gradle 在线依赖目前支持如下5个国内主流三方分享平台，其它平台还是需要从【友盟+】官网下载SDK进行离线集成
+    compileOnly 'com.umeng.umsdk:share-qq:7.0.2'
+    compileOnly 'com.umeng.umsdk:share-wx:7.0.2'
+    //compileOnly 'com.umeng.umsdk:share-sina:7.0.2'
+    //compileOnly 'com.umeng.umsdk:share-alipay:7.0.2'
+    //compileOnly 'com.umeng.umsdk:share-dingding:7.0.2'
 }

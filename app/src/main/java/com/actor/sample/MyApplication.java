@@ -33,12 +33,12 @@ public class MyApplication extends ActorApplication {
          * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
          *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
          */
-        GreenDaoUtils.init(this, isDebugMode, ItemEntityDao.class/*, ...*/);
+        GreenDaoUtils.init(this, isAppDebug(), ItemEntityDao.class/*, ...*/);
 
         BaiduMapUtils.init(this);//初始化百度地图
 
         //Application中初始化极光推送
-        JPushUtils.setDebugMode(isDebugMode);//设置调试模式,在 init 接口之前调用
+        JPushUtils.setDebugMode(isAppDebug());//设置调试模式,在 init 接口之前调用
         JPushUtils.init(this);//初始化
         JPushUtils.stopPush(this);//停止推送, 防止未登录就接收到消息
         //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
@@ -55,7 +55,7 @@ public class MyApplication extends ActorApplication {
 
     @NonNull
     @Override
-    protected String getBaseUrl() {
+    protected String getBaseUrl(boolean isDebugMode) {
         return Global.BASE_URL;
     }
 

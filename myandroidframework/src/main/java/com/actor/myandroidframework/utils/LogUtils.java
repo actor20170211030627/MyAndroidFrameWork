@@ -10,7 +10,7 @@ import android.util.Log;
  * @version 1.0
  */
 public class LogUtils {
-    private static boolean isDebugMode = ConfigUtils.isDebugMode;
+    private static boolean isDebugMode = ConfigUtils.IS_APP_DEBUG;
 
     private LogUtils(){
         throw new UnsupportedOperationException("u can't instantiate me...");

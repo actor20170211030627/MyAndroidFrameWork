@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils;
 
 import android.app.Application;
 
-import com.actor.myandroidframework.application.ActorApplication;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.Utils;
 
 /**
@@ -17,10 +17,14 @@ public class ConfigUtils {
     public static final Application APPLICATION = Utils.getApp();
 
     /**
-     * 是否是debug模式
-     * @see ActorApplication#onCreate()
+     * 当我们没在AndroidManifest.xml中设置其 debuggable="true" 属性时:
+     * <application android:debuggable="true" tools:ignore="HardcodedDebugMode"
+     *
+     * 运行:                                这种方式打包时其debug属性为true,
+     * Build->Generate Signed APK release: 这种方式打包时其debug属性为法false.
+     * 因此在AndroidMainifest.xml中最好不设置android:debuggable属性置，而是由打包方式来决定其值.
      */
-    public static boolean isDebugMode;
+    public static final boolean IS_APP_DEBUG = AppUtils.isAppDebug();
 
     public static String baseUrl = "";//需要自己设置baseUrl
 }

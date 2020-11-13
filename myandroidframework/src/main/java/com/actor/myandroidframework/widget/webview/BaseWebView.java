@@ -3,6 +3,9 @@ package com.actor.myandroidframework.widget.webview;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
+import android.webkit.WebStorage;
 import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
@@ -57,7 +60,7 @@ public class BaseWebView extends WebView {
 
         //设置debug
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setWebContentsDebuggingEnabled(ConfigUtils.isDebugMode);
+            setWebContentsDebuggingEnabled(ConfigUtils.IS_APP_DEBUG);
         }
 
         //添加js交互
@@ -69,16 +72,6 @@ public class BaseWebView extends WebView {
         setHorizontalScrollBarEnabled(false);
         //垂直滚动条
         setVerticalScrollBarEnabled(false);
-
-
-        //清除缓存(可用于 loadUrl() 前)
-//        clearCache(false);
-
-        //只清除当前页之前的历史记录
-//        clearHistory();
-
-        //清除表单数据
-//        clearFormData();
 
         //获取当前URL
 //        getUrl();
@@ -131,6 +124,44 @@ public class BaseWebView extends WebView {
                                     @Nullable String historyUrl) {
         super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
     }
+
+    /**
+     * 清除表单数据
+     */
+    @Override
+    public void clearFormData() {
+        super.clearFormData();
+    }
+
+    /**
+     * 清除缓存(可用于 loadUrl() 前)
+     * @param includeDiskFiles 是否包括硬盘文件
+     */
+    @Override
+    public void clearCache(boolean includeDiskFiles) {
+        super.clearCache(includeDiskFiles);
+    }
+
+    /**
+     * 只清除当前页之前的历史记录
+     */
+    @Override
+    public void clearHistory() {
+        super.clearHistory();
+    }
+
+    /**
+     * 清除数据&Cookie
+     */
+    public void deleteAllData$removeAllCookies(@Nullable ValueCallback<Boolean> callback) {
+        WebStorage.getInstance().deleteAllData();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().removeAllCookies(callback);
+        } else {
+            CookieManager.getInstance().removeAllCookie();
+        }
+    }
+
 
     /**
      * 判断是否有上一个网址

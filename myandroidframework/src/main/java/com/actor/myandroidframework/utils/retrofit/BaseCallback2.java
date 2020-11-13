@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils.retrofit;
 
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
+import com.actor.myandroidframework.dialog.ShowLoadingDialogable;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.blankj.utilcode.util.ToastUtils;
@@ -61,8 +61,8 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * 开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
      */
     public void onBefore(int id) {
-        if (tag instanceof ShowLoadingDialogAble) {
-            ((ShowLoadingDialogAble) tag).showLoadingDialog();
+        if (tag instanceof ShowLoadingDialogable) {
+            ((ShowLoadingDialogable) tag).showLoadingDialog();
             isShowedLoadingDialog = true;
         }
     }
@@ -88,8 +88,8 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
      */
     public void onOkDismissLoadingDialog(int id) {
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
-            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
+            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
         }
     }
 
@@ -111,8 +111,8 @@ public abstract class BaseCallback2<T> implements Callback<T> {
 
     public void onError(Call<T> call, Throwable t) {
         //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogAble) {
-            ((ShowLoadingDialogAble) tag).dismissLoadingDialog();
+        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
+            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
         }
         if (isStatusCodeError) return;
         if (t instanceof SocketTimeoutException) {

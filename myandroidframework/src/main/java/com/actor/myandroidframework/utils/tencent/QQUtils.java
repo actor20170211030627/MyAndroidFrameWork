@@ -23,7 +23,9 @@ import org.json.JSONObject;
  * Description: QQ工具类
  * 1.需要下载jar包v3.3.7:
  *   https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD      或↓
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/myandroidframework/libs/open_sdk_r2973327_lite.jar
+ *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/libs/open_sdk_r2973327_lite.jar
+ *                                                          或↓
+ *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/libs/open_sdk_r2973327_lite.jar
  *
  * 2.将jar包放在libs目录下, 并且在app的gradle中添加:
  *   implementation files('libs/open_sdk_r2973327_lite.jar')//QQ登录等v3.3.7

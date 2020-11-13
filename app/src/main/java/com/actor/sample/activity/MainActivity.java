@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
             R.id.btn_viewpager_fragment, R.id.btn_select_file, R.id.btn_is_empty, R.id.btn_third,
-            R.id.btn_baidu, R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
+            R.id.btn_baidu, R.id.btn_gaode, R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
             R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar,
             R.id.btn_other})
     public void onViewClicked(View view) {
@@ -75,6 +75,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_baidu://百度定位/地图
                 startActivity(new Intent(this, BaiDuMapActivity.class), false, view);
+                break;
+            case R.id.btn_gaode://高德定位/地图
+                toast("暂未实现");
                 break;
             case R.id.btn_jpush://极光推送
                 startActivity(new Intent(this, JPushActivity.class), false, view);

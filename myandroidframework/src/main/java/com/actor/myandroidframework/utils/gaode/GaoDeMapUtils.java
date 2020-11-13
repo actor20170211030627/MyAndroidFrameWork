@@ -13,6 +13,7 @@ import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.CustomMapStyleOptions;
 import com.amap.api.maps.model.IndoorBuildingInfo;
 import com.amap.api.maps.model.LatLng;
@@ -206,6 +207,41 @@ public class GaoDeMapUtils {
      */
     public static void moveCamera(AMap aMap, LatLng latLng, @IntRange(from = 10, to = 18) int scaleLevel) {
         aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, scaleLevel));
+        //aMap.animateCamera
+    }
+
+    /**
+     * 获取最小缩放级别, 如果没有手动设置, 默认3
+     */
+    public static float getMinZoomLevel(AMap aMap) {
+        return aMap.getMinZoomLevel();
+    }
+
+    /**
+     * 获取最大缩放级别, 如果没有手动设置, 默认20
+     */
+    public static float getMaxZoomLevel(AMap aMap) {
+        return aMap.getMaxZoomLevel();
+    }
+
+    /**
+     * 获取当前缩放级别
+     */
+    public static float getCurrentZoomLevel(AMap aMap) {
+        CameraPosition cameraPosition = aMap.getCameraPosition();
+//        LatLng target = cameraPosition.target;
+        return cameraPosition.zoom;
+    }
+
+    /**
+     * 设置当前缩放级别
+     */
+    public static void setCurrentZoomLevel(AMap aMap, float level) {
+        CameraPosition cameraPosition = aMap.getCameraPosition();
+        LatLng target = cameraPosition.target;
+//        float zoom = cameraPosition.zoom;
+        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(target, level));
+//        aMap.moveCamera();
     }
 
     /**

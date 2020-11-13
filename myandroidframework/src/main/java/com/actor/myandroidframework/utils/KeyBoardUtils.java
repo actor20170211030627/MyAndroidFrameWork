@@ -1,14 +1,7 @@
 package com.actor.myandroidframework.utils;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.IBinder;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-
-import androidx.annotation.NonNull;
 
 /**
  * Description: 键盘工具类 https://blog.csdn.net/mynameishuangshuai/article/details/51567357
@@ -24,59 +17,6 @@ import androidx.annotation.NonNull;
  */
 @Deprecated
 public class KeyBoardUtils {
-    /**
-     * 显示/隐藏软键盘
-     * @param editText 必须是edittext,否则不起作用
-     * @param isShow 是否显示软键盘
-     */
-    public static void showOrHideSoftInput(@NonNull EditText editText, boolean isShow) {
-        InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        editText.requestFocus();//必须设置,否则如果焦点不在这个view的话,输入法弹不出来
-        if (isShow) {
-            imm.showSoftInput(editText, 0);//InputMethodManager.SHOW_FORCED=2也可以
-            //imm.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);//没试过
-//            imm.showSoftInputFromInputMethod(editText.getWindowToken(), 0);//这种方法弹不出来
-        } else {
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-//            if ( imm.isActive( ) ) {//这种也可以
-//                imm.hideSoftInputFromWindow(editText.getApplicationWindowToken( ) , 0 );
-//            }
-//            imm.hideSoftInputFromInputMethod(editText.getWindowToken(), 0);//这种方法不能隐藏
-        }
-    }
-
-    public static boolean hideInputMethod(View view) {
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        return imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    /**
-     * 只能在Activity中
-     */
-    public static boolean hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive() && activity.getCurrentFocus() != null) {
-            IBinder windowToken = activity.getCurrentFocus().getWindowToken();
-            if (windowToken != null) {
-                return imm.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 切换输入法显示/隐藏,这儿其实可以不强制是EditText
-     * @param context 必传
-     * @param editText 可以为null
-     */
-    public static void toggleSoftInput(Context context, EditText editText) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//这种方法也可以
-        if (editText != null) {
-            editText.requestFocus();//可不要
-            imm.toggleSoftInputFromWindow(editText.getWindowToken(), 0, InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
 
     /**
      * 软键盘弹出时,别把布局顶上去 android:windowSoftInputMode="adjustPan|stateHidden"

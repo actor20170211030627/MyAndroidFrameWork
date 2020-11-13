@@ -80,6 +80,13 @@
             android:transitionName="btn" />
 
         <Button
+            android:id="@+id/btn_gaode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="高德定位/地图"
+            android:transitionName="btn" />
+
+        <Button
             android:id="@+id/btn_jpush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
