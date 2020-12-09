@@ -471,13 +471,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      *                     myAdapter.addData(datas);//增加数据
      *                 }
      *             }
-     *             if (datas != null && !datas.isEmpty()) {         //⑵
-     *                 myAdapter.loadMoreComplete();//加载完成       //⑵
-     *             } else myAdapter.loadMoreEnd();//已经没有数据了    //⑵
-     *
-     *             //if (myAdapter.getData().size() < total) {      //⑴
-     *             //    myAdapter.loadMoreComplete();//加载完成     //⑴
-     *             //} else myAdapter.loadMoreEnd();//已经没有数据了 //⑴
+     *             //setLoadMoreState(myAdapter, total);            //⑴
+     *             setLoadMoreState(myAdapter, datas, Global.SIZE); //⑵
      *         }
      *
      *         @Override
@@ -514,10 +509,42 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      * @param isRefresh 是否是下拉刷新
      * @param adapter   列表Adapter extends BaseQuickAdapter
      * @param size      每次加载多少条
+     * @return currentSize   size    return
+     *              0         20       1
+     *             1-19       20       1
+     *            20-39       20       2
+     *            40-59       20       3
      */
     protected int getPage(boolean isRefresh, @NonNull BaseQuickAdapter adapter, int size) {
         if (isRefresh) return 1;
-        return adapter.getData().size() / size + 1;
+        int currentSize = adapter.getData().size();//目前列表数据条数
+        if (currentSize < size) return 1;
+        return currentSize / size + 1;
+    }
+
+    /**
+     * 设置加载状态
+     * @param list 本次从服务器返回的分页数据
+     * @param size 每次加载多少条
+     */
+    protected void setLoadMoreState(@NonNull BaseQuickAdapter adapter, @Nullable List<?> list, int size) {
+        //"list = null"     or     "list为空"     or     "list < size"(比如一次获取20条, 但是只返回15条, 说明服务器没有更多数据了)
+        boolean isLoadMoreEnd = list == null || list.size() < size;
+        if (isLoadMoreEnd) {
+            adapter.loadMoreEnd();//已经没有数据了
+        } else {
+            adapter.loadMoreComplete();//加载完成
+        }
+    }
+
+    /**
+     * 设置加载状态
+     * @param total   服务器返回的数据总数(如果后端返回了total的话...)
+     */
+    protected void setLoadMoreState(@NonNull BaseQuickAdapter adapter, int total) {
+        if (adapter.getData().size() < total) {
+            adapter.loadMoreComplete();//加载完成
+        } else adapter.loadMoreEnd();//已经没有数据了
     }
 
 
