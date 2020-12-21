@@ -25,19 +25,20 @@ public class BaseWebChromeClient extends WebChromeClient {
     @Override
     public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
-        LogUtils.formatError("网页标题: %s", false, title);
+        LogUtils.formatError("网页标题onReceivedTitle: %s", true, title);
     }
 
     @Override
     public void onReceivedIcon(WebView view, Bitmap icon) {//图标
         super.onReceivedIcon(view, icon);
-        LogUtils.error("获取到网页logo", false);
+        LogUtils.error("获取到网页Icon, onReceivedIcon", true);
     }
 
     //加载进度回调,newProgress当前的进度
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
+        //LogUtils.formatError("网页进度改变, onProgressChanged=%d", true, newProgress);
     }
 
     //打印前端的日记
@@ -60,7 +61,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     //js的alert弹窗
     @Override
     public boolean onJsAlert(WebView webView, String url, String message, JsResult result) {
-        LogUtils.formatError("alert弹窗: url=%s, message=%s", false, url, message);
+        LogUtils.formatError("alert弹窗: url=%s, message=%s", true, url, message);
 //        new AlertDialog.Builder(webView.getContext())
 //                .setTitle(url)
 //                .setMessage(message)
@@ -91,7 +92,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     //js 确认/取消对话框
     @Override
     public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-        LogUtils.formatError("网页对话框: url=%s, message=%s", false, url, message);
+        LogUtils.formatError("网页对话框: url=%s, message=%s", true, url, message);
         return super.onJsConfirm(view, url, message, result);
     }
 
@@ -102,7 +103,7 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        LogUtils.formatError("网页提示: url=%s, message=%s, defaultValue=%s", false, url, message, defaultValue);
+        LogUtils.formatError("网页提示: url=%s, message=%s, defaultValue=%s", true, url, message, defaultValue);
         return super.onJsPrompt(view, url, message, defaultValue, result);
     }
 
@@ -125,7 +126,7 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public void onShowCustomView(View view, WebChromeClient.CustomViewCallback callback) {
-        LogUtils.error("onShowCustomView: 可用于播放视频", false);
+        LogUtils.error("onShowCustomView: 可用于播放视频", true);
 //        fullScreen();
 //        webView.setVisibility(View.GONE);
 //        videoContainer.setVisibility(View.VISIBLE);
@@ -141,7 +142,7 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public void onHideCustomView() {
-        LogUtils.error("onHideCustomView: 可用于退出全屏播放", false);
+        LogUtils.error("onHideCustomView: 可用于退出全屏播放", true);
 //        exitFullScreen();
 //        if (mCallBack!=null){
 //            mCallBack.onCustomViewHidden();
@@ -161,7 +162,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     @Override
     public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
         super.onGeolocationPermissionsShowPrompt(origin, callback);
-        LogUtils.error("onGeolocationPermissionsShowPrompt: 网页定位允许弹框", false);
+        LogUtils.error("onGeolocationPermissionsShowPrompt: 网页定位允许弹框", true);
 //        new AlertDialog.Builder(activity)
 //                .setTitle("位置信息")
 //                .setMessage(origin + "允许获取您的地理位置信息吗？")
@@ -187,7 +188,7 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-        LogUtils.error("onShowFileChooser: 选择文件", false);
+        LogUtils.error("onShowFileChooser: 选择文件", true);
 //        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //        intent.addCategory(Intent.CATEGORY_OPENABLE);
 //        intent.setType("image/*");

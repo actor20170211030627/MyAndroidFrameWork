@@ -2,21 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.actor.sample">
-
     <!-- 下方是百度定位权限 -->
     <!-- 这个权限用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 这个权限用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -28,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".activity.WebViewActivity"></activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,15 +50,10 @@
             android:theme="@style/BaseBottomActivity" />
         <activity android:name=".activity.DatabaseActivity" />
 
-        <service android:name=".service.CheckUpdateService" />
-
-
-        <!-- 百度定位设置AK，在Application标签中加入 -->
+        <service android:name=".service.CheckUpdateService" /> <!-- 百度定位设置AK，在Application标签中加入 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX" /> <!-- value:开发者申请的AK -->
-
-
         <!-- QQ登录 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -79,22 +67,16 @@
 
                 <data android:scheme="tencent101890804" /> <!-- 这儿替换成: "tencent" + appid -->
             </intent-filter>
-        </activity>
-        <!-- 设置QQ头像等... -->
+        </activity> <!-- 设置QQ头像等... -->
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <!-- QQUtils, 在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错... -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- QQUtils, 在targetSdkVersion>=28时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错... -->
         <!-- 写在 AndroidManifest.xml 的 <application>标签内, 和<activity 同级 -->
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-
-
-        <!--微信登录等-->
+            android:required="false" /> <!-- 微信登录等 -->
         <!-- https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html -->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -102,8 +84,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:taskAffinity="${applicationId}"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- 微信支付 -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 微信支付 -->
         <!-- https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
@@ -115,22 +96,13 @@
             <!-- <category android:name="android.intent.category.DEFAULT"/> -->
             <!-- <data android:scheme="wx8aee7894414e5f5a"/> -->
             <!-- </intent-filter> -->
-        </activity>
-
-
-        <!-- 百度定位服务 -->
+        </activity> <!-- 百度定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"
-            tools:node="strict" />
-
-
-        <!-- 高德定位需要的服务 使用2.0的定位需要加上这个 -->
-        <service android:name="com.amap.api.location.APSService" />
-
-
-        <!-- 极光推送 -->
+            tools:node="strict" /> <!-- 高德定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.location.APSService" /> <!-- 极光推送 -->
         <!-- https://docs.jiguang.cn//jpush/client/Android/android_guide/ -->
         <!-- Since JCore2.0.0 Required SDK核心功能 -->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
@@ -143,8 +115,7 @@
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
-        </service>
-        <!-- 极光推送 -->
+        </service> <!-- 极光推送 -->
         <!-- https://docs.jiguang.cn//jpush/client/Android/android_guide/ -->
         <!-- Required since 3.0.7 -->
         <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->

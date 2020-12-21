@@ -4,9 +4,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.actor.myandroidframework.utils.LogUtils;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
@@ -30,20 +31,23 @@ import java.util.List;
  */
 public class MigrationHelper {
 
-    public static boolean DEBUG = false;
-    private static String TAG = "MigrationHelper";
-    private static final String SQLITE_MASTER = "sqlite_master";
-    private static final String SQLITE_TEMP_MASTER = "sqlite_temp_master";
+    protected static final String SQLITE_MASTER = "sqlite_master";
+    protected static final String SQLITE_TEMP_MASTER = "sqlite_temp_master";
 
-    private static WeakReference<ReCreateAllTableListener> weakListener;
+    protected static WeakReference<ReCreateAllTableListener> weakListener;
 
     public interface ReCreateAllTableListener {
         void onCreateAllTables(Database db, boolean ifNotExists);
         void onDropAllTables(Database db, boolean ifExists);
     }
 
+    /**
+     * 迁移
+     * @param db 老版本数据库
+     * @param daoClasses
+     */
     public static void migrate(SQLiteDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        printLog("【The Old Database Version】" + db.getVersion());
+        logFormat("【The Old Database Version】" + db.getVersion());
         Database database = new StandardDatabase(db);
         migrate(database, daoClasses);
     }
@@ -59,9 +63,9 @@ public class MigrationHelper {
     }
 
     public static void migrate(Database database, Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        printLog("【Generate temp table】start");
+        logFormat("【Generate temp table】start");
         generateTempTables(database, daoClasses);
-        printLog("【Generate temp table】complete");
+        logFormat("【Generate temp table】complete");
 
         ReCreateAllTableListener listener = null;
         if (weakListener != null) {
@@ -70,26 +74,26 @@ public class MigrationHelper {
 
         if (listener != null) {
             listener.onDropAllTables(database, true);
-            printLog("【Drop all table by listener】");
+            logFormat("【Drop all table by listener】");
             listener.onCreateAllTables(database, false);
-            printLog("【Create all table by listener】");
+            logFormat("【Create all table by listener】");
         } else {
             dropAllTables(database, true, daoClasses);
             createAllTables(database, false, daoClasses);
         }
-        printLog("【Restore data】start");
+        logFormat("【Restore data】start");
         restoreData(database, daoClasses);
-        printLog("【Restore data】complete");
+        logFormat("【Restore data】complete");
     }
 
-    private static void generateTempTables(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    protected static void generateTempTables(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         for (int i = 0; i < daoClasses.length; i++) {
             String tempTableName = null;
 
             DaoConfig daoConfig = new DaoConfig(db, daoClasses[i]);
             String tableName = daoConfig.tablename;
             if (!isTableExists(db, false, tableName)) {
-                printLog("【New Table】" + tableName);
+                logFormat("【New Table】" + tableName);
                 continue;
             }
             try {
@@ -102,10 +106,11 @@ public class MigrationHelper {
                 insertTableStringBuilder.append("CREATE TEMPORARY TABLE ").append(tempTableName);
                 insertTableStringBuilder.append(" AS SELECT * FROM ").append(tableName).append(";");
                 db.execSQL(insertTableStringBuilder.toString());
-                printLog("【Table】" + tableName +"\n ---Columns-->"+getColumnsStr(daoConfig));
-                printLog("【Generate temp table】" + tempTableName);
+                logFormat("【Table】" + tableName +"\n ---Columns-->"+getColumnsStr(daoConfig));
+                logFormat("【Generate temp table】" + tempTableName);
             } catch (SQLException e) {
-                Log.e(TAG, "【Failed to generate temp table】" + tempTableName, e);
+                e.printStackTrace();
+                logFormat("【Failed to generate temp table】" + tempTableName);
             }
         }
     }
@@ -152,12 +157,12 @@ public class MigrationHelper {
 
     private static void dropAllTables(Database db, boolean ifExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
         reflectMethod(db, "dropTable", ifExists, daoClasses);
-        printLog("【Drop all table by reflect】");
+        logFormat("【Drop all table by reflect】");
     }
 
     private static void createAllTables(Database db, boolean ifNotExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
         reflectMethod(db, "createTable", ifNotExists, daoClasses);
-        printLog("【Create all table by reflect】");
+        logFormat("【Create all table by reflect】");
     }
 
     /**
@@ -228,14 +233,15 @@ public class MigrationHelper {
                     insertTableStringBuilder.append(TextUtils.join(",", selectColumns));
                     insertTableStringBuilder.append(" FROM ").append(tempTableName).append(";");
                     db.execSQL(insertTableStringBuilder.toString());
-                    printLog("【Restore data】 to " + tableName);
+                    logFormat("【Restore data】 to " + tableName);
                 }
                 StringBuilder dropTableStringBuilder = new StringBuilder();
                 dropTableStringBuilder.append("DROP TABLE ").append(tempTableName);
                 db.execSQL(dropTableStringBuilder.toString());
-                printLog("【Drop temp table】" + tempTableName);
+                logFormat("【Drop temp table】" + tempTableName);
             } catch (SQLException e) {
-                Log.e(TAG, "【Failed to restore data from temp table 】" + tempTableName, e);
+                e.printStackTrace();
+                logFormat("【Failed to restore data from temp table 】" + tempTableName);
             }
         }
     }
@@ -259,13 +265,11 @@ public class MigrationHelper {
         return columns;
     }
 
-    private static void printLog(String info){
-        if(DEBUG){
-            Log.d(TAG, info);
-        }
+    protected static void logFormat(String format, Object... args) {
+        LogUtils.formatError(format, false, args);
     }
 
-    private static class TableInfo {
+    protected static class TableInfo {
         int cid;
         String name;
         String type;
@@ -295,7 +299,7 @@ public class MigrationHelper {
 
         private static List<TableInfo> getTableInfo(Database db, String tableName) {
             String sql = "PRAGMA table_info(" + tableName + ")";
-            printLog(sql);
+            logFormat(sql);
             Cursor cursor = db.rawQuery(sql, null);
             if (cursor == null)
                 return new ArrayList<>();

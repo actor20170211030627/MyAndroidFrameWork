@@ -40,7 +40,7 @@ android {
     }
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release//debug 使用 release 签名
         }
@@ -77,13 +77,10 @@ dependencies {
 
     //https://github.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':myandroidframework')
-//    implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:1.5.0'
+//    implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:2.0.0'
 
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库
-
-    //https://github.com/Tencent/MMKV 腾讯键值存储, 性能&可靠性远高于SharedPreferences
-    implementation 'com.tencent:mmkv-static:1.2.2'
 
     //https://github.com/promeG/TinyPinyin
     implementation 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB

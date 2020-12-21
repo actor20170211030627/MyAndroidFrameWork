@@ -134,6 +134,12 @@
             android:text="快速查找条QuickSearchBar" />
 
         <Button
+            android:id="@+id/btn_webview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WebView" />
+
+        <Button
             android:id="@+id/btn_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
