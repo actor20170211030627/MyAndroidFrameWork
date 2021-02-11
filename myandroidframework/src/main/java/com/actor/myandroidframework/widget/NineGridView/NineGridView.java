@@ -22,18 +22,32 @@ import java.util.List;
 
 /**
  * Description: 九宫格 自定义item, 使用注意: List中的数据必须implements {@link GetIsVideoAble}, 否则报错.
+ * 示例使用:
+ * @BindView(R.id.nine_grid_view)
+ * NineGridView<PicOrVideo> nineGridView; //class PicOrVideo implements GetIsVideoAble
+ *
+ * private List<PicOrVideo> items = new ArrayList<>();
+ *
+ * nineGridView.setData(items);
+ * nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener<PicOrVideo>() {
+ *     @Override
+ *     public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, View view, int position) {
+ *         toastFormat("position=%d, isVideo=%b", position, item.isVideo());
+ *     }
+ * });
+ *
  * Author     : 李大发
  * Date       : 2019/5/16 on 14:47
  * @version 1.0
  */
-public class NineGridView extends ConstraintLayout {
+public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
 
     protected ImageView           ivPicForNineGridView;
     protected ImageView           ivPlayPauseForNineGridView;
     protected RecyclerView        recyclerViewForNineGridView;
-    private   OnItemClickListener onItemClickListener;
+    private   OnItemClickListener<T> onItemClickListener;
     private MyAdapter                      myAdapter;
-    private List<GetIsVideoAble> items = new ArrayList<>(1);
+    private List<T> items = new ArrayList<>(1);
 
     public NineGridView(Context context) {
         super(context);
@@ -67,9 +81,9 @@ public class NineGridView extends ConstraintLayout {
 
     /**
      * 注意, List里的数据必须 implements GetIsVideoAble, 否则报错. {@link GetIsVideoAble}
-     * @param datas
+     * @param datas 九宫格数据
      */
-    public void setData(List datas) {
+    public void setData(List<T> datas) {
         if (datas != null && !datas.isEmpty()) {
             items.clear();
             items.addAll(datas);
@@ -113,17 +127,17 @@ public class NineGridView extends ConstraintLayout {
     /**
      * 设置Item点击事件
      */
-    public <T> void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public interface OnItemClickListener<T> {
-        void onItemClick(NineGridView nineGridView, T item, BaseQuickAdapter adapter, View view, int position);
+    public interface OnItemClickListener<T extends GetIsVideoAble> {
+        void onItemClick(NineGridView<T> nineGridView, T item, BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
     }
 
-    private class MyAdapter extends BaseQuickAdapter<GetIsVideoAble, BaseViewHolder> {
+    private class MyAdapter extends BaseQuickAdapter<T, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, List<GetIsVideoAble> items) {
+        public MyAdapter(int layoutResId, List<T> items) {
             super(layoutResId, items);
         }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.File;
@@ -82,14 +83,21 @@ public class SPUtils {
         getSharedPreference().edit().putString(key, value).apply();//异步提交,无返回值
     }
 
+    @Nullable
     public static String getString(String key) {
-        return getSharedPreference().getString(key, null);
+        return getString(key, null);
     }
 
+    public static String getString(String key, String defValue) {
+        return getSharedPreference().getString(key, defValue);
+    }
+
+    /**
+     * 如果值=null, 返回""
+     */
+    @NonNull
     public static String getStringNoNull(String key) {
-        String value = getString(key);
-        if (value == null) return "";
-        return value;
+        return getString(key, "");
     }
 
     /**

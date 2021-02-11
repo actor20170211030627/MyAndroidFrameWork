@@ -17,8 +17,6 @@ import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.Locale;
-
 /**
  * Description: 如下功能:
  * <ol>
@@ -274,7 +272,7 @@ public class TextUtils2 {
     public static String getStringFormat(String format, Object... args) {
         //如果args为空, format会报错: MissingFormatArgumentException: Format specifier '%E'
         if (args == null || args.length == 0) return format;
-        return String.format(Locale.getDefault(), format, args);
+        return String.format(format, args);
     }
 
     /**

@@ -72,7 +72,7 @@ public class SwitcherActivity extends BaseActivity {
                 break;
             case R.id.btn_stop:
                 bts.stopSwitcher();
-                bvs.stopSwitcher();
+                bvs.stopSwitch();
                 break;
         }
     }
@@ -81,6 +81,6 @@ public class SwitcherActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         bts.stopSwitcher();
-        bvs.stopSwitcher();
+        bvs.stopSwitch();
     }
 }

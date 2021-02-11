@@ -8,6 +8,7 @@ import com.actor.myandroidframework.widget.NineGridView.NineGridView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.actor.sample.R;
 import com.actor.sample.utils.Global;
+import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,8 @@ import butterknife.ButterKnife;
 public class NineGridViewActivity extends BaseActivity {
 
     @BindView(R.id.nine_grid_view)
-    NineGridView nineGridView;
+    NineGridView<PicOrVideo> nineGridView;
+
     private List<PicOrVideo> items = new ArrayList<>();
 
     @Override
@@ -39,9 +41,8 @@ public class NineGridViewActivity extends BaseActivity {
         nineGridView.setData(items);
         nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener<PicOrVideo>() {
             @Override
-            public void onItemClick(NineGridView nineGridView, PicOrVideo item,
-                                    BaseQuickAdapter adapter, View view, int position) {
-                toast(getStringFormat("position=%d, isVideo=%b", position, item.isVideo()));
+            public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, View view, int position) {
+                toastFormat("position=%d, isVideo=%b", position, item.isVideo());
             }
         });
     }

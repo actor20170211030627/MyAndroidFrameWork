@@ -44,6 +44,7 @@ import java.util.List;
  * 5.marginTop, 默认1dp
  * @see R.styleable#ItemSpinnerLayout_islMarginTop       //1dp
  * 6.自定义布局, 注意必须有默认控件的类型和id
+ *   如果要所有地方都修改layout,可把{@link R.layout#item_spinner_layout} copy一份到自己工程作修改, 就会加载自己工程的layout
  * @see R.styleable#ItemSpinnerLayout_islCustomLayout    //R.layout.xxx
  *
  * @version 1.0

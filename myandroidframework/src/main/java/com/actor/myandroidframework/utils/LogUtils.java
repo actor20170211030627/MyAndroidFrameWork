@@ -3,79 +3,55 @@ package com.actor.myandroidframework.utils;
 import android.util.Log;
 
 /**
- * Description: println,log
- * TODO 在正式环境中获取行号=-1,没时间研究为什么.
+ * Description: log日志打印, 本工具输出示例: {@link #printlnLogInfo(Level, String, boolean)}
+ *
+ * @see com.blankj.utilcode.util.LogUtils, 这个工具类输出后可以点击跳转.
+ *
  * Author     : 李大发
  * Date       : 2018/4/18 on 11:07
- * @version 1.0
+ * @version 1.0.1
  */
 public class LogUtils {
-    private static boolean isDebugMode = ConfigUtils.IS_APP_DEBUG;
+    protected static final boolean IS_DEBUG_MODE = ConfigUtils.IS_APP_DEBUG;
 
-    private LogUtils(){
-        throw new UnsupportedOperationException("u can't instantiate me...");
+    protected LogUtils(){
     }
 
-    /**
-     * 如果是debug模式,就打印输出
-     * @param msg
-     * @param isDirectCall 是否直接调用本方法, 用于定位堆栈信息中元素
-     */
-    public static void println(Object msg, boolean isDirectCall){
-        if (isDebugMode) privatePrintln(isDirectCall, msg);
-    }
-
-    protected static void privatePrintln(boolean isDirectCall, Object msg) {
-        int eleNum = isDirectCall ? 4 : 5;
-        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[eleNum];
-        //获取文件名: ActorBaseActivity.java
-        String fileName = stackTraceElement.getFileName();
-        //ClassName = 包名 + 类名: com.google.package.activity.ActorBaseActivity
-//        String className = stackTraceElement.getClassName();
-        //获取方法名称: onCreate
-        String methodName = stackTraceElement.getMethodName();
-        //获取日志输出行数
-        int lineNumber = stackTraceElement.getLineNumber();
-        System.out.printf("%s %d行, 方法名:%s, 输出:%s", fileName, lineNumber, methodName, msg);
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // 下面是Log区
-    ///////////////////////////////////////////////////////////////////////////
     /**
      * 如果是debug模式,就打印输出
      * @param msg
      * @param isDirectCall 是否直接调用本方法, 用于定位堆栈信息中元素
      */
     public static void verbose(String msg, boolean isDirectCall) {//v
-        if (isDebugMode) printlnLogInfo(Level.Verbose, msg, isDirectCall);
+        if (IS_DEBUG_MODE) printlnLogInfo(Level.Verbose, msg, isDirectCall);
     }
 
     public static void debug(String msg, boolean isDirectCall) {//d
-        if (isDebugMode) printlnLogInfo(Level.Debug, msg, isDirectCall);
+        if (IS_DEBUG_MODE) printlnLogInfo(Level.Debug, msg, isDirectCall);
     }
 
     public static void info(String msg, boolean isDirectCall) {//i
-        if (isDebugMode) printlnLogInfo(Level.Info, msg, isDirectCall);
+        if (IS_DEBUG_MODE) printlnLogInfo(Level.Info, msg, isDirectCall);
     }
 
     public static void warn(String msg, boolean isDirectCall) {//w
-        if (isDebugMode) printlnLogInfo(Level.Warn, msg, isDirectCall);
+        if (IS_DEBUG_MODE) printlnLogInfo(Level.Warn, msg, isDirectCall);
     }
 
     public static void error(String msg, boolean isDirectCall) {//e
-        if (isDebugMode) printlnLogInfo(Level.Error, msg, isDirectCall);
+        if (IS_DEBUG_MODE) printlnLogInfo(Level.Error, msg, isDirectCall);
     }
 
     /**
      * 打印格式化后的字符串
      */
     public static void formatError(String format, boolean isDirectCall, Object... args) {
-        if (isDebugMode) printlnLogInfo(Level.Error, TextUtils2.getStringFormat(format, args), isDirectCall);
+        if (IS_DEBUG_MODE) printlnLogInfo(Level.Error, TextUtils2.getStringFormat(format, args), isDirectCall);
     }
 
     /**
      * 输出日志所包含的信息
+     * 输出示例: MyActivity.java: 125行, 方法名:onActivityResult, 输出: 选择文件返回, path=xxx.jpg
      */
     protected static void printlnLogInfo(Level level, String msg, boolean isDirectCall) {
         int eleNum = isDirectCall ? 4 : 5;

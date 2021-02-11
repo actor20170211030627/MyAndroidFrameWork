@@ -10,7 +10,9 @@ import com.yanzhenjie.album.AlbumLoader;
  * Description: 用Glide或者Picasso实现AlbumLoader,用于画廊预览图片
  * Author     : 李大发
  * Date       : 2019/3/12 on 9:42
+ * @deprecated 建议使用 {@link com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils}}
  */
+@Deprecated
 public class GlideAlbumLoader implements AlbumLoader {
 
     @Override

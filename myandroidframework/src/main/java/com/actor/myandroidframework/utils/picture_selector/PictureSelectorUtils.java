@@ -3,7 +3,10 @@ package com.actor.myandroidframework.utils.picture_selector;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
+import android.provider.MediaStore;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.RequiresPermission;
@@ -303,17 +306,64 @@ public class PictureSelectorUtils {
 
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Activity & Fragment录音频(默认60秒)
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 录音, 在onActivityResult中获取返回值:
+     * if (requestCode == PictureSelectorUtils.RECORD_REQUEST_CODE && data != null) {
+     *     File file = UriUtils.uri2File(data.getData();//获取录音文件
+     * }
+     * @param selectionData 已选中文件, 这儿没用, 传null
+     * @param listener 返回监听, 这儿没用, 传null
+     */
+    public static final int RECORD_REQUEST_CODE = 1001;
+    public static void recordAudio(Activity activity, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+//        recordAudio(PictureSelector.create(activity), selectionData, listener);
+
+        Intent intentRecord = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intentRecord.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//对目标应用临时授权该Uri所代表的文件
+        }
+        activity.startActivityForResult(intentRecord, RECORD_REQUEST_CODE);
+    }
+
+    /**
+     * 录音, 在onActivityResult中获取返回值:
+     * if (requestCode == PictureSelectorUtils.RECORD_REQUEST_CODE && data != null) {
+     *     File file = UriUtils.uri2File(data.getData();//获取录音文件
+     * }
+     * @param selectionData 已选中文件, 这儿没用, 传null
+     * @param listener 返回监听, 这儿没用, 传null
+     */
+    public static void recordAudio(Fragment fragment, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+//        recordAudio(PictureSelector.create(fragment), selectionData, listener);
+
+        Intent intentRecord = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intentRecord.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//对目标应用临时授权该Uri所代表的文件
+        }
+        intentRecord.setAction(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+        fragment.startActivityForResult(intentRecord, RECORD_REQUEST_CODE);
+    }
+
+    /**
+     * 录音 TODO: 2021/2/8 代码有bug, 无返回值...
+     * @param selectionData 已选中文件, 这儿没用, 传null
+     * @param listener 返回监听, 这儿没用, 传null
+     */
+    protected static void recordAudio(PictureSelector selector, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+        selector.openCamera(PictureMimeType.ofAudio())
+//                .selectionMode(PictureConfig.SINGLE)
+                .selectionData(selectionData)
+                .forResult(listener);
+    }
+
     /**
      * 不再维护音频相关功能，但可以继续使用但会有机型兼容性问题
      */
     public static void selectAudio(Activity activity, @IntRange(from = 1) int maxSelect, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
-        PictureSelector.create(activity)
-                .openGallery(PictureMimeType.ofAudio())
-                .selectionMode(maxSelect <= 1 ? PictureConfig.SINGLE : PictureConfig.MULTIPLE)//单选or多选 PictureConfig.SINGLE PictureConfig.MULTIPLE
-//                .selectionMedia(selectionData)//@Deprecated 是否传入已选音频
-                .selectionData(selectionData)
-//                .enablePreviewAudio(true)//是否预览音频
-                .forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+        selectAudio$s(PictureSelector.create(activity), maxSelect, selectionData, listener);
     }
 
     /**
@@ -323,12 +373,16 @@ public class PictureSelectorUtils {
      * @param listener 回调监听
      */
     public static void selectAudio(Fragment fragment, @IntRange(from = 1) int maxSelect, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
-        PictureSelector.create(fragment)
-                .openGallery(PictureMimeType.ofAudio())
+        selectAudio$s(PictureSelector.create(fragment), maxSelect, selectionData, listener);
+    }
+
+    protected static void selectAudio$s(PictureSelector selector, @IntRange(from = 1) int maxSelect, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+        selector.openGallery(PictureMimeType.ofAudio())
                 .selectionMode(maxSelect <= 1 ? PictureConfig.SINGLE : PictureConfig.MULTIPLE)//单选or多选 PictureConfig.SINGLE PictureConfig.MULTIPLE
 //                .selectionMedia(selectionData)//@Deprecated 是否传入已选音频
                 .selectionData(selectionData)
 //                .enablePreviewAudio(true)//是否预览音频
+//                .isEnablePreviewAudio(true)
                 .forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
     }
 

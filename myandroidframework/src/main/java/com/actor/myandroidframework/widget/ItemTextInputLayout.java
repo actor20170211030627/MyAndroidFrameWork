@@ -63,6 +63,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
  * 14.右侧箭头位置图片, 默认箭头
  * @see R.styleable#ItemTextInputLayout_itilArrowRightSrc      //R.drawable.xxx|color
  * 15.自定义布局, 注意必须有默认控件的类型和id
+ *    如果要所有地方都修改layout,可把{@link R.layout#item_text_input_layout} copy一份到自己工程作修改, 就会加载自己工程的layout
  * @see R.styleable#ItemTextInputLayout_itilCustomLayout       //R.layout.xxx
  *
  *

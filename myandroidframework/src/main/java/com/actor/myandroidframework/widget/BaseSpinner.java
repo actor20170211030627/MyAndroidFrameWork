@@ -56,18 +56,19 @@ import java.util.List;
  * 11.选中/未选中的selector(一般可不用设置)
  *   //android:dropDownSelector="@drawable/xxx"
  *
- * 12.背景颜色(设置了之后看不见箭头,不要这样设置)
+ * 12.背景颜色(设置了之后看不见箭头)
  *   //android:background="@color/white"
+ *   android:background="@null" //去掉箭头(可用于自定义箭头的情况, 或不满意文字和箭头间隔过大的问题.)
  *
  *
  * 自定义属性, bs来头:
  * 1.spinner的填充内容, 用','分隔开(如果已经设置了'entries', 不用再设置这个)
  * @see R.styleable#BaseSpinner_bsEntriesString         //@string/names
  *
- * 2.spinner填充的布局, 默认: android.R.layout.simple_spinner_item
+ * 2.spinner填充的布局(根部局是一个TextView), 默认: android.R.layout.simple_spinner_item
  * @see R.styleable#BaseSpinner_bsResource              //@layout/xxx
  *
- * 3.下拉列表item布局, 默认: android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item
+ * 3.下拉列表item布局(根部局是一个TextView), 默认: android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item
  * @see R.styleable#BaseSpinner_bsDropDownViewResource  //@layout/xxx
  *
  *

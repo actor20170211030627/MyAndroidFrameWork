@@ -33,8 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="90dp"
-            android:textColor="#333333"
-            android:textSize="17sp"
+            android:textColor="@color/gray_666"
+            android:textSize="15sp"
             tools:text="itilItemName: " />
 
         <EditText
@@ -44,9 +44,8 @@
             android:layout_weight="1"
             android:background="@null"
             android:minHeight="40dp"
-            android:textColor="#666666"
-            android:textColorHint="#999999"
-            android:textSize="17sp"
+            android:textColor="@color/gray_999"
+            android:textSize="15sp"
             tools:hint="itilHint" />
 
         <ImageView

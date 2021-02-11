@@ -48,6 +48,9 @@ import java.util.List;
  * </com.actor.myandroidframework.widget.BaseViewSwitcher>
  *
  * 2.在Activity/Fragment中:
+ * @BindView(R.id.view_switcher)//消息轮播
+ * BaseViewSwitcher<T> viewSwitcher;
+ *
  * List<T> datas = new ArrayList<>();//任意数据类型
  * baseViewSwitcher.init(R.layout.item_base_view_switcher, new BaseViewSwitcher.OnSwitcherListener<T>() {
  *     @Override
@@ -185,7 +188,7 @@ public class BaseViewSwitcher<T> extends ViewSwitcher implements ViewSwitcher.Vi
     }
 
     /**
-     * 开始切换
+     * 开始切换, 一般在Activity/Fragment的 onStart() 中调用
      * 也可以不调用这个方法, 自己定时调用showNextView(), 比如和轮播图同步展示时
      */
     public void startSwitch() {
@@ -194,9 +197,9 @@ public class BaseViewSwitcher<T> extends ViewSwitcher implements ViewSwitcher.Vi
     }
 
     /**
-     * 停止切换
+     * 停止切换, 一般在Activity/Fragment的 onStop() 中调用
      */
-    public void stopSwitcher() {
+    public void stopSwitch() {
         handlerForViewSwitcher.removeCallbacks(runnableForViewSwitcher);
         handlerForViewSwitcher.removeCallbacksAndMessages(null);
     }

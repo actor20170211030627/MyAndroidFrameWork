@@ -386,6 +386,11 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
         ToastUtils.showShort(String.valueOf(notify));
     }
 
+    //格式化toast
+    protected void toastFormat(@Nullable String format, @Nullable Object... args) {
+        ToastUtils.showShort(format, args);
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     // 显示加载Diaong

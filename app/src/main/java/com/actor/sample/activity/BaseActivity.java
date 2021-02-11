@@ -1,8 +1,8 @@
 package com.actor.sample.activity;
 
 import com.actor.myandroidframework.activity.ActorBaseActivity;
-import com.blankj.utilcode.util.CacheDiskUtils;
 import com.actor.sample.MyApplication;
+import com.blankj.utilcode.util.CacheDiskUtils;
 
 /**
  * Description: 基类

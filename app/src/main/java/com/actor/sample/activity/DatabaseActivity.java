@@ -14,9 +14,11 @@ import com.actor.sample.R;
 import com.actor.sample.database.ItemEntity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.flyco.dialog.listener.OnBtnClickL;
-import com.flyco.dialog.widget.NormalDialog;
 import com.greendao.gen.ItemEntityDao;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.impl.ConfirmPopupView;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -35,7 +37,7 @@ import butterknife.OnClick;
 public class DatabaseActivity extends BaseActivity {
 
     @BindView(R.id.itil_name)
-    ItemTextInputLayout itilName;
+    ItemTextInputLayout  itilName;
     @BindView(R.id.irgl_sex)
     ItemRadioGroupLayout irglSex;
     @BindView(R.id.itil_idcard)
@@ -43,14 +45,14 @@ public class DatabaseActivity extends BaseActivity {
     @BindView(R.id.itil_key)
     ItemTextInputLayout  itilKey;
     @BindView(R.id.itil_value)
-    ItemTextInputLayout itilValue;
+    ItemTextInputLayout  itilValue;
     @BindView(R.id.recycler_view)
-    RecyclerView        recyclerView;
+    RecyclerView         recyclerView;
 
-    private static final ItemEntityDao    DAO   = GreenDaoUtils.getDaoSession().getItemEntityDao();
+    private static final ItemEntityDao    DAO = GreenDaoUtils.getDaoSession().getItemEntityDao();
     private              MyAdapter        myAdapter;
-    private              NormalDialog     deleteDialog;
     private              int              deletePosition;
+    private              ConfirmPopupView deletePopupView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,20 +200,19 @@ public class DatabaseActivity extends BaseActivity {
         }
     }
 
-    private NormalDialog getDeleteDialog() {
-        if (deleteDialog == null) {
-            deleteDialog = new NormalDialog(this).title("删除delete").btnText("取消No", "确定Yes");
-            deleteDialog.setOnBtnClickL(null, new OnBtnClickL() {//param1 取消, param2 确认
-                @Override
-                public void onBtnClick() {//yes
-                    ItemEntity person = myAdapter.getItem(deletePosition);
-                    GreenDaoUtils.delete(DAO, person);
-                    myAdapter.remove(deletePosition);
-                    deleteDialog.dismiss();
-                }
-            });
-            deleteDialog.content(getStringFormat("确定删除 %s 吗?", myAdapter.getItem(deletePosition).getName()));
-        }
-        return deleteDialog;
+    private BasePopupView getDeleteDialog() {
+        deletePopupView = new XPopup.Builder(this)
+                .asConfirm("删除delete",
+                        getStringFormat("确定删除 %s 吗?", myAdapter.getItem(deletePosition).getName()),
+                        "取消No", "确定Yes", new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                ItemEntity person = myAdapter.getItem(deletePosition);
+                                GreenDaoUtils.delete(DAO, person);
+                                myAdapter.remove(deletePosition);
+                                deletePopupView.dismiss();
+                            }
+                        }, null, false);
+        return deletePopupView;
     }
 }

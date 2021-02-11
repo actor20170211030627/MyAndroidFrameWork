@@ -250,3 +250,9 @@ public static java.lang.String TABLENAME;
 
 #Okio
 -dontwarn org.codehaus.mojo.animal_sniffer.*
+
+
+#############################################################################
+#XPopup 2.2.13
+-dontwarn com.lxj.xpopup.widget.**
+-keep class com.lxj.xpopup.widget.**{*;}

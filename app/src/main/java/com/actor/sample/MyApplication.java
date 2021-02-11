@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.application.ActorApplication;
+import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
@@ -26,6 +27,9 @@ public class MyApplication extends ActorApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        //配置画廊, 图片/视频选择
+        AlbumUtils.init(this);
 
         /**
          * @param context application

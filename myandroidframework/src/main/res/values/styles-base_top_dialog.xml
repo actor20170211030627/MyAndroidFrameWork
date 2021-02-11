@@ -1,0 +1,19 @@
+<resources>
+    <style name="BaseTopDialog" parent="BaseDialog">
+        <!--设置弹窗动画样式-->
+        <item name="android:windowAnimationStyle">@style/BaseTopDialogAnim</item>
+    </style>
+
+    <!--弹窗的动画样式-->
+    <!--模仿系统键盘动画 系统styles.xml中查找,默认是-->
+    <!--<style name="Animation.InputMethod">-->
+    <!--<item name="windowEnterAnimation">@anim/input_method_enter</item>-->
+    <!--<item name="windowExitAnimation">@anim/input_method_exit</item>-->
+    <!--</style>-->
+    <style name="BaseTopDialogAnim">
+        <!--进入动画-->
+        <item name="android:windowEnterAnimation">@anim/top_slide_in</item>
+        <!--退出动画-->
+        <item name="android:windowExitAnimation">@anim/top_slide_out</item>
+    </style>
+</resources>

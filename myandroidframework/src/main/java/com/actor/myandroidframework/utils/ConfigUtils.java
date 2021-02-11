@@ -3,6 +3,7 @@ package com.actor.myandroidframework.utils;
 import android.app.Application;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
 /**
@@ -26,5 +27,13 @@ public class ConfigUtils {
      */
     public static final boolean IS_APP_DEBUG = AppUtils.isAppDebug();
 
-    public static String baseUrl = "";//需要自己设置baseUrl
+    /**
+     * 状态栏高度
+     */
+    public static final int STATUS_BAR_HEIGHT = BarUtils.getStatusBarHeight();
+
+    /**
+     * baseUrl, 需要自己设置
+     */
+    public static String baseUrl = "";
 }

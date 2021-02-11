@@ -114,7 +114,7 @@ public class NetWorkAndImageActivity extends BaseActivity {
                     if (result != null) {
                         LngLatInfo.ResultBean.LocationBean location = result.location;
                         if (location != null) {
-                            toast(getStringFormat("lng=%f, lat=%f", location.lng, location.lat));
+                            toastFormat("lng=%f, lat=%f", location.lng, location.lat);
                         }
                     }
                 } else toast(info.message);

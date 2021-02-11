@@ -43,6 +43,7 @@ import com.actor.myandroidframework.R;
  * 7.选中第几个, 默认0
  * @see R.styleable#ItemRadioGroupLayout_irglCheckedPosition    //0
  * 8.自定义布局, 注意必须有默认控件的类型和id
+ *   如果要所有地方都修改layout,可把{@link R.layout#item_radio_group_layout} copy一份到自己工程作修改, 就会加载自己工程的layout
  * @see R.styleable#ItemRadioGroupLayout_irglCustomLayout       //R.layout.xxx
  *
  * @version 1.0

@@ -1,11 +1,14 @@
 ## MyAndroidFrameWork
-<ul>
-  <li><a href="https://github.com/actor20170211030627/MyAndroidFrameWork">Github</a></li>
-  <li><a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a></li>
-  <li><font color="red">注意: </font>这是 <font color='red'><b>Androidx</b></font> 版, 非Androidx版本在 <a href="./README-1.4.1.md">这儿</a>(非Androidx版本不再维护)</li>
-</ul>
+> <a href="https://github.com/actor20170211030627/MyAndroidFrameWork">Github</a> <br/>
+> <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a> <br/>
+> 注意: 这是 <font color='red' size='6'><b>Androidx</b></font> 版,
+  非Androidx版本在&nbsp;
+  <a style="font-size:23px" href="./README-1.4.1.md"><s>这儿 </s></a>
+  &nbsp;(非Androidx版本不再维护) <br/>
+>> Androidx版本能很好向下兼容, 包括jar包依赖也能自动转换, 所以建议转换成Androidx.
 
-## 安卓常用组件&框架, 懒得每次都搭架子...
+
+## 安卓常用组件&框架(懒得每次都搭架子...)
 ### 1.集成框架包括如下列表, 具体见 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/myandroidframework/build.gradle">build.gradle</a>:
 <ol>
     <li>
@@ -61,8 +64,8 @@
         api 'com.contrarywind:Android-PickerView:4.1.9' <br/> <br/>
     </li>
     <li>
-        //https://github.com/H07000223/FlycoDialog_Master 各种Dialog & Popup <br/>
-        api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar' <br/> <br/>
+        //https://github.com/li-xiaojun/XPopup 各种Dialog & Popup <br/>
+        api 'com.lxj:xpopup:2.2.13' <br/> <br/>
     </li>
     <li>
         //https://github.com/square/okhttp <br/>
@@ -118,7 +121,7 @@ Add it in your root build.gradle at the end of repositories:
     }
 
 ## 6.1. 需要在自己项目中集成<code>constraint</code>包, 否则报错
-    implementation 'com.android.support.constraint:constraint-layout:version xxx'//约束布局, 版本version>=1.1.3
+    implementation 'androidx.constraintlayout:constraintlayout:version xxx'//约束布局, 版本version>=1.1.3
 
 ## 6.2. ButterKnife没有集成, 如果使用, 需要自己集成
     //https://github.com/JakeWharton/butterknife
@@ -162,11 +165,9 @@ Add it in your root build.gradle at the end of repositories:
         android:value="(例)640"/>
   &lt;/application>
 5.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
-6.已经添加了权限: <kbd>INTERNET</kbd>, <kbd>CAMERA</kbd>, <kbd>READ_EXTERNAL_STORAGE</kbd>, <kbd>WRITE_EXTERNAL_STORAGE</kbd>, <kbd>ACCESS_NETWORK_STATE</kbd>,  <kbd>REQUEST_INSTALL_PACKAGES</kbd>,
-  可以不再添加以上权限(添加也不会报错.)
 </pre>
 
-## 10.有问题请升级到最新版本: [![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 10.已移除<kbd>REQUEST_INSTALL_PACKAGES</kbd>权限,如果使用的是2.0.0版本并且需要安装app, 请自行添加这个权限.<br/>&emsp;有问题请升级到最新版本: [![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 11.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

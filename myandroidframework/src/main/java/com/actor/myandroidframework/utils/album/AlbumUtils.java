@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.utils.album;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -8,9 +9,9 @@ import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.FileUtils;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumConfig;
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.AlbumFolder;
 import com.yanzhenjie.album.Filter;
@@ -19,6 +20,7 @@ import com.yanzhenjie.album.api.widget.Widget;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -27,6 +29,8 @@ import java.util.Map;
  * 1.如果使用本工具, 需要添加依赖:
  *   //https://github.com/yanzhenjie/Album 图片选择
  *   implementation 'com.yanzhenjie:album:2.1.3'
+ *
+ * 2.调用 {@link #init(Application)} 或 {@link #init(AlbumConfig)} 方法初始化
  *
  * 有以下功能:
  * <ol>
@@ -46,7 +50,7 @@ import java.util.Map;
  * AlbumVersion: album:2.1.3
  * Version    : 1.2.2 增加预览一张图片的方法 {@link #gallery(Context, String, boolean, Action)}
  *
- * @deprecated 建议使用 {@link PictureSelectorUtils}
+ * @deprecated 建议使用 {@link com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils}
  */
 @Deprecated
 public class AlbumUtils {
@@ -54,6 +58,23 @@ public class AlbumUtils {
     //拍照/录像 存放地址
     private static Widget widget;//自定义UI
     private static String title;//标题
+
+    /**
+     * 初始化, 配置画廊(图片/视频选择)
+     */
+    public static void init(Application application) {
+        init(AlbumConfig.newBuilder(application)
+                .setAlbumLoader(new GlideAlbumLoader()) // 设置Album加载器。
+                .setLocale(Locale.getDefault())         //Locale.CHINA 比如强制设置在任何语言下都用中文显示。
+                .build());
+    }
+
+    /**
+     * 初始化, 配置画廊(图片/视频选择), 如果需要自定义配置, 请调用此方法配置
+     */
+    public static void init(AlbumConfig albumConfig) {
+        Album.initialize(albumConfig);
+    }
 
     /**
      * 自定义UI, title, color of StatusBar, color of NavigationBar and so on.
