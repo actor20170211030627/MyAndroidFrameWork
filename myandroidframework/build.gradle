@@ -103,7 +103,7 @@ dependencies {
     api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'
 
     //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩)、视频、音频(minSdkVersion 19)
-    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9'
+    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
 
     //https://github.com/laobie/StatusBarUtil 修改状态栏颜色&透明度等
     api 'com.jaeger.statusbarutil:library:1.5.1'

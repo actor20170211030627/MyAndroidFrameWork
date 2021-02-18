@@ -49,7 +49,7 @@
     </li>
     <li>
         //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩)、视频、音频 <br/>
-        api 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.9' <br/> <br/>
+        api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0' <br/> <br/>
     </li>
     <li>
         //https://github.com/laobie/StatusBarUtil 修改状态栏颜色&透明度等 <br/>
