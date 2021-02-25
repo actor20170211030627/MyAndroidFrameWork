@@ -7,72 +7,56 @@
 
 ## 安卓常用组件&框架, 懒得每次都搭架子...
 ### 1.集成框架包括如下列表, 具体见 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/e73d4aae083171becb075837f6aae071adc35ca6/myandroidframework/build.gradle">build.gradle</a>:
-<ol>
-    <li>
-        //https://github.com/google/gson converter-gson 已经依赖了Gson2.8.2 <br/>
-        //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; } <br/>
-        //api 'com.google.code.gson:gson:2.8.5' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/square/retrofit <br/>
-        api 'com.squareup.retrofit2:retrofit:2.5.0' <br/>
-        //https://github.com/square/retrofit/tree/master/retrofit-converters/gson <br/>
-        api 'com.squareup.retrofit2:converter-gson:2.5.0' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/bumptech/glide <br/>
-        api 'com.github.bumptech.glide:glide:4.9.0' <br/>
-        annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/greenrobot/EventBus <br/>
-        api 'org.greenrobot:eventbus:3.2.0' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/Blankj/AndroidUtilCode 许多工具 <br/>
-        api 'com.blankj:utilcode:1.28.4' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案 <br/>
-        api 'me.jessyan:autosize:1.2.1' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/CymChad/BaseRecyclerViewAdapterHelper <br/>
-        api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/anzaizai/EasySwipeMenuLayout 侧滑删除 <br/>
-        api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/yanzhenjie/Album 图片选择 <br/>
-        api 'com.yanzhenjie:album:2.1.3' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/laobie/StatusBarUtil 修改状态栏颜色&透明度等 <br/>
-        api 'com.jaeger.statusbarutil:library:1.5.1' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/yanzhenjie/AndPermission 严振杰权限 <br/>
-        api 'com.yanzhenjie.permission:support:2.0.1' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等 <br/>
-        api 'com.contrarywind:Android-PickerView:4.1.9' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/H07000223/FlycoDialog_Master 各种Dialog & Popup <br/>
-        api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar' <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/square/okhttp <br/>
-        api "com.squareup.okhttp3:okhttp:4.7.2" <br/> <br/>
-    </li>
-    <li>
-        //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp <br/>
-        api 'com.zhy:okhttputils:2.6.2' <br/> <br/>
-    </li>
-</ol>
+<pre>
+<ol><li>//https://github.com/google/gson converter-gson 已经依赖了Gson2.8.2
+//不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
+//api 'com.google.code.gson:gson:2.8.5'
+</li>
+<li>//https://github.com/square/retrofit
+api 'com.squareup.retrofit2:retrofit:2.5.0'
+//https://github.com/square/retrofit/tree/master/retrofit-converters/gson
+api 'com.squareup.retrofit2:converter-gson:2.5.0'
+</li>
+<li>//https://github.com/bumptech/glide
+api 'com.github.bumptech.glide:glide:4.9.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+</li>
+<li>//https://github.com/greenrobot/EventBus
+api 'org.greenrobot:eventbus:3.2.0'
+</li>
+<li>//https://github.com/Blankj/AndroidUtilCode 许多工具
+api 'com.blankj:utilcode:1.28.4'
+</li>
+<li>//https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案
+api 'me.jessyan:autosize:1.2.1'
+</li>
+<li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
+</li>
+<li>//https://github.com/anzaizai/EasySwipeMenuLayout 侧滑删除
+api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'
+</li>
+<li>//https://github.com/yanzhenjie/Album 图片选择
+api 'com.yanzhenjie:album:2.1.3'
+</li>
+<li>//https://github.com/laobie/StatusBarUtil 修改状态栏颜色&透明度等
+api 'com.jaeger.statusbarutil:library:1.5.1'
+</li>
+<li>//https://github.com/yanzhenjie/AndPermission 严振杰权限
+api 'com.yanzhenjie.permission:support:2.0.1'
+</li>
+<li>//https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
+api 'com.contrarywind:Android-PickerView:4.1.9'
+</li>
+<li>//https://github.com/H07000223/FlycoDialog_Master 各种Dialog & Popup
+api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'
+</li>
+<li>//https://github.com/square/okhttp
+api "com.squareup.okhttp3:okhttp:4.7.2"
+</li>
+<li>//https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp
+api 'com.zhy:okhttputils:2.6.2'
+</li></ol></pre>
 
 ## 2.Screenshot
 <img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=35%></img>
