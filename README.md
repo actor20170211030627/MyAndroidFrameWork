@@ -9,7 +9,7 @@
 
 
 ## 安卓常用组件&框架(懒得每次都搭架子...)
-### 1.集成框架包括如下列表, 具体见 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/myandroidframework/build.gradle">build.gradle</a>:
+### 1.集成框架包括如下列表, 具体见 <a href="myandroidframework/build.gradle">build.gradle</a>:
 <pre>
 <ol><li>//https://github.com/google/gson converter-gson 已经依赖了Gson2.8.5
 //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
@@ -138,7 +138,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <img src="captures/BaseRatingBar.gif" width=35%></img>
 
 ## 4.Sample
-<a href="https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
+<a href="app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
 <img src="captures/qrcode.png" width=35%></img>
 
 ## 5.minSdkVersion [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
@@ -206,7 +206,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ## 10.使用步骤
 <pre>
-1.写一个 Application extends ActorApplication, 然后重写方法, 可参考: <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/MyApplication.java">MyApplication</a>  (非必须继承, ActorApplication里有一些配置, 可把配置代码copy到自己Application)
+1.写一个 Application extends ActorApplication, 然后重写方法, 可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java">MyApplication</a>  (非必须继承, ActorApplication里有一些配置, 可把配置代码copy到自己Application)
 2.写一个 BaseActivity extends ActorBaseActivity, 然后你的Activity 继承 BaseActivity (非必须继承)
 3.写一个 BaseFragment extends ActorBaseFragment, 然后你的Fragment 继承 BaseFragment (非必须继承)
 4.已经集成了 <a href="https://github.com/JessYanCoding/AndroidAutoSize">AndroidAutoSize</a>, 如果你需要使用它, 请在 AndroidManifest.xml 中填写全局设计图尺寸 (单位 dp):

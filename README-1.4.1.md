@@ -65,7 +65,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <img src="captures/BaseRatingBar.gif" width=35%></img>
 
 ## 3.Sample
-<a href="https://github.com/actor20170211030627/MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
+<a href="app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
 <img src="captures/qrcode.png" width=35%></img>
 
 ## 4.minSdkVersion [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
@@ -130,7 +130,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ## 9.使用步骤
 <pre>
-1.写一个 Application extends ActorApplication, 然后重写方法, 可参考: <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/MyApplication.java">MyApplication</a>  (非必须继承, ActorApplication里有一些配置, 可把配置代码copy到自己Application)
+1.写一个 Application extends ActorApplication, 然后重写方法, 可参考: <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/blob/e73d4aae083171becb075837f6aae071adc35ca6/app/src/main/java/com/actor/sample/MyApplication.java">MyApplication</a>  (非必须继承, ActorApplication里有一些配置, 可把配置代码copy到自己Application)
 2.写一个 BaseActivity extends ActorBaseActivity, 然后你的Activity 继承 BaseActivity (非必须继承)
 3.写一个 BaseFragment extends ActorBaseFragment, 然后你的Fragment 继承 BaseFragment (非必须继承)
 4.已经集成了 <a href="https://github.com/JessYanCoding/AndroidAutoSize">AndroidAutoSize</a>, 如果你需要使用它, 请在 AndroidManifest.xml 中填写全局设计图尺寸 (单位 dp):
