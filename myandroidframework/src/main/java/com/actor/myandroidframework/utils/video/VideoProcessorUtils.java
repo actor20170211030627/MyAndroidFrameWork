@@ -157,10 +157,8 @@ public class VideoProcessorUtils {
      * @param videoPath 要处理的视频地址
      */
     public static File getOutputVideoPath(Context context, String videoPath) {
-        // /storage/emulated/0/Android/data/com.package.name/files/
-//        File cacheDir = FileUtils.getExternalFilesDir();
-        // /data/user/0/com.yys.land/cache/
-        File cacheDir = context.getCacheDir();
+//        File cacheDir = FileUtils.getExternalFilesDir();  // /storage/emulated/0/Android/data/com.package.name/files/
+        File cacheDir = context.getCacheDir();              // /data/user/0/com.yys.land/cache/
         if (!cacheDir.exists()) {
             boolean mkdirs = cacheDir.mkdirs();
         }

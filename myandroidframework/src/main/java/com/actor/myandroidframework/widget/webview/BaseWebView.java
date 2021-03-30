@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 
@@ -103,6 +104,14 @@ public class BaseWebView extends WebView {
     }
 
     /**
+     * 重新加载
+     */
+    @Override
+    public void reload() {
+        super.reload();
+    }
+
+    /**
      * 网页加载h5文档
      * @param data html文档 字符串
      */
@@ -182,6 +191,18 @@ public class BaseWebView extends WebView {
     @Override
     public boolean canGoBackOrForward(int steps) {
         return super.canGoBackOrForward(steps);
+    }
+
+    /**
+     * 获取webview所有加载栈
+     * @see WebBackForwardList#getSize() 获取当前加载栈的长度
+     * @see WebBackForwardList#getCurrentItem() 获取webview当前所加载的界面, 可以获得url, title等内容
+     * @see WebBackForwardList#getCurrentIndex() 获取当前加载在加载栈中的位置
+     * @see WebBackForwardList#getItemAtIndex(int) 获取加载栈中第index页面
+     */
+    @Override
+    public WebBackForwardList copyBackForwardList() {
+        return super.copyBackForwardList();
     }
 
     /**

@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.RequiresPermission;
 import androidx.fragment.app.Fragment;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.utils.video.VideoProcessorUtils;
 import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -23,6 +25,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.luck.picture.lib.tools.PictureFileUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +34,7 @@ import java.util.List;
  *
  * @author : 李大发
  * date       : 2020/10/7 on 18
- * @version 1.0
+ * @version 1.1.0
  */
 public class PictureSelectorUtils {
 
@@ -49,7 +52,13 @@ public class PictureSelectorUtils {
     }
     public static void selectImage(Activity activity, boolean showCamera, boolean showGif,
                                    List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
-        selectImage$s(PictureSelector.create(activity), showCamera, showGif, selectionData, true, 1, listener);
+        selectImage(activity, showCamera, showGif, false, selectionData, listener);
+    }
+    public static void selectImage(Activity activity, boolean showCamera, boolean showGif, boolean isCompress,
+                                   List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectionModel model = getPictureSelectionModel(PictureSelector.create(activity),
+                showCamera, showGif, isCompress, selectionData, true, 1);
+        selectImage$s(model, listener);
     }
 
 
@@ -66,7 +75,14 @@ public class PictureSelectorUtils {
     public static void selectImages(Activity activity, boolean showCamera, boolean showGif,
                                     List<LocalMedia> selectionData, @IntRange(from = 2) int maxSelect,
                                     OnResultCallbackListener<LocalMedia> listener) {
-        selectImage$s(PictureSelector.create(activity), showCamera, showGif, selectionData, false, maxSelect, listener);
+        selectImages(activity, showCamera, showGif, false, selectionData, maxSelect, listener);
+    }
+    public static void selectImages(Activity activity, boolean showCamera, boolean showGif, boolean isCompress,
+                                    List<LocalMedia> selectionData, @IntRange(from = 2) int maxSelect,
+                                    OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectionModel model = getPictureSelectionModel(PictureSelector.create(activity),
+                showCamera, showGif, isCompress, selectionData, false, maxSelect);
+        selectImage$s(model, listener);
     }
 
 
@@ -82,7 +98,13 @@ public class PictureSelectorUtils {
     }
     public static void selectImage(Fragment fragment, boolean showCamera, boolean showGif,
                                    List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
-        selectImage$s(PictureSelector.create(fragment), showCamera, showGif, selectionData, true, 1, listener);
+        selectImage(fragment, showCamera, showGif, false, selectionData, listener);
+    }
+    public static void selectImage(Fragment fragment, boolean showCamera, boolean showGif, boolean isCompress,
+                                   List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectionModel model = getPictureSelectionModel(PictureSelector.create(fragment),
+                showCamera, showGif, isCompress, selectionData, true, 1);
+        selectImage$s(model, listener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -98,21 +120,45 @@ public class PictureSelectorUtils {
     public static void selectImages(Fragment fragment, boolean showCamera, boolean showGif,
                                     List<LocalMedia> selectionData, @IntRange(from = 2) int maxSelect,
                                     OnResultCallbackListener<LocalMedia> listener) {
-        selectImage$s(PictureSelector.create(fragment), showCamera, showGif, selectionData, false, maxSelect, listener);
+        selectImages(fragment, showCamera, showGif, false, selectionData, maxSelect, listener);
+    }
+    public static void selectImages(Fragment fragment, boolean showCamera, boolean showGif, boolean isCompress,
+                                    List<LocalMedia> selectionData, @IntRange(from = 2) int maxSelect,
+                                    OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectionModel model = getPictureSelectionModel(PictureSelector.create(fragment),
+                showCamera, showGif, isCompress, selectionData, false, maxSelect);
+        selectImage$s(model, listener);
     }
 
     /**
-     * 单选/多选 图片, 默认配置见: {@link PictureSelectionConfig#initDefaultValue()}
+     * 单选/多选 图片
+     * @param model 图片选择配置, 可自定义
+     * @param listener 回调监听
+     *
+     *  @see LocalMedia#getPath();          // content://media/external/file/116272
+     *  @see LocalMedia#getRealPath();      // /storage/emulated/0/news_article/a9f5fb.png
+     *  @see LocalMedia#getAndroidQToPath();// null, 只有 "Version >= Android Q(Android 10.0, API Level 29)" 才返回
+     *  @see LocalMedia#getCompressPath();  // null, "压缩"后才有值
+     *  @see LocalMedia#getCutPath();       // null, "裁剪"后才有值
+     *  @see LocalMedia#getOriginalPath();  // null, 选择"原图"后才有值
+     */
+    public static void selectImage$s(PictureSelectionModel model, OnResultCallbackListener<LocalMedia> listener) {
+        model.forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+    }
+
+    /**
+     * 获取默认的图片选择配置, 默认配置见: {@link PictureSelectionConfig#initDefaultValue()}
      * @param showCamera 是否显示相机
      * @param showGif 是否显示Gif图片
+     * @param isCompress 是否压缩图片, 压缩后通过 {@link LocalMedia#getCompressPath()} 获取压缩后的图片地址
      * @param selectionData 传入已选图片(可同步勾选状态)
      * @param singleSelect 是否是单选
      * @param maxSelect 最多选几张图片(包括 selectionData 里的图片也会计算在内)
-     * @param listener 回调监听
      */
-    protected static void selectImage$s(PictureSelector selector, boolean showCamera, boolean showGif,
-                                        List<LocalMedia> selectionData, boolean singleSelect,
-                                        int maxSelect, OnResultCallbackListener<LocalMedia> listener) {
+    public static PictureSelectionModel getPictureSelectionModel(PictureSelector selector, boolean showCamera,
+                                                                 boolean showGif, boolean isCompress,
+                                                                 List<LocalMedia> selectionData, boolean singleSelect,
+                                                                 int maxSelect) {
         PictureSelectionModel model = selector.openGallery(PictureMimeType.ofImage())//相册 媒体类型 PictureMimeType.ofAll()、ofImage()、ofVideo()、ofAudio()
                 .imageEngine(getImageEngine())
                 .selectionMode(singleSelect ? PictureConfig.SINGLE : PictureConfig.MULTIPLE)//单选or多选 PictureConfig.SINGLE PictureConfig.MULTIPLE
@@ -123,7 +169,9 @@ public class PictureSelectorUtils {
 //                .imageSpanCount(4)//列表每行显示个数
 //                .selectionMedia(selectionData)//@Deprecated 是否传入已选图片
                 .selectionData(selectionData)
-                .isGif(showGif);//是否显示gif, 默认false
+                .isGif(showGif)//是否显示gif, 默认false
+                .isCompress(isCompress)//是否压缩图片, 默认false
+                .synOrAsy(false);//同步true或异步false 压缩 默认同步
         //如果多选
         if (!singleSelect) {
             model.maxSelectNum(maxSelect);//最大选择数量,默认9张
@@ -134,7 +182,8 @@ public class PictureSelectorUtils {
 //                .isOriginalImageControl(false)//开启原图选项
                 .isAutomaticTitleRecyclerTop(false)//图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
 //                .setOutputCameraPath("")// 自定义相机输出目录只针对Android Q以下版本，具体参考Demo
-                .forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+        ;
+        return model;
     }
 
 
@@ -151,7 +200,9 @@ public class PictureSelectorUtils {
     }
     public static void selectVideo(Activity activity, boolean showCamera, List<LocalMedia> selectionData,
                             int maxSecond, int minSecond, OnResultCallbackListener<LocalMedia> listener) {
-        selectVideo$s(PictureSelector.create(activity), showCamera, true, selectionData, 1, maxSecond, minSecond, listener);
+        PictureSelectionModel model = getVideoSelectionModel(PictureSelector.create(activity),
+                showCamera, true, selectionData, 1, maxSecond, minSecond);
+        selectVideo$s(model, listener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -166,7 +217,9 @@ public class PictureSelectorUtils {
     }
     public static void selectVideos(Activity activity, boolean showCamera, @IntRange(from = 2) int maxSelect, List<LocalMedia> selectionData,
                             int maxSecond, int minSecond, OnResultCallbackListener<LocalMedia> listener) {
-        selectVideo$s(PictureSelector.create(activity), showCamera, false, selectionData, maxSelect, maxSecond, minSecond, listener);
+        PictureSelectionModel model = getVideoSelectionModel(PictureSelector.create(activity),
+                showCamera, false, selectionData, maxSelect, maxSecond, minSecond);
+        selectVideo$s(model, listener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -181,7 +234,9 @@ public class PictureSelectorUtils {
     }
     public static void selectVideo(Fragment fragment, boolean showCamera, List<LocalMedia> selectionData,
                             int maxSecond, int minSecond, OnResultCallbackListener<LocalMedia> listener) {
-        selectVideo$s(PictureSelector.create(fragment), showCamera, true, selectionData, 1, maxSecond, minSecond, listener);
+        PictureSelectionModel model = getVideoSelectionModel(PictureSelector.create(fragment),
+                showCamera, true, selectionData, 1, maxSecond, minSecond);
+        selectVideo$s(model, listener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -196,26 +251,38 @@ public class PictureSelectorUtils {
     }
     public static void selectVideos(Fragment fragment, boolean showCamera, @IntRange(from = 2) int maxSelect, List<LocalMedia> selectionData,
                              int maxSecond, int minSecond, OnResultCallbackListener<LocalMedia> listener) {
-        selectVideo$s(PictureSelector.create(fragment), showCamera, false, selectionData, maxSelect, maxSecond, minSecond, listener);
+        PictureSelectionModel model = getVideoSelectionModel(PictureSelector.create(fragment),
+                showCamera, false, selectionData, maxSelect, maxSecond, minSecond);
+        selectVideo$s(model, listener);
     }
 
     /**
-     * 单选/多选 视频
+     * 单选/多选 视频. 如果要压缩视频, 可使用:{@link VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)}
+     * @param model 视频选择配置, 可自定义
+     * @param listener 回调监听
+     */
+    public static void selectVideo$s(PictureSelectionModel model, OnResultCallbackListener<LocalMedia> listener) {
+        model.forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+    }
+
+    /**
+     * 获取默认的图片选择配置, 默认配置见: {@link PictureSelectionConfig#initDefaultValue()}
      * @param showCamera 是否显示相机
      * @param singleSelect 是否是单选
      * @param selectionData 传入已选视频(可同步勾选状态)
      * @param maxSelect 最多选几个视频(包括 selectionData 里的视频也会计算在内)
      * @param maxSecond 查询多少秒以内的视频, 默认0
      * @param minSecond 查询多少秒以上的视频, 默认0
-     * @param listener 回调监听
      */
-    protected static void selectVideo$s(PictureSelector selector, boolean showCamera, boolean singleSelect,
-                                 List<LocalMedia> selectionData, int maxSelect, int maxSecond,
-                                 int minSecond, OnResultCallbackListener<LocalMedia> listener) {
+    public static PictureSelectionModel getVideoSelectionModel(PictureSelector selector, boolean showCamera, boolean singleSelect,
+                                                               List<LocalMedia> selectionData, int maxSelect, int maxSecond,
+                                                               int minSecond) {
         PictureSelectionModel selectionModel = selector.openGallery(PictureMimeType.ofVideo())//相册 媒体类型 PictureMimeType.ofAll()、ofImage()、ofVideo()、ofAudio()
                 .imageEngine(getImageEngine())
                 .selectionMode(singleSelect ? PictureConfig.SINGLE : PictureConfig.MULTIPLE)//单选or多选 PictureConfig.SINGLE PictureConfig.MULTIPLE
-                .isCamera(showCamera);//列表是否显示拍照按钮
+                .isCamera(showCamera)//列表是否显示拍照按钮
+//                .isCompress()     //视频不支持压缩, 请自行压缩
+                ;
         if (!singleSelect) {
             selectionModel.maxVideoSelectNum(maxSelect);//视频最大选择数量,默认4
         }
@@ -237,7 +304,8 @@ public class PictureSelectorUtils {
 //                .setButtonFeatures(CustomCameraView.BUTTON_STATE_BOTH)// 自定义相机按钮状态,CustomCameraView.BUTTON_STATE_BOTH
                 .isAutomaticTitleRecyclerTop(false)//图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
 //                .setOutputCameraPath("")// 自定义相机输出目录只针对Android Q以下版本，具体参考Demo
-                .forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+        ;
+        return selectionModel;
     }
 
 
@@ -246,11 +314,19 @@ public class PictureSelectorUtils {
     // Activity & Fragment拍照
     ///////////////////////////////////////////////////////////////////////////
     public static void takePhoto(Activity activity, OnResultCallbackListener<LocalMedia> listener) {
-        openCamera(PictureSelector.create(activity), true, 0, listener);
+        takePhoto(activity, false, listener);
+    }
+    public static void takePhoto(Activity activity, boolean isCompress, OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(activity), true, isCompress, 0);
+        openCamera(model, listener);
     }
 
     public static void takePhoto(Fragment fragment, OnResultCallbackListener<LocalMedia> listener) {
-        openCamera(PictureSelector.create(fragment), true, 0, listener);
+        takePhoto(fragment, false, listener);
+    }
+    public static void takePhoto(Fragment fragment, boolean isCompress, OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(fragment), true, isCompress, 0);
+        openCamera(model, listener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -261,7 +337,8 @@ public class PictureSelectorUtils {
     }
 
     public static void recordVideo(Activity activity, int videoSecond, OnResultCallbackListener<LocalMedia> listener) {
-        openCamera(PictureSelector.create(activity), false, videoSecond, listener);
+        PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(activity), false, false, videoSecond);
+        openCamera(model, listener);
     }
 
     public static void recordVideo(Fragment fragment, OnResultCallbackListener<LocalMedia> listener) {
@@ -269,27 +346,40 @@ public class PictureSelectorUtils {
     }
 
     public static void recordVideo(Fragment fragment, int videoSecond, OnResultCallbackListener<LocalMedia> listener) {
-        openCamera(PictureSelector.create(fragment), false, videoSecond, listener);
+        PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(fragment), false, false, videoSecond);
+        openCamera(model, listener);
     }
 
     /**
-     * 打开相机拍照
-     * @param isTakePhoto 是拍照还是拍视频
-     * @param videoSecond 如果是拍视频, 录制视频秒数
+     * 打开相机拍照. 如果要压缩视频, 可使用:{@link VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)}
+     * @param model "拍照/录视频" 配置, 可自定义
      * @param listener 回调
      */
-    protected static void openCamera(PictureSelector selector, boolean isTakePhoto, int videoSecond, OnResultCallbackListener<LocalMedia> listener) {
+    public static void openCamera(PictureSelectionModel model, OnResultCallbackListener<LocalMedia> listener) {
+        model.forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+    }
+
+    /**
+     * 获取默认的 "拍照/录视频" 选择配置, 默认配置见: {@link PictureSelectionConfig#initDefaultValue()}
+     * @param isTakePhoto 是拍照还是拍视频
+     * @param isCompress 是否压缩图片, 压缩后通过 {@link LocalMedia#getCompressPath()} 获取压缩后的图片地址
+     * @param videoSecond 如果是拍视频, 录制视频秒数
+     */
+    public static PictureSelectionModel getOpenCameraModel(PictureSelector selector, boolean isTakePhoto, boolean isCompress, int videoSecond) {
         PictureSelectionModel selectionModel = selector
                 .openCamera(isTakePhoto ? PictureMimeType.ofImage() : PictureMimeType.ofVideo())//单独使用相机 媒体类型 PictureMimeType.ofImage()、ofVideo()
                 .imageEngine(getImageEngine());
 
 //                .imageFormat(PictureMimeType.JPEG)//拍照图片格式后缀,默认jpeg, PictureMimeType.PNG，Android Q使用PictureMimeType.PNG_Q
 
-        if (!isTakePhoto) {
+        if (isTakePhoto) {
+            selectionModel.isCompress(isCompress)
+                    .synOrAsy(false);//同步true或异步false 压缩 默认同步
+        } else {
             selectionModel.recordVideoSecond(videoSecond);//录制视频秒数 默认60s
         }
 
-                //屏幕旋转方向, 默认: ActivityInfo.SCREEN_ORIENTATION_SENSOR
+        //屏幕旋转方向, 默认: ActivityInfo.SCREEN_ORIENTATION_SENSOR
         selectionModel.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//屏幕旋转方向 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED ...
 //                .isOriginalImageControl(false)//开启原图选项
 //                .bindCustomPlayVideoCallback(null)//自定义视频播放拦截
@@ -301,7 +391,8 @@ public class PictureSelectorUtils {
 //                .isUseCustomCamera(false)// 开启自定义相机
 //                .setButtonFeatures(CustomCameraView.BUTTON_STATE_BOTH)// 自定义相机按钮状态,CustomCameraView.BUTTON_STATE_BOTH
 //                .setOutputCameraPath("")// 自定义相机输出目录只针对Android Q以下版本，具体参考Demo
-                .forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+        ;
+        return selectionModel;
     }
 
 
@@ -388,7 +479,33 @@ public class PictureSelectorUtils {
 
 
 
-    public static void previewImageVideos(Activity activity, int position, List<LocalMedia> medias) {
+    ///////////////////////////////////////////////////////////////////////////
+    // 预览图片/视频
+    ///////////////////////////////////////////////////////////////////////////
+    public static void previewImageVideo(Activity activity, String path) {
+        LocalMedia localMedia = new LocalMedia();
+        localMedia.setPath(path);
+        previewImageVideo(activity, localMedia);
+    }
+    public static void previewImageVideosS(Activity activity, int position, List<String> paths) {
+        if (paths != null && !paths.isEmpty()) {
+            List<LocalMedia> medias = new ArrayList<>();
+            for (String path : paths) {
+                if (!TextUtils.isEmpty(path)) {
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setPath(path);
+                    medias.add(localMedia);
+                }
+            }
+            previewImageVideosL(activity, position, medias);
+        }
+    }
+    public static void previewImageVideo(Activity activity, LocalMedia media) {
+        List<LocalMedia> medias = new ArrayList<>();
+        medias.add(media);
+        previewImageVideosL(activity, 0, medias);
+    }
+    public static void previewImageVideosL(Activity activity, int position, List<LocalMedia> medias) {
         previewImageVideos(activity, false, position, medias);
     }
     /**
@@ -396,7 +513,7 @@ public class PictureSelectorUtils {
      * 注意 .themeStyle(R.style.theme)；里面的参数不可删，否则闪退...
      * @param longPressDownload 长按图片时是否显示下载对话框(仅对图片有效)
      * @param position 预览第几张图片
-     * @param medias 图片集合, 如果是一张图片, 请传入: Arrays.asList(path)
+     * @param medias 图片集合, 如果是一张图片, 请务必传入: java.util.ArrayList<>();
      */
     public static void previewImageVideos(Activity activity, boolean longPressDownload, int position, List<LocalMedia> medias) {
         PictureSelector.create(activity)

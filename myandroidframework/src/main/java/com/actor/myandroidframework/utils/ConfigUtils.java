@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 
 /**
@@ -31,6 +32,11 @@ public class ConfigUtils {
      * 状态栏高度
      */
     public static final int STATUS_BAR_HEIGHT = BarUtils.getStatusBarHeight();
+
+    /**
+     * App 的屏幕宽度, 和屏幕宽度不是一个概念
+     */
+    public static final int APP_SCREEN_WIDTH = ScreenUtils.getAppScreenWidth();
 
     /**
      * baseUrl, 需要自己设置
