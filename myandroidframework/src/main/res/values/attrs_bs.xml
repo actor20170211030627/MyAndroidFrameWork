@@ -5,6 +5,9 @@
         <!--给spinner设置本地数据源, 用','分隔开-->
         <attr name="bsEntriesString" format="string" />
 
+        <!--给spinner设置本地数据源, 写在values/arrays.xml里, 示例:@array/languages-->
+        <attr name="bsEntries" format="reference"/>
+
         <!--spinner填充的布局, 默认: android.R.layout.simple_spinner_item-->
         <attr name="bsResource" format="reference" />
 

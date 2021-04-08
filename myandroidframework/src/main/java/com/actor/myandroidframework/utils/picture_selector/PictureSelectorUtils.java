@@ -509,7 +509,7 @@ public class PictureSelectorUtils {
         previewImageVideos(activity, false, position, medias);
     }
     /**
-     * 预览多张图片/视频 可自定长按保存路径
+     * 预览多张图片/视频(不包括网络视频) 可自定长按保存路径
      * 注意 .themeStyle(R.style.theme)；里面的参数不可删，否则闪退...
      * @param longPressDownload 长按图片时是否显示下载对话框(仅对图片有效)
      * @param position 预览第几张图片
