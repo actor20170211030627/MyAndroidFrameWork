@@ -55,39 +55,48 @@ public class VideoProcessorUtils {
         File file = getOutputVideoPath(context, videoPath);
 
         /**简书: c.要开启一个子线程来压缩这个视频*/
-        ThreadUtils.runOnSubThread(() -> {
-            try {
-                VideoProcessor.processor(context)
-                        .input(videoPath)//视频输入, 3种类型: MediaSource, Uri, String
-                        .output(file.getPath())
+        ThreadUtils.runOnSubThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    VideoProcessor.processor(context)
+                            .input(videoPath)//视频输入, 3种类型: MediaSource, Uri, String
+                            .output(file.getPath())
 
-                        /**以下参数全部为可选*/
+                            /**以下参数全部为可选*/
 
-                        /**简书: b.如果不配置宽高和码率（Bitrate）的话，有的小文件越压缩越大*/
-                        .bitrate(bitrate / 2)//输出视频比特率
+                            /**简书: b.如果不配置宽高和码率（Bitrate）的话，有的小文件越压缩越大*/
+                            .bitrate(bitrate / 2)//输出视频比特率
 
-                        .outWidth(originWidth)
-                        .outHeight(originHeight)
-                        .dropFrames(true)          //帧率超过指定帧率时是否丢帧,默认为true
+                            .outWidth(originWidth)
+                            .outHeight(originHeight)
+                            .dropFrames(true)          //帧率超过指定帧率时是否丢帧,默认为true
 //                        .startTimeMs(startTimeMs)//用于剪辑视频
 //                        .endTimeMs(endTimeMs)    //用于剪辑视频
 //                        .speed(speed)            //改变视频速率，用于快慢放
 //                        .changeAudioSpeed(changeAudioSpeed) //改变视频速率时，音频是否同步变化
-                        .frameRate(VideoProcessor.DEFAULT_FRAME_RATE)   //帧率
-                        .iFrameInterval(VideoProcessor.DEFAULT_I_FRAME_INTERVAL)//关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
-                        .progressListener(new VideoProgressListener() {
-                            @Override
-                            public void onProgress(float progress) {//progress: 0-1
-                                ThreadUtils.runOnUiThread(() -> {
-                                    listener.onCompress(progress, file);
-                                });
-                            }
-                        })
-                        .process();
-            } catch (Exception e) {
-                ThreadUtils.runOnUiThread(() -> {
-                    listener.onFailure(e);
-                });
+                            .frameRate(VideoProcessor.DEFAULT_FRAME_RATE)   //帧率
+                            .iFrameInterval(VideoProcessor.DEFAULT_I_FRAME_INTERVAL)//关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
+                            .progressListener(new VideoProgressListener() {
+                                @Override
+                                public void onProgress(float progress) {//progress: 0-1
+                                    ThreadUtils.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            listener.onCompress(progress, file);
+                                        }
+                                    });
+                                }
+                            })
+                            .process();
+                } catch (Exception e) {
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onFailure(e);
+                        }
+                    });
+                }
             }
         });
     }

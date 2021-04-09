@@ -21,8 +21,8 @@ api 'com.squareup.retrofit2:retrofit:2.9.0'
 api 'com.squareup.retrofit2:converter-gson:2.9.0'
 </li>
 <li>//https://github.com/bumptech/glide
-api 'com.github.bumptech.glide:glide:4.11.0'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+api 'com.github.bumptech.glide:glide:4.12.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 </li>
 <li>//https://github.com/greenrobot/EventBus
 api 'org.greenrobot:eventbus:3.2.0'

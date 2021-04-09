@@ -271,7 +271,7 @@ public class AlbumUtils {
     public static void takePhoto(Context context, Action<String> listener) {
         Album.camera(context) // Camera function.
                 .image() // Take Picture.
-                // FIXME: 2019/4/18 bug:自定义路径拍照后点"确定"没反应
+                // TODO: 2019/4/18 bug:自定义路径拍照后点"确定"没反应
 //                .filePath(path) //文件路径,不是必须 File save path, not required.
                 .onResult(listener)//AlbumFile albumFile = image2AlbumFile(result, true);
                 .onCancel(new Action<String>() {
@@ -398,7 +398,7 @@ public class AlbumUtils {
     }
 
     /**
-     * FIXME  路径转 AlbumFile, 添加后再进入相册会失效
+     * TODO  路径转 AlbumFile, 添加后再进入相册会失效
      * @see com.yanzhenjie.album.app.album.data.MediaReader#scanImageFile(Map, AlbumFolder) 转换
      * @param path
      * @return

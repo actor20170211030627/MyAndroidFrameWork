@@ -65,13 +65,10 @@ import java.util.List;
  * 1.spinner的填充内容, 用','分隔开(如果已经设置了'entries', 不用再设置这个)
  * @see R.styleable#BaseSpinner_bsEntriesString         //@string/names
  *
- * 2.spinner的填充内容, 写在:values/arrays.xml里面<string-array name="languages">
- * @see R.styleable#BaseSpinner_bsEntries               //@array/languages
- *
- * 3.spinner填充的布局(根部局是一个TextView), 默认: android.R.layout.simple_spinner_item
+ * 2.spinner填充的布局(根部局是一个TextView), 默认: android.R.layout.simple_spinner_item
  * @see R.styleable#BaseSpinner_bsResource              //@layout/xxx
  *
- * 4.下拉列表item布局(根部局是一个TextView), 默认: android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item
+ * 3.下拉列表item布局(根部局是一个TextView), 默认: android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item
  * @see R.styleable#BaseSpinner_bsDropDownViewResource  //@layout/xxx
  *
  *
@@ -131,13 +128,9 @@ public class BaseSpinner extends AppCompatSpinner {
             ddvr = a.getResourceId(R.styleable.BaseSpinner_bsDropDownViewResource, ddvr);
             //spinner的列表值, 用","隔开
             String items = a.getString(R.styleable.BaseSpinner_bsEntriesString);
-            //如果有数据源, 获取数据源并加载
-            CharSequence[] entries = a.getTextArray(R.styleable.BaseSpinner_bsEntries);
             a.recycle();
 
-            if (entries != null) {
-                setDatas(entries);
-            } else if (items != null && !items.isEmpty()) {
+            if (items != null && !items.isEmpty()) {
                 String[] split = items.split(",");
                 setDatas(split);
             }
