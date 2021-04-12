@@ -11,8 +11,7 @@ public class Global {
 //    public static final String girl = "https://timgsa.baidu.com/timg?image&quality=80&" +
 //            "size=b10000_10000&sec=1553570762&di=345ca57cc11ccf228e3ff8c2b33af03b&" +
 //            "src=http://ww2.sinaimg.cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
-    public static final String girl = "http://ww2.sinaimg" +
-            ".cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
+    public static final String girl = "http://ww2.sinaimg.cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
 
     public static final String BASE_URL = "https://api.github.com";
 
@@ -20,7 +19,7 @@ public class Global {
             "MyAndroidFrameWork" +
             "/raw/master/" +
             "app" +
-            "/build/outputs/apk/debug/output.json";
+            "/build/outputs/apk/debug/output-metadata.json";
 
     public static final String DOWNLOAD_URL = "https://raw.githubusercontent.com/" +
             "actor20170211030627/" +

@@ -188,9 +188,12 @@ public class MyOkHttpUtils {
         postJson(url, null, json, callback);
     }
 
-    public static <T> void postJson(String url, @Nullable Map<String, Object> jsonMap, BaseCallback<T> callback) {
-//        postJson(url, null, jsonMap == null ? null : JSONObject.toJSONString(jsonMap), callback);//FastJson
-        postJson(url, null, jsonMap == null ? null : GsonUtils.toJson(jsonMap), callback);//Gson
+    /**
+     * @param object 会将object转换成json
+     */
+    public static <T> void postJson(String url, @Nullable Object object, BaseCallback<T> callback) {
+//        postJson(url, null, JSONObject.toJSONString(object), callback);//FastJson
+        postJson(url, null, GsonUtils.toJson(object), callback);//Gson
     }
 
     /**

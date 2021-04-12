@@ -12,47 +12,46 @@ import java.util.List;
 public class CheckUpdateInfo {
 
     /**
-     * outputType : {"type":"APK"}
-     * apkData : {"type":"MAIN","splits":[],"versionCode":1,"versionName":"1.0","enabled":true,
-     * "outputFile":"app-debug.apk","fullName":"debug","baseName":"debug"}
-     * path : app-debug.apk
-     * properties : {}
+     * version : 1
+     * artifactType : {"type":"APK","kind":"Directory"}
+     * applicationId : com.actor.sample
+     * variantName : debug
+     * elements : [{"type":"SINGLE","filters":[],"properties":[],"versionCode":2021021101,"versionName":"2.0.1","enabled":true,"outputFile":"app-debug.apk"}]
      */
 
-    public OutputTypeBean outputType;
-    public ApkDataBean    apkData;
-    public String         path;
-    public PropertiesBean properties;
+    public int version;
+    public ArtifactTypeBean   artifactType;
+    public String             applicationId;
+    public String             variantName;
+    public List<ElementsBean> elements;
 
-    public static class OutputTypeBean {
+    public static class ArtifactTypeBean {
         /**
          * type : APK
+         * kind : Directory
          */
 
         public String type;
+        public String kind;
     }
 
-    public static class ApkDataBean {
+    public static class ElementsBean {
         /**
-         * type : MAIN
-         * splits : []
-         * versionCode : 1
-         * versionName : 1.0
+         * type : SINGLE
+         * filters : []
+         * properties : []
+         * versionCode : 2021021101
+         * versionName : 2.0.1
          * enabled : true
          * outputFile : app-debug.apk
-         * fullName : debug
-         * baseName : debug
          */
 
         public String type;
-        public List splits;
+        public List<?> filters;
+        public List<?> properties;
         public int     versionCode;
         public String  versionName;
         public boolean enabled;
         public String  outputFile;
-        public String  fullName;
-    }
-
-    public static class PropertiesBean {
     }
 }

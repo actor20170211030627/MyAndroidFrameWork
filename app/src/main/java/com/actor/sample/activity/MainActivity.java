@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actor.sample.R;
-import com.actor.sample.service.CheckUpdateService;
+import com.actor.sample.utils.CheckUpdateUtils;
 import com.actor.sample.utils.Global;
 import com.blankj.utilcode.util.AppUtils;
 import com.bumptech.glide.Glide;
@@ -27,7 +27,6 @@ public class MainActivity extends BaseActivity {
     ImageView iv;
     @BindView(R.id.tv_version)
     TextView tvVersion;
-    private Intent checkUpdateIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,8 @@ public class MainActivity extends BaseActivity {
         AppUtils.AppInfo appInfo = AppUtils.getAppInfo();
         tvVersion.setText(getStringFormat("VersionName: %s(VersionCode: %d)", appInfo.getVersionName(), appInfo.getVersionCode()));
 
-        startService(checkUpdateIntent = new Intent(this, CheckUpdateService.class));
+        //检查更新
+        new CheckUpdateUtils().check(this);
     }
 
     @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
@@ -106,12 +106,8 @@ public class MainActivity extends BaseActivity {
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(new Intent(this, OtherActivity.class));
                 break;
+            default:
+                break;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        stopService(checkUpdateIntent);
     }
 }

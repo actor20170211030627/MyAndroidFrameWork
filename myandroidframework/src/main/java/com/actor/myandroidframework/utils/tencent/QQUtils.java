@@ -47,7 +47,7 @@ import org.json.JSONObject;
  *         <data android:scheme="tencent222222" /> <!-- 这儿替换成: "tencent" + appid -->
  *     </intent-filter>
  * </activity>
- * <!-- 设置QQ头像等... -->
+ * <!-- 设置QQ头像等, 要加上, 否则getTencent()返回null -->
  * <activity
  *     android:name="com.tencent.connect.common.AssistActivity"
  *     android:configChanges="orientation|keyboardHidden"
