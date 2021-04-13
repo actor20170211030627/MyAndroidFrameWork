@@ -226,7 +226,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         }
         if (isStatusCodeError || isJsonParseException || isParseNetworkResponseIsNull) return;
         if (e instanceof SocketTimeoutException) {
-            toast("连接服务器超时,请联系管理员或稍后重试!");
+            toast("连接服务器超时,请联系管理员或稍后再试!");
         } else if (e instanceof ConnectException) {
             toast("网络连接失败,请检查网络是否打开!");
         } else if (e != null) {
@@ -259,7 +259,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      */
     public void onParseNetworkResponseIsNull(int id) {
         logFormat("数据解析为空: tag=%s, id=%d", tag, id);
-        toast("数据解析为空,请检查网络连接");
+        toast("数据解析为空");
     }
 
     protected Type getGenericityType(Object object) {

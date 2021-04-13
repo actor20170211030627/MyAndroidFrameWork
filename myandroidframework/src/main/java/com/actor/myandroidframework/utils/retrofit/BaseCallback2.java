@@ -116,7 +116,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
         }
         if (isStatusCodeError) return;
         if (t instanceof SocketTimeoutException) {
-            toast("连接服务器超时,请联系管理员或稍后重试!");
+            toast("连接服务器超时,请联系管理员或稍后再试!");
         } else if (t instanceof ConnectException) {
             toast("网络连接失败,请检查网络是否打开!");
         } else if (t != null) {

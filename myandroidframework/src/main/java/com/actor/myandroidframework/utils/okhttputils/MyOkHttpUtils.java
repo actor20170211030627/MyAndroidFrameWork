@@ -336,7 +336,7 @@ public class MyOkHttpUtils {
     /**
      * 把参数通过body传到服务器
      * @param url       地址
-     * @param params    参数
+     * @param params    参数(value类型不能是文件等, 因为最后会转换成String传到服务器)
      * @param callback  回调, 如果要使用id, 在这个回调的构造方法中传入!!
      * @param <T>       要解析成什么类型的对象
      */

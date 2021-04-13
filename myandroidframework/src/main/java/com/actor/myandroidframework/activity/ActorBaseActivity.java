@@ -277,12 +277,12 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     ///////////////////////////////////////////////////////////////////////////
     // 返回String区
     ///////////////////////////////////////////////////////////////////////////
-    protected String getNoNullString(String text) {
-        return TextUtils2.getNoNullString(text);
+    protected String getNoNullString(Object object) {
+        return TextUtils2.getNoNullString(object);
     }
 
-    protected String getNoNullString(String text, String defaultStr) {
-        return TextUtils2.getNoNullString(text, defaultStr);
+    protected String getNoNullString(Object object, String defaultStr) {
+        return TextUtils2.getNoNullString(object, defaultStr);
     }
 
     //"输入内容不能少于30字"示例: getStringRes("输入内容不能少于%1$d字", 30)
