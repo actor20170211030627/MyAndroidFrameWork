@@ -87,6 +87,7 @@
             app:itilHint="测试不能输入"
             app:itilImeOptions="actionDone"
             app:itilInputEnable="false"
+            app:itilInputType="text"
             app:itilItemName="不能输入:"
             app:itilMarginTop="20dp" />
 

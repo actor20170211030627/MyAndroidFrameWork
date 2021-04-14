@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,13 +82,14 @@ import com.actor.myandroidframework.utils.TextUtils2;
  */
 public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetTextAble {
 
-    protected TextView      tvRedStar;
-    protected TextView      tvItem;
-    protected EditText      et1;
-    protected ImageView     ivArrowRight;
-    protected LinearLayout  llContentForItil;
-    protected Space         spaceMarginTop;
+    protected TextView        tvRedStar;
+    protected TextView        tvItem;
+    protected EditText        et1;
+    protected ImageView       ivArrowRight;
+    protected LinearLayout    llContentForItil;
+    protected Space           spaceMarginTop;
     protected float           density;//px = dp * density;
+    protected int             inputType = EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE | EditorInfo.TYPE_CLASS_TEXT;//输入类型
     protected OnClickListener clickListener;
 
     public ItemTextInputLayout(Context context) {
@@ -143,6 +145,12 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             inflate(context, resourceId);
 
             tvRedStar.setVisibility(redStarVisiable * INVISIBLE);
+            if (itilInputType != -1) {
+                setInputType(inputType);
+            } else {
+                int inputType = getEditText().getInputType();
+                setInputType(inputType);
+            }
             if (!inputEnable) setInputEnable(false);
             getTextViewItem().setText(itilItemName);
 
@@ -151,7 +159,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             if (itilMaxLength >= 0) setMaxLength(itilMaxLength);
             setGravityInput(gravity);
             setMarginTop(marginTop);
-            if (itilInputType != -1) getEditText().setInputType(itilInputType);
+
             if (!TextUtils.isEmpty(itilDigits)) setDigits(itilDigits, false);
             if (arrowRightVisiable == -1) {
                 if (inputEnable) {//如果能输入
@@ -242,6 +250,14 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      */
     public void setMaxLength(@IntRange(from = 0) int maxLength) {
         getEditText().setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+    }
+
+    /**
+     * 设置输入类型
+     */
+    public void setInputType(int inputType) {
+        if (inputType != EditorInfo.TYPE_NULL) this.inputType = inputType;
+        getEditText().setInputType(inputType);
     }
 
     /**
@@ -343,13 +359,17 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      * @param enable
      */
     public void setInputEnable(boolean enable) {
+        if (true) {
+            setInputType(enable ? inputType : EditorInfo.TYPE_NULL);
+        } else {
 //        getEditText().setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
-        getEditText().setFocusable(enable);
-        getEditText().setClickable(!enable);
-        getEditText().setLongClickable(enable);//长按显示粘贴
-        getEditText().setFocusableInTouchMode(enable);
+            getEditText().setFocusable(enable);
+            getEditText().setClickable(!enable);
+            getEditText().setLongClickable(enable);//长按显示粘贴
+            getEditText().setFocusableInTouchMode(enable);
 //        if (enable) getEditText().requestFocus();//把光标移动到这一个et1,但是不弹出键盘
 //        getEditText().setCursorVisible(false);
+        }
     }
 
     /**
@@ -401,6 +421,15 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             if (heightDp != null) layoutParams.height = (int) (heightDp * density);
             ivArrowRight.setLayoutParams(layoutParams);
         }
+    }
+
+    /**
+     * 设置是否可点击
+     */
+    @Override
+    public void setClickable(boolean clickable) {
+        super.setClickable(clickable);
+        getEditText().setClickable(clickable);
     }
 
     @Override
