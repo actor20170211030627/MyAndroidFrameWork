@@ -7,12 +7,18 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.actor.myandroidframework.adapter_recyclerview.AddAudioAdapter;
+import com.actor.myandroidframework.adapter_recyclerview.AddPicAdapter;
+import com.actor.myandroidframework.adapter_recyclerview.AddVideoAdapter;
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils;
+import com.actor.myandroidframework.widget.BaseItemDecoration;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SelectImageVideoAdapter;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.yanzhenjie.album.Action;
@@ -33,44 +39,16 @@ import butterknife.OnClick;
  */
 public class SelectFileActivity extends BaseActivity {
 
-    @BindView(R.id.irgl)
-    ItemRadioGroupLayout irgl;
-    @BindView(R.id.btn_5)
-    Button btn5;
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_view1)
+    RecyclerView recyclerView1;
+    @BindView(R.id.recycler_view21)
+    RecyclerView recyclerView21;
+    @BindView(R.id.recycler_view22)
+    RecyclerView recyclerView22;
+    @BindView(R.id.recycler_view23)
+    RecyclerView recyclerView23;
 
-    private SelectImageVideoAdapter mAdapter;
-
-    //AlbumUtils 回调
-    private Action<ArrayList<AlbumFile>> action = new Action<ArrayList<AlbumFile>>() {
-        @Override
-        public void onAction(@NonNull ArrayList<AlbumFile> result) {
-            mAdapter.addData(result);
-            String json = GsonUtils.toJson(result);
-            logError(json);
-        }
-    };
-
-    //PictureSelectorUtils 回调
-    private OnResultCallbackListener<LocalMedia> listener = new OnResultCallbackListener<LocalMedia>() {
-        @Override
-        public void onResult(List<LocalMedia> result) {
-//            result.get(0).getPath();//content://media/external/file/116272
-//            result.get(0).getRealPath();///storage/emulated/0/news_article/a9f5efc45c8f17fa1f160615ed5ba5fb.png
-//            result.get(0).getAndroidQToPath();//null
-//            result.get(0).getCompressPath();//null
-//            result.get(0).getCutPath();//null
-//            result.get(0).getOriginalPath();//null
-            mAdapter.addData(result);
-            String json = GsonUtils.toJson(result);
-            logError(json);
-        }
-        @Override
-        public void onCancel() {
-            toast("取消了");
-        }
-    };
+    private SelectImageVideoAdapter mAdapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,51 +57,56 @@ public class SelectFileActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setTitle("主页->文件选择");
-        recyclerView.setAdapter(mAdapter = new SelectImageVideoAdapter());
-        //选中监听
-        irgl.setOnCheckedChangeListener((group, checkedId, position, reChecked) -> {
-            mAdapter.setIsPictureType(position == 0);
-            btn5.setVisibility(position * View.INVISIBLE);
-        });
+        int dp5 = SizeUtils.dp2px(5);
+        BaseItemDecoration decoration = new BaseItemDecoration(dp5, dp5);
+        recyclerView1.addItemDecoration(decoration);
+        recyclerView1.setAdapter(mAdapter1 = new SelectImageVideoAdapter());
+
+        /**
+         * LocalMedia 属性:
+         * .getPath();//content://media/external/file/116272
+         * .getRealPath();///storage/emulated/0/news_article/a9f5efc45c8f17fa1f160615ed5ba5fb.png
+         * .getAndroidQToPath();//null
+         * .getCompressPath();//null
+         * .getCutPath();//null
+         * .getOriginalPath();//null
+         */
+        recyclerView21.addItemDecoration(decoration);
+        recyclerView22.addItemDecoration(decoration);
+        recyclerView23.addItemDecoration(decoration);
+        recyclerView21.setAdapter(new AddPicAdapter<>(9, AddPicAdapter.TYPE_TAKE_SELECT_PHOTO));
+        recyclerView22.setAdapter(new AddVideoAdapter<>(9, AddVideoAdapter.TYPE_TAKE_SELECT_VIDEO));
+        recyclerView23.setAdapter(new AddAudioAdapter<>(9, AddAudioAdapter.TYPE_RECORD_SELECT_AUDIO));
     }
 
-    @OnClick({R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, R.id.btn_5})
+    @OnClick({R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4})
     public void onViewClicked(View view) {
-        boolean isPics = irgl.getCheckedPosition() == 0;
         switch (view.getId()) {
+            //AlbumUtils:
             case R.id.btn_1://单选图片(显示Camrea)
-                if (isPics) {
-                    PictureSelectorUtils.selectImage(this, true, listener);
-                } else {
-                    AlbumUtils.selectImage(this, true, action);
-                }
+                AlbumUtils.selectImage(this, true, action);
                 break;
             case R.id.btn_2://多选图片(不显示Camera)
-                if (isPics) {
-                    PictureSelectorUtils.selectImages(this, false, 5, listener);
-                } else {
-                    AlbumUtils.selectImages(this, false, 5, null, action);
-                }
+                AlbumUtils.selectImages(this, false, 5, null, action);
                 break;
             case R.id.btn_3://单选视频(不显示Camrea)
-                if (isPics) {
-                    PictureSelectorUtils.selectVideo(this, false, listener);
-                } else {
-                    AlbumUtils.selectVideo(this, false, null, action);
-                }
+                AlbumUtils.selectVideo(this, false, null, action);
                 break;
             case R.id.btn_4://多选视频(显示Camrea)
-                if (isPics) {
-                    PictureSelectorUtils.selectVideos(this, true, 5, listener);
-                } else {
-                    AlbumUtils.selectVideos(this, null, null, 5, action);
-                }
-                break;
-            case R.id.btn_5://选择音频
-                PictureSelectorUtils.selectAudio(this, 5, null, listener);
+                AlbumUtils.selectVideos(this, null, null, 5, action);
                 break;
             default:
                 break;
         }
     }
+
+    //AlbumUtils 回调
+    private final Action<ArrayList<AlbumFile>> action = new Action<ArrayList<AlbumFile>>() {
+        @Override
+        public void onAction(@NonNull ArrayList<AlbumFile> result) {
+            mAdapter1.addData(result);
+            String json = GsonUtils.toJson(result);
+            logError(json);
+        }
+    };
 }

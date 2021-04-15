@@ -39,7 +39,7 @@ public class DatabaseActivity extends BaseActivity {
     @BindView(R.id.itil_name)
     ItemTextInputLayout  itilName;
     @BindView(R.id.irgl_sex)
-    ItemRadioGroupLayout irglSex;
+    ItemRadioGroupLayout<String> irglSex;
     @BindView(R.id.itil_idcard)
     ItemTextInputLayout  itilIdcard;
     @BindView(R.id.itil_key)

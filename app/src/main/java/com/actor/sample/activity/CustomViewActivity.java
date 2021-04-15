@@ -24,11 +24,11 @@ import butterknife.OnClick;
 public class CustomViewActivity extends BaseActivity {
 
     @BindView(R.id.base_spinner)
-    BaseSpinner          baseSpinner;
+    BaseSpinner<String>  baseSpinner;
     @BindView(R.id.item_radio_group)
-    ItemRadioGroupLayout itemRadioGroupLayout;
+    ItemRadioGroupLayout<String> itemRadioGroupLayout;
     @BindView(R.id.item_spinner)
-    ItemSpinnerLayout    itemSpinner;
+    ItemSpinnerLayout<String> itemSpinner;
     @BindView(R.id.itil1)
     ItemTextInputLayout  itil1;
     @BindView(R.id.itil_can_not_input)
@@ -39,6 +39,7 @@ public class CustomViewActivity extends BaseActivity {
     private String[] btns = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
     private String[] digits = {"[^0-9]", "[^a-zA-Z0-9\u4E00-\u9FA5]", "[^a-z]"};
     private int  pos = 0;
+    private boolean inPutEnable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +71,23 @@ public class CustomViewActivity extends BaseActivity {
         });
     }
 
-    private boolean inPutEnable = false;
     @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_check:
-                int position = itemRadioGroupLayout.getCheckedPosition();
+                int checkedPosition = itemRadioGroupLayout.getCheckedPosition();
                 itemRadioGroupLayout.setCheckedPosition(2);
+                logFormat("ItemRadioGroupLayout: checkedPosition=%s", checkedPosition);
+                itemRadioGroupLayout.setDatas(new String[]{"11111", "2", "33"});
+                itemRadioGroupLayout.addRadioButton("45");
+
+                String selectedItem = baseSpinner.getSelectedItem();
+                String itemAtPosition = baseSpinner.getItemAtPosition(1);
+                logFormat("BaseSpinner: selectedItem=%s, itemAtPosition=%s", selectedItem, itemAtPosition);
+
+                String selectedItem1 = itemSpinner.getSelectedItem();
+                String itemAtPosition1 = itemSpinner.getItemAtPosition(1);
+                logFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
                 break;
             case R.id.btn2:
                 if (++ pos == btns.length) pos = 0;

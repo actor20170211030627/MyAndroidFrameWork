@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Space;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.IntRange;
@@ -23,6 +22,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import com.actor.myandroidframework.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,14 +50,20 @@ import java.util.List;
  * @version 1.0
  * @version 1.0.1 自定义属性, 增加方法:
  *                  @see #setMarginTop(int)
+ *
+ * @param <T> 填充Item的数据类型, 见{@link #setDatas(Collection)}, 示例:
+ *           @BindView(R.id.isl_spinner)
+ *           ItemSpinnerLayout<User> islSpinner;
+ *           User = islSpinner.getSelectedItem();//获取当前已选择的User
  */
-public class ItemSpinnerLayout extends LinearLayout {
+public class ItemSpinnerLayout<T> extends LinearLayout {
 
     private TextView         tvRedStar, tvItem;
     private AppCompatSpinner spinner;
     private Space            spaceMarginTop;
     private LinearLayout     llContentForIsl;
     private float            density;//px = dp * density;
+    private ArrayAdapter<T>  arrayAdapter;
 
     public ItemSpinnerLayout(Context context) {
         super(context);
@@ -132,9 +138,9 @@ public class ItemSpinnerLayout extends LinearLayout {
         tvItem = view.findViewById(R.id.tv_item_for_isl);
         spinner = view.findViewById(R.id.spinner_for_isl);
 
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+        arrayAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
     }
 
     /**
@@ -178,9 +184,9 @@ public class ItemSpinnerLayout extends LinearLayout {
     public void setDatas(CharSequence[] datas) {
         if (datas != null) {
             //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
-            ArrayList<CharSequence> list = new ArrayList<>();
+            List<CharSequence> list = new ArrayList<>();
             Collections.addAll(list, datas);
-            setDatas(list);
+            setDatas((Collection<? extends T>) list);
         }
     }
 
@@ -190,24 +196,29 @@ public class ItemSpinnerLayout extends LinearLayout {
      *            重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容
      * 注意: 每次填充的T数据类型应该一致
      */
-    public <T> void setDatas(List<T> datas) {
-        if (datas != null) {
-            SpinnerAdapter adapter = spinner.getAdapter();
-            if (adapter instanceof ArrayAdapter) {
-                ((ArrayAdapter) adapter).clear();
-                ((ArrayAdapter) adapter).addAll(datas);
-            }
+    public void setDatas(Collection<? extends T> datas) {
+        if (datas != null && arrayAdapter != null) {
+            arrayAdapter.clear();
+            arrayAdapter.addAll(datas);
         }
     }
 
     /**
-     * 直接返回该条目的值.(item只有TextView的时候有效,否则返回该item的地址值)
+     * 返回已选中Item的值, T类型
      * @return
      */
-    public String getSelectedItemText() {
-        if (spinner != null && spinner.getSelectedItem() != null) {
-            return spinner.getSelectedItem().toString();
-        } else return null;//adapter = null的时候,会空指针
+    public T getSelectedItem() {
+        return (T) spinner.getSelectedItem();
+    }
+
+    /**
+     * @return 返回指定的Item数据, T类型
+     */
+    public T getItemAtPosition(int position) {
+        if (spinner.getCount() > position) {
+            return (T) spinner.getItemAtPosition(position);
+        }
+        return null;
     }
 
     /**

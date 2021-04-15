@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.adapter;
+package com.actor.myandroidframework.adapter_viewpager;
 
 import android.database.DataSetObserver;
 import android.os.Parcelable;

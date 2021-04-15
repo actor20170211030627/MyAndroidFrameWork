@@ -23,6 +23,11 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.actor.myandroidframework.R;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Description: 常用的单选输入布局,这是一个组合控件.
  * Author     : 李大发
@@ -52,8 +57,12 @@ import com.actor.myandroidframework.R;
  * @version 1.1.2 增加自定义布局, 增加方法:
  *                  @see #setGravity(int)
  *                  @see #setMarginTop(int)
+ *
+ * @param <T> 填充RadioButton的数据类型, 见{@link #setDatas(Collection)}, 示例:
+ *           @BindView(R.id.isl_spinner)
+ *           ItemRadioGroupLayout<User> islSpinner;//会填充user的toString()返回值
  */
-public class ItemRadioGroupLayout extends LinearLayout {
+public class ItemRadioGroupLayout<T> extends LinearLayout {
 
     private TextView                tvRedStar, tvItem;
     private RadioGroup              radioGroup;
@@ -115,14 +124,10 @@ public class ItemRadioGroupLayout extends LinearLayout {
             if (irglItemName != null) getTextViewItem().setText(irglItemName);
             setMarginTop(marginTop);
             if (entries != null && entries.length > 0) {
-                for (CharSequence entry : entries) {
-                    addRadioButton(entry);
-                }
+                setDatas(entries);
             } else if (texts != null && !texts.isEmpty()) {
                 String[] split = texts.split(",");
-                for (String text : split) {
-                    addRadioButton(text);
-                }
+                setDatas(split);
             }
             setCheckedPosition(irglCheckedPosition);
             setGravityRadioGroup(gravity);
@@ -168,6 +173,15 @@ public class ItemRadioGroupLayout extends LinearLayout {
         spaceMarginTop.setLayoutParams(layoutParams);
     }
 
+    public void setDatas(CharSequence[] datas) {
+        if (datas != null) {
+            //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
+            List<CharSequence> list = new ArrayList<>();
+            Collections.addAll(list, datas);
+            setDatas((Collection<? extends T>) list);
+        }
+    }
+
     /**
      * @param gravity 设置RadioGroup的gravity
      */
@@ -175,9 +189,33 @@ public class ItemRadioGroupLayout extends LinearLayout {
         getRadioGroup().setGravity(gravity);
     }
 
-    protected void addRadioButton(CharSequence text) {
+    /**
+     * 设置数据, 填充RadioGroup
+     * @param <T> 如果数据类型 "T" 不是 CharSequence 或 String 或 @StringRes int resid,
+     *            重写数据类型的toString()方法即可, RadioButton 填充的时候会调用toString()的内容
+     * 注意: 每次填充的T数据类型应该一致
+     */
+    public void setDatas(Collection<? extends T> datas) {
+        radioGroup.removeAllViews();
+        if (datas != null && !datas.isEmpty()) {
+            for (T data : datas) {
+                addRadioButton(data);
+            }
+        }
+    }
+
+    /**
+     * 添加一个选项
+     */
+    public void addRadioButton(T data) {
         AppCompatRadioButton rb = new AppCompatRadioButton(getContext());
-        rb.setText(text);
+        if (data instanceof CharSequence) {
+            rb.setText((CharSequence) data);
+        } else if (data instanceof Integer) {//@StringRes int resid
+            rb.setText((Integer) data);
+        } else {
+            rb.setText(String.valueOf(data));//toString()
+        }
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         radioGroup.addView(rb, radioGroup.getChildCount(), layoutParams);
     }
@@ -255,7 +293,6 @@ public class ItemRadioGroupLayout extends LinearLayout {
          * @param position 第几个position
          * @param reChecked 是否是重复选中
          */
-        void onCheckedChanged(RadioGroup group, @IdRes int checkedId, int position,
-                              boolean reChecked);
+        void onCheckedChanged(RadioGroup group, @IdRes int checkedId, int position, boolean reChecked);
     }
 }

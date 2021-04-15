@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.actor.myandroidframework.widget.RatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:ratio="1"
+    tools:context=".adapter_recyclerview.AddPicAdapter">
+
+    <ImageView
+        android:id="@+id/iv_for_file_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/camera_gray_for_file_select" />
+
+    <ImageView
+        android:id="@+id/iv_delete_for_file_select"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:padding="5dp"
+        android:src="@drawable/close_gray" />
+</com.actor.myandroidframework.widget.RatioLayout>

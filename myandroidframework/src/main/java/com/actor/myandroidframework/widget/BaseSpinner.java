@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import com.actor.myandroidframework.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,11 +75,17 @@ import java.util.List;
  *
  * @version 1.0 增加重复选中的监听
  * @version 1.0.1 禁止OnItemSelectedListener默认会自动调用一次的问题: {@link #init(Context, AttributeSet)}
+ *
+ * @param <T> 填充Item的数据类型, 见{@link #setDatas(Collection)}, 示例:
+ *           @BindView(R.id.spinner)
+ *           BaseSpinner<User> spinner;
+ *
+ *           User = spinner.getSelectedItem();//获取当前已选择的User
  */
-public class BaseSpinner extends AppCompatSpinner {
+public class BaseSpinner<T> extends AppCompatSpinner {
 
     protected int prePosition = -1;
-    protected ArrayAdapter arrayAdapter;
+    protected ArrayAdapter<T> arrayAdapter;
     protected int spinnerRes;
     protected int ddvr;
 
@@ -211,9 +218,9 @@ public class BaseSpinner extends AppCompatSpinner {
     public void setDatas(CharSequence[] datas) {
         if (datas != null) {
             //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
-            ArrayList<CharSequence> list = new ArrayList<>();
+            List<CharSequence> list = new ArrayList<>();
             Collections.addAll(list, datas);
-            setDatas(list);
+            setDatas((Collection<T>) list);
         }
     }
 
@@ -223,7 +230,7 @@ public class BaseSpinner extends AppCompatSpinner {
      *            重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容
      * 注意: 每次填充的T数据类型应该一致
      */
-    public <T> void setDatas(List<T> datas) {
+    public void setDatas(Collection<? extends T> datas) {
         if (datas != null) {
             //如果不是ArrayAdapter, 需要你自己处理.
             getArrayAdapter().clear();
@@ -231,7 +238,26 @@ public class BaseSpinner extends AppCompatSpinner {
         }
     }
 
-    public ArrayAdapter getArrayAdapter() {
+    /**
+     * @return 返回已选中的Item数据, T类型
+     */
+    @Override
+    public T getSelectedItem() {
+        return (T) super.getSelectedItem();
+    }
+
+    /**
+     * @return 返回指定的Item数据, T类型
+     */
+    @Override
+    public T getItemAtPosition(int position) {
+        if (getCount() > position) {
+            return (T) super.getItemAtPosition(position);
+        }
+        return null;
+    }
+
+    public ArrayAdapter<T> getArrayAdapter() {
         //不能使用getAdapter()这个方法, 因为如果设置了android:entries, 返回的ArrayList是Arrays的内部类, 没重写add等方法
 //        SpinnerAdapter adapter = getAdapter();
         if (arrayAdapter == null) {

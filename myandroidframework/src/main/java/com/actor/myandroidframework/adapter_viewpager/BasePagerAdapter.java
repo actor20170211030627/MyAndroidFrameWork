@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.adapter;
+package com.actor.myandroidframework.adapter_viewpager;
 
 import android.view.View;
 import android.view.ViewGroup;

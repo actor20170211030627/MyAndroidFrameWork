@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.actor.myandroidframework.adapter.BaseFragmentStatePagerAdapter;
+import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.widget.ScrollableViewPager;
 import com.actor.sample.R;
 import com.actor.sample.utils.Global;

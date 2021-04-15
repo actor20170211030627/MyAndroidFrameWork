@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.actor.myandroidframework.adapter.BaseFragmentStatePagerAdapter;
+import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.widget.ScrollableViewPager;
 import com.actor.sample.R;
 import com.actor.sample.fragment.BlankFragment;
@@ -43,7 +43,7 @@ public class ViewPagerAndFragmentActivity extends BaseActivity {
     }
 
     /**
-     * 如果页面较少的情况, 应该继承 {@link com.actor.myandroidframework.adapter.BaseFragmentPagerAdapter}
+     * 如果页面较少的情况, 应该继承 {@link com.actor.myandroidframework.adapter_viewpager.BaseFragmentPagerAdapter}
      * 如果需要处理有很多页，并且数据动态性较大、占用内存较多的情况，应该继承: {@link BaseFragmentStatePagerAdapter}
      */
     private class MyAdapter extends BaseFragmentStatePagerAdapter {
