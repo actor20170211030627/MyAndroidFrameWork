@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
 import android.content.ComponentName;
@@ -12,6 +13,7 @@ import android.view.View;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -266,6 +268,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      * 2.在Service中必须调用 {@link android.app.Service#startForeground(int, Notification)}
      * 可继承或参考 {@link com.actor.myandroidframework.service.BaseService}
      */
+    @RequiresPermission(Manifest.permission.FOREGROUND_SERVICE)
     @Override
     public ComponentName startForegroundService(Intent service) {
         //如果不判断, 低版本会崩溃
@@ -468,13 +471,11 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      *         public void onOk(@NonNull UserBean info, int id) {
      *             //int total = info.totalCount;               //⑴. total这种方式也可以
      *             List<UserBean.Data> datas = info.data;
-     *             if (datas != null) {
-     *                 //如果是下拉刷新
-     *                 if (requestIsRefresh) {
-     *                     myAdapter.setNewData(datas);//设置新数据
-     *                 } else {
-     *                     myAdapter.addData(datas);//增加数据
-     *                 }
+     *             //如果是下拉刷新
+     *             if (requestIsRefresh) {
+     *                 myAdapter.setNewData(datas);//设置新数据
+     *             } else if (datas != null) {
+     *                 myAdapter.addData(datas);//增加数据
      *             }
      *             //setLoadMoreState(myAdapter, total);            //⑴
      *             setLoadMoreState(myAdapter, datas, Global.SIZE); //⑵
