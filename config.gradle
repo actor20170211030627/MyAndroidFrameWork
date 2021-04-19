@@ -9,8 +9,8 @@ ext {
             compileSdkVersion       : 29,//rootProject.ext.android.compileSdkVersion or rootProject.ext.android["compileSdkVersion"]
             minSdkVersion           : 19,
             targetSdkVersion        : 29,
-            versionCode             : 2021041901,//2020年xx月xx日xx(版本)
-            versionName             : "2.0.2"
+            versionCode             : 2021042001,//2020年xx月xx日xx(版本)
+            versionName             : "2.0.3"
     ]
 
     version = [
@@ -46,6 +46,9 @@ ext {
             "espresso-intents"      : "androidx.test.espresso:espresso-intents:${version["espressoSdkVersion"]}",
 
             "canary-debug"          : "com.squareup.leakcanary:leakcanary-android:${version["canarySdkVersion"]}",
-            "canary-release"        : "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}"
+            "canary-release"        : "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}",
+
+            //Others
+            "greendao"              : "org.greenrobot:greendao:3.3.0",
     ]
 }

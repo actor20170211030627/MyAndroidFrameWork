@@ -21,14 +21,8 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //https://github.com/greenrobot/greenDAO 数据库(在'myandroidframework'中可见, 不会再往上传递)
-    api 'org.greenrobot:greendao:3.3.0'
-
-    //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等v3.3.7
-    api files('libs/open_sdk_r2973327_lite.jar')
-
-    //http://lbs.baidu.com/index.php?title=sdk/download&action#selected=location_all 百度定位/地图/检索 等
-    api files('libs/BaiduLBS_aar_android_V1.1.9_100665344.aar')
+    //https://github.com/greenrobot/greenDAO 数据库
+    compileOnly rootProject.ext.dependencies.greendao
 }

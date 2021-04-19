@@ -126,8 +126,17 @@ dependencies {
     }
 
 
-    //GreenDao & Others
+    //GreenDao数据库
     compileOnly project(path: ':tempgen')
+
+    //https://github.com/greenrobot/greenDAO 数据库
+    compileOnly rootProject.ext.dependencies.greendao
+
+    //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等v3.3.7
+    compileOnly files('../app/libs/open_sdk_r2973327_lite.jar')
+
+    //http://lbs.baidu.com/index.php?title=sdk/download&action#selected=location_all 百度定位/地图/检索 等
+    compileOnly files('../app/libs/BaiduLBS_aar_android_V1.1.9_100665344.aar')
 
 
     //https://github.com/JessYanCoding/ProgressManager Okhttp/Retofit/Glide下载进度监听
