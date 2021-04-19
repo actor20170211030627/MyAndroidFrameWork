@@ -1,5 +1,5 @@
 ## MyAndroidFrameWork
-> <a href="https://github.com/actor20170211030627/MyAndroidFrameWork">Github</a> <br/>
+> <a href="https://github.com/actor20170211030627/MyAndroidFrameWork"><s>Github(网速慢,不再维护 Deprecated)</s></a> <br/>
 > <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a> <br/>
 > 注意: 这是 <font color='red' size='6'><b>Androidx</b></font> 版,
   非Androidx版本在&nbsp;
@@ -62,14 +62,21 @@ api 'com.zhy:okhttputils:2.6.2'
 </li></ol></pre>
 
 ## 2.一些控件和工具类等
-**2.1.ViewPager的Adapter**
+**2.1.RecyclerView的Adapter**
 <pre>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter/BaseFragmentPagerAdapter.java">BaseFragmentPagerAdapter</a>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter/BaseFragmentStatePagerAdapter.java">BaseFragmentStatePagerAdapter</a>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter/BasePagerAdapter.java">BasePagerAdapter</a>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddAudioAdapter.java">AddAudioAdapter(选择添加音频)</a>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddPicAdapter.java">AddPicAdapter(选择添加图片)</a>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddVideoAdapter.java">AddVideoAdapter(选择添加视频)</a>
 </pre>
 
-**2.2.Dialog(继承对应Dialog并自定义界面, 不用再关注style等. )**
+**2.2.ViewPager的Adapter**
+<pre>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentPagerAdapter.java">BaseFragmentPagerAdapter</a>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentStatePagerAdapter.java">BaseFragmentStatePagerAdapter</a>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_viewpager/BasePagerAdapter.java">BasePagerAdapter</a>
+</pre>
+
+**2.3.Dialog(继承对应Dialog并自定义界面, 不用再关注style等. )**
 <pre>
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseAlertDialogV7.java">BaseAlertDialogV7</a> (V7包AlertDialog简单封装)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseBottomDialog.java">BaseBottomDialog</a> (从底部弹出并停留底部)
@@ -81,7 +88,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/LoadingDialog.java">LoadingDialog</a> (加载Dialog, 耗时操作时可显示这个Dialog)
 </pre>
 
-**2.3.Utils工具类**
+**2.4.Utils工具类**
 <pre>
 <s><a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/album/AlbumUtils.java">AlbumUtils</a> (选图片/选视频/拍照/录视频/预览图片)</s>
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java">AudioUtils</a> (录音/播放录音)
@@ -93,12 +100,15 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeUiSettingUtils.java">GaoDeUiSettingUtils</a> (高德地图UI界面)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java">IntJsonDeserializer</a> (解决Gson""转换成int报错)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/jpush/JPushUtils.java">JPushUtils</a> (极光推送)
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/mpchart/BarChartUtils.java">BarChartUtils</a> (柱状图)
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/mpchart/LineChartUtils.java">LineChartUtils</a> (折线图)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java">MyOkHttpUtils</a> (Okhttp网络请求)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/picture_selector/PictureSelectorUtils.java">PictureSelectorUtils</a> (图片/视频/音频选择和预览. 拍照/拍视频/录音频)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java">RetrofitNetwork</a> (retrofit简单封装)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/tencent/QQUtils.java">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
 <s><a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/umeng/UMengShareUtils.java">UMengShareUtils</a> (友盟分享)</s>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java">VideoProcessorUtils</a> (视频压缩)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java">ClickUtils2</a> (防止2次点击)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/LogUtils.java">LogUtils</a> (Log简单打印)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java">NotificationHelper</a> (通知栏)
@@ -108,7 +118,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ThreadUtils.java">ThreadUtils</a> (线程判断/切换)
 </pre>
 
-**2.4.Widget小控件**
+**2.5.Widget小控件**
 <pre>
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java">NineGridView</a> (九宫格)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java">BaseWebView</a> (WebView简单封装)
@@ -138,8 +148,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <img src="captures/BaseRatingBar.gif" width=35%></img>
 
 ## 4.Sample
-<a href="app/build/outputs/apk/debug/app-debug.apk">download apk</a> or scan qrcode:  <br/>
-<img src="captures/qrcode.png" width=35%></img>
+<a href="app/build/outputs/apk/debug/app-debug.apk">download apk</a>
 
 ## 5.minSdkVersion [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
     如果您项目的minSdkVersion小于19, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
@@ -221,7 +230,7 @@ Add it in your root build.gradle at the end of repositories:
 5.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
 </pre>
 
-## 11.已移除 `REQUEST_INSTALL_PACKAGES`&nbsp;权限,如果使用的是2.0.0版本并且需要安装app, 请自行添加这个权限.<br/>&emsp;有问题请升级到最新版本: [![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 11.已移除 `REQUEST_INSTALL_PACKAGES`&nbsp;权限,如果使用的是2.0.0版本并且需要安装app, 请自行添加这个权限.<br/>&emsp;有问题请升级到最新版本: [![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 12.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

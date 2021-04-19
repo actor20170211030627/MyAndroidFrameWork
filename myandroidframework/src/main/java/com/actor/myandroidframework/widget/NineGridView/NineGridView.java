@@ -40,6 +40,7 @@ import java.util.List;
  * Date       : 2019/5/16 on 14:47
  * @version 1.0
  */
+// TODO: 2021/4/19 优化成一个控件
 public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
 
     protected ImageView           ivPicForNineGridView;
