@@ -115,14 +115,13 @@ public class BaseWebViewClient extends WebViewClient {
      * 在请求加载一个页面的同时，还会发送一个请求图标文件的请求。
      * 比如我们采用WebView去加载一个页面：
      * webView.loadUrl("http://192.168.5.40:9006/sso_web/html/H5/doctor/aboutUs.html");
-     * 或: webView.loadUrl("https://github.com/actor20170211030627/MyAndroidFrameWork1");
      * 同时还会发送一个请求图标文件的请求
      * http://192.168.5.40:9006/favicon.ico
      * onReceivedHttpError这个方法主要用于响应服务器返回的Http错误(状态码大于等于400)
      * ，这个回调将被调用任何资源（IFRAME，图像等），而不仅仅是主页面。所以就会出现主页面虽然加载成功，但由于网站没有favicon.ico文件导致返回404错误。
      *
      * 注意:
-     * 这个方法不能查看h5里的接口报错(https://api.github.com/...)
+     * 这个方法不能查看h5里的接口报错
      */
     @RequiresApi(api = Build.VERSION_CODES.N)//Android 7.0
     @Override

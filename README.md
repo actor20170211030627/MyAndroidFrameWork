@@ -180,8 +180,9 @@ Add it in your root build.gradle at the end of repositories:
     }
 
     dependencies {
-            <s>implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'(不再维护 Deprecated)</s>
+            //https://gitee.com/actor20170211030627/MyAndroidFrameWork
             implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:myandroidframework:gitee's last version'
+            <s>implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'(不再维护 Deprecated)</s>
     }
 </pre>
 ## 7.1. 需要在自己项目中集成<code>constraint</code>包, 否则报错

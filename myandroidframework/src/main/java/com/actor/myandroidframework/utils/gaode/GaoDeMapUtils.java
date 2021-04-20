@@ -27,7 +27,7 @@ import com.amap.api.maps.model.PolylineOptions;
  * 高德地图开放平台: https://lbs.amap.com/
  * 1.添加应用并获取API Key: https://console.amap.com/dev
  *   快速获取sha1签名去下载一个 "获取debug和release签名的sha1.bat" 文件, 双击运行, 然后输入发布版秘钥地址就行:
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/tree/master/captures
+ *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/tree/master/captures
  *
  * 2.添加依赖
  *   //https://lbs.amap.com/api/android-sdk/guide/create-project/android-studio-create-project#gradle_sdk

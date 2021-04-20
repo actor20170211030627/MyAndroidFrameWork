@@ -14,7 +14,7 @@ import com.baidu.location.LocationClientOption.LocationMode;
  * 1.申请密钥
  * http://lbsyun.baidu.com/index.php?title=android-locsdk/guide/key
  * 快速获取sha1签名去下载一个 "获取debug和release签名的sha1.bat" 文件, 双击运行, 然后输入发布版秘钥地址就行:
- * https://github.com/actor20170211030627/MyAndroidFrameWork/tree/master/captures
+ * https://gitee.com/actor20170211030627/MyAndroidFrameWork/tree/master/captures
  *
  * 2.配置环境
  *  ①.在相关下载里下载最新的库文件,SDK,示例代码,类参考:
@@ -24,7 +24,7 @@ import com.baidu.location.LocationClientOption.LocationMode;
  *     有2个.aar, 只下载一个.aar即可:
  *       比较小的一个只有 "全量定位" 功能
  *       比较大的一个有 "全量定位" & "基础地图(含室内地图)" & "检索功能" 功能
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/tree/master/app/libs
+ *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/tree/master/app/libs
  *   或 https://gitee.com/actor20170211030627/MyAndroidFrameWork/tree/master/app/libs
  *
  * 3.添加.so库文件以及适配平台

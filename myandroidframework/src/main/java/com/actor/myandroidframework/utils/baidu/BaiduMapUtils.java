@@ -58,7 +58,7 @@ import okhttp3.Request;
  *   }
  *
  * 7.示例使用见:
- * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/BaiDuMapActivity.java
+ * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/BaiDuMapActivity.java
  *
  * author     : 李大发
  * date       : 2019/4/22 on 21:50
