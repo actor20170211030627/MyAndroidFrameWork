@@ -1,6 +1,6 @@
 @ECHO OFF
-@echo author Àî´ó·¢
-@echo Õâ¸ö.batÎÄ¼şÏÂÔØµØÖ·: https://github.com/actor20170211030627/MyAndroidFrameWork/tree/master/captures
+@echo author æå¤§å‘
+@echo è¿™ä¸ª.batæ–‡ä»¶ä¸‹è½½åœ°å€: https://gitee.com/actor20170211030627/MyAndroidFrameWork/tree/master/captures
 
 color 2a
 
@@ -8,18 +8,18 @@ color 2a
 @echo.
 @echo *******************************************
 @echo *******************************************
-@echo 1.»ñÈ¡ debug °æ±¾ÃØÔ¿ĞÅÏ¢
+@echo 1.è·å– debug ç‰ˆæœ¬ç§˜é’¥ä¿¡æ¯
 SET userName=C:\Users\%username%\.android
 CD %userName%
 C:
 keytool -list -v -storepass android -keystore debug.keystore
 
 
-@echo 2.»ñÈ¡ release ·¢²¼°æ±¾ÃØÔ¿ĞÅÏ¢,ÇëÊäÈëÏîÄ¿.jksÃØÔ¿´æ·ÅµØÖ·,Ê¾Àı:F:\Android\YouProject\youProject.jks
+@echo 2.è·å– release å‘å¸ƒç‰ˆæœ¬ç§˜é’¥ä¿¡æ¯,è¯·è¾“å…¥é¡¹ç›®.jksç§˜é’¥å­˜æ”¾åœ°å€,ç¤ºä¾‹:F:\Android\YouProject\youProject.jks
 
 set /p jksAddress=
 
 @echo.
-@ECHO 3.release ·¢²¼°æÃØÔ¿,ĞèÒª×Ô¼ºÊäÈëÃØÔ¿¿ÚÁî:
+@ECHO 3.release å‘å¸ƒç‰ˆç§˜é’¥,éœ€è¦è‡ªå·±è¾“å…¥ç§˜é’¥å£ä»¤:
 keytool -list -v -keystore %jksAddress%
 pause

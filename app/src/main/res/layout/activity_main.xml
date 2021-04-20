@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:autoLink="all"
             android:text="View on Github:
-        https://github.com/actor20170211030627/MyAndroidFrameWork" />
+        https://gitee.com/actor20170211030627/MyAndroidFrameWork" />
 
         <TextView
             android:layout_width="match_parent"

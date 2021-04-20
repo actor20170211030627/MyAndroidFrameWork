@@ -22,9 +22,7 @@ import org.json.JSONObject;
 /**
  * Description: QQ工具类
  * 1.需要下载jar包v3.3.7:
- *   https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD      或↓
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/libs/open_sdk_r2973327_lite.jar
- *                                                          或↓
+ *   https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD
  *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/libs/open_sdk_r2973327_lite.jar
  *
  * 2.将jar包放在libs目录下, 并且在app的gradle中添加:
@@ -69,7 +67,7 @@ import org.json.JSONObject;
  * https://wiki.connect.qq.com/%E5%85%AC%E5%85%B1%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E
  *
  * 9.示例使用:
- * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
+ * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
  *
  * @author     : 李大发
  * date       : 2020/3/5 on 12:28
