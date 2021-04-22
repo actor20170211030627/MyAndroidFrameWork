@@ -64,10 +64,11 @@
             app:itilCustomLayout="@layout/item_text_input_layout"
             app:itilDigits="@string/digits_phone"
             app:itilGravity="right|center_vertical"
+            app:itilHint="正则输入测试"
             app:itilImeOptions="actionNext"
             app:itilInputEnable="true"
             app:itilInputType="text"
-            app:itilItemName="item1: "
+            app:itilItemName="正则输入: "
             app:itilMarginTop="20dp"
             app:itilMaxLength="15"
             app:itilRedStarVisiable="visible" />

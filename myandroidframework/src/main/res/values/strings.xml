@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">MyAndroidFrameWork</string>
-
     <!--手机-->
     <string name="digits_phone">0123456789</string>
     <!--数字-->
@@ -16,7 +14,7 @@
     <!--数字 + 大小写字母-->
     <string name="digits_num_26letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
-    <string name="regex_num">[^0-9]</string>
-    <string name="regex_26letter">[^a-zA-Z]</string>
-    <string name="regex_chinese">[^\u4E00-\u9FA5]</string>
+    <string name="regex_num">[0-9]+</string>
+    <string name="regex_26letter">[a-zA-Z]+</string>
+    <string name="regex_chinese">[\u4E00-\u9FA5]+</string>
 </resources>

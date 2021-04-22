@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -27,6 +26,7 @@ import androidx.annotation.Px;
 import androidx.annotation.StringRes;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.utils.RegexFilter;
 import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
@@ -261,7 +261,8 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     }
 
     /**
-     * @param digits 设置输入限制, 示例只能输入数字: 0123456789
+     * 设置输入限制
+     * @param digits 示例只能输入数字: <string name="digits_number">0123456789</string>, 传入: R.string.digits_number
      * @param reFilter 是否重新对已经输入的内容按照digits过滤一次
      */
     public void setDigits(@StringRes int digits, boolean reFilter) {
@@ -269,36 +270,40 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     }
 
     /**
-     * @param digits 设置输入限制, 示例只能输入数字: 0123456789
+     * 设置输入限制
+     * @param digits 示例只能输入数字: "0123456789"
      * @param reFilter 是否重新对已经输入的内容按照digits过滤一次
      */
     public void setDigits(String digits, boolean reFilter) {
         if (digits == null) return;
-        String regex = "[^" + digits + "]";//例: [^a-zA-Z0-9]
+        String regex = "[" + digits + "]+";//正则, 只能输入这些内容, 例: [0123456789]+, 或 [a-zA-Z0-9]+ 等
         //setFilters&setKeyListener会都起作用, 为避免引起bug, 统一使用setFilters方式
 //        getEditText().setKeyListener(DigitsKeyListener.getInstance(digits));//设置输入限制
-//        if (reFilter) filter(regex);
         setDigitsRegex(regex, reFilter);
     }
 
     /**
-     * @param regex strings.xml中的资源, 示例: <string name="regex">[^a-zA-Z0-9\u4E00-\u9FA5]</string>
+     * 设置输入限制, 通过正则匹配判断方式
+     * @param regex strings.xml中的资源, 示例: <string name="regex_text">[a-zA-Z0-9\u4E00-\u9FA5]+</string>
      * @param reFilter 是否重新对已经输入的内容按照digits过滤一次
      */
     public void setDigitsRegex(@StringRes int regex, boolean reFilter) {
         setDigitsRegex(getContext().getResources().getString(regex), reFilter);
     }
     /**
-     * @param regex 输入限制的正则, 示例只能输入数字: [^0-9]   //过滤0-9以外的字符
+     * 设置输入限制, 通过正则匹配判断方式
+     * @param regex 输入限制的正则, 示例只能输入数字: [0-9]+
      * @param reFilter 是否重新对已经输入的内容按照digits过滤一次
      */
     public void setDigitsRegex(String regex, boolean reFilter) {
         if (regex == null) return;
         InputFilter[] filters = getEditText().getFilters();//获取所有filter
         boolean hasRegexFilter = false;
+        RegexFilter regexFilter = null;
         for (InputFilter filter : filters) {
             if (filter instanceof RegexFilter) {//如果有就替换RegexFilter中的regex
-                ((RegexFilter) filter).setRegex(regex);
+                regexFilter = (RegexFilter) filter;
+                regexFilter.setRegex(regex);
                 hasRegexFilter = true;
                 break;
             }
@@ -306,43 +311,18 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
         if (!hasRegexFilter) {//如果没有RegexFilter, 就增加一个
             InputFilter[] newFilters = new InputFilter[filters.length + 1];
             System.arraycopy(filters, 0, newFilters, 0, filters.length);
-            newFilters[filters.length] = new RegexFilter(regex);
-            filters = newFilters;
+            regexFilter = new RegexFilter(regex);
+            newFilters[filters.length] = regexFilter;
+            getEditText().setFilters(newFilters);
         }
-        getEditText().setFilters(filters);
-        if (reFilter) filter(regex);
-    }
-
-    //正则过滤器
-    private class RegexFilter implements InputFilter {
-
-        private String regex;//正则
-
-        private RegexFilter(String regex) {
-            this.regex = regex;
-        }
-
-        public String getRegex() {
-            return regex;
-        }
-
-        public void setRegex(String regex) {
-            this.regex = regex;
-        }
-
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            return source.toString().replaceAll(regex, "");
-        }
+        if (reFilter) filter(regexFilter);
     }
 
     //根据正则, 对已经输入的内容进行过滤
-    protected void filter(String regex) {
-        if (regex != null) {
-            String text = getText().toString();
-            String newText = text.replaceAll(regex, "");
-            if (!TextUtils.equals(text, newText)) setText(newText);
-        }
+    protected void filter(RegexFilter regexFilter) {
+        Editable text = getText();
+        CharSequence result = regexFilter.filterCharSequence(text);
+        if (!TextUtils.equals(text, result)) setText(result);
     }
 
     @Override
