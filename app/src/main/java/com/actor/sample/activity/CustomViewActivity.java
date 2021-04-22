@@ -36,10 +36,10 @@ public class CustomViewActivity extends BaseActivity {
     @BindView(R.id.btn2)
     Button               btn2;
 
-    private String[] btns = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
-    private String[] digits = {"[^0-9]", "[^a-zA-Z0-9\u4E00-\u9FA5]", "[^a-z]"};
-    private int  pos = 0;
-    private boolean inPutEnable = true;
+    private String[] btns         = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
+    private String[] regexs_input = {"[0-9]+", "[a-zA-Z0-9\u4E00-\u9FA5]+", "[a-z]+"};
+    private int      pos          = 0;
+    private boolean  inPutEnable  = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +90,9 @@ public class CustomViewActivity extends BaseActivity {
                 logFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
                 break;
             case R.id.btn2:
-                if (++ pos == btns.length) pos = 0;
+                if (++pos == btns.length) pos = 0;
 //                itil1.setDigits("123456", true);
-                itil1.setDigitsRegex(digits[pos], true);
+                itil1.setDigitsRegex(regexs_input[pos], true);
                 btn2.setText(btns[pos]);
                 break;
             case R.id.itil_can_not_input:
