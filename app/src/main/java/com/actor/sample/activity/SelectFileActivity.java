@@ -2,7 +2,6 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,22 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.actor.myandroidframework.adapter_recyclerview.AddAudioAdapter;
 import com.actor.myandroidframework.adapter_recyclerview.AddPicAdapter;
 import com.actor.myandroidframework.adapter_recyclerview.AddVideoAdapter;
-import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
-import com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils;
 import com.actor.myandroidframework.widget.BaseItemDecoration;
-import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SelectImageVideoAdapter;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.SizeUtils;
-import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.AlbumFile;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

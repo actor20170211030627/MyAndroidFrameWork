@@ -83,9 +83,18 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                             }
                             switch (selectType) {
                                 case TYPE_RECORD_AUDIO://录制音频
-                                    //调用系统录音
-//                                        PictureSelectorUtils.recoreAudio(mContext, null, null);
-//                                        break;
+                                    /**
+                                     * 调用系统录音
+                                     * 1. 需要添加权限:
+                                     * <uses-permission android:name="android.permission.RECORD_AUDIO" />
+                                     * <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+                                     * 2. 在onActivityResult中获取返回值:
+                                     * if (requestCode == PictureSelectorUtils.RECORD_REQUEST_CODE && data != null) {
+                                     *     File file = UriUtils.uri2File(data.getData();//获取录音文件
+                                     * }
+                                     */
+                                    PictureSelectorUtils.recordAudio(topActivity);
+                                    break;
                                 case TYPE_SELECT_AUDIO://选择音频
                                     PictureSelectorUtils.selectAudio(topActivity, maxFiles, localMedias, new OnResultCallbackListener<LocalMedia>() {
                                         @Override

@@ -320,9 +320,14 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
 
     //根据正则, 对已经输入的内容进行过滤
     protected void filter(RegexFilter regexFilter) {
-        Editable text = getText();
+        EditText editText = getEditText();
+        Editable text = editText.getText();
         CharSequence result = regexFilter.filterCharSequence(text);
-        if (!TextUtils.equals(text, result)) setText(result);
+        if (!TextUtils.equals(text, result)) {
+            setText(result);
+            //光标移动到最后
+            editText.setSelection(result.length());
+        }
     }
 
     @Override
