@@ -31,6 +31,12 @@ import java.util.List;
 /**
  * description: 图片/视频/音频 选择, 拍照, 裁剪, 压缩... from https://github.com/LuckSiege/PictureSelector
  * PictureSelector Api说明, 见 {@link #selectFile(List, OnResultCallbackListener)}
+ * 注意: 需要在清单文件中添加权限:
+ *  <!-- 拍照, 录视频 -->
+ *  <uses-permission android:name="android.permission.CAMERA" />
+ *  <!-- 音频 -->
+ *  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+ *  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
  *
  * @author : 李大发
  * date       : 2020/10/7 on 18
@@ -313,17 +319,25 @@ public class PictureSelectorUtils {
     ///////////////////////////////////////////////////////////////////////////
     // Activity & Fragment拍照
     ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 拍照, 需要添加权限: <uses-permission android:name="android.permission.CAMERA" />
+     */
+    @RequiresPermission(Manifest.permission.CAMERA)
     public static void takePhoto(Activity activity, OnResultCallbackListener<LocalMedia> listener) {
         takePhoto(activity, false, listener);
     }
+    @RequiresPermission(Manifest.permission.CAMERA)
     public static void takePhoto(Activity activity, boolean isCompress, OnResultCallbackListener<LocalMedia> listener) {
         PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(activity), true, isCompress, 0);
         openCamera(model, listener);
     }
 
+    @RequiresPermission(Manifest.permission.CAMERA)
     public static void takePhoto(Fragment fragment, OnResultCallbackListener<LocalMedia> listener) {
         takePhoto(fragment, false, listener);
     }
+    @RequiresPermission(Manifest.permission.CAMERA)
     public static void takePhoto(Fragment fragment, boolean isCompress, OnResultCallbackListener<LocalMedia> listener) {
         PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(fragment), true, isCompress, 0);
         openCamera(model, listener);
@@ -332,19 +346,29 @@ public class PictureSelectorUtils {
     ///////////////////////////////////////////////////////////////////////////
     // Activity & Fragment拍视频(默认60秒)
     ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 录视频, 需要添加权限:
+     * <uses-permission android:name="android.permission.CAMERA" />
+     * <uses-permission android:name="android.permission.RECORD_AUDIO" />
+     * <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+     */
+    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     public static void recordVideo(Activity activity, OnResultCallbackListener<LocalMedia> listener) {
         recordVideo(activity, 60, listener);
     }
 
+    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     public static void recordVideo(Activity activity, int videoSecond, OnResultCallbackListener<LocalMedia> listener) {
         PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(activity), false, false, videoSecond);
         openCamera(model, listener);
     }
 
+    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     public static void recordVideo(Fragment fragment, OnResultCallbackListener<LocalMedia> listener) {
         recordVideo(fragment, 60, listener);
     }
 
+    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     public static void recordVideo(Fragment fragment, int videoSecond, OnResultCallbackListener<LocalMedia> listener) {
         PictureSelectionModel model = getOpenCameraModel(PictureSelector.create(fragment), false, false, videoSecond);
         openCamera(model, listener);
@@ -400,16 +424,22 @@ public class PictureSelectorUtils {
     ///////////////////////////////////////////////////////////////////////////
     // Activity & Fragment录音频(默认60秒)
     ///////////////////////////////////////////////////////////////////////////
+    public static final int RECORD_REQUEST_CODE = 1001;
     /**
-     * 录音, 在onActivityResult中获取返回值:
+     * 录音
+     * 1. 需要添加权限:
+     * <uses-permission android:name="android.permission.RECORD_AUDIO" />
+     * <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+     *
+     * 2. 在onActivityResult中获取返回值:
      * if (requestCode == PictureSelectorUtils.RECORD_REQUEST_CODE && data != null) {
      *     File file = UriUtils.uri2File(data.getData();//获取录音文件
      * }
-     * @param selectionData 已选中文件, 这儿没用, 传null
-     * @param listener 返回监听, 这儿没用, 传null
+//     * @param selectionData 已选中文件, 这儿没用, 传null
+//     * @param listener 返回监听, 这儿没用, 传null
      */
-    public static final int RECORD_REQUEST_CODE = 1001;
-    public static void recordAudio(Activity activity, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+    @RequiresPermission(allOf = {Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS})
+    public static void recordAudio(Activity activity/*, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener*/) {
 //        recordAudio(PictureSelector.create(activity), selectionData, listener);
 
         Intent intentRecord = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
@@ -424,10 +454,11 @@ public class PictureSelectorUtils {
      * if (requestCode == PictureSelectorUtils.RECORD_REQUEST_CODE && data != null) {
      *     File file = UriUtils.uri2File(data.getData();//获取录音文件
      * }
-     * @param selectionData 已选中文件, 这儿没用, 传null
-     * @param listener 返回监听, 这儿没用, 传null
+//     * @param selectionData 已选中文件, 这儿没用, 传null
+//     * @param listener 返回监听, 这儿没用, 传null
      */
-    public static void recordAudio(Fragment fragment, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
+    @RequiresPermission(allOf = {Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS})
+    public static void recordAudio(Fragment fragment/*, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener*/) {
 //        recordAudio(PictureSelector.create(fragment), selectionData, listener);
 
         Intent intentRecord = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);

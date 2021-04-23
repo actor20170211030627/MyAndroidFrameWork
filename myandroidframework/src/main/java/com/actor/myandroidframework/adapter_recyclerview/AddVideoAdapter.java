@@ -80,6 +80,12 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                             }
                             switch (selectType) {
                                 case TYPE_TAKE_VIDEO://拍视频
+                                    /**
+                                     * 需要添加权限:
+                                     * <uses-permission android:name="android.permission.CAMERA" />
+                                     * <uses-permission android:name="android.permission.RECORD_AUDIO" />
+                                     * <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+                                     */
                                     PictureSelectorUtils.recordVideo(topActivity, new OnResultCallbackListener<LocalMedia>() {
                                         @Override
                                         public void onResult(List<LocalMedia> result) {

@@ -80,6 +80,9 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                             }
                             switch (selectType) {
                                 case TYPE_TAKE_PHOTO://拍照
+                                    /**
+                                     * 需要添加权限: <uses-permission android:name="android.permission.CAMERA" />
+                                     */
                                     PictureSelectorUtils.takePhoto(topActivity, new OnResultCallbackListener<LocalMedia>() {
                                         @Override
                                         public void onResult(List<LocalMedia> result) {
