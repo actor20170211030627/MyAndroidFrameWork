@@ -20,5 +20,5 @@
         android:layout_height="30dp"
         android:layout_gravity="end"
         android:padding="5dp"
-        android:src="@drawable/close_gray" />
+        android:src="@drawable/close_gray_for_file_select" />
 </com.actor.myandroidframework.widget.RatioLayout>

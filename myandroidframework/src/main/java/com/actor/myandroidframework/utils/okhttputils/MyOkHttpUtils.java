@@ -87,7 +87,7 @@ public class MyOkHttpUtils {
                 //.newBuilder().connectTimeout()...
                 .newCall(builder.build())
                 .enqueue(callback == null ? new NullCallback() : callback);//不能为空
-        if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
+        if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
 
         /**
          * 不能使用{@link OkHttpUtils#get()}, 因为↓ 这个方法组合成的url不对
@@ -149,7 +149,7 @@ public class MyOkHttpUtils {
                 .headers(cleanNullParamMap(headers))
                 .params(cleanNullParamMap(params))
                 //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
-                .id(callback == null ? 0 : callback.id)
+                .id(callback == null ? 0 : callback.getRequestId())
                 .build()
                 //.connTimeOut(15000).readTimeOut(15000).writeTimeOut(15000)
                 .execute(callback);
@@ -215,7 +215,7 @@ public class MyOkHttpUtils {
                     .tag(callback == null ? null : callback.tag)
                     .content(json)//判空否则会报错
                     .mediaType(mediaType)//一定要设置MediaType:设置Content-Type 标头中包含的媒体类型值
-                    .id(callback == null ? 0 : callback.id)
+                    .id(callback == null ? 0 : callback.getRequestId())
                     .build()
                     .execute(callback);
         } else {
@@ -229,7 +229,7 @@ public class MyOkHttpUtils {
             OkHttpUtils.getInstance().getOkHttpClient()
                     .newCall(request)
                     .enqueue(callback == null ? new NullCallback() : callback);
-            if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
+            if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
         }
     }
 
@@ -245,7 +245,7 @@ public class MyOkHttpUtils {
                 .tag(callback == null ? null : callback.tag)
                 .file(file)
                 //请求id, 会在回调中返回, 可用于列表请求中传入item的position, 然后在回调中根据id修改对应的item的值
-                .id(callback == null ? 0 : callback.id)
+                .id(callback == null ? 0 : callback.getRequestId())
                 .build().execute(callback);
     }
 
@@ -330,7 +330,7 @@ public class MyOkHttpUtils {
                 }
             }
         }
-        builder.id(callback == null ? 0 : callback.id).build().execute(callback);
+        builder.id(callback == null ? 0 : callback.getRequestId()).build().execute(callback);
     }
 
     /**
@@ -364,7 +364,7 @@ public class MyOkHttpUtils {
         OkHttpUtils.getInstance().getOkHttpClient()
                 .newCall(requestBuilder.build())
                 .enqueue(callback == null ? new NullCallback() : callback);
-        if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
+        if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
     }
 
     /**
@@ -391,7 +391,7 @@ public class MyOkHttpUtils {
         OkHttpUtils.delete().url(getUrl(url))
                 .tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
-                .id(callback == null ? 0 : callback.id)
+                .id(callback == null ? 0 : callback.getRequestId())
                 .build().execute(callback);
     }
 
@@ -401,7 +401,7 @@ public class MyOkHttpUtils {
         OkHttpUtils.put().url(getUrl(url))
                 .tag(callback == null ? null : callback.tag)
                 .requestBody(requestBody)
-                .id(callback == null ? 0 : callback.id)
+                .id(callback == null ? 0 : callback.getRequestId())
                 .build().execute(callback);
     }
 
@@ -433,7 +433,7 @@ public class MyOkHttpUtils {
         OkHttpUtils.getInstance().getOkHttpClient()
                 .newCall(request)
                 .enqueue(callback);
-        if (callback != null) callback.onBefore(null, callback.id);//okhttp3.Callback需要手动调一下...
+        if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
     }
 
     /**

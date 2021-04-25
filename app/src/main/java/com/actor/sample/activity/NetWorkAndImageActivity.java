@@ -108,7 +108,7 @@ public class NetWorkAndImageActivity extends BaseActivity {
     private void getByOkHttpUtils() {
         BaiduMapUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
             @Override
-            public void onOk(@NonNull LngLatInfo info, int id) {
+            public void onOk(@NonNull LngLatInfo info, int id, boolean isRefresh) {
                 if (info.status == 0) {
                     LngLatInfo.ResultBean result = info.result;
                     if (result != null) {
@@ -145,7 +145,7 @@ public class NetWorkAndImageActivity extends BaseActivity {
         MyOkHttpUtils.postFormBody("http://222.85.144.65:9001/etc/inform/v2/check_contract", null, params,
                 new BaseCallback<String>(this) {
                     @Override
-                    public void onOk(@NonNull String info, int id) {
+                    public void onOk(@NonNull String info, int id, boolean isRefresh) {
                         toast(info);
                     }
                 });
@@ -154,7 +154,7 @@ public class NetWorkAndImageActivity extends BaseActivity {
     private void getByRetrofit() {
         putCall(NetWork.getGithubApi().get()).enqueue(new BaseCallback2<GithubInfo>(this) {
             @Override
-            public void onOk(Call<GithubInfo> call, Response<GithubInfo> response) {
+            public void onOk(Call<GithubInfo> call, Response<GithubInfo> response, int id, boolean isRefresh) {
                 GithubInfo body = response.body();
                 if (body != null) toast(body.hub_url);
             }
@@ -165,7 +165,7 @@ public class NetWorkAndImageActivity extends BaseActivity {
         if (!alreadyDownload) {
             MyOkHttpUtils.getFile(Global.PICPICK_DOWNLOAD_URL, null, null, new GetFileCallback(this, null, null) {
                 @Override
-                public void onOk(@NonNull File info, int id) {
+                public void onOk(@NonNull File info, int id, boolean isRefresh) {
                 }
 
                 @Override
@@ -193,7 +193,7 @@ public class NetWorkAndImageActivity extends BaseActivity {
         MyOkHttpUtils.postFiles("http://39.104.16.81:31112/fileManage/upload", "filed", new File(filePath),
                 null, null, new PostFileCallback<String>(this) {
                     @Override
-                    public void onOk(@NonNull String info, int id) {
+                    public void onOk(@NonNull String info, int id, boolean isRefresh) {
                         toast(info);
                     }
                 });

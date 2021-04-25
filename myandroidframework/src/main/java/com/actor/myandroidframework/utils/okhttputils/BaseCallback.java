@@ -49,12 +49,20 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     protected boolean           isParseNetworkResponseIsNull = false;//解析成的实体entity=null
     protected boolean           isJsonParseException         = false;//Json解析异常
     protected boolean           isShowedLoadingDialog        = false;//本次请求LoadingDialog是否show
+    private   int               requestId;
+    protected boolean           thisRequestIsRefresh         = false;//这次请求是否是(下拉)刷新
     public    Object            tag;
-    public    int               id;
-    public    boolean           requestIsRefresh             = false;//这次请求是否是(下拉)刷新
 
     public BaseCallback(@Nullable Object tag) {
-        this.tag = tag;
+        this(tag, 0, false);
+    }
+
+    public BaseCallback(@Nullable Object tag, int requestId) {
+        this(tag, requestId, false);
+    }
+
+    public BaseCallback(@Nullable Object tag, boolean isRefresh) {
+        this(tag, 0, isRefresh);
     }
 
     /**
@@ -62,30 +70,24 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      *            1.1.传入Activity(继承ActorBaseActivity)/Fragment(继承ActorBaseFragment), 用于销毁的时候取消请求.
      *            1.2.如果是在Dialog/Others..., 需要自己调用: {@link MyOkHttpUtils#cancelTag(Object)}
      *            2.如果 tag instanceof ShowLoadingDialogAble, 会自动show/dismiss LoadingDialog.
-     * @param id  1.可传入"List/RecyclerView"的position或item对应的id,
-     *              当你在List/RecyclerView中多个item"同时请求"时, 这个id可用于区别你这次请求是哪一个item发起的.
+     * @param requestId  1.可传入"List/RecyclerView"的position或item对应的id,
+     *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的.
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
-     *              当上传成功后, 就可根据这个id判断是上传哪一个文件.
-     */
-    public BaseCallback(@Nullable Object tag, int id) {
-        this.tag = tag;
-        this.id = id;
-    }
-
-    /**
+     *              当上传成功后, 就可根据这个requestId判断是上传哪一个文件.
      * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
      */
-    public BaseCallback(@Nullable Object tag, boolean isRefresh) {
+    public BaseCallback(@Nullable Object tag, int requestId, boolean isRefresh) {
         this.tag = tag;
-        this.requestIsRefresh = isRefresh;
+        this.requestId = requestId;
+        this.thisRequestIsRefresh = isRefresh;
     }
 
     /**
      * 开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
      */
     @Override
-    public void onBefore(@Nullable Request request, int id) {
-        super.onBefore(request, id);
+    public void onBefore(@Nullable Request request, int requestId) {
+        super.onBefore(request, requestId);
         if (tag instanceof ShowLoadingDialogable) {
             ((ShowLoadingDialogable) tag).showLoadingDialog();
             isShowedLoadingDialog = true;
@@ -145,7 +147,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     public void onResponse(T response, int id) {//main thread
         if (response != null) {
             onOkDismissLoadingDialog(id);
-            onOk(response, id);
+            onOk(response, id, thisRequestIsRefresh);
         } else {
             isParseNetworkResponseIsNull = true;
             if (!isJsonParseException) {//如果不是Json解析错误的原因, 而是其它原因
@@ -157,13 +159,16 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
 
     /**
      * 请求成功回调
+     * @param info json解析成的对象
+     * @param requestId 本次回调标记, 见构造方法: {@link BaseCallback(Object, int)}
+     * @param isRefresh 这次请求是否是(下拉)刷新, 需要在构造方法中传入: {@link BaseCallback(Object, boolean)}
      */
-    public abstract void onOk(@NonNull T info, int id);
+    public abstract void onOk(@NonNull T info, int requestId, boolean isRefresh);
 
     /**
      * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
      */
-    public void onOkDismissLoadingDialog(int id) {
+    public void onOkDismissLoadingDialog(int requestId) {
         if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
             ((ShowLoadingDialogable) tag).dismissLoadingDialog();
         }
@@ -175,7 +180,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                onError(call, e, id);
+                onError(call, e, requestId);
             }
         });
     }
@@ -183,12 +188,12 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     //okhttp3.Callback的方法
     @Override
     public final void onResponse(Call call, Response response) throws IOException {//sub thread
-        if (validateReponse(response, id)) {
-            T t = parseNetworkResponse(response, id);
+        if (validateReponse(response, requestId)) {
+            T t = parseNetworkResponse(response, requestId);
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    onResponse(t, id);
+                    onResponse(t, requestId);
                 }
             });
         } else {
@@ -196,7 +201,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    onStatusCodeError(response.code(), response, id);
+                    onStatusCodeError(response.code(), response, requestId);
                 }
             });
             onFailure(call, new IOException("状态码错误: " + response.code()));
@@ -239,8 +244,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      *
      * @param errCode 错误码
      */
-    public void onStatusCodeError(int errCode, Response response, int id) {
-        String s = getStringFormat("状态码错误: errCode=%d, response=%s, id=%d", errCode, response, id);
+    public void onStatusCodeError(int errCode, Response response, int requestId) {
+        String s = getStringFormat("状态码错误: errCode=%d, response=%s, requestId=%d", errCode, response, requestId);
         logError(s);
         toast(getStringFormat("状态码错误: %d", errCode));
     }
@@ -248,8 +253,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     /**
      * 数据解析错误, 默认会toast, 可重写此方法
      */
-    public void onJsonParseException(Response response, int id, Exception e) {
-        String s = getStringFormat("数据解析错误: response=%s, id=%d, e=%s", response, id, e);
+    public void onJsonParseException(Response response, int requestId, Exception e) {
+        String s = getStringFormat("数据解析错误: response=%s, requestId=%d, e=%s", response, requestId, e);
         logError(s);
         toast("数据解析错误");
     }
@@ -257,8 +262,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     /**
      * 数据解析为空, 默认会toast, 可重写此方法
      */
-    public void onParseNetworkResponseIsNull(int id) {
-        logFormat("数据解析为空: tag=%s, id=%d", tag, id);
+    public void onParseNetworkResponseIsNull(int requestId) {
+        logFormat("数据解析为空: tag=%s, requestId=%d", tag, requestId);
         toast("数据解析为空");
     }
 
@@ -267,6 +272,9 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         return ((ParameterizedType) type).getActualTypeArguments()[0];
     }
 
+    public int getRequestId() {
+        return requestId;
+    }
     protected void logError(String msg) {
         LogUtils.error(msg, false);
     }

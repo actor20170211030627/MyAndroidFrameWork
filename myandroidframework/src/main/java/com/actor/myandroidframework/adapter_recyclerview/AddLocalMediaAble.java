@@ -1,5 +1,7 @@
 package com.actor.myandroidframework.adapter_recyclerview;
 
+import android.widget.ImageView;
+
 import com.actor.myandroidframework.R;
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -45,7 +47,9 @@ import java.util.Map;
 public interface AddLocalMediaAble<UploadInfo> {
 
     //Item布局
-    public static final int LAYOUT_RES_ID = R.layout.item_for_file_select;
+    public static final int LAYOUT_RES_ID        = R.layout.item_for_file_select;
+    //删除图片
+    public static final int DRAWABLE_DELETE_ICON = R.drawable.close_gray_for_file_select;
 
     /**
      * 最后一个文件占位, path例: content://media/external/file/119729
@@ -106,5 +110,16 @@ public interface AddLocalMediaAble<UploadInfo> {
             alreadyUploads.put(realPath, getUploads().get(realPath));
         }
         return alreadyUploads;
+    }
+
+    public interface OnItemClickListener {
+        /**
+         * "item图片"和"删除图片"的点击事件
+         * @param imageView "item图片" 或 "删除图片"
+         * @param isDelete 是否是删除图片的点击
+         * @param position 第几个pos
+         * @return 如果自己处理点击事件, return true. 否则return false
+         */
+        boolean onItemClick(ImageView imageView, boolean isDelete, int position);
     }
 }

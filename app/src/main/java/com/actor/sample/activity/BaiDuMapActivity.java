@@ -118,7 +118,7 @@ public class BaiDuMapActivity extends BaseActivity {
             case R.id.btn_get_latlng_by_address://地址→'网络'→坐标
                 BaiduMapUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
                     @Override
-                    public void onOk(@NonNull LngLatInfo info, int id) {
+                    public void onOk(@NonNull LngLatInfo info, int id, boolean isRefresh) {
                         if (info.status == 0) {
                             LngLatInfo.ResultBean result = info.result;
                             if (result != null) {

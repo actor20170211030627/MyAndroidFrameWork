@@ -38,6 +38,6 @@ public class NoResultCallback<T> extends BaseCallback2<T> {
     }
 
     @Override
-    public void onOk(Call call, Response response) {
+    public void onOk(Call call, Response response, int id, boolean isRefresh) {
     }
 }
