@@ -26,41 +26,41 @@ public abstract class BaseCallback2<T> implements Callback<T> {
 
     protected boolean isStatusCodeError     = false;
     protected boolean isShowedLoadingDialog = false;//本次请求LoadingDialog是否show
-    public    int     id;
+    private   int     requestId;
+    protected boolean thisRequestIsRefresh  = false;//这次请求是否是(下拉)刷新
     public    Object  tag;
-    public    boolean requestIsRefresh  = false;//这次请求是否是(下拉)刷新
 
     public BaseCallback2(@Nullable Object tag) {
-        this.tag = tag;
-        onBefore(id);
+        this(tag, 0, false);
+    }
+
+    public BaseCallback2(@Nullable Object tag, int requestId) {
+        this(tag, requestId, false);
+    }
+
+    public BaseCallback2(@Nullable Object tag, boolean isRefresh) {
+        this(tag, 0, isRefresh);
     }
 
     /**
      * @param tag 如果 tag instanceof ShowLoadingDialogAble, 会自动show/dismiss LoadingDialog.
-     * @param id  1.可传入"List/RecyclerView"的position或item对应的id,
-     *              当你在List/RecyclerView中多个item"同时请求"时, 这个id可用于区别你这次请求是哪一个item发起的.
+     * @param requestId  1.可传入"List/RecyclerView"的position或item对应的id,
+     *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的.
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
-     *              当上传成功后, 就可根据这个id判断是上传哪一个文件.
-     */
-    public BaseCallback2(@Nullable Object tag, int id) {
-        this.tag = tag;
-        this.id = id;
-        onBefore(id);
-    }
-
-    /**
+     *              当上传成功后, 就可根据这个requestId判断是上传哪一个文件.
      * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
      */
-    public BaseCallback2(@Nullable Object tag, boolean isRefresh) {
+    public BaseCallback2(@Nullable Object tag, int requestId, boolean isRefresh) {
         this.tag = tag;
-        this.requestIsRefresh = isRefresh;
-        onBefore(id);
+        this.requestId = requestId;
+        this.thisRequestIsRefresh = isRefresh;
+        onBefore(requestId);
     }
 
     /**
      * 开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
      */
-    public void onBefore(int id) {
+    public void onBefore(int requestId) {
         if (tag instanceof ShowLoadingDialogable) {
             ((ShowLoadingDialogable) tag).showLoadingDialog();
             isShowedLoadingDialog = true;
@@ -70,8 +70,8 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
-            onOkDismissLoadingDialog(id);
-            onOk(call, response);
+            onOkDismissLoadingDialog(requestId);
+            onOk(call, response, requestId, thisRequestIsRefresh);
         } else {
             isStatusCodeError = true;
             onStatusCodeError(response.code(), call, response);
@@ -81,13 +81,16 @@ public abstract class BaseCallback2<T> implements Callback<T> {
 
     /**
      * 请求成功回调
+     * @param response 返回对象
+     * @param requestId 本次回调标记, 见构造方法: {@link BaseCallback2(Object, int)}
+     * @param isRefresh 这次请求是否是(下拉)刷新, 需要在构造方法中传入: {@link BaseCallback2(Object, boolean)}
      */
-    public abstract void onOk(Call<T> call, Response<T> response);
+    public abstract void onOk(Call<T> call, Response<T> response, int requestId, boolean isRefresh);
 
     /**
      * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
      */
-    public void onOkDismissLoadingDialog(int id) {
+    public void onOkDismissLoadingDialog(int requestId) {
         if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
             ((ShowLoadingDialogable) tag).dismissLoadingDialog();
         }
@@ -130,6 +133,10 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     public void onStatusCodeError(int errCode, Call<T> call, Response<T> response) {
         logFormat("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
         toast(getStringFormat("状态码错误: %d", errCode));
+    }
+
+    public int getRequestId() {
+        return requestId;
     }
 
     protected void logError(String msg) {

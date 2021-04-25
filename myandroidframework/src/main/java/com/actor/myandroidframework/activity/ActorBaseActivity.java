@@ -464,29 +464,30 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
      * //isRefresh: 是否是下拉刷新
      * private void getList(boolean isRefresh) {
      *     params.clear();
-     *     params.put(Global.page, getPage(isRefresh, myAdapter, Global.SIZE));
+     *     params.put(Global.page, getPage(isRefresh, mAdapter, Global.SIZE));
      *     params.put(Global.size, Global.SIZE);
      *     MyOkHttpUtils.get(url, params, new BaseCallback<UserBean>(this, isRefresh) {
      *         @Override
-     *         public void onOk(@NonNull UserBean info, int id) {
+     *         public void onOk(@NonNull UserBean info, int id, boolean isRefresh) {
+     *             swipeRefreshLayout.setRefreshing(false);
      *             //int total = info.totalCount;               //⑴. total这种方式也可以
      *             List<UserBean.Data> datas = info.data;
      *             //如果是下拉刷新
-     *             if (requestIsRefresh) {
-     *                 myAdapter.setNewData(datas);//设置新数据
+     *             if (isRefresh) {
+     *                 mAdapter.setNewData(datas);//设置新数据
      *             } else if (datas != null) {
-     *                 myAdapter.addData(datas);//增加数据
+     *                 mAdapter.addData(datas);//增加数据
      *             }
-     *             //setLoadMoreState(myAdapter, total);            //⑴
-     *             setLoadMoreState(myAdapter, datas, Global.SIZE); //⑵
+     *             //setLoadMoreState(mAdapter, total);            //⑴
+     *             setLoadMoreState(mAdapter, datas, Global.SIZE); //⑵
      *         }
      *
      *         @Override
      *         public void onError(int id, okhttp3.Call call, Exception e) {
      *             super.onError(id, call, e);
-     *
+     *             swipeRefreshLayout.setRefreshing(false);
      *             //点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
-     *             myAdapter.loadMoreFail();//加载失败
+     *             mAdapter.loadMoreFail();//加载失败
      *         }
      *     });
      * }

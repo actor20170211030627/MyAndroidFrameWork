@@ -40,7 +40,7 @@ public class CheckUpdateUtils {
     public void check(Object tag) {
         MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<CheckUpdateInfo>(tag) {
             @Override
-            public void onOk(@NonNull CheckUpdateInfo info, int id) {
+            public void onOk(@NonNull CheckUpdateInfo info, int id, boolean isRefresh) {
                 List<CheckUpdateInfo.ElementsBean> elements = info.elements;
                 if (elements != null && !elements.isEmpty()) {
                     CheckUpdateInfo.ElementsBean elementsBean = elements.get(0);
@@ -88,7 +88,7 @@ public class CheckUpdateUtils {
             }
 
             @Override
-            public void onOk(@NonNull File info, int id) {
+            public void onOk(@NonNull File info, int id, boolean isRefresh) {
                 progressDialog.dismiss();
                 AppUtils.installApp(info);
             }

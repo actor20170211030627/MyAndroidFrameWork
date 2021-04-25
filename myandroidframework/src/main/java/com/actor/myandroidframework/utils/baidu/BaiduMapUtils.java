@@ -135,7 +135,7 @@ public class BaiduMapUtils {
                 //super.onBefore(request, id);
             }
             @Override
-            public void onOk(@NonNull AddressInfo info, int id) {
+            public void onOk(@NonNull AddressInfo info, int id, boolean isRefresh) {
                 if (info.status == 0) {
                     AddressInfo.ResultBean result = info.result;
                     if (result != null) {

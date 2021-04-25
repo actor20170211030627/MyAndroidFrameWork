@@ -137,7 +137,7 @@ public class ThirdActivity extends BaseActivity {
                 //这个也应该后台调用后一起返回
                 WeChatUtils.getUserInfo(accessToken, openId, new BaseCallback<Object>(this) {
                     @Override
-                    public void onOk(@NonNull Object info, int id) {
+                    public void onOk(@NonNull Object info, int id, boolean isRefresh) {
                     }
                 });
                 break;
