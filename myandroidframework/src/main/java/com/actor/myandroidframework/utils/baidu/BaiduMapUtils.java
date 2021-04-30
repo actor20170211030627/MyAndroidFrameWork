@@ -77,7 +77,6 @@ public class BaiduMapUtils {
     protected static final String PACKAGE_NAME = ";com.actor.sample";//; + 包名
     protected static final Map<String, Object> params = new LinkedHashMap<>(10);
 
-    public static final String GAODE_PACKAGE_NAME = "com.autonavi.minimap";//高德地图包名
     public static final String BAIDU_PACKAGE_NAME = "com.baidu.BaiduMap";//百度地图包名
 
     protected BaiduMapUtils() {}
@@ -202,43 +201,7 @@ public class BaiduMapUtils {
     }
 
     /**
-     * 打开高德地图导航功能, 待测试
-     * @param slat    起点纬度
-     * @param slon    起点经度
-     * @param sname   起点名称 可不填（0,0，null）
-     * @param dlat    终点纬度
-     * @param dlon    终点经度
-     * @return 是否打开成功
-     */
-    public static boolean openGaoDeNavigation(Context context, double slon, double slat, String sname,
-                                     double dlon, double dlat) {
-        boolean appInstalled = AppUtils.isAppInstalled(GAODE_PACKAGE_NAME);//是否安装高德地图
-        if (!appInstalled) return false;
-        StringBuilder sb = new StringBuilder("amapuri://route/plan?sourceApplication=maxuslife");
-        if (slat != 0) {
-            sb.append("&sname=")
-                    .append(sname)
-                    .append("&slat=")
-                    .append(slat)
-                    .append("&slon=")
-                    .append(slon);
-        }
-        sb.append("&dlat=").append(dlat)
-                .append("&dlon=")
-                .append(dlon)
-//                .append("&dname=")
-//                .append(dname)
-                .append("&dev=0")
-                .append("&t=0");
-        String string = sb.toString();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setPackage(GAODE_PACKAGE_NAME);
-        intent.setData(Uri.parse(string));
-        context.startActivity(intent);
-        return true;
-    }
-
-    /**
+     * 移动应用调用百度地图: http://lbsyun.baidu.com/index.php?title=uri/api/android
      * 打开百度地图导航功能, 待测试
      * @param slat    起点纬度
      * @param slon    起点经度

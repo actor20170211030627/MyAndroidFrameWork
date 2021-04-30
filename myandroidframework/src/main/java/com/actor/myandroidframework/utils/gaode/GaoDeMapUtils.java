@@ -1,6 +1,9 @@
 package com.actor.myandroidframework.utils.gaode;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -22,6 +25,7 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
+import com.blankj.utilcode.util.AppUtils;
 
 /**
  * 高德地图开放平台: https://lbs.amap.com/
@@ -112,6 +116,8 @@ import com.amap.api.maps.model.PolylineOptions;
  * @version 1.0
  */
 public class GaoDeMapUtils {
+
+    public static final String GAODE_PACKAGE_NAME = "com.autonavi.minimap";//高德地图包名
 
     //获取版本名称
     public static String getVersion() {
@@ -271,5 +277,43 @@ public class GaoDeMapUtils {
     //一像素代表多少米
     public static float getScalePerPixel(AMap aMap) {
         return aMap.getScalePerPixel();
+    }
+
+    /**
+     * 路径规划: https://lbs.amap.com/api/amap-mobile/guide/android/route
+     * 打开高德地图导航功能, 待测试
+     * @param slat    起点纬度
+     * @param slon    起点经度
+     * @param sname   起点名称 可不填（0,0，null）
+     * @param dlat    终点纬度
+     * @param dlon    终点经度
+     * @return 是否打开成功
+     */
+    public static boolean openGaoDeNavigation(Context context, double slon, double slat, String sname,
+                                              double dlon, double dlat) {
+        boolean appInstalled = AppUtils.isAppInstalled(GAODE_PACKAGE_NAME);//是否安装高德地图
+        if (!appInstalled) return false;
+        StringBuilder sb = new StringBuilder("amapuri://route/plan?sourceApplication=maxuslife");
+        if (slat != 0) {
+            sb.append("&sname=")
+                    .append(sname)
+                    .append("&slat=")
+                    .append(slat)
+                    .append("&slon=")
+                    .append(slon);
+        }
+        sb.append("&dlat=").append(dlat)
+                .append("&dlon=")
+                .append(dlon)
+//                .append("&dname=")
+//                .append(dname)
+                .append("&dev=0")
+                .append("&t=0");
+        String string = sb.toString();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage(GAODE_PACKAGE_NAME);
+        intent.setData(Uri.parse(string));
+        context.startActivity(intent);
+        return true;
     }
 }
