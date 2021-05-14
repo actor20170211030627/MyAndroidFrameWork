@@ -60,6 +60,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     /**
      * 务必返回: XxxFragment.newInstance(Xxx... xxx); ,这样系统恢复时, 会重新调用Fragment的onCreate
      */
+    @NonNull
     @Override
     public abstract Fragment getItem(int position);
 

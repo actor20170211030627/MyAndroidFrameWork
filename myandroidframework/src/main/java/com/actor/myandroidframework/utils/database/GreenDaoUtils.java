@@ -46,7 +46,7 @@ import java.util.List;
  *   }
  *
  * 3.写一个你想要存储到 GreenDao 的实体类, 示例 ItemEntity.java:
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/database/ItemEntity.java
+ *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/database/ItemEntity.java
  *
  * 4.Build -> Make Project, 生成 DaoMaster.java, DaoSession.java, ItemEntityDao.java
  *
@@ -57,7 +57,7 @@ import java.util.List;
  *   ItemEntityDao dao = GreenDaoUtils.getDaoSession().getItemEntityDao();//ItemEntityDao是生成的文件
  *
  * 7.使用示例:
- *  https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java
+ *  https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java
  *
  * 8.{@link WhereCondition} 的一些方法:
  *   //1. 获取 Property: AbstractDao的子类.Properties  (例: ItemEntityDao.Properties.Sex)

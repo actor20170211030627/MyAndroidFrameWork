@@ -105,9 +105,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
 
     /**
      * 共享元素方式跳转, 示例:
-     * GitHub:
-     * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java
-     * 码云:
      * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java
      *
      * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.

@@ -54,8 +54,9 @@ public abstract class BasePagerAdapter extends PagerAdapter {
      *      container.addView(iv);
      *      return iv;
      */
+    @NonNull
     @Override
-    public abstract Object instantiateItem(ViewGroup container, int position);
+    public abstract Object instantiateItem(@NonNull ViewGroup container, int position);
 
     @Nullable
     @Override
@@ -75,13 +76,13 @@ public abstract class BasePagerAdapter extends PagerAdapter {
 
     //移除布局
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
         //super.destroyItem(container, position, object);
         container.removeView((View) object);
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 }

@@ -60,6 +60,7 @@ public class ViewPagerAndFragmentActivity extends BaseActivity {
         /**
          * 务必返回: XxxFragment.newInstance(Xxx... xxx); ,这样系统恢复时, 会重新调用Fragment的onCreate
          */
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             switch (position) {

@@ -57,12 +57,13 @@ public class ViewPagerActivity extends BaseActivity {
             super(fm, size);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return DetailFragment.newInstance(position, startPosition);
         }
 
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             super.setPrimaryItem(container, position, object);
             currentFragment = (DetailFragment) object;
         }
