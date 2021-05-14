@@ -1,8 +1,8 @@
 ## MyAndroidFrameWork
 > <a href="https://github.com/actor20170211030627/MyAndroidFrameWork"><s>Github(网速慢,不再维护 Deprecated)</s></a> <br/>
-> <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a> <br/>
-> 注意: 这是 <font color='red' size='6'><b>Androidx</b></font> 版,
-  非Androidx版本在&nbsp;
+> <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a>
+> 
+> 注意: 这是 <font color='red' size='6'><b>Androidx</b></font> 版, 非Androidx版本在&nbsp;
   <a style="font-size:23px" href="./README-1.4.1.md"><s>这儿 </s></a>
   &nbsp;(非Androidx版本不再维护) <br/>
 >> Androidx版本能很好向下兼容, 包括jar包依赖也能自动转换, 所以建议转换成Androidx.

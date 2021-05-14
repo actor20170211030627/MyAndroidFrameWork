@@ -65,6 +65,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation rootProject.ext.dependencies.constraint_layout
 
     //https://github.com/google/flexbox-layout
@@ -72,7 +73,6 @@ dependencies {
 
     //https://github.com/JakeWharton/butterknife
     implementation 'com.jakewharton:butterknife:10.2.3'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     //https://gitee.com/actor20170211030627/MyAndroidFrameWork

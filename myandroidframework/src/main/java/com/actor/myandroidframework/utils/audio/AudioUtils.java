@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.FileUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 
 import java.io.File;
 
@@ -196,9 +197,15 @@ public class AudioUtils {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                if (mRecordCallback != null) mRecordCallback.recordError(e);
+                if (mRecordCallback != null) {
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRecordCallback.recordError(e);
+                        }
+                    });
+                }
             }
-
         }
     }
 
