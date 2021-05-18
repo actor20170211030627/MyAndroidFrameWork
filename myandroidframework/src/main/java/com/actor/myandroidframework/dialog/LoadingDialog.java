@@ -21,7 +21,7 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 
 /**
  * Description: 加载Dialog, 根布局使用 ConstraintLayout 有问题, 有时候只显示灰色背景
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/6/28 on 16:43
  * @version 1.0
  */

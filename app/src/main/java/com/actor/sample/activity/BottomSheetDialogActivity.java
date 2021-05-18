@@ -21,7 +21,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->BottomSheetDialog
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 14:24
  */
 public class BottomSheetDialogActivity extends BaseActivity {

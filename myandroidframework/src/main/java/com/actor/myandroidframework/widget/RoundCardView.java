@@ -14,7 +14,7 @@ import com.google.android.material.card.MaterialCardView;
 
 /**
  * description: 可自定义圆角的CardView, https://blog.csdn.net/jingzz1/article/details/104985448
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/6/2 on 16:31
  *
  * CardView 属性:

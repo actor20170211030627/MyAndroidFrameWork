@@ -13,7 +13,7 @@ import com.actor.myandroidframework.R;
 /**
  * description: 从左侧弹出的Dialog
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/5/19 on 16:09
  * @version 1.0
  */

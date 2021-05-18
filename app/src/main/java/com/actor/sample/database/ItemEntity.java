@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * Description: ItemEntity对应的数据库表的实体
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020/2/18 on 09:57
  *
  * @version 1.0

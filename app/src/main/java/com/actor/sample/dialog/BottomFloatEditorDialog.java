@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * description: 从底部弹出, 可输入的Dialog, 不遮挡键盘.
- * author     : 李大发
+ * author     : ldf
  * date       : 2020/4/13 on 17:46
  *
  * @version 1.0

@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 
 /**
  * Description: 设置能否左右滑动的ViewPager
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/3/7 on 15:39
  * @version 1.1
  */

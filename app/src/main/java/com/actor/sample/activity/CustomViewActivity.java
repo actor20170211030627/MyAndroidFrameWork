@@ -18,7 +18,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->自定义View
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-8-27 on 17:37
  */
 public class CustomViewActivity extends BaseActivity {

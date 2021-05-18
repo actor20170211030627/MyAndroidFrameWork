@@ -69,7 +69,7 @@ import org.json.JSONObject;
  * 9.示例使用:
  * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
  *
- * @author     : 李大发
+ * @author     : ldf
  * date       : 2020/3/5 on 12:28
  * @version 1.0
  */

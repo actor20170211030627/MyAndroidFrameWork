@@ -26,7 +26,7 @@ import butterknife.Unbinder;
 
 /**
  * Description: 元素共享中的Fragment
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020/2/6 on 18:42
  */
 public class SharedElementFragment extends BaseFragment {

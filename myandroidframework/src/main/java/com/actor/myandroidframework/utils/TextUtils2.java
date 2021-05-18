@@ -264,9 +264,6 @@ public class TextUtils2 {
     /**
      * 返回格式化后的String, 示例: ("name = %s, age = %d", "张三", 23) => (name = 张三, age = 23)
      * 具体格式化方式可参考:
-     * GitHub:
-     * https://github.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
-     * 码云:
      * https://gitee.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
      */
     public static String getStringFormat(String format, Object... args) {

@@ -111,7 +111,7 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  *
  * 10.错误码: http://docs.jiguang.cn/jpush/client/Android/android_api/#_248
  *
- * author     : 李大发
+ * author     : ldf
  * date       : 2020/3/24 on 07:26
  *
  * @version 1.0

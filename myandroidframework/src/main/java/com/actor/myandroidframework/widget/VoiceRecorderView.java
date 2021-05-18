@@ -19,7 +19,7 @@ import com.actor.myandroidframework.R;
  * 示例使用:
  * https://gitee.com/actor20170211030627/ChatLayout/blob/master/app/src/main/res/layout/activity_main.xml
  * https://gitee.com/actor20170211030627/ChatLayout/blob/master/app/src/main/java/com/chatlayout/example/activity/MainActivity.java
- * author     : 李大发
+ * author     : ldf
  * date       : 2019/5/30 on 21:05
  * @version 1.0
  */

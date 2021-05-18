@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.NotificationUtils;
 
 /**
  * Description: Notification帮助类, copy from: https://www.cnblogs.com/whycxb/p/10077418.html
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/7/18 on 15:40
  *
  * @version 1.0

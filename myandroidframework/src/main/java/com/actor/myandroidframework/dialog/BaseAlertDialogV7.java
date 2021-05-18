@@ -81,7 +81,7 @@ import androidx.annotation.Nullable;
  *
  * 2.写一个类继承本类, 重写onCreate() & findViewById()
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020-1-14 on 12:01
  *
  * @version 1.0

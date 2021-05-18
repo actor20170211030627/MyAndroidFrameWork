@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Description: 快速查找条
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2017/3/22 on 20:55.
  *
  * 用法:

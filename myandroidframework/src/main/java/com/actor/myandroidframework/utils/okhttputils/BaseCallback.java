@@ -29,7 +29,7 @@ import okhttp3.ResponseBody;
  * 在{@link #onBefore(Request, int)} 的时候, 默认会显示LoadingDialog, 可重写此方法.
  * 在{@link #onError(int, Call, Exception)} 的时候, 默认会隐藏LoadingDialog, 可重写此方法.
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/4/17 on 16:03
  * @version 1.2 重写onResponse, 增加okOk
  * @version 1.3 增加onParseNetworkResponseIsNull

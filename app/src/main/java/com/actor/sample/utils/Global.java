@@ -2,7 +2,7 @@ package com.actor.sample.utils;
 
 /**
  * Description: 全局变量, GlobalConstants
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/8/18 on 22:15
  */
 public class Global {

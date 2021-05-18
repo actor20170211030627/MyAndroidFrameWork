@@ -24,7 +24,7 @@ import com.blankj.utilcode.util.ImageUtils;
 
 /**
  * Description: 自定义RatingBar
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-8-27 on 15:34
  *
  * @version 1.0

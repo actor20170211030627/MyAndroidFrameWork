@@ -44,7 +44,7 @@ import org.greenrobot.eventbus.EventBus;
  *         break;
  * }
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/4/1 on 10:57
  */
 public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEventHandler {

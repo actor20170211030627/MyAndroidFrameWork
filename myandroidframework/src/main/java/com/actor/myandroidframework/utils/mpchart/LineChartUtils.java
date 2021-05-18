@@ -28,7 +28,7 @@ import java.util.List;
  * //https://github.com/PhilJay/MPAndroidChart
  * implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2021/1/12 on 11
  * @version 1.0
  */

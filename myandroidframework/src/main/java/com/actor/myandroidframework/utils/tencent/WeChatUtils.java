@@ -48,9 +48,9 @@ import java.util.concurrent.ExecutionException;
  *
  * 2.添加相关Activity, 必须放在: 包名.wxapi文件夹下, 可参考:
  *   //登录等功能(如果app没有使用 登录等 这些功能, 请忽略)
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java
+ *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java
  *   //支付功能(如果app没有使用 支付 等这些功能, 请忽略)
- *   https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
+ *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
  *
  * 3.在 AndroidManifest.xml中添加以下2个Activity:
  * <!--微信登录等-->
@@ -75,9 +75,9 @@ import java.util.concurrent.ExecutionException;
  * 5.登录: {@link #login(String, String)}
  *
  * 6.示例使用:
- * https://github.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
+ * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
  *
- * @author    : 李大发
+ * @author    : ldf
  * date       : 2020/3/14 on 11:46
  * @version 1.0
  */

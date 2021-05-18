@@ -26,7 +26,7 @@ import java.io.File;
  *
  * 3.开始录音
  *
- * author     : 李大发
+ * author     : ldf
  * date       : 2019/5/30 on 17:43
  * TODO: 2020/4/1 逻辑理顺一下...&hihi是录制的什么格式音频?
  */

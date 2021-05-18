@@ -12,7 +12,7 @@ import okhttp3.HttpUrl;
  * 修改host:
  * baseUrlHelper.setHost("www.baidu.com");//不要写前缀http(s)://协议
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/6/7 on 00:29
  */
 public class BaseUrlHelper {

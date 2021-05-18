@@ -8,7 +8,7 @@ import retrofit2.http.Url;
 
 /**
  * Description: 下载文件
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/3/15 on 10:10
  */
 public interface DownloadFileApi {

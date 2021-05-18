@@ -8,7 +8,7 @@ import android.util.Log;
  * @version 1.0.2
  * @see com.blankj.utilcode.util.LogUtils, 这个工具类输出后可以点击跳转.
  * <p>
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2018/4/18 on 11:07
  */
 public class LogUtils {

@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Description: View切换, 水平切换效果 & 垂直切换效果
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/8/24 on 14:51
  *
  * @see android.widget.ViewAnimator 里的3个属性:

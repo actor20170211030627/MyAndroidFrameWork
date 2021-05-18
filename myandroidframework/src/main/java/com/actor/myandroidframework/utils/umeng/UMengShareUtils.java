@@ -34,7 +34,7 @@ import com.umeng.commonsdk.UMConfigure;
  * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
  * <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/11/9 on 10
  * @version 1.0
  */

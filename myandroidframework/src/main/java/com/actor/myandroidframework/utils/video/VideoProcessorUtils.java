@@ -24,7 +24,7 @@ import java.io.IOException;
  *      //https://github.com/yellowcath/VideoProcessor 视频压缩
  *      implementation 'com.github.yellowcath:VideoProcessor:2.4.2'
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2021/3/30 on 00
  * @version 1.0
  */

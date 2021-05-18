@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Description: 检查更新
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/10/19 on 15:02
  *
  * @version 1.0

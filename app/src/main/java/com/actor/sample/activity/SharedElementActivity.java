@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 
 /**
  * Description: 主页->元素共享跳转
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020/2/6 on 18:41
  */
 public class SharedElementActivity extends BaseActivity {

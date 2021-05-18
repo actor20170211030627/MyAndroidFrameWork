@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
  *         .registerTypeAdapter(Integer.class, intJsonDeserializer).create();
  * GsonUtils.setGsonDelegate(gson);
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/7/30 on 18:51
  * @version 1.0
  */

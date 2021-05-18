@@ -24,7 +24,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->判空
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 17:47
  */
 public class IsEmptyActivity extends BaseActivity {

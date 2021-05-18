@@ -17,7 +17,7 @@ import retrofit2.Response;
 
 /**
  * Description: retrofit2 的 Callback
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/5/9 on 10:27
  *
  * @version 1.0.2 修改Format错误导致崩溃问题 & 修改取消请求后, onFailure崩溃问题(增加call.isCanceled()判断)

@@ -15,7 +15,7 @@ import java.util.List;
  * 1.用法
  * viewPager.setAdapter(new BasePagerAdapter(imageRes));
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/3/27 on 20:03
  */
 public abstract class BasePagerAdapter extends PagerAdapter {

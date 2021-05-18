@@ -13,7 +13,7 @@ import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 /**
  * description: 描述
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/10/8 on 11
  * @version 1.0
  */

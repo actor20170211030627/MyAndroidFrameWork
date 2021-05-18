@@ -111,7 +111,7 @@ import com.blankj.utilcode.util.AppUtils;
  *  @see com.amap.api.maps.TextureSupportMapFragment extends android.support.v4.app.Fragment
  *
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/8/5 on 16:39
  * @version 1.0
  */

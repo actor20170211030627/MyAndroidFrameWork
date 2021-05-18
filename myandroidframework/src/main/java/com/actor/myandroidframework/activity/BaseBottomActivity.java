@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 /**
  * Description: 从底部弹出的 非全屏 Activity
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/8/22 on 00:15
  *
  * 怎么使用, 注意:

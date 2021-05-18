@@ -99,7 +99,7 @@ import java.util.List;
  *   https://www.jianshu.com/p/53083f782ea2
  *   greenDao说明.java
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/10/28 on 22:53
  *
  * @version 1.0
@@ -424,8 +424,9 @@ public class GreenDaoUtils {
      * @param dao 具体实体对应的dao
      * @param <T> 实体
      * @param <K> 实体的id类型
-     * @return 查询到实体列表
+     * @return 查询到实体列表, 如果没有查到, 返回一个空的List
      */
+    @NonNull
     public static <T, K> List<T> queryAll(AbstractDao<T, K> dao) {
         return dao.loadAll();
 //        return dao.queryBuilder().list();//一样的

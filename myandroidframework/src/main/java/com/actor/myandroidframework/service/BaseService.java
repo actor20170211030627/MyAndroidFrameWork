@@ -11,7 +11,7 @@ import com.actor.myandroidframework.R;
 
 /**
  * Description: Service 基类
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020/3/16 on 16:40
  *
  * @version 1.0

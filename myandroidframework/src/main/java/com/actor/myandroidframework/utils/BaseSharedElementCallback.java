@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Description: A界面跳B界面, B界面返回A界面, 2种方式的共享元素跳转回调
  *              例: A界面: RecyclerView <--> B界面: ViewPager, 返回后更新A界面共享元素position
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020/2/5 on 15:06
  *
  * @version 1.0

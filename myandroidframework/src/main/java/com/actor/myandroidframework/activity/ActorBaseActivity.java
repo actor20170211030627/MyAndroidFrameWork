@@ -40,7 +40,7 @@ import retrofit2.Call;
 /**
  * Description: Activity基类
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2017/5/27 on 12:45.
  *
  * @version 1.0

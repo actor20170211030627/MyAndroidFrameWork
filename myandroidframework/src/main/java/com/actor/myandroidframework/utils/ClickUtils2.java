@@ -4,7 +4,7 @@ package com.actor.myandroidframework.utils;
  * description: 双击工具类
  * @see com.blankj.utilcode.util.ClickUtils
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2021/2/7 on 13
  * @version 1.0
  */

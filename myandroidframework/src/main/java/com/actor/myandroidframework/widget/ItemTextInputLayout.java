@@ -31,7 +31,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
  * Description: 常用的Item输入布局,这是一个组合控件.
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/7/10 on 17:20
  *
  * 全部属性都是itil开头:

@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils.jpush;
 
 /**
  * description: 极光推送的Event事件
- * author     : 李大发
+ * author     : ldf
  * date       : 2020/3/24 on 19:31
  *
  * @version 1.0

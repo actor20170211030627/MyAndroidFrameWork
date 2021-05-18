@@ -13,7 +13,7 @@ import com.actor.myandroidframework.R;
 /**
  * description: 从顶部弹出的Dialog, 不能上下拖拽滑动
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2021/1/13 on 16
  * @version 1.0
  */

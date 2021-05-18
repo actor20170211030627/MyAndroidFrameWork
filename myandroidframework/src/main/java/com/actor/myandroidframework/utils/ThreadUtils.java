@@ -14,7 +14,7 @@ import java.util.SortedSet;
 /**
  * Description: 线程工具类,让程序运行在特定线程!
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2017/3/19 on 19:01.
  * @version 1.0
  *

@@ -34,7 +34,7 @@ import com.google.android.material.tabs.TabLayout;
  *  tabLayout.setupWithViewPager(viewPager);
  *  tabLayout.{@link #setCustomView(Activity, int, InitItemListener)};//设置成自定义View
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/7/13 on 15:15
  * @version 1.0
  */
