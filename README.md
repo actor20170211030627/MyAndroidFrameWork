@@ -109,6 +109,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
 <s><a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/umeng/UMengShareUtils.java">UMengShareUtils</a> (友盟分享)</s>
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java">VideoProcessorUtils</a> (视频压缩)
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java">AssetsUtils</a> (Assets读取)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java">ClickUtils2</a> (防止2次点击)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/LogUtils.java">LogUtils</a> (Log简单打印)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java">NotificationHelper</a> (通知栏)
