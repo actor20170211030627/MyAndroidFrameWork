@@ -174,7 +174,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     /**
-     * 最大高度, 如果想设置屏幕高度, 可传入{@link Integer#MAX_VALUE}
+     * 最大高度, 如果传入{@link Integer#MAX_VALUE}, 会导致这个Fragment内的RecyclerView等不能滑动.
      */
     public void setMaxHeight(int height) {
         if (height > 0) mMaxHeight = height;

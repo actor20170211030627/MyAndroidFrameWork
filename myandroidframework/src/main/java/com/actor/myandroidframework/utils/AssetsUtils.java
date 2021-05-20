@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.res.AssetManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.io.BufferedReader;
@@ -28,7 +28,7 @@ public class AssetsUtils {
     /**
      * 拷贝文件到 /data/data/com.package.name(包名)/files 目录
      */
-    public static void copyFile2FilesDir(boolean isCover, @NonNull String assetPath, OnListener<String> listener) {
+    public static void copyFile2FilesDir(boolean isCover, @NonNull String assetPath, @Nullable OnListener<String> listener) {
         //distPath: /data/data/com.actor.test/files
         copyFile2Dir(isCover, assetPath, CONTEXT.getFilesDir().getAbsolutePath(), listener);
     }
@@ -40,7 +40,7 @@ public class AssetsUtils {
      * @param distPath 目的地路径, 例: CONTEXT.getFilesDir().getAbsolutePath()
      * @param listener 拷贝监听
      */
-    public static void copyFile2Dir(boolean isCover, @NonNull String assetPath, String distPath, OnListener<String> listener) {
+    public static void copyFile2Dir(boolean isCover, @NonNull String assetPath, String distPath, @Nullable OnListener<String> listener) {
         if (assetPath == null) {
             if (listener != null) listener.onFail(new NullPointerException("需要copy的文件, assetPath = null"));
             return;
@@ -57,16 +57,17 @@ public class AssetsUtils {
             public String doInBackground() throws Throwable {
                 //获取资产管理器,从资产目录(asset)读取数据库文件
                 AssetManager assets = CONTEXT.getAssets();
-                InputStream is = assets.open(assetPath);
-                FileOutputStream fos = new FileOutputStream(file);
-                int len;
-                byte[] arr = new byte[1024*8];
-                while ((len = is.read(arr)) != -1){
-                    fos.write(arr, 0, len);
+                try (InputStream is = assets.open(assetPath); FileOutputStream fos = new FileOutputStream(file)) {
+                    int len;
+                    byte[] arr = new byte[1024 * 8];
+                    while ((len = is.read(arr)) != -1) {
+                        fos.write(arr, 0, len);
+                    }
+                    return file.getAbsolutePath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
                 }
-                if (is != null) is.close();
-                if (fos != null) fos.close();
-                return file.getAbsolutePath();
             }
             @Override
             public void onSuccess(String result) {
@@ -84,22 +85,21 @@ public class AssetsUtils {
      * 读取成String
      * @param assetPath 文件在assets目录下的路径, 示例: china_city_data.json, xxx.txt
      */
-    public static void readAssets2String(String assetPath, OnListener<String> listener) {
+    public static void readAssets2String(String assetPath, @Nullable OnListener<String> listener) {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<String>() {
             @Override
             public String doInBackground() throws Throwable {
-                InputStream is = CONTEXT.getAssets().open(assetPath);
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader bf = new BufferedReader(isr);
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = bf.readLine()) != null) {
-                    sb.append(line);
+                try (InputStream is = CONTEXT.getAssets().open(assetPath); InputStreamReader isr = new InputStreamReader(is); BufferedReader bf = new BufferedReader(isr)) {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = bf.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    return sb.toString();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw e;
                 }
-                if (is != null) is.close();
-                if (isr != null) isr.close();
-                if (bf != null) bf.close();
-                return sb.toString();
             }
             @Override
             public void onSuccess(String result) {
@@ -129,11 +129,14 @@ public class AssetsUtils {
     }
 
     public interface OnListener<T> {
-
+        /**
+         * @param result 拷贝成功路径
+         */
         void onComplated(T result);
 
-        default void onFail(Throwable t) {
-            LogUtils.e(t);
-        }
+        /**
+         * 拷贝失败
+         */
+        void onFail(Throwable t);
     }
 }

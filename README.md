@@ -95,6 +95,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduLocationUtils.java">BaiduLocationUtils</a> (百度地图定位)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduMapUtils.java">BaiduMapUtils</a> (百度地图)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java">GreenDaoUtils</a> (GreenDao数据库)
+<s><a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java">SQLiteDatabaseUtils</a> (原生数据库)</s>
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeLocationUtils.java">GaoDeLocationUtils</a> (高德地图定位)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeMapUtils.java">GaoDeMapUtils</a> (高德地图)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeUiSettingUtils.java">GaoDeUiSettingUtils</a> (高德地图UI界面)
