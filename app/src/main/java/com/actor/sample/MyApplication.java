@@ -65,7 +65,6 @@ public class MyApplication extends ActorApplication {
 
     /**
      *
-     * @param thread 线程
      * @param e 堆栈信息
      *
      * 示例处理:
@@ -78,7 +77,7 @@ public class MyApplication extends ActorApplication {
      * System.exit(-1);//退出
      */
     @Override
-    protected void onUncaughtException(Thread thread, Throwable e) {
+    protected void onUncaughtException(Throwable e) {
 //        Intent intent = new Intent(this, LoginActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        PendingIntent restartIntent = PendingIntent.getActivity(this, 0, intent, 0);

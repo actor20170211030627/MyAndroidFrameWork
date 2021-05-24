@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -89,7 +88,6 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     protected LinearLayout    llContentForItil;
     protected Space           spaceMarginTop;
     protected float           density;//px = dp * density;
-    protected int             inputType = EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE | EditorInfo.TYPE_CLASS_TEXT;//输入类型
     protected OnClickListener clickListener;
 
     public ItemTextInputLayout(Context context) {
@@ -145,12 +143,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             inflate(context, resourceId);
 
             tvRedStar.setVisibility(redStarVisiable * INVISIBLE);
-            if (itilInputType != -1) {
-                setInputType(inputType);
-            } else {
-                int inputType = getEditText().getInputType();
-                setInputType(inputType);
-            }
+            if (itilInputType != -1) setInputType(itilInputType);
             if (!inputEnable) setInputEnable(false);
             getTextViewItem().setText(itilItemName);
 
@@ -256,7 +249,6 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      * 设置输入类型
      */
     public void setInputType(int inputType) {
-        if (inputType != EditorInfo.TYPE_NULL) this.inputType = inputType;
         getEditText().setInputType(inputType);
     }
 
@@ -344,17 +336,14 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      * @param enable
      */
     public void setInputEnable(boolean enable) {
-        if (true) {
-            setInputType(enable ? inputType : EditorInfo.TYPE_NULL);
-        } else {
 //        getEditText().setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
-            getEditText().setFocusable(enable);
-            getEditText().setClickable(!enable);
-            getEditText().setLongClickable(enable);//长按显示粘贴
-            getEditText().setFocusableInTouchMode(enable);
+        //要设置focusable, 否则点击事件要第2次才有反应
+        getEditText().setFocusable(enable);
+        getEditText().setClickable(!enable);
+        getEditText().setLongClickable(enable);//长按显示粘贴
+        getEditText().setFocusableInTouchMode(enable);
 //        if (enable) getEditText().requestFocus();//把光标移动到这一个et1,但是不弹出键盘
 //        getEditText().setCursorVisible(false);
-        }
     }
 
     /**
