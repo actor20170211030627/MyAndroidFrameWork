@@ -336,6 +336,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      * @param enable
      */
     public void setInputEnable(boolean enable) {
+//        setInputType(enable ? inputType, EditorInfo.TYPE_NULL);
 //        getEditText().setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
         //要设置focusable, 否则点击事件要第2次才有反应
         getEditText().setFocusable(enable);

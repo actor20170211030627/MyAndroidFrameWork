@@ -108,7 +108,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java">RetrofitNetwork</a> (retrofit简单封装)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/tencent/QQUtils.java">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
-<s><a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/umeng/UMengShareUtils.java">UMengShareUtils</a> (友盟分享)</s>
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java">VideoProcessorUtils</a> (视频压缩)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java">AssetsUtils</a> (Assets读取)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java">ClickUtils2</a> (防止2次点击)
