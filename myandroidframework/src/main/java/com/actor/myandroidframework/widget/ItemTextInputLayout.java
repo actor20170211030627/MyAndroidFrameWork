@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -87,8 +88,12 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     protected ImageView       ivArrowRight;
     protected LinearLayout    llContentForItil;
     protected Space           spaceMarginTop;
-    protected float           density;//px = dp * density;
+    //px = dp * density;
+    protected float           density;
     protected OnClickListener clickListener;
+    //EditText's hint's color
+    protected ColorStateList  hintTextColors;
+    protected int             defaultHintColor;
 
     public ItemTextInputLayout(Context context) {
         this(context,null);
@@ -335,16 +340,29 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      * 设置是否可输入(false的时候,可以当做TextView展示)
      * @param enable
      */
+
     public void setInputEnable(boolean enable) {
+        EditText editText = getEditText();
 //        setInputType(enable ? inputType, EditorInfo.TYPE_NULL);
-//        getEditText().setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
+//        editText.setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
         //要设置focusable, 否则点击事件要第2次才有反应
-        getEditText().setFocusable(enable);
-        getEditText().setClickable(!enable);
-        getEditText().setLongClickable(enable);//长按显示粘贴
-        getEditText().setFocusableInTouchMode(enable);
-//        if (enable) getEditText().requestFocus();//把光标移动到这一个et1,但是不弹出键盘
-//        getEditText().setCursorVisible(false);
+        editText.setFocusable(enable);
+        editText.setClickable(!enable);
+        editText.setLongClickable(enable);//长按显示粘贴
+        editText.setFocusableInTouchMode(enable);
+//        if (enable) editText.requestFocus();//把光标移动到这一个et1,但是不弹出键盘
+        if (hintTextColors == null) {
+            hintTextColors = editText.getHintTextColors();
+            defaultHintColor = hintTextColors.getDefaultColor();
+        }
+        if (enable) {
+            editText.setHintTextColor(hintTextColors);
+        } else {
+            //点击时, 按下状态不变色
+            editText.setHintTextColor(defaultHintColor);
+        }
+        //点击时, 按下的瞬间不显示光标
+        editText.setCursorVisible(enable);
     }
 
     /**
