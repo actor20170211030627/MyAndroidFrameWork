@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntRange;
 import androidx.annotation.LayoutRes;
@@ -93,7 +94,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     protected OnClickListener clickListener;
     //EditText's hint's color
     protected ColorStateList  hintTextColors;
-    protected int             defaultHintColor;
+    protected @ColorInt int   defaultHintColor;
 
     public ItemTextInputLayout(Context context) {
         this(context,null);
@@ -334,6 +335,17 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
 
     public void setHint(CharSequence hilt){
         getEditText().setHint(hilt);
+    }
+
+    /**
+     * 设置textHint的颜色
+     * @param color getResources().getColor(R.color.xxx)
+     */
+    public void setHintTextColor(@ColorInt int color) {
+        EditText editText = getEditText();
+        editText.setHintTextColor(color);
+        hintTextColors = editText.getHintTextColors();
+        defaultHintColor = hintTextColors.getDefaultColor();
     }
 
     /**

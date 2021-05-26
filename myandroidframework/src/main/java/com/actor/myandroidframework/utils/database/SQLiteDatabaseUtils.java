@@ -2,6 +2,7 @@ package com.actor.myandroidframework.utils.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,7 +64,7 @@ public class SQLiteDatabaseUtils {
      */
     public static synchronized void initDatabase(boolean isCover, int flags, String dbName, @Nullable OnListener listener) {
         final SQLiteDatabase[] sqLiteDatabase = {DATABASES.get(dbName)};
-        if (sqLiteDatabase[0] == null) {
+        if (isCover || sqLiteDatabase[0] == null) {
             AssetsUtils.copyFile2FilesDir(isCover, dbName, new AssetsUtils.OnListener<String>() {
                 @Override
                 public void onComplated(String result) {
@@ -133,7 +134,8 @@ public class SQLiteDatabaseUtils {
     }
 
     /**
-     * 将 Cursor 查到的数据, 转list数据
+     * 将 Cursor 查到的数据, 转list数据.
+     * 注意: 目前功能仅支持数据库字段和实体字段名字完全相同, 才转换.
      * @param cursor 游标
      * @param entity 需要解析成什么类型, 不能传null. 注意: 这个class必须有一个"无参构造方法"
      * @return 返回一个不为null的List
@@ -152,7 +154,8 @@ public class SQLiteDatabaseUtils {
 
 
     /**
-     * 将 Cursor 查到的数据, 转实体
+     * 将 Cursor 查到的数据, 转实体.
+     * 注意: 目前功能仅支持数据库字段和实体字段名字完全相同, 才转换.
      * @param cursor 游标
      * @param entity 需要解析成什么类型, 不能传null. 注意: 这个class必须有一个"无参构造方法"
      * @return 返回一个有可能=null的实体
@@ -216,9 +219,20 @@ public class SQLiteDatabaseUtils {
                     }
                     break;
                 case Cursor.FIELD_TYPE_STRING:
+                    String string = cursor.getString(i);
                     if (fieldType == String.class) {
-                        String string = cursor.getString(i);
                         ReflectUtils.reflect(t).field(columnName, string);
+                    } else if (fieldType.isEnum()) {
+                        //枚举内所有值
+                        Enum[] enumConstants = (Enum[]) fieldType.getEnumConstants();
+                        if (enumConstants != null && enumConstants.length > 0) {
+                            for (Enum enumConstant : enumConstants) {
+                                if (TextUtils.equals(enumConstant.name(), string)) {
+                                    ReflectUtils.reflect(t).field(columnName, enumConstant);
+                                    System.out.println(1);
+                                }
+                            }
+                        }
                     }
                     break;
                 case Cursor.FIELD_TYPE_BLOB:
