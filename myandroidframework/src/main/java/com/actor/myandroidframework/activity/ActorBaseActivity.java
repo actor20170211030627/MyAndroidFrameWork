@@ -52,7 +52,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
 //    protected CacheDiskUtils aCache = ActorApplication.instance.aCache;
 
     protected Activity                  activity;
-    protected Intent                    intent;
     protected Map<String, Object>       params = new LinkedHashMap<>();
     protected List<Call>                calls;
     protected BaseSharedElementCallback sharedElementCallback;
