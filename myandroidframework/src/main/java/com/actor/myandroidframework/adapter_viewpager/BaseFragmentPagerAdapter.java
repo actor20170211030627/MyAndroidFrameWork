@@ -34,7 +34,7 @@ import java.util.List;
  *
  * 2.ExpandableListView不用重写上面的方法(以前的注意事项, 现在不一定适用)
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/3/27 on 19:50
  * @version 1.1
  */
@@ -74,6 +74,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     /**
      * 务必返回: XxxFragment.newInstance(Xxx... xxx); ,这样系统恢复时, 会重新调用Fragment的onCreate
      */
+    @NonNull
     @Override
     public abstract Fragment getItem(int position);
 

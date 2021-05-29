@@ -4,7 +4,7 @@ import com.actor.myandroidframework.fragment.ActorBaseFragment;
 
 /**
  * Description: Fragment基类
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 15:59
  *
  * @version 1.0

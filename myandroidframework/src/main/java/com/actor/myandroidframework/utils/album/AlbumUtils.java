@@ -44,7 +44,7 @@ import java.util.Map;
  *     <li>{@link #galleryAlbum(Context, ArrayList, int, boolean, Action)}通过AlbumFile path预览图片</li>
  *     <li>{@link #gallery(Context, ArrayList, int, boolean, Action)}通过String path预览图片</li>
  * </ol>
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/4/2 on 15:03
  * LastUpdate : 2019/04/18
  * AlbumVersion: album:2.1.3

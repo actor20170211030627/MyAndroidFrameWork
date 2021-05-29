@@ -17,7 +17,7 @@ import butterknife.OnCheckedChanged;
 
 /**
  * Description: 主页->ViewPager & Fragment多层嵌套
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 14:54
  */
 public class ViewPagerAndFragmentActivity extends BaseActivity {
@@ -60,6 +60,7 @@ public class ViewPagerAndFragmentActivity extends BaseActivity {
         /**
          * 务必返回: XxxFragment.newInstance(Xxx... xxx); ,这样系统恢复时, 会重新调用Fragment的onCreate
          */
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             switch (position) {

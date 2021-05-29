@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * Description: WebViewClient通用配置
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/3/11 on 11:24
  * @version 1.0 修改{@link #shouldOverrideUrlLoading(WebView, String)}方法, 判断http/s
  */

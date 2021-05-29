@@ -16,7 +16,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 从底部弹出的Activity
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/8/24 on 21:58
  *
  * @version 1.0

@@ -21,7 +21,7 @@ import cn.jpush.android.api.JPushMessage;
 
 /**
  * description: 极光推送
- * author     : 李大发
+ * author     : ldf
  * date       : 2020/3/24 on 20:13
  *
  * @version 1.0

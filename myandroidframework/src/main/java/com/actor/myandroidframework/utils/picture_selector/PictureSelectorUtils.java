@@ -38,7 +38,7 @@ import java.util.List;
  *  <uses-permission android:name="android.permission.RECORD_AUDIO" />
  *  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/10/7 on 18
  * @version 1.1.0
  */

@@ -36,7 +36,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->第三方登录/分享
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020/3/13 on 12:11
  */
 public class ThirdActivity extends BaseActivity {

@@ -21,7 +21,7 @@ import androidx.annotation.RequiresApi;
  * android:orientation="vertical"   //下方/右方, 默认vertical下方
  * android:topOffset="0dp"          //当抽屉打开时, 'handle顶部'距离'抽屉顶部'的距离, 默认=0dp, 例:200dp
  *
- * @author    : 李大发
+ * @author    : ldf
  * date       : 2019/4/11 on 09:58
  */
 public class BaseSlidingDrawer extends SlidingDrawer {

@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 /**
  * Description: 主页->九宫格
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 11:38
  */
 public class NineGridViewActivity extends BaseActivity {

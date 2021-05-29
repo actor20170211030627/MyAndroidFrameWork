@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * Description: 常用的单选输入布局,这是一个组合控件.
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/7/10 on 17:21
  *
  * 1.左侧红点显示类型, 默认visible

@@ -7,7 +7,7 @@ import com.actor.sample.R;
 
 /**
  * Description: 主页->线程, 权限, SPUtils, EventBus
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-9 on 16:16
  */
 public class OtherActivity extends BaseActivity {

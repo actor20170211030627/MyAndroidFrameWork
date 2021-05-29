@@ -44,7 +44,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
  * dialogFragment.setMaxHeight(300);
  * dialogFragment.show(getSupportFragmentManager());
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/6/13 on 14:05
  *
  * @version 1.0
@@ -174,7 +174,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     /**
-     * 最大高度
+     * 最大高度, 如果传入{@link Integer#MAX_VALUE}, 会导致这个Fragment内的RecyclerView等不能滑动.
      */
     public void setMaxHeight(int height) {
         if (height > 0) mMaxHeight = height;

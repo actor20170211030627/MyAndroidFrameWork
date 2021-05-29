@@ -9,7 +9,7 @@ import android.view.WindowManager;
  * 在 代码 或 AndroidManifest.xml 中设置: android:windowSoftInputMode="adjustResize|stateHidden"
  *
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2017/5/23 on 20:27
  * LastUpdate : 2019/04/18
  * Version    : v1.0.1

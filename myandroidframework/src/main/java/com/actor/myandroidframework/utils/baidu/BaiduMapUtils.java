@@ -60,7 +60,7 @@ import okhttp3.Request;
  * 7.示例使用见:
  * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/BaiDuMapActivity.java
  *
- * author     : 李大发
+ * author     : ldf
  * date       : 2019/4/22 on 21:50
  * @version 1.0
  * @version 1.1 新增从地图中编码/逆编码位置信息

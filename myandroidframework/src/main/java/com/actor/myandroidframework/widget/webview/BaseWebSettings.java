@@ -8,7 +8,7 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 /**
  * description: WebView默认设置
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/10/6 on 15
  * @version 1.0
  */

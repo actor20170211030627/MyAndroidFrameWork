@@ -17,7 +17,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->切换
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 14:23
  */
 public class SwitcherActivity extends BaseActivity {

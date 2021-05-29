@@ -5,7 +5,7 @@ import retrofit2.Response;
 
 /**
  * Description: 由于Call.enqueue(callback) 中callback不能=null, 所以写这个代替
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/6/8 on 17:52
  * @version 1.1
  * @version 1.1.1 将泛型中的Object改成T

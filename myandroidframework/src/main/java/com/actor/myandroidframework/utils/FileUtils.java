@@ -23,7 +23,7 @@ import java.io.File;
  * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
  *
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2018/7/29 on 19:12
  * @version 1.0
  */

@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Description: Spinner功能增加
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/10/20 on 16:21
  *
  * 属性:

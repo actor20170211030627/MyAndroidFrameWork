@@ -12,7 +12,7 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 
 /**
  * Description: 状态栏高度, 用于占高
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020-1-13 on 11:14
  * @version 1.0
  */

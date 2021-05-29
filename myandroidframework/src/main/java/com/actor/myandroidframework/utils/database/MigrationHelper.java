@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Description: 数据库迁移帮助类 https://www.jianshu.com/p/53083f782ea2
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/10/30 on 22:32
  *
  * @version 1.0

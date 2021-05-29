@@ -21,7 +21,7 @@ import com.actor.myandroidframework.R;
  *          有可能会造成 '下方圆角被颜色覆盖' 的问题! 解决方法:
  *          1. shape 加上 padding(bottom) 属性
  *          2. 下方圆角位置的view 加一个同样圆角的 shape
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020-1-21 on 16:49
  *
  * @version 1.0

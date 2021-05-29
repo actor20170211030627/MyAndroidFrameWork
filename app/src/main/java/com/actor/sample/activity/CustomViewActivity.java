@@ -18,7 +18,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->自定义View
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-8-27 on 17:37
  */
 public class CustomViewActivity extends BaseActivity {
@@ -71,7 +71,7 @@ public class CustomViewActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable})
+    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.itil_can_not_input2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_check:
@@ -101,6 +101,9 @@ public class CustomViewActivity extends BaseActivity {
             case R.id.btn_input_enable://测试切换 能/不能输入
                 inPutEnable = !inPutEnable;
                 itilCanNotInput.setInputEnable(inPutEnable);
+                break;
+            case R.id.itil_can_not_input2://不能输入, 测试点击事件
+                toast("被点击了!!!");
                 break;
             default:
                 break;

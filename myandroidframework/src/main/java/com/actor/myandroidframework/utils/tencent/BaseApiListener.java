@@ -14,7 +14,7 @@ import java.net.SocketTimeoutException;
 
 /**
  * Description: 使用requestAsync、request等通用方法调用sdk未封装的接口时，例如上传图片、查看相册等，需传入该回调的实例
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/3/18 on 15:33
  * @deprecated 好像被废弃了
  */

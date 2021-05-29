@@ -26,7 +26,7 @@ import java.util.List;
  * 请求访问通知
  * 提交问题或者贡献代码：https://github.com/yanzhenjie/AndPermission
  * https://yanzhenjie.com/AndPermission/cn/
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/5/30 on 19:09
  * @version 1.0
  * @version 1.0.1 增加 {{@link #hasAlwaysDeniedPermission(Context, String...)}} 方法

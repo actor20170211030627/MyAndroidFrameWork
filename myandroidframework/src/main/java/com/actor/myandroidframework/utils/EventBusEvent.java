@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils;
 
 /**
  * Description: Eventbus事件实体类
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/4/1 on 11:54
  * @version 1.0
  */

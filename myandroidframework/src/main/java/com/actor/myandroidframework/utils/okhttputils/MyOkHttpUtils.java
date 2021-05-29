@@ -31,7 +31,7 @@ import okhttp3.Response;
 /**
  * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
  *
- * @author    : 李大发
+ * @author    : ldf
  * date       : 2019/3/13 on 17:37
  *
  * @version 1.3.2 修复上传中文文件抛异常问题

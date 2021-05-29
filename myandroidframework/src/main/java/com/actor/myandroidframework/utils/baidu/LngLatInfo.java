@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils.baidu;
 
 /**
  * Description: 坐标
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/4/23 on 09:22
  * @version 1.0
  */

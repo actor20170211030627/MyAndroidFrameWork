@@ -38,7 +38,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
  * baseBottomDialog..show();
  *
  * Description: 从底部弹出的Dialog, 能上下拖拽滑动
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/6/12 on 21:31
  * @version 1.0
  */

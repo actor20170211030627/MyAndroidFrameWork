@@ -56,7 +56,7 @@ import com.amap.api.location.AMapLocationListener;
  *  //'全局'停止定位
  *  GaoDeLocationUtils.stopLocation();
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/8/10 on 10:09
  * @version 1.0
  */

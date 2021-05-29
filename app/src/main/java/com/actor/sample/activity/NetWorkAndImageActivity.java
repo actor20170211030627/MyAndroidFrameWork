@@ -35,7 +35,7 @@ import retrofit2.Response;
 
 /**
  * Description: 主页->网络&图片
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 14:23
  */
 public class NetWorkAndImageActivity extends BaseActivity {

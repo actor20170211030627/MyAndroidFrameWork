@@ -96,5 +96,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="InputEnable切换" />
+
+
+        <com.actor.myandroidframework.widget.ItemTextInputLayout
+            android:id="@+id/itil_can_not_input2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itilHint="测试不能输入的'点击事件'"
+            app:itilInputEnable="false"
+            app:itilItemName="测试点击:"
+            app:itilMarginTop="20dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

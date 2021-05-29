@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 
 /**
  * description: 自定义RatingBar
- * @author    : 李大发
+ * @author    : ldf
  * date       : 2020/7/14 on 11:23
  * @version 1.0
  */

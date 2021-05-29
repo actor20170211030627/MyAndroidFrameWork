@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 /**
  * Description: 主页->数据库
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2020/2/18 on 11:15
  */
 public class DatabaseActivity extends BaseActivity {

@@ -25,7 +25,7 @@ import okhttp3.Call;
  * 1.修改请求地址
  * 2.使用: new CheckUpdateUtils().check(this);
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/10/19 on 14:39
  *
  * @version 1.0

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.FileUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 
 import java.io.File;
 
@@ -25,24 +26,23 @@ import java.io.File;
  *
  * 3.开始录音
  *
- * author     : 李大发
+ * author     : ldf
  * date       : 2019/5/30 on 17:43
  * TODO: 2020/4/1 逻辑理顺一下...&hihi是录制的什么格式音频?
  */
 public class AudioUtils {
 
     protected boolean playing, innerRecording;
-    protected volatile Boolean recording           = false;
-    public    String           recordDir;//语音存储目录
+    protected volatile Boolean recording = false;
+    public             String  recordDir;//语音存储目录
 
     protected String recordAudioPath;//录音文件地址
     protected long   startTime, endTime;
-    protected        MediaPlayer   mPlayer;
-    protected        MediaRecorder mRecorder;
-    protected          AudioRecordCallback mRecordCallback;
-    protected          AudioPlayCallback   mPlayCallback;
-    protected static AudioUtils    instance;
-    protected int           maxRecordTime = 2 * 60 * 1000;//最大录音时长, 默认2分钟
+    protected        MediaPlayer                                 mPlayer;
+    protected        MediaRecorder                               mRecorder;
+    protected        AudioRecordCallback                         mRecordCallback;
+    protected static AudioUtils instance;
+    protected        int                                         maxRecordTime = 2 * 60 * 1000;//最大录音时长, 默认2分钟
 
     /**
      * 初始化
@@ -102,18 +102,27 @@ public class AudioUtils {
      * 播放录音
      */
     public void playRecord(String filePath, AudioPlayCallback callback) {
-        this.mPlayCallback = callback;
-        new PlayThread(filePath).start();
+        new PlayThread(filePath, callback).start();
     }
 
     /**
      * 停止播放录音
      */
-    public void stopPlayRecord() {
-        if (mPlayer != null) {
+    public void stopPlayer() {
+        if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.stop();
             playing = false;
-            if (mPlayCallback != null) mPlayCallback.playComplete(null);
+        }
+    }
+
+    /**
+     * 释放播放器资源
+     */
+    public void releasePlayer() {
+        stopPlayer();
+        if (mPlayer != null) {
+            mPlayer.release();
+            mPlayer = null;
         }
     }
 
@@ -161,13 +170,17 @@ public class AudioUtils {
         public void run() {
             //根据采样参数获取每一次音频采样大小
             try {
-                mRecorder = new MediaRecorder();
+                if (mRecorder == null) {
+                    mRecorder = new MediaRecorder();
+                } else {
+                    mRecorder.reset();
+                }
+                recordAudioPath = new File(recordDir, System.currentTimeMillis() + ".amr").getAbsolutePath();
+                mRecorder.setOutputFile(recordAudioPath);
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 //RAW_AMR虽然被高版本废弃，但它兼容低版本还是可以用的
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
-                recordAudioPath = new File(recordDir, System.currentTimeMillis() + ".amr")
-                        .getAbsolutePath();
-                mRecorder.setOutputFile(recordAudioPath);
+                //要在setOutputFormat下方
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 startTime = System.currentTimeMillis();
                 synchronized (recording) {
@@ -181,7 +194,7 @@ public class AudioUtils {
                     public void run() {
                         while (recording && innerRecording) {
                             try {
-                                RecordThread.sleep(200);
+                                RecordThread.this.sleep(200);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -196,28 +209,44 @@ public class AudioUtils {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                if (mRecordCallback != null) mRecordCallback.recordError(e);
+                if (mRecordCallback != null) {
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRecordCallback.recordError(e);
+                        }
+                    });
+                }
             }
-
         }
     }
 
 
     protected class PlayThread extends Thread {
-        String audioPath;
 
-        PlayThread(String filePath) {
-            audioPath = filePath;
+        protected String            audioPath;
+        protected AudioPlayCallback callback;
+
+        protected PlayThread(String filePath, AudioPlayCallback callback) {
+            this.audioPath = filePath;
+            this.callback = callback;
         }
 
         public void run() {
             try {
-                mPlayer = new MediaPlayer();
+//                MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.test);
+                //如果想同时播放多个, 这儿不判空, 直接new
+                if (mPlayer == null) {
+                    mPlayer = new MediaPlayer();
+                } else {
+                    mPlayer.reset();
+                }
+                //设置数据源, 本地or网上
                 mPlayer.setDataSource(audioPath);
                 mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        if (mPlayCallback != null) mPlayCallback.playComplete(audioPath);
+                        if (callback != null) callback.playComplete(audioPath);
                         playing = false;
                     }
                 });
@@ -226,7 +255,7 @@ public class AudioUtils {
                 playing = true;
             } catch (Exception e) {
                 e.printStackTrace();
-                if (mPlayCallback != null) mPlayCallback.playError(audioPath, "语音文件已损坏或不存在");
+                if (callback != null) callback.playError(audioPath, "语音文件已损坏或不存在");
                 playing = false;
             }
         }

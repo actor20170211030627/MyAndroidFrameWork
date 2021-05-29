@@ -19,7 +19,7 @@ import com.actor.myandroidframework.utils.ConfigUtils;
  *
  * android:scrollbars="none"    不显示滚动条
  *
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-8-20 on 10:34
  *
  * @version 1.0

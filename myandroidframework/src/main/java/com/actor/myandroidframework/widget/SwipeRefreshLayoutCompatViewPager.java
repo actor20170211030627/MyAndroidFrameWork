@@ -10,7 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 /**
  * Description: 下拉刷新, 解决嵌套中的ViewPager横向滑动时, 非常容易把下拉刷新的小球拉下来的问题
  * https://blog.csdn.net/ding19972431/article/details/82114531
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/3/8 on 11:22
  * @version 1.0
  */

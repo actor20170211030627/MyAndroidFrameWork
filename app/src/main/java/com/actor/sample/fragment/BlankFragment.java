@@ -24,7 +24,7 @@ import butterknife.Unbinder;
 
 /**
  * Description: 外层Fragment
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-9-6 on 16:40
  */
 public class BlankFragment extends BaseFragment {
@@ -62,7 +62,7 @@ public class BlankFragment extends BaseFragment {
 
     //3.创建Fragment的View
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -70,7 +70,7 @@ public class BlankFragment extends BaseFragment {
 
     //4.初始化数据
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvContent.setText(content);
         viewPager.setAdapter(new MyInnerAdapter(getChildFragmentManager(), titles));
@@ -92,6 +92,7 @@ public class BlankFragment extends BaseFragment {
             super(fm, titles);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return BlankFragment2.newInstance(position, content);

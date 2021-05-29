@@ -40,7 +40,7 @@ import java.util.Map;
  * //获取已上传文件Map<文件路径, UploadInfo>, 注意: 如果上传了1次后又选择了新的文件, 那么上传路径有可能=null
  * Map<String, UploadFileInfo> alreadyUploads = picAdapter.getAlreadyUploadFiles();
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2021/2/8 on 11
  * @version 1.0
  */

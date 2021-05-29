@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 /**
  * description: show / dismiss Dialog able
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/6/13 on 21:08
  * @version 1.0
  */

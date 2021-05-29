@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * Description: TextView切换, 水平切换效果 & 垂直切换效果(小喇叭通知消息翻滚)
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019-8-23 on 16:39
  *
  * @see android.widget.ViewAnimator 里的3个属性:

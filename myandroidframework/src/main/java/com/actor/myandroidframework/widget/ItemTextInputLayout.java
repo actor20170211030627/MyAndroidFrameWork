@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,13 +12,13 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntRange;
 import androidx.annotation.LayoutRes;
@@ -31,7 +32,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
  * Description: 常用的Item输入布局,这是一个组合控件.
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/7/10 on 17:20
  *
  * 全部属性都是itil开头:
@@ -88,9 +89,12 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     protected ImageView       ivArrowRight;
     protected LinearLayout    llContentForItil;
     protected Space           spaceMarginTop;
-    protected float           density;//px = dp * density;
-    protected int             inputType = EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE | EditorInfo.TYPE_CLASS_TEXT;//输入类型
+    //px = dp * density;
+    protected float           density;
     protected OnClickListener clickListener;
+    //EditText's hint's color
+    protected ColorStateList  hintTextColors;
+    protected @ColorInt int   defaultHintColor;
 
     public ItemTextInputLayout(Context context) {
         this(context,null);
@@ -145,12 +149,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             inflate(context, resourceId);
 
             tvRedStar.setVisibility(redStarVisiable * INVISIBLE);
-            if (itilInputType != -1) {
-                setInputType(inputType);
-            } else {
-                int inputType = getEditText().getInputType();
-                setInputType(inputType);
-            }
+            if (itilInputType != -1) setInputType(itilInputType);
             if (!inputEnable) setInputEnable(false);
             getTextViewItem().setText(itilItemName);
 
@@ -256,7 +255,6 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      * 设置输入类型
      */
     public void setInputType(int inputType) {
-        if (inputType != EditorInfo.TYPE_NULL) this.inputType = inputType;
         getEditText().setInputType(inputType);
     }
 
@@ -340,21 +338,43 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     }
 
     /**
+     * 设置textHint的颜色
+     * @param color getResources().getColor(R.color.xxx)
+     */
+    public void setHintTextColor(@ColorInt int color) {
+        EditText editText = getEditText();
+        editText.setHintTextColor(color);
+        hintTextColors = editText.getHintTextColors();
+        defaultHintColor = hintTextColors.getDefaultColor();
+    }
+
+    /**
      * 设置是否可输入(false的时候,可以当做TextView展示)
      * @param enable
      */
+
     public void setInputEnable(boolean enable) {
-        if (true) {
-            setInputType(enable ? inputType : EditorInfo.TYPE_NULL);
-        } else {
-//        getEditText().setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
-            getEditText().setFocusable(enable);
-            getEditText().setClickable(!enable);
-            getEditText().setLongClickable(enable);//长按显示粘贴
-            getEditText().setFocusableInTouchMode(enable);
-//        if (enable) getEditText().requestFocus();//把光标移动到这一个et1,但是不弹出键盘
-//        getEditText().setCursorVisible(false);
+        EditText editText = getEditText();
+//        setInputType(enable ? inputType, EditorInfo.TYPE_NULL);
+//        editText.setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
+        //要设置focusable, 否则点击事件要第2次才有反应
+        editText.setFocusable(enable);
+        editText.setClickable(!enable);
+        editText.setLongClickable(enable);//长按显示粘贴
+        editText.setFocusableInTouchMode(enable);
+//        if (enable) editText.requestFocus();//把光标移动到这一个et1,但是不弹出键盘
+        if (hintTextColors == null) {
+            hintTextColors = editText.getHintTextColors();
+            defaultHintColor = hintTextColors.getDefaultColor();
         }
+        if (enable) {
+            editText.setHintTextColor(hintTextColors);
+        } else {
+            //点击时, 按下状态不变色
+            editText.setHintTextColor(defaultHintColor);
+        }
+        //点击时, 按下的瞬间不显示光标
+        editText.setCursorVisible(enable);
     }
 
     /**

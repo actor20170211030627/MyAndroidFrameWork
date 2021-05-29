@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 /**
  * Description: 类的描述
- * Author     : 李大发
+ * Author     : ldf
  * Date       : 2019/8/18 on 20:53
  */
 public interface GithubApi {

@@ -13,7 +13,7 @@ import cn.jpush.android.service.WakedResultReceiver;
  * wakeType)或onWake(Context context, int wakeType)方法(注：开发者二选一复写)以监听被拉起,直接在
  * AndroidManifest配置即可。 详细配置参考 AndroidManifest 示例。
  *
- * author     : 李大发
+ * author     : ldf
  * date       : 2020/3/24 on 17:54
  *
  * @version 1.0

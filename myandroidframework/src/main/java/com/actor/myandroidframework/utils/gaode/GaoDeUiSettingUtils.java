@@ -6,7 +6,7 @@ import com.amap.api.maps.model.LatLng;
 /**
  * description: 高德地图 UI 界面设置
  *
- * @author : 李大发
+ * @author : ldf
  * date       : 2020/8/10 on 19:01
  * @version 1.0
  */
