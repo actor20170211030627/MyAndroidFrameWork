@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.AssetsUtils;
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ReflectUtils;
 
@@ -28,8 +29,19 @@ import java.util.Map;
  * Date       : 2017/1/19 on 11:15.
  * TODO: 2021/5/19 还有一些 增删改/查(分页) 方法未封装.
  *
- * @deprecated 使用Greendao也可以读取.db文件, 所以不推荐这个工具类.
- *             使用GreenDao加载assets下sqlite数据库的示例: https://www.jianshu.com/p/9cc0870620c1
+ * @deprecated 使用 {@link GreenDaoUtils} 也可以读取.db文件, 所以不推荐这个工具类.
+ *             使用 GreenDao 示例: https://www.jianshu.com/p/9cc0870620c1
+ *                  @Entity(nameInDb = "user", createInDb = false)
+ *                  public class User {
+ *                      @Id
+ *                      @Property(nameInDb = "id")
+ *                      public Long id;
+ *
+ *                      @Property(nameInDb = "name")
+ *                      public String name;
+ *
+ *                      //...
+ *                  }
  */
 @Deprecated
 public class SQLiteDatabaseUtils {
@@ -65,7 +77,8 @@ public class SQLiteDatabaseUtils {
     public static synchronized void initDatabase(boolean isCover, int flags, String dbName, @Nullable OnListener listener) {
         final SQLiteDatabase[] sqLiteDatabase = {DATABASES.get(dbName)};
         if (isCover || sqLiteDatabase[0] == null) {
-            AssetsUtils.copyFile2FilesDir(isCover, dbName, new AssetsUtils.OnListener<String>() {
+            String databasePath = ConfigUtils.APPLICATION.getDatabasePath(dbName).getParent();
+            AssetsUtils.copyFile2Dir(isCover, dbName, databasePath, new AssetsUtils.OnListener<String>() {
                 @Override
                 public void onComplated(String result) {
                     /**

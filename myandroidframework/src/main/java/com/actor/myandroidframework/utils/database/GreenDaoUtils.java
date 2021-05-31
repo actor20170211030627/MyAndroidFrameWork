@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.greendao.gen.DaoMaster;
 import com.greendao.gen.DaoSession;
@@ -12,6 +13,7 @@ import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.Join;
+import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.greenrobot.greendao.query.WhereCondition;
 
@@ -113,25 +115,28 @@ public class GreenDaoUtils {
     protected        DaoMaster            daoMaster;
     protected static DaoSession           daoSession;
 
-    /**
-     * @param context application
-     * @param isDebug 如果是debug模式, 数据库操作会打印日志
-     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
-     *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
-     */
     @SafeVarargs
-    public static void init(Context context, boolean isDebug, Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        if (instalce == null) instalce = new GreenDaoUtils(context, isDebug, daoClasses);
+    public static void init(@NonNull Context context, boolean isDebug, @NonNull String dbName, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        if (instalce == null) instalce = new GreenDaoUtils(context, isDebug, dbName, daoClasses);
     }
 
     /**
      * 设置greenDAO
+     * @param context application
+     * @param isDebug 如果是debug模式, 数据库操作会打印日志
+     * @param dbName 数据库名称(没有就创建,有就增删改查), my_database
+     *               或读取已有数据库例: xxx.db, xxx.db3...
+     *               ★★★注意: 读取已有数据库时, 要保证这个已有数据库在这个目录下: context.getDatabasePath()★★★
+     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
+     *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
+     *                   ★★★注意: 如果只是从.db, .db3... 等数据库文件读取数据, 可不用传这个参数★★★
      */
-    protected GreenDaoUtils(Context context, boolean isDebug, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    @SafeVarargs
+    protected GreenDaoUtils(@NonNull Context context, boolean isDebug, @NonNull String dbName, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
         // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
         // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
         // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
-        openHelper = new /*DaoMaster.DevOpenHelper*/UpgradeAbleOpenHelper(context, "notes-db", null, daoClasses);
+        openHelper = new UpgradeAbleOpenHelper(context, dbName, null, daoClasses);
 
         //加密写法, 使用getEncryptedReadableDb()和getEncryptedWritableDb()获取加密的数据库
 //        Database database = openHelper.getEncryptedWritableDb("aserbao"); //数据库加密密码为“aserbao"
@@ -150,16 +155,19 @@ public class GreenDaoUtils {
      * 不能使用默认的: {@link DaoMaster.DevOpenHelper}
      * @version 1.0
      */
-    protected class UpgradeAbleOpenHelper extends DaoMaster.OpenHelper {
+    protected static class UpgradeAbleOpenHelper extends DaoMaster.OpenHelper {
 
+        @Nullable
         protected Class<? extends AbstractDao<?, ?>>[] daoClasses;
 
-        protected UpgradeAbleOpenHelper(Context context, String name, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        @SafeVarargs
+        protected UpgradeAbleOpenHelper(@NonNull Context context, @NonNull String name, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
             super(context, name);
             this.daoClasses = daoClasses;
         }
 
-        protected UpgradeAbleOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        @SafeVarargs
+        protected UpgradeAbleOpenHelper(@NonNull Context context, @NonNull String name, SQLiteDatabase.CursorFactory factory, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
             super(context, name, factory);
             this.daoClasses = daoClasses;
         }
@@ -174,24 +182,26 @@ public class GreenDaoUtils {
             //默认super 什么都不做
 //            super.onUpgrade(db, oldVersion, newVersion);
 
-            /**
-             * 升级思路：
-             * 1.创建临时表TMP_,复制原来的数据库到临时表中；
-             * 2.删除之前的原表；
-             * 3.创建新表；
-             * 4.将临时表中的数据复制到新表中，最后将TMP_表删除掉；
-             */
-            MigrationHelper.migrate(db, new MigrationHelper.ReCreateAllTableListener() {
-                @Override
-                public void onCreateAllTables(Database db, boolean ifNotExists) {
-                    DaoMaster.createAllTables(db, ifNotExists);
-                }
-                @Override
-                public void onDropAllTables(Database db, boolean ifExists) {
-                    DaoMaster.dropAllTables(db, ifExists);
-                }
-            }, daoClasses);
+            if (daoClasses != null && daoClasses.length > 0) {
+                /**
+                 * 升级思路：
+                 * 1.创建临时表TMP_,复制原来的数据库到临时表中；
+                 * 2.删除之前的原表；
+                 * 3.创建新表；
+                 * 4.将临时表中的数据复制到新表中，最后将TMP_表删除掉；
+                 */
+                MigrationHelper.migrate(db, new MigrationHelper.ReCreateAllTableListener() {
+                    @Override
+                    public void onCreateAllTables(Database db, boolean ifNotExists) {
+                        DaoMaster.createAllTables(db, ifNotExists);
+                    }
 
+                    @Override
+                    public void onDropAllTables(Database db, boolean ifExists) {
+                        DaoMaster.dropAllTables(db, ifExists);
+                    }
+                }, daoClasses);
+            }
         }
     }
 
@@ -217,7 +227,7 @@ public class GreenDaoUtils {
     ///////////////////////////////////////////////////////////////////////////
     /**
      * 增
-     * @param dao 具体实体对应的dao
+     * @param dao 具体实体对应的dao, 例: GreenDaoUtils.getDaoSession().getItemEntityDao();
      * @param entity 具体实体
      * @param <T> 实体
      * @param <K> 实体的id类型
@@ -233,8 +243,8 @@ public class GreenDaoUtils {
      * @param entities 具体实体
      * @param <T> 实体
      * @param <K> 实体的id类型
-     * @return 返回插入的实体在数据库的id
      */
+    @SafeVarargs
     public static <T, K> void insertInTx(AbstractDao<T, K> dao, T... entities) {
         dao.insertInTx(entities);
     }
@@ -245,7 +255,6 @@ public class GreenDaoUtils {
      * @param entities 具体实体
      * @param <T> 实体
      * @param <K> 实体的id类型
-     * @return 返回插入的实体在数据库的id
      */
     public static <T, K> void insertInTx(AbstractDao<T, K> dao, Iterable<T> entities) {
         dao.insertInTx(entities);
@@ -311,6 +320,7 @@ public class GreenDaoUtils {
      * @param <T> 实体
      * @param <K> 实体的id类型
      */
+    @SafeVarargs
     public static <T, K> void deleteInTx(AbstractDao<T, K> dao, T... entities) {
         dao.deleteInTx(entities);
     }
@@ -322,6 +332,7 @@ public class GreenDaoUtils {
      * @param <T> 实体
      * @param <K> 实体的id类型
      */
+    @SafeVarargs
     public static <T, K> void deleteByKeyInTx(AbstractDao<T, K> dao, K... ids) {
         dao.deleteByKeyInTx(ids);
     }
@@ -330,7 +341,7 @@ public class GreenDaoUtils {
      * 通过多个主键批量删除数据
      * @param dao 具体实体对应的dao
      */
-    public static void deleteAll(AbstractDao dao) {
+    public static <T, K> void deleteAll(AbstractDao<T, K> dao) {
         dao.deleteAll();
     }
 
@@ -363,7 +374,7 @@ public class GreenDaoUtils {
      */
     public static <T, K> T queryUnique(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                        WhereCondition... condMore) {
-        return dao.queryBuilder().where(cond, condMore).build().unique();
+        return queryBuilder(dao, cond, condMore).build().unique();
     }
 
     /**
@@ -377,7 +388,7 @@ public class GreenDaoUtils {
      */
     public static <T, K> long queryCount(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                          WhereCondition... condMore) {
-        return dao.queryBuilder().where(cond, condMore).count();
+        return queryBuilder(dao, cond, condMore).count();
     }
 
     /**
@@ -402,7 +413,52 @@ public class GreenDaoUtils {
      */
     public static <T, K> List<T> queryList(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                            WhereCondition... condMore) {
-        return dao.queryBuilder().where(cond, condMore)/*.build()*/.list();//不要build()也一样
+        return queryBuilder(dao, cond, condMore)/*.build()*/.list();//不要build()也一样
+    }
+
+    /**
+     * 自定义sql语句/参数, 查询
+     * @param dao 具体实体对应的dao
+     * @param where sql语句, 前面已经加了"SELECT * FROM tb_name", 所以这儿从'WHERE'开始写.
+     *              例: WHERE versionCode = (SELECT MAX(versionCode) FROM tb_name)
+     *              或: WHERE id = ?
+     * @param selectionArg 查询参数
+     * @param <T> 实体
+     * @param <K> 实体的id类型
+     * @return 查询到的 实体{@link Query#unique()} / 列表{@link Query#list()}
+     */
+    public static <T, K> Query<T> queryRawCreate(AbstractDao<T, K> dao, String where, Object... selectionArg) {
+        return dao.queryRawCreate(where, selectionArg);
+    }
+
+    /**
+     * 自定义sql语句/参数, 查询
+     * @param dao 具体实体对应的dao
+     * @param where sql语句, 前面已经加了"SELECT * FROM tb_name", 所以这儿从'WHERE'开始写.
+     *              例: WHERE versionCode = (SELECT MAX(versionCode) FROM tb_name)
+     *              或: WHERE id = ?
+     * @param selectionArg 查询参数
+     * @param <T> 实体
+     * @param <K> 实体的id类型
+     * @return 查询到的 列表
+     */
+    public static <T, K> List<T> queryRaw(AbstractDao<T, K> dao, String where, String... selectionArg) {
+        return dao.queryRaw(where, selectionArg);
+    }
+
+    /**
+     * 自定义sql语句/参数, 查询
+     * @param dao 具体实体对应的dao
+     * @param string sql语句, 前面已经加了"SELECT * FROM tb_name WHERE", 所以这儿写WHERE后面的sql.
+     *               例: versionCode = (SELECT MAX(versionCode) FROM tb_name)
+     *               或: id = ?
+     * @param values 查询参数
+     * @param <T>  实体
+     * @param <K>  实体的id类型
+     * @return 查询到的 实体{@link Query#unique()} / 列表{@link Query#list()}
+     */
+    public static <T, K> Query<T> queryStringCondition(AbstractDao<T, K> dao, String string, Object... values) {
+        return queryBuilder(dao, new WhereCondition.StringCondition(string, values)).build();
     }
 
     /**
@@ -416,7 +472,12 @@ public class GreenDaoUtils {
      */
     public static <T, K> QueryBuilder<T> queryBuilder(AbstractDao<T, K> dao, @NonNull WhereCondition cond,
                                                       WhereCondition... condMore) {
-        return dao.queryBuilder().where(cond, condMore);
+        return dao.queryBuilder().where(cond, condMore)
+//                .orderAsc()
+//                .orderDesc()
+//                .limit()
+                //...
+                ;
     }
 
     /**

@@ -26,11 +26,20 @@ public class AssetsUtils {
     protected static final Application CONTEXT = ConfigUtils.APPLICATION;
 
     /**
-     * 拷贝文件到 /data/data/com.package.name(包名)/files 目录
+     * 拷贝文件到File目录: /data/data/com.package.name(包名)/files
      */
     public static void copyFile2FilesDir(boolean isCover, @NonNull String assetPath, @Nullable OnListener<String> listener) {
         //distPath: /data/data/com.actor.test/files
         copyFile2Dir(isCover, assetPath, CONTEXT.getFilesDir().getAbsolutePath(), listener);
+    }
+
+    /**
+     * 拷贝文件到数据库目录: /data/data/com.package.name(包名)/databases
+     * @param dbNames 数据库名称, 例: address.db, users.db3 等...
+     */
+    public static void copyFile2getDatabaseDir(boolean isCover, @NonNull String dbNames, @Nullable OnListener<String> listener) {
+        //distPath: /data/0/com.actor.test/databases
+        copyFile2Dir(isCover, dbNames, CONTEXT.getDatabasePath(dbNames).getParent(), listener);
     }
 
     /**
