@@ -125,11 +125,11 @@ public class GreenDaoUtils {
      * @param context application
      * @param isDebug 如果是debug模式, 数据库操作会打印日志
      * @param dbName 数据库名称(没有就创建,有就增删改查), my_database
-     *               或读取已有数据库例: xxx.db, xxx.db3...
+     *               或读取已有数据库例: my_database.db, my_database.db3...
      *               ★★★注意: 读取已有数据库时, 要保证这个已有数据库在这个目录下: context.getDatabasePath()★★★
      * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
      *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
-     *                   ★★★注意: 如果只是从.db, .db3... 等数据库文件读取数据, 可不用传这个参数★★★
+     *                   ★★★注意: 如果只是从 my_database.db, my_database.db3... 等数据库文件读取数据, 可不用传这个参数★★★
      */
     @SafeVarargs
     protected GreenDaoUtils(@NonNull Context context, boolean isDebug, @NonNull String dbName, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {

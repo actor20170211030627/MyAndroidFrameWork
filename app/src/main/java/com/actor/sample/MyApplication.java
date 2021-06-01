@@ -37,7 +37,7 @@ public class MyApplication extends ActorApplication {
          * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
          *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
          */
-        GreenDaoUtils.init(this, isAppDebug(), ItemEntityDao.class/*, ...*/);
+        GreenDaoUtils.init(this, isAppDebug(), "notes-db", ItemEntityDao.class/*, ...*/);
 
         BaiduMapUtils.init(this);//初始化百度地图
 

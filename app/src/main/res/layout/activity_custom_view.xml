@@ -57,11 +57,11 @@
             app:islMarginTop="20dp"
             app:islRedStarVisiable="visible" />
 
+        <!-- app:itilCustomLayout="@layout/item_text_input_layout" -->
         <com.actor.myandroidframework.widget.ItemTextInputLayout
             android:id="@+id/itil1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itilCustomLayout="@layout/item_text_input_layout"
             app:itilDigits="@string/digits_phone"
             app:itilGravity="right|center_vertical"
             app:itilHint="正则输入测试"
