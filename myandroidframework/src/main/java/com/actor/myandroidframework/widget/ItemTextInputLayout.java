@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import androidx.annotation.IntRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
 import com.actor.myandroidframework.R;
@@ -64,8 +66,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
  * @see R.styleable#ItemTextInputLayout_itilPaddingRightText   //0dp
  * 14.右侧箭头位置图片, 默认箭头
  * @see R.styleable#ItemTextInputLayout_itilArrowRightSrc      //R.drawable.xxx|color
- * 15.自定义布局, 注意必须有默认控件的类型和id
- *    如果要所有地方都修改layout,可把{@link R.layout#item_text_input_layout} copy一份到自己工程作修改, 就会加载自己工程的layout
+ * 15.自定义布局, 注意必须有默认控件的类型和id, 可参考: https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/tempgen/src/main/res/layout/item_text_input_layout.xml
  * @see R.styleable#ItemTextInputLayout_itilCustomLayout       //R.layout.xxx
  *
  *
@@ -80,37 +81,50 @@ import com.actor.myandroidframework.utils.TextUtils2;
  * @version 1.1.5 新增方法
  *                  @see #setIvArrowRight(int, Integer, Integer)
  *                  @see #setIvArrowRight(Drawable, Integer, Integer)
+ *
+ * TODO: 2021/6/1 使用layout的方式, 我在页面测试ViewPager+3个Fragment+多个ItemTextInputLayout的过程中, 发现会有et里面数据填充混乱的问题, 感觉可能是编译版本过高, 或者id不再是final等原因, 具体待探索
  */
 public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetTextAble {
 
-    protected TextView        tvRedStar;
-    protected TextView        tvItem;
-    protected EditText        et1;
-    protected ImageView       ivArrowRight;
-    protected LinearLayout    llContentForItil;
-    protected Space           spaceMarginTop;
+    protected          TextView        tvRedStar;
+    protected          TextView        tvItem;
+    protected          EditText        et1;
+    protected          ImageView       ivArrowRight;
+    protected          LinearLayout    llContentForItil;
+    protected          Space   spaceMarginTop;
+    protected static final int         NOTHING = -1;
     //px = dp * density;
-    protected float           density;
-    protected OnClickListener clickListener;
+    protected float    density;
+    protected          OnClickListener clickListener;
     //EditText's hint's color
-    protected ColorStateList  hintTextColors;
-    protected @ColorInt int   defaultHintColor;
+    protected          ColorStateList  hintTextColors;
+    protected @ColorInt int             defaultHintColor;
 
     public ItemTextInputLayout(Context context) {
-        this(context,null);
+        super(context);
+        init(context, null);
     }
 
-    public ItemTextInputLayout(Context context, AttributeSet attrs) {
-        this(context, attrs,-1);
+    public ItemTextInputLayout(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
     }
 
-    public ItemTextInputLayout(final Context context, AttributeSet attrs, int defStyleAttr) {
+    public ItemTextInputLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public ItemTextInputLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs);
+    }
+
+    protected void init(Context context, @Nullable AttributeSet attrs) {
         density = getResources().getDisplayMetrics().density;
-        //可以自定义重写此布局到自己layout目录
-        int layoutId = R.layout.item_text_input_layout;
         if (attrs == null) {
-            inflate(context, layoutId);
+            initView(context, NOTHING);
         } else {
             //根据xml中属性, 给view赋值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemTextInputLayout);
@@ -125,42 +139,42 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             //输入框的Text
             String itilText = typedArray.getString(R.styleable.ItemTextInputLayout_itilText);
             //输入类型(下一步, 完成...)
-            int itilImeOptions = typedArray.getInt(R.styleable.ItemTextInputLayout_itilImeOptions, -1);
+            int itilImeOptions = typedArray.getInt(R.styleable.ItemTextInputLayout_itilImeOptions, NOTHING);
             //最大输入长度
-            int itilMaxLength = typedArray.getInt(R.styleable.ItemTextInputLayout_itilMaxLength, -1);
+            int itilMaxLength = typedArray.getInt(R.styleable.ItemTextInputLayout_itilMaxLength, NOTHING);
             //输入框文字gravity
             int gravity = typedArray.getInt(R.styleable.ItemTextInputLayout_itilGravity, Gravity.START | Gravity.CENTER_VERTICAL);
             //marginTop, 默认1dp
-            int marginTop = typedArray.getDimensionPixelSize(R.styleable.ItemTextInputLayout_itilMarginTop, (int) density);
+            int marginTop = typedArray.getDimensionPixelSize(R.styleable.ItemTextInputLayout_itilMarginTop, dp2px(1));
             //输入类型(text, number...)
-            int itilInputType = typedArray.getInt(R.styleable.ItemTextInputLayout_itilInputType, -1);
+            int itilInputType = typedArray.getInt(R.styleable.ItemTextInputLayout_itilInputType, NOTHING);
             //输入限定(例如数字: digits=0123456789)
             String itilDigits = typedArray.getString(R.styleable.ItemTextInputLayout_itilDigits);
             //右侧箭头显示状态
-            int arrowRightVisiable = typedArray.getInt(R.styleable.ItemTextInputLayout_itilArrowRightVisiable, -1);
+            int arrowRightVisiable = typedArray.getInt(R.styleable.ItemTextInputLayout_itilArrowRightVisiable, NOTHING);
             //EditText的PaddingRight
-            int paddingRightText = typedArray.getDimensionPixelSize(R.styleable.ItemTextInputLayout_itilPaddingRightText, -999);
+            int paddingRightText = typedArray.getDimensionPixelSize(R.styleable.ItemTextInputLayout_itilPaddingRightText, Integer.MIN_VALUE);
             //右侧箭头位置图片
             Drawable arrowSrc = typedArray.getDrawable(R.styleable.ItemTextInputLayout_itilArrowRightSrc);
             //Item自定义View
-            int resourceId = typedArray.getResourceId(R.styleable.ItemTextInputLayout_itilCustomLayout, layoutId);
+            int resourceId = typedArray.getResourceId(R.styleable.ItemTextInputLayout_itilCustomLayout, NOTHING);
             typedArray.recycle();
 
-            inflate(context, resourceId);
+            initView(context, resourceId);
 
             tvRedStar.setVisibility(redStarVisiable * INVISIBLE);
-            if (itilInputType != -1) setInputType(itilInputType);
+            if (itilInputType != NOTHING) setInputType(itilInputType);
             if (!inputEnable) setInputEnable(false);
             getTextViewItem().setText(itilItemName);
 
             if (itilText != null) setText(itilText);
-            if(itilImeOptions != -1) getEditText().setImeOptions(itilImeOptions);
+            if(itilImeOptions != NOTHING) getEditText().setImeOptions(itilImeOptions);
             if (itilMaxLength >= 0) setMaxLength(itilMaxLength);
             setGravityInput(gravity);
             setMarginTop(marginTop);
 
             if (!TextUtils.isEmpty(itilDigits)) setDigits(itilDigits, false);
-            if (arrowRightVisiable == -1) {
+            if (arrowRightVisiable == NOTHING) {
                 if (inputEnable) {//如果能输入
                     ivArrowRight.setVisibility(GONE);//隐藏
                 } else ivArrowRight.setVisibility(VISIBLE);//显示
@@ -186,7 +200,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             } else setHint(itilHint);
 
             boolean gone = ivArrowRight.getVisibility() == GONE;
-            if (paddingRightText == -999) paddingRightText = gone ? (int) (density * 10) : (int) (density * 5);
+            if (paddingRightText == Integer.MIN_VALUE) paddingRightText = gone ? dp2px(10) : dp2px(5);
             setPaddingRightText(paddingRightText);
             if (arrowSrc != null) setIvArrowRight(arrowSrc, null, null);
         }
@@ -195,15 +209,63 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             llContentForItil.setBackgroundColor(Color.WHITE);
         }
     }
-    protected void inflate(Context context, @LayoutRes int resource) {
-        //设置view, 并找到子view
-        View inflate = View.inflate(context, resource, this);
-        llContentForItil = inflate.findViewById(R.id.ll_content_for_itil);
-        spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_itil);
-        tvRedStar = inflate.findViewById(R.id.tv_red_star_for_itil);
-        tvItem = inflate.findViewById(R.id.tv_item_name_for_itil);
-        et1 = inflate.findViewById(R.id.et_input_for_itil);
-        ivArrowRight = inflate.findViewById(R.id.iv_arrow_right_for_itil);
+
+    protected void initView(Context context, @LayoutRes int resource) {
+        if (resource == NOTHING) {
+            //最小高度
+            setMinimumHeight(dp2px(50));
+            //垂直
+            setOrientation(VERTICAL);
+            //Space
+            spaceMarginTop = new Space(context);
+            spaceMarginTop.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp2px(1)));
+            addView(spaceMarginTop);
+            //Container
+            llContentForItil = new LinearLayout(context);
+            llContentForItil.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1F));
+            llContentForItil.setGravity(Gravity.CENTER_VERTICAL);
+            llContentForItil.setOrientation(HORIZONTAL);
+            llContentForItil.setPadding(dp2px(10), 0, 0, 0);
+            addView(llContentForItil);
+            //RedStart
+            tvRedStar = new TextView(context);
+            tvRedStar.setText("* ");
+            tvRedStar.setTextColor(context.getResources().getColor(R.color.red_D90000));
+            tvRedStar.setTextSize(20);
+            llContentForItil.addView(tvRedStar);
+            //TextView(Item)
+            tvItem = new TextView(context);
+            tvItem.setMinWidth(dp2px(90));
+            tvItem.setTextColor(getResources().getColor(R.color.gray_666));
+            tvItem.setTextSize(15);
+            llContentForItil.addView(tvItem);
+            //EditText
+            et1 = new EditText(context);
+            et1.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1F));
+            et1.setBackground(null);
+            et1.setMinHeight(dp2px(40));
+            et1.setTextColor(getResources().getColor(R.color.gray_999));
+            et1.setTextSize(15);
+            llContentForItil.addView(et1);
+            //IvArrow
+            ivArrowRight = new ImageView(context);
+            LayoutParams ivLayoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp2px(25));
+            ivLayoutParams.setMarginEnd(dp2px(10));
+            ivArrowRight.setLayoutParams(ivLayoutParams);
+            ivArrowRight.setAdjustViewBounds(true);
+            ivArrowRight.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ivArrowRight.setImageResource(R.drawable.arrow_right_gray_dcdcdc);
+            llContentForItil.addView(ivArrowRight);
+        } else {
+            //从Xml布局中填充View, 并找到子view
+            View inflate = inflate(context, resource, this);
+            llContentForItil = inflate.findViewById(R.id.ll_content_for_itil);
+            spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_itil);
+            tvRedStar = inflate.findViewById(R.id.tv_red_star_for_itil);
+            tvItem = inflate.findViewById(R.id.tv_item_name_for_itil);
+            et1 = inflate.findViewById(R.id.et_input_for_itil);
+            ivArrowRight = inflate.findViewById(R.id.iv_arrow_right_for_itil);
+        }
     }
 
     /**
@@ -381,7 +443,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
      * 设置marginTop, 单位dp
      */
     public void setMarginTopDp(int dp) {
-        setMarginTop((int) (dp * density + 0.5));
+        setMarginTop(dp2px(dp));
     }
 
     /**
@@ -422,8 +484,8 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
         ivArrowRight.setImageDrawable(drawable);
         if (widthDp != null || heightDp != null) {
             ViewGroup.LayoutParams layoutParams = ivArrowRight.getLayoutParams();
-            if (widthDp != null) layoutParams.width = (int) (widthDp * density);
-            if (heightDp != null) layoutParams.height = (int) (heightDp * density);
+            if (widthDp != null) layoutParams.width = dp2px(widthDp);
+            if (heightDp != null) layoutParams.height = dp2px(heightDp);
             ivArrowRight.setLayoutParams(layoutParams);
         }
     }
@@ -449,5 +511,9 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
                 }
             }
         });
+    }
+
+    protected int dp2px(int dp) {
+        return (int) (density * dp  + 0.5F);
     }
 }

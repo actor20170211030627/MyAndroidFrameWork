@@ -7,6 +7,7 @@
     <!-- Red红色区域 -->
     <color name="red_FE588C">#FE588C</color>
     <color name="red">#F00</color>
+    <color name="red_D90000">#D90000</color>
     <color name="red_trans_CC99">#CC99</color><!-- 有透明度 -->
 
     <!-- Green绿色区域 -->
