@@ -6,14 +6,12 @@ import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.ResourceUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Description: 资产目录工具, 可以在Application的时候就开始拷贝文件
@@ -28,18 +26,18 @@ public class AssetsUtils {
     /**
      * 拷贝文件到File目录: /data/data/com.package.name(包名)/files
      */
-    public static void copyFile2FilesDir(boolean isCover, @NonNull String assetPath, @Nullable OnListener<String> listener) {
+    public static boolean copyFile2FilesDir(boolean isCover, @NonNull String assetPath) {
         //distPath: /data/data/com.actor.test/files
-        copyFile2Dir(isCover, assetPath, CONTEXT.getFilesDir().getAbsolutePath(), listener);
+        return copyFile2Dir(isCover, assetPath, CONTEXT.getFilesDir().getAbsolutePath());
     }
 
     /**
      * 拷贝文件到数据库目录: /data/data/com.package.name(包名)/databases
      * @param dbNames 数据库名称, 例: address.db, users.db3 等...
      */
-    public static void copyFile2getDatabaseDir(boolean isCover, @NonNull String dbNames, @Nullable OnListener<String> listener) {
+    public static boolean copyFile2DatabaseDir(boolean isCover, @NonNull String dbNames) {
         //distPath: /data/0/com.actor.test/databases
-        copyFile2Dir(isCover, dbNames, CONTEXT.getDatabasePath(dbNames).getParent(), listener);
+        return copyFile2Dir(isCover, dbNames, CONTEXT.getDatabasePath(dbNames).getParent());
     }
 
     /**
@@ -47,79 +45,34 @@ public class AssetsUtils {
      * @param isCover 当本地已经存在相同文件的时候,是否覆盖
      * @param assetPath 文件在assets目录下的路径, 示例: xxx.txt(assets/xxx.txt) 或 test/xxx.txt(assets/test/xxx.txt)
      * @param distPath 目的地路径, 例: CONTEXT.getFilesDir().getAbsolutePath()
-     * @param listener 拷贝监听
      */
-    public static void copyFile2Dir(boolean isCover, @NonNull String assetPath, String distPath, @Nullable OnListener<String> listener) {
-        if (assetPath == null) {
-            if (listener != null) listener.onFail(new NullPointerException("需要copy的文件, assetPath = null"));
-            return;
-        }
+    public static boolean copyFile2Dir(boolean isCover, @NonNull String assetPath, String distPath) {
+        if (assetPath == null) return false;
         File file = new File(distPath, assetPath);
         if (file.exists()) {
             if (!isCover) {
-                if (listener != null) listener.onComplated(file.getAbsolutePath());
-                return;
+                return true;
             }
         }
-        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<String>() {
-            @Override
-            public String doInBackground() throws Throwable {
-                //获取资产管理器,从资产目录(asset)读取数据库文件
-                AssetManager assets = CONTEXT.getAssets();
-                try (InputStream is = assets.open(assetPath); FileOutputStream fos = new FileOutputStream(file)) {
-                    int len;
-                    byte[] arr = new byte[1024 * 8];
-                    while ((len = is.read(arr)) != -1) {
-                        fos.write(arr, 0, len);
-                    }
-                    return file.getAbsolutePath();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw e;
-                }
-            }
-            @Override
-            public void onSuccess(String result) {
-                if (listener != null) listener.onComplated(result);
-            }
-            @Override
-            public void onFail(Throwable t) {
-                super.onFail(t);
-                if (listener != null) listener.onFail(t);
-            }
-        });
+        return ResourceUtils.copyFileFromAssets(assetPath, file.getAbsolutePath());
     }
 
     /**
      * 读取成String
      * @param assetPath 文件在assets目录下的路径, 示例: china_city_data.json, xxx.txt
+     * @param charsetName 编码格式, 可传null, 例: UTF-8, {@link java.nio.charset.StandardCharsets}
      */
-    public static void readAssets2String(String assetPath, @Nullable OnListener<String> listener) {
-        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<String>() {
-            @Override
-            public String doInBackground() throws Throwable {
-                try (InputStream is = CONTEXT.getAssets().open(assetPath); InputStreamReader isr = new InputStreamReader(is); BufferedReader bf = new BufferedReader(isr)) {
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = bf.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    return sb.toString();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw e;
-                }
-            }
-            @Override
-            public void onSuccess(String result) {
-                if (listener != null) listener.onComplated(result);
-            }
-            @Override
-            public void onFail(Throwable t) {
-                super.onFail(t);
-                if (listener != null) listener.onFail(t);
-            }
-        });
+    public static String readAssets2String(String assetPath, @Nullable String charsetName) {
+        return ResourceUtils.readAssets2String(assetPath, charsetName);
+    }
+
+    /**
+     * 一行一行地读, 返回List
+     * @param assetsPath 文件在assets目录下的路径, 示例: china_city_data.json, xxx.txt
+     * @param charsetName 编码格式
+     */
+    public static List<String> readAssets2List(final String assetsPath, final String charsetName) {
+        return ResourceUtils.readAssets2List(assetsPath, charsetName);
     }
 
     /**
@@ -137,15 +90,13 @@ public class AssetsUtils {
         }
     }
 
-    public interface OnListener<T> {
-        /**
-         * @param result 拷贝成功路径
-         */
-        void onComplated(T result);
-
-        /**
-         * 拷贝失败
-         */
-        void onFail(Throwable t);
+    /**
+     * 将
+     * @param assetPath 文件在assets目录下的路径, 示例: china_city_data.json, xxx.txt
+     * @return 返回一个输入流, 注意: 要关流
+     */
+    public static InputStream open(String assetPath) throws IOException {
+        //参2: 读取成哪种流, 默认: ACCESS_STREAMING
+        return CONTEXT.getAssets().open(assetPath, AssetManager.ACCESS_STREAMING);
     }
 }

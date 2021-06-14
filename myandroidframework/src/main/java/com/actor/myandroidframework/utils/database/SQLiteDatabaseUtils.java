@@ -9,9 +9,9 @@ import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.AssetsUtils;
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ReflectUtils;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -21,9 +21,9 @@ import java.util.Map;
 /**
  * Description: 安卓原生SQLiteDatabase简单封装, 读取本地数据库, 并封装成实体
  * 使用:
- *  1.在Application中调用方法初始化: {@link #initDatabase(OnListener, String...)}
- *                              or {@link #initDatabase(boolean, OnListener, String...)}
- *                              or {@link #initDatabase(boolean, int, String, OnListener)}
+ *  1.在Application中调用方法初始化: {@link #initDatabase(String...)}
+ *                              or {@link #initDatabase(boolean, String...)}
+ *                              or {@link #initDatabase(boolean, int, String)}
  *
  * Author     : ldf
  * Date       : 2017/1/19 on 11:15.
@@ -49,8 +49,8 @@ public class SQLiteDatabaseUtils {
     //存储数据库
     protected static final Map<String, SQLiteDatabase> DATABASES = new LinkedHashMap<>();
 
-    public static void initDatabase(@Nullable OnListener listener, String... dbNames) {
-        initDatabase(false, listener, dbNames);
+    public static void initDatabase(String... dbNames) {
+        initDatabase(false, dbNames);
     }
 
     /**
@@ -58,14 +58,16 @@ public class SQLiteDatabaseUtils {
      * @param isCover 如果文件已存在, 是否覆盖
      * @param dbNames assets/目录下的数据库名称, 例: address.db, users.db3 等...
      */
-    public static void initDatabase(boolean isCover, @Nullable OnListener listener, String... dbNames) {
+    public static boolean initDatabase(boolean isCover, String... dbNames) {
         if (dbNames == null || dbNames.length == 0) {
             throw new RuntimeException("数据库名称为空!");
         }
         for (String dbName : dbNames) {
             //params1: 以只读方式打开
-            initDatabase(isCover, SQLiteDatabase.OPEN_READONLY, dbName, listener);
+            boolean success = initDatabase(isCover, SQLiteDatabase.OPEN_READONLY, dbName);
+            if (!success) return false;
         }
+        return true;
     }
 
     /**
@@ -74,39 +76,27 @@ public class SQLiteDatabaseUtils {
      * @param flags 控制数据库访问模式
      * @param dbName assets/目录下的数据库名称, 例: address.db, users.db3 等...
      */
-    public static synchronized void initDatabase(boolean isCover, int flags, String dbName, @Nullable OnListener listener) {
-        final SQLiteDatabase[] sqLiteDatabase = {DATABASES.get(dbName)};
-        if (isCover || sqLiteDatabase[0] == null) {
-            String databasePath = ConfigUtils.APPLICATION.getDatabasePath(dbName).getParent();
-            AssetsUtils.copyFile2Dir(isCover, dbName, databasePath, new AssetsUtils.OnListener<String>() {
-                @Override
-                public void onComplated(String result) {
-                    /**
-                     * 参1: 数据库文件的本地路径
-                     * 参2: 游标工厂
-                     * 参3: 控制数据库访问模式
-                     */
-                    sqLiteDatabase[0] = SQLiteDatabase.openDatabase(result, null, flags);
-                    DATABASES.put(dbName, sqLiteDatabase[0]);
-                    if (listener != null) listener.onComplated(dbName);
-                }
-                @Override
-                public void onFail(Throwable t) {
-                    if (listener != null) listener.onFail(t);
-                }
-            });
+    public static synchronized boolean initDatabase(boolean isCover, int flags, String dbName) {
+        SQLiteDatabase sqLiteDatabase = DATABASES.get(dbName);
+        if (isCover || sqLiteDatabase == null) {
+            //.db文件
+            File databaseFile = ConfigUtils.APPLICATION.getDatabasePath(dbName);
+            String databasePath = databaseFile.getParent();
+            boolean success = AssetsUtils.copyFile2Dir(isCover, dbName, databasePath);
+            if (success) {
+                /**
+                 * 参1: 数据库文件的本地路径
+                 * 参2: 游标工厂
+                 * 参3: 控制数据库访问模式
+                 */
+                sqLiteDatabase= SQLiteDatabase.openDatabase(databaseFile.getAbsolutePath(), null, flags);
+                DATABASES.put(dbName, sqLiteDatabase);
+            }
+            return success;
         }
+        return true;
     }
 
-    public interface OnListener {
-        /**
-         * @param dbName 这个数据库已经copy到本地路径
-         */
-        void onComplated(String dbName);
-        default void onFail(Throwable t) {
-            LogUtils.e(t);
-        }
-    }
 
     /**
      * 查询所有
