@@ -140,11 +140,11 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     }
 
     protected void logError(String msg) {
-        LogUtils.error(msg, false);
+        LogUtils.error(false, msg);
     }
 
     protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(format, false, args);
+        LogUtils.formatError(false, format, args);
     }
 
     protected String getStringFormat(String format, Object... args) {

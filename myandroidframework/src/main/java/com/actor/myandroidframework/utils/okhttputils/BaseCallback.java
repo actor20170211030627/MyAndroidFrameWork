@@ -276,11 +276,11 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         return requestId;
     }
     protected void logError(String msg) {
-        LogUtils.error(msg, false);
+        LogUtils.error(false, msg);
     }
 
     protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(format, false, args);
+        LogUtils.formatError(false, format, args);
     }
 
     protected String getStringFormat(String format, Object... args) {

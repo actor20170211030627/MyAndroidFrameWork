@@ -363,14 +363,14 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
     // 打印日志区
     ///////////////////////////////////////////////////////////////////////////
     protected void logError(Object msg) {
-        LogUtils.error(String.valueOf(msg), false);
+        LogUtils.error(false, String.valueOf(msg));
     }
 
     /**
      * 打印格式化后的字符串
      */
     protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(format, false, args);
+        LogUtils.formatError(false, format, args);
     }
 
 

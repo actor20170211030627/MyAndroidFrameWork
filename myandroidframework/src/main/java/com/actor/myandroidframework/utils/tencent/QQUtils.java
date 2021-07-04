@@ -433,11 +433,11 @@ public class QQUtils {
 
     //打印日志
     protected static void logError(String message) {
-        LogUtils.error(message, false);
+        LogUtils.error(false, message);
     }
 
     protected static void logFormat(String format, Object... args) {
-        LogUtils.formatError(format, false, args);
+        LogUtils.formatError(false, format, args);
     }
 
     protected static void otherMethods(Activity activity) {

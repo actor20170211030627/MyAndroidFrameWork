@@ -79,7 +79,7 @@ public class RoundCardView extends MaterialCardView {
 //            float radius = getRadius();//8.0
 //            float density = Resources.getSystem().getDisplayMetrics().density;//4.0
 //            int dp = ConvertUtils.px2dp(radius);//2dp
-//            LogUtils.formatError("radius = %f, density = %f, dp = %d", true, radius, density, dp);
+//            LogUtils.formatError("radius = %f, density = %f, dp = %d", radius, density, dp);
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundCardView);
             tlRadiu = a.getDimension(R.styleable.RoundCardView_rcvTopLeftRadius, 0);
             trRadiu = a.getDimension(R.styleable.RoundCardView_rcvTopRightRadius, 0);

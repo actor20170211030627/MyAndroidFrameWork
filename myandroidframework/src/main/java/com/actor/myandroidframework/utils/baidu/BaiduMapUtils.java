@@ -475,10 +475,10 @@ public class BaiduMapUtils {
     }
 
     protected static void logError(String msg) {
-        LogUtils.error(msg, false);
+        LogUtils.error(false, msg);
     }
 
     protected static void logFormat(String format, Object... args) {
-        LogUtils.formatError(format, false, args);
+        LogUtils.formatError(false, format, args);
     }
 }

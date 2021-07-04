@@ -25,7 +25,7 @@ public class BaseApiListener implements IRequestListener {
 
     @Override
     public void onComplete(JSONObject response) {
-        LogUtils.error(TAG + ":onComplete:" +  response.toString(), true);
+        LogUtils.error(TAG + ":onComplete:" +  response.toString());
     }
 
     @Override

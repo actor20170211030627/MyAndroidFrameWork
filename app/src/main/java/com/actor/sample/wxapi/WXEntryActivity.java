@@ -133,7 +133,7 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
                 break;
             default:
                 finish();
-                LogUtils.error("baseResp.getType():" + baseResp.getType(), true);
+                LogUtils.error("baseResp.getType():" + baseResp.getType());
                 break;
         }
     }

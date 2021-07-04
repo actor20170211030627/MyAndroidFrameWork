@@ -111,7 +111,7 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
                 break;
             default:
                 finish();
-                LogUtils.error("baseResp.getType():" + baseResp.getType(), true);
+                LogUtils.error("baseResp.getType():" + baseResp.getType());
                 break;
         }
     }

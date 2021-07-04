@@ -266,7 +266,7 @@ public class MigrationHelper {
     }
 
     protected static void logFormat(String format, Object... args) {
-        LogUtils.formatError(format, false, args);
+        LogUtils.formatError(false, format, args);
     }
 
     protected static class TableInfo {

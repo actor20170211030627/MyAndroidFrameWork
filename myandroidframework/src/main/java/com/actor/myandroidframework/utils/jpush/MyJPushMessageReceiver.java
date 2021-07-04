@@ -237,10 +237,10 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     }
 
     protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(format, false, args);
+        LogUtils.formatError(false, format, args);
     }
 
     protected void logError(String msg) {
-        LogUtils.error(msg, false);
+        LogUtils.error(false, msg);
     }
 }

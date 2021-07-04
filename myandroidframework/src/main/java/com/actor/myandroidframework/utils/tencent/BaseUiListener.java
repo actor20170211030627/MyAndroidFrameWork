@@ -30,10 +30,10 @@ public abstract class BaseUiListener implements IUiListener {
 
     @Override
     public void onError(UiError e) {
-        LogUtils.formatError("code=%d, msg=%s, detail=%s", false, e.errorCode, e.errorMessage, e.errorDetail);
+        LogUtils.formatError(false, "code=%d, msg=%s, detail=%s", e.errorCode, e.errorMessage, e.errorDetail);
     }
     @Override
     public void onCancel() {
-        LogUtils.error(TAG + ":onCancel", false);
+        LogUtils.error(false, TAG + ":onCancel");
     }
 }

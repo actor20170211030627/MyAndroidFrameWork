@@ -2,6 +2,8 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -37,6 +39,10 @@ public class WebViewActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         etContent.setText("https://gitee.com/actor20170211030627/MyAndroidFrameWork");
+        /**
+         * 雷电模拟器会进入 {@link BaseWebViewClient#shouldInterceptRequest(WebView, WebResourceRequest)}
+         * 报错, 原因未知, 莫名其妙!
+         */
         webView.init(new BaseWebViewClient(), new BaseWebChromeClient());
         btnGo.performClick();
     }

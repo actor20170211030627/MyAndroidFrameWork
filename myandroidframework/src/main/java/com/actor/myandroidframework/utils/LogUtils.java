@@ -14,69 +14,65 @@ import android.util.Log;
 public class LogUtils {
     protected static final boolean IS_DEBUG_MODE = ConfigUtils.IS_APP_DEBUG;
 
-    protected LogUtils() {
-    }
-
     public static void verbose(Object msg) {
-        verbose(msg, false);
+        verbose(false, msg);
     }
 
     /**
      * @param isDirectCall 是否直接调用本方法, 用于定位堆栈信息中元素
      */
-    public static void verbose(Object msg, boolean isDirectCall) {//v
-        printlnLogInfo(Level.Verbose, msg, isDirectCall);
+    public static void verbose(boolean isDirectCall, Object msg) {//v
+        printlnLogInfo(isDirectCall, Level.Verbose, msg);
     }
 
     public static void debug(Object msg) {
-        debug(msg, false);
+        debug(false, msg);
     }
 
-    public static void debug(Object msg, boolean isDirectCall) {//d
-        printlnLogInfo(Level.Debug, msg, isDirectCall);
+    public static void debug(boolean isDirectCall, Object msg) {//d
+        printlnLogInfo(isDirectCall, Level.Debug, msg);
     }
 
     public static void info(Object msg) {
-        info(msg, false);
+        info(false, msg);
     }
 
-    public static void info(Object msg, boolean isDirectCall) {//i
-        printlnLogInfo(Level.Info, msg, isDirectCall);
+    public static void info(boolean isDirectCall, Object msg) {//i
+        printlnLogInfo(isDirectCall, Level.Info, msg);
     }
 
     public static void warn(Object msg) {
-        warn(msg, false);
+        warn(false, msg);
     }
 
-    public static void warn(Object msg, boolean isDirectCall) {//w
-        printlnLogInfo(Level.Warn, msg, isDirectCall);
+    public static void warn(boolean isDirectCall, Object msg) {//w
+        printlnLogInfo(isDirectCall, Level.Warn, msg);
     }
 
     public static void error(Object msg) {
-        error(msg, false);
+        error(false, msg);
     }
 
-    public static void error(Object msg, boolean isDirectCall) {//e
-        printlnLogInfo(Level.Error, msg, isDirectCall);
+    public static void error(boolean isDirectCall, Object msg) {//e
+        printlnLogInfo(isDirectCall, Level.Error, msg);
     }
 
-    //编译不通过.
-//    public static void formatError(String format, Object... args) {
-//        formatError(format, false, args);
-//    }
+    public static void formatError(String format, Object... args) {
+        formatError(false, format, args);
+    }
 
     /**
      * 打印格式化后的字符串
      */
-    public static void formatError(String format, boolean isDirectCall, Object... args) {
-        printlnLogInfo(Level.Error, TextUtils2.getStringFormat(format, args), isDirectCall);
+    public static void formatError(boolean isDirectCall, String format, Object... args) {
+        printlnLogInfo(isDirectCall, Level.Error, TextUtils2.getStringFormat(format, args));
     }
 
     /**
      * 如果是debug模式, 就输出日志所包含的信息
      * 示例: MyActivity.java: 125行, 方法名:onActivityResult, 输出: 选择文件返回, path=xxx.jpg
      */
-    protected static void printlnLogInfo(Level level, Object msg, boolean isDirectCall) {
+    protected static void printlnLogInfo(boolean isDirectCall, Level level, Object msg) {
         if (!IS_DEBUG_MODE) return;
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[isDirectCall ? 4 : 5];
         //文件名: ActorBaseActivity.java

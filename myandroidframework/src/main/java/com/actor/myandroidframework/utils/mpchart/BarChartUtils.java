@@ -74,7 +74,7 @@ public class BarChartUtils {
 //        barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 //            @Override
 //            public void onValueSelected(Entry e, Highlight h) {
-//                LogUtils.formatError("Entry selected=%s, Highlight=%s", true, e, h);
+//                LogUtils.formatError("Entry selected=%s, Highlight=%s", e, h);
 //                if (e == null) {
 //                    return;
 //                }
@@ -82,15 +82,15 @@ public class BarChartUtils {
 //                barChart.getBarBounds((BarEntry) e, bounds);
 //                MPPointF position = barChart.getPosition(e, YAxis.AxisDependency.LEFT);
 //
-//                LogUtils.formatError("bounds=%s, position=%s", true, bounds, position);
-//                LogUtils.formatError("x-index, low=%f, high=%f", true, barChart.getLowestVisibleX(), barChart.getHighestVisibleX());
+//                LogUtils.formatError("bounds=%s, position=%s", bounds, position);
+//                LogUtils.formatError("x-index, low=%f, high=%f", barChart.getLowestVisibleX(), barChart.getHighestVisibleX());
 //
 //                MPPointF.recycleInstance(position);
 //            }
 //
 //            @Override
 //            public void onNothingSelected() {
-//                LogUtils.error("onNothingSelected", true);
+//                LogUtils.error("onNothingSelected");
 //            }
 //        });
     }
