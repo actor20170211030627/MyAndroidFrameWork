@@ -183,6 +183,18 @@ public static java.lang.String TABLENAME;
 # If you do NOT use RxJava:
 -dontwarn rx.**
 
+#############################################################################
+## https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDao数据库升级
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+    public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
+    public static void createTable(org.greenrobot.greendao.database.Database, boolean);
+}
+
+#############################################################################
+## https://github.com/sqlcipher/android-database-sqlcipher greenDao数据库加密
+-keep,includedescriptorclasses class net.sqlcipher.** { *; }
+-keep,includedescriptorclasses interface net.sqlcipher.** { *; }
+
 
 #############################################################################
 ## baidu 百度定位, 百度地图 http://lbsyun.baidu.com/index.php?title=androidsdk/guide/buildproject#.E5.BA.94.E7.94.A8.E6.B7.B7.E6.B7.86

@@ -2,7 +2,6 @@ package com.actor.sample.database;
 
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Transient;
@@ -18,7 +17,10 @@ import java.util.Map;
  *
  * @version 1.0
  */
-@Entity         //这个实体类会在数据库中生成对应的表
+@Entity(nameInDb = "ITEM_ENTITY",     //这个实体类会在数据库中生成对应的表, 默认是大写并用_分开
+        createInDb = true,            //如果数据库里没有这张表, 就在数据库里创建
+        generateGettersSetters = true,//如果写成false, Dao里面的方法会报错...
+        generateConstructors = false) //是否生成全参构造方法
 public class ItemEntity {
 
     @Transient//不映射到数据库
@@ -40,7 +42,7 @@ public class ItemEntity {
     @Unique                 //该字段唯一
     private String idCard;  //身份证
 
-    private Date time;      //添加时间
+    private Date time;      //添加时间, greenDao在数据库生成的类型居然是Integer...
 
     private int sex = SEX_UNKNOWN;//性别, 默认未知
 
@@ -48,19 +50,7 @@ public class ItemEntity {
     @Convert(converter = MapConverter.class, columnType = String.class)
     private Map<String, Object> params;//参数
 
-    /**
-     * 由于我们的这个表的id是自增长&自动生成的, 所以id必须传null.
-     * 为了避免每次都手动传null, 所以增加了这个构造方法.
-     * 如果有其它参数是固定的且懒得写, 也可以这样处理(比如: userId, ...)
-     */
     public ItemEntity(String name, @NotNull String idCard, Date time, int sex, Map<String, Object> params) {
-        this(null, name, idCard, time, sex, params);
-    }
-
-    @Generated(hash = 938085501)
-    public ItemEntity(Long id, String name, @NotNull String idCard, Date time, int sex,
-            Map<String, Object> params) {
-        this.id = id;
         this.name = name;
         this.idCard = idCard;
         this.time = time;
@@ -68,8 +58,6 @@ public class ItemEntity {
         this.params = params;
     }
 
-    //@Generated: 由'Build -> Make Project'生成
-    @Generated(hash = 365170573)
     public ItemEntity() {
     }
 

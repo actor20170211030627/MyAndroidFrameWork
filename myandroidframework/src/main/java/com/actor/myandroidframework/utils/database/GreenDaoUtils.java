@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.yuweiguocn.library.greendao.MigrationHelper;
 import com.greendao.gen.DaoMaster;
 import com.greendao.gen.DaoSession;
 
@@ -26,7 +27,8 @@ import java.util.List;
  * 1.在Project的gradle文件中添加插件(root build.gradle)
  *   buildscript {
  *       repositories {
- *           mavenCentral() // add repository
+ *           mavenCentral() // add repository, greenDAO需要
+ *           maven { url "https://jitpack.io" } //GreenDaoUpgradeHelper数据库升级需要
  *       }
  *       dependencies {
  *           classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
@@ -45,6 +47,12 @@ import java.util.List;
  *   dependencies {
  *       //https://github.com/greenrobot/greenDAO
  *       implementation 'org.greenrobot:greendao:3.3.0' // add library
+ *
+ *       //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
+ *       implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
+ *
+ *       //★如果你的数据库是加密的, 那么需要再添加一个依赖, 见方法:
+ *           @see #init(Context, boolean, String, String, Class[])
  *   }
  *
  * 3.写一个你想要存储到 GreenDao 的实体类, 示例 ItemEntity.java:
@@ -111,38 +119,61 @@ public class GreenDaoUtils {
 
     protected static GreenDaoUtils        instalce;
     protected        DaoMaster.OpenHelper openHelper;
-    protected static SQLiteDatabase       sqLiteDatabase;
+    protected static Database             database;
     protected        DaoMaster            daoMaster;
     protected static DaoSession           daoSession;
 
+    /**
+     * @param context application
+     * @param isDebug 如果是debug模式, 数据库操作会打印日志
+     * @param dbName 数据库名称(没有就创建,有就增删改查), 例: my_database.db3
+     * @param dbPassword 数据库密码, 如果没有就传null
+     *                   ★1.如果数据库加密了, 需要添加依赖:
+     *                      //https://github.com/sqlcipher/android-database-sqlcipher 数据库加密
+     *                      implementation "net.zetetic:android-database-sqlcipher:4.4.3@aar"
+     *                      implementation "androidx.sqlite:sqlite:2.1.0"
+     *                   ★2.这个依赖可运行在构架: armeabi-v7a, x86, x86_64, and arm64_v8a
+     *                      所以, 要在gradle中的abiFilters中添加相应构架, 否则运行会崩溃.
+     *                   ★3.如果数据库加密了, PC端需要"DB Browser for SQLite"里的'DB Browser for SQLCipher.exe'才能打开加密的数据库:
+     *                      https://github.com/sqlitebrowser/sqlitebrowser
+     *
+     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
+     *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
+     */
     @SafeVarargs
-    public static void init(@NonNull Context context, boolean isDebug, @NonNull String dbName, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        if (instalce == null) instalce = new GreenDaoUtils(context, isDebug, dbName, daoClasses);
+    public static void init(@NonNull Context context, boolean isDebug, @NonNull String dbName,
+                            @Nullable String dbPassword, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        if (instalce == null) instalce = new GreenDaoUtils(context, isDebug, dbName, dbPassword, daoClasses);
     }
 
     /**
      * 设置greenDAO
      * @param context application
      * @param isDebug 如果是debug模式, 数据库操作会打印日志
-     * @param dbName 数据库名称(没有就创建,有就增删改查), my_database
+     * @param dbName 数据库名称(没有就创建,有就增删改查), 例: my_database.db3
      *               或读取已有数据库例: my_database.db, my_database.db3...
      *               ★★★注意: 读取已有数据库时, 要保证这个已有数据库在这个目录下: context.getDatabasePath()★★★
+     * @param dbPassword 数据库密码, 如果没有就传null
      * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
      *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
      *                   ★★★注意: 如果只是从 my_database.db, my_database.db3... 等数据库文件读取数据, 可不用传这个参数★★★
      */
     @SafeVarargs
-    protected GreenDaoUtils(@NonNull Context context, boolean isDebug, @NonNull String dbName, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    protected GreenDaoUtils(@NonNull Context context, boolean isDebug, @NonNull String dbName,
+                            @Nullable String dbPassword, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
         // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
         // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
         // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
         openHelper = new UpgradeAbleOpenHelper(context, dbName, null, daoClasses);
 
-        //加密写法, 使用getEncryptedReadableDb()和getEncryptedWritableDb()获取加密的数据库
-//        Database database = openHelper.getEncryptedWritableDb("aserbao"); //数据库加密密码为“aserbao"
-        sqLiteDatabase = openHelper.getWritableDatabase();
-        // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
-        daoMaster = new DaoMaster(sqLiteDatabase);//database
+        if (dbPassword == null) {
+            database = openHelper.getWritableDb();
+        } else {
+            //加密的数据库, 使用getEncryptedReadableDb()和getEncryptedWritableDb()获取加密的数据库
+            database = openHelper.getEncryptedWritableDb(dbPassword);
+        }
+        //该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
+        daoMaster = new DaoMaster(database);//database
         daoSession = daoMaster.newSession();
 
         //debug查询, 设置这两个属性就可以看到log
@@ -218,8 +249,8 @@ public class GreenDaoUtils {
     /**
      * @return 获取数据库
      */
-    public static SQLiteDatabase getSQLiteDatabase() {
-        return sqLiteDatabase;
+    public static Database getDatabase() {
+        return database;
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -15,7 +15,7 @@ android {
         //在 defaultConfig { 中添加ndk
         ndk {
             //"armeabi", "armeabi-v7a", "x86","arm64-v8a","x86_64", 'mips', 'mips64'
-            abiFilters "armeabi"
+            abiFilters "armeabi-v7a", "x86"
         }
         //清单文件替换, 添加在 defaultConfig { 中
         manifestPlaceholders = [
@@ -81,6 +81,13 @@ dependencies {
 
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库
+
+    //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
+    implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
+
+    //https://github.com/sqlcipher/android-database-sqlcipher 数据库加密
+    implementation "net.zetetic:android-database-sqlcipher:4.4.3@aar"
+    implementation "androidx.sqlite:sqlite:2.1.0"
 
     //https://github.com/promeG/TinyPinyin
     implementation 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB

@@ -132,6 +132,9 @@ dependencies {
     //https://github.com/greenrobot/greenDAO 数据库
     compileOnly rootProject.ext.dependencies.greendao
 
+    //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
+    compileOnly 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
+
     //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等v3.3.7
     compileOnly files('../app/libs/open_sdk_r2973327_lite.jar')
 

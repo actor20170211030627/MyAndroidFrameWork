@@ -34,10 +34,12 @@ public class MyApplication extends ActorApplication {
         /**
          * @param context application
          * @param isDebug 如果是debug模式, 数据库操作会打印日志
+         * @param dbName 数据库名称
+         * @param dbPassword 数据库密码(如果数据库没有加密, 密码传null)
          * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
          *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
          */
-        GreenDaoUtils.init(this, isAppDebug(), "notes-db", ItemEntityDao.class/*, ...*/);
+        GreenDaoUtils.init(this, isAppDebug(), "notes-db", "123456", ItemEntityDao.class/*, ...*/);
 
         BaiduMapUtils.init(this);//初始化百度地图
 
