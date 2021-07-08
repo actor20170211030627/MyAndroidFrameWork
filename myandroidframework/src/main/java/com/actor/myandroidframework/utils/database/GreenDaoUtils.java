@@ -139,6 +139,8 @@ public class GreenDaoUtils {
      *
      * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
      *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
+     *                   ★★★注意: 如果只是从 my_database.db, my_database.db3... 等数据库文件读取数据,
+     *                             即数据库不用升级, 可不用传这个参数★★★
      */
     @SafeVarargs
     public static void init(@NonNull Context context, boolean isDebug, @NonNull String dbName,
@@ -154,9 +156,10 @@ public class GreenDaoUtils {
      *               或读取已有数据库例: my_database.db, my_database.db3...
      *               ★★★注意: 读取已有数据库时, 要保证这个已有数据库在这个目录下: context.getDatabasePath()★★★
      * @param dbPassword 数据库密码, 如果没有就传null
-     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
+     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 用于升级, 示例:
      *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
-     *                   ★★★注意: 如果只是从 my_database.db, my_database.db3... 等数据库文件读取数据, 可不用传这个参数★★★
+     *                   ★★★注意: 如果只是从 my_database.db, my_database.db3... 等数据库文件读取数据,
+     *                             即数据库不用升级, 可不用传这个参数★★★
      */
     @SafeVarargs
     protected GreenDaoUtils(@NonNull Context context, boolean isDebug, @NonNull String dbName,

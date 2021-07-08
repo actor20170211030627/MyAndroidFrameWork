@@ -36,14 +36,8 @@ api 'me.jessyan:autosize:1.2.1'
 <li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
 </li>
-<li>//https://github.com/anzaizai/EasySwipeMenuLayout 侧滑删除
-api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'
-</li>
 <li>//https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩)、视频、音频
-api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
-</li>
-<li>//https://github.com/laobie/StatusBarUtil 修改状态栏颜色&透明度等
-api 'com.jaeger.statusbarutil:library:1.5.1'
+api 'io.github.lucksiege:pictureselector:v2.7.3-rc05'
 </li>
 <li>//https://github.com/yanzhenjie/AndPermission 严振杰权限
 api 'com.yanzhenjie:permission:2.0.3'
@@ -151,8 +145,8 @@ api 'com.zhy:okhttputils:2.6.2'
 ## 4.Sample
 <a href="app/build/outputs/apk/debug/app-debug.apk">download apk</a>
 
-## 5.minSdkVersion [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
-    如果您项目的minSdkVersion小于19, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
+## 5.minSdkVersion [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
+    如果您项目的minSdkVersion小于21, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
 
 ## 6.How to
 To get a Git project into your build:

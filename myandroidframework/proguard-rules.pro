@@ -78,10 +78,6 @@
 }
 
 #############################################################################
-## EasySwipeMenuLayout
--keep class com.guanaj.easyswipemenulibrary.State
-
-#############################################################################
 ## okhttputils
 #okhttputils
 -dontwarn com.zhy.http.**
@@ -259,9 +255,6 @@ public static java.lang.String TABLENAME;
 -dontwarn com.yalantis.ucrop**
 -keep class com.yalantis.ucrop** { *; }
 -keep interface com.yalantis.ucrop** { *; }
-
-#Okio
--dontwarn org.codehaus.mojo.animal_sniffer.*
 
 
 #############################################################################

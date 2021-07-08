@@ -54,7 +54,7 @@ public interface AddLocalMediaAble<UploadInfo> {
     /**
      * 最后一个文件占位, path例: content://media/external/file/119729
      */
-    public static final LocalMedia EXTRA_LAST_MEDIA = new LocalMedia("path", 0, 0, "image/jpeg");
+    public static final LocalMedia EXTRA_LAST_MEDIA = new LocalMedia();
 
     /**
      * 已经选择的文件
