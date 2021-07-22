@@ -1,56 +1,55 @@
 package com.actor.myandroidframework.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Environment;
-import android.text.TextUtils;
 import android.text.format.Formatter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-
 import com.blankj.utilcode.util.IntentUtils;
-
-import java.io.File;
+import com.blankj.utilcode.util.PathUtils;
 
 /**
  * Description: 文件帮助类
- * 注意添加权限:
- * <!--模拟器中sdcard中创建文件夹的权限-->
- * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
- * <!--允许挂载和反挂载文件系统可移动存储-->
- * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
  *
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
  * Author     : ldf
  * Date       : 2018/7/29 on 19:12
  * @version 1.0
+ * @see PathUtils 更多获取路径的方式
  */
 public class FileUtils {
 
-    private static Context context = ConfigUtils.APPLICATION;
+    @SuppressLint("StaticFieldLeak")
+    protected static final Context CONTEXT = ConfigUtils.APPLICATION;
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 1.格式化
+    ///////////////////////////////////////////////////////////////////////////
     /**
-     * 根据文件大小自动转为以B,KB, MB, GB
-     * @param sizeBytes
+     * 根据文件大小自动转为以B, KB, MB, GB
+     * @param sizeBytes 文件大小
      */
     public static String formatFileSize(long sizeBytes) {
-        return Formatter.formatFileSize(context, sizeBytes);
+        return Formatter.formatFileSize(CONTEXT, sizeBytes);
     }
 
     /**
-     * 根据文件大小自动转为以B,KB, MB, GB. 尽量生成更短的数字
-     * @param sizeBytes
+     * 根据文件大小自动转为以B, KB, MB, GB. 尽量生成更短的数字
+     * @param sizeBytes 文件大小
      */
     public static String formatShortFileSize(long sizeBytes) {
-        return Formatter.formatShortFileSize(context, sizeBytes);
+        return Formatter.formatShortFileSize(CONTEXT, sizeBytes);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 2.判断文件格式
+    ///////////////////////////////////////////////////////////////////////////
     /**
      * 根据后缀, 返回是否是图片格式
      * https://baike.baidu.com/item/%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F/381122?fr=aladdin
-     * @see com.blankj.utilcode.util.ImageUtils#isImage(String)
+     * @see com.blankj.utilcode.util.ImageUtils.ImageType
      *
      * @param fileNameOrPath 文件名/文件路径(都要包含后缀)
      */
@@ -85,101 +84,117 @@ public class FileUtils {
                 file.endsWith(".docx") || file.endsWith(".xls") || file.endsWith(".xlsx");
     }
 
-    /**
-     * 获取包最后一个字段,示例:包名=com.google.example,则返回:example
-     * @see com.blankj.utilcode.util.FileUtils#getFileExtension(String)
-     */
-    public static String getPackageLastName() {
-        String packageName = context.getPackageName();//获取包名
-        if (packageName.contains(".")) {
-            String[] split = packageName.split("\\.");
-            return split[split.length - 1];
-        }
-        return packageName;
-    }
 
-    /**
-     * @param url 下载链接
-     * @return 从下载链接中解析出文件名
-     */
-    public static String getFileNameFromUrl(String url) {
-        if (TextUtils.isEmpty(url) || !url.contains("/")) return url;
-        return url.substring(url.lastIndexOf("/") + 1);
-    }
-
+    ///////////////////////////////////////////////////////////////////////////
+    // 3.获取内部存储路径, 不需要SD卡读写权限
+    ///////////////////////////////////////////////////////////////////////////
     /**
      * 缓存目录, 系统会自动清理这里面的内容
-     * @return /data/data/包名/cache
-     */
-    public static File getCacheDir() {
-        return context.getCacheDir();
-    }
-
-    /**
-     * @return /data/data/包名/files
-     */
-    public static File getFilesDir() {
-        return context.getFilesDir();
-    }
-
-    /**
-     * 设置->应用->应用详情->清除数据
-     * SDCard/Android/data/包名/files/    卸载后这个文件夹删除
-     */
-    public static File getExternalFilesDir() {
-        return context.getExternalFilesDir(null);
-    }
-
-    /**
-     * 设置->应用->应用详情里面的->清除缓存
-     * SDCard/Android/data/包名/cache/    卸载后这个文件夹删除
-     */
-    public static File getExternalCacheDir() {
-        return context.getExternalCacheDir();
-    }
-
-    /**
-     * 返回应用程序特定缓存目录的绝对路径, 为存储缓存的代码而设计的文件系统。
-     */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static File getCodeCacheDir() {
-        return context.getCodeCacheDir();
-    }
-
-    /**
-     * 获取外部文件夹: SD卡/项目名
-     * 初始化Excel表格, 高版本必须要写sd卡权限, 否则报错
-     * @return /storage/emulated/0/lastname
-     * @deprecated 读写外部SD卡, 需要申请权限, 麻烦
-     */
-//    @RequiresPermission(allOf = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
-    @Deprecated
-    public static String getExternalStorageDir() {
-        String packageLastName = getPackageLastName();
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + packageLastName;
-        File file = new File(path);
-        if (!file.exists()) file.mkdir();
-        return path;
-    }
-
-    /**
-     * 获取文件外部文件夹路径,如果文件夹不存在,会创建.
-     * @param fileName 示例传入:getClass().getSimpleName() + 1.jpg
-     * @deprecated 读写外部SD卡, 需要申请权限, 麻烦
+     * @return /data/data/package/cache
+     *
+     * @deprecated 使用: {@link PathUtils}
+     * 1.获取Internalmul, 卸载后这些文件夹都会删除
+     * @see PathUtils#getInternalAppCachePath()         /data/data/package/cache, 缓存目录
+     * @see PathUtils#getInternalAppCodeCacheDir()      /data/data/package/code_cache, 为存储缓存的代码而设计的文件系统
+     * @see PathUtils#getInternalAppDataPath()          /data/data/package, 这个app对应的存储目录
+     * @see PathUtils#getInternalAppDbPath(String)      /data/data/package/databases/name, 数据库
+     * @see PathUtils#getInternalAppDbsPath()           /data/data/package/databases, 数据库根目录
+     * @see PathUtils#getInternalAppFilesPath()         /data/data/package/files, 文件目录
+     * @see PathUtils#getInternalAppNoBackupFilesPath() /data/data/package/no_backup, 备份
+     * @see PathUtils#getInternalAppSpPath()            /data/data/package/shared_prefs, SP目录
      */
     @Deprecated
-    public static String getExternalStoragePath(@NonNull String fileName) {
-        if (TextUtils.isEmpty(fileName)) return getExternalStorageDir();
-        return getExternalStorageDir() + File.separator + fileName;
+    public static String getInternalAppCachePath() {
+        return PathUtils.getInternalAppCachePath();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 4.获取App对应的外部SD卡路径, 不需要SD卡读写权限
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * App对应的外部SD卡缓存目录
+     * @return /storage/emulated/0/Android/data/package/cache, 如果没挂载SD卡, 返回""
+     *
+     * @deprecated 使用: {@link PathUtils}
+     * 1.卸载后这些文件夹都会删除
+     * @see PathUtils#getExternalAppAlarmsPath()        /storage/emulated/0/Android/data/package/files/Alarms, app"提醒铃声"的标准目录
+     * @see PathUtils#getExternalAppCachePath()         /data/data/package/cache, "缓存"目录
+     * @see PathUtils#getExternalAppDataPath()          /storage/emulated/0/Android/data/package, 这个app对应的存储目录
+     * @see PathUtils#getExternalAppDcimPath()          /storage/emulated/0/Android/data/package/files/DCIM, 这个app对应"相机拍摄照片和视频"的标准目录
+     * @see PathUtils#getExternalAppDocumentsPath()     /storage/emulated/0/Android/data/package/files/Documents, 这个app对应"文档"的标准目录
+     * @see PathUtils#getExternalAppDownloadPath()      /storage/emulated/0/Android/data/package/files/Download, 这个app对应"下载"的标准目录
+     * @see PathUtils#getExternalAppFilesPath()         /storage/emulated/0/Android/data/package/files, 这个app对应"文件"的标准目录
+     * @see PathUtils#getExternalAppMoviesPath()        /storage/emulated/0/Android/data/package/files/Movies, 这个app对应"电影"的标准目录
+     * @see PathUtils#getExternalAppMusicPath()         /storage/emulated/0/Android/data/package/files/Music, 这个app对应"音频"的标准目录
+     * @see PathUtils#getExternalAppNotificationsPath() /storage/emulated/0/Android/data/package/files/Notifications, 这个app对应"通知铃声"的标准目录
+     * @see PathUtils#getExternalAppObbPath()           /storage/emulated/0/Android/obb/package, 这个app对应"游戏相关数据包"的标准目录
+     * @see PathUtils#getExternalAppPicturesPath()      /storage/emulated/0/Android/data/package/files/Pictures, 这个app对应"图片"的标准目录
+     * @see PathUtils#getExternalAppPodcastsPath()      /storage/emulated/0/Android/data/package/files/Podcasts, 这个app对应"播客"的标准目录
+     * @see PathUtils#getExternalAppRingtonesPath()     /storage/emulated/0/Android/data/package/files/Ringtones, 这个app对应"铃声"的标准目录
+     */
+    @Deprecated
+    public static String getExternalAppCachePath() {
+        return PathUtils.getExternalAppCachePath();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 5.获取外部SD卡对应的路径, 需要SD卡读写权限!!!
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 获取SD卡"图片"的标准目录, 需要SD卡读写权限
+     * <!--读文件权限-->
+     * <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+     * <!--写文件权限-->
+     * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+     * <!--允许挂载和反挂载文件系统可移动存储-->
+     * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+     *
+     * @return /storage/emulated/0/Pictures
+     *
+     * @deprecated 使用: {@link PathUtils}
+     * @see PathUtils#getExternalAlarmsPath()        /storage/emulated/0/Alarms, SD卡"提醒铃声"存放的标准目录
+     * @see PathUtils#getExternalDcimPath()          /storage/emulated/0/DCIM, SD卡"相机拍摄照片和视频"的标准目录
+     * @see PathUtils#getExternalDocumentsPath()     /storage/emulated/0/Documents, SD卡"文档"的标准目录
+     * @see PathUtils#getExternalDownloadsPath()     /storage/emulated/0/Download, SD卡"下载"的标准目录
+     * @see PathUtils#getExternalMoviesPath()        /storage/emulated/0/Movies, SD卡"电影"的标准目录
+     * @see PathUtils#getExternalMusicPath()         /storage/emulated/0/Music, SD卡"音频"的标准目录
+     * @see PathUtils#getExternalNotificationsPath() /storage/emulated/0/Notifications, SD卡"通知铃声"的标准目录
+     * @see PathUtils#getExternalPicturesPath()      /storage/emulated/0/Pictures, SD卡"图片"的标准目录
+     * @see PathUtils#getExternalPodcastsPath()      /storage/emulated/0/Podcasts, SD卡"播客"的标准目录
+     * @see PathUtils#getExternalRingtonesPath()     /storage/emulated/0/Ringtones, SD卡"铃声"的标准目录
+     * @see PathUtils#getExternalStoragePath()       /storage/emulated/0, SD卡根目录
+     */
+    @Deprecated
+    public static String getExternalPicturesPath() {
+        return PathUtils.getExternalPicturesPath();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 6.优先获取外部SD卡对应的路径, 不需要SD卡读写权限
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 优先获取外部SD卡"缓存"的标准目录, 如果没挂载SD卡, 就获取内部"缓存"的标准目录
+     * @return /storage/emulated/0/Android/data/package/cache, /data/data/package/cache
+     *
+     * @deprecated 使用: {@link PathUtils}
+     * @see PathUtils#getAppDataPathExternalFirst() /storage/emulated/0/Android/data/package, /data/data/package, 优先获取外部SD卡"app文件存放"的标准目录
+     * @see PathUtils#getFilesPathExternalFirst()   /storage/emulated/0/Android/data/package/files, /data/data/package/files, 优先获取外部SD卡"文件"的标准目录
+     * @see PathUtils#getCachePathExternalFirst()   /storage/emulated/0/Android/data/package/cache, /data/data/package/cache, 优先获取外部SD卡"缓存"的标准目录
+     */
+    @Deprecated
+    public static String getCachePathExternalFirst() {
+        return PathUtils.getCachePathExternalFirst();
     }
 
     /**
      * 分享文件, 调用系统分享
      * @param filePath 文件路径
      */
-    public static void shareFile(Context context, String filePath) {
-        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath);
-        sendIntent.setType("*/*");
-        context.startActivity(Intent.createChooser(sendIntent, "请选择需要分享的应用程序"));
+    public static void shareFile(String filePath) {
+        CONTEXT.startActivity(Intent.createChooser(IntentUtils.getShareImageIntent("", filePath)
+                .setType("*/*"), "请选择需要分享的应用程序"));
     }
 }

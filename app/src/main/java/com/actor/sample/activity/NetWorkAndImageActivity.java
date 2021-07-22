@@ -163,7 +163,8 @@ public class NetWorkAndImageActivity extends BaseActivity {
 
     private void downloadApk() {
         if (!alreadyDownload) {
-            MyOkHttpUtils.getFile(Global.PICPICK_DOWNLOAD_URL, null, null, new GetFileCallback(this, null, null) {
+            MyOkHttpUtils.getFile(Global.PICPICK_DOWNLOAD_URL, null, null,
+                    new GetFileCallback(this, GetFileCallback.getFileNameFromUrl(Global.PICPICK_DOWNLOAD_URL)) {
                 @Override
                 public void onOk(@NonNull File info, int id, boolean isRefresh) {
                 }

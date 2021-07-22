@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.utils.FileUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 
 import java.io.File;
@@ -51,7 +51,7 @@ public class AudioUtils {
      */
     public void init(@Nullable Integer maxRecordTimeSecond, @Nullable String recordDir) {
         if (TextUtils.isEmpty(recordDir)) {
-            this.recordDir = FileUtils.getFilesDir().getAbsolutePath();
+            this.recordDir = PathUtils.getInternalAppFilesPath();
         } else this.recordDir = recordDir;
         if (maxRecordTimeSecond != null) maxRecordTime = maxRecordTimeSecond * 1000;
     }

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ThreadUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.hw.videoprocessor.VideoProcessor;
 import com.hw.videoprocessor.util.VideoProgressListener;
 
@@ -52,7 +53,7 @@ public class VideoProcessorUtils {
          * 简书: a.用VideoProcessor压缩时输出路径对应的文件夹不存在的话，不报错也没有任何反应。
          *         所以要确定videoOutCompressPath这个路径上的文件夹确实存在。
          */
-        File file = getOutputVideoPath(context, videoPath);
+        File file = getOutputVideoPath(videoPath);
 
         /**简书: c.要开启一个子线程来压缩这个视频*/
         ThreadUtils.runOnSubThread(new Runnable() {
@@ -121,7 +122,7 @@ public class VideoProcessorUtils {
      * @param reverseAudio 是否逆序音频
      */
     public static void reverseVideo(Context context, String videoPath, boolean reverseAudio) {
-        File file = getOutputVideoPath(context, videoPath);
+        File file = getOutputVideoPath(videoPath);
         //视频逆序
         try {
             VideoProcessor.reverseVideo(context, new VideoProcessor.MediaSource(videoPath), file.getPath(), reverseAudio, new VideoProgressListener() {
@@ -150,7 +151,7 @@ public class VideoProcessorUtils {
     public static void mixAudioTrack(Context context, String videoInput, String audioInput,
                                      Integer startTimeMs, Integer endTimeMs, int videoVolume,
                                      int aacVolume, float fadeInSec, float fadeOutSec) {
-        File file = getOutputVideoPath(context, videoInput);
+        File file = getOutputVideoPath(videoInput);
         //混音,支持渐入渐出
         try {
             VideoProcessor.mixAudioTrack(context, new VideoProcessor.MediaSource(videoInput),
@@ -163,11 +164,12 @@ public class VideoProcessorUtils {
 
     /**
      * 返回输出视频地址
-     * @param videoPath 要处理的视频地址
+     * @param videoPath 要处理的视频地址, 例:  .../xxx.mp4
      */
-    public static File getOutputVideoPath(Context context, String videoPath) {
-//        File cacheDir = FileUtils.getExternalFilesDir();  // /storage/emulated/0/Android/data/com.package.name/files/
-        File cacheDir = context.getCacheDir();              // /data/user/0/com.yys.land/cache/
+    public static File getOutputVideoPath(String videoPath) {
+        //路径: /storage/emulated/0/Android/data/package/files, 或: /data/data/package/files
+        String externalPath = PathUtils.getFilesPathExternalFirst();
+        File cacheDir = new File(externalPath);
         if (!cacheDir.exists()) {
             boolean mkdirs = cacheDir.mkdirs();
         }

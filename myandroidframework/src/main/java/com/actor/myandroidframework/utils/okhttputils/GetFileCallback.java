@@ -1,8 +1,11 @@
 package com.actor.myandroidframework.utils.okhttputils;
 
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.utils.FileUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.File;
@@ -11,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * Description: 下载文件
@@ -19,11 +23,19 @@ import okhttp3.Response;
  */
 public abstract class GetFileCallback extends BaseCallback<File> {
 
-    protected String downloadPathForGetFile;//目标文件存储的文件夹路径
+    //目标文件存储的文件夹路径
+    protected String downloadPathForGetFile;
 
-    protected String fileNameForGetFile;//目标文件存储的文件名
+    //目标文件存储的文件名
+    protected String fileNameForGetFile;
 
-    public GetFileCallback(Object tag, @Nullable String downloadPath, @Nullable String fileName) {
+    public GetFileCallback(Object tag, String fileName) {
+        this(tag, 0, fileName);
+    }
+    public GetFileCallback(Object tag, int id, String fileName) {
+        this(tag, id, null, fileName);
+    }
+    public GetFileCallback(Object tag, @Nullable String downloadPath, String fileName) {
         this(tag, 0, downloadPath, fileName);
     }
 
@@ -32,17 +44,21 @@ public abstract class GetFileCallback extends BaseCallback<File> {
      * @param downloadPath 文件存储路径, 可以为空, 默认 files 文件夹
      * @param fileName 文件名, 可以为空
      */
-    public GetFileCallback(Object tag, int id, @Nullable String downloadPath, @Nullable String fileName) {
+    public GetFileCallback(Object tag, int id, @Nullable String downloadPath, String fileName) {
         super(tag, id);
         initPath(downloadPath, fileName);
     }
 
     /**
-     * 初始化 文件路径 & 文件名
+     * 初始化
+     * @param downloadPath 文件下载路径, 例: context.getExternalFilesDir(null);
+     *                                      /storage/emulated/0/Android/data/package/files
+     * @param fileName 文件名称, 例: xxx.jpg
+     *                 也可从url中解析, 见: {@link #getFileNameFromUrl(String)}
      */
     protected void initPath(String downloadPath, String fileName) {
-        if (downloadPath == null) downloadPath = FileUtils.getFilesDir().getAbsolutePath();
-        if (fileName == null) fileName = String.valueOf(System.currentTimeMillis());
+        if (TextUtils.isEmpty(downloadPath)) downloadPath = PathUtils.getFilesPathExternalFirst();
+        if (TextUtils.isEmpty(fileName)) fileName = String.valueOf(System.currentTimeMillis());
         downloadPathForGetFile = downloadPath;
         fileNameForGetFile = fileName;
     }
@@ -59,7 +75,7 @@ public abstract class GetFileCallback extends BaseCallback<File> {
 //                logError(strings.get(i));
 //            }
 //            fileName = strings.get(strings.size() - 1);
-////            fileName = FileUtils.getFileNameFromUrl(url);
+////            fileName = getFileNameFromUrl(url);
 //        }
 //        super.onBefore(request, id);
 //    }
@@ -78,22 +94,19 @@ public abstract class GetFileCallback extends BaseCallback<File> {
 
     @Override
     public File parseNetworkResponse(Response response, int id) throws IOException {
-        InputStream is = null;
-        byte[] buf = new byte[2048];
-        int len = 0;
-        FileOutputStream fos = null;
-        try {
-            is = response.body().byteStream();
-            final long total = response.body().contentLength();
+        ResponseBody body = response.body();
+        if (body == null) return null;
 
+        File dir = new File(downloadPathForGetFile);
+        if (!dir.exists()) {
+            boolean success = dir.mkdirs();
+        }
+        File file = new File(dir, fileNameForGetFile);
+        try(InputStream is = body.byteStream(); FileOutputStream fos = new FileOutputStream(file)) {
+            final long total = body.contentLength();
+            int len;
             long sum = 0;
-
-            File dir = new File(downloadPathForGetFile);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            File file = new File(dir, fileNameForGetFile);
-            fos = new FileOutputStream(file);
+            byte[] buf = new byte[2048];
             while ((len = is.read(buf)) != -1) {
                 sum += len;
                 fos.write(buf, 0, len);
@@ -101,35 +114,32 @@ public abstract class GetFileCallback extends BaseCallback<File> {
                 OkHttpUtils.getInstance().getDelivery().execute(new Runnable() {
                     @Override
                     public void run() {
-
                         inProgress(finalSum * 1.0f / total, total, id);
                     }
                 });
             }
             fos.flush();
-
             return file;
-
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
         } finally {
-            try {
-                response.body().close();
-                if (is != null) is.close();
-            } catch (IOException e) {
-            }
-            try {
-                if (fos != null) fos.close();
-            } catch (IOException e) {
-            }
-
+            body.close();
         }
     }
 
     /**
-     * @param url
-     * @return 从下载连接中解析出文件名
+     * 从下载url中解析出文件名
+     * @param url 下载url
+     * @return 返回一个不为空的文件名
      */
-//    public static String getFileNameFromUrl(String url) {
-//        if (TextUtils.isEmpty(url)) return null;
-//        return url.substring(url.lastIndexOf("/") + 1);
-//    }
+    @NonNull
+    public static String getFileNameFromUrl(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            if (url.contains("?")) url = url.substring(0, url.lastIndexOf("?"));
+            if (url.contains("/")) url = url.substring(url.lastIndexOf("/") + 1);
+        }
+        if (TextUtils.isEmpty(url)) url = String.valueOf(System.currentTimeMillis());
+        return url;
+    }
 }

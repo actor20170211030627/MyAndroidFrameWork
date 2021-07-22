@@ -7,8 +7,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.actor.myandroidframework.utils.FileUtils;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
@@ -291,7 +291,7 @@ public class AlbumUtils {
     public static void recordVideo(Context context, long durationMs, Action<String> listener) {
         Album.camera(context)
                 .video() // Record Video.
-                .filePath(FileUtils.getFilesDir().getAbsolutePath())
+                .filePath(PathUtils.getInternalAppFilesPath())
                 .quality(1) // Video quality, [0, 1].
                 .limitDuration(durationMs) //视频时长,单位秒 The longest duration of the video is in milliseconds.
 //                .limitBytes(Long.MAX_VALUE) // Maximum size of the video, in bytes.

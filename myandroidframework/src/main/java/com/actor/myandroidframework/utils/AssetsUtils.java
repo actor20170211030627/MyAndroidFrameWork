@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ResourceUtils;
 
 import java.io.File;
@@ -24,24 +25,22 @@ public class AssetsUtils {
     protected static final Application CONTEXT = ConfigUtils.APPLICATION;
 
     /**
-     * 拷贝文件到File目录: /data/data/com.package.name(包名)/files
+     * 拷贝文件到File目录: /data/data/package/files
      */
-    public static boolean copyFile2FilesDir(boolean isCover, @NonNull String assetPath) {
-        //distPath: /data/data/com.actor.test/files
-        return copyFile2Dir(isCover, assetPath, CONTEXT.getFilesDir().getAbsolutePath());
+    public static boolean copyFile2InternalFilesDir(boolean isCover, @NonNull String assetPath) {
+        return copyFile2Dir(isCover, assetPath, PathUtils.getInternalAppFilesPath());
     }
 
     /**
-     * 拷贝文件到数据库目录: /data/data/com.package.name(包名)/databases
+     * 拷贝文件到数据库目录: /data/data/package/databases
      * @param dbNames 数据库名称, 例: address.db, users.db3 等...
      */
-    public static boolean copyFile2DatabaseDir(boolean isCover, @NonNull String dbNames) {
-        //distPath: /data/0/com.actor.test/databases
-        return copyFile2Dir(isCover, dbNames, CONTEXT.getDatabasePath(dbNames).getParent());
+    public static boolean copyFile2InternalDbsDir(boolean isCover, @NonNull String dbNames) {
+        return copyFile2Dir(isCover, dbNames, PathUtils.getInternalAppDbsPath());
     }
 
     /**
-     * assets/xxx.txt => /data/data/com.package.name(包名)/files/xxx.txt, 把文件copy到files文件夹里
+     * assets/xxx.txt => /data/data/package/files/xxx.txt, 把文件copy到files文件夹里
      * @param isCover 当本地已经存在相同文件的时候,是否覆盖
      * @param assetPath 文件在assets目录下的路径, 示例: xxx.txt(assets/xxx.txt) 或 test/xxx.txt(assets/test/xxx.txt)
      * @param distPath 目的地路径, 例: CONTEXT.getFilesDir().getAbsolutePath()
