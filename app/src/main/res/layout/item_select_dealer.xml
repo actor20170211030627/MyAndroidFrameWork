@@ -10,18 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
-        android:paddingLeft="10dp"
         tools:text="A" />
 
     <TextView
         android:id="@+id/tv_contact"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_size"
+        android:layout_height="@dimen/actionBarSize"
         android:layout_marginTop="1dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingStart="10dp"
-        android:paddingLeft="10dp"
         android:textColor="@color/black"
-        tools:text="中迅威供应链管理有限公司" />
+        tools:text="啊啊啊啊啊啊啊啊啊" />
 </LinearLayout>

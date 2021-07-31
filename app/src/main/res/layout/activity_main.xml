@@ -160,7 +160,7 @@
         <TextView
             android:id="@+id/tv_version"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/action_bar_size"
+            android:layout_height="@dimen/actionBarSize"
             android:gravity="center"
             tools:text="VersionName: 1.0.0(VersionCode: 1)" />
     </com.google.android.flexbox.FlexboxLayout>

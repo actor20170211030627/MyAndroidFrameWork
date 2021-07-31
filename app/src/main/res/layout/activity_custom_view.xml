@@ -11,22 +11,46 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <FrameLayout
+        <!-- android:paddingEnd="15dp":文字和箭头距离 -->
+        <com.actor.myandroidframework.widget.BaseSpinner
+            android:id="@+id/base_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray_999">
+            android:background="@drawable/shape_drop_down_normal"
+            android:dropDownVerticalOffset="50dp"
+            android:entries="@array/please_choose_data"
+            android:paddingEnd="15dp"
+            android:spinnerMode="dropdown"
+            app:bsResource="@layout/item_textview_textcolor_white" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rec_blue_cor5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="3dp">
 
             <com.actor.myandroidframework.widget.BaseSpinner
-                android:id="@+id/base_spinner"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:dropDownVerticalOffset="25.5dp"
-                android:entries="@array/please_choose_data"
-                android:padding="10dp"
-                android:spinnerMode="dropdown" />
-        </FrameLayout>
+                android:background="@null"
+                android:dropDownVerticalOffset="45dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textAlignment="center"
+                app:bsDropDownViewResource="@layout/item_textview_textcolor_red"
+                app:bsEntriesString="白色文字浅灰背景,下拉是红色字体"
+                app:bsResource="@layout/item_textview_textcolor_white" />
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="5.14dp"
+                android:layout_marginStart="2.5dp"
+                android:layout_marginEnd="7dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/triangle_bottom_gray" />
+        </LinearLayout>
 
         <com.actor.myandroidframework.widget.ItemRadioGroupLayout
             android:id="@+id/item_radio_group"

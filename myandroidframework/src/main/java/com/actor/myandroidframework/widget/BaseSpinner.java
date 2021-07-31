@@ -57,9 +57,11 @@ import java.util.List;
  * 11.选中/未选中的selector(一般可不用设置)
  *   //android:dropDownSelector="@drawable/xxx"
  *
- * 12.背景颜色(设置了之后看不见箭头)
- *   //android:background="@color/white"
- *   android:background="@null" //去掉箭头(可用于自定义箭头的情况, 或不满意文字和箭头间隔过大的问题.)
+ * 12.设置背景颜色, 带箭头, 可参考: https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/drawable/shape_drop_down_normal.xml
+ *   android:background="@color/shape_drop_down_normal" //背景颜色, 背景颜色渐变等, 包括箭头, 边距, 边框
+ *   或者:
+ *   android:background="@color/white" //设置纯色背景, 设置后看不见箭头
+ *   android:background="@null"        //去掉背景包括箭头
  *
  *
  * 自定义属性, bs开头:
@@ -67,9 +69,11 @@ import java.util.List;
  * @see R.styleable#BaseSpinner_bsEntriesString         //@string/names
  *
  * 2.spinner填充的布局(根部局是一个TextView), 默认: android.R.layout.simple_spinner_item
+ *   可参考: https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_textview_textcolor_white.xml
  * @see R.styleable#BaseSpinner_bsResource              //@layout/xxx
  *
  * 3.下拉列表item布局(根部局是一个TextView), 默认: android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item
+ *   可参考: https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_textview_textcolor_red.xml
  * @see R.styleable#BaseSpinner_bsDropDownViewResource  //@layout/xxx
  *
  *
@@ -84,7 +88,7 @@ import java.util.List;
  */
 public class BaseSpinner<T> extends AppCompatSpinner {
 
-    protected int prePosition = -1;
+    protected int prePosition = Integer.MIN_VALUE;
     protected ArrayAdapter<T> arrayAdapter;
     protected int spinnerRes;
     protected int ddvr;
@@ -122,7 +126,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     protected void init(Context context, AttributeSet attrs) {
         //https://www.cnblogs.com/jooy/p/9165769.html
         //禁止OnItemSelectedListener默认会自动调用一次
-        setSelection(0);//不写这句貌似都可以
+//        setSelection(0);//不写这句也可以
         setSelection(0, true);
 
         //spinner布局
@@ -137,13 +141,31 @@ public class BaseSpinner<T> extends AppCompatSpinner {
             String items = a.getString(R.styleable.BaseSpinner_bsEntriesString);
             a.recycle();
 
-            if (items != null && !items.isEmpty()) {
+            /**
+             * 如果设置了R.styleable.Spinner_android_entries属性,
+             * @see AppCompatSpinner(Context, AttributeSet, int, int, Resources.Theme)
+             * 会设置ArrayAdapter, 并且使用系统固定的layout布局, 会导致自定义属性失效
+             */
+            ArrayAdapter<T> adapter = (ArrayAdapter<T>) getAdapter();
+            if (adapter != null) {
+                List<T> list = new ArrayList<>();
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    list.add(adapter.getItem(i));
+                }
+                //是Arrays.asList();返回的List, 没有重写clear()方法, 不能调用clear()方法, 否则报错
+//                adapter.clear();
+                setDatas(list);
+            } else if (items != null && !items.isEmpty()) {
                 String[] split = items.split(",");
                 setDatas(split);
             }
         }
     }
 
+    /**
+     * 设置选中项
+     * @param position 第几个item
+     */
     @Override
     public void setSelection(int position) {
         super.setSelection(position);
@@ -156,6 +178,11 @@ public class BaseSpinner<T> extends AppCompatSpinner {
         }
     }
 
+    /**
+     * 设置选中项
+     * @param position 第几个item
+     * @param animate 是否展示动画
+     */
     @Override
     public void setSelection(int position, boolean animate) {
         super.setSelection(position, animate);
@@ -235,7 +262,16 @@ public class BaseSpinner<T> extends AppCompatSpinner {
             //如果不是ArrayAdapter, 需要你自己处理.
             getArrayAdapter().clear();
             getArrayAdapter().addAll(datas);
+            if (prePosition == Integer.MIN_VALUE) prePosition = 0;
         }
+    }
+
+    /**
+     * @return 获取选中的哪一项
+     */
+    @Override
+    public int getSelectedItemPosition() {
+        return super.getSelectedItemPosition();
     }
 
     /**

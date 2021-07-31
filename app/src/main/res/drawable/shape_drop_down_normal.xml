@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <!--红色边框-->
+            <stroke
+                android:width="1dp"
+                android:color="@color/red" />
+
+            <!--left: 左侧内边距
+                right: 箭头离右侧的距离
+                -->
+            <padding
+                android:bottom="10dp"
+                android:left="5dp"
+                android:right="5dp"
+                android:top="10dp" />
+
+            <!-- 背景颜色 -->
+            <solid android:color="@color/green_14B9C8" />
+
+            <!--圆角-->
+            <corners android:radius="5dp" />
+
+            <!--渐变-->
+            <gradient
+                android:angle="0"
+                android:endColor="@color/red"
+                android:startColor="@color/green_14B9C8" />
+        </shape>
+    </item>
+
+    <item>
+        <!--图片箭头-->
+        <bitmap
+            android:gravity="end"
+            android:src="@drawable/triangle_bottom_white" />
+    </item>
+</layer-list>
