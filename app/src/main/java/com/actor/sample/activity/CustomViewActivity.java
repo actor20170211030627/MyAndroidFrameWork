@@ -11,30 +11,21 @@ import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.myandroidframework.widget.ItemSpinnerLayout;
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import com.actor.sample.databinding.ActivityCustomViewBinding;
 
 /**
  * Description: 主页->自定义View
  * Author     : ldf
  * Date       : 2019-8-27 on 17:37
  */
-public class CustomViewActivity extends BaseActivity {
+public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> {
 
-    @BindView(R.id.base_spinner)
-    BaseSpinner<String>  baseSpinner;
-    @BindView(R.id.item_radio_group)
-    ItemRadioGroupLayout<String> itemRadioGroupLayout;
-    @BindView(R.id.item_spinner)
-    ItemSpinnerLayout<String> itemSpinner;
-    @BindView(R.id.itil1)
-    ItemTextInputLayout  itil1;
-    @BindView(R.id.itil_can_not_input)
-    ItemTextInputLayout  itilCanNotInput;
-    @BindView(R.id.btn2)
-    Button               btn2;
+    private BaseSpinner<String>  baseSpinner;
+    private ItemRadioGroupLayout<String> itemRadioGroup;
+    private ItemSpinnerLayout<String> itemSpinner;
+    private ItemTextInputLayout  itil1;
+    private ItemTextInputLayout  itilCanNotInput;
+    private Button               btn2;
 
     private String[] btns         = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
     private String[] regexs_input = {"[0-9]+", "[a-zA-Z0-9\u4E00-\u9FA5]+", "[a-z]+"};
@@ -44,11 +35,17 @@ public class CustomViewActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_view);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_custom_view);
 
         setTitle("主页->自定义View");
-        itemRadioGroupLayout.setOnCheckedChangeListener(new ItemRadioGroupLayout.OnCheckedChangeListener() {
+        baseSpinner = viewBinding.baseSpinner;
+        itemRadioGroup = viewBinding.itemRadioGroup;
+        itemSpinner = viewBinding.itemSpinner;
+        itil1 = viewBinding.itil1;
+        itilCanNotInput = viewBinding.itilCanNotInput;
+        btn2 = viewBinding.btn2;
+
+        itemRadioGroup.setOnCheckedChangeListener(new ItemRadioGroupLayout.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId, int position, boolean reChecked) {
                 String format = getStringFormat("checkedId=%d, pos=%d, reChecked=%b", checkedId, position, reChecked);
@@ -71,15 +68,15 @@ public class CustomViewActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.itil_can_not_input2})
+//    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.itil_can_not_input2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_check:
-                int checkedPosition = itemRadioGroupLayout.getCheckedPosition();
-                itemRadioGroupLayout.setCheckedPosition(2);
+                int checkedPosition = itemRadioGroup.getCheckedPosition();
+                itemRadioGroup.setCheckedPosition(2);
                 logFormat("ItemRadioGroupLayout: checkedPosition=%s", checkedPosition);
-                itemRadioGroupLayout.setDatas(new String[]{"11111", "2", "33"});
-                itemRadioGroupLayout.addRadioButton("45");
+                itemRadioGroup.setDatas(new String[]{"11111", "2", "33"});
+                itemRadioGroup.addRadioButton("45");
 
                 String selectedItem = baseSpinner.getSelectedItem();
                 String itemAtPosition = baseSpinner.getItemAtPosition(1);

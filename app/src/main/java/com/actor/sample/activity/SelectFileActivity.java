@@ -13,6 +13,7 @@ import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.widget.BaseItemDecoration;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SelectImageVideoAdapter;
+import com.actor.sample.databinding.ActivitySelectFileBinding;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.yanzhenjie.album.Action;
@@ -20,34 +21,29 @@ import com.yanzhenjie.album.AlbumFile;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * description: 文件选择
  *
  * @author : ldf
  * date       : 2020/10/7 on 20:44
  */
-public class SelectFileActivity extends BaseActivity {
+public class SelectFileActivity extends BaseActivity<ActivitySelectFileBinding> {
 
-    @BindView(R.id.recycler_view1)
-    RecyclerView recyclerView1;
-    @BindView(R.id.recycler_view21)
-    RecyclerView recyclerView21;
-    @BindView(R.id.recycler_view22)
-    RecyclerView recyclerView22;
-    @BindView(R.id.recycler_view23)
-    RecyclerView recyclerView23;
+    private RecyclerView recyclerView1;
+    private RecyclerView recyclerView21;
+    private RecyclerView recyclerView22;
+    private RecyclerView recyclerView23;
 
     private SelectImageVideoAdapter mAdapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_file);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_select_file);
+        recyclerView1 = viewBinding.recyclerView1;
+        recyclerView21 = viewBinding.recyclerView21;
+        recyclerView22 = viewBinding.recyclerView22;
+        recyclerView23 = viewBinding.recyclerView23;
 
         setTitle("主页->文件选择");
         int dp5 = SizeUtils.dp2px(5);
@@ -72,7 +68,7 @@ public class SelectFileActivity extends BaseActivity {
         recyclerView23.setAdapter(new AddAudioAdapter<>(9, AddAudioAdapter.TYPE_RECORD_SELECT_AUDIO));
     }
 
-    @OnClick({R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4})
+//    @OnClick({R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //AlbumUtils:

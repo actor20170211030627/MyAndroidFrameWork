@@ -118,6 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:onClick="onViewClicked"
         android:text="判空"
         android:transitionName="btn" />
 </LinearLayout>

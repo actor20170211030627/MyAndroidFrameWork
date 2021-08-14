@@ -3,19 +3,19 @@ package com.actor.sample.activity;
 import android.os.Bundle;
 
 import com.actor.myandroidframework.utils.ThreadUtils;
-import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityOtherBinding;
 
 /**
  * Description: 主页->线程, 权限, SPUtils, EventBus
  * Author     : ldf
  * Date       : 2019-9-9 on 16:16
  */
-public class OtherActivity extends BaseActivity {
+public class OtherActivity extends BaseActivity<ActivityOtherBinding> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_other);
+//        setContentView(R.layout.activity_other);
 
         setTitle("主页->线程, 权限, SPUtils, EventBus");
 

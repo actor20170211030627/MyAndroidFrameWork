@@ -23,17 +23,13 @@
 # 抑制警告
 #-ignorewarnings
 
-#############################################################################
-## ButterKnife
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
+# 打印混淆信息
+#-verbose
+
+-dontskipnonpubliclibraryclassmembers
+
+# @Keep 会自动不混淆.
+# 注意: 如果某个json解析成的Entity里有静态class, 也需要在这个静态class上加上@Keep, 否则静态class会被混淆!!
 
 #############################################################################
 ## Gson
@@ -49,7 +45,9 @@
 #-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { <fields>; }
+#-keep class com.google.gson.examples.android.model.** { <fields>; }
+##不要混淆Bean类(★★★示例:★★★)
+#-keep class com.package.xxx.info.** { *; }
 
 # Prevent proguard from stripping interface information from TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
@@ -61,10 +59,6 @@
 -keepclassmembers,allowobfuscation class * {
   @com.google.gson.annotations.SerializedName <fields>;
 }
-
-# Application classes that will be serialized/deserialized over Gson
-##不要混淆Bean类(★★★示例:★★★)
-#-keep class com.package.xxx.info.** { *; }
 
 #############################################################################
 ## BaseRecyclerViewAdapterHelper

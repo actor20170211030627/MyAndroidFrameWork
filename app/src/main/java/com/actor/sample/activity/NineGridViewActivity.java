@@ -5,36 +5,33 @@ import android.view.View;
 
 import com.actor.myandroidframework.widget.NineGridView.GetIsVideoAble;
 import com.actor.myandroidframework.widget.NineGridView.NineGridView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityNineGridViewBinding;
 import com.actor.sample.utils.Global;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description: 主页->九宫格
  * Author     : ldf
  * Date       : 2019-9-6 on 11:38
  */
-public class NineGridViewActivity extends BaseActivity {
+public class NineGridViewActivity extends BaseActivity<ActivityNineGridViewBinding> {
 
-    @BindView(R.id.nine_grid_view)
-    NineGridView<PicOrVideo> nineGridView;
+    private NineGridView<PicOrVideo> nineGridView;
 
-    private List<PicOrVideo> items = new ArrayList<>();
+    private final List<PicOrVideo> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nine_grid_view);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_nine_grid_view);
 
         setTitle("主页->九宫格");
+        nineGridView = viewBinding.nineGridView;
+
         for (int i = 0; i < 9; i++) {
             items.add(new PicOrVideo(Global.girl, i % 4 == 0));
         }
@@ -48,7 +45,7 @@ public class NineGridViewActivity extends BaseActivity {
     }
 
     //图片或视频, implements GetIsVideoAble
-    private class PicOrVideo implements GetIsVideoAble {
+    private static class PicOrVideo implements GetIsVideoAble {
 
         public int id;
         public String url;//图片/视频 的url

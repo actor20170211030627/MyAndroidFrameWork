@@ -1,19 +1,16 @@
 package com.actor.sample.fragment;
 
-
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.sample.R;
+import com.actor.sample.databinding.FragmentDetailBinding;
 import com.actor.sample.utils.ImageConstants;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -21,19 +18,11 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+public class DetailFragment extends BaseFragment<FragmentDetailBinding> {
 
-public class DetailFragment extends BaseFragment {
-
-    @BindView(R.id.view_background)
-    View      viewBackground;
-    @BindView(R.id.iv)
-    ImageView iv;
-    @BindView(R.id.tv)
-    TextView  tv;
-    Unbinder unbinder;
+    private View      viewBackground;
+    private ImageView iv;
+    private TextView  tv;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -63,15 +52,12 @@ public class DetailFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewBackground = viewBinding.viewBackground;
+        iv = viewBinding.iv;
+        tv = viewBinding.tv;
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             iv.setTransitionName(ImageConstants.IMAGE_SOURCE[position]);//setTransitionName
         }
@@ -95,12 +81,6 @@ public class DetailFragment extends BaseFragment {
         if (position == startPosition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActivity().startPostponedEnterTransition();//开始延时共享动画
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     public View getSharedElementView() {

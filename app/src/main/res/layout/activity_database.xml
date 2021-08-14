@@ -73,6 +73,7 @@
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="Add增"
             android:transitionName="btn" />
 
@@ -80,18 +81,21 @@
             android:id="@+id/btn_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="Update改" />
 
         <Button
             android:id="@+id/btn_query"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="Query查" />
 
         <Button
             android:id="@+id/btn_query_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="QueryAll查全部" />
     </LinearLayout>
 

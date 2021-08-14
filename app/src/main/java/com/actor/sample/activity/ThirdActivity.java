@@ -3,6 +3,7 @@ package com.actor.sample.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.actor.myandroidframework.utils.tencent.BaseUiListener;
 import com.actor.myandroidframework.utils.tencent.QQUtils;
 import com.actor.myandroidframework.utils.tencent.WeChatUtils;
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityThirdBinding;
 import com.actor.sample.wxapi.WXEntryActivity;
 import com.actor.sample.wxapi.WXPayEntryActivity;
 import com.tencent.connect.common.Constants;
@@ -30,21 +32,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Description: 主页->第三方登录/分享
  * Author     : ldf
  * Date       : 2020/3/13 on 12:11
  */
-public class ThirdActivity extends BaseActivity {
+public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
 
-    @BindView(R.id.tv_result_qq)
-    TextView tvResultQq;
-    @BindView(R.id.et_target_qq)
-    TextView etTargetQq;
+    private TextView tvResultQq;
+    private EditText etTargetQq;
 
     private boolean isQrCode = false;
     private String accessToken, openId;
@@ -52,10 +48,11 @@ public class ThirdActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_third);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_third);
         EventBus.getDefault().register(this);
         setTitle("主页->第三方登录/分享");
+        tvResultQq = viewBinding.tvResultQq;
+        etTargetQq = viewBinding.etTargetQq;
 
         //在Application中设置appId, 一般是一串数字(我这儿设置的appid是QQ2786985624申请的)
         QQUtils.setAppId("101890804");//222222
@@ -64,8 +61,8 @@ public class ThirdActivity extends BaseActivity {
         WeChatUtils.setAppId("wx88888888");
     }
 
-    @OnClick({R.id.btn_login_qq, R.id.btn_login_qr_account_password, R.id.btn_get_user_info_qq,
-            R.id.btn_share_img, R.id.btn_logout, R.id.btn_chat})
+//    @OnClick({R.id.btn_login_qq, R.id.btn_login_qr_account_password, R.id.btn_get_user_info_qq,
+//            R.id.btn_share_img, R.id.btn_logout, R.id.btn_chat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login_qq://登录

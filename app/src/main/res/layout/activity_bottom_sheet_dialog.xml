@@ -11,24 +11,28 @@
         android:id="@+id/btn_test_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="TestDialog" />
 
     <Button
         android:id="@+id/btn_bottom_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="BottomDialog" />
 
     <Button
         android:id="@+id/btn_bottom_sheet_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="BottomSheetDialog" />
 
     <Button
         android:id="@+id/btn_bottom_sheet_dialog_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="BottomSheetDialogFragment" />
 
     <TextView
@@ -36,12 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:onClick="onViewClicked"
         android:text="请输入内容↓" />
 
     <Button
         android:id="@+id/btn_float_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="FloatEditorDialog(就是BaseBottomDialog)" />
 
     <LinearLayout
@@ -54,6 +60,7 @@
             android:id="@+id/btn_left_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="BaseLeftDialog" />
 
         <Space
@@ -66,6 +73,7 @@
             android:id="@+id/btn_right_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="BaseRightDialog" />
     </LinearLayout>
 
@@ -74,6 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:onClick="onViewClicked"
         android:text="BaseBottomActivity"
         android:transitionName="btn" />
 </LinearLayout>

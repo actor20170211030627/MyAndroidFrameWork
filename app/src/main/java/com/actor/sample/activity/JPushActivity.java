@@ -8,14 +8,12 @@ import com.actor.myandroidframework.utils.jpush.JPushEvent;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
 import com.actor.myandroidframework.utils.jpush.MyJPushMessageReceiver;
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityJpushBinding;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.JPushMessage;
 
@@ -26,22 +24,22 @@ import cn.jpush.android.api.JPushMessage;
  *
  * @version 1.0
  */
-public class JPushActivity extends BaseActivity {
+public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
 
-    @BindView(R.id.tv_result)
-    TextView tvResult;
+    private TextView tvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jpush);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_jpush);
+        tvResult = viewBinding.tvResult;
+
         EventBus.getDefault().register(this);
 
         setTitle("主页->极光推送");
     }
 
-    @OnClick({R.id.btn_start, R.id.btn_stop})
+//    @OnClick({R.id.btn_start, R.id.btn_stop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始接收

@@ -17,6 +17,7 @@ import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.PostFileCallback;
 import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityNetWorkAndImageBinding;
 import com.actor.sample.info.GithubInfo;
 import com.actor.sample.retrofit.NetWork;
 import com.actor.sample.utils.Global;
@@ -27,9 +28,6 @@ import com.yanzhenjie.album.AlbumFile;
 import java.io.File;
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -38,20 +36,20 @@ import retrofit2.Response;
  * Author     : ldf
  * Date       : 2019-9-6 on 14:23
  */
-public class NetWorkAndImageActivity extends BaseActivity {
+public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImageBinding> {
 
-    @BindView(R.id.iv)
-    ImageView iv;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    private ImageView iv;
+    private ProgressBar progressBar;
+
     private boolean alreadyDownload = false;
     private String picPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_net_work_and_image);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_net_work_and_image);
+        iv = viewBinding.iv;
+        progressBar = viewBinding.progressBar;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             postponeEnterTransition();
@@ -73,8 +71,8 @@ public class NetWorkAndImageActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_get_okhttp, R.id.btn_post_body_okhttp, R.id.btn_get_retrofit,
-            R.id.btn_download, R.id.btn_select_pic, R.id.btn_upload})
+//    @OnClick({R.id.btn_get_okhttp, R.id.btn_post_body_okhttp, R.id.btn_get_retrofit,
+//            R.id.btn_download, R.id.btn_select_pic, R.id.btn_upload})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_get_okhttp://MyOkHttpUtils方式获取数据

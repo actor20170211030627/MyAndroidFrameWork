@@ -72,10 +72,6 @@ dependencies {
     api rootProject.ext.dependencies.swiperefreshlayout
 
 
-    //https://github.com/JakeWharton/butterknife
-    //implementation 'com.jakewharton:butterknife:10.2.3'
-    //annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-
     //https://github.com/google/gson converter-gson 已经依赖了Gson2.8.5
     //不混淆解析类: -keep class com.package.xxx.bean.** { *; }
     //api 'com.google.code.gson:gson:2.8.5'

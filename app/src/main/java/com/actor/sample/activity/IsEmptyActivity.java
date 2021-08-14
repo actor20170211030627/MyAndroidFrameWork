@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityIsEmptyBinding;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.lang.reflect.Array;
@@ -17,39 +18,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
-
 /**
  * Description: 主页->判空
  * Author     : ldf
  * Date       : 2019-9-6 on 17:47
  */
-public class IsEmptyActivity extends BaseActivity {
+public class IsEmptyActivity extends BaseActivity<ActivityIsEmptyBinding> implements CompoundButton.OnCheckedChangeListener {
 
-    @BindView(R.id.et_content)
-    EditText            etContent;
-    @BindView(R.id.text_input_layout)
-    TextInputLayout     textInputLayout;
-    @BindView(R.id.itil_phone)
-    ItemTextInputLayout itilPhone; //注意: ItemTextInputLayout implements TextUtils2.GetTextAble
+    private EditText            etContent;
+    private TextInputLayout     textInputLayout;
+    /**
+     * 注意: {@link ItemTextInputLayout} implements {@link com.actor.myandroidframework.utils.TextUtils2.GetTextAble}
+     */
+    private ItemTextInputLayout itilPhone;
 
     private String string;
     private String[] arrays;
-    private List<String> list = new ArrayList<>(1);
-    private Map<Object, Object> map = new HashMap<>(1);
+    private final List<String> list = new ArrayList<>(1);
+    private final Map<Object, Object> map = new HashMap<>(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_is_empty);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_is_empty);
         setTitle("主页->判空");
+        etContent = viewBinding.etContent;
+        textInputLayout = viewBinding.textInputLayout;
+        itilPhone = viewBinding.itilPhone;
+        //选中时间
+        viewBinding.switchString.setOnCheckedChangeListener(this);
+        viewBinding.switchArray.setOnCheckedChangeListener(this);
+        viewBinding.switchCollection.setOnCheckedChangeListener(this);
+        viewBinding.switchMap.setOnCheckedChangeListener(this);
     }
 
-    @OnCheckedChanged({R.id.switch_string, R.id.switch_array, R.id.switch_collection, R.id.switch_map})
+//    @OnCheckedChanged({R.id.switch_string, R.id.switch_array, R.id.switch_collection, R.id.switch_map})
+    @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
         switch (buttonView.getId()) {
             case R.id.switch_string:
@@ -75,7 +79,7 @@ public class IsEmptyActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.btn_is_empty)
+//    @OnClick(R.id.btn_is_empty)
     public void onViewClicked(View view) {
         /**
          * @param objs 参数的类型为:

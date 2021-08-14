@@ -98,7 +98,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     protected          OnClickListener clickListener;
     //EditText's hint's color
     protected          ColorStateList  hintTextColors;
-    protected @ColorInt int             defaultHintColor;
+    protected @ColorInt int            defaultHintColor;
 
     public ItemTextInputLayout(Context context) {
         super(context);
@@ -266,6 +266,8 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             et1 = inflate.findViewById(R.id.et_input_for_itil);
             ivArrowRight = inflate.findViewById(R.id.iv_arrow_right_for_itil);
         }
+        //如果xml中设置了android:onClick, 则clickListener不为空
+        if (clickListener != null) setOnClickListener(clickListener);
     }
 
     /**
@@ -496,14 +498,21 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     @Override
     public void setClickable(boolean clickable) {
         super.setClickable(clickable);
-        getEditText().setClickable(clickable);
+        //因为attr是先走的super(context, attrs), 这时候EditText还没开始初始化
+        EditText editText = getEditText();
+        if (editText != null) editText.setClickable(clickable);
     }
 
     @Override
     public void setOnClickListener(@Nullable OnClickListener onClickListener) {
         super.setOnClickListener(onClickListener);
         this.clickListener = onClickListener;
-        getEditText().setOnClickListener(new OnClickListener() {//必须要设置,否则点击EditText无效
+        /**
+         * 因为attr是先走的super(context, attrs), 这时候EditText还没开始初始化
+         * 必须要设置,否则点击EditText无效
+         */
+        EditText editText = getEditText();
+        if (editText != null) editText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (clickListener != null && getEditText().isClickable()) {

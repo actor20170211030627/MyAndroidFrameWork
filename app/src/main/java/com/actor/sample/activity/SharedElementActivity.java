@@ -4,45 +4,36 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.sample.R;
+import com.actor.sample.adapter.SharedElementAdapter;
+import com.actor.sample.databinding.ActivitySharedElementBinding;
 import com.actor.sample.utils.Global;
 import com.actor.sample.utils.ImageConstants;
-import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.Arrays;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Description: 主页->元素共享跳转
  * Author     : ldf
  * Date       : 2020/2/6 on 18:41
  */
-public class SharedElementActivity extends BaseActivity {
+public class SharedElementActivity extends BaseActivity<ActivitySharedElementBinding> {
 
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    private MyAdapter myAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shared_element);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_shared_element);
         setTitle("主页->元素共享跳转");
+        recyclerView = viewBinding.recyclerView;
 
-        myAdapter = new MyAdapter(R.layout.item_shared_element, Arrays.asList(ImageConstants.IMAGE_SOURCE));
+        SharedElementAdapter myAdapter = new SharedElementAdapter(Arrays.asList(ImageConstants.IMAGE_SOURCE));
         myAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             //startActivity & startActivityForResult
             startActivityForResult(new Intent(this, ViewPagerActivity.class)
@@ -65,24 +56,6 @@ public class SharedElementActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             postponeEnterTransition();//延时动画
             recyclerView.post(this::startPostponedEnterTransition);//开始延时共享动画
-        }
-    }
-
-    private class MyAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-
-        public MyAdapter(int layoutResId, @Nullable List<String> data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(@NonNull BaseViewHolder helper, String item) {
-            int position = helper.getAdapterPosition();
-            ImageView iv = helper.addOnClickListener(R.id.iv).getView(R.id.iv);
-            String url = ImageConstants.IMAGE_SOURCE[position];
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                iv.setTransitionName(url);//setTransitionName
-            }
-            Glide.with(activity).load(url).into(iv);
         }
     }
 

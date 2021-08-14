@@ -12,6 +12,7 @@ import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
 import com.actor.myandroidframework.utils.baidu.LngLatInfo;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityBaiDuMapBinding;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
@@ -26,10 +27,6 @@ import com.blankj.utilcode.util.GsonUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * description: 百度地图
  * author     : ldf
@@ -37,12 +34,10 @@ import butterknife.OnClick;
  *
  * @version 1.0
  */
-public class BaiDuMapActivity extends BaseActivity {
+public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
 
-    @BindView(R.id.tv_result)
-    TextView tvResult;
-    @BindView(R.id.map_view)
-    MapView  mapView;
+    private TextView tvResult;
+    private MapView  mapView;
 
     private BaiduMap      baiduMap;
     private MarkerOptions markerLocation;//显示Marker(红点)
@@ -52,7 +47,7 @@ public class BaiDuMapActivity extends BaseActivity {
     private MarkerOptions markerCamera;//摄像头
     private MarkerOptions markerBridge;//桥
 
-    private double lat = 30.624659, lng = 104.10621;//中心红点
+    private double lat = 30.624659D, lng = 104.10621D;//中心红点
     private List<Overlay> overlayPersons;//人员覆盖物列表
     private List<Overlay> overlayRepositorys;//仓库覆盖物列表
     private List<Overlay> overlayCars;//车辆覆盖物列表
@@ -78,9 +73,11 @@ public class BaiDuMapActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bai_du_map);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_bai_du_map);
         setTitle("百度地图");
+        tvResult = viewBinding.tvResult;
+        mapView = viewBinding.mapView;
+
         baiduMap = BaiduMapUtils.initBaiduMap(mapView, BaiduMap.MAP_TYPE_NORMAL, 15);
 
         LatLng latLng = new LatLng(lat, lng);
@@ -95,9 +92,9 @@ public class BaiDuMapActivity extends BaseActivity {
         BaiduMapUtils.addOnMarkerClickListener(baiduMap, markerClickListener);
     }
 
-    @OnClick({R.id.btn_start, R.id.btn_stop, R.id.btn_get_address_by_latlng,
-            R.id.btn_get_latlng_by_address, R.id.iv_person, R.id.iv_repository, R.id.iv_car,
-            R.id.iv_camera, R.id.iv_bridge})
+//    @OnClick({R.id.btn_start, R.id.btn_stop, R.id.btn_get_address_by_latlng,
+//            R.id.btn_get_latlng_by_address, R.id.iv_person, R.id.iv_repository, R.id.iv_car,
+//            R.id.iv_camera, R.id.iv_bridge})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始定位

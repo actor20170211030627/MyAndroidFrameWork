@@ -15,6 +15,7 @@
         android:id="@+id/btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="开始定位"
         android:transitionName="btn"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -24,6 +25,7 @@
         android:id="@+id/btn_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="结束定位"
         app:layout_constraintLeft_toRightOf="@id/btn_start"
         app:layout_constraintTop_toTopOf="@id/btn_start" />
@@ -42,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:onClick="onViewClicked"
         android:text="坐标→'网络'→地址"
         app:layout_constraintLeft_toLeftOf="@id/btn_start"
         app:layout_constraintTop_toBottomOf="@id/btn_start" />
@@ -50,6 +53,7 @@
         android:id="@+id/btn_get_latlng_by_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="地址→'网络'→坐标"
         app:layout_constraintLeft_toRightOf="@id/btn_get_address_by_latlng"
         app:layout_constraintTop_toTopOf="@id/btn_get_address_by_latlng" />
@@ -67,30 +71,35 @@
             android:id="@+id/iv_person"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="onViewClicked"
             android:src="@drawable/location_person" />
 
         <ImageView
             android:id="@+id/iv_repository"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="onViewClicked"
             android:src="@drawable/location_repository" />
 
         <ImageView
             android:id="@+id/iv_car"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="onViewClicked"
             android:src="@drawable/location_car" />
 
         <ImageView
             android:id="@+id/iv_camera"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="onViewClicked"
             android:src="@drawable/location_camera" />
 
         <ImageView
             android:id="@+id/iv_bridge"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="onViewClicked"
             android:src="@drawable/location_bridge" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

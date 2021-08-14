@@ -8,11 +8,8 @@ import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.activity.BaseBottomActivity;
 import com.actor.sample.R;
+import com.actor.sample.databinding.FragmentBaseBottomSheetDialogBinding;
 import com.blankj.utilcode.util.ToastUtils;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Description: 从底部弹出的Activity
@@ -23,22 +20,24 @@ import butterknife.OnClick;
  */
 public class MyBaseBottomActivity extends BaseBottomActivity {
 
-    @BindView(R.id.tv_tips)
-    TextView tvTips;
-    @BindView(R.id.tv_content)
-    TextView tvContent;
+    private TextView tvTips;
+    private TextView tvContent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_base_bottom_sheet_dialog);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.fragment_base_bottom_sheet_dialog);
+        FragmentBaseBottomSheetDialogBinding viewBinding = FragmentBaseBottomSheetDialogBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        tvTips = viewBinding.tvTips;
+        tvContent = viewBinding.tvContent;
+
         tvTips.setVisibility(View.INVISIBLE);
         tvContent.setText("this is BaseBottomActivity, Click me(点击我试一下)");
         setDimAmount(0.5F);
     }
 
-    @OnClick({R.id.btn_dismiss, R.id.btn_ok, R.id.tv_content})
+//    @OnClick({R.id.btn_dismiss, R.id.btn_ok, R.id.tv_content})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_dismiss:

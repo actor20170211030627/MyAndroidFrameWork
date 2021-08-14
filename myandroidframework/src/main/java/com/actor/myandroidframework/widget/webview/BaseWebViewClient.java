@@ -2,6 +2,7 @@ package com.actor.myandroidframework.widget.webview;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.webkit.SslErrorHandler;
@@ -85,10 +86,23 @@ public class BaseWebViewClient extends WebViewClient {
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         Map<String, String> requestHeaders = request.getRequestHeaders();//headers
         String requesJson = GsonUtils.toJson(requestHeaders);
+        Uri url = request.getUrl();
+        boolean isForMainFrame = request.isForMainFrame();
+        Boolean isRedirect = null;
+        try {
+            /**
+             * 雷电模拟器5.1.1会进入 {@link #shouldInterceptRequest(WebView, WebResourceRequest)} 这个方法
+             * 会报错, 原因未知, 莫名其妙!
+             */
+            isRedirect = request.isRedirect();
+        } catch(NoSuchMethodError e) {
+            e.printStackTrace();
+        }
+        boolean hasGesture = request.hasGesture();
+        String method = request.getMethod();
         LogUtils.formatError("拦截器, shouldInterceptRequest: Uri=%s, isForMainFrame=%b," +
-                        " isRedirect=%b, hasGesture=%b, Method=%s, RequestHeaders=%s",
-                request.getUrl(), request.isForMainFrame(), request.isRedirect(), request.hasGesture(),
-                request.getMethod(), requesJson);
+                        " isRedirect=%s, hasGesture=%b, Method=%s, RequestHeaders=%s",
+                url, isForMainFrame, isRedirect, hasGesture, method, requesJson);
 
         //示例自定义处理
 //        String response = "<html>\n<title>99度</title>\n" +

@@ -10,24 +10,20 @@ import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.dialog.BaseLeftDialog;
 import com.actor.myandroidframework.dialog.BaseRightDialog;
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityBottomSheetDialogBinding;
 import com.actor.sample.dialog.BottomFloatEditorDialog;
 import com.actor.sample.dialog.MyBottomSheetDialogFragment;
 import com.actor.sample.dialog.TestDialog;
 import com.blankj.utilcode.util.ConvertUtils;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Description: 主页->BottomSheetDialog
  * Author     : ldf
  * Date       : 2019-9-6 on 14:24
  */
-public class BottomSheetDialogActivity extends BaseActivity {
+public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetDialogBinding> {
 
-    @BindView(R.id.tv_content)
-    TextView tvContent;
+    private TextView tvContent;
 
     private TestDialog                  alertDialog;
     private BaseBottomDialog            baseBottomDialog;
@@ -40,9 +36,9 @@ public class BottomSheetDialogActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bottom_sheet_dialog);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_bottom_sheet_dialog);
         setTitle("主页->BottomSheetDialog");
+        tvContent = viewBinding.tvContent;
 
         /**
          * 普通Dialog
@@ -137,9 +133,9 @@ public class BottomSheetDialogActivity extends BaseActivity {
         baseRightDialog.findViewById(R.id.view_space).setOnClickListener(v -> baseRightDialog.dismiss());
     }
 
-    @OnClick({R.id.btn_test_dialog, R.id.btn_bottom_dialog, R.id.btn_bottom_sheet_dialog,
-            R.id.btn_bottom_sheet_dialog_fragment, R.id.btn_float_edit, R.id.btn_left_dialog,
-            R.id.btn_right_dialog, R.id.btn_bottom_activity})
+//    @OnClick({R.id.btn_test_dialog, R.id.btn_bottom_dialog, R.id.btn_bottom_sheet_dialog,
+//            R.id.btn_bottom_sheet_dialog_fragment, R.id.btn_float_edit, R.id.btn_left_dialog,
+//            R.id.btn_right_dialog, R.id.btn_bottom_activity})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_test_dialog://普通Dialog

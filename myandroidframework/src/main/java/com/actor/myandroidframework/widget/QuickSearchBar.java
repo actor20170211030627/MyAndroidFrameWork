@@ -15,6 +15,7 @@ import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,7 @@ import java.util.Map;
  * //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'//可选，适用于Android的中国地区词典
  *
  * 1. 布局文件中
- * <com.yunweipei.aftersale.widget.QuickSearchBar
+ * <com.actor.myandroidframework.widget.QuickSearchBar
  *     android:id="@+id/quicksearchbar"
  *     android:layout_width="30dp"
  *     android:layout_height="match_parent"
@@ -74,11 +75,12 @@ import java.util.Map;
  */
 public class QuickSearchBar extends View {
 
+    protected static final int                         INDEX_NONE = -1;
     protected              Rect                        rect;
     protected              Paint                       paint;
     protected              float                       mCellWidth;       //控件宽度
     protected              float                       mCellHeight;      //控件高度 / 26
-    protected              int                         mCurrentIndex = -1; //现在所触摸的索引
+    protected              int                         mCurrentIndex = INDEX_NONE; //现在所触摸的索引
     protected              int                         textColorNormal;//正常字体颜色
     protected              int                         textColorPressed;//按下时的字体颜色, 默认colorAccent
     protected              int                         textSize;//字体大小, 默认10sp
@@ -95,15 +97,26 @@ public class QuickSearchBar extends View {
     public static final  int                           POSITION_A = 1;//"A"在上方的position, 从0开始
 
     public QuickSearchBar(Context context) {
-        this(context,null);
+        super(context);
+        init(context, null);
     }
 
-    public QuickSearchBar(Context context, AttributeSet attrs) {
-        this(context, attrs,-1);
+    public QuickSearchBar(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
     }
 
-    public QuickSearchBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public QuickSearchBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
+    }
+
+    public QuickSearchBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs);
+    }
+
+    protected void init(Context context, @Nullable AttributeSet attrs) {
         pressedBackground = getResources().getDrawable(R.drawable.shape_rec_cor_for_quicksearchbar);
         textColorNormal = Color.parseColor("#8c8c8c");
         textColorPressed = context.getResources().getColor(R.color.colorAccent);
@@ -115,12 +128,11 @@ public class QuickSearchBar extends View {
                     this.textColorNormal);
             int textColorPressed = typedArray.getColor(R.styleable.QuickSearchBar_qsbTextColorPressed,
                     this.textColorPressed);
-            int textSize = typedArray.getDimensionPixelSize(R.styleable.QuickSearchBar_qsbTextSize, -1);
+            textSize = typedArray.getDimensionPixelSize(R.styleable.QuickSearchBar_qsbTextSize, textSize);
             typedArray.recycle();
             if (background != null) pressedBackground = background;
             this.textColorNormal = textColorNormal;
             this.textColorPressed = textColorPressed;
-            if (textSize != -1) this.textSize = textSize;
         }
         paint = new Paint();
         rect = new Rect();              //矩形
@@ -145,8 +157,8 @@ public class QuickSearchBar extends View {
             paint.getTextBounds(LETTERS[i] , 0, 1, rect);
             int textWidth = rect.width();   //字体宽度
             int textHeight = rect.height(); //字体高度
-            float x = mCellWidth / 2 - textWidth / 2;//字体从小rect的左下角开始画
-            float y = mCellHeight / 2 + textHeight / 2 + mCellHeight * i;//字体从小rext的做小脚开始画
+            float x = mCellWidth / 2 - textWidth / 2F;//字体从小rect的左下角开始画
+            float y = mCellHeight / 2 + textHeight / 2F + mCellHeight * i;//字体从小rext的做小脚开始画
             if (i == mCurrentIndex) {
                 paint.setColor(textColorPressed);
             }else {
@@ -198,7 +210,7 @@ public class QuickSearchBar extends View {
             break;
         case MotionEvent.ACTION_UP:
         default:
-            mCurrentIndex = -1;
+            mCurrentIndex = INDEX_NONE;
             if (letterChangedListener != null) {
                 letterChangedListener.onActionUp();
             }

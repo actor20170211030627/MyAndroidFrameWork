@@ -11,18 +11,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.actor.myandroidframework.adapter_viewpager.BaseFragmentPagerAdapter;
-import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityViewPagerBinding;
 import com.actor.sample.fragment.DetailFragment;
 import com.actor.sample.utils.Global;
 import com.actor.sample.utils.ImageConstants;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
 
-public class ViewPagerActivity extends BaseActivity {
-
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
     public static final String START_POSITION = "START_POSITION";
     private int startPosition;
@@ -31,9 +27,9 @@ public class ViewPagerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_pager);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_view_pager);
         setTitle("主页->元素共享跳转->ViewPager");
+        viewPager = viewBinding.viewPager;
 
         startPosition = getIntent().getIntExtra(START_POSITION, 0);
         myAdapter = new MyAdapter(getSupportFragmentManager(), ImageConstants.IMAGE_SOURCE.length);

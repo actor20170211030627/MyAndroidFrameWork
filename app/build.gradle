@@ -3,6 +3,9 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildFeatures {
+        viewBinding = true
+    }
 
     defaultConfig {
         applicationId "com.actor.sample"
@@ -71,10 +74,6 @@ dependencies {
     //https://github.com/google/flexbox-layout
     implementation 'com.google.android:flexbox:1.0.0'
 
-    //https://github.com/JakeWharton/butterknife
-    implementation 'com.jakewharton:butterknife:10.2.3'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-
     //https://gitee.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':myandroidframework')
 //    implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:myandroidframework:2.0.5'
@@ -110,4 +109,9 @@ dependencies {
 
     //https://github.com/yanzhenjie/Album 图片选择
     implementation 'com.yanzhenjie:album:2.1.3'
+
+
+    //https://github.com/JakeWharton/butterknife 用于生成点击事件
+    compileOnly 'com.jakewharton:butterknife:10.2.3'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 }

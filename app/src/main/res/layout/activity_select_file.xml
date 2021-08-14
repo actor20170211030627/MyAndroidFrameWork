@@ -29,24 +29,28 @@
                 android:id="@+id/btn_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
                 android:text="单选图片(显示Camrea)" />
 
             <Button
                 android:id="@+id/btn_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
                 android:text="多选图片(不显示Camera)" />
 
             <Button
                 android:id="@+id/btn_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
                 android:text="单选视频(不显示Camrea)" />
 
             <Button
                 android:id="@+id/btn_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
                 android:text="多选视频(显示Camrea)" />
         </com.google.android.flexbox.FlexboxLayout>
 

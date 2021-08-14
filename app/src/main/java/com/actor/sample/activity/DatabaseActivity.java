@@ -12,6 +12,7 @@ import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.database.ItemEntity;
+import com.actor.sample.databinding.ActivityDatabaseBinding;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.greendao.gen.ItemEntityDao;
@@ -25,29 +26,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Description: 主页->数据库
  * Author     : ldf
  * Date       : 2020/2/18 on 11:15
  */
-public class DatabaseActivity extends BaseActivity {
+public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
 
-    @BindView(R.id.itil_name)
-    ItemTextInputLayout  itilName;
-    @BindView(R.id.irgl_sex)
-    ItemRadioGroupLayout<String> irglSex;
-    @BindView(R.id.itil_idcard)
-    ItemTextInputLayout  itilIdcard;
-    @BindView(R.id.itil_key)
-    ItemTextInputLayout  itilKey;
-    @BindView(R.id.itil_value)
-    ItemTextInputLayout  itilValue;
-    @BindView(R.id.recycler_view)
-    RecyclerView         recyclerView;
+    private ItemTextInputLayout  itilName;
+    private ItemRadioGroupLayout<String> irglSex;
+    private ItemTextInputLayout  itilIdcard;
+    private ItemTextInputLayout  itilKey;
+    private ItemTextInputLayout  itilValue;
+    private RecyclerView         recyclerView;
 
     private static final ItemEntityDao    DAO = GreenDaoUtils.getDaoSession().getItemEntityDao();
     private              MyAdapter        myAdapter;
@@ -57,9 +48,15 @@ public class DatabaseActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_database);
         setTitle("主页->数据库(GreenDao)");
+        itilName = viewBinding.itilName;
+        irglSex = viewBinding.irglSex;
+        itilIdcard = viewBinding.itilIdcard;
+        itilKey = viewBinding.itilKey;
+        itilValue = viewBinding.itilValue;
+        recyclerView = viewBinding.recyclerView;
+
         myAdapter = new MyAdapter(R.layout.item_data_base_person);
         //item click
         myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -93,7 +90,7 @@ public class DatabaseActivity extends BaseActivity {
         recyclerView.setAdapter(myAdapter);
     }
 
-    @OnClick({R.id.btn_add, R.id.btn_update, R.id.btn_query, R.id.btn_query_all})
+//    @OnClick({R.id.btn_add, R.id.btn_update, R.id.btn_query, R.id.btn_query_all})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_add://增, 身份证不为空, 其余的根据自己需求判断

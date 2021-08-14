@@ -24,6 +24,7 @@
             android:id="@+id/btn_login_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="登录"
             android:transitionName="btn" />
 
@@ -31,6 +32,7 @@
             android:id="@+id/btn_login_qr_account_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="二维码登录or账号密码登录"
             android:transitionName="btn" />
 
@@ -38,6 +40,7 @@
             android:id="@+id/btn_get_user_info_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="获取用户信息"
             android:transitionName="btn" />
 
@@ -45,6 +48,7 @@
             android:id="@+id/btn_share_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="分享图片"
             android:transitionName="btn" />
 
@@ -52,6 +56,7 @@
             android:id="@+id/btn_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="退出"
             android:transitionName="btn" />
     </com.google.android.flexbox.FlexboxLayout>
@@ -77,6 +82,7 @@
         android:id="@+id/btn_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="聊天"
         android:transitionName="btn" />
 
@@ -90,13 +96,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_login_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="登录"
             android:transitionName="btn" />
 
@@ -104,6 +111,7 @@
             android:id="@+id/btn_share_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="分享文字(还可以分享其它)"
             android:transitionName="btn" />
 
@@ -111,6 +119,7 @@
             android:id="@+id/btn_get_user_info_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="获取用户信息"
             android:transitionName="btn" />
     </LinearLayout>

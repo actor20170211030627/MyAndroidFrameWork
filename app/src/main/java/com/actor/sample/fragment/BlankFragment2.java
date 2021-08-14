@@ -2,9 +2,7 @@ package com.actor.sample.fragment;
 
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,25 +10,19 @@ import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.actor.myandroidframework.widget.SwipeRefreshLayoutCompatViewPager;
-import com.actor.sample.R;
+import com.actor.sample.databinding.FragmentBlank2Binding;
 import com.actor.sample.utils.Global;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Description: 里面层Fragment
  * Author     : ldf
  * Date       : 2019-9-6 on 16:41
  */
-public class BlankFragment2 extends BaseFragment {
+public class BlankFragment2 extends BaseFragment<FragmentBlank2Binding> {
 
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayoutCompatViewPager swipeRefreshLayout;
-    @BindView(R.id.tv_content)
-    TextView tvContent;
-    Unbinder unbinder;
+    private SwipeRefreshLayoutCompatViewPager swipeRefreshLayout;
+    private TextView tvContent;
+
     private int position;
     private String content;
 
@@ -54,15 +46,11 @@ public class BlankFragment2 extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_blank_fragment2, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swipeRefreshLayout = viewBinding.swipeRefreshLayout;
+        tvContent = viewBinding.tvContent;
+
         tvContent.setText(getStringFormat("第%d个Table, content=%s,\n可以下拉刷新哦 ↓", position, content));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -74,14 +62,8 @@ public class BlankFragment2 extends BaseFragment {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     }
-                }, 1_000);
+                }, 1_000L);
             }
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

@@ -68,6 +68,7 @@
             android:id="@+id/btn_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="Check position 2"
             android:transitionName="btnTest" />
 
@@ -101,6 +102,7 @@
             android:id="@+id/btn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="只能输入数字"
             android:transitionName="btnTest" />
 
@@ -108,6 +110,7 @@
             android:id="@+id/itil_can_not_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             app:itilArrowRightVisiable="gone"
             app:itilHint="测试不能输入"
             app:itilImeOptions="actionDone"
@@ -119,6 +122,7 @@
             android:id="@+id/btn_input_enable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="InputEnable切换" />
 
 
@@ -126,6 +130,7 @@
             android:id="@+id/itil_can_not_input2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             app:itilHint="测试不能输入的'点击事件'"
             app:itilInputEnable="false"
             app:itilItemName="测试点击:"

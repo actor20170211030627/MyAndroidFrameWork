@@ -16,6 +16,7 @@
             android:id="@+id/btn_internet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="internet网络 &amp; image图片"
             android:transitionName="btn"
             app:layout_alignSelf="flex_end" />
@@ -31,6 +32,7 @@
             android:id="@+id/btn_shared_element"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="SharedElement 元素共享跳转"
             android:transitionName="btn" />
 
@@ -38,6 +40,7 @@
             android:id="@+id/btn_bottom_sheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="BottomDialog, BottomSheetDialog,
         \nBottomSheetDialogFragment\n
         FloatEditorDialog, BaseBottomActivity
@@ -48,6 +51,7 @@
             android:id="@+id/btn_viewpager_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="ViewPager &amp; Fragment多层嵌套"
             android:transitionName="btn" />
 
@@ -55,6 +59,7 @@
             android:id="@+id/btn_select_file"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="文件选择"
             android:transitionName="btn" />
 
@@ -62,6 +67,7 @@
             android:id="@+id/btn_is_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="判空"
             android:transitionName="btn" />
 
@@ -69,6 +75,7 @@
             android:id="@+id/btn_third"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="第三方登录/分享"
             android:transitionName="btn" />
 
@@ -76,6 +83,7 @@
             android:id="@+id/btn_baidu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="百度定位/地图"
             android:transitionName="btn" />
 
@@ -83,6 +91,7 @@
             android:id="@+id/btn_gaode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="高德定位/地图"
             android:transitionName="btn" />
 
@@ -90,6 +99,7 @@
             android:id="@+id/btn_jpush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="极光推送"
             android:transitionName="btn" />
 
@@ -97,6 +107,7 @@
             android:id="@+id/btn_database"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="数据库(GreenDao)"
             android:transitionName="btn" />
 
@@ -104,6 +115,7 @@
             android:id="@+id/btn_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="TextView &amp; ViewSwitch切换"
             android:transitionName="btn" />
 
@@ -111,6 +123,7 @@
             android:id="@+id/btn_custom_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="自定义View"
             android:transitionName="btn" />
 
@@ -118,6 +131,7 @@
             android:id="@+id/btn_custom_ratingbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="自定义RatingBar"
             android:transitionName="btn" />
 
@@ -125,24 +139,28 @@
             android:id="@+id/btn_nine_grid_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="九宫格NineGridView" />
 
         <Button
             android:id="@+id/btn_quick_search_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="快速查找条QuickSearchBar" />
 
         <Button
             android:id="@+id/btn_webview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="WebView" />
 
         <Button
             android:id="@+id/btn_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="线程, 权限, SPUtils, EventBus" />
 
         <Button

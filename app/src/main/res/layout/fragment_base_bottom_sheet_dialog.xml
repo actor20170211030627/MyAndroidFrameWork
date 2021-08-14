@@ -19,6 +19,7 @@
         android:id="@+id/btn_dismiss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="dismiss"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,6 +37,7 @@
         android:id="@+id/btn_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
         android:text="ok~"
         android:transitionName="btn"
         app:layout_constraintRight_toRightOf="parent"
@@ -46,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:onClick="onViewClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

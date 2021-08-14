@@ -7,33 +7,30 @@ import android.widget.TextView;
 import com.actor.myandroidframework.widget.BaseTextSwitcher;
 import com.actor.myandroidframework.widget.BaseViewSwitcher;
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivitySwitcherBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Description: 主页->切换
  * Author     : ldf
  * Date       : 2019-9-6 on 14:23
  */
-public class SwitcherActivity extends BaseActivity {
+public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
 
-    @BindView(R.id.bts)
-    BaseTextSwitcher<CharSequence> bts;
-    @BindView(R.id.bvs)
-    BaseViewSwitcher<CharSequence> bvs;
+    private BaseTextSwitcher<CharSequence> bts;
+    private BaseViewSwitcher<CharSequence> bvs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_switcher);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_switcher);
 
         setTitle("主页->切换");
+        bts = viewBinding.bts;
+        bvs = viewBinding.bvs;
+
         List<CharSequence> datas = new ArrayList<>();
         datas.add("11111111fsdlkjdfioiorioiodvmiowfmvoifi");
         datas.add("222dfsdiook,poopeg,po,;d,pv,o,vopv,ov,");
@@ -63,7 +60,7 @@ public class SwitcherActivity extends BaseActivity {
         bvs.setDataSource(datas);
     }
 
-    @OnClick({R.id.btn_start, R.id.btn_stop})
+//    @OnClick({R.id.btn_start, R.id.btn_stop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start:

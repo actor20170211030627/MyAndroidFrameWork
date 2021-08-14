@@ -180,21 +180,11 @@ Add it in your root build.gradle at the end of repositories:
             <s>implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'(不再维护 Deprecated)</s>
     }
 </pre>
-## 7.1. 需要在自己项目中集成<code>constraint</code>包, 否则报错
+## 7. 需要在自己项目中集成<code>constraint</code>包, 否则报错
     implementation 'androidx.constraintlayout:constraintlayout:version xxx'//约束布局, 版本version>=1.1.3
 
-## 7.2. ButterKnife没有集成, 如果使用, 需要自己集成
-    //https://github.com/JakeWharton/butterknife
-    implementation 'com.jakewharton:butterknife:10.2.3'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-
 ## 8.<code>AndroidManifest.xml</code>合并清单文件报错
-    1.如果你的清单文件中的 allowBackup = false, 那么需要添加一句: tools:replace="android:allowBackup", 示例:
-    <application
-        android:allowBackup="false"
-        tools:replace="android:allowBackup"
-
-    2.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found.
+    1.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found.
       需要将 compileSdkVersion 升级到 29
 
 ## 9.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:

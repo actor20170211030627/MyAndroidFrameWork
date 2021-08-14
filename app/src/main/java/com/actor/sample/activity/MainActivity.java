@@ -7,32 +7,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityMainBinding;
 import com.actor.sample.utils.CheckUpdateUtils;
 import com.actor.sample.utils.Global;
 import com.blankj.utilcode.util.AppUtils;
 import com.bumptech.glide.Glide;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Description: 主页
  * Author     : ldf
  * Date       : 2019-9-6 on 14:22
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
-    @BindView(R.id.iv)
-    ImageView iv;
-    @BindView(R.id.tv_version)
-    TextView tvVersion;
+    private ImageView iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_main);
+        iv = viewBinding.iv;
+        TextView tvVersion = viewBinding.tvVersion;
+
         Glide.with(this).load(Global.girl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
@@ -45,11 +41,11 @@ public class MainActivity extends BaseActivity {
         new CheckUpdateUtils().check(this);
     }
 
-    @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
-            R.id.btn_viewpager_fragment, R.id.btn_select_file, R.id.btn_is_empty, R.id.btn_third,
-            R.id.btn_baidu, R.id.btn_gaode, R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
-            R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar, R.id.btn_webview,
-            R.id.btn_other})
+//    @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
+//            R.id.btn_viewpager_fragment, R.id.btn_select_file, R.id.btn_is_empty, R.id.btn_third,
+//            R.id.btn_baidu, R.id.btn_gaode, R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
+//            R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar, R.id.btn_webview,
+//            R.id.btn_other})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片

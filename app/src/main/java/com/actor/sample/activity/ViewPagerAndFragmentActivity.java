@@ -8,32 +8,29 @@ import androidx.fragment.app.FragmentManager;
 
 import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.widget.ScrollableViewPager;
-import com.actor.sample.R;
+import com.actor.sample.databinding.ActivityViewPagerAndFragmentBinding;
 import com.actor.sample.fragment.BlankFragment;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 
 /**
  * Description: 主页->ViewPager & Fragment多层嵌套
  * Author     : ldf
  * Date       : 2019-9-6 on 14:54
  */
-public class ViewPagerAndFragmentActivity extends BaseActivity {
+public class ViewPagerAndFragmentActivity extends BaseActivity<ActivityViewPagerAndFragmentBinding> {
 
-    @BindView(R.id.view_pager)
-    ScrollableViewPager viewPager;//能设置是否能左右滑动的ViewPager
+    //能设置是否能左右滑动的ViewPager
+    private ScrollableViewPager viewPager;
 
     private String[] titles = {"全部", "我的", "我的1", "我的2", "我的3", "我的4", "我的5"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_pager_and_fragment);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_view_pager_and_fragment);
 
         setTitle("主页->ViewPager & Fragment多层嵌套");
+        viewPager = viewBinding.viewPager;
+        viewBinding.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> onCheckedChanged(/*buttonView, */isChecked));
 
         /**
          * 在Activity中传入: getSupportFragmentManager()
@@ -78,7 +75,7 @@ public class ViewPagerAndFragmentActivity extends BaseActivity {
         }
     }
 
-    @OnCheckedChanged({R.id.toggle_button})
+//    @OnCheckedChanged({R.id.toggle_button})
     public void onCheckedChanged(/*CompoundButton buttonView, */boolean isChecked){
         viewPager.setHorizontalScrollble(isChecked);
         toastFormat("外面ViewPager左右滑动 = %b", isChecked);
