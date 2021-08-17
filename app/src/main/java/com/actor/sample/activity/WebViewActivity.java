@@ -2,8 +2,6 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -35,10 +33,6 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
         webView = viewBinding.webView;
 
         etContent.setText("https://gitee.com/actor20170211030627/MyAndroidFrameWork");
-        /**
-         * 雷电模拟器5.1.1会进入 {@link BaseWebViewClient#shouldInterceptRequest(WebView, WebResourceRequest)} 这个方法
-         * 会报错, 原因未知, 莫名其妙!
-         */
         webView.init(new BaseWebViewClient(), new BaseWebChromeClient());
         btnGo.performClick();
     }

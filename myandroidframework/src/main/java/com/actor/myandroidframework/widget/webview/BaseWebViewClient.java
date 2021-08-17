@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.GsonUtils;
@@ -80,7 +79,6 @@ public class BaseWebViewClient extends WebViewClient {
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
         return super.shouldInterceptRequest(view, url);
     }
-    @RequiresApi(api = Build.VERSION_CODES.N)//Android 7.0
     @Nullable
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
@@ -89,14 +87,9 @@ public class BaseWebViewClient extends WebViewClient {
         Uri url = request.getUrl();
         boolean isForMainFrame = request.isForMainFrame();
         Boolean isRedirect = null;
-        try {
-            /**
-             * 雷电模拟器5.1.1会进入 {@link #shouldInterceptRequest(WebView, WebResourceRequest)} 这个方法
-             * 会报错, 原因未知, 莫名其妙!
-             */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //api24 才有这个方法
             isRedirect = request.isRedirect();
-        } catch(NoSuchMethodError e) {
-            e.printStackTrace();
         }
         boolean hasGesture = request.hasGesture();
         String method = request.getMethod();
@@ -137,16 +130,23 @@ public class BaseWebViewClient extends WebViewClient {
      * 注意:
      * 这个方法不能查看h5里的接口报错
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)//Android 7.0
     @Override
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
         super.onReceivedHttpError(view, request, errorResponse);
         Map<String, String> requestHeaders = request.getRequestHeaders();//headers
         String requesJson = GsonUtils.toJson(requestHeaders);
-        LogUtils.formatError("Http请求错误, onReceivedHttpError, request: Uri=%s," +
-                        " isForMainFrame=%b, isRedirect=%b, hasGesture=%b, Method=%s, RequestHeaders=%s",
-                request.getUrl(), request.isForMainFrame(), request.isRedirect(), request.hasGesture(),
-                request.getMethod(), requesJson);
+        Uri url = request.getUrl();
+        boolean isForMainFrame = request.isForMainFrame();
+        Boolean isRedirect = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //api24 才有这个方法
+            isRedirect = request.isRedirect();
+        }
+        boolean hasGesture = request.hasGesture();
+        String method = request.getMethod();
+        LogUtils.formatError("Http请求错误, onReceivedHttpError, request: Uri=%s, isForMainFrame=%b, " +
+                        "isRedirect=%s, hasGesture=%b, Method=%s, RequestHeaders=%s",
+                url, isForMainFrame, isRedirect, hasGesture, method, requesJson);
 
         Map<String, String> responseHeaders = errorResponse.getResponseHeaders();
         String responseJson = GsonUtils.toJson(responseHeaders);
@@ -159,21 +159,31 @@ public class BaseWebViewClient extends WebViewClient {
     /**
      * 向主机应用程序报告web资源加载错误。这些错误通常表明无法连接到服务器(超时/不存在等)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
         Map<String, String> requestHeaders = request.getRequestHeaders();//headers
         String requesJson = GsonUtils.toJson(requestHeaders);
+        Uri url = request.getUrl();
+        boolean isForMainFrame = request.isForMainFrame();
+        Boolean isRedirect = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //api24 才有这个方法
+            isRedirect = request.isRedirect();
+        }
+        boolean hasGesture = request.hasGesture();
+        String method = request.getMethod();
         LogUtils.formatError("收到错误, onReceivedError, request: Uri=%s, isForMainFrame=%b," +
-                        " isRedirect=%b, hasGesture=%b, Method=%s, RequestHeaders=%s",
-                request.getUrl(), request.isForMainFrame(), request.isRedirect(), request.hasGesture(),
-                request.getMethod(), requesJson);
+                        " isRedirect=%s, hasGesture=%b, Method=%s, RequestHeaders=%s",
+                url, isForMainFrame, isRedirect, hasGesture, method, requesJson);
 
-        //网页超时例: ErrorCode=-2, Description=net::ERR_INTERNET_DISCONNECTED
-        //网页不存在例: ErrorCode=-6, Description=net::ERR_CONNECTION_REFUSED
-        LogUtils.formatError("收到错误, onReceivedError, error: ErrorCode=%d, Description=%s",
-                error.getErrorCode(), error.getDescription());
+        //api23 才有这个方法
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //网页超时例: ErrorCode=-2, Description=net::ERR_INTERNET_DISCONNECTED
+            //网页不存在例: ErrorCode=-6, Description=net::ERR_CONNECTION_REFUSED
+            LogUtils.formatError("收到错误, onReceivedError, error: ErrorCode=%d, Description=%s",
+                    error.getErrorCode(), error.getDescription());
+        }
 
 //        tvError.setVisibility(View.VISIBLE);//正在维护中...
 //        view.setVisibility(View.GONE);

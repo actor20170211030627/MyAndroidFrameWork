@@ -160,7 +160,12 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
                 baseRightDialog.show();
                 break;
             case R.id.btn_bottom_activity://从底部弹出的Activity
-                startActivity(new Intent(this, MyBaseBottomActivity.class), false, view);
+                //不要弄元素共享动画, 否则动画有问题
+                startActivity(new Intent(this, MyBaseBottomActivity.class)/*, false, view*/);
+                //需要重写进入动画, 从底部弹出
+                overridePendingTransition(R.anim.bottom_slide_in, R.anim.bottom_slide_out);
+                break;
+            default:
                 break;
         }
     }

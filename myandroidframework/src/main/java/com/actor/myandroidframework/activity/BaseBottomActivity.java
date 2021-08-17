@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import androidx.annotation.FloatRange;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.R;
+
 /**
  * Description: 从底部弹出的 非全屏 Activity
  * Author     : ldf
@@ -21,6 +23,11 @@ import androidx.annotation.Nullable;
  *          android:name=".activity.MyBaseBottomActivity"
  *          android:theme="@style/BaseBottomActivity"/>
  *
+ * 3.打开你的Activity:
+ *   startActivity(new Intent(activity, MyBaseBottomActivity.class));
+ *   //需要重写进入动画, 从底部弹出
+ *   overridePendingTransition(R.anim.bottom_slide_in, R.anim.bottom_slide_out);
+ *
  * @version 1.0
  */
 public class BaseBottomActivity extends ActorBaseActivity {
@@ -28,8 +35,9 @@ public class BaseBottomActivity extends ActorBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getWindow().setGravity(Gravity.BOTTOM);
+        Window window = getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.BOTTOM);
 //        setTheme(R.style.BaseBottomActivity);//代码中设置无效啊??
     }
 
@@ -45,5 +53,18 @@ public class BaseBottomActivity extends ActorBaseActivity {
 //        window.setDimAmount(trans);
         window.setAttributes(windowParams);
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.bottom_slide_in, R.anim.bottom_slide_out);
+    }
+
+    //点击外部的时候会调用finish()
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.bottom_slide_in, R.anim.bottom_slide_out);
     }
 }

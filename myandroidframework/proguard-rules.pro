@@ -20,13 +20,36 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# 抑制警告
-#-ignorewarnings
+# 代码混淆压缩比，在0~7之间，默认为5，一般不做修改
+#-optimizationpasses 5
 
-# 打印混淆信息
+# 混合时不使用大小写混合，混合后的类名为小写
+#-dontusemixedcaseclassnames
+
+# 不跳过非公共库的类
+#-dontskipnonpubliclibraryclasses
+
+# 指定不去忽略非公共库的类成员
+#-dontskipnonpubliclibraryclassmembers
+
+# 混淆后产生映射文件, 包含有类名->混淆后类名的映射关系
 #-verbose
 
--dontskipnonpubliclibraryclassmembers
+# 不做预校验，preverify是proguard的四个步骤之一，Android不需要preverify，去掉这一步能够加快混淆速度。
+#-dontpreverify
+
+# 保留Annotation 和 内部类 不混淆
+#-keepattributes *Annotation*, InnerClasses
+
+# 避免混淆泛型
+#-keepattributes Signature
+
+# 抛出异常时保留代码行号
+#-keepattributes SourceFile, LineNumberTable
+
+
+# 抑制警告
+#-ignorewarnings
 
 # @Keep 会自动不混淆.
 # 注意: 如果某个json解析成的Entity里有静态class, 也需要在这个静态class上加上@Keep, 否则静态class会被混淆!!

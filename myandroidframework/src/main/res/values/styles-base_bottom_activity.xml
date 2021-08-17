@@ -14,7 +14,7 @@
         <!--window透明-->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+<!--        <item name="android:windowAnimationStyle">@style/BaseBottomDialogAnim</item>-->
         <!--@style/bottom_sheet_animation-->
 
         <!--如果不全屏, 会有一半概率出现状态栏-->
