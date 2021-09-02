@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.actor.sample.activity.ViewPagerAndFragmentActivity">
+    tools:context=".activity.ViewPagerAndFragmentActivity">
 
     <ToggleButton
         android:id="@+id/toggle_button"

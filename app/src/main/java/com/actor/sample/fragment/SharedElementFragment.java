@@ -33,6 +33,8 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         iv = viewBinding.iv;
+        viewBinding.btnStartActivity.setOnClickListener(this::onViewClicked);
+        viewBinding.btnStartActivityForResult.setOnClickListener(this::onViewClicked);
 
         String url = ImageConstants.IMAGE_SOURCE[position];
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

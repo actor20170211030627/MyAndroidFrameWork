@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildFeatures {
+        viewBinding = true
+    }
 
     defaultConfig {
         minSdkVersion       rootProject.ext.android.minSdkVersion

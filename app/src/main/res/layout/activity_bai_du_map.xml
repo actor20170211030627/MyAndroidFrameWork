@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.actor.sample.activity.BaiDuMapActivity">
+    tools:context=".activity.BaiDuMapActivity">
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/map_view"

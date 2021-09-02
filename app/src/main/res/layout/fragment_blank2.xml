@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.actor.sample.fragment.BlankFragment2">
+    tools:context=".fragment.BlankFragment2">
 
     <com.actor.myandroidframework.widget.SwipeRefreshLayoutCompatViewPager
         android:id="@+id/swipe_refresh_layout"

@@ -28,7 +28,7 @@
     </style>
 
     <style name="LaunchActivityThemeForMyAndroidFrameWork_Example" parent="FullScreenThemeForMyAndroidFrameWork">
-        <!--启动页的快速启动Theme"示例", 一启动就立刻显示 color/图片-->
+        <!--启动页的快速启动Theme"示例", 一启动就立刻显示 color/drawable -->
         <item name="android:windowBackground">@color/colorAccent</item>
     </style>
 

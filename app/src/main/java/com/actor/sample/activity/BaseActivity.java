@@ -1,19 +1,15 @@
 package com.actor.sample.activity;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-
-import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
 import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.sample.MyApplication;
 import com.blankj.utilcode.util.CacheDiskUtils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
 
 /**
  * Description: 基类
@@ -21,30 +17,23 @@ import java.lang.reflect.Type;
  *
  * @version 1.0
  */
-public class BaseActivity<VB extends ViewBinding> extends ActorBaseActivity {
+public class BaseActivity<VB extends ViewBinding> extends ActorBaseActivity<VB> {
 
-    /**
-     * 如果不传入泛型, viewBinding = null;
-     */
-    protected VB viewBinding;
+    @Deprecated //Retrofit感觉一点都不好用,太死板
+    protected List<Call<?>> calls;
 
     //硬盘缓存
     protected CacheDiskUtils aCache = MyApplication.instance.aCache;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Type type = getClass().getGenericSuperclass();
-        if (type instanceof ParameterizedType) {
-            Class<VB> cls = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];
-            try {
-                Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class);
-                viewBinding = (VB) inflate.invoke(null, getLayoutInflater());
-                setContentView(viewBinding.getRoot());
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Retrofit区
+    ///////////////////////////////////////////////////////////////////////////
+    @Deprecated //Retrofit感觉一点都不好用,太死板
+    protected <T> Call<T> putCall(Call<T> call) {//放入List, onDestroy的时候全部取消请求
+        if (calls == null) calls = new ArrayList<>();
+        calls.add(call);
+        return call;
     }
 
     protected void onSharedElementBacked(int oldPosition, int currentPosition) {
@@ -57,6 +46,18 @@ public class BaseActivity<VB extends ViewBinding> extends ActorBaseActivity {
 //                return true;
 //            }
 //        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (calls != null && !calls.isEmpty()) {//取消Retrofit的网络请求
+            for (Call<?> call : calls) {
+                if (call != null) call.cancel();
+            }
+            calls.clear();
+        }
+        calls = null;
     }
 
     //可自定义一些你想要的其它方法...

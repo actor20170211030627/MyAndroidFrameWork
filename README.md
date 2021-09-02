@@ -1,11 +1,12 @@
 ## MyAndroidFrameWork
 > <a href="https://github.com/actor20170211030627/MyAndroidFrameWork"><s>Github(网速慢,不再维护 Deprecated)</s></a> <br/>
 > <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork">Gitee码云(国内网速更快)</a>
-> 
+>
 > 注意: 这是 <font color='red' size='6'><b>Androidx</b></font> 版, 非Androidx版本在&nbsp;
-  <a style="font-size:23px" href="./README-1.4.1.md"><s>这儿 </s></a>
-  &nbsp;(非Androidx版本不再维护) <br/>
->> Androidx版本能很好向下兼容, 包括jar包依赖也能自动转换, 所以建议转换成Androidx.
+> <a style="font-size:23px" href="./README-1.4.1.md"><s>这儿 </s></a>
+> &nbsp;(非Androidx版本不再维护) <br/>
+>
+> > Androidx版本能很好向下兼容, 包括jar包依赖也能自动转换, 所以建议转换成Androidx.
 
 
 ## 安卓常用组件&框架(懒得每次都搭架子...)
@@ -168,6 +169,11 @@ Add it in your root build.gradle at the end of repositories:
 <pre>
     android {
       ...
+      buildFeatures {
+        //使用viewBinding
+        viewBinding = true
+      }
+
       compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -217,7 +223,7 @@ Add it in your root build.gradle at the end of repositories:
 5.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
 </pre>
 
-## 11.已移除 `REQUEST_INSTALL_PACKAGES`&nbsp;权限,如果使用的是2.0.0版本并且需要安装app, 请自行添加这个权限.<br/>&emsp;有问题请升级到最新版本: <s>Github:</s>[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) Gitee: [![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 11.有问题请升级到最新版本: <s>Github:</s>[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) Gitee: [![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 12.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

@@ -1,20 +1,13 @@
 package com.actor.sample.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
 import com.actor.myandroidframework.fragment.ActorBaseFragment;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
 
 /**
  * Description: Fragment基类
@@ -23,25 +16,32 @@ import java.lang.reflect.Type;
  *
  * @version 1.0
  */
-public class BaseFragment<VB extends ViewBinding> extends ActorBaseFragment {
+public class BaseFragment<VB extends ViewBinding> extends ActorBaseFragment<VB> {
 
-    protected VB viewBinding;
+    @Deprecated //Retrofit感觉一点都不好用,太死板
+    protected List<Call<?>> calls;
 
-    @Nullable
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Retrofit区
+    ///////////////////////////////////////////////////////////////////////////
+    @Deprecated //Retrofit感觉一点都不好用,太死板
+    protected <T> Call<T> putCall(Call<T> call) {//放入List, onDestroy的时候全部取消请求
+        if (calls == null) calls = new ArrayList<>();
+        calls.add(call);
+        return call;
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Type type = getClass().getGenericSuperclass();
-        if (type instanceof ParameterizedType) {
-            Class<VB> cls = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];
-            try {
-                Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class, ViewGroup.class, boolean.class);
-                viewBinding = (VB) inflate.invoke(null, inflater, container, false);
-                return viewBinding.getRoot();
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (calls != null && !calls.isEmpty()) {//取消Retrofit的网络请求
+            for (Call<?> call : calls) {
+                if (call != null) call.cancel();
             }
+            calls.clear();
         }
-        return null;
+        calls = null;
     }
 
     //可自定义一些你想要的其它方法

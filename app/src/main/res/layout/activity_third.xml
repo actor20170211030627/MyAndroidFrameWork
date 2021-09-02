@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.actor.sample.activity.ThirdActivity">
+    tools:context=".activity.ThirdActivity">
 
     <TextView
         android:layout_width="match_parent"

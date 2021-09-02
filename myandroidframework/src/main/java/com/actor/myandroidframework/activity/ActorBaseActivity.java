@@ -17,6 +17,7 @@ import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
@@ -25,17 +26,15 @@ import com.actor.myandroidframework.service.BaseService;
 import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
+import com.actor.myandroidframework.utils.ViewBindingUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import retrofit2.Call;
 
 /**
  * Description: Activity基类
@@ -45,7 +44,7 @@ import retrofit2.Call;
  *
  * @version 1.0
  */
-public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingDialogable {
+public class ActorBaseActivity<VB extends ViewBinding> extends AppCompatActivity implements ShowLoadingDialogable {
 
 //    protected FrameLayout  flContent;//主要内容的帧布局
 //    protected LinearLayout llEmpty;  //没数据
@@ -53,8 +52,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
 
     protected Activity                  activity;
     protected Map<String, Object>       params = new LinkedHashMap<>();
-    protected List<Call>                calls;
     protected BaseSharedElementCallback sharedElementCallback;
+    /**
+     * 是否自动初始化viewBinding, 默认true
+     * 如果不初始化viewBinding:
+     *      1.子类不用传VB类型的泛型
+     *      2.调用 super.onCreate(savedInstanceState); 方法之前, 设置: needInitViewBinding = false;
+     */
+    protected boolean                   needInitViewBinding = true;
+    protected VB                        viewBinding;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +81,9 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
                 });
                 setEnterSharedElementCallback(sharedElementCallback);
             }
+        }
+        if (needInitViewBinding) {
+            viewBinding = ViewBindingUtils.initViewBinding(this);
         }
     }
 
@@ -422,16 +432,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // Retrofit区
-    ///////////////////////////////////////////////////////////////////////////
-    protected <T> Call<T> putCall(Call<T> call) {//放入List, onDestroy的时候全部取消请求
-        if (calls == null) calls = new ArrayList<>();
-        calls.add(call);
-        return call;
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
     // 下拉刷新 & 上拉加载更多 & 空布局
     ///////////////////////////////////////////////////////////////////////////
 
@@ -571,13 +571,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingD
         MyOkHttpUtils.cancelTag(this);//取消网络请求
         params.clear();
         params = null;
-        if (calls != null && calls.size() > 0) {//取消Retrofit的网络请求
-            for (Call call : calls) {
-                if (call != null) call.cancel();
-            }
-            calls.clear();
-        }
-        calls = null;
 //        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
     }
 }

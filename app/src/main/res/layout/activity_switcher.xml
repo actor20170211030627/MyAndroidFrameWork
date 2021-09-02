@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.actor.sample.activity.SwitcherActivity">
+    tools:context=".activity.SwitcherActivity">
 
     <com.actor.myandroidframework.widget.BaseTextSwitcher
         android:id="@+id/bts"
