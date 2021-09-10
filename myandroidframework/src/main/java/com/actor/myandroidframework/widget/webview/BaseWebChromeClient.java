@@ -2,6 +2,7 @@ package com.actor.myandroidframework.widget.webview;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Message;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions;
@@ -9,6 +10,7 @@ import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.actor.myandroidframework.utils.LogUtils;
@@ -209,5 +211,14 @@ public class BaseWebChromeClient extends WebChromeClient {
 
 //        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
         return true;
+    }
+
+    /**
+     * 如果设置{@link WebSettings#supportMultipleWindows()} = true, 支持打开新窗口.
+     * 则应该重写这个方法
+     */
+    @Override
+    public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+        return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
     }
 }

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
+import com.actor.myandroidframework.utils.ThreadUtils;
 
 /**
  * Description: WebView常用初始化
@@ -26,25 +27,36 @@ import com.actor.myandroidframework.utils.ConfigUtils;
  */
 public class BaseWebView extends WebView {
 
+    protected long threadId;
+
     public BaseWebView(Context context) {
         super(context);
+        init(context, null);
     }
 
     public BaseWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
     public BaseWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public BaseWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs);
     }
 
     public BaseWebView(Context context, AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
         super(context, attrs, defStyleAttr, privateBrowsing);
+        init(context, attrs);
+    }
+
+    protected void init(Context context, AttributeSet attrs) {
+        threadId = ThreadUtils.getCurrentThreadId();
     }
 
     /**
@@ -94,13 +106,27 @@ public class BaseWebView extends WebView {
     /**
      *
      * @param url "网页url" or "本地H5" or "javascript方法", 例:
-     *            url:            "https://www.baidu.com/"
-     *            本地h5:         "file:///android_asset/support.html" (本地路径: src/main/assets/support.html)
-     *            javascript方法: "javascript:jsMethodName(params...)"
+     *            https://www.baidu.com/                //url
+     *            file:///android_asset/test.html       //本地h5, 本地路径: src/main/assets/test.html
+         *        javascript:jsMethodName(params...)    //javascript自定义方法, 安卓调h5.jsMethodName方法
+     *            javascript: alert('你好呀h5!')        //javascript方法
      */
     @Override
     public void loadUrl(String url) {
-        super.loadUrl(url);
+        /**
+         * js和java对象在webview的后台、私有线程交互的，所以要注意线程安全, 否则可能报错:
+         * java.lang.Throwable: A WebView method was called on thread 'JavaBridge'. All WebView methods must be called on the same thread.
+         */
+        if (threadId == ThreadUtils.getCurrentThreadId()) {
+            super.loadUrl(url);
+        } else {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    BaseWebView.super.loadUrl(url);
+                }
+            });
+        }
     }
 
     /**

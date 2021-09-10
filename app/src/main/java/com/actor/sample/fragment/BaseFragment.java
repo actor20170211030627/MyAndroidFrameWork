@@ -2,7 +2,7 @@ package com.actor.sample.fragment;
 
 import androidx.viewbinding.ViewBinding;
 
-import com.actor.myandroidframework.fragment.ActorBaseFragment;
+import com.actor.myandroidframework.activity.ViewBindingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import retrofit2.Call;
  *
  * @version 1.0
  */
-public class BaseFragment<VB extends ViewBinding> extends ActorBaseFragment<VB> {
+public class BaseFragment<VB extends ViewBinding> extends ViewBindingFragment<VB> {
 
     @Deprecated //Retrofit感觉一点都不好用,太死板
     protected List<Call<?>> calls;

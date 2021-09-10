@@ -17,7 +17,6 @@ import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewbinding.ViewBinding;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
@@ -26,7 +25,6 @@ import com.actor.myandroidframework.service.BaseService;
 import com.actor.myandroidframework.utils.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
-import com.actor.myandroidframework.utils.ViewBindingUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -44,7 +42,7 @@ import java.util.Map;
  *
  * @version 1.0
  */
-public class ActorBaseActivity<VB extends ViewBinding> extends AppCompatActivity implements ShowLoadingDialogable {
+public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingDialogable {
 
 //    protected FrameLayout  flContent;//主要内容的帧布局
 //    protected LinearLayout llEmpty;  //没数据
@@ -53,15 +51,6 @@ public class ActorBaseActivity<VB extends ViewBinding> extends AppCompatActivity
     protected Activity                  activity;
     protected Map<String, Object>       params = new LinkedHashMap<>();
     protected BaseSharedElementCallback sharedElementCallback;
-    /**
-     * 是否自动初始化viewBinding, 默认true
-     * 如果不初始化viewBinding:
-     *      1.子类不用传VB类型的泛型
-     *      2.调用 super.onCreate(savedInstanceState); 方法之前, 设置: needInitViewBinding = false;
-     */
-    protected boolean                   needInitViewBinding = true;
-    protected VB                        viewBinding;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,9 +70,6 @@ public class ActorBaseActivity<VB extends ViewBinding> extends AppCompatActivity
                 });
                 setEnterSharedElementCallback(sharedElementCallback);
             }
-        }
-        if (needInitViewBinding) {
-            viewBinding = ViewBindingUtils.initViewBinding(this);
         }
     }
 

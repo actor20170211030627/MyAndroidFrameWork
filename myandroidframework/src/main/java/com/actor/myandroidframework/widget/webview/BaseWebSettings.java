@@ -1,7 +1,9 @@
 package com.actor.myandroidframework.widget.webview;
 
 import android.os.Build;
+import android.os.Message;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 
@@ -25,8 +27,12 @@ public class BaseWebSettings {
         webSettings.setJavaScriptEnabled(true);
         //支持通过JS打开新窗口
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-
         /**
+         * 是否支持打开新窗口, 如果true, 需重写{@link BaseWebChromeClient#onCreateWindow(WebView, boolean, boolean, Message)}}
+         */
+        webSettings.setSupportMultipleWindows(false);
+
+       /**
          * 设置自适应屏幕，两者合用
          */
         //将图片调整到适合webview的大小,支持双击缩放，同时支持手势操作放大和缩小?

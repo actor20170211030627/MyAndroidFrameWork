@@ -2,7 +2,7 @@ package com.actor.sample.activity;
 
 import androidx.viewbinding.ViewBinding;
 
-import com.actor.myandroidframework.activity.ActorBaseActivity;
+import com.actor.myandroidframework.activity.ViewBindingActivity;
 import com.actor.sample.MyApplication;
 import com.blankj.utilcode.util.CacheDiskUtils;
 
@@ -17,7 +17,7 @@ import retrofit2.Call;
  *
  * @version 1.0
  */
-public class BaseActivity<VB extends ViewBinding> extends ActorBaseActivity<VB> {
+public class BaseActivity<VB extends ViewBinding> extends ViewBindingActivity<VB> {
 
     @Deprecated //Retrofit感觉一点都不好用,太死板
     protected List<Call<?>> calls;
