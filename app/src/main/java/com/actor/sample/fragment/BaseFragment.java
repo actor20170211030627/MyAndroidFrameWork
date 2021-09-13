@@ -2,7 +2,7 @@ package com.actor.sample.fragment;
 
 import androidx.viewbinding.ViewBinding;
 
-import com.actor.myandroidframework.activity.ViewBindingFragment;
+import com.actor.myandroidframework.fragment.ViewBindingFragment;
 
 import java.util.ArrayList;
 import java.util.List;

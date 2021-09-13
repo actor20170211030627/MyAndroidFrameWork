@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.activity;
+package com.actor.myandroidframework.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
-import com.actor.myandroidframework.fragment.ActorBaseFragment;
 import com.actor.myandroidframework.utils.ViewBindingUtils;
 
 /**
  * description: 可以初始化 ViewBinding 的Fragment
+ * 注意, 如果使用viewBinding, 需要在模块的build.gradle中添加:
+ * android {
+ *     ...
+ *     buildFeatures {
+ *       //使用viewBinding
+ *       viewBinding = true
+ *     }
+ * }
  *
  * @author : ldf
  * date       : 2021/9/2 on 18
@@ -53,7 +60,12 @@ public class ViewBindingFragment<VB extends ViewBinding> extends ActorBaseFragme
         if (viewBinding != null && ids != null && ids.length > 0) {
             View root = viewBinding.getRoot();
             for (int id : ids) {
-                root.findViewById(id).setOnClickListener(this::onViewClicked);
+                root.findViewById(id).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onViewClicked(v);
+                    }
+                });
             }
         }
     }

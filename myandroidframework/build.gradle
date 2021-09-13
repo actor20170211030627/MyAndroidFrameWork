@@ -54,7 +54,7 @@ android {
         }
     }
 
-    //Lambda表达式, 在android节点内添加
+    //Android8, 在android节点内添加
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

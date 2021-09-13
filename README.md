@@ -169,11 +169,6 @@ Add it in your root build.gradle at the end of repositories:
 <pre>
     android {
       ...
-      buildFeatures {
-        //使用viewBinding
-        viewBinding = true
-      }
-
       compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

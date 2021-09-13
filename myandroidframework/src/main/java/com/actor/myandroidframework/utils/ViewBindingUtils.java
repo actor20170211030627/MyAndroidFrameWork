@@ -73,4 +73,28 @@ public class ViewBindingUtils {
         }
         return null;
     }
+
+    /**
+     * ViewBinding在RecyclerView中使用:
+     *
+     * @NonNull
+     * @Override
+     * public YourAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+     *     XxxViewBinding binding = XxxViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+     *     return new MyViewHolder(binding);
+     * }
+     *
+     * @Override
+     * public void onBindViewHolder(@NonNull YourAdapter.MyViewHolder holder, int position) {
+     *     holder.binding.tvResult.setText("Hello!");
+     * }
+     *
+     * static class MyViewHolder extends RecyclerView.ViewHolder {
+     *     XxxViewBinding binding;
+     *     public ViewHolder(@NonNull XxxViewBinding binding) {
+     *         super(binding.getRoot());
+     *         this.binding = binding;
+     *     }
+     * }
+     */
 }

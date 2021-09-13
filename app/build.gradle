@@ -53,7 +53,7 @@ android {
         }
     }
 
-    //Lambda表达式, 在android节点内添加
+    //Android8, 在android节点内添加
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -76,7 +76,7 @@ dependencies {
 
     //https://gitee.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':myandroidframework')
-//    implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:myandroidframework:2.0.5'
+//    implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:myandroidframework:2.0.6.1'
 
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库
