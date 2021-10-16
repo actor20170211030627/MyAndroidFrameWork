@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -22,7 +23,7 @@ public class LogUtils {
      * @param isDirectCall 是否直接调用本方法, 用于定位堆栈信息中元素
      */
     public static void verbose(boolean isDirectCall, Object msg) {//v
-        printlnLogInfo(isDirectCall, Level.Verbose, msg);
+        printlnLogInfo(isDirectCall, Log.VERBOSE, msg);
     }
 
     public static void debug(Object msg) {
@@ -30,7 +31,7 @@ public class LogUtils {
     }
 
     public static void debug(boolean isDirectCall, Object msg) {//d
-        printlnLogInfo(isDirectCall, Level.Debug, msg);
+        printlnLogInfo(isDirectCall, Log.DEBUG, msg);
     }
 
     public static void info(Object msg) {
@@ -38,7 +39,7 @@ public class LogUtils {
     }
 
     public static void info(boolean isDirectCall, Object msg) {//i
-        printlnLogInfo(isDirectCall, Level.Info, msg);
+        printlnLogInfo(isDirectCall, Log.INFO, msg);
     }
 
     public static void warn(Object msg) {
@@ -46,7 +47,7 @@ public class LogUtils {
     }
 
     public static void warn(boolean isDirectCall, Object msg) {//w
-        printlnLogInfo(isDirectCall, Level.Warn, msg);
+        printlnLogInfo(isDirectCall, Log.WARN, msg);
     }
 
     public static void error(Object msg) {
@@ -54,7 +55,7 @@ public class LogUtils {
     }
 
     public static void error(boolean isDirectCall, Object msg) {//e
-        printlnLogInfo(isDirectCall, Level.Error, msg);
+        printlnLogInfo(isDirectCall, Log.ERROR, msg);
     }
 
     public static void formatError(String format, Object... args) {
@@ -65,18 +66,20 @@ public class LogUtils {
      * 打印格式化后的字符串
      */
     public static void formatError(boolean isDirectCall, String format, Object... args) {
-        printlnLogInfo(isDirectCall, Level.Error, TextUtils2.getStringFormat(format, args));
+        printlnLogInfo(isDirectCall, Log.ERROR, TextUtils2.getStringFormat(format, args));
     }
 
     /**
      * 如果是debug模式, 就输出日志所包含的信息
      * 示例: MyActivity.java: 125行, 方法名:onActivityResult, 输出: 选择文件返回, path=xxx.jpg
      */
-    protected static void printlnLogInfo(boolean isDirectCall, Level level, Object msg) {
+    protected static void printlnLogInfo(boolean isDirectCall, int level, Object msg) {
         if (!IS_DEBUG_MODE) return;
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[isDirectCall ? 4 : 5];
         //文件名: ActorBaseActivity.java
         String fileName = stackTraceElement.getFileName();
+        //混淆后fileName="", Log日志打印不出来
+         if (TextUtils.isEmpty(fileName)) fileName = "TAG";
         //ClassName = 包名 + 类名: com.google.package.activity.ActorBaseActivity
 //        String className = stackTraceElement.getClassName();
         //方法名称: onCreate
@@ -85,25 +88,23 @@ public class LogUtils {
         int lineNumber = stackTraceElement.getLineNumber();
         String stringFormat = TextUtils2.getStringFormat("%d行, 方法名:%s, 输出:%s", lineNumber, methodName, msg);
         switch (level) {
-            case Verbose:
+            case Log.VERBOSE:
                 Log.v(fileName, stringFormat);
                 break;
-            case Debug:
+            case Log.DEBUG:
                 Log.d(fileName, stringFormat);
                 break;
-            case Info:
+            case Log.INFO:
                 Log.i(fileName, stringFormat);
                 break;
-            case Warn:
+            case Log.WARN:
                 Log.w(fileName, stringFormat);
                 break;
-            case Error:
+            case Log.ERROR:
                 Log.e(fileName, stringFormat);
                 break;
+            default:
+                break;
         }
-    }
-
-    protected enum Level {
-        Verbose, Debug, Info, Warn, Error
     }
 }

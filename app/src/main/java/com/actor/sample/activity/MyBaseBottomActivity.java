@@ -26,7 +26,6 @@ public class MyBaseBottomActivity extends BaseBottomActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.fragment_base_bottom_sheet_dialog);
         FragmentBaseBottomSheetDialogBinding viewBinding = FragmentBaseBottomSheetDialogBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
         tvTips = viewBinding.tvTips;

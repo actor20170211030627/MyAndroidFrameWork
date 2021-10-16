@@ -27,8 +27,6 @@ public class NineGridViewActivity extends BaseActivity<ActivityNineGridViewBindi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_nine_grid_view);
-
         setTitle("主页->九宫格");
         nineGridView = viewBinding.nineGridView;
 

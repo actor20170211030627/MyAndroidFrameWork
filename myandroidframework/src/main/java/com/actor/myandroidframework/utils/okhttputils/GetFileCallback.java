@@ -44,7 +44,7 @@ public abstract class GetFileCallback extends BaseCallback<File> {
      * @param downloadPath 文件存储路径, 可以为空, 默认 files 文件夹
      * @param fileName 文件名, 可以为空
      */
-    public GetFileCallback(Object tag, int id, @Nullable String downloadPath, String fileName) {
+    public GetFileCallback(Object tag, int id, @Nullable String downloadPath, @Nullable String fileName) {
         super(tag, id);
         initPath(downloadPath, fileName);
     }

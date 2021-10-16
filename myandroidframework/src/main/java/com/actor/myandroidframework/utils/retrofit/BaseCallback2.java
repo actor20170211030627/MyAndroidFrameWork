@@ -2,7 +2,7 @@ package com.actor.myandroidframework.utils.retrofit;
 
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.dialog.ShowLoadingDialogable;
+import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.blankj.utilcode.util.ToastUtils;
@@ -43,7 +43,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     }
 
     /**
-     * @param tag 如果 tag instanceof ShowLoadingDialogAble, 会自动show/dismiss LoadingDialog.
+     * @param tag 如果 tag instanceof ShowNetWorkLoadingDialogAble, 会自动show/dismiss LoadingDialog.
      * @param requestId  1.可传入"List/RecyclerView"的position或item对应的id,
      *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的.
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
@@ -61,8 +61,8 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * 开始请求, 默认显示LoadingDialog. 如果不想显示或自定义, 请重写此方法
      */
     public void onBefore(int requestId) {
-        if (tag instanceof ShowLoadingDialogable) {
-            ((ShowLoadingDialogable) tag).showLoadingDialog();
+        if (tag instanceof ShowNetWorkLoadingDialogable) {
+            ((ShowNetWorkLoadingDialogable) tag).showNetWorkLoadingDialog();
             isShowedLoadingDialog = true;
         }
     }
@@ -70,7 +70,9 @@ public abstract class BaseCallback2<T> implements Callback<T> {
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
-            onOkDismissLoadingDialog(requestId);
+            if (isShowedLoadingDialog && tag instanceof ShowNetWorkLoadingDialogable) {
+                ((ShowNetWorkLoadingDialogable) tag).dismissNetWorkLoadingDialog();
+            }
             onOk(call, response, requestId, thisRequestIsRefresh);
         } else {
             isStatusCodeError = true;
@@ -86,15 +88,6 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * @param isRefresh 这次请求是否是(下拉)刷新, 需要在构造方法中传入: {@link BaseCallback2(Object, boolean)}
      */
     public abstract void onOk(Call<T> call, Response<T> response, int requestId, boolean isRefresh);
-
-    /**
-     * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
-     */
-    public void onOkDismissLoadingDialog(int requestId) {
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
-            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
-        }
-    }
 
     /**
      * 请求出错
@@ -114,8 +107,8 @@ public abstract class BaseCallback2<T> implements Callback<T> {
 
     public void onError(Call<T> call, Throwable t) {
         //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
-            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
+        if (isShowedLoadingDialog && tag instanceof ShowNetWorkLoadingDialogable) {
+            ((ShowNetWorkLoadingDialogable) tag).dismissNetWorkLoadingDialog();
         }
         if (isStatusCodeError) return;
         if (t instanceof SocketTimeoutException) {

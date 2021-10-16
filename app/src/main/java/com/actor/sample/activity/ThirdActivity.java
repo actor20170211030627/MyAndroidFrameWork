@@ -48,11 +48,10 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_third);
-        EventBus.getDefault().register(this);
         setTitle("主页->第三方登录/分享");
         tvResultQq = viewBinding.tvResultQq;
         etTargetQq = viewBinding.etTargetQq;
+        EventBus.getDefault().register(this);
 
         //在Application中设置appId, 一般是一串数字(我这儿设置的appid是QQ2786985624申请的)
         QQUtils.setAppId("101890804");//222222

@@ -257,7 +257,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
      *            重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容
      * 注意: 每次填充的T数据类型应该一致
      */
-    public void setDatas(Collection<? extends T> datas) {
+    public void setDatas(Collection<T> datas) {
         if (datas != null) {
             //如果不是ArrayAdapter, 需要你自己处理.
             getArrayAdapter().clear();

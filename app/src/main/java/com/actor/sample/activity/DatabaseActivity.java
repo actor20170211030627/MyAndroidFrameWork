@@ -48,7 +48,6 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_database);
         setTitle("主页->数据库(GreenDao)");
         itilName = viewBinding.itilName;
         irglSex = viewBinding.irglSex;

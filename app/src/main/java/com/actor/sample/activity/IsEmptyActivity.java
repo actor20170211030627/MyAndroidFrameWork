@@ -40,7 +40,6 @@ public class IsEmptyActivity extends BaseActivity<ActivityIsEmptyBinding> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_is_empty);
         setTitle("主页->判空");
         etContent = viewBinding.etContent;
         textInputLayout = viewBinding.textInputLayout;

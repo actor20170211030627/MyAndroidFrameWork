@@ -26,8 +26,6 @@ public class ViewPagerAndFragmentActivity extends BaseActivity<ActivityViewPager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_view_pager_and_fragment);
-
         setTitle("主页->ViewPager & Fragment多层嵌套");
         viewPager = viewBinding.viewPager;
         viewBinding.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> onCheckedChanged(/*buttonView, */isChecked));

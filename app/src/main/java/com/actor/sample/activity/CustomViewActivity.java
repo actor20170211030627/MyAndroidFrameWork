@@ -35,8 +35,6 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_custom_view);
-
         setTitle("主页->自定义View");
         baseSpinner = viewBinding.baseSpinner;
         itemRadioGroup = viewBinding.itemRadioGroup;

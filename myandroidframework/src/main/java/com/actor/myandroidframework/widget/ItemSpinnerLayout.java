@@ -186,7 +186,7 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
             //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
             List<CharSequence> list = new ArrayList<>();
             Collections.addAll(list, datas);
-            setDatas((Collection<? extends T>) list);
+            setDatas((Collection<T>) list);
         }
     }
 
@@ -196,7 +196,7 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
      *            重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容
      * 注意: 每次填充的T数据类型应该一致
      */
-    public void setDatas(Collection<? extends T> datas) {
+    public void setDatas(Collection<T> datas) {
         if (datas != null && arrayAdapter != null) {
             arrayAdapter.clear();
             arrayAdapter.addAll(datas);

@@ -54,6 +54,14 @@
 # @Keep 会自动不混淆.
 # 注意: 如果某个json解析成的Entity里有静态class, 也需要在这个静态class上加上@Keep, 否则静态class会被混淆!!
 
+# ViewBinding: 防止反射方法被混淆
+-keepclassmembers class * implements androidx.viewbinding.ViewBinding {
+  public static * inflate(android.view.LayoutInflater);
+  public static * inflate(android.view.LayoutInflater, android.view.ViewGroup, boolean);
+  public static * bind(android.view.View);
+}
+
+
 #############################################################################
 ## Gson
 # Gson uses generic type information stored in a class file when working with fields. Proguard

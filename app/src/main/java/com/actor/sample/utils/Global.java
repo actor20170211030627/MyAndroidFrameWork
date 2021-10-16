@@ -13,7 +13,8 @@ public class Global {
 //            "src=http://ww2.sinaimg.cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
     public static final String girl = "http://ww2.sinaimg.cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
 
-    public static final String BASE_URL = "https://api.github.com";
+    public static final String BASE_URL2       = "https://www.wanandroid.com";
+    public static final String BASE_URL_GITHUB = "https://api.github.com";
 
     public static final String CHECK_UPDATE = "https://gitee.com/actor20170211030627/" +
             "MyAndroidFrameWork" +

@@ -229,7 +229,8 @@ public class MyOkHttpUtils {
             OkHttpUtils.getInstance().getOkHttpClient()
                     .newCall(request)
                     .enqueue(callback == null ? new NullCallback() : callback);
-            if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
+            //okhttp3.Callback需要手动调一下...
+            if (callback != null) callback.onBefore(null, callback.getRequestId());
         }
     }
 
@@ -364,7 +365,8 @@ public class MyOkHttpUtils {
         OkHttpUtils.getInstance().getOkHttpClient()
                 .newCall(requestBuilder.build())
                 .enqueue(callback == null ? new NullCallback() : callback);
-        if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
+        //okhttp3.Callback需要手动调一下...
+        if (callback != null) callback.onBefore(null, callback.getRequestId());
     }
 
     /**
@@ -471,14 +473,19 @@ public class MyOkHttpUtils {
     protected static @NonNull String urlAppendParams(@NonNull String url, @Nullable Map<String, Object> params) {
         if (params == null || params.isEmpty()) return url;
         StringBuilder builder = new StringBuilder(url);
-        boolean endWihtQuestionMark;//是否'?'结尾
+        //如果结尾有'&'
+        if (builder.charAt(url.length() - 1) == '&') {
+            builder.delete(url.length() - 1, url.length());
+        }
+        //是否'?'结尾
+        boolean endWihtQuestionMark;
         if (!url.contains("?")) {
             builder.append("?");
             endWihtQuestionMark = true;
         } else {
             endWihtQuestionMark = url.endsWith("?");
         }
-        //http://www.xxx.com/?a=a & b=b & c=c
+        //http://www.xxx.com/s?a=a & b=b & c=c
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             String key = entry.getKey();
             if (!TextUtils.isEmpty(key)) {
@@ -496,7 +503,8 @@ public class MyOkHttpUtils {
      * 清除key值为null的参数 & 保证value != null
      * 并且转换为Map<String, String>
      */
-    protected static @Nullable Map<String, String> cleanNullParamMap(@Nullable Map<String, Object> map) {
+    @Nullable
+    protected static Map<String, String> cleanNullParamMap(@Nullable Map<String, Object> map) {
         if (map == null || map.isEmpty()) return null;
         Map<String, String> returnMap = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {

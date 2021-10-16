@@ -47,7 +47,6 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_net_work_and_image);
         iv = viewBinding.iv;
         progressBar = viewBinding.progressBar;
 
@@ -121,26 +120,12 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     }
 
     private void postBodyByOkHttpUtils() {
-        String data = "{\"vehicleColor\":0,\"appId\":\"6ecfb9d3-dba0-492e-8ba1-6c343a00a8ba\"," +
-                "\"userIdNum\":\"520202197209130410\",\"vehiclePlate\":\"贵B75509\"," +
-                "\"userIdType\":101,\"userId\":\"d0de68f221d94cdfb3a21cea6ee88029\"}";
         params.clear();
-        params.put("staffId", "kf0001");
         params.put("sign", 123);
-        params.put("userId", "d0de68f221d94cdfb3a21cea6ee88029");
+        params.put("userId", "abc");
         params.put("token", 123);
-        params.put("channelType", 2);
-        params.put("data", data);
-        params.put("appId", "6ecfb9d3-dba0-492e-8ba1-6c343a00a8ba");
-        params.put("keyType", 0);
-        params.put("channelId", "5201010600401130013");
-        params.put("orgCode", 52010102042L);
-        params.put("stamp", "1576040229984");
-        params.put("terminalId", "999999999999");
         params.put("key", 0);
-        params.put("agentId", 52010102042L);
-        params.put("zip", 0);
-        MyOkHttpUtils.postFormBody("http://222.85.144.65:9001/etc/inform/v2/check_contract", null, params,
+        MyOkHttpUtils.postFormBody("http://111.22.133.44:9001/abc/defg/v1/xxxxxx", null, params,
                 new BaseCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id, boolean isRefresh) {
@@ -189,7 +174,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
      * 上传单个图片/文件
      */
     protected void uploadFile(@NonNull String filePath) {
-        MyOkHttpUtils.postFiles("http://39.104.16.81:31112/fileManage/upload", "filed", new File(filePath),
+        MyOkHttpUtils.postFiles("http://111.22.133.44:9001/fileManage/upload", "filed", new File(filePath),
                 null, null, new PostFileCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id, boolean isRefresh) {

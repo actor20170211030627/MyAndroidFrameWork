@@ -17,10 +17,8 @@ public abstract class GetBitmapCallback extends BaseCallback<Bitmap> {
         super(tag);
     }
 
-    @Override
-    public void inProgress(float progress, long total, int id) {
-        super.inProgress(progress, total, id);
-//        logFormat("获取Bitmap: progress=%f, total=%d, id=%d", progress, total, id);
+    public GetBitmapCallback(Object tag, int requestId) {
+        super(tag, requestId);
     }
 
     @Override

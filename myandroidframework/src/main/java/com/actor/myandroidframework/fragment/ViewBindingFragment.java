@@ -36,6 +36,10 @@ public class ViewBindingFragment<VB extends ViewBinding> extends ActorBaseFragme
      *      2.调用 super.{@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} 方法之前设置: needInitViewBinding = false;
      */
     protected boolean needInitViewBinding = true;
+    /**
+     * 注意: 如果你的 XxxFragment<VB> 类中没有使用 viewBinding 这个变量,
+     *       那么在混淆代码后会变成 XxxFragment<Object>, 会导致 viewBinding 初始化失败!
+     */
     protected VB      viewBinding;
 
     @Nullable

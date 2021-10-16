@@ -46,9 +46,9 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
     protected ImageView           ivPicForNineGridView;
     protected ImageView           ivPlayPauseForNineGridView;
     protected RecyclerView        recyclerViewForNineGridView;
-    private   OnItemClickListener<T> onItemClickListener;
-    private MyAdapter                      myAdapter;
-    private List<T> items = new ArrayList<>(1);
+    protected OnItemClickListener<T> onItemClickListener;
+    protected NineGridAdapter        myAdapter;
+    protected List<T>                items = new ArrayList<>(1);
 
     public NineGridView(Context context) {
         super(context);
@@ -110,7 +110,7 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
                 ivPlayPauseForNineGridView.setVisibility(GONE);
                 recyclerViewForNineGridView.setVisibility(VISIBLE);
                 if (myAdapter == null) {
-                    myAdapter = new MyAdapter(R.layout.item_for_nine_grid_view, items);
+                    myAdapter = new NineGridAdapter(R.layout.item_for_nine_grid_view, items);
                     myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -136,9 +136,9 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
         void onItemClick(NineGridView<T> nineGridView, T item, BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
     }
 
-    private class MyAdapter extends BaseQuickAdapter<T, BaseViewHolder> {
+    protected class NineGridAdapter extends BaseQuickAdapter<T, BaseViewHolder> {
 
-        public MyAdapter(int layoutResId, List<T> items) {
+        public NineGridAdapter(int layoutResId, List<T> items) {
             super(layoutResId, items);
         }
 
@@ -147,7 +147,7 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
             if (item != null) {
                 ImageView ivPic = helper.setVisible(R.id.iv_play_pause, item.isVideo())
                         .getView(R.id.iv_pic_for_nine_grid_view);
-                Glide.with(getContext()).load(item.getUrl())
+                Glide.with(ivPic).load(item.getUrl())
                         .placeholder(R.drawable.ic_holder_light_for_nine_grid_view)
                         .error(R.drawable.ic_holder_light_for_nine_grid_view)
                         .transform(new CenterCrop(), new RoundedCorners(10))

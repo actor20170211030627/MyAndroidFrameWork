@@ -16,8 +16,6 @@ public class RatingBarActivity extends BaseActivity<ActivityRatingBarBinding> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_rating_bar);
-
         setTitle("主页->自定义RatingBar");
         BaseRatingBar brb1 = viewBinding.brb1;
         BaseRatingBar brb2 = viewBinding.brb2;

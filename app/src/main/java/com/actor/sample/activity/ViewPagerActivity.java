@@ -27,7 +27,6 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_view_pager);
         setTitle("主页->元素共享跳转->ViewPager");
         viewPager = viewBinding.viewPager;
 
@@ -37,9 +36,9 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
         viewPager.setCurrentItem(startPosition);
     }
 
-    @NonNull
     @Override
-    protected View sharedElementPositionChanged(int oldPosition, int currentPosition) {
+    @NonNull
+    public View sharedElementPositionChanged(int oldPosition, int currentPosition) {
 //        DetailFragment fragment = myAdapter.getFragment(currentPosition);//有可能为null, 原因可能是被回收了?
         DetailFragment fragment = myAdapter.currentFragment;
         return fragment.getSharedElementView();

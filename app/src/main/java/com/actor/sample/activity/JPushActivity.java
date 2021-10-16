@@ -31,12 +31,9 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_jpush);
         tvResult = viewBinding.tvResult;
-
-        EventBus.getDefault().register(this);
-
         setTitle("主页->极光推送");
+        EventBus.getDefault().register(this);
     }
 
 //    @OnClick({R.id.btn_start, R.id.btn_stop})

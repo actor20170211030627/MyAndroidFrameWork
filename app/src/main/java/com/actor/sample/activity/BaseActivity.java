@@ -1,5 +1,6 @@
 package com.actor.sample.activity;
 
+import androidx.annotation.LayoutRes;
 import androidx.viewbinding.ViewBinding;
 
 import com.actor.myandroidframework.activity.ViewBindingActivity;
@@ -19,11 +20,33 @@ import retrofit2.Call;
  */
 public class BaseActivity<VB extends ViewBinding> extends ViewBindingActivity<VB> {
 
-    @Deprecated //Retrofit感觉一点都不好用,太死板
+//    protected FrameLayout  flContent;//主要内容的帧布局
+//    protected LinearLayout llEmpty;  //没数据
+
+
+    //Retrofit感觉一点都不好用,太死板
+    @Deprecated
     protected List<Call<?>> calls;
 
     //硬盘缓存
     protected CacheDiskUtils aCache = MyApplication.instance.aCache;
+
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+//        View baseView = getLayoutInflater().inflate(R.layout.activity_base, null);//加载基类布局
+//        flContent = baseView.findViewById(R.id.fl_content);
+//        llEmpty = findViewById(R.id.ll_empty);
+//        View childView = getLayoutInflater().inflate(layoutResID, null);//加载子类布局
+//        flContent.addView(childView);//将子布局添加到空的帧布局
+//        super.setContentView(baseView);
+        super.setContentView(layoutResID);
+    }
+    //是否显示empty图片
+//    protected void showEmpty(boolean isShow) {
+//        llEmpty.setVisibility(isShow ? View.VISIBLE : View.GONE);
+//    }
+
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -36,7 +59,8 @@ public class BaseActivity<VB extends ViewBinding> extends ViewBindingActivity<VB
         return call;
     }
 
-    protected void onSharedElementBacked(int oldPosition, int currentPosition) {
+    @Override
+    public void onSharedElementBacked(int oldPosition, int currentPosition) {
 //        recyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 //            @Override
 //            public boolean onPreDraw() {

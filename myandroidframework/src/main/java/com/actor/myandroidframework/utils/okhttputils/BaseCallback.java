@@ -3,7 +3,7 @@ package com.actor.myandroidframework.utils.okhttputils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.dialog.ShowLoadingDialogable;
+import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.ThreadUtils;
@@ -69,7 +69,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * @param tag 2个作用:
      *            1.1.传入Activity(继承ActorBaseActivity)/Fragment(继承ActorBaseFragment), 用于销毁的时候取消请求.
      *            1.2.如果是在Dialog/Others..., 需要自己调用: {@link MyOkHttpUtils#cancelTag(Object)}
-     *            2.如果 tag instanceof ShowLoadingDialogAble, 会自动show/dismiss LoadingDialog.
+     *            2.如果 tag instanceof ShowNetWorkLoadingDialogAble, 会自动show/dismiss LoadingDialog.
      * @param requestId  1.可传入"List/RecyclerView"的position或item对应的id,
      *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的.
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
@@ -88,8 +88,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     @Override
     public void onBefore(@Nullable Request request, int requestId) {
         super.onBefore(request, requestId);
-        if (tag instanceof ShowLoadingDialogable) {
-            ((ShowLoadingDialogable) tag).showLoadingDialog();
+        if (tag instanceof ShowNetWorkLoadingDialogable) {
+            ((ShowNetWorkLoadingDialogable) tag).showNetWorkLoadingDialog();
             isShowedLoadingDialog = true;
         }
     }
@@ -139,20 +139,26 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
                     }
                 });
                 return null;
+            } finally {
+                body.close();
             }
         }
     }
 
     @Override
-    public void onResponse(T response, int id) {//main thread
+    public void onResponse(@Nullable T response, int id) {//main thread
         if (response != null) {
-            onOkDismissLoadingDialog(id);
+            if (isShowedLoadingDialog && tag instanceof ShowNetWorkLoadingDialogable) {
+                ((ShowNetWorkLoadingDialogable) tag).dismissNetWorkLoadingDialog();
+            }
             onOk(response, id, thisRequestIsRefresh);
         } else {
             isParseNetworkResponseIsNull = true;
-            if (!isJsonParseException) {//如果不是Json解析错误的原因, 而是其它原因
+            //如果不是Json解析错误的原因, 而是其它原因
+            if (!isJsonParseException) {
                 onParseNetworkResponseIsNull(id);
-                onError(id, null, null);//主要作用是调用子类的onError方法
+                //主要作用是调用子类的onError方法
+                onError(id, null, null);
             }
         }
     }
@@ -166,12 +172,13 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     public abstract void onOk(@NonNull T info, int requestId, boolean isRefresh);
 
     /**
-     * 请求成功后, 默认dismissLoadingDialog. 如果你不想dismiss, 可重写本方法
+     * 上传/下载进度
+     * @param progress 进度[0, 1]
+     * @param total 总大小
+     * @param id 请求时传入的id, 默认0
      */
-    public void onOkDismissLoadingDialog(int requestId) {
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
-            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
-        }
+    public void inProgress(float progress, long total, int id) {
+//        logFormat("上传/下载进度: progress=%f, total=%d, id=%d", progress, total, id);
     }
 
     //okhttp3.Callback的方法
@@ -197,7 +204,6 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
                 }
             });
         } else {
-            isStatusCodeError = true;
             ThreadUtils.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -226,8 +232,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     //不能重写上面那个方法, 要重写就重写这个
     public void onError(int id, Call call, Exception e) {
         //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
-        if (isShowedLoadingDialog && tag instanceof ShowLoadingDialogable) {
-            ((ShowLoadingDialogable) tag).dismissLoadingDialog();
+        if (isShowedLoadingDialog && tag instanceof ShowNetWorkLoadingDialogable) {
+            ((ShowNetWorkLoadingDialogable) tag).dismissNetWorkLoadingDialog();
         }
         if (isStatusCodeError || isJsonParseException || isParseNetworkResponseIsNull) return;
         if (e instanceof SocketTimeoutException) {
@@ -235,7 +241,9 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         } else if (e instanceof ConnectException) {
             toast("网络连接失败,请检查网络是否打开!");
         } else if (e != null) {
-            toast("错误信息:".concat(e.getMessage()).concat(",请联系管理员!"));
+            String message = e.getMessage();
+            if (message == null) message = "";
+            toast("错误信息:".concat(message).concat(",请联系管理员!"));
         }
     }
 

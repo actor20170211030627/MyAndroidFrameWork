@@ -62,7 +62,7 @@ public class MyApplication extends ActorApplication {
     @NonNull
     @Override
     protected String getBaseUrl(boolean isDebugMode) {
-        return Global.BASE_URL;
+        return Global.BASE_URL_GITHUB;
     }
 
     /**

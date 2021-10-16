@@ -27,7 +27,6 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_web_view);
         etContent = viewBinding.etContent;
         btnGo = viewBinding.btnGo;
         webView = viewBinding.webView;

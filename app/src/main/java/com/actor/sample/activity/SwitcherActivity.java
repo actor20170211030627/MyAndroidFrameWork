@@ -25,8 +25,6 @@ public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_switcher);
-
         setTitle("主页->切换");
         bts = viewBinding.bts;
         bvs = viewBinding.bvs;

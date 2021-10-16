@@ -18,7 +18,8 @@ import retrofit2.Call;
  */
 public class BaseFragment<VB extends ViewBinding> extends ViewBindingFragment<VB> {
 
-    @Deprecated //Retrofit感觉一点都不好用,太死板
+    //Retrofit感觉一点都不好用,太死板
+    @Deprecated
     protected List<Call<?>> calls;
 
 

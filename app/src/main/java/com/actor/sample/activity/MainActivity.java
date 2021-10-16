@@ -25,7 +25,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         iv = viewBinding.iv;
         TextView tvVersion = viewBinding.tvVersion;
 

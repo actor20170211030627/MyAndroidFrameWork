@@ -73,7 +73,6 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_bai_du_map);
         setTitle("百度地图");
         tvResult = viewBinding.tvResult;
         mapView = viewBinding.mapView;

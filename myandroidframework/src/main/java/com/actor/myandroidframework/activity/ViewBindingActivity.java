@@ -33,6 +33,10 @@ public class ViewBindingActivity<VB extends ViewBinding> extends ActorBaseActivi
      *      2.调用 super.onCreate(savedInstanceState); 方法之前, 设置: needInitViewBinding = false;
      */
     protected boolean                   needInitViewBinding = true;
+    /**
+     * 注意: 如果你的 XxxActivity<VB> 类中没有使用 viewBinding 这个变量,
+     *       那么在混淆代码后会变成 XxxActivity<Object>, 会导致 viewBinding 初始化失败!
+     */
     protected VB                        viewBinding;
 
     @Override

@@ -39,7 +39,6 @@ public class SelectFileActivity extends BaseActivity<ActivitySelectFileBinding> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_select_file);
         recyclerView1 = viewBinding.recyclerView1;
         recyclerView21 = viewBinding.recyclerView21;
         recyclerView22 = viewBinding.recyclerView22;

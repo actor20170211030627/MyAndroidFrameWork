@@ -29,7 +29,6 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_shared_element);
         setTitle("主页->元素共享跳转");
         recyclerView = viewBinding.recyclerView;
 
@@ -43,14 +42,14 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
         recyclerView.setAdapter(myAdapter);
     }
 
-    @NonNull
     @Override
-    protected View sharedElementPositionChanged(int oldPosition, int currentPosition) {
+    @NonNull
+    public View sharedElementPositionChanged(int oldPosition, int currentPosition) {
         return recyclerView.findViewHolderForAdapterPosition(currentPosition).itemView.findViewById(R.id.iv);
     }
 
     @Override
-    protected void onSharedElementBacked(int oldPosition, int currentPosition) {
+    public void onSharedElementBacked(int oldPosition, int currentPosition) {
         super.onSharedElementBacked(oldPosition, currentPosition);
         recyclerView.scrollToPosition(currentPosition);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
