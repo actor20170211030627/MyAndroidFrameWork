@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.utils.okhttputils;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.utils.ThreadUtils;
 
@@ -13,11 +14,11 @@ import okhttp3.Request;
  */
 public abstract class PostFileCallback<T> extends BaseCallback<T> {
 
-    public PostFileCallback(Object tag) {
+    public PostFileCallback(LifecycleOwner tag) {
         super(tag);
     }
 
-    public PostFileCallback(Object tag, int id) {
+    public PostFileCallback(LifecycleOwner tag, int id) {
         super(tag, id);
     }
 

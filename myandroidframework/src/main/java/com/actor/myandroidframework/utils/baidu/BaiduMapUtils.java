@@ -14,6 +14,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
@@ -162,12 +163,12 @@ public class BaiduMapUtils {
         });
     }
     public static abstract class OnAddressCallback {
-        public Object tag;
-        public int id;
-        public OnAddressCallback(Object tag) {
+        public LifecycleOwner tag;
+        public int            id;
+        public OnAddressCallback(LifecycleOwner tag) {
             this.tag = tag;
         }
-        public OnAddressCallback(Object tag, int id) {
+        public OnAddressCallback(LifecycleOwner tag, int id) {
             this.tag = tag;
             this.id = id;
         }

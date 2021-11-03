@@ -2,11 +2,13 @@ package com.actor.myandroidframework.utils.okhttputils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.ThreadUtils;
+import com.actor.myandroidframework.utils.okhttputils.lifecycle.MyOkHttpLifecycleUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -41,7 +43,7 @@ import okhttp3.ResponseBody;
  *              1.实现接口: {@link okhttp3.Callback}
  *              2.重写方法: {@link #onFailure(Call, IOException)}
  *              3.重写方法: {@link #onResponse(Call, Response)}
- *              4.增加构造方法: {@link #BaseCallback(Object, int)}
+ *              4.增加构造方法: {@link #BaseCallback(LifecycleOwner, int)}
  */
 public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Callback {
 
@@ -51,23 +53,23 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     protected boolean           isShowedLoadingDialog        = false;//本次请求LoadingDialog是否show
     private   int               requestId;
     protected boolean           thisRequestIsRefresh         = false;//这次请求是否是(下拉)刷新
-    public    Object            tag;
+    public    LifecycleOwner    tag;
 
-    public BaseCallback(@Nullable Object tag) {
+    public BaseCallback(@Nullable LifecycleOwner tag) {
         this(tag, 0, false);
     }
 
-    public BaseCallback(@Nullable Object tag, int requestId) {
+    public BaseCallback(@Nullable LifecycleOwner tag, int requestId) {
         this(tag, requestId, false);
     }
 
-    public BaseCallback(@Nullable Object tag, boolean isRefresh) {
+    public BaseCallback(@Nullable LifecycleOwner tag, boolean isRefresh) {
         this(tag, 0, isRefresh);
     }
 
     /**
      * @param tag 2个作用:
-     *            1.1.传入Activity(继承ActorBaseActivity)/Fragment(继承ActorBaseFragment), 用于销毁的时候取消请求.
+     *            1.1.传入LifecycleOwner, 用于销毁的时候取消请求.
      *            1.2.如果是在Dialog/Others..., 需要自己调用: {@link MyOkHttpUtils#cancelTag(Object)}
      *            2.如果 tag instanceof ShowNetWorkLoadingDialogAble, 会自动show/dismiss LoadingDialog.
      * @param requestId  1.可传入"List/RecyclerView"的position或item对应的id,
@@ -76,10 +78,11 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      *              当上传成功后, 就可根据这个requestId判断是上传哪一个文件.
      * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
      */
-    public BaseCallback(@Nullable Object tag, int requestId, boolean isRefresh) {
+    public BaseCallback(@Nullable LifecycleOwner tag, int requestId, boolean isRefresh) {
         this.tag = tag;
         this.requestId = requestId;
         this.thisRequestIsRefresh = isRefresh;
+        MyOkHttpLifecycleUtils.addObserver(tag);
     }
 
     /**
@@ -104,11 +107,13 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
                 onStatusCodeError(response.code(), response, id);
             }
         });
-        return false;//return false:直接走onError(Call call, Exception e, int id)
+        //return false:直接走onError(Call call, Exception e, int id)
+        return false;
     }
 
+    //sub thread
     @Override
-    public T parseNetworkResponse(Response response, int id) throws IOException {//sub thread
+    public T parseNetworkResponse(Response response, int id) throws IOException {
         if (response == null) return null;
         Type genericity = getGenericityType(this);
         if (genericity == Response.class || genericity == Object.class) {
@@ -119,7 +124,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         String json = body.string();
         if (genericity == String.class) {
             return (T) json;
-        } else {//解析成: JSONObject & JSONArray & T
+        } else {
+            //解析成: JSONObject & JSONArray & T
             try {
                 /**
                  * Gson: 数据类型不对(""解析成int) & 非json类型数据, 默认都会抛异常
@@ -145,8 +151,9 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         }
     }
 
+    //main thread
     @Override
-    public void onResponse(@Nullable T response, int id) {//main thread
+    public void onResponse(@Nullable T response, int id) {
         if (response != null) {
             if (isShowedLoadingDialog && tag instanceof ShowNetWorkLoadingDialogable) {
                 ((ShowNetWorkLoadingDialogable) tag).dismissNetWorkLoadingDialog();
@@ -181,9 +188,9 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
 //        logFormat("上传/下载进度: progress=%f, total=%d, id=%d", progress, total, id);
     }
 
-    //okhttp3.Callback的方法
+    //okhttp3.Callback的方法, sub thread
     @Override
-    public final void onFailure(Call call, IOException e) {//sub thread
+    public void onFailure(@NonNull Call call, @NonNull IOException e) {
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -192,9 +199,9 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         });
     }
 
-    //okhttp3.Callback的方法
+    //okhttp3.Callback的方法, sub thread
     @Override
-    public final void onResponse(Call call, Response response) throws IOException {//sub thread
+    public final void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if (validateReponse(response, requestId)) {
             T t = parseNetworkResponse(response, requestId);
             ThreadUtils.runOnUiThread(new Runnable() {

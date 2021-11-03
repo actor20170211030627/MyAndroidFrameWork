@@ -27,7 +27,6 @@ import com.actor.myandroidframework.sharedelement.SharedElementAble;
 import com.actor.myandroidframework.sharedelement.SharedElementUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
-import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -434,7 +433,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     protected void onDestroy() {
         super.onDestroy();
         dismissNetWorkLoadingDialog();
-        MyOkHttpUtils.cancelTag(this);//取消网络请求
         params.clear();
         params = null;
 //        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);

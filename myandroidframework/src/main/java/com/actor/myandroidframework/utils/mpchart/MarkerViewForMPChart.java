@@ -12,7 +12,8 @@ import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
-import com.github.mikephil.charting.utils.Utils;
+
+import java.text.NumberFormat;
 
 /**
  * Custom implementation of the MarkerView.
@@ -21,7 +22,9 @@ import com.github.mikephil.charting.utils.Utils;
  */
 public class MarkerViewForMPChart extends MarkerView {
 
-    private final TextView tvContent;
+    protected final TextView tvContent;
+//    protected DecimalFormat  format = new DecimalFormat("#.##");
+    protected NumberFormat   format = NumberFormat.getInstance();
 
     public MarkerViewForMPChart(Context context) {
         this(context, R.layout.marker_view_for_mpchart);
@@ -36,17 +39,16 @@ public class MarkerViewForMPChart extends MarkerView {
     // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-
         if (e instanceof CandleEntry) {
-
             CandleEntry ce = (CandleEntry) e;
-
-            tvContent.setText(Utils.formatNumber(ce.getHigh(), 0, true));
+            //edited
+//            tvContent.setText(Utils.formatNumber(ce.getHigh(), 0, true));
+            tvContent.setText(format.format(ce.getHigh()));
         } else {
-
-            tvContent.setText(Utils.formatNumber(e.getY(), 0, true));
+            //edited
+//            tvContent.setText(Utils.formatNumber(e.getY(), 0, true));
+            tvContent.setText(format.format(e.getY()));
         }
-
         super.refreshContent(e, highlight);
     }
 

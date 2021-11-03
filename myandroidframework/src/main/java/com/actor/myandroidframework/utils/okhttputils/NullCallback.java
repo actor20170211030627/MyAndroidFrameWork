@@ -15,7 +15,8 @@ import okhttp3.Response;
  * date       : 2020/7/3 on 15:48
  * @version 1.0
  */
-public class NullCallback implements Callback {
+/*public */
+class NullCallback implements Callback {
 
     @Override
     public final void onFailure(@NotNull Call call, @NotNull IOException e) {

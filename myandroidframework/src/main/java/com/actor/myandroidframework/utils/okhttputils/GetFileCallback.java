@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.PathUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -29,13 +30,13 @@ public abstract class GetFileCallback extends BaseCallback<File> {
     //目标文件存储的文件名
     protected String fileNameForGetFile;
 
-    public GetFileCallback(Object tag, String fileName) {
+    public GetFileCallback(LifecycleOwner tag, String fileName) {
         this(tag, 0, fileName);
     }
-    public GetFileCallback(Object tag, int id, String fileName) {
+    public GetFileCallback(LifecycleOwner tag, int id, String fileName) {
         this(tag, id, null, fileName);
     }
-    public GetFileCallback(Object tag, @Nullable String downloadPath, String fileName) {
+    public GetFileCallback(LifecycleOwner tag, @Nullable String downloadPath, String fileName) {
         this(tag, 0, downloadPath, fileName);
     }
 
@@ -44,7 +45,7 @@ public abstract class GetFileCallback extends BaseCallback<File> {
      * @param downloadPath 文件存储路径, 可以为空, 默认 files 文件夹
      * @param fileName 文件名, 可以为空
      */
-    public GetFileCallback(Object tag, int id, @Nullable String downloadPath, @Nullable String fileName) {
+    public GetFileCallback(LifecycleOwner tag, int id, @Nullable String downloadPath, @Nullable String fileName) {
         super(tag, id);
         initPath(downloadPath, fileName);
     }

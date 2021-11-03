@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.utils.okhttputils;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 
 import okhttp3.Request;
 
@@ -13,15 +14,15 @@ import okhttp3.Request;
  */
 public abstract class BaseCallbackNotShowDialog<T> extends BaseCallback<T> {
 
-    public BaseCallbackNotShowDialog(@Nullable Object tag) {
+    public BaseCallbackNotShowDialog(@Nullable LifecycleOwner tag) {
         super(tag);
     }
 
-    public BaseCallbackNotShowDialog(@Nullable Object tag, int id) {
+    public BaseCallbackNotShowDialog(@Nullable LifecycleOwner tag, int id) {
         super(tag, id);
     }
 
-    public BaseCallbackNotShowDialog(@Nullable Object tag, boolean isRefresh) {
+    public BaseCallbackNotShowDialog(@Nullable LifecycleOwner tag, boolean isRefresh) {
         super(tag, isRefresh);
     }
 

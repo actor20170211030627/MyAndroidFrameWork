@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
@@ -37,7 +38,7 @@ public class CheckUpdateUtils {
 
     //check update检查更新
     @RequiresPermission(value = Manifest.permission.REQUEST_INSTALL_PACKAGES)
-    public void check(Object tag) {
+    public void check(LifecycleOwner tag) {
         MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<CheckUpdateInfo>(tag) {
             @Override
             public void onOk(@NonNull CheckUpdateInfo info, int id, boolean isRefresh) {
@@ -78,7 +79,11 @@ public class CheckUpdateUtils {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         }
         progressDialog.show();
-        MyOkHttpUtils.getFile(Global.DOWNLOAD_URL, null, null, new GetFileCallback(topActivity, null, null) {
+        LifecycleOwner tag = null;
+        if (topActivity instanceof LifecycleOwner) {
+            tag = (LifecycleOwner) topActivity;
+        }
+        MyOkHttpUtils.getFile(Global.DOWNLOAD_URL, null, null, new GetFileCallback(tag, null, null) {
 
             @Override
             public void inProgress(float progress, long total, int id) {

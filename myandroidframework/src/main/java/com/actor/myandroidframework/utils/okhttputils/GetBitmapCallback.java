@@ -3,6 +3,8 @@ package com.actor.myandroidframework.utils.okhttputils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import androidx.lifecycle.LifecycleOwner;
+
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -13,11 +15,11 @@ import okhttp3.ResponseBody;
  */
 public abstract class GetBitmapCallback extends BaseCallback<Bitmap> {
 
-    public GetBitmapCallback(Object tag) {
+    public GetBitmapCallback(LifecycleOwner tag) {
         super(tag);
     }
 
-    public GetBitmapCallback(Object tag, int requestId) {
+    public GetBitmapCallback(LifecycleOwner tag, int requestId) {
         super(tag, requestId);
     }
 

@@ -1,8 +1,12 @@
 package com.actor.myandroidframework.utils;
 
+import android.view.View;
+
+import androidx.annotation.IntRange;
+
 /**
  * description: 双击工具类
- * @see com.blankj.utilcode.util.ClickUtils
+ * @see com.blankj.utilcode.util.ClickUtils#applySingleDebouncing(View, View.OnClickListener)
  *
  * @author : ldf
  * date       : 2021/2/7 on 13
@@ -10,23 +14,47 @@ package com.actor.myandroidframework.utils;
  */
 public class ClickUtils2 {
 
-    //最后点击时间
-    protected static long lastClickTime  = 0L;
+    /**
+     * 点击间隔
+     * @see com.blankj.utilcode.util.ClickUtils#DEBOUNCING_DEFAULT_VALUE
+     */
+    protected static final int                   DEBOUNCING_DEFAULT_VALUE = 200;
+    /**
+     * 点击的Tag
+     * @see com.blankj.utilcode.util.ClickUtils#DEBOUNCING_TAG
+     */
+    protected static final int  DEBOUNCING_TAG           = -7;
 
-    public static boolean isFirstClick() {
-        return isFirstClick(500);
+    /**
+     * @return 是否是消除抖动点击, 防止快速点击
+     */
+    public static boolean isDebouncingClick(View view) {
+        return isDebouncingClick(view, DEBOUNCING_DEFAULT_VALUE);
     }
 
     /**
-     * 防止快速点击
-     * @param clickInterval 点击间隔, 单位ms
-     * @return 是否是第1次点击
+     * 是否是消除抖动点击, 防止快速点击
+     * @param duration 点击间隔, 单位ms
      */
-    public static boolean isFirstClick(int clickInterval) {
-        boolean isFirstClick = false;
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastClickTime > clickInterval) isFirstClick = true;
-        lastClickTime = currentTime;
-        return isFirstClick;
+    public static boolean isDebouncingClick(View view, @IntRange(from = 0) int duration) {
+        long curTime = System.currentTimeMillis();
+        Object tag = view.getTag(DEBOUNCING_TAG);
+        //如果第一次点击
+        if (!(tag instanceof Long)) {
+            view.setTag(DEBOUNCING_TAG, curTime);
+            return true;
+        }
+        long preTime = (Long) tag;
+        //如果时间错乱
+        if (curTime < preTime) {
+            //重设时间
+            view.setTag(DEBOUNCING_TAG, curTime);
+            return false;
+        } else if (curTime - preTime <= duration) {
+            //如果在间隔时间内
+            return false;
+        }
+        view.setTag(DEBOUNCING_TAG, curTime);
+        return true;
     }
 }
