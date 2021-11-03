@@ -25,63 +25,55 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Description: 返回基类, 主要处理错误事件 & 解析成实体类 & 或者泛型里什么都不传,会直接返回Response, 可参考:
- * https://github.com/hongyangAndroid/okhttputils/commit/1d717d1116cc5c81d05e58343e99229d4ccc9f08
- *
- * 在{@link #onBefore(Request, int)} 的时候, 默认会显示LoadingDialog, 可重写此方法.
- * 在{@link #onError(int, Call, Exception)} 的时候, 默认会隐藏LoadingDialog, 可重写此方法.
- *
- * Author     : ldf
- * Date       : 2019/4/17 on 16:03
- * @version 1.2 重写onResponse, 增加okOk
- * @version 1.3 增加onParseNetworkResponseIsNull
- * @version 1.4 把tag等修改成public, 外界可以获取
- * @version 1.4.2 修改一些小细节
- * @version 1.4.3 修改Format错误导致崩溃问题 & 修改取消请求后, onError崩溃问题(增加call.isCanceled()判断)
- * @version 1.4.4 修改错误线程问题, 添加ThreadUtils.runOnUiThread
- * @version 1.4.5
- *              1.实现接口: {@link okhttp3.Callback}
- *              2.重写方法: {@link #onFailure(Call, IOException)}
- *              3.重写方法: {@link #onResponse(Call, Response)}
- *              4.增加构造方法: {@link #BaseCallback(LifecycleOwner, int)}
+ * Description: 返回基类
  */
 public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Callback {
 
-    protected boolean           isStatusCodeError            = false;//状态码错误
-    protected boolean           isParseNetworkResponseIsNull = false;//解析成的实体entity=null
-    protected boolean           isJsonParseException         = false;//Json解析异常
-    protected boolean           isShowedLoadingDialog        = false;//本次请求LoadingDialog是否show
+    //本次请求LoadingDialog是否show, 默认true
+    protected boolean           isShowedLoadingDialog        = true;
+    //这次请求是否是(下拉)刷新
+    protected boolean           thisRequestIsRefresh         = false;
+    //状态码错误
+    protected boolean           isStatusCodeError            = false;
+    //解析成的实体entity=null
+    protected boolean           isParseNetworkResponseIsNull = false;
+    //Json解析异常
+    protected boolean           isJsonParseException         = false;
     private   int               requestId;
-    protected boolean           thisRequestIsRefresh         = false;//这次请求是否是(下拉)刷新
     public    LifecycleOwner    tag;
 
     public BaseCallback(@Nullable LifecycleOwner tag) {
-        this(tag, 0, false);
+        this(tag, true);
     }
 
-    public BaseCallback(@Nullable LifecycleOwner tag, int requestId) {
-        this(tag, requestId, false);
+    public BaseCallback(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog) {
+        this(tag, isShowLoadingDialog, false);
     }
 
-    public BaseCallback(@Nullable LifecycleOwner tag, boolean isRefresh) {
-        this(tag, 0, isRefresh);
+    public BaseCallback(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog, boolean isRefresh) {
+        this(tag, isShowLoadingDialog, isRefresh, 0);
     }
 
     /**
-     * @param tag 2个作用:
-     *            1.1.传入LifecycleOwner, 用于销毁的时候取消请求.
-     *            1.2.如果是在Dialog/Others..., 需要自己调用: {@link MyOkHttpUtils#cancelTag(Object)}
-     *            2.如果 tag instanceof ShowNetWorkLoadingDialogAble, 会自动show/dismiss LoadingDialog.
-     * @param requestId  1.可传入"List/RecyclerView"的position或item对应的id,
-     *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的.
+     * @param tag 2个作用: <br />
+     *            1.1.传入LifecycleOwner, 用于onDestroy的时候的时候取消请求. <br />
+     *            1.2.如果是在Dialog/Others..., onDestroy的时候, 需要你自己调用: {@link MyOkHttpUtils#cancelTag(Object)} <br />
+     *            2.如果 tag instanceof ShowNetWorkLoadingDialogAble, 可以show/dismiss LoadingDialog. <br /> <br />
+     *
+     * @param isShowLoadingDialog 是否显示LoadingDialog, 默认true <br /> <br />
+     *
+     * @param isRefresh 这次请求是否是"下拉刷新 or 上拉加载", 可用于请求列表数据时, 标记这次请求 <br /> <br />
+     * @param requestId
+     *            1.可传入"List/RecyclerView"的position或item对应的id,
+     *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的. <br />
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
-     *              当上传成功后, 就可根据这个requestId判断是上传哪一个文件.
-     * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
+     *              当上传成功后, 就可根据这个requestId判断是上传哪一个文件. <br />
      */
-    public BaseCallback(@Nullable LifecycleOwner tag, int requestId, boolean isRefresh) {
+    public BaseCallback(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog, boolean isRefresh, int requestId) {
         this.tag = tag;
-        this.requestId = requestId;
+        this.isShowedLoadingDialog = isShowLoadingDialog;
         this.thisRequestIsRefresh = isRefresh;
+        this.requestId = requestId;
         MyOkHttpLifecycleUtils.addObserver(tag);
     }
 
@@ -94,6 +86,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         if (tag instanceof ShowNetWorkLoadingDialogable) {
             ((ShowNetWorkLoadingDialogable) tag).showNetWorkLoadingDialog();
             isShowedLoadingDialog = true;
+        } else {
+            isShowedLoadingDialog = false;
         }
     }
 

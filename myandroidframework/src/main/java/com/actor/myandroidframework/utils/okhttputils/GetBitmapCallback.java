@@ -3,6 +3,7 @@ package com.actor.myandroidframework.utils.okhttputils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 
 import okhttp3.Response;
@@ -15,12 +16,16 @@ import okhttp3.ResponseBody;
  */
 public abstract class GetBitmapCallback extends BaseCallback<Bitmap> {
 
-    public GetBitmapCallback(LifecycleOwner tag) {
+    public GetBitmapCallback(@Nullable LifecycleOwner tag) {
         super(tag);
     }
 
-    public GetBitmapCallback(LifecycleOwner tag, int requestId) {
-        super(tag, requestId);
+    public GetBitmapCallback(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog) {
+        super(tag, isShowLoadingDialog);
+    }
+
+    public GetBitmapCallback(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog, int requestId) {
+        super(tag, isShowLoadingDialog, false, requestId);
     }
 
     @Override

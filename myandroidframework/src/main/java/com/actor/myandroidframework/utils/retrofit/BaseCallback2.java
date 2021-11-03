@@ -1,10 +1,13 @@
 package com.actor.myandroidframework.utils.retrofit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
+import com.actor.myandroidframework.utils.okhttputils.lifecycle.MyOkHttpLifecycleUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.net.ConnectException;
@@ -24,36 +27,47 @@ import retrofit2.Response;
  */
 public abstract class BaseCallback2<T> implements Callback<T> {
 
+    //本次请求LoadingDialog是否show, 默认true
+    protected boolean isShowedLoadingDialog = true;
+    //这次请求是否是(下拉)刷新
+    protected boolean thisRequestIsRefresh  = false;
     protected boolean isStatusCodeError     = false;
-    protected boolean isShowedLoadingDialog = false;//本次请求LoadingDialog是否show
     private   int     requestId;
-    protected boolean thisRequestIsRefresh  = false;//这次请求是否是(下拉)刷新
-    public    Object  tag;
+    public    LifecycleOwner tag;
 
-    public BaseCallback2(@Nullable Object tag) {
-        this(tag, 0, false);
+    public BaseCallback2(@Nullable LifecycleOwner tag) {
+        this(tag, true);
     }
 
-    public BaseCallback2(@Nullable Object tag, int requestId) {
-        this(tag, requestId, false);
+    public BaseCallback2(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog) {
+        this(tag, isShowLoadingDialog, false);
     }
 
-    public BaseCallback2(@Nullable Object tag, boolean isRefresh) {
-        this(tag, 0, isRefresh);
+    public BaseCallback2(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog, boolean isRefresh) {
+        this(tag, isShowLoadingDialog, isRefresh, 0);
     }
 
     /**
-     * @param tag 如果 tag instanceof ShowNetWorkLoadingDialogAble, 会自动show/dismiss LoadingDialog.
-     * @param requestId  1.可传入"List/RecyclerView"的position或item对应的id,
-     *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的.
+     * @param tag 2个作用: <br />
+     *            1.1.传入LifecycleOwner, 用于onDestroy的时候取消请求. <br />
+     *            1.2.如果是在Dialog/Others..., onDestroy的时候, 请你自己想办法取掉请求, 我这儿介入不了! <br />
+     *            2.如果 tag instanceof ShowNetWorkLoadingDialogAble, 可以show/dismiss LoadingDialog. <br /> <br />
+     *
+     * @param isShowLoadingDialog 是否显示LoadingDialog, 默认true <br /> <br />
+     *
+     * @param isRefresh 这次请求是否是"下拉刷新 or 上拉加载", 可用于请求列表数据时, 标记这次请求 <br /> <br />
+     * @param requestId
+     *            1.可传入"List/RecyclerView"的position或item对应的id,
+     *              当你在List/RecyclerView中多个item"同时请求"时, 这个requestId可用于区别你这次请求是哪一个item发起的. <br />
      *            2.也可用于需要"同时上传"多个文件, 但每次只能上传一个文件的情况. 传入文件对应的position,
-     *              当上传成功后, 就可根据这个requestId判断是上传哪一个文件.
-     * @param isRefresh 下拉刷新 or 上拉加载, 可用于列表请求时, 标记这次请求
+     *              当上传成功后, 就可根据这个requestId判断是上传哪一个文件. <br />
      */
-    public BaseCallback2(@Nullable Object tag, int requestId, boolean isRefresh) {
+    public BaseCallback2(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog, boolean isRefresh, int requestId) {
         this.tag = tag;
-        this.requestId = requestId;
+        this.isShowedLoadingDialog = isShowLoadingDialog;
         this.thisRequestIsRefresh = isRefresh;
+        this.requestId = requestId;
+        MyOkHttpLifecycleUtils.addObserver(tag);
         onBefore(requestId);
     }
 
@@ -64,11 +78,13 @@ public abstract class BaseCallback2<T> implements Callback<T> {
         if (tag instanceof ShowNetWorkLoadingDialogable) {
             ((ShowNetWorkLoadingDialogable) tag).showNetWorkLoadingDialog();
             isShowedLoadingDialog = true;
+        } else {
+            isShowedLoadingDialog = false;
         }
     }
 
     @Override
-    public void onResponse(Call<T> call, Response<T> response) {
+    public void onResponse(@NonNull Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
             if (isShowedLoadingDialog && tag instanceof ShowNetWorkLoadingDialogable) {
                 ((ShowNetWorkLoadingDialogable) tag).dismissNetWorkLoadingDialog();
@@ -99,7 +115,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * 如果要重写, 请重写这个方法: {@link #onError(Call, Throwable)}
      */
     @Override
-    public final void onFailure(Call<T> call, Throwable t) {
+    public final void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
         logFormat("onError: call=%s, throwable=%s", call, t);
         if (call == null || call.isCanceled() || t == null) return;
         onError(call, t);

@@ -12,6 +12,7 @@ import retrofit2.http.GET;
  */
 public interface GithubApi {
 
+    //获取Response: Call<Response<GithubInfo>>
     @GET("/")
-    Call<GithubInfo> get();//获取Response: Call<Response<GithubInfo>>
+    Call<GithubInfo> get();
 }

@@ -16,10 +16,11 @@ import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.PostFileCallback;
 import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
+import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityNetWorkAndImageBinding;
 import com.actor.sample.info.GithubInfo;
-import com.actor.sample.retrofit.NetWork;
+import com.actor.sample.retrofit.api.GithubApi;
 import com.actor.sample.utils.Global;
 import com.bumptech.glide.Glide;
 import com.yanzhenjie.album.Action;
@@ -135,7 +136,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     }
 
     private void getByRetrofit() {
-        putCall(NetWork.getGithubApi().get()).enqueue(new BaseCallback2<GithubInfo>(this) {
+        RetrofitNetwork.getApi(GithubApi.class).get().enqueue(new BaseCallback2<GithubInfo>(this) {
             @Override
             public void onOk(Call<GithubInfo> call, Response<GithubInfo> response, int id, boolean isRefresh) {
                 GithubInfo body = response.body();

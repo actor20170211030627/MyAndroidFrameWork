@@ -14,12 +14,16 @@ import okhttp3.Request;
  */
 public abstract class PostFileCallback<T> extends BaseCallback<T> {
 
-    public PostFileCallback(LifecycleOwner tag) {
+    public PostFileCallback(@Nullable LifecycleOwner tag) {
         super(tag);
     }
 
-    public PostFileCallback(LifecycleOwner tag, int id) {
-        super(tag, id);
+    public PostFileCallback(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog) {
+        super(tag, isShowLoadingDialog);
+    }
+
+    public PostFileCallback(@Nullable LifecycleOwner tag, boolean isShowLoadingDialog, int requestId) {
+        super(tag, isShowLoadingDialog, false, requestId);
     }
 
     //其实运行在子线程,加了final,子类不能重写此方法

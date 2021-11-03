@@ -30,23 +30,24 @@ public abstract class GetFileCallback extends BaseCallback<File> {
     //目标文件存储的文件名
     protected String fileNameForGetFile;
 
-    public GetFileCallback(LifecycleOwner tag, String fileName) {
-        this(tag, 0, fileName);
+    public GetFileCallback(@Nullable LifecycleOwner tag, @Nullable String fileName) {
+        this(tag, fileName, null);
     }
-    public GetFileCallback(LifecycleOwner tag, int id, String fileName) {
-        this(tag, id, null, fileName);
+
+    public GetFileCallback(@Nullable LifecycleOwner tag, @Nullable String fileName, @Nullable String downloadPath) {
+        this(tag, fileName, downloadPath, true);
     }
-    public GetFileCallback(LifecycleOwner tag, @Nullable String downloadPath, String fileName) {
-        this(tag, 0, downloadPath, fileName);
+    public GetFileCallback(@Nullable LifecycleOwner tag, @Nullable String fileName, @Nullable String downloadPath, boolean isShowLoadingDialog) {
+        this(tag, fileName, downloadPath, isShowLoadingDialog, 0);
     }
 
     /**
      * 传入 "文件存储路径" & "文件名"
-     * @param downloadPath 文件存储路径, 可以为空, 默认 files 文件夹
      * @param fileName 文件名, 可以为空
+     * @param downloadPath 文件存储路径, 可以为空, 默认 files 文件夹
      */
-    public GetFileCallback(LifecycleOwner tag, int id, @Nullable String downloadPath, @Nullable String fileName) {
-        super(tag, id);
+    public GetFileCallback(@Nullable LifecycleOwner tag, @Nullable String fileName, @Nullable String downloadPath, boolean isShowLoadingDialog, int requestId) {
+        super(tag, isShowLoadingDialog, false, requestId);
         initPath(downloadPath, fileName);
     }
 
@@ -57,7 +58,7 @@ public abstract class GetFileCallback extends BaseCallback<File> {
      * @param fileName 文件名称, 例: xxx.jpg
      *                 也可从url中解析, 见: {@link #getFileNameFromUrl(String)}
      */
-    protected void initPath(String downloadPath, String fileName) {
+    protected void initPath(@Nullable String downloadPath, @Nullable String fileName) {
         if (TextUtils.isEmpty(downloadPath)) downloadPath = PathUtils.getFilesPathExternalFirst();
         if (TextUtils.isEmpty(fileName)) fileName = String.valueOf(System.currentTimeMillis());
         downloadPathForGetFile = downloadPath;
@@ -137,9 +138,12 @@ public abstract class GetFileCallback extends BaseCallback<File> {
     @NonNull
     public static String getFileNameFromUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
+            //http://www.xxx.com/xxx.0.7.zip?a=b&c=d
+            //http://www.xxx.com/s?a=a & b=b & c=c
             if (url.contains("?")) url = url.substring(0, url.lastIndexOf("?"));
             if (url.contains("/")) url = url.substring(url.lastIndexOf("/") + 1);
         }
+        //如果上方获取的url还是空的
         if (TextUtils.isEmpty(url)) url = String.valueOf(System.currentTimeMillis());
         return url;
     }

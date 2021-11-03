@@ -1,5 +1,7 @@
 package com.actor.myandroidframework.utils.retrofit;
 
+import androidx.annotation.NonNull;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -23,12 +25,13 @@ public class NoResultCallback<T> extends BaseCallback2<T> {
      * @param isToastErrorInfo 如果出错, 是否toast
      */
     public NoResultCallback(boolean isToastErrorInfo) {
-        super(null);            //tag=null, 不会显示LoadingDialog
+        //tag=null, 不会显示LoadingDialog
+        super(null);
         this.isToastErrorInfo = isToastErrorInfo;
     }
 
     @Override
-    public void onResponse(Call<T> call, Response<T> response) {
+    public void onResponse(@NonNull Call<T> call, Response<T> response) {
         if (isToastErrorInfo) super.onResponse(call, response);
     }
 
@@ -38,6 +41,6 @@ public class NoResultCallback<T> extends BaseCallback2<T> {
     }
 
     @Override
-    public void onOk(Call call, Response response, int id, boolean isRefresh) {
+    public void onOk(Call<T> call, Response<T> response, int id, boolean isRefresh) {
     }
 }

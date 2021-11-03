@@ -24,5 +24,9 @@ class NullCallback implements Callback {
 
     @Override
     public final void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+        if (!call.isCanceled()) {
+            call.cancel();
+        }
+        response.close();
     }
 }
