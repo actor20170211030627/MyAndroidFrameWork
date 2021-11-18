@@ -33,13 +33,13 @@ import java.util.Map;
  * Description: 快速查找条
  * Author     : ldf
  * Date       : 2017/3/22 on 20:55.
- *
+ * <p>
  * 用法:
  * 1.由于pinyin不常用, 所以如果使用本类, 需要在自己project中添加依赖:
  * //https://github.com/promeG/TinyPinyin
  * implementation 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB
  * //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'//可选，适用于Android的中国地区词典
- *
+ * <p>
  * 1. 布局文件中
  * <com.actor.myandroidframework.widget.QuickSearchBar
  *     android:id="@+id/quicksearchbar"
@@ -53,48 +53,57 @@ import java.util.Map;
  *
  * 2.Java文件中
  * 注意: 列表中的数据必须 extends {@link PinYinSortAble}, 否则报错
- *
+ * <p>
  * 设置字母监听: {@link #setOnLetterChangedListener(RecyclerView, OnLetterChangedListener)}
- *
+ * <p>
  * 设置字体正常颜色: {@link #setTextColorNormal(int)}
- *
+ * <p>
  * 设置字体按下时颜色: {@link #setTextColorPressed(int)}}
- *
+ * <p>
  * 设置字体大小: {@link #setTextSize(int)}}
- *
+ * <p>
  * 设置按下时背景资源: {@link #setBackgroundPressed(int)}}
- *
- *
+ * <p>
+ * <p>
  * 3.在RecyclerView列表中控制Letter字母的显示/隐藏:
  * int position = helper.getAdapterPosition();
  * helper.setText(R.Id.tv_letter, item.letter)//显示letter: "A", "B" ...
- *         .setGone(R.Id.tv_letter, position == 0 ||
- *                 !TextUtils.equals(item.letter, items.get(position - 1).letter));
+ *         .setGone(R.Id.tv_letter, position > 0 &&
+ *                 TextUtils.equals(item.letter, items.get(position - 1).letter));
  *
  * @version 1.0
  */
-public class QuickSearchBar extends View {
+public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends View {
 
-    protected static final int                         INDEX_NONE = -1;
+    protected static final int                         INDEX_NONE    = -1;
     protected              Rect                        rect;
     protected              Paint                       paint;
-    protected              float                       mCellWidth;       //控件宽度
-    protected              float                       mCellHeight;      //控件高度 / 26
-    protected              int                         mCurrentIndex = INDEX_NONE; //现在所触摸的索引
-    protected              int                         textColorNormal;//正常字体颜色
-    protected              int                         textColorPressed;//按下时的字体颜色, 默认colorAccent
-    protected              int                         textSize;//字体大小, 默认10sp
-    protected Drawable             pressedBackground;//按下时背景
-    protected RecyclerView         recyclerView;
-    protected Map<String, Integer> letterMap  = new HashMap<>();
+    //控件宽度
+    protected              float                       mCellWidth;
+    //控件高度 / 26
+    protected              float                       mCellHeight;
+    //现在所触摸的索引
+    protected              int                         mCurrentIndex = INDEX_NONE;
+    //正常字体颜色
+    protected              int                         textColorNormal;
+    //按下时的字体颜色, 默认colorAccent
+    protected              int                         textColorPressed;
+    //字体大小, 默认10sp
+    protected              int                         textSize;
+    //按下时背景
+    protected              Drawable                    pressedBackground;
+    protected              RecyclerView                recyclerView;
+    protected              Map<String, Integer>        letterMap     = new HashMap<>();
     protected              OnLetterChangedListener     letterChangedListener;
-    protected              List<PinYinSortAble>        temps      = new ArrayList<>();
+    protected              List<T>                     temps         = new ArrayList<>();
     protected              RecyclerView.SmoothScroller smoothScroller;
-    protected static final String[]                    LETTERS    = {//字母
+    //字母
+    protected              String[]                    LETTERS       = {
             "#", "A", "B", "C", "D", "E", "F", "G", "H",
             "I", "J", "K", "L", "M", "N", "O", "P", "Q",
             "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    public static final  int                           POSITION_A = 1;//"A"在上方的position, 从0开始
+    //"A"在上方的position, 从0开始
+    public static final    int                         POSITION_A    = 1;
 
     public QuickSearchBar(Context context) {
         super(context);
@@ -154,14 +163,14 @@ public class QuickSearchBar extends View {
         for (int i = 0; i < LETTERS.length; i++) {
             //绘制图片:起点在左上角
             //绘制文字:起点在左下角
-            paint.getTextBounds(LETTERS[i] , 0, 1, rect);
+            paint.getTextBounds(LETTERS[i], 0, 1, rect);
             int textWidth = rect.width();   //字体宽度
             int textHeight = rect.height(); //字体高度
             float x = mCellWidth / 2 - textWidth / 2F;//字体从小rect的左下角开始画
             float y = mCellHeight / 2 + textHeight / 2F + mCellHeight * i;//字体从小rext的做小脚开始画
             if (i == mCurrentIndex) {
                 paint.setColor(textColorPressed);
-            }else {
+            } else {
                 paint.setColor(textColorNormal);
             }
             canvas.drawText(LETTERS[i], x, y, paint);
@@ -171,25 +180,25 @@ public class QuickSearchBar extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-        case MotionEvent.ACTION_DOWN:
-        case MotionEvent.ACTION_MOVE:
-            float y = event.getY();     //相对与这个控件左上角的y坐标
-            int oldIndex = mCurrentIndex;
-            mCurrentIndex = (int) (y / mCellHeight);
-            if (mCurrentIndex > LETTERS.length - 1) {
-                mCurrentIndex = LETTERS.length - 1;
-            }
-            if (mCurrentIndex < 0) {
-                mCurrentIndex = 0;
-            }
-            if (oldIndex != mCurrentIndex) {
-                String letter = LETTERS[mCurrentIndex];
-                if (letterChangedListener != null) {
-                    letterChangedListener.onLetterChanged(letter);
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                float y = event.getY();     //相对与这个控件左上角的y坐标
+                int oldIndex = mCurrentIndex;
+                mCurrentIndex = (int) (y / mCellHeight);
+                if (mCurrentIndex > LETTERS.length - 1) {
+                    mCurrentIndex = LETTERS.length - 1;
                 }
-                if (recyclerView != null) {
+                if (mCurrentIndex < 0) {
+                    mCurrentIndex = 0;
+                }
+                if (oldIndex != mCurrentIndex) {
+                    String letter = LETTERS[mCurrentIndex];
+                    if (letterChangedListener != null) {
+                        letterChangedListener.onLetterChanged(letter);
+                    }
+                    if (recyclerView != null) {
                         Integer integer = letterMap.get(letter);
-                        if(integer != null) {
+                        if (integer != null) {
                             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                             if (layoutManager != null) {
                                 if (layoutManager instanceof LinearLayoutManager) {
@@ -202,37 +211,37 @@ public class QuickSearchBar extends View {
                                 //当这个letter在屏幕中已经显示时, 不会滚动
 //                            recyclerView.smoothScrollToPosition(integer);
                             }
+                        }
                     }
+                    invalidate();//请求重新绘制，此方法会触发系统再次调用onDraw方法
                 }
-                invalidate();//请求重新绘制，此方法会触发系统再次调用onDraw方法
-            }
-            setBackground(pressedBackground);//当选中右侧条目时背景色
-            break;
-        case MotionEvent.ACTION_UP:
-        default:
-            mCurrentIndex = INDEX_NONE;
-            if (letterChangedListener != null) {
-                letterChangedListener.onActionUp();
-            }
-            setBackground(null);
-            //颜色
+                setBackground(pressedBackground);//当选中右侧条目时背景色
+                break;
+            case MotionEvent.ACTION_UP:
+            default:
+                mCurrentIndex = INDEX_NONE;
+                if (letterChangedListener != null) {
+                    letterChangedListener.onActionUp();
+                }
+                setBackground(null);
+                //颜色
 //            setBackgroundColor(Color.TRANSPARENT);//设置透明的颜色背景
 //            setBackgroundDrawable(new ColorDrawable());//这个也可以设置透明
-            invalidate();
-            break;
+                invalidate();
+                break;
         }
         return true;
     }
 
     /**
-     * 在recyclerview.setAdapter 或 notifydasetchanged之前调用, 排序
+     * 排序, 在recyclerview.setAdapter 或 notifydasetchanged之前调用.
      * 注意, List里的数据必须 extends PinYinSortAble, 否则报错. {@link PinYinSortAble}
      */
-    public void sortData(List items) {
+    public void sortData(List<T> items) {
         if (items != null) {
             //1.添加拼音Letter
             for (int i = 0; i < items.size(); i++) {
-                PinYinSortAble item = (PinYinSortAble) items.get(i);
+                T item = items.get(i);
                 if (item != null) {
                     String sortString = item.getSortString();//要拼音排序的字符串/字母
                     if (TextUtils.isEmpty(sortString)) {
@@ -263,7 +272,7 @@ public class QuickSearchBar extends View {
             temps.clear();
             for (String section : LETTERS) {
                 for (int i = 0; i < items.size(); i++) {
-                    PinYinSortAble item = (PinYinSortAble) items.get(i);
+                    T item = items.get(i);
                     if (item != null && section.equals(item.getLetter())) {
                         temps.add(item);
                     }
@@ -273,7 +282,7 @@ public class QuickSearchBar extends View {
             letterMap.clear();
             items.clear();
             for (int i = 0; i < temps.size(); i++) {
-                PinYinSortAble temp = temps.get(i);
+                T temp = temps.get(i);
                 items.add(temp);
                 String letter = temp.getLetter();
                 if (letterMap.get(letter) == null) letterMap.put(letter, i);
@@ -282,7 +291,7 @@ public class QuickSearchBar extends View {
         }
     }
 
-    public void setOnLetterChangedListener(RecyclerView recyclerView, OnLetterChangedListener letterChangedListener){
+    public void setOnLetterChangedListener(RecyclerView recyclerView, OnLetterChangedListener letterChangedListener) {
         this.recyclerView = recyclerView;
         this.letterChangedListener = letterChangedListener;
     }
@@ -290,13 +299,14 @@ public class QuickSearchBar extends View {
     /**
      * 设置正常字体颜色
      */
-    public void setTextColorNormal(@ColorInt int colorNormal){
+    public void setTextColorNormal(@ColorInt int colorNormal) {
         this.textColorNormal = colorNormal;
         invalidate();
     }
 
     /**
      * 设置选中文字按下时颜色
+     *
      * @param colorPressed
      */
     public void setTextColorPressed(@ColorInt int colorPressed) {
@@ -306,7 +316,7 @@ public class QuickSearchBar extends View {
     /**
      * 设置字体大小, 默认10sp
      */
-    public void setTextSize(int textSizeSp){
+    public void setTextSize(int textSizeSp) {
         this.textSize = ConvertUtils.sp2px(textSizeSp);
         invalidate();
     }
@@ -320,15 +330,19 @@ public class QuickSearchBar extends View {
 
     public interface PinYinSortAble {
 
-        /**
-         * @param letter 每一条数据经过拼音排序后返回的字符串, 例: "A", "B" ...
-         */
-        void setLetter(String letter);
+        //子类需要增加下面一行
+//        private String letter;
 
         /**
-         * @return 返回 letter
+         * @param letter 每一条数据经过拼音排序后返回的字符串, 例: "A", "B" ...
+         *               照下放这样写↓
          */
-        String getLetter();
+        void setLetter(String letter) /*{this.letter = letter}*/;
+
+        /**
+         * @return 返回 letter  照下放这样写↓
+         */
+        String getLetter() /*{return letter}*/;
 
         /**
          * @return 返回要拼音排序的字符串, 可返回:

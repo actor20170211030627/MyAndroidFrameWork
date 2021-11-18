@@ -437,7 +437,7 @@ public class WeChatUtils {
      * @return 是否跳转到微信分享界面
      */
     public static boolean share2Wechat(Context context, String filePath) {
-        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath);
+        Intent sendIntent = IntentUtils.getShareImageIntent(filePath);
         sendIntent.setType("*/*");
         sendIntent.setClassName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
         try {

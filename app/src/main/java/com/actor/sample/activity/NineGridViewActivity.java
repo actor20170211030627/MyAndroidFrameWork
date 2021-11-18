@@ -8,7 +8,7 @@ import com.actor.myandroidframework.widget.NineGridView.NineGridView;
 import com.actor.sample.databinding.ActivityNineGridViewBinding;
 import com.actor.sample.utils.Global;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class NineGridViewActivity extends BaseActivity<ActivityNineGridViewBindi
             items.add(new PicOrVideo(Global.girl, i % 4 == 0));
         }
         nineGridView.setData(items);
-        nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener<PicOrVideo>() {
+        nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener1<PicOrVideo>() {
             @Override
             public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, View view, int position) {
                 toastFormat("position=%d, isVideo=%b", position, item.isVideo());

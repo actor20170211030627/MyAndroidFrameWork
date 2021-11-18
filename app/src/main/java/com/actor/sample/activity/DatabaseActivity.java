@@ -4,17 +4,18 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
+import com.actor.sample.adapter.DatabaseAdapter;
 import com.actor.sample.database.ItemEntity;
 import com.actor.sample.databinding.ActivityDatabaseBinding;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.greendao.gen.ItemEntityDao;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -40,9 +41,9 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
     private ItemTextInputLayout  itilValue;
     private RecyclerView         recyclerView;
 
-    private static final ItemEntityDao    DAO = GreenDaoUtils.getDaoSession().getItemEntityDao();
-    private              MyAdapter        myAdapter;
-    private              int              deletePosition;
+    private static final ItemEntityDao   DAO = GreenDaoUtils.getDaoSession().getItemEntityDao();
+    private              DatabaseAdapter myAdapter;
+    private              int             deletePosition;
     private              ConfirmPopupView deletePopupView;
 
     @Override
@@ -56,9 +57,9 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
         itilValue = viewBinding.itilValue;
         recyclerView = viewBinding.recyclerView;
 
-        myAdapter = new MyAdapter(R.layout.item_data_base_person);
+        myAdapter = new DatabaseAdapter(R.layout.item_data_base_person);
         //item click
-        myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        myAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ItemEntity person = myAdapter.getItem(position);
@@ -77,7 +78,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
             }
         });
         //item child click
-        myAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        myAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.tv_delete) {//delete
@@ -169,30 +170,6 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
         List<ItemEntity> persons = GreenDaoUtils.queryAll(DAO);
         if (persons != null) {
             myAdapter.replaceData(persons);
-        }
-    }
-
-    private class MyAdapter extends BaseQuickAdapter<ItemEntity, BaseViewHolder> {
-
-        public MyAdapter(int layoutResId) {
-            super(layoutResId, null);
-        }
-
-        @Override
-        protected void convert(@NonNull BaseViewHolder helper, ItemEntity item) {
-            Map<String, Object> params = item.getParams();
-            String param = null;
-            if (params != null && !params.isEmpty()) {
-                for (Map.Entry<String, Object> entry : params.entrySet()) {
-                    param = getStringFormat("参数: key=%s, value=%s", entry.getKey(), entry.getValue());
-                    break;
-                }
-            }
-            helper.addOnClickListener(R.id.tv_delete)
-                    .setText(R.id.tv_name, "Name姓名: " + item.getName())
-                    .setText(R.id.tv_sex, "Sex性别: " + item.getSexStr())
-                    .setText(R.id.tv_id_card, "身份证IdCard: " + item.getIdCard())
-                    .setText(R.id.tv_params, param);
         }
     }
 

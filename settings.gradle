@@ -1,1 +1,1 @@
-include ':app', ':myandroidframework', ':tempgen'
+include ':app', ':library', ':tempgen'

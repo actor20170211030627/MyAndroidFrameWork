@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import com.actor.sample.R;
 import com.actor.sample.bean.Item;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class QuickSearchBarAdapter extends BaseQuickAdapter<Item, BaseViewHolder
         int position = helper.getBindingAdapterPosition();
         helper.setText(R.id.tv_letter, item.getLetter())
                 .setText(R.id.tv_contact, item.itemName)
-                .setGone(R.id.tv_letter, position == 0 ||
-                        !TextUtils.equals(item.getLetter(), getData().get(position - 1).getLetter()));
+                .setGone(R.id.tv_letter, position > 0 &&
+                        TextUtils.equals(item.getLetter(), getData().get(position - 1).getLetter()));
     }
 }

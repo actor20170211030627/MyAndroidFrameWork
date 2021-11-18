@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
@@ -29,6 +28,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -305,13 +305,12 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      * adapter设置空布局
      *
      * @param adapter      不能为空
-     * @param recyclerView 不能为空
      */
-    protected void setEmptyView(BaseQuickAdapter adapter, RecyclerView recyclerView) {
-        setEmptyView(R.layout.layout_for_empty, adapter, recyclerView);
+    protected void setEmptyView(BaseQuickAdapter adapter) {
+        setEmptyView(R.layout.layout_for_empty, adapter);
     }
-    protected void setEmptyView(@LayoutRes int layoutId, BaseQuickAdapter adapter, RecyclerView recyclerView) {
-        adapter.setEmptyView(layoutId, recyclerView);
+    protected void setEmptyView(@LayoutRes int layoutId, BaseQuickAdapter adapter) {
+        adapter.setEmptyView(layoutId);
     }
 
     /**
@@ -360,16 +359,15 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      * getList(false);
      *
      * @param adapter      不能为空
-     * @param recyclerView 不能为空
      * @param listener     不能为空
      */
-    protected void setLoadMore$Empty(BaseQuickAdapter adapter, RecyclerView recyclerView, BaseQuickAdapter.RequestLoadMoreListener listener) {
-        setLoadMore$Empty(R.layout.layout_for_empty, adapter, recyclerView, listener);
+    protected void setLoadMore$Empty(BaseQuickAdapter adapter, OnLoadMoreListener listener) {
+        setLoadMore$Empty(R.layout.layout_for_empty, adapter, listener);
     }
 
-    protected void setLoadMore$Empty(@LayoutRes int layoutId, BaseQuickAdapter adapter, RecyclerView recyclerView, BaseQuickAdapter.RequestLoadMoreListener listener) {
-        adapter.setOnLoadMoreListener(listener, recyclerView);//上拉加载更多
-        adapter.setEmptyView(layoutId, recyclerView);//空布局
+    protected void setLoadMore$Empty(@LayoutRes int layoutId, BaseQuickAdapter adapter, OnLoadMoreListener listener) {
+        adapter.getLoadMoreModule().setOnLoadMoreListener(listener);//上拉加载更多
+        adapter.setEmptyView(layoutId);//空布局
     }
 
     /**
@@ -399,9 +397,9 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         //"list = null"     or     "list为空"     or     "list < size"(比如一次获取20条, 但是只返回15条, 说明服务器没有更多数据了)
         boolean isLoadMoreEnd = list == null || list.size() < size;
         if (isLoadMoreEnd) {
-            adapter.loadMoreEnd();//已经没有数据了
+            adapter.getLoadMoreModule().loadMoreEnd();//已经没有数据了
         } else {
-            adapter.loadMoreComplete();//加载完成
+            adapter.getLoadMoreModule().loadMoreComplete();//加载完成
         }
     }
 
@@ -411,8 +409,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      */
     protected void setLoadMoreState(@NonNull BaseQuickAdapter adapter, int total) {
         if (adapter.getData().size() < total) {
-            adapter.loadMoreComplete();//加载完成
-        } else adapter.loadMoreEnd();//已经没有数据了
+            adapter.getLoadMoreModule().loadMoreComplete();//加载完成
+        } else adapter.getLoadMoreModule().loadMoreEnd();//已经没有数据了
     }
 
 

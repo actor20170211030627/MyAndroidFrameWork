@@ -22,9 +22,9 @@ ext {
     //androidx 的依赖包
     dependencies = [
             //                        rootProject.ext.dependencies.material or rootProject.ext.dependencies["material"]
-            "material"              : "com.google.android.material:material:1.0.0",
+            "material"              : "com.google.android.material:material:1.4.0",
             "support_v4"            : 'androidx.legacy:legacy-support-v4:1.0.0',//${version["androidSupportSdkVersion"]}
-            "appcompat_v7"          : 'androidx.appcompat:appcompat:1.0.0',
+            "appcompat_v7"          : 'androidx.appcompat:appcompat:1.3.1',
             "swiperefreshlayout"    : 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0',
             "cardview_v7"           : "androidx.cardview:cardview:${version.androidSupportSdkVersion}",
             "annotations"           : "androidx.annotation:annotation:${version.androidSupportSdkVersion}",

@@ -194,7 +194,7 @@ public class FileUtils {
      * @param filePath 文件路径
      */
     public static void shareFile(String filePath) {
-        CONTEXT.startActivity(Intent.createChooser(IntentUtils.getShareImageIntent("", filePath)
+        CONTEXT.startActivity(Intent.createChooser(IntentUtils.getShareImageIntent(filePath)
                 .setType("*/*"), "请选择需要分享的应用程序"));
     }
 }

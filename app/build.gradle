@@ -68,14 +68,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation rootProject.ext.dependencies.appcompat_v7
     implementation rootProject.ext.dependencies.constraint_layout
 
     //https://github.com/google/flexbox-layout
     implementation 'com.google.android:flexbox:1.0.0'
 
     //https://gitee.com/actor20170211030627/MyAndroidFrameWork
-    implementation project(path: ':myandroidframework')
+    implementation project(path: ':library')
 //    implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:myandroidframework:2.0.7'
 
     //https://github.com/greenrobot/greenDAO

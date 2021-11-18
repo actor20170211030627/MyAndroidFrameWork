@@ -16,7 +16,8 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 
@@ -84,6 +85,7 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
         this.deletePic = deletePic;
         this.itemClickListener = listener;
         initAddLocalMediaAble();
+        addChildClickViewIds(R.id.iv_for_file_select, R.id.iv_delete_for_file_select);
         addData(EXTRA_LAST_MEDIA);//添加一个+号
 
         setOnItemChildClickListener(new OnItemChildClickListener() {
@@ -186,8 +188,7 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
         Glide.with(ivDelete).load(deletePic).into(ivDelete);
         //是否是最后一个pos
         boolean isLastPos = helper.getAdapterPosition() == getItemCount() - 1;
-        ImageView iv = helper.setGone(R.id.iv_delete_for_file_select, !isLastPos)
-                .addOnClickListener(R.id.iv_for_file_select, R.id.iv_delete_for_file_select)
+        ImageView iv = helper.setGone(R.id.iv_delete_for_file_select, isLastPos)
                 .getView(R.id.iv_for_file_select);
         if (isLastPos) {
             Glide.with(iv).load(lastItemPic).into(iv);
@@ -214,12 +215,12 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
     /**
      * @deprecated 用户不需要调用这个方法, 应该调用{@link #getSelectFiles() }
      */
-    @Deprecated
-    @NonNull
-    @Override
-    public List<LocalMedia> getData() {
-        return super.getData();
-    }
+//    @Deprecated
+//    @NonNull
+//    @Override
+//    public List<LocalMedia> getData() {
+//        return super.getData();
+//    }
 
     private Map<String, UploadInfo> uploads = new LinkedHashMap<>();
     /**

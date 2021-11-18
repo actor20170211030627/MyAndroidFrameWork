@@ -29,28 +29,29 @@ annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 api 'org.greenrobot:eventbus:3.2.0'
 </li>
 <li>//https://github.com/Blankj/AndroidUtilCode 许多工具
-api 'com.blankj:utilcodex:1.29.0'
+api 'com.blankj:utilcodex:1.30.6'
 </li>
 <li>//https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案
 api 'me.jessyan:autosize:1.2.1'
 </li>
 <li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
+api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
 <li>//https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩)、视频、音频
 api 'io.github.lucksiege:pictureselector:v2.7.3-rc05'
 </li>
-<li>//https://github.com/yanzhenjie/AndPermission 严振杰权限
-api 'com.yanzhenjie:permission:2.0.3'
+<li>//https://gitee.com/getActivity/XXPermissions 轮子哥权限
+//https://github.com/getActivity/XXPermissions
+api 'com.github.getActivity:XXPermissions:13.2'
 </li>
 <li>//https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
 api 'com.contrarywind:Android-PickerView:4.1.9'
 </li>
-<li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup
-api 'com.lxj:xpopup:2.2.13'
+<li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup, compileSdkVersion 29
+api 'com.github.li-xiaojun:XPopup:2.6.7'
 </li>
 <li>//https://github.com/square/okhttp
-api "com.squareup.okhttp3:okhttp:4.9.0"
+api "com.squareup.okhttp3:okhttp:4.9.2"
 </li>
 <li>//https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp
 api 'com.zhy:okhttputils:2.6.2'

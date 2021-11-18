@@ -10,7 +10,7 @@ import com.actor.sample.R;
 import com.actor.sample.utils.ImageConstants;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
 
@@ -26,12 +26,13 @@ public class SharedElementAdapter extends BaseQuickAdapter<String, BaseViewHolde
 
     public SharedElementAdapter(@Nullable List<String> data) {
         super(R.layout.item_shared_element, data);
+        addChildClickViewIds(R.id.iv);
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
         int position = helper.getBindingAdapterPosition();
-        ImageView iv = helper.addOnClickListener(R.id.iv).getView(R.id.iv);
+        ImageView iv = helper.getView(R.id.iv);
         String url = ImageConstants.IMAGE_SOURCE[position];
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             iv.setTransitionName(url);//setTransitionName

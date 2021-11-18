@@ -283,6 +283,6 @@ public static java.lang.String TABLENAME;
 
 
 #############################################################################
-#XPopup 2.2.13
+#XPopup 2.6.7
 -dontwarn com.lxj.xpopup.widget.**
 -keep class com.lxj.xpopup.widget.**{*;}

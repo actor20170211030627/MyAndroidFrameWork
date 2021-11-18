@@ -319,7 +319,7 @@ public class QQUtils {
      * @return 是否跳转到QQ分享界面
      */
     public static boolean shareToQQFile(Context context, String filePath) {
-        Intent sendIntent = IntentUtils.getShareImageIntent("", filePath);
+        Intent sendIntent = IntentUtils.getShareImageIntent(filePath);
         sendIntent.setType("*/*");
         //这是正式版还是极速版?
         sendIntent.setClassName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");

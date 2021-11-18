@@ -15,7 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
  * private List<PicOrVideo> items = new ArrayList<>();
  *
  * nineGridView.setData(items);
- * nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener<PicOrVideo>() {
+ * nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener1<PicOrVideo>() {
  *     @Override
  *     public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, View view, int position) {
  *         toastFormat("position=%d, isVideo=%b", position, item.isVideo());
@@ -46,7 +47,7 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
     protected ImageView           ivPicForNineGridView;
     protected ImageView           ivPlayPauseForNineGridView;
     protected RecyclerView        recyclerViewForNineGridView;
-    protected OnItemClickListener<T> onItemClickListener;
+    protected OnItemClickListener1<T> onItemClickListener;
     protected NineGridAdapter        myAdapter;
     protected List<T>                items = new ArrayList<>(1);
 
@@ -111,7 +112,7 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
                 recyclerViewForNineGridView.setVisibility(VISIBLE);
                 if (myAdapter == null) {
                     myAdapter = new NineGridAdapter(R.layout.item_for_nine_grid_view, items);
-                    myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    myAdapter.setOnItemClickListener(new OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             if (onItemClickListener != null) onItemClickListener.onItemClick(NineGridView.this, myAdapter.getItem(position), adapter, view, position);
@@ -128,11 +129,11 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
     /**
      * 设置Item点击事件
      */
-    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener1<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public interface OnItemClickListener<T extends GetIsVideoAble> {
+    public interface OnItemClickListener1<T extends GetIsVideoAble> {
         void onItemClick(NineGridView<T> nineGridView, T item, BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
     }
 
