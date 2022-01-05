@@ -109,7 +109,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java">ClickUtils2</a> (防止2次点击)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/LogUtils.java">LogUtils</a> (Log简单打印)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java">NotificationHelper</a> (通知栏)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/PermissionRequestUtils.java">PermissionRequestUtils</a> (权限)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/SPUtils.java">SPUtils</a> (SP工具)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/TextUtils2.java">TextUtils2</a> (获取Text, 判空, getStringFormat, ...)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ThreadUtils.java">ThreadUtils</a> (线程判断/切换)

@@ -22,20 +22,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description: 九宫格 自定义item, 使用注意: List中的数据必须implements {@link GetIsVideoAble}, 否则报错.
+ * Description: 九宫格 自定义item, 使用注意: List中的数据必须implements {@link GetIsVideoAble}, 否则报错. <br />
  * 示例使用:
- * @BindView(R.id.nine_grid_view)
- * NineGridView<PicOrVideo> nineGridView; //class PicOrVideo implements GetIsVideoAble
+ * <pre>
+ * //注意: class <b>PicOrVideo implements {@link GetIsVideoAble}</b>
+ * private NineGridView&lt;PicOrVideo> nineGridView;
  *
- * private List<PicOrVideo> items = new ArrayList<>();
+ * private List&lt;PicOrVideo> items = new ArrayList<>();
  *
  * nineGridView.setData(items);
- * nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener1<PicOrVideo>() {
- *     @Override
- *     public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, View view, int position) {
+ * nineGridView.setOnItemClickListener(new OnItemClickListener1&lt;PicOrVideo>() {
+ *     <code>@</code>Override
+ *     public void onItemClick(NineGridView&lt;PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter&lt;PicOrVideo, BaseViewHolder> adapter, View view, int position) {
  *         toastFormat("position=%d, isVideo=%b", position, item.isVideo());
  *     }
  * });
+ * </pre>
  *
  * Author     : ldf
  * Date       : 2019/5/16 on 14:47
@@ -110,20 +112,27 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
                 ivPicForNineGridView.setVisibility(GONE);
                 ivPlayPauseForNineGridView.setVisibility(GONE);
                 recyclerViewForNineGridView.setVisibility(VISIBLE);
-                if (myAdapter == null) {
-                    myAdapter = new NineGridAdapter(R.layout.item_for_nine_grid_view, items);
-                    myAdapter.setOnItemClickListener(new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                            if (onItemClickListener != null) onItemClickListener.onItemClick(NineGridView.this, myAdapter.getItem(position), adapter, view, position);
-                        }
-                    });
-                    recyclerViewForNineGridView.setAdapter(myAdapter);
-                    recyclerViewForNineGridView.addItemDecoration(new BaseItemDecoration(10, 10));
-                }
-                myAdapter.notifyDataSetChanged();
+                getNineGridAdapter().notifyDataSetChanged();
             }
         } else setVisibility(GONE);
+    }
+
+    /**
+     * @return 获取九宫格Adapter
+     */
+    protected NineGridAdapter getNineGridAdapter() {
+        if (myAdapter == null) {
+            myAdapter = new NineGridAdapter(R.layout.item_for_nine_grid_view, items);
+            myAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                    if (onItemClickListener != null) onItemClickListener.onItemClick(NineGridView.this, myAdapter.getItem(position), adapter, view, position);
+                }
+            });
+            recyclerViewForNineGridView.setAdapter(myAdapter);
+            recyclerViewForNineGridView.addItemDecoration(new BaseItemDecoration(10, 10));
+        }
+        return myAdapter;
     }
 
     /**
@@ -131,10 +140,6 @@ public class NineGridView<T extends GetIsVideoAble> extends ConstraintLayout {
      */
     public void setOnItemClickListener(OnItemClickListener1<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
-    }
-
-    public interface OnItemClickListener1<T extends GetIsVideoAble> {
-        void onItemClick(NineGridView<T> nineGridView, T item, BaseQuickAdapter<T, BaseViewHolder> adapter, View view, int position);
     }
 
     protected class NineGridAdapter extends BaseQuickAdapter<T, BaseViewHolder> {

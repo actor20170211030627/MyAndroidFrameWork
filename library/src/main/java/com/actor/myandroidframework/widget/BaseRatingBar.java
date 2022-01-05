@@ -23,31 +23,97 @@ import com.actor.myandroidframework.R;
 import com.blankj.utilcode.util.ImageUtils;
 
 /**
- * Description: 自定义RatingBar
- * Author     : ldf
- * Date       : 2019-8-27 on 15:34
+ * Description: 自定义RatingBar <br/>
+ * Author     : ldf <br/>
+ * Date       : 2019-8-27 on 15:34 <br/>
+ * <br/>
+ * 全部属性都是brb开头: <br/>
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <td align="center">属性attrs</td>
+ *         <td align="center">示例exams</td>
+ *         <td align="center">说明docs</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbStarInterval brbStarInterval}</td>
+ *         <td nowrap="nowrap">0.0</td>
+ *         <td>1.星星间距</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbStarHeight brbStarHeight}</td>
+ *         <td nowrap="nowrap">0.0</td>
+ *         <td>2.星星高度</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbNumStars brbNumStars}</td>
+ *         <td nowrap="nowrap">5</td>
+ *         <td>3.星星总的显示个数</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbEmptyDrawable brbEmptyDrawable}</td>
+ *         <td nowrap="nowrap">@drawable/star_empty_for_base_rating_bar</td>
+ *         <td>4.空的星星图片</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbFullDrawable brbFullDrawable}</td>
+ *         <td nowrap="nowrap">@drawable/star_full_for_base_rating_bar</td>
+ *         <td>5.满的星星图片</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbRating brbRating}</td>
+ *         <td nowrap="nowrap">0</td>
+ *         <td>6.设置默认显示多少星星</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbStepSize brbStepSize}</td>
+ *         <td nowrap="nowrap">0.1</td>
+ *         <td>7.步长</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbIsIndicator brbIsIndicator}</td>
+ *         <td nowrap="nowrap">false</td>
+ *         <td>8.是否只是起到指示作用(是否能编辑)</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseRatingBar_brbRatio brbRatio}</td>
+ *         <td nowrap="nowrap">1</td>
+ *         <td>9.星星宽高比例, 默认1: ratio = 宽/高</td>
+ *     </tr>
+ * </table>
  *
- * @version 1.0
  * TODO 还需参考系统控件 {@link RatingBar}
  */
 public class BaseRatingBar extends View {
 
-    private int                  starInterval = 0; //星星间距
-    private int                  starCount    = 5;  //总的星星个数
-    private int                  starHeight   = 0;     //星星高度大小，星星一般正方形，宽度等于高度
-    private float                starRating     = 0.0F;   //目前绘制的星星数量
-    private float                starStepSize = 0.1F;//步长
-    private Drawable             starEmptyDrawable; //空的星星图片
-    private Bitmap               starFullBitmap; //满的星星图片
-    private boolean starIsIndicator;//是否只是起到指示器作用
+    //星星间距
+    protected int      starInterval = 0;
+    //总的星星个数
+    protected int      starCount    = 5;
+    //星星高度大小，星星一般正方形，宽度等于高度
+    protected int      starHeight   = 0;
+    //目前绘制的星星数量
+    protected float    starRating   = 0.0F;
+    //步长
+    protected float    starStepSize = 0.1F;
+    //空的星星图片
+    protected Drawable starEmptyDrawable;
+    //满的星星图片
+    protected Bitmap   starFullBitmap;
+    //是否只是起到指示器作用
+    protected boolean  starIsIndicator;
+    //宽高比例, 默认1: ratio = 宽/高
+    protected float    starRatio = 1;
+    //是否用户在操作
+    protected boolean  fromUser = false;
 
-    private Paint                               paintFullStar;         //绘制'满星'的画笔
-    private OnRatingBarChangeListener onRatingBarChangeListener;//监听星星变化接口
-    private float starRatio = 1;//宽高比例, 默认1: ratio = 宽/高
-    private boolean fromUser = false;//是否用户在操作
+    //绘制'满星'的画笔
+    protected Paint                     paintFullStar;
+    //监听星星变化接口
+    protected OnRatingBarChangeListener onRatingBarChangeListener;
 
     public BaseRatingBar(Context context) {
         super(context);
+        init(context, null);
     }
 
     public BaseRatingBar(Context context, AttributeSet attrs) {
@@ -68,22 +134,31 @@ public class BaseRatingBar extends View {
 
     /**
      * 初始化UI组件
-     *
      * @param context
      * @param attrs
      */
-    private void init(Context context, AttributeSet attrs){
-        setClickable(true);//必须设置, 否则不流畅
+    private void init(Context context, @Nullable AttributeSet attrs) {
+        //必须设置, 否则不流畅
+        setClickable(true);
         if (attrs == null) return;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BaseRatingBar);
-        starInterval = typedArray.getDimensionPixelSize(R.styleable.BaseRatingBar_brbStarInterval, 0);//间隔
-        starHeight = typedArray.getDimensionPixelSize(R.styleable.BaseRatingBar_brbStarHeight, 0);//星星高度
-        starCount = typedArray.getInteger(R.styleable.BaseRatingBar_brbNumStars, 5);//总的星星个数
-        starEmptyDrawable = typedArray.getDrawable(R.styleable.BaseRatingBar_brbEmptyDrawable);//空的星星图片
-        Drawable drawable = typedArray.getDrawable(R.styleable.BaseRatingBar_brbFullDrawable);//满的星星图片
-        starRating = typedArray.getFloat(R.styleable.BaseRatingBar_brbRating, 0);//目前绘制的星星数量
-        starStepSize = typedArray.getFloat(R.styleable.BaseRatingBar_brbStepSize, 0.1F);//步长
-        starIsIndicator = typedArray.getBoolean(R.styleable.BaseRatingBar_brbIsIndicator, false);//是否只是起到指示器作用
+        //间隔
+        starInterval = typedArray.getDimensionPixelSize(R.styleable.BaseRatingBar_brbStarInterval, 0);
+        //星星高度
+        starHeight = typedArray.getDimensionPixelSize(R.styleable.BaseRatingBar_brbStarHeight, 0);
+        //总的星星个数
+        starCount = typedArray.getInteger(R.styleable.BaseRatingBar_brbNumStars, 5);
+        //空的星星图片
+        starEmptyDrawable = typedArray.getDrawable(R.styleable.BaseRatingBar_brbEmptyDrawable);
+        //满的星星图片
+        Drawable drawable = typedArray.getDrawable(R.styleable.BaseRatingBar_brbFullDrawable);
+        //目前绘制的星星数量
+        starRating = typedArray.getFloat(R.styleable.BaseRatingBar_brbRating, 0);
+        //步长
+        starStepSize = typedArray.getFloat(R.styleable.BaseRatingBar_brbStepSize, 0.1F);
+        //是否只是起到指示器作用
+        starIsIndicator = typedArray.getBoolean(R.styleable.BaseRatingBar_brbIsIndicator, false);
+        //星星宽高比例
         starRatio = typedArray.getFloat(R.styleable.BaseRatingBar_brbRatio, 1);
         typedArray.recycle();
 
@@ -91,7 +166,11 @@ public class BaseRatingBar extends View {
         if (starCount <= 0) starCount = 5;
 
         if (starEmptyDrawable == null) starEmptyDrawable = getResources().getDrawable(R.drawable.star_empty_for_base_rating_bar);
-        if (drawable != null) starFullBitmap = ImageUtils.drawable2Bitmap(drawable);
+        if (drawable != null) {
+            starFullBitmap = ImageUtils.drawable2Bitmap(drawable);
+        } else {
+            starFullBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star_full_for_base_rating_bar);
+        }
         if (starRating < 0) starRating = 0;
         if (starStepSize <= 0) starStepSize = 0.1F;
         if (starRatio <= 0) starRatio = 1;
@@ -109,9 +188,6 @@ public class BaseRatingBar extends View {
         //设置总的控件的宽高
         setMeasuredDimension((int) (starHeight * starRatio * starCount) + starInterval * (starCount - 1), starHeight);
 
-        if (starFullBitmap == null) {
-            starFullBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star_full_for_base_rating_bar);
-        }
         starFullBitmap = Bitmap.createScaledBitmap(starFullBitmap, (int) (starHeight * starRatio), starHeight, true);
         paintFullStar.setShader(new BitmapShader(starFullBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
     }
@@ -119,7 +195,6 @@ public class BaseRatingBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (starFullBitmap == null || starEmptyDrawable == null) return;
         for (int i = 0;i < starCount; i++) {
             int left = (int) ((starHeight * starRatio + starInterval) * i);
             starEmptyDrawable.setBounds(left, 0, (int) (left + starHeight * starRatio), starHeight);
@@ -127,7 +202,8 @@ public class BaseRatingBar extends View {
         }
         if (starRating > 1) {
             canvas.drawRect(0, 0, starHeight * starRatio, starHeight, paintFullStar);
-            if(starRating-(int)(starRating) == 0) {//整数星星
+            if(starRating-(int)(starRating) == 0) {
+                //整数星星
                 for (int i = 1; i < starRating; i++) {
                     canvas.translate(starInterval + starHeight * starRatio, 0);
                     canvas.drawRect(0, 0, starHeight * starRatio, starHeight, paintFullStar);
@@ -205,21 +281,24 @@ public class BaseRatingBar extends View {
     }
 
     /**
-     * 设置目前绘制的星星数量
-     * @see RatingBar#setRating(float)
+     * @param rating 设置目前绘制的星星数量, {@link RatingBar#setRating(float)}
      */
     public void setRating(float rating) {
         if (rating < 0) return;
-        if (starStepSize == 1) {//整数星星
+//        if (starStepSize == 1) {
+        if (starStepSize % 1 == 0) {
+            //步长是整数星星
             starRating = (int) Math.ceil(rating);
-        }else {//小数星星
-            if (rating >= starCount) {//比如步长0.7的时候, 大于0.5, 此时会出现4.9一直不到5的情况
+        } else {
+            //小数星星
+            //比如步长0.7的时候, 此时会出现4.9一直不到5的情况
+            if (rating >= starCount) {
                 starRating = starCount;
             } else {
-//                starRating = Math.round(rating * 10) * 1.0f / 10;
                 starRating = Math.round(rating / starStepSize) * starStepSize;
             }
-            if (starRating > starCount) starRating = starCount;//比如步长0.3时, 会出现5.1的情况
+            //比如步长0.3时, 会出现5.1的情况
+            if (starRating > starCount) starRating = starCount;
         }
         //浮点运算会出现这种情况: 0.3 * 3 = 0.90000004 (步长0.3)
         if (onRatingBarChangeListener != null) {
@@ -253,7 +332,7 @@ public class BaseRatingBar extends View {
     /**
      * 设置星星改变监听
      */
-    public void setOnStarChangeListener(OnRatingBarChangeListener onRatingBarChangeListener){
+    public void setOnStarChangeListener(@Nullable OnRatingBarChangeListener onRatingBarChangeListener) {
         this.onRatingBarChangeListener = onRatingBarChangeListener;
     }
     public interface OnRatingBarChangeListener {

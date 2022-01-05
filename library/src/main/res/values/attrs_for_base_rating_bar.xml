@@ -21,7 +21,7 @@
         <!--是否只是起到指示作用(是否能编辑)-->
         <attr name="brbIsIndicator" format="boolean"/>
 
-        <!--宽高比例, 默认1: ratio = 宽/高-->
+        <!--星星宽高比例, 默认1: ratio = 宽/高-->
         <attr name="brbRatio" format="float"/>
     </declare-styleable>
 </resources>

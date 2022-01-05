@@ -3,8 +3,12 @@ package com.actor.sample.activity;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.actor.myandroidframework.widget.NineGridView.GetIsVideoAble;
 import com.actor.myandroidframework.widget.NineGridView.NineGridView;
+import com.actor.myandroidframework.widget.NineGridView.OnItemClickListener1;
 import com.actor.sample.databinding.ActivityNineGridViewBinding;
 import com.actor.sample.utils.Global;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -34,9 +38,9 @@ public class NineGridViewActivity extends BaseActivity<ActivityNineGridViewBindi
             items.add(new PicOrVideo(Global.girl, i % 4 == 0));
         }
         nineGridView.setData(items);
-        nineGridView.setOnItemClickListener(new NineGridView.OnItemClickListener1<PicOrVideo>() {
+        nineGridView.setOnItemClickListener(new OnItemClickListener1<PicOrVideo>() {
             @Override
-            public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, View view, int position) {
+            public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, @Nullable BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, @NonNull View view, int position) {
                 toastFormat("position=%d, isVideo=%b", position, item.isVideo());
             }
         });

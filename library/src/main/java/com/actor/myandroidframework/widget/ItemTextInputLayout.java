@@ -33,56 +33,95 @@ import com.actor.myandroidframework.utils.RegexFilter;
 import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
- * Description: 常用的Item输入布局,这是一个组合控件.
- * Author     : ldf
- * Date       : 2019/7/10 on 17:20
+ * Description: 常用的Item输入布局,这是一个组合控件. <br/>
+ * Author     : ldf <br/>
+ * Date       : 2019/7/10 on 17:20 <br/>
+ * <br/>
+ * 全部属性都是itil开头: <br/>
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <td align="center">属性attrs</td>
+ *         <td align="center">示例exams</td>
+ *         <td align="center">说明docs</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemTextInputLayout_itilArrowRightVisiable itilArrowRightVisiable}</td>
+ *         <td nowrap="nowrap">visible/invisible/gone</td>
+ *         <td>1.右侧箭头显示类型, 默认: 能输入时隐藏, 不能输入时显示</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilDigits itilDigits}</td>
+ *         <td>0123456789xX</td>
+ *         <td>2.输入限制, 只能输入哪些数字/字母</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilGravity itilGravity}</td>
+ *         <td>start|centerVertical</td>
+ *         <td>3.右侧输入框文字gravity</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilHint itilHint}</td>
+ *         <td>请输入身份证</td>
+ *         <td>4.输入框hint</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilImeOptions itilImeOptions}</td>
+ *         <td>actionNext(下一步)</td>
+ *         <td>5.键盘右下角显示内容</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilInputEnable itilInputEnable}</td>
+ *         <td>true</td>
+ *         <td>6.是否能输入, 默认true(false的时候,可以当做TextView展示)</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilInputType itilInputType}</td>
+ *         <td>text</td>
+ *         <td>7.输入类型</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilItemName itilItemName}</td>
+ *         <td>请输入身份证：</td>
+ *         <td>8.左侧提示文字</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilMarginTop itilMarginTop}</td>
+ *         <td>1dp</td>
+ *         <td>9.marginTop, 默认1dp</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilMaxLength itilMaxLength}</td>
+ *         <td>18</td>
+ *         <td>10.最大输入长度</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilRedStarVisiable itilRedStarVisiable}</td>
+ *         <td>visible/invisible/gone</td>
+ *         <td>11.左侧红点显示类型, 默认visible</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilText itilText}</td>
+ *         <td>张三</td>
+ *         <td>12.右边EditText的文字</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilPaddingRightText itilPaddingRightText}</td>
+ *         <td>0dp</td>
+ *         <td>13.右边EditText的PaddingRight(默认: 右侧箭头可见时=0, 不可见时=10dp)</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilArrowRightSrc itilArrowRightSrc}</td>
+ *         <td>R.drawable.xxx|color</td>
+ *         <td>14.右侧箭头位置图片, 默认箭头</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilCustomLayout itilCustomLayout}</td>
+ *         <td>R.layout.xxx</td>
+ *         <td>15.自定义布局, 注意必须有默认控件的类型和id, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/tempgen/src/main/res/layout/item_text_input_layout.xml">item_text_input_layout.xml</a></td>
+ *     </tr>
+ * </table>
  *
- * 全部属性都是itil开头:
- * 1.右侧箭头显示类型, 默认: 能输入时隐藏, 不能输入时显示
- * @see R.styleable#ItemTextInputLayout_itilArrowRightVisiable //visible/invisible/gone
- * 2.输入限制, 只能输入哪些数字/字母
- * @see R.styleable#ItemTextInputLayout_itilDigits             //0123456789xX
- * 3.右侧输入框文字gravity
- * @see R.styleable#ItemTextInputLayout_itilGravity            //start|centerVertical
- * 4.输入框hint
- * @see R.styleable#ItemTextInputLayout_itilHint               //请输入身份证
- * 5.键盘右下角显示内容
- * @see R.styleable#ItemTextInputLayout_itilImeOptions         //actionNext(下一步)
- * 6.是否能输入, 默认true(false的时候,可以当做TextView展示)
- * @see R.styleable#ItemTextInputLayout_itilInputEnable        //true
- * 7.输入类型
- * @see R.styleable#ItemTextInputLayout_itilInputType          //text
- * 8.左侧提示文字
- * @see R.styleable#ItemTextInputLayout_itilItemName           //请输入身份证：
- * 9.marginTop, 默认1dp
- * @see R.styleable#ItemTextInputLayout_itilMarginTop          //1dp
- * 10.最大输入长度
- * @see R.styleable#ItemTextInputLayout_itilMaxLength          //18
- * 11.左侧红点显示类型, 默认visible
- * @see R.styleable#ItemTextInputLayout_itilRedStarVisiable    //visible/invisible/gone
- * 12.右边EditText的文字
- * @see R.styleable#ItemTextInputLayout_itilText               //张三
- * 13.右边EditText的PaddingRight(默认: 右侧箭头可见时=0, 不可见时=10dp)
- * @see R.styleable#ItemTextInputLayout_itilPaddingRightText   //0dp
- * 14.右侧箭头位置图片, 默认箭头
- * @see R.styleable#ItemTextInputLayout_itilArrowRightSrc      //R.drawable.xxx|color
- * 15.自定义布局, 注意必须有默认控件的类型和id, 可参考: https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/tempgen/src/main/res/layout/item_text_input_layout.xml
- * @see R.styleable#ItemTextInputLayout_itilCustomLayout       //R.layout.xxx
- *
- *
- * @version 1.1 修改attrs获取@string类型的值时, 获取到的是"@2131755078"的问题. 改用typedArray
- * @version 1.1.1 微小修改
- * @version 1.1.2 增加itilMarginTop功能 & itilGravity功能
- * @version 1.1.3 新增方法 & hint添加默认值
- *                  @see #setDigits(int, boolean)
- *                  @see #setDigits(String, boolean)
- *                  @see #setDigitsRegex(int, boolean)
- *                  @see #setDigitsRegex(String, boolean)
- * @version 1.1.5 新增方法
- *                  @see #setIvArrowRight(int, Integer, Integer)
- *                  @see #setIvArrowRight(Drawable, Integer, Integer)
- *
- * TODO: 2021/6/1 使用layout的方式, 我在页面测试ViewPager+3个Fragment+多个ItemTextInputLayout的过程中, 发现会有et里面数据填充混乱的问题, 感觉可能是编译版本过高, 或者id不再是final等原因, 具体待探索
+ * TODO: 2021/6/1 使用layout的方式, 在页面测试ViewPager+3个Fragment+多个ItemTextInputLayout的过程中, 发现会有et里面数据填充混乱的问题, 感觉可能是编译版本过高, 或者id不再是final等原因, 具体待探索
  */
 public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetTextAble {
 
