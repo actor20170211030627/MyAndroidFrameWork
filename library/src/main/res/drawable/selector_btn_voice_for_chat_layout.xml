@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--必须分开写,否则Button和ImageView(需设置clickable="true")等没有效果-->
+    <item android:drawable="@drawable/ic_voice_pressed_for_chat_layout" android:state_focused="true"/>
+    <item android:drawable="@drawable/ic_voice_pressed_for_chat_layout" android:state_pressed="true"/>
+    <item android:drawable="@drawable/ic_voice_pressed_for_chat_layout" android:state_selected="true"/>
+    <item android:drawable="@drawable/ic_voice_normal_for_chat_layout"/>
+</selector>

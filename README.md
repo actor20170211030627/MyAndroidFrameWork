@@ -116,6 +116,8 @@ api 'com.zhy:okhttputils:2.6.2'
 
 **2.5.Widget小控件**
 <pre>
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/chat/VoiceRecorderView.java">VoiceRecorderView</a> (低仿微信录音)
+<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/chat/ChatLayout.java">ChatLayout</a> (聊天控件,可填充emoji,语音)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java">NineGridView</a> (九宫格)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java">BaseWebView</a> (WebView简单封装)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java">BaseItemDecoration</a> (RecyclerView的Item间隔)
@@ -134,7 +136,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/ScrollableViewPager.java">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java">StatusBarHeightView</a> (状态栏占高)
 <a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/SwipeRefreshLayoutCompatViewPager.java">SwipeRefreshLayoutCompatViewPager</a> (SwipeRefreshLayout适配ViewPager里的下拉)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/VoiceRecorderView.java">VoiceRecorderView</a> (低仿微信录音)
 </pre>
 
 ## 3.Screenshot

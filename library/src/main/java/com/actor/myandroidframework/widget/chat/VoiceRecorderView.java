@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.myandroidframework.widget.chat;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,16 +10,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.actor.myandroidframework.R;
 
 /**
- * description: 按住说话, 环信EaseUI里有一个 EaseVoiceRecorderView.java 可参考
- * 示例使用:
- * https://gitee.com/actor20170211030627/ChatLayout/blob/master/app/src/main/res/layout/activity_main.xml
- * https://gitee.com/actor20170211030627/ChatLayout/blob/master/app/src/main/java/com/chatlayout/example/activity/MainActivity.java
- * author     : ldf
+ * description: 按住说话, 环信EaseUI里有一个 EaseVoiceRecorderView.java 可参考.
+ *
+ * <br/>
+ * 示例使用: <br/>
+ *  &emsp; <a href = "https://gitee.com/actor20170211030627/ChatLayout/blob/master/app/src/main/res/layout/activity_main.xml" targt="_blank">activity_main.xml</a> <br/>
+ *  &emsp; <a href = "https://gitee.com/actor20170211030627/ChatLayout/blob/master/app/src/main/java/com/chatlayout/example/activity/MainActivity.java" targt="_blank">MainActivity.java</a>
+ *
+ * <br/>
+ * <br/>
+ * author     : ldf <br/>
  * date       : 2019/5/30 on 21:05
  * @version 1.0
  */
@@ -50,7 +56,7 @@ public class VoiceRecorderView extends RelativeLayout {
         init(context, attrs);
     }
 
-    protected void init(Context context, AttributeSet attrs) {
+    protected void init(Context context, @Nullable AttributeSet attrs) {
         View inflate = View.inflate(context, R.layout.view_voice_recorder, this);
         ivRecordingIcon = inflate.findViewById(R.id.iv_recording_icon);
         tvRecodingTips = inflate.findViewById(R.id.tv_recording_tips);

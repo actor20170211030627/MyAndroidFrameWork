@@ -57,6 +57,8 @@
     <color name="gray_999">#999999</color><!-- 可作画线line颜色 -->
     <color name="gray_707070">#707070</color>
     <color name="gray_716c69">#716c69</color>
+    <color name="gray_6f7378_for_chat_layout">#6F7378</color>
+    <color name="gray_64686c_for_chat_layout">#64686C</color>
     <color name="gray_666">#666666</color>
     <color name="gray_4d4d4d">#4d4d4d</color>
     <color name="gray_2a2a2a">#2a2a2a</color>
