@@ -10,7 +10,7 @@
 
 
 ## 安卓常用组件&框架(懒得每次都搭架子...)
-### 1.集成框架包括如下列表, 具体见 <a href="myandroidframework/build.gradle">build.gradle</a>:
+### 1.集成框架包括如下列表, 具体见 <a href="library/build.gradle">build.gradle</a>:
 <pre>
 <ol><li>//https://github.com/google/gson converter-gson 已经依赖了Gson2.8.5
 //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
@@ -60,82 +60,82 @@ api 'com.zhy:okhttputils:2.6.2'
 ## 2.一些控件和工具类等
 **2.1.RecyclerView的Adapter**
 <pre>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddAudioAdapter.java">AddAudioAdapter(选择添加音频)</a>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddPicAdapter.java">AddPicAdapter(选择添加图片)</a>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddVideoAdapter.java">AddVideoAdapter(选择添加视频)</a>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddAudioAdapter.java">AddAudioAdapter(选择添加音频)</a>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddPicAdapter.java">AddPicAdapter(选择添加图片)</a>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddVideoAdapter.java">AddVideoAdapter(选择添加视频)</a>
 </pre>
 
 **2.2.ViewPager的Adapter**
 <pre>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentPagerAdapter.java">BaseFragmentPagerAdapter</a>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentStatePagerAdapter.java">BaseFragmentStatePagerAdapter</a>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/adapter_viewpager/BasePagerAdapter.java">BasePagerAdapter</a>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentPagerAdapter.java">BaseFragmentPagerAdapter</a>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentStatePagerAdapter.java">BaseFragmentStatePagerAdapter</a>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BasePagerAdapter.java">BasePagerAdapter</a>
 </pre>
 
 **2.3.Dialog(继承对应Dialog并自定义界面, 不用再关注style等. )**
 <pre>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseAlertDialogV7.java">BaseAlertDialogV7</a> (V7包AlertDialog简单封装)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseBottomDialog.java">BaseBottomDialog</a> (从底部弹出并停留底部)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseBottomSheetDialog.java">BaseBottomSheetDialog</a> (从底部弹出并停留底部, 可二次滑动)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseDialog.java">BaseDialog</a> (Dialog简单封装)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseLeftDialog.java">BaseLeftDialog</a> (从左侧弹出的Dialog)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseRightDialog.java">BaseRightDialog</a> (从右侧弹出的Dialog)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/BaseTopDialog.java">BaseTopDialog</a> (从顶部弹出的Dialog)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/dialog/LoadingDialog.java">LoadingDialog</a> (加载Dialog, 耗时操作时可显示这个Dialog)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseAlertDialogV7.java">BaseAlertDialogV7</a> (V7包AlertDialog简单封装)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseBottomDialog.java">BaseBottomDialog</a> (从底部弹出并停留底部)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseBottomSheetDialog.java">BaseBottomSheetDialog</a> (从底部弹出并停留底部, 可二次滑动)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseDialog.java">BaseDialog</a> (Dialog简单封装)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseLeftDialog.java">BaseLeftDialog</a> (从左侧弹出的Dialog)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseRightDialog.java">BaseRightDialog</a> (从右侧弹出的Dialog)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseTopDialog.java">BaseTopDialog</a> (从顶部弹出的Dialog)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/LoadingDialog.java">LoadingDialog</a> (加载Dialog, 耗时操作时可显示这个Dialog)
 </pre>
 
 **2.4.Utils工具类**
 <pre>
-<s><a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/album/AlbumUtils.java">AlbumUtils</a> (选图片/选视频/拍照/录视频/预览图片)</s>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java">AudioUtils</a> (录音/播放录音)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduLocationUtils.java">BaiduLocationUtils</a> (百度地图定位)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduMapUtils.java">BaiduMapUtils</a> (百度地图)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java">GreenDaoUtils</a> (GreenDao数据库)
-<s><a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java">SQLiteDatabaseUtils</a> (原生数据库)</s>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeLocationUtils.java">GaoDeLocationUtils</a> (高德地图定位)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeMapUtils.java">GaoDeMapUtils</a> (高德地图)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeUiSettingUtils.java">GaoDeUiSettingUtils</a> (高德地图UI界面)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java">IntJsonDeserializer</a> (解决Gson""转换成int报错)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/jpush/JPushUtils.java">JPushUtils</a> (极光推送)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/mpchart/BarChartUtils.java">BarChartUtils</a> (柱状图)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/mpchart/LineChartUtils.java">LineChartUtils</a> (折线图)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java">MyOkHttpUtils</a> (Okhttp网络请求)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/picture_selector/PictureSelectorUtils.java">PictureSelectorUtils</a> (图片/视频/音频选择和预览. 拍照/拍视频/录音频)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java">RetrofitNetwork</a> (retrofit简单封装)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/tencent/QQUtils.java">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java">VideoProcessorUtils</a> (视频压缩)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java">AssetsUtils</a> (Assets读取)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java">ClickUtils2</a> (防止2次点击)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/LogUtils.java">LogUtils</a> (Log简单打印)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java">NotificationHelper</a> (通知栏)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/SPUtils.java">SPUtils</a> (SP工具)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/TextUtils2.java">TextUtils2</a> (获取Text, 判空, getStringFormat, ...)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/utils/ThreadUtils.java">ThreadUtils</a> (线程判断/切换)
+<s><a href="library/src/main/java/com/actor/myandroidframework/utils/album/AlbumUtils.java">AlbumUtils</a> (选图片/选视频/拍照/录视频/预览图片)</s>
+<a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java">AudioUtils</a> (录音/播放录音)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduLocationUtils.java">BaiduLocationUtils</a> (百度地图定位)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduMapUtils.java">BaiduMapUtils</a> (百度地图)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java">GreenDaoUtils</a> (GreenDao数据库)
+<s><a href="library/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java">SQLiteDatabaseUtils</a> (原生数据库)</s>
+<a href="library/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeLocationUtils.java">GaoDeLocationUtils</a> (高德地图定位)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeMapUtils.java">GaoDeMapUtils</a> (高德地图)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeUiSettingUtils.java">GaoDeUiSettingUtils</a> (高德地图UI界面)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java">IntJsonDeserializer</a> (解决Gson""转换成int报错)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/jpush/JPushUtils.java">JPushUtils</a> (极光推送)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/mpchart/BarChartUtils.java">BarChartUtils</a> (柱状图)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/mpchart/LineChartUtils.java">LineChartUtils</a> (折线图)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java">MyOkHttpUtils</a> (Okhttp网络请求)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/picture_selector/PictureSelectorUtils.java">PictureSelectorUtils</a> (图片/视频/音频选择和预览. 拍照/拍视频/录音频)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java">RetrofitNetwork</a> (retrofit简单封装)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/QQUtils.java">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java">VideoProcessorUtils</a> (视频压缩)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java">AssetsUtils</a> (Assets读取)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java">ClickUtils2</a> (防止2次点击)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java">LogUtils</a> (Log简单打印)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java">NotificationHelper</a> (通知栏)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/SPUtils.java">SPUtils</a> (SP工具)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/TextUtils2.java">TextUtils2</a> (获取Text, 判空, getStringFormat, ...)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/ThreadUtils.java">ThreadUtils</a> (线程判断/切换)
 </pre>
 
 **2.5.Widget小控件**
 <pre>
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/chat/VoiceRecorderView.java">VoiceRecorderView</a> (低仿微信录音)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/chat/ChatLayout.java">ChatLayout</a> (聊天控件,可填充emoji,语音)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java">NineGridView</a> (九宫格)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java">BaseWebView</a> (WebView简单封装)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java">BaseItemDecoration</a> (RecyclerView的Item间隔)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseRatingBar.java">BaseRatingBar</a> (RatingBar星星选择)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseSlidingDrawer.java">BaseSlidingDrawer</a> (抽屉, 从底部或左侧拉出/收回)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseSpinner.java">BaseSpinner</a> (Spinner增加一些属性)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseTabLayout.java">BaseTabLayout</a> (更简单使用TabLayout)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseTextSwitcher.java">BaseTextSwitcher</a> (TextView切换)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/BaseViewSwitcher.java">BaseViewSwitcher</a> (View切换)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/ItemRadioGroupLayout.java">ItemRadioGroupLayout</a> (RadioGroup选择)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/ItemSpinnerLayout.java">ItemSpinnerLayout</a> (Spinner选择)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/ItemTextInputLayout.java">ItemTextInputLayout</a> (Text输入)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/QuickSearchBar.java">QuickSearchBar</a> (快速查找条a-z)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/RatioLayout.java">RatioLayout</a> (百分比布局, 宽高百分比)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/RoundCardView.java">RoundCardView</a> (圆角CardView)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/ScrollableViewPager.java">ScrollableViewPager</a> (ViewPager是否能左右滑动)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java">StatusBarHeightView</a> (状态栏占高)
-<a href="myandroidframework/src/main/java/com/actor/myandroidframework/widget/SwipeRefreshLayoutCompatViewPager.java">SwipeRefreshLayoutCompatViewPager</a> (SwipeRefreshLayout适配ViewPager里的下拉)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/chat/ChatLayout.java">ChatLayout</a> (聊天控件,可填充emoji,语音)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/chat/VoiceRecorderView.java">VoiceRecorderView</a> (低仿微信录音)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java">NineGridView</a> (九宫格)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java">BaseWebView</a> (WebView简单封装)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java">BaseItemDecoration</a> (RecyclerView的Item间隔)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRatingBar.java">BaseRatingBar</a> (RatingBar星星选择)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseSlidingDrawer.java">BaseSlidingDrawer</a> (抽屉, 从底部或左侧拉出/收回)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseSpinner.java">BaseSpinner</a> (Spinner增加一些属性)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseTabLayout.java">BaseTabLayout</a> (更简单使用TabLayout)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseTextSwitcher.java">BaseTextSwitcher</a> (TextView切换)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseViewSwitcher.java">BaseViewSwitcher</a> (View切换)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/ItemRadioGroupLayout.java">ItemRadioGroupLayout</a> (RadioGroup选择)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/ItemSpinnerLayout.java">ItemSpinnerLayout</a> (Spinner选择)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/ItemTextInputLayout.java">ItemTextInputLayout</a> (Text输入)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/QuickSearchBar.java">QuickSearchBar</a> (快速查找条a-z)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/RatioLayout.java">RatioLayout</a> (百分比布局, 宽高百分比)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/RoundCardView.java">RoundCardView</a> (圆角CardView)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/ScrollableViewPager.java">ScrollableViewPager</a> (ViewPager是否能左右滑动)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java">StatusBarHeightView</a> (状态栏占高)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/SwipeRefreshLayoutCompatViewPager.java">SwipeRefreshLayoutCompatViewPager</a> (SwipeRefreshLayout适配ViewPager里的下拉)
 </pre>
 
 ## 3.Screenshot
@@ -178,7 +178,7 @@ Add it in your root build.gradle at the end of repositories:
 
     dependencies {
             //https://gitee.com/actor20170211030627/MyAndroidFrameWork
-            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:myandroidframework:gitee's last version'
+            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's last version'
             <s>implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'(不再维护 Deprecated)</s>
     }
 </pre>
