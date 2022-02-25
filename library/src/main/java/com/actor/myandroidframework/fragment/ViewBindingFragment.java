@@ -45,6 +45,13 @@ public class ViewBindingFragment<VB extends ViewBinding> extends ActorBaseFragme
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return initViewBinding$setContentView(inflater, container, savedInstanceState);
+    }
+
+    /**
+     * 初始化ViewBinding & setContentView()
+     */
+    protected View initViewBinding$setContentView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (needInitViewBinding) {
             viewBinding = ViewBindingUtils.initViewBinding(this, inflater, container);
             if (viewBinding != null) {

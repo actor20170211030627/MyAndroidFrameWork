@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 startActivity(new Intent(this, BaiDuMapActivity.class), false, view);
                 break;
             case R.id.btn_gaode://高德定位/地图
-                toast("暂未实现");
+                showToast("暂未实现");
                 break;
             case R.id.btn_jpush://极光推送
                 startActivity(new Intent(this, JPushActivity.class), false, view);

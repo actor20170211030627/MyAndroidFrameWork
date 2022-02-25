@@ -41,7 +41,7 @@ public class NineGridViewActivity extends BaseActivity<ActivityNineGridViewBindi
         nineGridView.setOnItemClickListener(new OnItemClickListener1<PicOrVideo>() {
             @Override
             public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, @Nullable BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, @NonNull View view, int position) {
-                toastFormat("position=%d, isVideo=%b", position, item.isVideo());
+                showToastFormat("position=%d, isVideo=%b", position, item.isVideo());
             }
         });
     }

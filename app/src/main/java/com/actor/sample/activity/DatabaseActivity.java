@@ -119,7 +119,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                         person.setId(insertId);
                         myAdapter.addData(0, person);
                     } else {
-                        toast("这个身份证已经存入数据库(idcard already added)!");
+                        showToast("这个身份证已经存入数据库(idcard already added)!");
                     }
                 }
                 break;
@@ -142,7 +142,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                         GreenDaoUtils.update(DAO, person);
                         queryAll();
                     } else {
-                        toast("未找到身份证对应的人(no idcard found)!");
+                        showToast("未找到身份证对应的人(no idcard found)!");
                     }
                 }
                 break;
@@ -154,7 +154,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                     if (person != null) {
                         myAdapter.addData(person);
                     } else {
-                        toast("未找到身份证对应的人(no idcard found)!");
+                        showToast("未找到身份证对应的人(no idcard found)!");
                     }
                     myAdapter.notifyDataSetChanged();
                 }

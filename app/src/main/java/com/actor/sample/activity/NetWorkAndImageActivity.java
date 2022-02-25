@@ -98,7 +98,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
             case R.id.btn_upload:
                 if (picPath != null) {
                     uploadFile(picPath);
-                } else toast("请选择图片");
+                } else showToast("请选择图片");
                 break;
         }
     }
@@ -112,7 +112,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                     if (result != null) {
                         LngLatInfo.ResultBean.LocationBean location = result.location;
                         if (location != null) {
-                            toastFormat("lng=%f, lat=%f", location.lng, location.lat);
+                            showToastFormat("lng=%f, lat=%f", location.lng, location.lat);
                         }
                     }
                 } else toast(info.message);

@@ -62,7 +62,7 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
-            toast(data.getStringExtra(Global.CONTENT));
+            showToast(data.getStringExtra(Global.CONTENT));
         }
     }
 }

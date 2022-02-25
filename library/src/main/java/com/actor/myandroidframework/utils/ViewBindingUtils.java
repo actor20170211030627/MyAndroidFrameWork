@@ -45,11 +45,7 @@ public class ViewBindingUtils {
             Class<VB> cls = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];
             try {
                 Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class);
-                VB viewBinding = (VB) inflate.invoke(null, activity.getLayoutInflater());
-                if (viewBinding != null) {
-                    activity.setContentView(viewBinding.getRoot());
-                }
-                return viewBinding;
+                return (VB) inflate.invoke(null, activity.getLayoutInflater());
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
@@ -112,5 +108,14 @@ public class ViewBindingUtils {
      *         this.binding = binding;
      *     }
      * }
+     */
+
+
+    /**
+     * 在Dialog的'构造方法'中使用:
+     * XxxBinding inflate = XxxBinding.inflate(getLayoutInflater());
+     * setContentView(inflate.getRoot());
+     * btn = inflate.btn;
+     * ...
      */
 }

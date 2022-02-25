@@ -35,6 +35,6 @@ public class RatingBarActivity extends BaseActivity<ActivityRatingBarBinding> im
         float stepSize = baseRatingBar.getStepSize();
         String format = getStringFormat("step = %f, rating=%f, fromUser=%b", stepSize, rating, fromUser);
         logError(format);
-        toast(format);
+        showToast(format);
     }
 }

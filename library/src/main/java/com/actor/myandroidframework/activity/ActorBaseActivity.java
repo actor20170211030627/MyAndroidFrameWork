@@ -1,7 +1,6 @@
 package com.actor.myandroidframework.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -29,6 +28,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -46,7 +46,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
 
 //    protected CacheDiskUtils aCache = ActorApplication.instance.aCache;
 
-    protected Activity                  activity;
+    //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
+    protected AppCompatActivity         activity;
     protected Map<String, Object>       params = new LinkedHashMap<>();
     protected BaseSharedElementCallback sharedElementCallback;
 
@@ -258,16 +259,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     ///////////////////////////////////////////////////////////////////////////
     // toast区
     ///////////////////////////////////////////////////////////////////////////
-    protected void toast(@StringRes int resId) {
+    protected void showToast(@StringRes int resId) {
         ToastUtils.showShort(resId);
     }
 
-    protected void toast(Object notify) {
+    protected void showToast(Object notify) {
         ToastUtils.showShort(String.valueOf(notify));
     }
 
     //格式化toast
-    protected void toastFormat(@Nullable String format, @Nullable Object... args) {
+    protected void showToastFormat(@Nullable String format, @Nullable Object... args) {
         ToastUtils.showShort(format, args);
     }
 
@@ -315,7 +316,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
 
     /**
      * 设置上拉加载更多 & 空布局, 示例:
-     *
+     * <pre> {@code
      * //写在常量类里面, 比如写在 Global.java 里面.
      * public static final int SIZE = 10;
      * public static final String page = "page";
@@ -330,7 +331,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      *         @Override
      *         public void onOk(@NonNull UserBean info, int id, boolean isRefresh) {
      *             swipeRefreshLayout.setRefreshing(false);
-     *             //int total = info.totalCount;               //⑴. total这种方式也可以
      *             List<UserBean.Data> datas = info.data;
      *             //如果是下拉刷新
      *             if (isRefresh) {
@@ -338,8 +338,9 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      *             } else if (datas != null) {
      *                 mAdapter.addData(datas);//增加数据
      *             }
-     *             //setLoadMoreState(mAdapter, total);            //⑴
-     *             setLoadMoreState(mAdapter, datas, Global.SIZE); //⑵
+     *             //int total = info.totalCount;                 //⑴. total这种方式也可以
+     *             //setLoadMoreState(mAdapter, total);           //⑴
+     *             setLoadMoreState(mAdapter, datas, Global.SIZE);//⑵. 这种也可以
      *         }
      *
      *         @Override
@@ -347,7 +348,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      *             super.onError(id, call, e);
      *             swipeRefreshLayout.setRefreshing(false);
      *             //点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
-     *             mAdapter.loadMoreFail();//加载失败
+     *             mAdapter.getLoadMoreModule().loadMoreFail();//加载失败
      *         }
      *     });
      * }
@@ -357,6 +358,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      *
      * 2.上拉加载:
      * getList(false);
+     * } </pre>
      *
      * @param adapter      不能为空
      * @param listener     不能为空
@@ -365,9 +367,15 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         setLoadMore$Empty(R.layout.layout_for_empty, adapter, listener);
     }
 
-    protected void setLoadMore$Empty(@LayoutRes int layoutId, BaseQuickAdapter adapter, OnLoadMoreListener listener) {
-        adapter.getLoadMoreModule().setOnLoadMoreListener(listener);//上拉加载更多
-        adapter.setEmptyView(layoutId);//空布局
+    protected void setLoadMore$Empty(@LayoutRes int emptyLayoutRes, BaseQuickAdapter adapter, OnLoadMoreListener listener) {
+        if (adapter instanceof LoadMoreModule) {
+            //上拉加载更多
+            adapter.getLoadMoreModule().setOnLoadMoreListener(listener);
+            //空布局
+            setEmptyView(emptyLayoutRes, adapter);
+        } else {
+            throw new IllegalStateException("BaseQuickAdapter 需要实现 LoadMoreModule 接口, 才能上拉加载更多!");
+        }
     }
 
     /**
@@ -375,11 +383,34 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      * @param isRefresh 是否是下拉刷新
      * @param adapter   列表Adapter extends BaseQuickAdapter
      * @param size      每次加载多少条
-     * @return currentSize   size    return
-     *              0         20       1
-     *             1-19       20       1
-     *            20-39       20       2
-     *            40-59       20       3
+     * @return
+     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *     <tr>
+     *         <th>currentSize</th>
+     *         <th>size</th>
+     *         <th>return</th>
+     *     </tr>
+     *     <tr>
+     *         <td>0</td>
+     *         <td>20</td>
+     *         <td>1</td>
+     *     </tr>
+     *     <tr>
+     *         <td>1-19</td>
+     *         <td>20</td>
+     *         <td>1</td>
+     *     </tr>
+     *     <tr>
+     *         <td>20-39</td>
+     *         <td>20</td>
+     *         <td>2</td>
+     *     </tr>
+     *     <tr>
+     *         <td>40-59</td>
+     *         <td>20</td>
+     *         <td>3</td>
+     *     </tr>
+     * </table>
      */
     protected int getPage(boolean isRefresh, @NonNull BaseQuickAdapter adapter, int size) {
         if (isRefresh) return 1;

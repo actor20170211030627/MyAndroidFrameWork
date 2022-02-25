@@ -116,7 +116,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
             case R.id.btn_login_wechat://微信登录
                 if (WeChatUtils.isWXAppInstalled()) {
                     WeChatUtils.login("snsapi_userinfo", "test-----微信登录");
-                } else toast("您手机尚未安装微信，请安装后再登录");
+                } else showToast("您手机尚未安装微信，请安装后再登录");
                 break;
             case R.id.btn_share_text://分享文字(还可以分享其它)
                 //分享返回需要自己在 WXEntryActivity 中添加逻辑
@@ -127,7 +127,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
             case R.id.btn_get_user_info_wechat://获取用户信息
                 //没试过...
                 if (accessToken == null) {
-                    toast("请先微信登录");
+                    showToast("请先微信登录");
                     return;
                 }
                 //这个也应该后台调用后一起返回
@@ -166,7 +166,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
          if (eventBusEvent == null) return;
          switch (eventBusEvent.code) {
              case WXEntryActivity.MSG_EVT_WX_LOGIN://登录
-                 toast("登录成功!");
+                 showToast("登录成功!");
                  logError(eventBusEvent);
                  String code = eventBusEvent.msg;
                  /**
@@ -178,7 +178,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                  openId = "from service";
                  break;
              case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT://支付
-                 toast("支付成功!");
+                 showToast("支付成功!");
                  logError(eventBusEvent);
                  break;
          }

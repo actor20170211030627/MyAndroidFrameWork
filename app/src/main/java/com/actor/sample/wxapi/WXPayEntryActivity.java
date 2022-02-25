@@ -97,15 +97,15 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
                         break;
                     case BaseResp.ErrCode.ERR_USER_CANCEL:
                         finish();
-                        toast("用户取消支付!");
+                        showToast("用户取消支付!");
                         break;
                     case BaseResp.ErrCode.ERR_AUTH_DENIED:
                         finish();
-                        toast("用户拒绝支付!");
+                        showToast("用户拒绝支付!");
                         break;
                     default:
                         finish();
-                        toast("支付失败, 错误码: " + baseResp.errCode);
+                        showToast("支付失败, 错误码: " + baseResp.errCode);
                         break;
                 }
                 break;

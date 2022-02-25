@@ -119,15 +119,15 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
                         break;
                     case BaseResp.ErrCode.ERR_USER_CANCEL:
                         finish();
-                        toast("用户取消登录!");
+                        showToast("用户取消登录!");
                         break;
                     case BaseResp.ErrCode.ERR_AUTH_DENIED:
                         finish();
-                        toast("用户拒绝登录!");
+                        showToast("用户拒绝登录!");
                         break;
                     default:
                         finish();
-                        toast("登录失败, 错误码: " + baseResp.errCode);
+                        showToast("登录失败, 错误码: " + baseResp.errCode);
                         break;
                 }
                 break;

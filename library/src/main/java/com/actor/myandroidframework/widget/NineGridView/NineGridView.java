@@ -25,19 +25,19 @@ import java.util.List;
  * Description: 九宫格 自定义item, 使用注意: List中的数据必须implements {@link GetIsVideoAble}, 否则报错. <br />
  * 示例使用:
  * <pre>
- * //注意: class <b>PicOrVideo implements {@link GetIsVideoAble}</b>
- * private NineGridView&lt;PicOrVideo> nineGridView;
+ * //注意: class <b>PicOrVideo implements {@link GetIsVideoAble}</b> {@code
+ * private NineGridView<PicOrVideo> nineGridView;
  *
- * private List&lt;PicOrVideo> items = new ArrayList<>();
+ * private List<PicOrVideo> items = new ArrayList<>();
  *
  * nineGridView.setData(items);
- * nineGridView.setOnItemClickListener(new OnItemClickListener1&lt;PicOrVideo>() {
- *     <code>@</code>Override
- *     public void onItemClick(NineGridView&lt;PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter&lt;PicOrVideo, BaseViewHolder> adapter, View view, int position) {
+ * nineGridView.setOnItemClickListener(new OnItemClickListener1<PicOrVideo>() {
+ *     @Override
+ *     public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, View view, int position) {
  *         toastFormat("position=%d, isVideo=%b", position, item.isVideo());
  *     }
  * });
- * </pre>
+ * } </pre>
  *
  * Author     : ldf
  * Date       : 2019/5/16 on 14:47

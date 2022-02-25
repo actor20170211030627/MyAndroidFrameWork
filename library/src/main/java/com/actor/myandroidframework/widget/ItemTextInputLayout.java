@@ -40,9 +40,9 @@ import com.actor.myandroidframework.utils.TextUtils2;
  * 全部属性都是itil开头: <br/>
  * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
  *     <tr>
- *         <td align="center">属性attrs</td>
- *         <td align="center">示例exams</td>
- *         <td align="center">说明docs</td>
+ *         <th align="center">属性attrs</th>
+ *         <th align="center">示例exams</th>
+ *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
  *         <td nowrap="nowrap">{@link R.styleable#ItemTextInputLayout_itilArrowRightVisiable itilArrowRightVisiable}</td>

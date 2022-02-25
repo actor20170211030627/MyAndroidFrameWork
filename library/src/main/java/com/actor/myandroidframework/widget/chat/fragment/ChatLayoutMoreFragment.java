@@ -65,7 +65,7 @@ public class ChatLayoutMoreFragment extends ActorBaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_chat_layout_more, container, false);
         return recyclerView;
     }

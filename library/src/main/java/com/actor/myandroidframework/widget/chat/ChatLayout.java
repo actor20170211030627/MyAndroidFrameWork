@@ -112,15 +112,15 @@ import com.google.android.material.tabs.TabLayout;
  *
  *
  * <br/>
- * 注意★★★: 应该重写onBackPressed方法, 示例: <br/>
- * <pre>
- * <code>@</code>Override
+ * 注意★★★: 应该重写onBackPressed方法, 示例:
+ * <pre> {@code
+ * @Override
  * public void onBackPressed() {
  *     if (chatLayout.isBottomViewGone()) {
  *         super.onBackPressed();//自己页面的逻辑
  *     }
  * }
- * </pre>
+ * } </pre>
  *
  * author     : ldf <br/>
  * date       : 2018/8/2 on 16:16

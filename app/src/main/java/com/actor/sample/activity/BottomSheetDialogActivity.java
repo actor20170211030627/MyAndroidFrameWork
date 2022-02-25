@@ -57,12 +57,12 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             }
         };
         baseBottomDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> baseBottomDialog.dismiss());
-        baseBottomDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> toast("yes~"));
+        baseBottomDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("yes~"));
         baseBottomDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
         baseBottomDialog.setDimAmount(0.3F);//设置背景昏暗度
         TextView tvContent1 = baseBottomDialog.findViewById(R.id.tv_content);
         tvContent1.setText("this is BaseBottomDialog, Click me(点击我试一下)");
-        tvContent1.setOnClickListener(v -> toast("you clicked me~"));
+        tvContent1.setOnClickListener(v -> showToast("you clicked me~"));
 
 
         /**
@@ -77,12 +77,12 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             }
         };
         baseBottomSheetDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> baseBottomSheetDialog.dismiss());
-        baseBottomSheetDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> toast("ok~~"));
+        baseBottomSheetDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("ok~~"));
         baseBottomSheetDialog.setPeekHeight(ConvertUtils.dp2px(100));//首次弹出高度, 可不设置
         baseBottomSheetDialog.setDimAmount(0.3F);//设置背景昏暗度
         TextView tvContent2 = baseBottomSheetDialog.findViewById(R.id.tv_content);
         tvContent2.setText("this is BaseBottomSheetDialog, Click me(点击我试一下)");
-        tvContent2.setOnClickListener(v -> toast("you clicked me~~~~~~"));
+        tvContent2.setOnClickListener(v -> showToast("you clicked me~~~~~~"));
 
 
         /**

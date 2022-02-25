@@ -60,7 +60,7 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            toast(data.getStringExtra(Global.CONTENT));
+            showToast(data.getStringExtra(Global.CONTENT));
         }
     }
 }

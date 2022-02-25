@@ -107,7 +107,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                 BaiduMapUtils.getAddressStringByNet(87.593087, 43.795592, new BaiduMapUtils.OnAddressCallback(this) {
                     @Override
                     public void onOk(double lng, double lat, @Nullable String address, int id) {
-                        toast(address);
+                        showToast(address);
                     }
                 });
                 break;
@@ -120,7 +120,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                             if (result != null) {
                                 LngLatInfo.ResultBean.LocationBean location = result.location;
                                 if (location != null) {
-                                    toastFormat("lng=%f, lat=%f", location.lng, location.lat);
+                                    showToastFormat("lng=%f, lat=%f", location.lng, location.lat);
                                 }
                             }
                         } else toast(info.message);
@@ -304,7 +304,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
         public boolean onMarkerClick(Marker marker) {
             Bundle extraInfo = marker.getExtraInfo();
             if (extraInfo == null) {
-                toast("未获取到数据");
+                showToast("未获取到数据");
             } else {
                 String infoWindowType = extraInfo.getString(OVERLAY_TYPE);
                 if (infoWindowType != null) {
@@ -382,7 +382,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                     baiduMap.hideInfoWindow(infoWindow);//隐藏信息窗
                     break;
                 case R.id.btn:
-                    toast("clicked btn");
+                    showToast("clicked btn");
                     break;
             }
         }

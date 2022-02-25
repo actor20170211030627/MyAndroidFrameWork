@@ -88,6 +88,6 @@ public class BlankFragment extends BaseFragment<FragmentBlankBinding> {
 //    @OnCheckedChanged({R.id.toggle_button})
     public void onCheckedChanged(/*CompoundButton buttonView, */boolean isChecked){
         viewPager.setHorizontalScrollble(isChecked);
-        toastFormat("里面ViewPager左右滑动 = %b", isChecked);
+        showToastFormat("里面ViewPager左右滑动 = %b", isChecked);
     }
 }

@@ -100,7 +100,7 @@ public class IsEmptyActivity extends BaseActivity<ActivityIsEmptyBinding> implem
                 isNoEmpty(arrays, "arrays里没有元素哟") &&
                 isNoEmpty(list, "list里没有数据") &&
                 isNoEmpty(map, "map里没有数据")) {
-            toast("恭喜, 都不为空!");
+            showToast("恭喜, 都不为空!");
         }
     }
 }

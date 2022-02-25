@@ -76,7 +76,7 @@ dependencies {
 
     //https://gitee.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':library')
-//    implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:myandroidframework:2.0.8'
+//    implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:2.0.8'
 
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库
