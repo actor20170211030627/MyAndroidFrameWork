@@ -70,6 +70,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.ext.dependencies.appcompat_v7
     implementation rootProject.ext.dependencies.constraint_layout
+    implementation rootProject.ext.dependencies.material
 
     //https://github.com/google/flexbox-layout
     implementation 'com.google.android:flexbox:1.0.0'

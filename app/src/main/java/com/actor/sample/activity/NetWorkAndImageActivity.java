@@ -1,5 +1,6 @@
 package com.actor.sample.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -99,6 +100,12 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 if (picPath != null) {
                     uploadFile(picPath);
                 } else showToast("请选择图片");
+                break;
+            case R.id.btn_socket_example:
+                //okhttp的Socket示例
+                startActivity(new Intent(this, SocketTestActivity.class));
+                break;
+            default:
                 break;
         }
     }

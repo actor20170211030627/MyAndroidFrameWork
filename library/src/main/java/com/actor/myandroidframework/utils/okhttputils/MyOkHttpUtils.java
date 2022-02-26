@@ -4,9 +4,11 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
+import com.actor.myandroidframework.utils.okhttputils.lifecycle.MyOkHttpLifecycleUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -24,9 +26,12 @@ import java.util.Map;
 import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 
 /**
  * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
@@ -47,17 +52,21 @@ public class MyOkHttpUtils {
 
     /**
      * 获取 BASE_URL
-     * @param url 如果是"http"开头, 直接返回url.
-     *           如果不是"http"开头, 会在前面加上 BASE_URL
+     * @param url 如果是"http/ws"开头, 直接返回url.
+     *           如果不是"http/ws"开头, 会在前面加上 BASE_URL
      */
     protected static String getUrl(String url) {
         if (url == null) return BASE_URL;
-        if (url.startsWith("http://") || url.startsWith("https://")) return url;
+        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ws://") || url.startsWith("wss://")) return url;
         return BASE_URL + url;
     }
 
     public static <T> void get(String url, Map<String, Object> params, BaseCallback<T> callback) {
         get(url, null, params, callback);
+    }
+
+    public static OkHttpClient getOkHttpClient() {
+        return OkHttpUtils.getInstance().getOkHttpClient();
     }
 
     /**
@@ -75,16 +84,8 @@ public class MyOkHttpUtils {
                 .get()
                 .url(urlAppendParams(getUrl(url), params))
                 .tag(callback == null ? null : callback.tag);
-        if (headers != null && !headers.isEmpty()) {
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                String key = entry.getKey();
-                if (!TextUtils.isEmpty(key)) {
-                    builder.addHeader(key, getNoNullString(entry.getValue()));
-                }
-            }
-        }
-        OkHttpUtils.getInstance().getOkHttpClient()
-                //.newBuilder().connectTimeout()...
+        addHeaders(headers, builder);
+        getOkHttpClient()//.newBuilder().connectTimeout()...
                 .newCall(builder.build())
                 .enqueue(callback == null ? new NullCallback() : callback);//不能为空
         if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
@@ -114,18 +115,9 @@ public class MyOkHttpUtils {
                 .get()
                 .url(urlAppendParams(getUrl(url), params))
                 .tag(tag);
-        if (headers != null && !headers.isEmpty()) {
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                String key = entry.getKey();
-                if (!TextUtils.isEmpty(key)) {
-                    builder.addHeader(key, getNoNullString(entry.getValue()));
-                }
-            }
-        }
+        addHeaders(headers, builder);
         try {
-            return OkHttpUtils.getInstance().getOkHttpClient()
-                    .newCall(builder.build())
-                    .execute();
+            return getOkHttpClient().newCall(builder.build()).execute();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -226,7 +218,7 @@ public class MyOkHttpUtils {
                     .post(requestBody)
                     .tag(callback == null ? null : callback.tag)
                     .build();
-            OkHttpUtils.getInstance().getOkHttpClient()
+            getOkHttpClient()
                     .newCall(request)
                     .enqueue(callback == null ? new NullCallback() : callback);
             //okhttp3.Callback需要手动调一下...
@@ -342,28 +334,24 @@ public class MyOkHttpUtils {
      * @param <T>       要解析成什么类型的对象
      */
     public static <T> void postFormBody(@NonNull String url, Map<String, Object> headers, Map<String, Object> params, BaseCallback<T> callback) {
-        Map<String, String> headerMap = cleanNullParamMap(headers);
-        Map<String, String> paramsMap = cleanNullParamMap(params);
+//        Map<String, String> headerMap = cleanNullParamMap(headers);
+//        Map<String, String> paramsMap = cleanNullParamMap(params);
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
-        if (paramsMap != null && !paramsMap.isEmpty()) {
-            for (Map.Entry<String, String> entity : paramsMap.entrySet()) {
-                formBodyBuilder.add(entity.getKey(), entity.getValue());
-            }
-        }
-        Request.Builder requestBuilder = new Request.Builder()
-                .url(getUrl(url))
-                .post(formBodyBuilder.build())
-                .tag(callback == null ? null : callback.tag);
-        if (headerMap != null && !headerMap.isEmpty()) {
-            for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+        if (params != null && !params.isEmpty()) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
                 String key = entry.getKey();
                 if (!TextUtils.isEmpty(key)) {
-                    requestBuilder.addHeader(key, getNoNullString(entry.getValue()));
+                    formBodyBuilder.add(key, getNoNullString(entry.getValue()));
                 }
             }
         }
-        OkHttpUtils.getInstance().getOkHttpClient()
-                .newCall(requestBuilder.build())
+        Request.Builder builder = new Request.Builder()
+                .url(getUrl(url))
+                .post(formBodyBuilder.build())
+                .tag(callback == null ? null : callback.tag);
+        addHeaders(headers, builder);
+        getOkHttpClient()
+                .newCall(builder.build())
                 .enqueue(callback == null ? new NullCallback() : callback);
         //okhttp3.Callback需要手动调一下...
         if (callback != null) callback.onBefore(null, callback.getRequestId());
@@ -408,6 +396,40 @@ public class MyOkHttpUtils {
     }
 
     /**
+     * 获取Socket
+     * @param wsUrl webSocket地址
+     * @param headers 请求头
+     * @param params 参数
+     * @param tag LifecycleOwner
+     * @param listener 回调监听
+     * @return WebSocket
+     */
+    public static WebSocket getSocket(@NonNull String wsUrl,
+                                      @Nullable Map<String, Object> headers,
+                                      @Nullable Map<String, Object> params,
+                                      @Nullable LifecycleOwner tag,
+                                      @NonNull WebSocketListener listener) {
+        Request.Builder builder = new Request.Builder()
+                .get()
+                .url(urlAppendParams(getUrl(wsUrl), params))
+                .tag(tag)
+                .url(wsUrl);
+        addHeaders(headers, builder);
+        MyOkHttpLifecycleUtils.addObserver(tag);
+        return getOkHttpClient().newWebSocket(builder.build(), listener);
+    }
+
+    /**
+     * 重连Socket
+     * @param webSocket WebSocket
+     * @param listener
+     */
+    public static void socketReConnecton(@NonNull WebSocket webSocket, @NonNull WebSocketListener listener) {
+        Request request = webSocket.request();
+        getOkHttpClient().newWebSocket(request, listener);
+    }
+
+    /**
      * 自定义请求示例
      */
     public static <T> void customRequest(String url, Map<String, Object> params, BaseCallback<T> callback) {
@@ -432,7 +454,7 @@ public class MyOkHttpUtils {
                 .method("POST",requestBody)
                 .url(urlAppendParams(getUrl(url), params))
                 .build();
-        OkHttpUtils.getInstance().getOkHttpClient()
+        getOkHttpClient()
                 .newCall(request)
                 .enqueue(callback);
         if (callback != null) callback.onBefore(null, callback.getRequestId());//okhttp3.Callback需要手动调一下...
@@ -457,7 +479,7 @@ public class MyOkHttpUtils {
      * 清空Cookie & Session
      */
     public static void clearCookie$Session() {
-        CookieJar cookieJar = OkHttpUtils.getInstance().getOkHttpClient().cookieJar();
+        CookieJar cookieJar = getOkHttpClient().cookieJar();
         if (cookieJar instanceof CookieJarImpl) {
             ((CookieJarImpl) cookieJar).getCookieStore().removeAll();
         }
@@ -465,12 +487,28 @@ public class MyOkHttpUtils {
 
 
     /**
+     * 添加Headers
+     * @param headers 请求头参数
+     * @param builder builder
+     */
+    protected static void addHeaders(Map<String, Object> headers, Request.Builder builder) {
+        if (headers != null && !headers.isEmpty()) {
+            for (Map.Entry<String, Object> entry : headers.entrySet()) {
+                String key = entry.getKey();
+                if (!TextUtils.isEmpty(key)) {
+                    builder.addHeader(key, getNoNullString(entry.getValue()));
+                }
+            }
+        }
+    }
+    /**
      * 将params拼接到url后面
      * @param url url
      * @param params 参数
      * @return 拼接后的url
      */
-    protected static @NonNull String urlAppendParams(@NonNull String url, @Nullable Map<String, Object> params) {
+    @NonNull
+    protected static String urlAppendParams(@NonNull String url, @Nullable Map<String, Object> params) {
         if (params == null || params.isEmpty()) return url;
         StringBuilder builder = new StringBuilder(url);
         //如果结尾有'&'

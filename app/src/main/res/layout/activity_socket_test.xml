@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.SocketTestActivity">
+
+    <com.actor.myandroidframework.widget.ItemTextInputLayout
+        android:id="@+id/itil_socket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itilImeOptions="actionDone"
+        app:itilItemName="Socket链接: " />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_socket_connet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="开始连Socket" />
+
+        <Button
+            android:id="@+id/btn_socket_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="断开Socket" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_socket_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="发Socket消息" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.actor.myandroidframework.widget.ItemTextInputLayout
+        android:id="@+id/itil_socket_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itilImeOptions="actionDone"
+        app:itilItemName="给服务器发Socket消息:" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_socket_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_textview_textcolor_red" />
+</LinearLayout>

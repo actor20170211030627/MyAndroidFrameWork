@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
-    <!--安装/更新App-->
+    <!-- 安装/更新App -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
 
@@ -41,6 +41,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activity.SocketTestActivity" />
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>

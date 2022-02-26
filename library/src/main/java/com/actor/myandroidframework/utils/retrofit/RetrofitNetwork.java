@@ -1,9 +1,9 @@
 package com.actor.myandroidframework.utils.retrofit;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
+import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.api.DownloadFileApi;
 import com.blankj.utilcode.util.GsonUtils;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitNetwork {
 
-    protected static OkHttpClient      okHttpClient;
     protected static final String      BASE_URL = ConfigUtils.baseUrl;
     protected static Converter.Factory converterFactory;
     protected static CallAdapter.Factory       callAdapterFactory;
@@ -35,8 +34,7 @@ public class RetrofitNetwork {
 
 
     protected static OkHttpClient getOkHttpClient() {
-        if (okHttpClient == null) okHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
-        return okHttpClient;
+        return MyOkHttpUtils.getOkHttpClient();
     }
 
     //返回json转换成Bean的Facory
