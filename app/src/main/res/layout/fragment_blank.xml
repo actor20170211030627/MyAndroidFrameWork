@@ -24,7 +24,7 @@
         android:textOn="里面ViewPager左右滑动 = true"
         android:transitionName="btn" />
 
-    <com.actor.myandroidframework.widget.ScrollableViewPager
+    <com.actor.myandroidframework.widget.viewpager.ScrollableViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -51,5 +51,5 @@
                 android:layout_height="wrap_content"
                 android:text="我的" />
         </com.google.android.material.tabs.TabLayout>
-    </com.actor.myandroidframework.widget.ScrollableViewPager>
+    </com.actor.myandroidframework.widget.viewpager.ScrollableViewPager>
 </LinearLayout>

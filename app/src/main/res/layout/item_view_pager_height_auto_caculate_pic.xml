@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.actor.myandroidframework.widget.RatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="191dp"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    app:ratio="0.63666666666666666666666666666667">
+    <!-- 191/300=0.63666666666666666666666666666667 -->
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/logo" />
+</com.actor.myandroidframework.widget.RatioLayout>

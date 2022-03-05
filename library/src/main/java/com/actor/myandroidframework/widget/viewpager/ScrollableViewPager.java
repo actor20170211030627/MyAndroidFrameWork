@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.myandroidframework.widget.viewpager;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class ScrollableViewPager extends ViewPager {
 
-    private boolean scrollable = true;
+    protected boolean scrollable = true;
 
     public ScrollableViewPager(Context context) {
         super(context);
@@ -47,7 +47,7 @@ public class ScrollableViewPager extends ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (!scrollable) return false;
         return super.onInterceptTouchEvent(ev);
-//        return true;//拦截的意思,子类不能获取响应触摸事件
+//        return true;//拦截, 子类不能获取响应触摸事件
     }
 
     /**

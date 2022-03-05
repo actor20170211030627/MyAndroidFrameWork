@@ -13,9 +13,9 @@
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="第1个Table, content=第1个Fragment,\n
-        可以下拉刷新哦 ↓"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            tools:text="第1个Table, content=第1个Fragment,\n
+        可以下拉刷新哦 ↓" />
     </com.actor.myandroidframework.widget.SwipeRefreshLayoutCompatViewPager>
 
 </FrameLayout>

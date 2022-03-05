@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
-import com.actor.myandroidframework.widget.ScrollableViewPager;
+import com.actor.myandroidframework.widget.viewpager.ScrollableViewPager;
 import com.actor.sample.databinding.ActivityViewPagerAndFragmentBinding;
 import com.actor.sample.fragment.BlankFragment;
 

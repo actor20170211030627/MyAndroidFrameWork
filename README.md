@@ -119,6 +119,8 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/chat/ChatLayout.java">ChatLayout</a> (聊天控件,可填充emoji,语音)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/chat/VoiceRecorderView.java">VoiceRecorderView</a> (低仿微信录音)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java">NineGridView</a> (九宫格)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/AutoCaculateHeightViewpager.java">AutoCaculateHeightViewpager</a> (自动计算子类高度的ViewPager)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java">BaseWebView</a> (WebView简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java">BaseItemDecoration</a> (RecyclerView的Item间隔)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRatingBar.java">BaseRatingBar</a> (RatingBar星星选择)
@@ -133,7 +135,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/QuickSearchBar.java">QuickSearchBar</a> (快速查找条a-z)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RatioLayout.java">RatioLayout</a> (百分比布局, 宽高百分比)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RoundCardView.java">RoundCardView</a> (圆角CardView)
-<a href="library/src/main/java/com/actor/myandroidframework/widget/ScrollableViewPager.java">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java">StatusBarHeightView</a> (状态栏占高)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/SwipeRefreshLayoutCompatViewPager.java">SwipeRefreshLayoutCompatViewPager</a> (SwipeRefreshLayout适配ViewPager里的下拉)
 </pre>

@@ -12,6 +12,8 @@ import com.actor.sample.utils.CheckUpdateUtils;
 import com.actor.sample.utils.Global;
 import com.blankj.utilcode.util.AppUtils;
 import com.bumptech.glide.Glide;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.impl.CenterListPopupView;
 
 /**
  * Description: 主页
@@ -21,6 +23,7 @@ import com.bumptech.glide.Glide;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private ImageView iv;
+    private CenterListPopupView viewPagerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
         //检查更新
         new CheckUpdateUtils().check(this);
+        viewPagerDialog = new XPopup.Builder(this).asCenterList("选择查看哪种?",
+                new String[]{"1.ViewPager多层嵌套", "2.ViewPager高度自适应"}, (position, text) -> {
+            switch (position) {
+                case 0:
+                    //ViewPager多层嵌套
+                    startActivity(new Intent(activity, ViewPagerAndFragmentActivity.class));
+                    break;
+                case 1:
+                    //ViewPager高度自适应
+                    startActivity(new Intent(activity, ViewPagerHeightAutoCaculateActivity.class));
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
 //    @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
@@ -56,8 +74,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_bottom_sheet://从底部弹出的Dialog & DialogFragment等
                 startActivity(new Intent(this, BottomSheetDialogActivity.class), false, view);
                 break;
-            case R.id.btn_viewpager_fragment://ViewPager & Fragment多层嵌套
-                startActivity(new Intent(this, ViewPagerAndFragmentActivity.class), false, view);
+            case R.id.btn_viewpager_about:
+                //ViewPager多层嵌套 & 高度自适应
+                viewPagerDialog.show();
                 break;
             case R.id.btn_select_file://文件选择
                 startActivity(new Intent(this, SelectFileActivity.class), false, view);
