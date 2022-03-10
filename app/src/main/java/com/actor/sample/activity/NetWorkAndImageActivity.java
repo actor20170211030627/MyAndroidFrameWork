@@ -122,7 +122,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                             showToastFormat("lng=%f, lat=%f", location.lng, location.lat);
                         }
                     }
-                } else toast(info.message);
+                } else showToast(info.message);
             }
         });
     }
@@ -137,7 +137,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 new BaseCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id, boolean isRefresh) {
-                        toast(info);
+                        showToast(info);
                     }
                 });
     }
@@ -147,7 +147,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
             @Override
             public void onOk(Call<GithubInfo> call, Response<GithubInfo> response, int id, boolean isRefresh) {
                 GithubInfo body = response.body();
-                if (body != null) toast(body.hub_url);
+                if (body != null) showToast(body.hub_url);
             }
         });
     }
@@ -163,7 +163,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 @Override
                 public void onError(int id, okhttp3.Call call, Exception e) {
                     super.onError(id, call, e);
-                    toast("下载错误: ".concat(e.getMessage()));
+                    showToast("下载错误: ".concat(e.getMessage()));
                 }
 
                 @Override
@@ -186,7 +186,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 null, null, new PostFileCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id, boolean isRefresh) {
-                        toast(info);
+                        showToast(info);
                     }
                 });
     }

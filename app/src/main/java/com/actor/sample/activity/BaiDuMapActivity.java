@@ -123,7 +123,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                                     showToastFormat("lng=%f, lat=%f", location.lng, location.lat);
                                 }
                             }
-                        } else toast(info.message);
+                        } else showToast(info.message);
                     }
                 });
                 break;

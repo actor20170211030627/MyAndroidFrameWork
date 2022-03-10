@@ -11,8 +11,8 @@ import com.greendao.gen.DaoMaster;
 import com.greendao.gen.DaoSession;
 
 import org.greenrobot.greendao.AbstractDao;
-import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Description: GreenDao的增删改查帮助类
- *
+ * <pre> {@code
  * 1.在Project的gradle文件中添加插件(root build.gradle)
  *   buildscript {
  *       repositories {
@@ -51,13 +51,15 @@ import java.util.List;
  *       //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
  *       implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
  *
- *       //★如果你的数据库是加密的, 那么需要再添加一个依赖, 见方法:
- *           @see #init(Context, boolean, String, String, Class[])
- *   }
+ *       //★如果你的数据库是加密的, 那么需要再添加一个依赖:
+ *       //https://github.com/sqlcipher/android-database-sqlcipher 数据库加密
+ *       implementation "net.zetetic:android-database-sqlcipher:4.4.3@aar"
+ *       implementation "androidx.sqlite:sqlite:2.1.0"
+ *    }
  *
- * 3.写一个你想要存储到 GreenDao 的实体类, 示例 ItemEntity.java:
- *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/database/ItemEntity.java
+ * 3.写一个你想要存储到 GreenDao 的实体类, 示例: } <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/database/ItemEntity.java" targt="_blank">ItemEntity.java</a>
  *
+ * {@code
  * 4.Build -> Make Project, 生成 DaoMaster.java, DaoSession.java, ItemEntityDao.java
  *
  * 5.在Application中初始化
@@ -66,49 +68,179 @@ import java.util.List;
  * 6.获取某个Dao示例:
  *   ItemEntityDao dao = GreenDaoUtils.getDaoSession().getItemEntityDao();//ItemEntityDao是生成的文件
  *
- * 7.使用示例:
- *  https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java
+ * 7.数据库操作使用示例: } <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java" targt="_blank">DatabaseActivity.java</a>
  *
- * 8.{@link WhereCondition} 的一些方法:
- *   //1. 获取 Property: AbstractDao的子类.Properties  (例: ItemEntityDao.Properties.Sex)
- *   @see org.greenrobot.greendao.Property[] = {@link AbstractDao#getProperties()}
+ * 8.数据库 删/改/查 的条件查询, 从 {@link WhereCondition} 的一些方法开始:
+ *   ItemEntityDao.Properties properties = ItemEntityDao.Properties;
+ *   {@link Property} userName = properties.userName;
+ *   {@link WhereCondition} = userName.eq("张三");    //当 删/改/查 的人的姓名是"张三"的时候
+ * </pre>
  *
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#eq(Object)} //相等
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notEq(Object)} //不相等
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notEq(Object)} //不相等
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#like(String)} //模糊查询, string要用夹在%key%中间, 例: Properties.FirstName.like("%doris%"), 查询FristName包含doris的人
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#gt(Object)} //大于
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#lt(Object)} //小于
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#ge(Object)} //大于等于
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#le(Object)} //小于等于
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#between(Object, Object)} //小于等于
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#in(Object...)} //在给出的value的范围内的符合项
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#in(Collection)} //在给出的value的范围内的符合项
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notIn(Object...)} //不在给出的value的范围内的符合项
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#notIn(Collection)} //不在给出的value的范围内的符合项
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#isNull()} //为空
- *   @see WhereCondition = {@link org.greenrobot.greendao.Property#isNotNull()} //不为空
- *   ...
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th align="center">{@link Property} 的方法method</th>
+ *         <th align="center">返回值return</th>
+ *         <th align="center">说明doc</th>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#eq(Object)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>相等</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#notEq(Object)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>不相等</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#like(String)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>模糊查询, string要用夹在%key%中间, 例: Properties.FirstName.like("%doris%"), 查询FristName包含doris的人</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#gt(Object)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>大于</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#lt(Object)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>小于</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#ge(Object)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>大于等于</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#le(Object)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>小于等于</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link Property#between(Object, Object)}</td>
+ *         <td nowrap="nowrap">{@link WhereCondition}</td>
+ *         <td>在...之间</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#in(Object...)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>在给出的value的范围内的符合项</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#in(Collection)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>在给出的value的范围内的符合项</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#notIn(Object...)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>不在给出的value的范围内的符合项</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#notIn(Collection)}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>不在给出的value的范围内的符合项</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#isNull()}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>为空</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link Property#isNotNull()}</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>不为空</td>
+ *     </tr>
+ *     <tr>
+ *         <td>Property.xxx</td>
+ *         <td>{@link WhereCondition}</td>
+ *         <td>其余方法...</td>
+ *     </tr>
+ * </table>
  *
- *   //2. 获取 QueryBuilder
- *   @see QueryBuilder = {@link AbstractDao#queryBuilder()}
- *   @see QueryBuilder#or(WhereCondition, WhereCondition, WhereCondition...) //或者
- *   @see QueryBuilder#whereOr(WhereCondition, WhereCondition, WhereCondition...) //或者
- *   @see QueryBuilder#and(WhereCondition, WhereCondition, WhereCondition...) //并且
- *   @see QueryBuilder#orderAsc(Property...) //升序(正序, 小->大)
- *   @see QueryBuilder#orderDesc(Property...) //降序(倒序, 大->小)
- *   @see QueryBuilder#limit(int) //限制查询返回的条数
- *   @see QueryBuilder#offset(int) //设置数据返回偏向后移值, 结合limit使用, 例: limit(3), offset(2): 结果[1,2,3] => [3,4,5]
- *   @see QueryBuilder#join(Property, Class) //多表查询
- *   @see QueryBuilder#join(Class, Property)
- *   @see QueryBuilder#join(Property, Class, Property)
- *   @see QueryBuilder#join(Join, Property, Class, Property)
- *   ...
  *
- * 9.更多信息:
- *   https://www.jianshu.com/p/53083f782ea2
- *   greenDao说明.java
+ * <br />
+ * <br />
+ *   //2. QueryBuilder 的方法:
+ *   <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *       <tr>
+ *           <th align="center">方法method</th>
+ *           <th align="center">返回值return</th>
+ *           <th align="center">说明doc</th>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link AbstractDao#queryBuilder()}</td>
+ *           <td nowrap="nowrap">{@link QueryBuilder}</td>
+ *           <td>获取 QueryBuilder</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#or(WhereCondition, WhereCondition, WhereCondition...)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>或者</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#whereOr(WhereCondition, WhereCondition, WhereCondition...)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>或者</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#and(WhereCondition, WhereCondition, WhereCondition...)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>并且</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#orderAsc(Property...)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>升序(正序, 小->大)</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#orderDesc(Property...)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>降序(倒序, 大->小)</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#limit(int)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>限制查询返回的条数</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#offset(int)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>设置数据返回偏向后移值, 结合limit使用, 例: limit(3), offset(2): 结果[1,2,3] => [3,4,5]</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#join(Property, Class)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>多表查询</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#join(Class, Property)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>多表查询</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#join(Property, Class, Property)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>多表查询</td>
+ *       </tr>
+ *       <tr>
+ *           <td>{@link QueryBuilder#join(Join, Property, Class, Property)}</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>多表查询</td>
+ *       </tr>
+ *       <tr>
+ *           <td>QueryBuilder.xxx</td>
+ *           <td>{@link QueryBuilder}</td>
+ *           <td>其它方法...</td>
+ *       </tr>
+ *   </table>
  *
+ *
+ * <br />
+ * <br />
+ * 9.更多信息参考: <a href="https://www.jianshu.com/p/53083f782ea2" targt="_blank">简书</a>
+ * <br />
  * Author     : ldf
  * Date       : 2019/10/28 on 22:53
  *
@@ -128,10 +260,7 @@ public class GreenDaoUtils {
      * @param isDebug 如果是debug模式, 数据库操作会打印日志
      * @param dbName 数据库名称(没有就创建,有就增删改查), 例: my_database.db3
      * @param dbPassword 数据库密码, 如果没有就传null
-     *                   ★1.如果数据库加密了, 需要添加依赖:
-     *                      //https://github.com/sqlcipher/android-database-sqlcipher 数据库加密
-     *                      implementation "net.zetetic:android-database-sqlcipher:4.4.3@aar"
-     *                      implementation "androidx.sqlite:sqlite:2.1.0"
+     *                   ★1.如果数据库加密了, 需要添加依赖, 见顶部说明!!!
      *                   ★2.这个依赖可运行在构架: armeabi-v7a, x86, x86_64, and arm64_v8a
      *                      所以, 要在gradle中的abiFilters中添加相应构架, 否则运行会崩溃.
      *                   ★3.如果数据库加密了, PC端需要"DB Browser for SQLite"里的'DB Browser for SQLCipher.exe'才能打开加密的数据库:

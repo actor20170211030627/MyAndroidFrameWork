@@ -44,7 +44,7 @@ import org.greenrobot.eventbus.EventBus;
  *     if (eventBusEvent == null) return;
  *     switch (eventBusEvent.code) {
  *         case WXEntryActivity.MSG_EVT_WX_LOGIN:
- *             toast("登录成功!");
+ *             showToast("登录成功!");
  *             logError(eventBusEvent);
  *             break;
  *     }

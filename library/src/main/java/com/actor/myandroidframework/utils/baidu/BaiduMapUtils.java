@@ -38,6 +38,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -151,7 +152,7 @@ public class BaiduMapUtils {
                         callback.onOk(0, 0, null, id);
                     }
                 } else {
-                    toast(info.message);
+                    ToastUtils.showShort(info.message);
                     callback.onOk(0, 0, null, id);
                 }
             }

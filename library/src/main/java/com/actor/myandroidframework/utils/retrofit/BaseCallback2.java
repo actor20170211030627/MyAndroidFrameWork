@@ -93,7 +93,8 @@ public abstract class BaseCallback2<T> implements Callback<T> {
         } else {
             isStatusCodeError = true;
             onStatusCodeError(response.code(), call, response);
-            onError(call, new HttpException(response));//主要作用是调用子类的onError方法
+            //主要作用是调用子类的onError方法
+            onError(call, new HttpException(response));
         }
     }
 
@@ -116,7 +117,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      */
     @Override
     public final void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
-        logFormat("onError: call=%s, throwable=%s", call, t);
+        LogUtils.formatError("onError: call=%s, throwable=%s", call, t);
         if (call == null || call.isCanceled() || t == null) return;
         onError(call, t);
     }
@@ -128,11 +129,11 @@ public abstract class BaseCallback2<T> implements Callback<T> {
         }
         if (isStatusCodeError) return;
         if (t instanceof SocketTimeoutException) {
-            toast("连接服务器超时,请联系管理员或稍后再试!");
+            ToastUtils.showShort("连接服务器超时,请联系管理员或稍后再试!");
         } else if (t instanceof ConnectException) {
-            toast("网络连接失败,请检查网络是否打开!");
+            ToastUtils.showShort("网络连接失败,请检查网络是否打开!");
         } else if (t != null) {
-            toast("错误信息:".concat(t.getMessage()).concat(",请联系管理员!"));
+            ToastUtils.showShort("错误信息:".concat(t.getMessage()).concat(",请联系管理员!"));
         }
     }
 
@@ -140,27 +141,11 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * 状态码错误, 默认会toast, 可以重写本方法
      */
     public void onStatusCodeError(int errCode, Call<T> call, Response<T> response) {
-        logFormat("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
-        toast(getStringFormat("状态码错误: %d", errCode));
+        LogUtils.formatError("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
+        ToastUtils.showShort(TextUtils2.getStringFormat("状态码错误: %d", errCode));
     }
 
     public int getRequestId() {
         return requestId;
-    }
-
-    protected void logError(String msg) {
-        LogUtils.error(false, msg);
-    }
-
-    protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(false, format, args);
-    }
-
-    protected String getStringFormat(String format, Object... args) {
-        return TextUtils2.getStringFormat(format, args);
-    }
-
-    protected void toast(String msg) {
-        ToastUtils.showShort(msg);
     }
 }

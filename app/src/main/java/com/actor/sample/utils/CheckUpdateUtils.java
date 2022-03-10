@@ -9,12 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.sample.info.CheckUpdateInfo;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.io.File;
 import java.util.List;
@@ -88,7 +90,7 @@ public class CheckUpdateUtils {
             @Override
             public void inProgress(float progress, long total, int id) {
                 super.inProgress(progress, total, id);
-                logFormat("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
+                LogUtils.formatError("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
                 progressDialog.setProgress((int) (progress * 100));
             }
 
@@ -102,7 +104,7 @@ public class CheckUpdateUtils {
             public void onError(int id, Call call, Exception e) {
 //                super.onError(id, call, e);
                 progressDialog.dismiss();
-                toast("下载失败, 请到Github下载.");
+                ToastUtils.showShort("下载失败, 请到Github下载.");
             }
         });
     }

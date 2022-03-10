@@ -91,8 +91,9 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         }
     }
 
+    //sub thread
     @Override
-    public boolean validateReponse(Response response, int id) {//sub thread
+    public boolean validateReponse(Response response, int id) {
         if (super.validateReponse(response, id)) return true;
         isStatusCodeError = true;
         ThreadUtils.runOnUiThread(new Runnable() {
@@ -101,11 +102,14 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
                 onStatusCodeError(response.code(), response, id);
             }
         });
-        //return false:直接走onError(Call call, Exception e, int id)
+        /**
+         * return false:直接走: {@link #onError(Call call, Exception e, int id)}
+         */
         return false;
     }
 
     //sub thread
+    @Nullable
     @Override
     public T parseNetworkResponse(Response response, int id) throws IOException {
         if (response == null) return null;
@@ -116,33 +120,44 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         ResponseBody body = response.body();
         if (body == null) return null;
         String json = body.string();
-        if (genericity == String.class) {
-            return (T) json;
-        } else {
-            //解析成: JSONObject & JSONArray & T
-            try {
-                /**
-                 * Gson: 数据类型不对(""解析成int) & 非json类型数据, 默认都会抛异常
-                 * @see com.actor.myandroidframework.utils.gson.IntJsonDeserializer
-                 */
-                return GsonUtils.fromJson(json, genericity);
-                //FastJson: bug太多也不修复一下, 删掉...
-//                return JSONObject.parseObject(json, genericity);
-            } catch (Exception e) {
-                e.printStackTrace();
-                isJsonParseException = true;
-                ThreadUtils.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        onJsonParseException(response, id, e);
-                        onError(id, null, e);//主要作用是调用子类的onError方法
-                    }
-                });
-                return null;
-            } finally {
-                body.close();
-            }
+        try {
+            return json2Entity(json, genericity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            isJsonParseException = true;
+            ThreadUtils.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onJsonParseException(response, id, e);
+                    //主要作用是调用子类的onError方法
+                    onError(id, null, e);
+                }
+            });
+            return null;
+        } finally {
+            body.close();
         }
+    }
+
+    /**
+     * json 解析成对象
+     * @param json json
+     * @param entityType 对象类型, 例: LoginBean.class
+     * @return
+     */
+    @Nullable
+    protected T json2Entity(@Nullable String json, Type entityType) throws Exception {
+        if (json == null || entityType == String.class) {
+            return (T) json;
+        }
+        //解析成: JSONObject & JSONArray & T
+        /**
+         * Gson: 数据类型不对(""解析成int) & 非json类型数据, 默认都会抛异常, 解决方法↓
+         * @see com.actor.myandroidframework.utils.gson.IntJsonDeserializer
+         */
+        return GsonUtils.fromJson(json, entityType);
+        //FastJson: bug太多也不修复一下, 删掉...
+//          return JSONObject.parseObject(json, genericity);
     }
 
     //main thread
@@ -216,7 +231,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     }
 
     /**
-     * 请求出错
+     * 连接超时 or 连接失败 or 其它错误
      * 为何是final? 因为:
      * 如果是调用MyOkHttpUtils.cancelTag(tag);主动取消请求并且退出了页面的话,
      * 这个onError方法还是会调用, 如果你在ui层重写了这个onError方法并且做了ui修改, 那么很可能会造成错误!
@@ -224,8 +239,8 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * 如果要重写, 请重写这个方法: {@link #onError(int, Call, Exception)}
      */
     @Override
-    public final void onError(Call call, Exception e, int id) {//连接超时 or 连接失败 or 其它错误
-        logFormat("onError: call=%s, e=%s, id=%d", call, e, id);
+    public final void onError(Call call, Exception e, int id) {
+        LogUtils.formatError("onError: call=%s, e=%s, id=%d", call, e, id);
         if (call == null || call.isCanceled() || e == null) return;
         onError(id, call, e);
     }
@@ -238,13 +253,13 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
         }
         if (isStatusCodeError || isJsonParseException || isParseNetworkResponseIsNull) return;
         if (e instanceof SocketTimeoutException) {
-            toast("连接服务器超时,请联系管理员或稍后再试!");
+            ToastUtils.showShort("连接服务器超时,请联系管理员或稍后再试!");
         } else if (e instanceof ConnectException) {
-            toast("网络连接失败,请检查网络是否打开!");
+            ToastUtils.showShort("网络连接失败,请检查网络是否打开!");
         } else if (e != null) {
             String message = e.getMessage();
             if (message == null) message = "";
-            toast("错误信息:".concat(message).concat(",请联系管理员!"));
+            ToastUtils.showShort("错误信息:".concat(message).concat(",请联系管理员!"));
         }
     }
 
@@ -254,26 +269,26 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * @param errCode 错误码
      */
     public void onStatusCodeError(int errCode, Response response, int requestId) {
-        String s = getStringFormat("状态码错误: errCode=%d, response=%s, requestId=%d", errCode, response, requestId);
-        logError(s);
-        toast(getStringFormat("状态码错误: %d", errCode));
+        String s = TextUtils2.getStringFormat("状态码错误: errCode=%d, response=%s, requestId=%d", errCode, response, requestId);
+        LogUtils.error(s);
+        ToastUtils.showShort(TextUtils2.getStringFormat("状态码错误: %d", errCode));
     }
 
     /**
      * 数据解析错误, 默认会toast, 可重写此方法
      */
     public void onJsonParseException(Response response, int requestId, Exception e) {
-        String s = getStringFormat("数据解析错误: response=%s, requestId=%d, e=%s", response, requestId, e);
-        logError(s);
-        toast("数据解析错误");
+        String s = TextUtils2.getStringFormat("数据解析错误: response=%s, requestId=%d, e=%s", response, requestId, e);
+        LogUtils.error(s);
+        ToastUtils.showShort("数据解析错误");
     }
 
     /**
      * 数据解析为空, 默认会toast, 可重写此方法
      */
     public void onParseNetworkResponseIsNull(int requestId) {
-        logFormat("数据解析为空: tag=%s, requestId=%d", tag, requestId);
-        toast("数据解析为空");
+        LogUtils.formatError("数据解析为空: tag=%s, requestId=%d", tag, requestId);
+        ToastUtils.showShort("数据解析为空");
     }
 
     protected Type getGenericityType(Object object) {
@@ -283,20 +298,5 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
 
     public int getRequestId() {
         return requestId;
-    }
-    protected void logError(String msg) {
-        LogUtils.error(false, msg);
-    }
-
-    protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(false, format, args);
-    }
-
-    protected String getStringFormat(String format, Object... args) {
-        return TextUtils2.getStringFormat(format, args);
-    }
-
-    protected void toast(String msg) {
-        ToastUtils.showShort(msg);
     }
 }

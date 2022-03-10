@@ -97,7 +97,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                 if (isNoEmpty(itilIdcard)) {
                     String idCard = getText(itilIdcard);
 //                    if (!RegexUtils.isIDCard15(idCard) && !RegexUtils.isIDCard18(idCard)) {
-//                        toast("请输入正确的身份证(idcard error)!");
+//                        showToast("请输入正确的身份证(idcard error)!");
 //                        return;
 //                    }
 

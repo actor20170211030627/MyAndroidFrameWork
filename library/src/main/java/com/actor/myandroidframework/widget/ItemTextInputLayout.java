@@ -117,7 +117,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
  *     <tr>
  *         <td>{@link R.styleable#ItemTextInputLayout_itilCustomLayout itilCustomLayout}</td>
  *         <td>R.layout.xxx</td>
- *         <td>15.自定义布局, 注意必须有默认控件的类型和id, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/tempgen/src/main/res/layout/item_text_input_layout.xml">item_text_input_layout.xml</a></td>
+ *         <td>15.自定义布局, 注意必须有默认控件的类型和id, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/tempgen/src/main/res/layout/item_text_input_layout.xml" targt="_blank">item_text_input_layout.xml</a></td>
  *     </tr>
  * </table>
  *

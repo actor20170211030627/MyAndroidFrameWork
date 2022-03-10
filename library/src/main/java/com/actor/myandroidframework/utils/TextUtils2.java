@@ -22,7 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
  * <ol>
  *     <li>{@link #getText(Object)} 获取Text</li>
  *     <li>{@link #isNoEmpty(Object...)} 判断Objects是否为空</li>
- *     <li>{@link #isNoEmpty(Object, CharSequence)} 判断Object是否为空, 如果为空: toast(charsequence);</li>
+ *     <li>{@link #isNoEmpty(Object, CharSequence)} 判断Object是否为空, 如果为空: showToast(charsequence);</li>
  *     <li>{@link #getStringFormat(String, Object...)} 获取格式化后的String</li>
  *     <li>{@link #equals(CharSequence, CharSequence)} 判断2个字符序列equals</li>
  *     <li>{@link #concat(CharSequence...)} 连接多个字符序列</li>
@@ -124,7 +124,7 @@ public class TextUtils2 {
      *      <li>{@link androidx.collection.LongSparseArray}</li>
      *      <li>{@link Object#toString()}</li>
      * </ol>
-     * @param notify 如果为空 & notify != null, toast(notify);
+     * @param notify 如果为空 & notify != null, showToast(notify);
      * @return 是否不为空
      */
     public static boolean isNoEmpty(Object obj, CharSequence notify) {
@@ -248,7 +248,7 @@ public class TextUtils2 {
 
         /**
          * 如果{@link #getEditText()} 返回的EditText!=null, 并且EditText输入内容为空,
-         * toast(getHint()) 后,  系统键盘是否自动弹出
+         * showToast(getHint()) 后,  系统键盘是否自动弹出
          * @return 默认: "EditText不为空" & "EditText可以有焦点" & "InputType()!=TYPE_NULL", 可重写此方法
          */
         default boolean keyboardShowAbleIfEditText() {

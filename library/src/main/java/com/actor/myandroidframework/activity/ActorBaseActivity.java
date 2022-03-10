@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
@@ -233,7 +234,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
 
     /**
      * @param obj    判断对象是否不为空
-     * @param notify 如果为空 & notify != null, toast(notify);
+     * @param notify 如果为空 & notify != null, showToast(notify);
      * @return 是否不为空
      */
     protected boolean isNoEmpty(Object obj, CharSequence notify) {
@@ -311,6 +312,10 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         setEmptyView(R.layout.layout_for_empty, adapter);
     }
     protected void setEmptyView(@LayoutRes int layoutId, BaseQuickAdapter adapter) {
+        RecyclerView recyclerView = adapter.getRecyclerViewOrNull();
+        if (recyclerView == null) {
+            throw new IllegalStateException("需要先recyclerView.setAdapter(adapter), 才能setEmptyView()!");
+        }
         adapter.setEmptyView(layoutId);
     }
 

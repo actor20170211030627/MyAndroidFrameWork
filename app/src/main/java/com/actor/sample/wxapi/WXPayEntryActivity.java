@@ -39,7 +39,7 @@ import org.greenrobot.eventbus.EventBus;
  *     if (eventBusEvent == null) return;
  *     switch (eventBusEvent.code) {
  *     case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT:
- *         toast("支付成功!");
+ *         showToast("支付成功!");
  *         logError(eventBusEvent);
  *         break;
  * }
@@ -91,7 +91,7 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
             case ConstantsAPI.COMMAND_PAY_BY_WX://微信支付
                 switch (baseResp.errCode) {
                     case BaseResp.ErrCode.ERR_OK:
-//                        toast("支付成功!");
+//                        showToast("支付成功!");
                         finish();
                         EventBus.getDefault().post(new EventBusEvent<>(MSG_EVT_WX_PAY_RESULT));
                         break;
