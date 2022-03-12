@@ -21,6 +21,9 @@
         <!--marginTop距离顶部的间距, 默认1dp-->
         <attr name="islMarginTop" format="dimension" />
 
+        <!--主container的最小高度, 默认49dp-->
+        <attr name="islContainerMinHeight" format="dimension" />
+
         <!--不使用默认布局, 自定义布局-->
         <attr name="islCustomLayout" format="reference" />
     </declare-styleable>

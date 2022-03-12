@@ -29,38 +29,69 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Description: 常用的单选输入布局,这是一个组合控件.
- * Author     : ldf
- * Date       : 2019/7/10 on 17:21
+ * Description: 常用的单选输入布局,这是一个组合控件. <br/>
+ * Author     : ldf <br/>
+ * Date       : 2019/7/10 on 17:21 <br/>
+ * <br/>
  *
- * 1.左侧红点显示类型, 默认visible
- * @see R.styleable#ItemRadioGroupLayout_irglRedStarVisiable    //visible/invisible/gone
- * 2.左侧提示文字
- * @see R.styleable#ItemRadioGroupLayout_irglItemName           //请选择性别：
- * 3.右侧RadioButton的gravity
- * @see R.styleable#ItemRadioGroupLayout_irglGravity            //start|centerVertical
- * 4.marginTop, 默认1dp
- * @see R.styleable#ItemRadioGroupLayout_irglMarginTop          //1dp
- * 5.多个RadioButton的text, 用','分隔开(5和6这俩个属性, 只需要写一种即可)
- * @see R.styleable#ItemRadioGroupLayout_irglBtns               //"男,女,未知"
- * 6.多个RadioButton的text, 写在:values/arrays.xml里面<string-array name="sexs">
- * @see R.styleable#ItemRadioGroupLayout_irglBtnsArray          //@array/sexs
- * 7.选中第几个, 默认0
- * @see R.styleable#ItemRadioGroupLayout_irglCheckedPosition    //0
- * 8.自定义布局, 注意必须有默认控件的类型和id
- *   如果要所有地方都修改layout,可把{@link R.layout#item_radio_group_layout} copy一份到自己工程作修改, 就会加载自己工程的layout
- * @see R.styleable#ItemRadioGroupLayout_irglCustomLayout       //R.layout.xxx
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th align="center">属性attrs</th>
+ *         <th align="center">示例exams</th>
+ *         <th align="center">说明docs</th>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglRedStarVisiable irglRedStarVisiable}</td>
+ *         <td nowrap="nowrap">visible/invisible/gone</td>
+ *         <td>1.左侧红点显示类型, 默认visible</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglItemName irglItemName}</td>
+ *         <td nowrap="nowrap">请选择性别：</td>
+ *         <td>2.左侧提示文字</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglGravity irglGravity}</td>
+ *         <td nowrap="nowrap">start|centerVertical</td>
+ *         <td>3.右侧RadioButton的gravity</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglMarginTop irglMarginTop}</td>
+ *         <td nowrap="nowrap">1dp</td>
+ *         <td>4.marginTop, 默认1dp</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglBtns irglBtns}</td>
+ *         <td nowrap="nowrap">"男,女,未知"</td>
+ *         <td>5.多个RadioButton的text, 用','分隔开(5和6这俩个属性, 只需要写一种即可)</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglBtnsArray irglBtnsArray}</td>
+ *         <td nowrap="nowrap">@array/sexs</td>
+ *         <td>{@code 6.多个RadioButton的text, 写在:values/arrays.xml里面, 例:<string-array name="sexs">}</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglCheckedPosition irglCheckedPosition}</td>
+ *         <td nowrap="nowrap">0</td>
+ *         <td>7.选中第几个, 默认0</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglContainerMinHeight irglContainerMinHeight}</td>
+ *         <td>49dp</td>
+ *         <td>8.主container的最小高度, 默认49dp(目前还未扩展, 设置了也没啥用...)</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglCustomLayout irglCustomLayout}</td>
+ *         <td nowrap="nowrap">R.layout.xxx</td>
+ *         <td>9.自定义布局, 注意必须有默认控件的类型和id. 如果要所有地方都修改layout,可把{@link R.layout#item_radio_group_layout item_radio_group_layout} copy一份到自己工程作修改, 就会加载自己工程的layout</td>
+ *     </tr>
+ * </table>
+ * <br />
  *
- * @version 1.0
- * @version 1.1 增加irglGravity属性
- * @version 1.1.1 修改方法: {@link #setCheckedPosition(int)} 增加重复选中监听
- * @version 1.1.2 增加自定义布局, 增加方法:
- *                  @see #setGravity(int)
- *                  @see #setMarginTop(int)
- *
- * @param <T> 填充RadioButton的数据类型, 见{@link #setDatas(Collection)}, 示例:
- *           @BindView(R.id.isl_spinner)
- *           ItemRadioGroupLayout<User> islSpinner;//会填充user的toString()返回值
+ * @param <T> 填充RadioButton的数据类型, 见{@link #setDatas(Collection)}, 示例: <pre> {@code
+ *      @BindView(R.id.isl_spinner)
+ *      ItemRadioGroupLayout<User> islSpinner;//会填充user的toString()返回值
+ * } </pre>
  */
 public class ItemRadioGroupLayout<T> extends LinearLayout {
 
@@ -96,8 +127,9 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
         density = getResources().getDisplayMetrics().density;
         //可以自定义重写此布局到自己layout目录
         int layoutId = R.layout.item_radio_group_layout;
+        int defaultContainerMinHeight = (int) getResources().getDimension(R.dimen.item_radio_group_layout_container_min_height);
         if (attrs == null) {
-            inflate(context, layoutId);
+            inflate(context, layoutId, defaultContainerMinHeight);
         } else {
             //读取自定义属性值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemRadioGroupLayout);
@@ -115,11 +147,13 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             int irglCheckedPosition = typedArray.getInt(R.styleable.ItemRadioGroupLayout_irglCheckedPosition, 0);
             //RadioButton的居中gravity
             int gravity = typedArray.getInt(R.styleable.ItemRadioGroupLayout_irglGravity, Gravity.START | Gravity.CENTER_VERTICAL);
+            //主container的最小高度, 默认49dp
+            int containerMinHeight = typedArray.getDimensionPixelSize(R.styleable.ItemRadioGroupLayout_irglContainerMinHeight, defaultContainerMinHeight);
             //Item自定义View
-            int resourceId = typedArray.getResourceId(R.styleable.ItemTextInputLayout_itilCustomLayout, layoutId);
+            int resourceId = typedArray.getResourceId(R.styleable.ItemRadioGroupLayout_irglCustomLayout, layoutId);
             typedArray.recycle();
 
-            inflate(context, resourceId);
+            inflate(context, resourceId, containerMinHeight);
             getTextViewRedStar().setVisibility(visiable * INVISIBLE);//设置红点是否显示
             if (irglItemName != null) getTextViewItem().setText(irglItemName);
             setMarginTop(marginTop);
@@ -138,7 +172,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
         }
     }
 
-    protected void inflate(Context context, @LayoutRes int resource) {
+    protected void inflate(Context context, @LayoutRes int resource, int containerMinHeight) {
         //给当前空的布局填充内容
         //参3:A view group that will be the parent.
         //传null表示当前布局没有父控件,大部分都传null

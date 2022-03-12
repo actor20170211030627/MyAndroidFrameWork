@@ -27,34 +27,61 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Description: 常用的Spinner选择布局,这是一个组合控件.
- *              注意:本控件的item数据类型只有String, 没有做其余复杂扩展.
- * Author     : ldf
- * Date       : 2019/7/10 on 17:22
+ * Description: 常用的Spinner选择布局,这是一个组合控件. <br/>
+ *              注意:本控件的item数据类型只有String, 没有做其余复杂扩展. <br/>
+ * Author     : ldf <br/>
+ * Date       : 2019/7/10 on 17:22 <br/>
+ * <br/>
+ * 全部属性都是isl开头: <br/>
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th align="center">属性attrs</th>
+ *         <th align="center">示例exams</th>
+ *         <th align="center">说明docs</th>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islRedStarVisiable islRedStarVisiable}</td>
+ *         <td nowrap="nowrap">visible/invisible/gone</td>
+ *         <td>1.左侧红点显示类型, 默认visible</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islItemName islItemName}</td>
+ *         <td nowrap="nowrap">请选择语言：</td>
+ *         <td>2.左侧提示文字</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islEntriesString islEntriesString}</td>
+ *         <td nowrap="nowrap">"c语音,java,php,html"</td>
+ *         <td>3.右侧spinner的填充内容, 用','分隔开(3和4这俩个属性, 只需要写一种即可)</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islEntries islEntries}</td>
+ *         <td nowrap="nowrap">@array/languages</td>
+ *         <td>{@code 4.右侧spinner的填充内容, 写在:values/arrays.xml里面, 例:<string-array name="languages">}</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islMarginTop islMarginTop}</td>
+ *         <td nowrap="nowrap">1dp</td>
+ *         <td>5.marginTop, 默认1dp</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islContainerMinHeight islContainerMinHeight}</td>
+ *         <td>49dp</td>
+ *         <td>6.主container的最小高度, 默认49dp(目前还未扩展, 设置了也没啥用...)</td>
+ *     </tr>
+ *     <tr>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islCustomLayout islCustomLayout}</td>
+ *         <td nowrap="nowrap">R.layout.xxx</td>
+ *         <td>7.自定义布局, 注意必须有默认控件的类型和id. 如果要所有地方都修改layout,可把{@link R.layout#item_spinner_layout item_spinner_layout} copy一份到自己工程作修改, 就会加载自己工程的layout</td>
+ *     </tr>
+ * </table>
+ * <br />
  *
- * 全部属性都是isl开头:
- * 1.左侧红点显示类型, 默认visible
- * @see R.styleable#ItemSpinnerLayout_islRedStarVisiable //visible/invisible/gone
- * 2.左侧提示文字
- * @see R.styleable#ItemSpinnerLayout_islItemName        //请选择语言：
- * 3.右侧spinner的填充内容, 用','分隔开(3和4这俩个属性, 只需要写一种即可)
- * @see R.styleable#ItemSpinnerLayout_islEntriesString   //"c语音,java,php,xml,html"
- * 4.右侧spinner的填充内容, 写在:values/arrays.xml里面<string-array name="languages">
- * @see R.styleable#ItemSpinnerLayout_islEntries         //@array/languages
- * 5.marginTop, 默认1dp
- * @see R.styleable#ItemSpinnerLayout_islMarginTop       //1dp
- * 6.自定义布局, 注意必须有默认控件的类型和id
- *   如果要所有地方都修改layout,可把{@link R.layout#item_spinner_layout} copy一份到自己工程作修改, 就会加载自己工程的layout
- * @see R.styleable#ItemSpinnerLayout_islCustomLayout    //R.layout.xxx
- *
- * @version 1.0
- * @version 1.0.1 自定义属性, 增加方法:
- *                  @see #setMarginTop(int)
- *
- * @param <T> 填充Item的数据类型, 见{@link #setDatas(Collection)}, 示例:
- *           @BindView(R.id.isl_spinner)
- *           ItemSpinnerLayout<User> islSpinner;
- *           User = islSpinner.getSelectedItem();//获取当前已选择的User
+ * @param <T> 填充Item的数据类型, 见{@link #setDatas(Collection)}, 示例: <pre> {@code
+ *      @BindView(R.id.isl_spinner)
+ *      ItemSpinnerLayout<User> islSpinner;
+ *      User = islSpinner.getSelectedItem();//获取当前已选择的User
+ * } </pre>
  */
 public class ItemSpinnerLayout<T> extends LinearLayout {
 
@@ -90,8 +117,9 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
         density = getResources().getDisplayMetrics().density;
         //可以自定义重写此布局到自己layout目录
         int layoutId = R.layout.item_spinner_layout;
+        int defaultContainerMinHeight = (int) getResources().getDimension(R.dimen.item_spinner_layout_container_min_height);
         if (attrs == null) {
-            inflate(context, layoutId);
+            inflate(context, layoutId, defaultContainerMinHeight);
         } else {
             //读取自定义属性值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemSpinnerLayout);
@@ -110,11 +138,13 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
 //            String[] entries = context.getResources().getStringArray(resourceId);
 //            setDatas(entries);
 //        }
+            //主container的最小高度, 默认49dp
+            int containerMinHeight = typedArray.getDimensionPixelSize(R.styleable.ItemSpinnerLayout_islContainerMinHeight, defaultContainerMinHeight);
             //Item自定义View
             int resourceId = typedArray.getResourceId(R.styleable.ItemSpinnerLayout_islCustomLayout, layoutId);
             typedArray.recycle();
 
-            inflate(context, resourceId);
+            inflate(context, resourceId, containerMinHeight);
             getTextViewRedStar().setVisibility(redStarVisiable * INVISIBLE);//设置红点是否显示
             if (itemName != null) getTextViewItem().setText(itemName);
             setMarginTop(marginTop);
@@ -130,7 +160,7 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
             llContentForIsl.setBackgroundColor(Color.WHITE);
         }
     }
-    protected void inflate(Context context, @LayoutRes int resource) {
+    protected void inflate(Context context, @LayoutRes int resource, int containerMinHeight) {
         View view = View.inflate(context, R.layout.item_spinner_layout, this);
         llContentForIsl = view.findViewById(R.id.ll_content_for_isl);
         spaceMarginTop = view.findViewById(R.id.space_margin_top_for_isl);

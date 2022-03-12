@@ -115,9 +115,14 @@ import com.actor.myandroidframework.utils.TextUtils2;
  *         <td>14.右侧箭头位置图片, 默认箭头</td>
  *     </tr>
  *     <tr>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilContainerMinHeight itilContainerMinHeight}</td>
+ *         <td>49dp</td>
+ *         <td>15.主container的最小高度, 默认49dp</td>
+ *     </tr>
+ *     <tr>
  *         <td>{@link R.styleable#ItemTextInputLayout_itilCustomLayout itilCustomLayout}</td>
  *         <td>R.layout.xxx</td>
- *         <td>15.自定义布局, 注意必须有默认控件的类型和id, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/tempgen/src/main/res/layout/item_text_input_layout.xml" targt="_blank">item_text_input_layout.xml</a></td>
+ *         <td>16.自定义布局, 注意必须有默认控件的类型和id, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/tempgen/src/main/res/layout/item_text_input_layout.xml" targt="_blank">item_text_input_layout.xml</a></td>
  *     </tr>
  * </table>
  *
@@ -162,8 +167,9 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
 
     protected void init(Context context, @Nullable AttributeSet attrs) {
         density = getResources().getDisplayMetrics().density;
+        int defaultContainerMinHeight = (int) getResources().getDimension(R.dimen.item_text_input_layout_container_min_height);
         if (attrs == null) {
-            initView(context, NOTHING);
+            initView(context, NOTHING, defaultContainerMinHeight);
         } else {
             //根据xml中属性, 给view赋值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemTextInputLayout);
@@ -195,11 +201,13 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             int paddingRightText = typedArray.getDimensionPixelSize(R.styleable.ItemTextInputLayout_itilPaddingRightText, Integer.MIN_VALUE);
             //右侧箭头位置图片
             Drawable arrowSrc = typedArray.getDrawable(R.styleable.ItemTextInputLayout_itilArrowRightSrc);
+            //主container的最小高度, 默认49dp
+            int containerMinHeight = typedArray.getDimensionPixelSize(R.styleable.ItemTextInputLayout_itilContainerMinHeight, defaultContainerMinHeight);
             //Item自定义View
             int resourceId = typedArray.getResourceId(R.styleable.ItemTextInputLayout_itilCustomLayout, NOTHING);
             typedArray.recycle();
 
-            initView(context, resourceId);
+            initView(context, resourceId, containerMinHeight);
 
             tvRedStar.setVisibility(redStarVisiable * INVISIBLE);
             if (itilInputType != NOTHING) setInputType(itilInputType);
@@ -249,10 +257,8 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
         }
     }
 
-    protected void initView(Context context, @LayoutRes int resource) {
+    protected void initView(Context context, @LayoutRes int resource, int containerMinHeight) {
         if (resource == NOTHING) {
-            //最小高度
-            setMinimumHeight(dp2px(50));
             //垂直
             setOrientation(VERTICAL);
             //Space
@@ -261,10 +267,12 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             addView(spaceMarginTop);
             //Container
             llContentForItil = new LinearLayout(context);
-            llContentForItil.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1F));
+            llContentForItil.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             llContentForItil.setGravity(Gravity.CENTER_VERTICAL);
             llContentForItil.setOrientation(HORIZONTAL);
             llContentForItil.setPadding(dp2px(10), 0, 0, 0);
+            //如果是wrap_content, 设置最小高度
+            llContentForItil.setMinimumHeight(containerMinHeight);
             addView(llContentForItil);
             //RedStart
             tvRedStar = new TextView(context);

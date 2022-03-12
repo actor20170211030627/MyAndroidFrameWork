@@ -43,6 +43,9 @@
         <!--选中第几个, 默认0-->
         <attr name="irglCheckedPosition" format="integer" />
 
+        <!--主container的最小高度, 默认49dp-->
+        <attr name="irglContainerMinHeight" format="dimension" />
+
         <!--不使用默认布局, 自定义布局-->
         <attr name="irglCustomLayout" format="reference" />
     </declare-styleable>
