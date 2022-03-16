@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * description: Emoji表情实体类
- * author     : ldf
+ * description: Emoji表情实体类 <br />
+ * author     : ldf <br />
  * date       : 2019/6/3 on 14:03
  */
 public class Emoji {

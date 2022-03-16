@@ -12,26 +12,66 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Kevin.
- * Editor by actor.
- * SharedPreferences 共享参数的工具类, 实现类:
- *      @see android.app.SharedPreferencesImpl
- * https://www.jianshu.com/p/2a4b411383d4
- * 1.创建前提
- *    ①.后台杀死
- *    ②.在MainActivity创建一个崩溃代码: int x = 1 / 0;
- * 2.如果使用默认 {@link PreferenceManager#getDefaultSharedPreferences(Context)}
- *   或 {@link PreferenceManager#getDefaultSharedPreferencesName(Context)} 创建的 SharedPreferences,
- *   ①: 会丢数据.  或  'LoginActivity'保存账号后进入'MainActivity', 遇到②, 存储的数据会丢失!
- * 3.如果使用自定义名称创建 SharedPreferences, ①: 不会丢数据. ②: 会丢数据
- * 4.如果使用 {@link com.blankj.utilcode.util.SPStaticUtils}, 和上方一样效果
- * 5.上方应该是数据回滚(.bak)造成的结果, 如果对这个问题很介意, 可以使用:
- *   @see com.blankj.utilcode.util.CacheDiskUtils#getInstance(File) 如果想长期存储,
- *   file 传 'getFilesDir()'. 已经在 ActorApplication 中配置, 直接用:
- *   @see com.actor.myandroidframework.application.ActorApplication#aCache 就行!
+ * Created by Kevin. <br />
+ * Editor by actor. <br />
+ * SharedPreferences 共享参数的工具类, 实现类:{@link android.app.SharedPreferencesImpl}, 参考<a href="https://www.jianshu.com/p/2a4b411383d4" target="_blank">简书</a> <br />
  *
- * @version 1.0
- * @version 1.1 fix bug
+ * <br />
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th>创建问题前提</th>
+ *     </tr>
+ *     <tr>
+ *         <td>①.后台杀死</td>
+ *         <td>..........</td>
+ *         <td>..........①</td>
+ *     </tr>
+ *     <tr>
+ *         <td>②.在MainActivity创建一个崩溃代码: int x = 1 / 0;</td>
+ *         <td>..........</td>
+ *         <td>..........②</td>
+ *     </tr>
+ *
+ *     <tr />
+ *     <tr>
+ *         <th>{@link SharedPreferences}创建方式</th>
+ *         <th nowrap="nowrap">当遇到问题①</th>
+ *         <th>当遇到问题②</th>
+ *     </tr>
+ *     <tr>
+ *         <td>1.{@link PreferenceManager#getDefaultSharedPreferences(Context)}</td>
+ *         <td>会丢数据</td>
+ *         <td>'LoginActivity'保存账号后进入'MainActivity', 遇到②, 存储的数据会丢失!</td>
+ *     </tr>
+ *     <tr>
+ *         <td>2.{@link PreferenceManager#getDefaultSharedPreferencesName(Context)}</td>
+ *         <td>会丢数据</td>
+ *         <td>同上</td>
+ *     </tr>
+ *     <tr>
+ *         <td>3.使用自定义名称创建</td>
+ *         <td>不会丢数据</td>
+ *         <td>同上</td>
+ *     </tr>
+ *     <tr>
+ *         <td>4.如果使用 {@link com.blankj.utilcode.util.SPStaticUtils SPStaticUtils}</td>
+ *         <td>同上</td>
+ *         <td>同上</td>
+ *     </tr>
+ *     <tr>
+ *         <td>5.如果使用 {@link com.blankj.utilcode.util.CacheDiskUtils#getInstance(File) CacheDiskUtils.getInstance(File)}</td>
+ *         <td>同上</td>
+ *         <td>
+ *             不会丢数据 <br />
+ *             (如果想长期存储, file 传 'getFilesDir()'. 已经在 {@link com.actor.myandroidframework.application.ActorApplication ActorApplication}) 中配置, 直接用: {@link com.actor.myandroidframework.application.ActorApplication#aCache ActorApplication.aCache})就行!
+ *         </td>
+ *     </tr>
+ * </table>
+ *
+ * <br />
+ * 上方数据丢失应该是数据回滚(.bak)造成的结果
+ * @version 1.0 <br />
+ *          1.1 fix bug
  */
 public class SPUtils {
 

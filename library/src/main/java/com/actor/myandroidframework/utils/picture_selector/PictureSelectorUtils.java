@@ -29,17 +29,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * description: 图片/视频/音频 选择, 拍照, 裁剪, 压缩... from https://github.com/LuckSiege/PictureSelector
- * PictureSelector Api说明, 见 {@link #selectFile(List, OnResultCallbackListener)}
- * 注意: 需要在清单文件中添加权限:
+ * description: 图片/视频/音频 选择, 拍照, 裁剪, 压缩... <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector的Github</a> <br />
+ * PictureSelector Api说明, 见 {@link #selectFile(List, OnResultCallbackListener)} <br />
+ * Author     : ldf <br />
+ * date       : 2020/10/7 on 18 <br />
+ *
+ * <br />
+ * 注意: 需要在清单文件中添加权限: <pre>{@code
  *  <!-- 拍照, 录视频 -->
  *  <uses-permission android:name="android.permission.CAMERA" />
  *  <!-- 音频 -->
  *  <uses-permission android:name="android.permission.RECORD_AUDIO" />
  *  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+ * }</pre>
  *
- * @author : ldf
- * date       : 2020/10/7 on 18
  * @version 1.1.0
  */
 public class PictureSelectorUtils {

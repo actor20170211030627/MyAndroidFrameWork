@@ -11,10 +11,10 @@ import com.luck.picture.lib.listener.OnImageCompleteCallback;
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 
 /**
- * description: 描述
- *
- * @author : ldf
+ * description: 描述<br />
+ * Author     : ldf<br />
  * date       : 2020/10/8 on 11
+ *
  * @version 1.0
  */
 public class ImageEngineImpl implements ImageEngine {

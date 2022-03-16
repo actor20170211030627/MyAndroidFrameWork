@@ -15,8 +15,8 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Description: 资产目录工具, 可以在Application的时候就开始拷贝文件
- * Author     : ldf
+ * Description: 资产目录工具, 可以在Application的时候就开始拷贝文件 <br />
+ * Author     : ldf <br />
  * Date       : 2018/1/8 on 18:08
  * @version 1.0
  */

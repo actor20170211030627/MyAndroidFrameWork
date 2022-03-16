@@ -9,11 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 /**
- * Description: 事件监听
- * Author     : ldf
+ * Description: 事件监听 <br />
+ * Author     : ldf <br />
  * Date       : 2016/10/4 on 11:40
  */
-
 public interface OnListener {
 
     /**

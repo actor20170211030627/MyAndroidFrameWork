@@ -29,14 +29,15 @@ import java.util.List;
  */
 public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
-    protected int                   fragmentSizeForAdapter;
-    protected SparseArray<Fragment> fragmentsForAdapter;
-    protected String[]              titlesForAdapter;
+    protected int                    fragmentSizeForAdapter;
+    protected SparseArray<Fragment>  fragmentsForAdapter;
+    protected String[]               titlesForAdapter;
+    protected OnFragmentInitListener onFragmentInitListener;
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, int size) {
         super(fm);
         this.fragmentSizeForAdapter = size;
-        fragmentsForAdapter = new SparseArray<>(size);
+        fragmentsForAdapter = new SparseArray<>(fragmentSizeForAdapter);
     }
 
     public BaseFragmentStatePagerAdapter(FragmentManager fm, @NonNull String[] titles) {
@@ -93,6 +94,9 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
         fragmentsForAdapter.put(position, fragment);
+        if (onFragmentInitListener != null) {
+            onFragmentInitListener.onFragmentInited(container, position, fragment);
+        }
         return fragment;
     }
 
@@ -124,5 +128,12 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Override
     public void registerDataSetObserver(@NonNull DataSetObserver observer) {
         super.registerDataSetObserver(observer);
+    }
+
+    /**
+     * 设置Fragment初始化监听
+     */
+    public void setOnFragmentInitListener(OnFragmentInitListener onFragmentInitListener) {
+        this.onFragmentInitListener = onFragmentInitListener;
     }
 }

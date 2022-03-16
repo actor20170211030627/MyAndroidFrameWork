@@ -9,10 +9,9 @@ import android.provider.Settings;
 import com.blankj.utilcode.util.NotificationUtils;
 
 /**
- * Description: Notification帮助类, copy from: https://www.cnblogs.com/whycxb/p/10077418.html
- * Author     : ldf
+ * Description: Notification帮助类, 参考: <a href="https://www.cnblogs.com/whycxb/p/10077418.html" target="_blank">博客</a> <br />
+ * Author     : ldf <br />
  * Date       : 2019/7/18 on 15:40
- *
  * @version 1.0
  */
 public class NotificationHelper {

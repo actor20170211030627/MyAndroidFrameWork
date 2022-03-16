@@ -23,6 +23,10 @@ import java.util.List;
 
 /**
  * Description: 九宫格 自定义item, 使用注意: List中的数据必须implements {@link GetIsVideoAble}, 否则报错. <br />
+ * Author     : ldf <br />
+ * Date       : 2019/5/16 on 14:47 <br />
+ *
+ * <br />
  * 示例使用:
  * <pre>
  * //注意: class <b>PicOrVideo implements {@link GetIsVideoAble}</b> {@code
@@ -39,8 +43,6 @@ import java.util.List;
  * });
  * } </pre>
  *
- * Author     : ldf
- * Date       : 2019/5/16 on 14:47
  * @version 1.0
  */
 // TODO: 2021/4/19 优化成一个控件

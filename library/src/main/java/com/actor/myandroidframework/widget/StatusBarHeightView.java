@@ -11,9 +11,9 @@ import androidx.annotation.RequiresApi;
 import com.actor.myandroidframework.utils.ConfigUtils;
 
 /**
- * Description: 状态栏高度, 用于占高
- * Author     : ldf
- * Date       : 2020-1-13 on 11:14
+ * Description: 状态栏高度, 用于占高 <br />
+ * Author     : ldf <br />
+ * Date       : 2020-1-13 on 11:14 <br />
  * @version 1.0
  */
 public class StatusBarHeightView extends View {

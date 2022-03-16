@@ -9,10 +9,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 /**
- * description: NineGridView 的Item点击事件监听
- * company    :
- *
- * @author : ldf
+ * description: NineGridView 的Item点击事件监听 <br />
+ * Author     : ldf <br />
  * date       : 2021/12/21 on 20
  * @version 1.0
  */

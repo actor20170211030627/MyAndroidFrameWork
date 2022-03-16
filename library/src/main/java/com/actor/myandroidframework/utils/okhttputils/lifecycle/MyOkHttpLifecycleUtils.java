@@ -11,11 +11,10 @@ import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import java.util.ArrayList;
 
 /**
- * description: MyOkHttpUtils网络请求的LifecycleEventObserver
- * company    :
- *
- * @author : ldf
+ * description: MyOkHttpUtils网络请求的 LifecycleEventObserver <br />
+ * Author     : ldf <br />
  * date       : 2021/10/16 on 19
+ *
  * @version 1.0
  */
 public class MyOkHttpLifecycleUtils {

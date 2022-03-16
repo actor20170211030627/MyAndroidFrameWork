@@ -37,22 +37,26 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Description: 微信登录等
- * 集成/Demo下载: https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html
- * 接入指南: https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
- * 应用注册: https://open.weixin.qq.com/
+ * Description: 微信登录等 <br />
+ * Author     : ldf <br />
+ * date       : 2020/3/14 on 11:46 <br />
  *
+ * <br />
+ * 集成/Demo下载: <a href="https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html" target="_blank">Android_Resource.html</a> <br />
+ * 接入指南: <a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">Android.html</a> <br />
+ * 应用注册: <a href="https://open.weixin.qq.com/" target="_blank">https://open.weixin.qq.com</a> <br />
+ *
+ * <br />
+ * <pre>
  * 1.在gradle中添加依赖
- *      //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
- *      implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
+ *   //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
+ *   implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
  *
  * 2.添加相关Activity, 必须放在: 包名.wxapi文件夹下, 可参考:
- *   //登录等功能(如果app没有使用 登录等 这些功能, 请忽略)
- *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java
- *   //支付功能(如果app没有使用 支付 等这些功能, 请忽略)
- *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java
+ *   <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java" target="_blank">WXEntryActivity.java, 登录等功能(如果app没有使用 登录等 这些功能, 请忽略)</a>
+ *   <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java" target="_blank">WXPayEntryActivity.java, 支付功能(如果app没有使用 支付 等这些功能, 请忽略)</a>
  *
- * 3.在 AndroidManifest.xml中添加以下2个Activity:
+ * 3.在 AndroidManifest.xml中添加以下2个Activity:{@code
  * <!--微信登录等-->
  * <!-- https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html -->
  * <activity
@@ -67,18 +71,16 @@ import java.util.concurrent.ExecutionException;
  * <activity
  *     android:name=".wxapi.WXPayEntryActivity"
  *     android:exported="true"
- *     android:launchMode="singleTop" >
- * </activity>
+ *     android:launchMode="singleTop" />
+ * }
  *
- * 4.在Application中初始化: {@link #setAppId(String)}
+ * 4.在Application中初始化: {@link #setAppId(String) WeChatUtils.setAppId(String)}
  *
- * 5.登录: {@link #login(String, String)}
+ * 5.登录: {@link #login(String, String) WeChatUtils.login(String, String)}
  *
- * 6.示例使用:
- * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
+ * 6.示例使用: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java" target="_blank">ThirdActivity.java</a>
+ * </pre>
  *
- * @author    : ldf
- * date       : 2020/3/14 on 11:46
  * @version 1.0
  */
 public class WeChatUtils {

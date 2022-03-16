@@ -18,8 +18,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Description: 下载文件
- * Author     : ldf
+ * Description: 下载文件 <br />
+ * Author     : ldf <br />
  * Date       : 2019/4/17 on 18:10
  */
 public abstract class GetFileCallback extends BaseCallback<File> {

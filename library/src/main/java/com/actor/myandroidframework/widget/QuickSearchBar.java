@@ -30,47 +30,45 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Description: 快速查找条
- * Author     : ldf
+ * Description: 快速查找条 <br/>
+ * Author     : ldf <br />
  * Date       : 2017/3/22 on 20:55.
- * <p>
+ *
+ * <pre> {@code
  * 用法:
  * 1.由于pinyin不常用, 所以如果使用本类, 需要在自己project中添加依赖:
  * //https://github.com/promeG/TinyPinyin
- * implementation 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB
- * //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'//可选，适用于Android的中国地区词典
- * <p>
- * 1. 布局文件中
+ * //TinyPinyin核心包，约80KB
+ * implementation 'com.github.promeg:tinypinyin:2.0.3'
+ * //可选，适用于Android的中国地区词典
+ * //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'
+ *
+ * 2. 布局文件中
  * <com.actor.myandroidframework.widget.QuickSearchBar
  *     android:id="@+id/quicksearchbar"
  *     android:layout_width="30dp"
  *     android:layout_height="match_parent"
- *     app:qsbBackgroundPressed="@drawable/shape_rec_cor_for_quicksearchbar" //这是默认背景(default)
+ *     app:qsbBackgroundPressed="@drawable/shape_rec_cor_for_quicksearchbar" //这是默认背景
  *     app:qsbTextColorNormal="@color/gray_8c8c8c"  //默认#8c8c8c
  *     app:qsbTextColorPressed="@color/colorAccent" //默认colorAccent
  *     app:qsbTextSize="10sp" />
+ * }</pre>
  *
+ * <pre>
+ * 3.Java文件中
+ *   注意: 列表中的数据必须 extends {@link PinYinSortAble PinYinSortAble}, 否则报错
+ *   1.设置字母监听: {@link #setOnLetterChangedListener(RecyclerView, OnLetterChangedListener) setOnLetterChangedListener(RecyclerView, OnLetterChangedListener)}
+ *   2.设置字体正常颜色: {@link #setTextColorNormal(int)}
+ *   3.设置字体按下时颜色: {@link #setTextColorPressed(int)}
+ *   4.设置字体大小: {@link #setTextSize(int)}
+ *   5.设置按下时背景资源: {@link #setBackgroundPressed(int)}
  *
- * 2.Java文件中
- * 注意: 列表中的数据必须 extends {@link PinYinSortAble}, 否则报错
- * <p>
- * 设置字母监听: {@link #setOnLetterChangedListener(RecyclerView, OnLetterChangedListener)}
- * <p>
- * 设置字体正常颜色: {@link #setTextColorNormal(int)}
- * <p>
- * 设置字体按下时颜色: {@link #setTextColorPressed(int)}}
- * <p>
- * 设置字体大小: {@link #setTextSize(int)}}
- * <p>
- * 设置按下时背景资源: {@link #setBackgroundPressed(int)}}
- * <p>
- * <p>
- * 3.在RecyclerView列表中控制Letter字母的显示/隐藏:
+ * 4.在RecyclerView列表中控制 {@link #LETTERS} 字母的显示/隐藏:
  * int position = helper.getAdapterPosition();
- * helper.setText(R.Id.tv_letter, item.letter)//显示letter: "A", "B" ...
- *         .setGone(R.Id.tv_letter, position > 0 &&
+ * helper.setText(R.id.tv_letter, item.letter)//显示letter: "A", "B" ...
+ *         .setGone(R.id.tv_letter, position > 0 &&
  *                 TextUtils.equals(item.letter, items.get(position - 1).letter));
- *
+ *</pre>
  * @version 1.0
  */
 public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends View {

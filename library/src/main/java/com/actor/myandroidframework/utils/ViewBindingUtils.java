@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.utils;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -15,18 +16,21 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * description: ViewBinding工具类 https://blog.csdn.net/c10WTiybQ1Ye3/article/details/112690188
+ * description: ViewBinding工具类, 可参考: <a href="https://blog.csdn.net/c10WTiybQ1Ye3/article/details/112690188" target="_blank">博客</a> <br />
  *
- * //https://github.com/JakeWharton/butterknife 可用于生成onViewClicked()方法 switch-case 的点击事件
+ * <pre>
+ * //https://github.com/JakeWharton/butterknife 可用于生成onViewClicked(View view)方法
  * compileOnly 'com.jakewharton:butterknife:10.2.3'
  * //annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
  *
  * ViewBinding缺点:
  *  1.不能替换掉 Butterknife 的 @OnClick() 点击事件注解. 如果点击事件很多, 写起来很麻烦.
- *    不过可以在xml中的view写: android:onClick="onViewClicked", 然后Activity中的 onViewClicked(View view)用 ButterKnife 生成.
- *  2.注意: Fragment 的xml中如果写 onViewClicked 会调用到Activity的这个点击事件去...
- *          Fragment中只能手动设置点击事件: viewBinding.viewXxx.setOnClickListener(this::onViewClicked);...
+ *    不过可以在xml中的view写: android:onClick="onViewClicked", 然后{@link android.app.Activity Activity}中的 {@link com.actor.myandroidframework.activity.ViewBindingActivity#onViewClicked(View) onViewClicked(View)}用 ButterKnife 生成.
+ *  2.★注意★: {@link Fragment Fragment} 的xml中如果写 onViewClicked 会调用到Activity的这个点击事件去...
+ *          Fragment中只能手动设置点击事件: viewBinding.viewXxx.setOnClickListener(this::onViewClicked);
+ *          或者继承{@link com.actor.myandroidframework.fragment.ViewBindingFragment ViewBindingFragment}并重写{@link com.actor.myandroidframework.fragment.ViewBindingFragment#onViewClicked(View) onViewClicked(View)}方法
  *  3.如果xml中View太多, viewBinding写起来太麻烦, 没有 ButterKnife 好用...
+ * </pre>
  *
  * @author : ldf
  * date       : 2021/9/2 on 16

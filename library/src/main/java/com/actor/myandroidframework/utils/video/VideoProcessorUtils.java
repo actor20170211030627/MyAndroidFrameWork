@@ -15,8 +15,12 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * description: 视频压缩, 逆序, 混音. copy from: https://www.jianshu.com/p/78b7176c041e
- *  注意:
+ * description: 视频压缩, 逆序, 混音, 参考: <a href="https://www.jianshu.com/p/78b7176c041e" target="_blank">简书</a> <br />
+ * Author     : ldf <br />
+ * date       : 2021/3/30 on 00 <br />
+ *
+ * <br />
+ * <pre>
  *  使用本工具前, 需要添加依赖:
  *  1. 在项目的 build.gradle 中添加
  *      maven { url 'https://www.jitpack.io' }
@@ -24,9 +28,8 @@ import java.io.IOException;
  *  2. 在主模块中添加
  *      //https://github.com/yellowcath/VideoProcessor 视频压缩
  *      implementation 'com.github.yellowcath:VideoProcessor:2.4.2'
+ * </pre>
  *
- * @author : ldf
- * date       : 2021/3/30 on 00
  * @version 1.0
  */
 public class VideoProcessorUtils {

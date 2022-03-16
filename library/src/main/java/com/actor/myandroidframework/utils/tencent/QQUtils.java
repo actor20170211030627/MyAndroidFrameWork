@@ -20,19 +20,25 @@ import com.tencent.tauth.Tencent;
 import org.json.JSONObject;
 
 /**
- * Description: QQ工具类
+ * Description: QQ工具类 <br />
+ * Author     : ldf <br />
+ * date       : 2020/3/5 on 12:28 <br />
+ *
+ * <br />
+ * <pre>
  * 1.需要下载jar包v3.3.7:
- *   https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD
- *   https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/libs/open_sdk_r2973327_lite.jar
+ *   //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD
+ *   <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/libs/open_sdk_r2973327_lite.jar" target="_blank">open_sdk_r2973327_lite.jar</a>
  *
  * 2.将jar包放在libs目录下, 并且在app的gradle中添加:
- *   implementation files('libs/open_sdk_r2973327_lite.jar')//QQ登录等v3.3.7
+ *   //QQ登录等v3.3.7
+ *   implementation files('libs/open_sdk_r2973327_lite.jar')
  *
  * 3.在腾讯开放平台注册成为开发者，然后获取APP ID
- *   注册开发者地址(一般是公司注册): https://open.qq.com/reg
- *   创建应用, 获取APP ID: https://connect.qq.com/manage.html#/
+ *   注册开发者地址(一般是公司注册): <a href="https://open.qq.com/reg" target="_blank">https://open.qq.com/reg</a>
+ *   创建应用, 获取APP ID: <a href="https://connect.qq.com/manage.html#/" target="_blank">https://connect.qq.com/manage</a>
  *
- * 4.需要在清单文件中添加Activity: https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95
+ * 4.需要在清单文件中添加Activity: https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95 {@code
  * <!-- QQ登录 -->
  * <activity
  *     android:name="com.tencent.tauth.AuthActivity"
@@ -58,19 +64,16 @@ import org.json.JSONObject;
  *     <uses-library
  *         android:name="org.apache.http.legacy"
  *         android:required="false" />
+ * }
+ * 6.在Application中设置appid: {@link #setAppId(String) QQUtils.setAppId(String)}
  *
- * 6.在Application中设置appid: {@link #setAppId(String)}
+ * 7.如果QQ登录, 需要重写方法参考: {@link #onActivityResult(int, int, Intent)}
  *
- * 7.如果QQ登录, 需要重写方法: {@link #onActivityResult(int, int, Intent)}
+ * 8.<a href="https://wiki.connect.qq.com/%E5%85%AC%E5%85%B1%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E" target="_blank">错误码列表</a>
  *
- * 8.错误码列表
- * https://wiki.connect.qq.com/%E5%85%AC%E5%85%B1%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E
+ * 9.示例使用: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java" target="_blank">ThirdActivity.java</a>
+ * </pre>
  *
- * 9.示例使用:
- * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java
- *
- * @author     : ldf
- * date       : 2020/3/5 on 12:28
  * @version 1.0
  */
 public class QQUtils {

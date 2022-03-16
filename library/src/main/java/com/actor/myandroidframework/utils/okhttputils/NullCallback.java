@@ -9,10 +9,10 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
- * description: 不需要关心结果的回调
- *
- * @author : ldf
+ * description: 不需要关心结果的回调 <br />
+ * Author     : ldf <br />
  * date       : 2020/7/3 on 15:48
+ *
  * @version 1.0
  */
 /*public */

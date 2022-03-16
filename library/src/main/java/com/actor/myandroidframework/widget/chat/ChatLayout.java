@@ -49,7 +49,11 @@ import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.android.material.tabs.TabLayout;
 
 /**
- * description: 聊天控件, 低仿微信聊天界面按钮点击事件, 封装几个按钮及事件, 包含:
+ * description: 聊天控件, 低仿微信聊天界面按钮点击事件, 封装几个按钮及事件, 包含: <br/>
+ * author     : ldf <br/>
+ * date       : 2018/8/2 on 16:16 <br/>
+ *
+ * <br/>
  * <ul>
  *     <li>1.语音按钮</li>
  *     <li>2.EditText</li>
@@ -122,8 +126,6 @@ import com.google.android.material.tabs.TabLayout;
  * }
  * } </pre>
  *
- * author     : ldf <br/>
- * date       : 2018/8/2 on 16:16
  * @version 1.0
  */
 public class ChatLayout extends LinearLayout {

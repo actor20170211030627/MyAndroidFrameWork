@@ -12,10 +12,8 @@ import androidx.annotation.Nullable;
 import com.google.android.material.tabs.TabLayout;
 
 /**
- * description: 自动计算子类高度的ViewPager
- * company    :
- *
- * @author : ldf
+ * description: 自动计算子类高度的ViewPager <br />
+ * Author     : ldf <br />
  * date       : 2022/3/5 on 16
  * @version 1.0
  */

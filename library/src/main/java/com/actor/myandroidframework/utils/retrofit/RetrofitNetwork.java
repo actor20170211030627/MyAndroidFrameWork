@@ -17,11 +17,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Description: Retrofit网络请求
- * Author     : ldf
+ * Description: Retrofit网络请求 <br />
+ * Author     : ldf <br />
  * Date       : 2019/3/15 on 9:20
- * @version 1.0
- * @version 1.1 修改一点点东西
+ *
+ * @version 1.0 <br />
+ *          1.1 修改一点点东西
  */
 public class RetrofitNetwork {
 

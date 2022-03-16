@@ -10,8 +10,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Description: 获取Bitmap
- * Author     : ldf
+ * Description: 获取Bitmap <br />
+ * Author     : ldf <br />
  * Date       : 2019/4/17 on 18:03
  */
 public abstract class GetBitmapCallback extends BaseCallback<Bitmap> {

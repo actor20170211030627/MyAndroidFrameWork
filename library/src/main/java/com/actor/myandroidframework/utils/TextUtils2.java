@@ -31,6 +31,8 @@ import com.google.android.material.textfield.TextInputLayout;
  *     <li>{@link #getTrimmedLength(CharSequence)} 获取trim后字符长度</li>
  *     <li>{@link #htmlEncode(String)} 获取html格式的字符串</li>
  * </ol>
+ *
+ * <br />
  * Date       : 2018/4/20 on 11:14
  * @version 1.0
  */

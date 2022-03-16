@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Description: MoreFragment 中的item
- * Author     : ldf
+ * Description: MoreFragment 中的item <br />
+ * Author     : ldf <br />
  * Date       : 2019/6/2 on 21:33
  */
 public class ChatLayoutItemMore implements Parcelable {

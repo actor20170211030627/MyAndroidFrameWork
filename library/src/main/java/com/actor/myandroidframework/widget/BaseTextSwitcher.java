@@ -28,28 +28,83 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description: TextView切换, 水平切换效果 & 垂直切换效果(小喇叭通知消息翻滚)
- * Author     : ldf
- * Date       : 2019-8-23 on 16:39
+ * Description: TextView切换, 水平切换效果 & 垂直切换效果(小喇叭通知消息翻滚) <br />
+ * Author     : ldf <br />
+ * Date       : 2019-8-23 on 16:39 <br />
  *
- * @see android.widget.ViewAnimator 里的3个属性:
- * @attr ref android.R.styleable#ViewAnimator_inAnimation 设置进入动画, 如果不设置, 默认从底部进入
- * @attr ref android.R.styleable#ViewAnimator_outAnimation 设置退出动画, 如果不设置, 默认从顶部退出
- * @attr ref android.R.styleable#ViewAnimator_animateFirstView 第一次进入是否有动画, 默认true
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th align="center">属性attrs</th>
+ *         <th align="center">示例exams</th>
+ *         <th align="center">说明docs</th>
+ *     </tr>
+ *     <tr>
+ *         <th>一. {@link android.widget.ViewAnimator ViewAnimator} 属性</th>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link com.android.internal.R.styleable#ViewAnimator_inAnimation inAnimation}</td>
+ *         <td>@anim/xxx</td>
+ *         <td>1.设置进入动画, 如果不设置, 默认从底部进入</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link com.android.internal.R.styleable#ViewAnimator_outAnimation outAnimation}</td>
+ *         <td>@anim/xxx</td>
+ *         <td>2.设置退出动画, 如果不设置, 默认从顶部退出</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link com.android.internal.R.styleable#ViewAnimator_animateFirstView animateFirstView}</td>
+ *         <td>true</td>
+ *         <td>3.第一次进入是否有动画, 默认true</td>
+ *     </tr>
  *
- * 下方是自定义属性:
- * btsTextColor         字体颜色
- * btsTextSize          字体大小
- * btsTextStyle         normal, bold, italic, bold|italic(字体加粗|斜体, 默认正常normal)
- * btsSwitchIntervalMs  切换间隔, 单位ms, 至少100ms, 否则不生效. 默认3000ms
- * btsOrientation       切换方向, 水平/垂直
- * btsSingleLineMarquee 是否是 "单行&跑马灯", 默认true
- * btsMaxLinesNoMarquee 最大行数,
- *                          1.如果btsSingleLineMarquee="true", 那么这个属性无效.
- *                          2.如果btsSingleLineMarquee="false":
- *                             2.1.如果设置了这个属性, TextView将设置最大行数
- *                             2.2.如果没有设置这个属性, TextView有多少行就占多少行
+ *     <tr />
+ *     <tr>
+ *         <th>二. {@link BaseTextSwitcher} 自定义属性</th>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseTextSwitcher_btsTextColor btsTextColor}</td>
+ *         <td>@color/xxx</td>
+ *         <td>1.字体颜色, 默认系统灰</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseTextSwitcher_btsTextSize btsTextSize}</td>
+ *         <td>16sp</td>
+ *         <td>2.字体大小, 默认系统字体大小</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseTextSwitcher_btsTextStyle btsTextStyle}</td>
+ *         <td>normal, bold, italic</td>
+ *         <td>3.字体样式: 加粗, 斜体, 默认正常normal</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseTextSwitcher_btsSwitchIntervalMs btsSwitchIntervalMs}</td>
+ *         <td>3000</td>
+ *         <td>4.切换间隔, 单位ms, 至少100ms, 否则不生效. 默认3000ms</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseTextSwitcher_btsOrientation btsOrientation}</td>
+ *         <td>vertical</td>
+ *         <td>5.切换方向, 水平/垂直. 默认vertical</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseTextSwitcher_btsSingleLineMarquee btsSingleLineMarquee}</td>
+ *         <td>true</td>
+ *         <td>6.是否是 "单行&跑马灯", 默认true</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseTextSwitcher_btsMaxLinesNoMarquee btsMaxLinesNoMarquee}</td>
+ *         <td>2</td>
+ *         <td>
+ *             7.最大行数 <br />
+ *               1.如果{@link R.styleable#BaseTextSwitcher_btsSingleLineMarquee btsSingleLineMarquee}="true", 那么这个属性无效. <br />
+ *               2.如果{@link R.styleable#BaseTextSwitcher_btsSingleLineMarquee btsSingleLineMarquee}="false": <br />
+ *                  2.1.如果设置了这个属性, TextView将设置最大行数 <br />
+ *                  2.2.如果没有设置这个属性, TextView有多少行就占多少行
+ *         </td>
+ *     </tr>
+ * </table>
  *
+ * <pre> {@code
  * 怎么使用:
  * 1.在布局文件件中:
  * <com.actor.myandroidframework.widget.BaseTextSwitcher
@@ -65,8 +120,7 @@ import java.util.List;
  *     //app:btsSwitchIntervalMs="2000"     //默认3000
  *     app:btsTextColor="@color/colorAccent"
  *     app:btsTextSize="28sp"
- *     //app:btsTextStyle="bold|italic">    //默认normal
- * </com.actor.myandroidframework.widget.BaseTextSwitcher>
+ *     //app:btsTextStyle="bold|italic" />  //默认normal
  *
  * 2.在Activity/Fragment中:
  * List<T> datas = new ArrayList<>();//任意数据类型
@@ -77,8 +131,12 @@ import java.util.List;
  *         logFormat("pos=%d, str=%s", position, item);
  *     }
  * });
- * bts.startSwitch();//在onStart();方法中调用
- * bts.stopSwitcher();//在onStop();方法中调用
+ * }
+ * //在onStart()方法中调用, 开始滚动
+ * baseTextSwitcher.{@link #startSwitch()};
+ * //在onStop()方法中调用, 停止滚动
+ * baseTextSwitcher.{@link #stopSwitch()};
+ * </pre>
  *
  * @version 1.0
  */
@@ -255,7 +313,7 @@ public class BaseTextSwitcher<T> extends TextSwitcher implements ViewSwitcher.Vi
     /**
      * 停止切换
      */
-    public void stopSwitcher() {
+    public void stopSwitch() {
         handlerForTextSwitcher.removeCallbacks(runnableForTextSwitcher);
         handlerForTextSwitcher.removeCallbacksAndMessages(null);
     }

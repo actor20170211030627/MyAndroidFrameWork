@@ -4,13 +4,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
- * Description: log日志输出
- *
- * @version 1.0.2
- * @see com.blankj.utilcode.util.LogUtils, 这个工具类输出后可以点击跳转.
- * <p>
- * Author     : ldf
+ * Description: log日志输出, 参考{@link com.blankj.utilcode.util.LogUtils}, 这个工具类输出后可以点击跳转. <br />
+ * Author     : ldf <br />
  * Date       : 2018/4/18 on 11:07
+ * @version 1.0.2
  */
 public class LogUtils {
     protected static final boolean IS_DEBUG_MODE = ConfigUtils.IS_APP_DEBUG;

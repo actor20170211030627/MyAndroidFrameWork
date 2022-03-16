@@ -24,19 +24,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description: View切换, 水平切换效果 & 垂直切换效果
- * Author     : ldf
- * Date       : 2019/8/24 on 14:51
+ * Description: View切换, 水平切换效果 & 垂直切换效果 <br />
+ * Author     : ldf <br />
+ * Date       : 2019/8/24 on 14:51 <br />
  *
- * @see android.widget.ViewAnimator 里的3个属性:
- * @attr ref android.R.styleable#ViewAnimator_inAnimation 设置进入动画, 如果不设置, 默认从底部进入
- * @attr ref android.R.styleable#ViewAnimator_outAnimation 设置退出动画, 如果不设置, 默认从顶部退出
- * @attr ref android.R.styleable#ViewAnimator_animateFirstView 第一次进入是否有动画, 默认true
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th align="center">属性attrs</th>
+ *         <th align="center">示例exams</th>
+ *         <th align="center">说明docs</th>
+ *     </tr>
+ *     <tr>
+ *         <th>一. {@link android.widget.ViewAnimator ViewAnimator} 属性</th>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link com.android.internal.R.styleable#ViewAnimator_inAnimation inAnimation}</td>
+ *         <td>@anim/xxx</td>
+ *         <td>1.设置进入动画, 如果不设置, 默认从底部进入</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link com.android.internal.R.styleable#ViewAnimator_outAnimation outAnimation}</td>
+ *         <td>@anim/xxx</td>
+ *         <td>2.设置退出动画, 如果不设置, 默认从顶部退出</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link com.android.internal.R.styleable#ViewAnimator_animateFirstView animateFirstView}</td>
+ *         <td>true</td>
+ *         <td>3.第一次进入是否有动画, 默认true</td>
+ *     </tr>
  *
- * 下方是自定义属性:
- * bvsSwitchIntervalMs  切换间隔, 单位ms, 至少100ms, 否则不生效. 默认3000ms
- * bvsOrientation       切换方向, 水平/垂直
+ *     <tr />
+ *     <tr>
+ *         <th>二. {@link BaseViewSwitcher} 自定义属性</th>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseViewSwitcher_bvsSwitchIntervalMs bvsSwitchIntervalMs}</td>
+ *         <td>3000</td>
+ *         <td>1.切换间隔, 单位ms, 至少100ms, 否则不生效. 默认3000ms</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link R.styleable#BaseViewSwitcher_bvsOrientation bvsOrientation}</td>
+ *         <td>vertical</td>
+ *         <td>2.切换方向, 水平/垂直. 默认vertical</td>
+ *     </tr>
+ * </table>
  *
+ * <pre> {@code
  * 怎么使用:
  * 1.在布局文件件中:
  * <com.actor.myandroidframework.widget.BaseViewSwitcher
@@ -44,8 +77,7 @@ import java.util.List;
  *     android:layout_width="match_parent"
  *     android:layout_height="50dp"
  *     app:bvsOrientation="horizontal"
- *     app:bvsSwitchIntervalMs="1000">
- * </com.actor.myandroidframework.widget.BaseViewSwitcher>
+ *     app:bvsSwitchIntervalMs="1000" />
  *
  * 2.在Activity/Fragment中:
  * @BindView(R.id.view_switcher)//消息轮播
@@ -67,6 +99,12 @@ import java.util.List;
  *     }
  * });
  * baseViewSwitcher.setDataSource(datas);
+ * }
+ * //在onStart()方法中调用, 开始滚动
+ * baseViewSwitcher.{@link #startSwitch()};
+ * //在onStop()方法中调用, 停止滚动
+ * baseViewSwitcher.{@link #stopSwitch()};
+ *  </pre>
  *
  * @version 1.0
  */

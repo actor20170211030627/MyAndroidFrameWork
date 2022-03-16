@@ -1,8 +1,8 @@
 package com.actor.myandroidframework.utils;
 
 /**
- * Description: Eventbus事件实体类
- * Author     : ldf
+ * Description: Eventbus事件实体类 <br />
+ * Author     : ldf <br />
  * Date       : 2019/4/1 on 11:54
  * @version 1.0
  */

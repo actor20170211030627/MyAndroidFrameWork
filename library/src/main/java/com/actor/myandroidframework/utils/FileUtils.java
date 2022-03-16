@@ -9,13 +9,12 @@ import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.PathUtils;
 
 /**
- * Description: 文件帮助类
- *
- * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
- * Author     : ldf
+ * Description: 文件帮助类 <br />
+ * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ <br />
+ * Author     : ldf <br />
  * Date       : 2018/7/29 on 19:12
  * @version 1.0
- * @see PathUtils 更多获取路径的方式
+ * @see PathUtils PathUtils: 更多获取路径的方式
  */
 public class FileUtils {
 

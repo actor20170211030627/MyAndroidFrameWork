@@ -4,16 +4,15 @@ import android.app.Activity;
 import android.view.WindowManager;
 
 /**
- * Description: 键盘工具类 https://blog.csdn.net/mynameishuangshuai/article/details/51567357
+ * Description: 键盘工具类, 参考: <a href="https://blog.csdn.net/mynameishuangshuai/article/details/51567357" target="_blank">博客</a> <br />
  *
  * 在 代码 或 AndroidManifest.xml 中设置: android:windowSoftInputMode="adjustResize|stateHidden"
  *
- * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
- * Author     : ldf
- * Date       : 2017/5/23 on 20:27
- * LastUpdate : 2019/04/18
- * Version    : v1.0.1
+ * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ <br />
+ * Author     : ldf <br />
+ * Date       : 2017/5/23 on 20:27 <br />
  * @deprecated 请使用更好的工具类: {@link com.blankj.utilcode.util.KeyboardUtils}
+ * @version   : v1.0.1
  */
 @Deprecated
 public class KeyBoardUtils {

@@ -12,13 +12,12 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 
 /**
- * Description: 线程工具类,让程序运行在特定线程!
- * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
- * Author     : ldf
+ * Description: 线程工具类,让程序运行在特定线程! <br />
+ * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ <br />
+ * Author     : ldf <br />
  * Date       : 2017/3/19 on 19:01.
- * @version 1.0
- *
  * @deprecated 使用这个: {@link com.blankj.utilcode.util.ThreadUtils}
+ * @version 1.0
  */
 @Deprecated
 public class ThreadUtils {

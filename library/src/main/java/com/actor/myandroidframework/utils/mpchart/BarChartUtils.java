@@ -21,14 +21,17 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import java.util.List;
 
 /**
- * description: https://github.com/PhilJay/MPAndroidChart
- *              柱状图图表工具类
+ * description: 柱状图图表工具类 <a href="https://github.com/PhilJay/MPAndroidChart" target="_blank">Github地址</a> <br />
+ * Author     : ldf <br />
+ * date       : 2021/1/11 on 18 <br />
+ *
+ * <br />
+ * <pre>
  * 1.使用前添加依赖
  * //https://github.com/PhilJay/MPAndroidChart
  * implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+ * </pre>
  *
- * @author : ldf
- * date       : 2021/1/11 on 18
  * @version 1.0
  */
 public class BarChartUtils {

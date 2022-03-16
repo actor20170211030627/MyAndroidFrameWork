@@ -34,16 +34,15 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 /**
- * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap
- *
- * @author    : ldf
+ * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap <br />
+ * Author     : ldf <br />
  * date       : 2019/3/13 on 17:37
  *
- * @version 1.3.2 修复上传中文文件抛异常问题
- * @version 1.3.3 传参Map<String, String>修改成Map<String, Object>
- * @version 1.3.4 添加tag(),cancel功能
- * @version 1.3.5 增加同步sync方法
- * @version 1.3.6 增加方法 {@link #postFormBody(String, Map, Map, BaseCallback)}
+ * @version 1.3.2 修复上传中文文件抛异常问题 <br />
+ *          1.3.3 传参Map<String, String>修改成Map<String, Object> <br />
+ *          1.3.4 添加tag(),cancel功能 <br />
+ *          1.3.5 增加同步sync方法 <br />
+ *          1.3.6 增加方法 {@link #postFormBody(String, Map, Map, BaseCallback)}
  */
 public class MyOkHttpUtils {
 

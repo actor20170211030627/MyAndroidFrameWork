@@ -8,8 +8,8 @@ import com.actor.myandroidframework.utils.ThreadUtils;
 import okhttp3.Request;
 
 /**
- * Description: 上传文件
- * Author     : ldf
+ * Description: 上传文件<br />
+ * Author     : ldf<br />
  * Date       : 2019/4/17 on 17:46
  */
 public abstract class PostFileCallback<T> extends BaseCallback<T> {

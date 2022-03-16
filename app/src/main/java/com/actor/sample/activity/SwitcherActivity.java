@@ -66,7 +66,7 @@ public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
                 bvs.startSwitch();
                 break;
             case R.id.btn_stop:
-                bts.stopSwitcher();
+                bts.stopSwitch();
                 bvs.stopSwitch();
                 break;
         }
@@ -75,7 +75,7 @@ public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
     @Override
     protected void onStop() {
         super.onStop();
-        bts.stopSwitcher();
+        bts.stopSwitch();
         bvs.stopSwitch();
     }
 }

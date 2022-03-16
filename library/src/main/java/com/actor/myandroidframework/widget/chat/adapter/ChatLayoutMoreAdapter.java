@@ -14,10 +14,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import java.util.List;
 
 /**
- * description: "更多"的Adapter
- * company    :
- *
- * @author : ldf
+ * description: "更多"的Adapter <br />
+ * Author     : ldf <br />
  * date       : 2022/1/18 on 17
  * @version 1.0
  */

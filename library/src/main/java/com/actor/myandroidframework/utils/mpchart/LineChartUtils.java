@@ -22,14 +22,17 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.util.List;
 
 /**
- * description: https://github.com/PhilJay/MPAndroidChart
- *              折线图图表工具类
+ * description: 折线图图表工具类 <a href="https://github.com/PhilJay/MPAndroidChart" target="_blank">Github地址</a> <br />
+ * Author     : ldf <br />
+ * date       : 2021/1/12 on 11<br />
+ *
+ * <br />
+ * <pre>
  * 1.使用前添加依赖
  * //https://github.com/PhilJay/MPAndroidChart
  * implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+ * </pre>
  *
- * @author : ldf
- * date       : 2021/1/12 on 11
  * @version 1.0
  */
 public class LineChartUtils {

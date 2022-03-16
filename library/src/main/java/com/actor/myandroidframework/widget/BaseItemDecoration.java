@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
- * Description:设置RecuclerView间距.Decoration:装饰物
- * 设置RecyclerView的LinearLayoutManager&GridLayoutManager&StaggeredGridLayoutManager水平/垂直间距
- * 示例用法:recyclerView.addItemDecoration(new BaseItemDecoration(UiUtils.dp2px(20), UiUtils.dp2px(20)));
- * Author     : ldf
- * Date       : 2019/7/21 on 16:31
+ * Description:设置{@link RecyclerView}间距. Decoration:装饰物 <br />
+ * Author     : ldf <br />
+ * Date       : 2019/7/21 on 16:31 <br />
+ *
+ *  <br />
+ * 设置{@link RecyclerView}的{@link LinearLayoutManager}&{@link GridLayoutManager}&{@link StaggeredGridLayoutManager}的水平/垂直间距, 示例用法: <br />
+ * int dp20 = UiUtils.dp2px(20); <br />
+ * recyclerView.{@link RecyclerView#addItemDecoration(RecyclerView.ItemDecoration) addItemDecoration(new BaseItemDecoration(dp20, dp20))};
  * @version 1.0
  */
 public class BaseItemDecoration extends RecyclerView.ItemDecoration {

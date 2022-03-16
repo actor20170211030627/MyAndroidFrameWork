@@ -7,8 +7,8 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
- * Description: 下载文件
- * Author     : ldf
+ * Description: 下载文件 <br />
+ * Author     : ldf <br />
  * Date       : 2019/3/15 on 10:10
  */
 public interface DownloadFileApi {

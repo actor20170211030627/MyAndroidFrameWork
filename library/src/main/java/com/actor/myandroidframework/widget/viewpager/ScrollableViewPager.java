@@ -7,8 +7,8 @@ import android.view.MotionEvent;
 import androidx.viewpager.widget.ViewPager;
 
 /**
- * Description: 设置能否左右滑动的ViewPager
- * Author     : ldf
+ * Description: 设置能否左右滑动的ViewPager <br />
+ * Author     : ldf <br />
  * Date       : 2019/3/7 on 15:39
  * @version 1.1
  */
@@ -67,7 +67,7 @@ public class ScrollableViewPager extends ViewPager {
 
     /**
      * 设置是否能水平滑动
-     * @param scrollble
+     * @param scrollble 是否能左右滑动
      */
     public void setHorizontalScrollble(boolean scrollble) {
         this.scrollable = scrollble;

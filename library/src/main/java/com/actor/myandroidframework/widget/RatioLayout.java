@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import com.actor.myandroidframework.R;
 
 /**
+ * <pre>
  * Created by zhengping on 2017/4/6,15:17.
  * 按照比例，动态计算高度的帧布局
  * 自定义属性的使用：
@@ -26,12 +27,14 @@ import com.actor.myandroidframework.R;
  * 3、在自定义控件中获取自定义属性的值
  *      a、通过attrs，在所有的属性中进行查找
  *      b、通过attrs获取自定义属性集合，然后通过下标索引的方式获取自定义属性的值
+ * </pre>
  * @version 1.0
  */
 
 public class RatioLayout extends FrameLayout {
 
-    private float ratio;        //比例
+    //宽高比例, ratio = 宽/高
+    protected float ratio;
 
     //new对象的时候调用
     public RatioLayout(@NonNull Context context) {
@@ -78,7 +81,7 @@ public class RatioLayout extends FrameLayout {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
         //比例 != 0;    宽模式 = 确定;    高模式 != 确定;
-        if(ratio != 0 && widthMode == MeasureSpec.EXACTLY && heightMode != MeasureSpec.EXACTLY) {
+        if(ratio != 0.0F && widthMode == MeasureSpec.EXACTLY && heightMode != MeasureSpec.EXACTLY) {
 
             //重新计算heightSize
             int heightSize = (int) (innerWidthSize / ratio + 0.5F);//此时的heightSize我们想把它当作啥？当作图片的高度

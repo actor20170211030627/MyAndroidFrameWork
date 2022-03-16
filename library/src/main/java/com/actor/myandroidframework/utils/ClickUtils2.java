@@ -5,10 +5,10 @@ import android.view.View;
 import androidx.annotation.IntRange;
 
 /**
- * description: 双击工具类
- * @see com.blankj.utilcode.util.ClickUtils#applySingleDebouncing(View, View.OnClickListener)
+ * description: 双击工具类 <br />
+ * {@link com.blankj.utilcode.util.ClickUtils#applySingleDebouncing(View, View.OnClickListener)}
  *
- * @author : ldf
+ * Author     : ldf <br />
  * date       : 2021/2/7 on 13
  * @version 1.0
  */
