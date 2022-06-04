@@ -125,8 +125,7 @@ import java.util.List;
  *          1.0.1 禁止OnItemSelectedListener默认会自动调用一次的问题: {@link #init(Context, AttributeSet)} <br />
  *
  * @param <T> 填充Item的数据类型, 见{@link #setDatas(Collection)}, 示例:<pre> {@code
- * @BindView(R.id.spinner)
- * BaseSpinner<User> spinner;
+ * private BaseSpinner<User> spinner;
  *
  * User = spinner.getSelectedItem();//获取当前已选择的User
  * }</pre>

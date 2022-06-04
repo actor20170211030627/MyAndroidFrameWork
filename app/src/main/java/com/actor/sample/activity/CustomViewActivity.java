@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.actor.myandroidframework.widget.BaseRadioGroup;
 import com.actor.myandroidframework.widget.BaseSpinner;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.myandroidframework.widget.ItemSpinnerLayout;
@@ -43,7 +44,7 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
         itilCanNotInput = viewBinding.itilCanNotInput;
         btn2 = viewBinding.btn2;
 
-        itemRadioGroup.setOnCheckedChangeListener(new ItemRadioGroupLayout.OnCheckedChangeListener() {
+        itemRadioGroup.setOnCheckedChangeListener(new BaseRadioGroup.OnCheckedChangeListener2() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId, int position, boolean reChecked) {
                 String format = getStringFormat("checkedId=%d, pos=%d, reChecked=%b", checkedId, position, reChecked);

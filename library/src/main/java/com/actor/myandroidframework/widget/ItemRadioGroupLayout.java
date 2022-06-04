@@ -9,17 +9,14 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.Space;
 import android.widget.TextView;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.IntRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.actor.myandroidframework.R;
 
@@ -95,12 +92,12 @@ import java.util.List;
  */
 public class ItemRadioGroupLayout<T> extends LinearLayout {
 
-    private TextView                tvRedStar, tvItem;
-    private RadioGroup              radioGroup;
-    private LinearLayout            llContentForIrgl;
-    private Space                   spaceMarginTop;
-    private float                   density;//px = dp * density;
-    private OnCheckedChangeListener onCheckedChangeListener;
+    protected TextView                tvRedStar, tvItem;
+    protected BaseRadioGroup<T>       radioGroup;
+    protected LinearLayout            llContentForIrgl;
+    protected Space                   spaceMarginTop;
+    //px = dp * density;
+    protected float                   density;
 
     public ItemRadioGroupLayout(Context context) {
         super(context);
@@ -183,12 +180,6 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
         tvRedStar = inflate.findViewById(R.id.tv_red_star_for_irgl);
         tvItem = inflate.findViewById(R.id.tv_item_for_irgl);
         radioGroup = inflate.findViewById(R.id.rg_for_irgl);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (onCheckedChangeListener != null) onCheckedChangeListener.onCheckedChanged(group, checkedId, getCheckedPosition(), false);
-            }
-        });
     }
 
     /**
@@ -212,7 +203,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
             List<CharSequence> list = new ArrayList<>();
             Collections.addAll(list, datas);
-            setDatas((Collection<T>) list);
+            setDatas((List<T>) list);
         }
     }
 
@@ -229,29 +220,15 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
      *            重写数据类型的toString()方法即可, RadioButton 填充的时候会调用toString()的内容
      * 注意: 每次填充的T数据类型应该一致
      */
-    public void setDatas(Collection<T> datas) {
-        radioGroup.removeAllViews();
-        if (datas != null && !datas.isEmpty()) {
-            for (T data : datas) {
-                addRadioButton(data);
-            }
-        }
+    public void setDatas(List<T> datas) {
+        radioGroup.setDatas(datas);
     }
 
     /**
      * 添加一个选项
      */
     public void addRadioButton(T data) {
-        AppCompatRadioButton rb = new AppCompatRadioButton(getContext());
-        if (data instanceof CharSequence) {
-            rb.setText((CharSequence) data);
-        } else if (data instanceof Integer) {//@StringRes int resid
-            rb.setText((Integer) data);
-        } else {
-            rb.setText(String.valueOf(data));//toString()
-        }
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        radioGroup.addView(rb, radioGroup.getChildCount(), layoutParams);
+        radioGroup.addRadioButton(data);
     }
 
     /**
@@ -271,7 +248,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
     /**
      * @return 返回RadioGroup
      */
-    public RadioGroup getRadioGroup() {
+    public BaseRadioGroup<T> getRadioGroup() {
         return radioGroup;
     }
 
@@ -279,27 +256,14 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
      * @param position 设置选中的position
      */
     public void setCheckedPosition(@IntRange(from = 0) int position) {
-        if (position < 0 || position >= radioGroup.getChildCount()) return;
-        int checkedPosition = getCheckedPosition();
-        AppCompatRadioButton child = (AppCompatRadioButton) radioGroup.getChildAt(position);
-        child.setChecked(true);
-//        radioGroup.check(R.id.rb_for_irgl);//这种方式不行, 会回调多次
-        //重复选中
-        if (onCheckedChangeListener != null && checkedPosition == position) {
-            onCheckedChangeListener.onCheckedChanged(radioGroup, radioGroup.getCheckedRadioButtonId(), position, true);
-        }
+        radioGroup.setCheckedPosition(position);
     }
 
     /**
      * @return 获取已选中的position, 如果没有, 返回-1
      */
     public int getCheckedPosition() {
-        int childCount = radioGroup.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            AppCompatRadioButton child = (AppCompatRadioButton) radioGroup.getChildAt(i);
-            if (child.isChecked()) return i;
-        }
-        return -1;
+        return radioGroup.getCheckedPosition();
     }
 
     /**
@@ -312,21 +276,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
     /**
      * @param listener 设置选中监听
      */
-    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
-        this.onCheckedChangeListener = listener;
-    }
-
-    public OnCheckedChangeListener getOnCheckedChangeListener() {
-        return onCheckedChangeListener;
-    }
-
-    public interface OnCheckedChangeListener {
-        /**
-         * @param group radioGroup
-         * @param checkedId 选中的Checkbox的id
-         * @param position 第几个position
-         * @param reChecked 是否是重复选中
-         */
-        void onCheckedChanged(RadioGroup group, @IdRes int checkedId, int position, boolean reChecked);
+    public void setOnCheckedChangeListener(BaseRadioGroup.OnCheckedChangeListener2 listener) {
+        radioGroup.setOnCheckedChangeListener2(listener);
     }
 }

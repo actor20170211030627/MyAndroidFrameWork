@@ -37,7 +37,7 @@
             android:textSize="17sp"
             tools:text="irglItemName：" />
 
-        <RadioGroup
+        <com.actor.myandroidframework.widget.BaseRadioGroup
             android:id="@+id/rg_for_irgl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

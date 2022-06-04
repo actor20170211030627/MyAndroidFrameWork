@@ -123,6 +123,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" targt="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java" targt="_blank">BaseWebView</a> (WebView简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java" targt="_blank">BaseItemDecoration</a> (RecyclerView的Item间隔)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRadioGroup.java" targt="_blank">BaseRadioGroup</a> (RadioGroup简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRatingBar.java" targt="_blank">BaseRatingBar</a> (RatingBar星星选择)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseSlidingDrawer.java" targt="_blank">BaseSlidingDrawer</a> (抽屉, 从底部或左侧拉出/收回)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseSpinner.java" targt="_blank">BaseSpinner</a> (Spinner增加一些属性)
