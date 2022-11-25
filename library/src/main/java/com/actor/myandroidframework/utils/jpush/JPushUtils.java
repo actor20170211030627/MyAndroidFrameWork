@@ -289,7 +289,7 @@ public class JPushUtils {
     public static void checkTagBindState(Context context,int sequence,String tag) {
         if (ExampleUtil.isValidTagAndAlias(tag)) {
             JPushInterface.checkTagBindState(context, sequence, tag);
-        } else LogUtils.error(false, "tag 格式不对: " + tag);
+        } else LogUtils.error("tag 格式不对: " + tag);
     }
 
     /**
@@ -304,7 +304,7 @@ public class JPushUtils {
     public static void setMobileNumber(Context context,int sequence, String mobileNumber) {
         if (ExampleUtil.isValidMobileNumber(mobileNumber)) {
             JPushInterface.setMobileNumber(context, sequence, mobileNumber);
-        } else LogUtils.error(false, "手机号 格式不对: " + mobileNumber);
+        } else LogUtils.error("手机号 格式不对: " + mobileNumber);
     }
 
     /**

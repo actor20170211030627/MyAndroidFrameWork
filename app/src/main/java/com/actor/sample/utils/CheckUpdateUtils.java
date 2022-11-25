@@ -90,7 +90,7 @@ public class CheckUpdateUtils {
             @Override
             public void inProgress(float progress, long total, int id) {
                 super.inProgress(progress, total, id);
-                LogUtils.formatError("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
+                LogUtils.errorFormat("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
                 progressDialog.setProgress((int) (progress * 100));
             }
 

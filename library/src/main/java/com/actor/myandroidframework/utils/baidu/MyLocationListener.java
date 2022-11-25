@@ -34,7 +34,7 @@ public class MyLocationListener extends BDAbstractLocationListener {
 
     @Override
     public void onReceiveLocation(BDLocation location) {
-        LogUtils.error(false, GsonUtils.toJson(location));//打印成json,有很多很多信息
+        LogUtils.error(GsonUtils.toJson(location));//打印成json,有很多很多信息
         //获取定位结果
 //        location.getTime();             //获取定位时间
 //        location.getLocType();          //获取定位类型

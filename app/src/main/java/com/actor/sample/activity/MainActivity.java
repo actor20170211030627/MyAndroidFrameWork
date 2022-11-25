@@ -63,50 +63,51 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //            R.id.btn_baidu, R.id.btn_gaode, R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
 //            R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar, R.id.btn_webview,
 //            R.id.btn_other})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
-                startActivity(new Intent(this, NetWorkAndImageActivity.class), false, iv);
+                startActivity(new Intent(this, NetWorkAndImageActivity.class), false, null, null, iv);
                 break;
             case R.id.btn_shared_element://元素共享跳转
-                startActivity(new Intent(this, SharedElementActivity.class), false, view);
+                startActivity(new Intent(this, SharedElementActivity.class), false, null, null, view);
                 break;
             case R.id.btn_bottom_sheet://从底部弹出的Dialog & DialogFragment等
-                startActivity(new Intent(this, BottomSheetDialogActivity.class), false, view);
+                startActivity(new Intent(this, BottomSheetDialogActivity.class), false, null, null, view);
                 break;
             case R.id.btn_viewpager_about:
                 //ViewPager多层嵌套 & 高度自适应
                 viewPagerDialog.show();
                 break;
             case R.id.btn_select_file://文件选择
-                startActivity(new Intent(this, SelectFileActivity.class), false, view);
+                startActivity(new Intent(this, SelectFileActivity.class), false, null, null, view);
                 break;
             case R.id.btn_is_empty://判空
-                startActivity(new Intent(this, IsEmptyActivity.class), false, view);
+                startActivity(new Intent(this, IsEmptyActivity.class), false, null, null, view);
                 break;
             case R.id.btn_third://第三方登录/分享
-                startActivity(new Intent(this, ThirdActivity.class), false, view);
+                startActivity(new Intent(this, ThirdActivity.class), false, null, null, view);
                 break;
             case R.id.btn_baidu://百度定位/地图
-                startActivity(new Intent(this, BaiDuMapActivity.class), false, view);
+                startActivity(new Intent(this, BaiDuMapActivity.class), false, null, null, view);
                 break;
             case R.id.btn_gaode://高德定位/地图
                 showToast("暂未实现");
                 break;
             case R.id.btn_jpush://极光推送
-                startActivity(new Intent(this, JPushActivity.class), false, view);
+                startActivity(new Intent(this, JPushActivity.class), false, null, null, view);
                 break;
                 case R.id.btn_database://数据库(GreenDao)
-                startActivity(new Intent(this, DatabaseActivity.class), false, view);
+                    startActivity(new Intent(this, DatabaseActivity.class), false, null, null, view);
                 break;
             case R.id.btn_switch://切换
-                startActivity(new Intent(this, SwitcherActivity.class), false, view);
+                startActivity(new Intent(this, SwitcherActivity.class), false, null, null, view);
                 break;
             case R.id.btn_custom_view://自定义View
-                startActivity(new Intent(this, CustomViewActivity.class), false, view);
+                startActivity(new Intent(this, CustomViewActivity.class), false, null, null, view);
                 break;
             case R.id.btn_custom_ratingbar://自定义RatingBar
-                startActivity(new Intent(this, RatingBarActivity.class), false, view);
+                startActivity(new Intent(this, RatingBarActivity.class), false, null, null, view);
                 break;
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(new Intent(this, NineGridViewActivity.class));

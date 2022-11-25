@@ -89,13 +89,13 @@ import java.util.List;
  *     public void onSwitch(View view, int position, T item) {
  *         TextView textView = view.findViewById(R.id.tv);//找到你自己需要填充数据的view
  *         textView.setText(item);
- *         logFormat("onSwitch: view=%s, pos=%d, item=%s", view, position, item);
+ *         LogUtils.errorFormat("onSwitch: view=%s, pos=%d, item=%s", view, position, item);
  *     }
  * });
  * baseViewSwitcher.setOnItemClickListener(new BaseViewSwitcher.OnItemClickListener<T>() {
  *     @Override
  *     public void onItemClick(View view, int position, T item) {
- *         logFormat("pos=%d, str=%s", position, item);
+ *         LogUtils.errorFormat("pos=%d, str=%s", position, item);
  *     }
  * });
  * baseViewSwitcher.setDataSource(datas);

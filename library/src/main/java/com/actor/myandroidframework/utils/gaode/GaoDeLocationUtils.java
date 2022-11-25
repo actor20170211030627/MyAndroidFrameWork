@@ -106,7 +106,7 @@ public class GaoDeLocationUtils {
      *         showLocationNotOpenDialog();
      *         break;
      *     default:
-     *         logFormat("高德定位出错: ErrCode=%d, ErrorInfo=%s", amapLocation.getErrorCode(), amapLocation.getErrorInfo());
+     *         LogUtils.errorFormat("高德定位出错: ErrCode=%d, ErrorInfo=%s", amapLocation.getErrorCode(), amapLocation.getErrorInfo());
      *         break;
      * }
      */

@@ -117,7 +117,7 @@ public class QQUtils {
             JSONObject jsonObject = getTencent().loadSession(tencentAppId);
             if (jsonObject != null && jsonObject.length() > 0) {
                 listener.onComplete(jsonObject);
-            } else logError("QQ登录, 获取的jsonobject为空!");
+            } else LogUtils.error("QQ登录, 获取的jsonobject为空!");
         } else {
             int code = getTencent().login(activity, scope, listener, qrcode);
             logResultCode(code);
@@ -128,7 +128,7 @@ public class QQUtils {
         @Override
         public void doComplete(@Nullable JSONObject response) {
             QQUtils.initSessionCache(response);
-//            logError(String.valueOf(response));
+//            LogUtils.error(String.valueOf(response));
         }
     };
 
@@ -184,7 +184,7 @@ public class QQUtils {
         //登录成功以后，保存session会话信息如token, openid等信息到SharePreferecne中。
         getTencent().saveSession(response);
 //        String json = response.toString();
-//        logError(json);
+//        LogUtils.error(json);
     }
 
     /**
@@ -431,17 +431,9 @@ public class QQUtils {
         code += 1;
         String msg = null;
         if (code >= 0 && code < codeMsg.length) msg = codeMsg[code];
-        logFormat("返回码: %d, %s", code, msg);
+        LogUtils.errorFormat("返回码: %d, %s", code, msg);
     }
 
-    //打印日志
-    protected static void logError(String message) {
-        LogUtils.error(false, message);
-    }
-
-    protected static void logFormat(String format, Object... args) {
-        LogUtils.formatError(false, format, args);
-    }
 
     protected static void otherMethods(Activity activity) {
         //https://wiki.connect.qq.com/设置QQ头像
@@ -486,7 +478,7 @@ public class QQUtils {
 
 //    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        logFormat("-->onActivityResult " + requestCode + " resultCode=" + resultCode);
+//        LogUtils.errorFormat("-->onActivityResult " + requestCode + " resultCode=" + resultCode);
 //        if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
 //            Tencent.onActivityResultData(requestCode, resultCode, data, listener);
 //        }

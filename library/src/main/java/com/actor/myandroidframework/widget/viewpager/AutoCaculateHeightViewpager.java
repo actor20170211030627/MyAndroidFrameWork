@@ -56,12 +56,12 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
                     if (hightestChild != currentHeight) {
                         layoutParams.height = hightestChild;
                         setLayoutParams(layoutParams);
-//                        LogUtils.formatError("设置最高高度, position = %d, currentHeight = %d, hightestChild = %d", position, currentHeight, hightestChild);
+//                        LogUtils.errorFormat("设置最高高度, position = %d, currentHeight = %d, hightestChild = %d", position, currentHeight, hightestChild);
                     }
                 } else {
                     //如果显示相应页面自己的实际高度
                     int height = hights.get(position);
-//                    LogUtils.formatError("position = %d, height = %d", position, height);
+//                    LogUtils.errorFormat("position = %d, height = %d", position, height);
                     if (height > 0) {
                         layoutParams.height = height;
                         setLayoutParams(layoutParams);
@@ -88,7 +88,7 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
             if (height > hightestChild) {
                 hightestChild = height;
             }
-//            LogUtils.formatError("i = %d, h = %d", i, height);
+//            LogUtils.errorFormat("i = %d, h = %d", i, height);
             hights.put(hasTabLayout ? i - 1 : i, height);
         }
         //如果是显示最高child的高度

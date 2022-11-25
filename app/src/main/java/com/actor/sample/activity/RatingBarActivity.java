@@ -2,6 +2,7 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.widget.BaseRatingBar;
 import com.actor.sample.databinding.ActivityRatingBarBinding;
 
@@ -34,7 +35,7 @@ public class RatingBarActivity extends BaseActivity<ActivityRatingBarBinding> im
     public void onRatingChanged(BaseRatingBar baseRatingBar, float rating, boolean fromUser) {
         float stepSize = baseRatingBar.getStepSize();
         String format = getStringFormat("step = %f, rating=%f, fromUser=%b", stepSize, rating, fromUser);
-        logError(format);
+        LogUtils.error(format);
         showToast(format);
     }
 }

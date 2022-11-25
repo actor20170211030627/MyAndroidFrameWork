@@ -93,17 +93,16 @@ dependencies {
     api 'org.greenrobot:eventbus:3.2.0'
 
     //https://github.com/Blankj/AndroidUtilCode 许多工具
-    api 'com.blankj:utilcodex:1.30.6'
-
-    //https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案
-    api 'me.jessyan:autosize:1.2.1'
+    api 'com.blankj:utilcodex:1.31.0'
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+    //TODO 考虑使用: https://github.com/liangjingkanji/BRV
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 
-    //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩)、视频、音频(minSdkVersion 21)
+    //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频(minSdkVersion 21)
     api 'io.github.lucksiege:pictureselector:v2.7.3-rc05'
-//    api 'io.github.lucksiege:pictureselector:v2.7.3-rc10'
+    //TODO 改动较大, 没时间替换
+//    api 'io.github.lucksiege:pictureselector:v3.10.2'
 
     //https://gitee.com/getActivity/XXPermissions 轮子哥权限
     //https://github.com/getActivity/XXPermissions
@@ -113,12 +112,13 @@ dependencies {
     api 'com.contrarywind:Android-PickerView:4.1.9'
 
     //https://github.com/li-xiaojun/XPopup 各种Dialog & Popup, compileSdkVersion 29
-    api 'com.github.li-xiaojun:XPopup:2.6.7'
+    api 'com.github.li-xiaojun:XPopup:2.8.3'
 
     //https://github.com/square/okhttp
     api "com.squareup.okhttp3:okhttp:4.9.2"
 
     //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
+    //TODO 考虑自己封装一个!
     api ('com.zhy:okhttputils:2.6.2') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
     }

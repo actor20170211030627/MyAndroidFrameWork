@@ -40,7 +40,7 @@ import org.greenrobot.eventbus.EventBus;
  *     switch (eventBusEvent.code) {
  *     case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT:
  *         showToast("支付成功!");
- *         logError(eventBusEvent);
+ *         LogUtils.error(eventBusEvent);
  *         break;
  * }
  *
@@ -62,7 +62,7 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
         // 避免外部通过传递非法参数的Intent导致停留在透明界面，引起用户的疑惑
         boolean result =  iwxapi.handleIntent(getIntent(), this);
         if(!result){
-            logError("微信登录参数不合法，未被SDK处理，退出");
+            LogUtils.error("微信登录参数不合法，未被SDK处理，退出");
             onBackPressed();
         }
     }
@@ -78,14 +78,14 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
     @Override
     public void onReq(BaseReq baseReq) {
         String json = baseReq == null ? "null" : GsonUtils.toJson(baseReq);
-        logFormat("onReq微信发送的请求: baseReq = %s", json);
+        LogUtils.errorFormat("onReq微信发送的请求: baseReq = %s", json);
     }
 
     //发送到微信请求的响应结果将回调到onResp方法
     @Override
     public void onResp(BaseResp baseResp) {
         String json = baseResp == null ? "null" : GsonUtils.toJson(baseResp);
-        logFormat("onResp微信响应: baseResp = %s", json);
+        LogUtils.errorFormat("onResp微信响应: baseResp = %s", json);
         if (baseResp == null) return;
         switch (baseResp.getType()) {
             case ConstantsAPI.COMMAND_PAY_BY_WX://微信支付

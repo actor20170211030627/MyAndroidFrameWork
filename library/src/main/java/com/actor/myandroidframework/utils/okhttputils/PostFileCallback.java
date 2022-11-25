@@ -46,6 +46,6 @@ public abstract class PostFileCallback<T> extends BaseCallback<T> {
     @Override
     public void inProgress(float progress, long total, int id) {//UI Thread
         super.inProgress(progress, total, id);
-//        logFormat("上传文件: progress=%f, total=%d, id=%d", progress, total, id);
+//        LogUtils.errorFormat("上传文件: progress=%f, total=%d, id=%d", progress, total, id);
     }
 }

@@ -74,6 +74,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
 
 //    @OnClick({R.id.btn_get_okhttp, R.id.btn_post_body_okhttp, R.id.btn_get_retrofit,
 //            R.id.btn_download, R.id.btn_select_pic, R.id.btn_upload})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_get_okhttp://MyOkHttpUtils方式获取数据
@@ -170,7 +171,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 public void inProgress(float progress, long total, int id) {
                     super.inProgress(progress, total, id);
                     int parcent = (int) (progress/total * 100);
-//                    logError(String.valueOf(parcent));
+//                    LogUtils.error(String.valueOf(parcent));
                     progressBar.setProgress(parcent);
                 }
             });

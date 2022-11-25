@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.widget.BaseTextSwitcher;
 import com.actor.myandroidframework.widget.BaseViewSwitcher;
 import com.actor.sample.R;
@@ -37,7 +38,7 @@ public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
         bts.setOnItemClickListenerForTextSwitcher(new BaseTextSwitcher.OnItemClickListener<CharSequence>() {
             @Override
             public void onItemClick(TextView textView, int position, CharSequence item) {
-                logFormat("pos=%d, str=%s", position, item);
+                LogUtils.errorFormat("pos=%d, str=%s", position, item);
             }
         });
 
@@ -46,19 +47,20 @@ public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
             public void onSwitch(View view, int position, CharSequence item) {
                 TextView textView = view.findViewById(R.id.tv);
                 textView.setText(item);
-                logFormat("onSwitch: view=%s, pos=%d, item=%s", view, position, item);
+                LogUtils.errorFormat("onSwitch: view=%s, pos=%d, item=%s", view, position, item);
             }
         });
         bvs.setOnItemClickListenerForViewSwitcher(new BaseViewSwitcher.OnItemClickListener<CharSequence>() {
             @Override
             public void onItemClick(View view, int position, CharSequence item) {
-                logFormat("pos=%d, str=%s", position, item);
+                LogUtils.errorFormat("pos=%d, str=%s", position, item);
             }
         });
         bvs.setDataSource(datas);
     }
 
 //    @OnClick({R.id.btn_start, R.id.btn_stop})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
@@ -68,6 +70,8 @@ public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
             case R.id.btn_stop:
                 bts.stopSwitch();
                 bvs.stopSwitch();
+                break;
+            default:
                 break;
         }
     }

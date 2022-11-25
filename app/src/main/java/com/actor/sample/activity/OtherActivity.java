@@ -2,6 +2,7 @@ package com.actor.sample.activity;
 
 import android.os.Bundle;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ThreadUtils;
 import com.actor.sample.databinding.ActivityOtherBinding;
 
@@ -23,19 +24,19 @@ public class OtherActivity extends BaseActivity<ActivityOtherBinding> {
         ThreadUtils.runOnUiThread(new Runnable() {//在主线程运行
             @Override
             public void run() {
-                logError(ThreadUtils.isMainThread());//是否运行在主线程
+                LogUtils.error(ThreadUtils.isMainThread());//是否运行在主线程
             }
         });
         ThreadUtils.runOnSubThread(new Runnable() {//在子线程运行
             @Override
             public void run() {
-                logError(ThreadUtils.isMainThread());
+                LogUtils.error(ThreadUtils.isMainThread());
             }
         });
         ThreadUtils.HANDLER.postDelayed(new Runnable() {//延时一秒后, 在主线程运行
             @Override
             public void run() {
-                logError("ThreadUtils.handler.postDelayed");
+                LogUtils.error("ThreadUtils.handler.postDelayed");
             }
         }, 1_000L);
 

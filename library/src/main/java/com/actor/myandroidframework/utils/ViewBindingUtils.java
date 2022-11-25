@@ -53,7 +53,7 @@ public class ViewBindingUtils {
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
-                    LogUtils.formatError("%s 的 viewBinding 初始化失败,\n" +
+                    LogUtils.errorFormat("%s 的 viewBinding 初始化失败,\n" +
                                     "泛型类型为: %s.\n" +
                                     "是混淆代码后在 %s 中对 viewBinding 没有直接的引用造成的!\n" +
                                     "请在onCreate()中至少添加一条引用代码, 例: viewBinding.getRoot();",
@@ -79,7 +79,7 @@ public class ViewBindingUtils {
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
-                    LogUtils.formatError("%s(是一个Fragment) 的 viewBinding 初始化失败,\n" +
+                    LogUtils.errorFormat("%s(是一个Fragment) 的 viewBinding 初始化失败,\n" +
                                     "泛型类型为: %s.\n" +
                                     "是混淆代码后在 %s 中对 viewBinding 没有直接的引用造成的!\n" +
                                     "请在onViewCreated()中至少添加一条引用代码, 例: viewBinding.getRoot();",

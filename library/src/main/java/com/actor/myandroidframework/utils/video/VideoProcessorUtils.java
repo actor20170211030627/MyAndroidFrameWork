@@ -50,7 +50,7 @@ public class VideoProcessorUtils {
         int originWidth = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
         int originHeight = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
         int bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
-        LogUtils.formatError("originWidth=%d, originHeight=%d, bitrate(比特率)=%d", originWidth, originHeight, bitrate);
+        LogUtils.errorFormat("originWidth=%d, originHeight=%d, bitrate(比特率)=%d", originWidth, originHeight, bitrate);
 
         /**
          * 简书: a.用VideoProcessor压缩时输出路径对应的文件夹不存在的话，不报错也没有任何反应。

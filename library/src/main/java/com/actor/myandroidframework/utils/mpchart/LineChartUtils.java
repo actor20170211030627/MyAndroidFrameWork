@@ -83,11 +83,11 @@ public class LineChartUtils {
 //        lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 //            @Override
 //            public void onValueSelected(Entry e, Highlight h) {
-//                LogUtils.formatError("Entry selected=%s, Highlight=%s", e, h);
-//                LogUtils.formatError("LOW HIGH: ", "low=%f, high=%f",
+//                LogUtils.errorFormat("Entry selected=%s, Highlight=%s", e, h);
+//                LogUtils.errorFormat("LOW HIGH: ", "low=%f, high=%f",
 //                        lineChart.getLowestVisibleX(), lineChart.getHighestVisibleX());
 //
-//                LogUtils.formatError("MIN MAX: ", "xMin=%f, xMax=%f, yMin=%f, yMax=%f",
+//                LogUtils.errorFormat("MIN MAX: ", "xMin=%f, xMax=%f, yMin=%f, yMax=%f",
 //                        lineChart.getXChartMin(), lineChart.getXChartMax(), lineChart.getYChartMin(),
 //                        lineChart.getYChartMax());
 //            }

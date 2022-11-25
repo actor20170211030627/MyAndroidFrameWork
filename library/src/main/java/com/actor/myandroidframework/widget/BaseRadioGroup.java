@@ -7,6 +7,7 @@ import android.widget.RadioGroup;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.IntRange;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
 import java.util.List;
@@ -27,14 +28,46 @@ import java.util.List;
 public class BaseRadioGroup<T> extends RadioGroup {
 
     protected OnCheckedChangeListener2 checkedChangeListener2;
-    protected RadioGroup.OnCheckedChangeListener checkedChangeListener;
+    protected OnCheckedChangeListener checkedChangeListener;
 
     public BaseRadioGroup(Context context) {
         super(context);
+        init(context, null);
     }
 
     public BaseRadioGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
+    }
+
+    protected void init(Context context, @Nullable AttributeSet attrs) {
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        /**
+         * 如果<RadioButton 在XML中设置了android:checked="true",
+         * 但是<RadioButton 没有设置android:id="xxx"的话, 这个button会一直选中, 不能取消选中...
+         * 这么多年了, 这个bug也从来不改...
+         */
+        int childCount = getChildCount();
+//        //最后一个选中的孩子的id(系统默认选中最后一个)
+        int lastCheckedId = NO_ID;
+//        //遍历所有child, 将所有已选中的child设为false
+        for (int i = 0; i < childCount; i++) {
+            RadioButton childAt = (RadioButton) getChildAt(i);
+            if (childAt.isChecked()) {
+                //1,2,3...
+                lastCheckedId = childAt.getId();
+                childAt.setChecked(false);
+            }
+        }
+//        //如果有默认选中的孩子
+        if (lastCheckedId != NO_ID) {
+            clearCheck();
+            check(lastCheckedId);
+        }
     }
 
     /**
@@ -123,7 +156,7 @@ public class BaseRadioGroup<T> extends RadioGroup {
     }
 
     /**
-     * @return 获取已选中的position, 如果没有, 返回-1
+     * @return 获取已选中的position, 如果没有, 返回NO_ID
      */
     public int getCheckedPosition() {
         int childCount = getChildCount();
@@ -131,21 +164,22 @@ public class BaseRadioGroup<T> extends RadioGroup {
             RadioButton child = (RadioButton) getChildAt(i);
             if (child.isChecked()) return i;
         }
-        return -1;
+        return NO_ID;
     }
 
     /**
      * 清空选中
      */
+    @Override
     public void clearCheck() {
         super.clearCheck();
     }
 
     /**
-     * @param checkedChangeListener2 设置选中改变监听
+     * @param checkChangeListener2 设置选中改变监听
      */
-    public void setOnCheckedChangeListener2(OnCheckedChangeListener2 checkedChangeListener2) {
-        this.checkedChangeListener2 = checkedChangeListener2;
+    public void setOnCheckedChangeListener2(OnCheckedChangeListener2 checkChangeListener2) {
+        this.checkedChangeListener2 = checkChangeListener2;
         if (checkedChangeListener == null) {
             checkedChangeListener = new OnCheckedChangeListener() {
                 @Override

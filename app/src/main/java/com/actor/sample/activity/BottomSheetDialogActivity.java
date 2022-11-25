@@ -135,6 +135,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
 //    @OnClick({R.id.btn_test_dialog, R.id.btn_bottom_dialog, R.id.btn_bottom_sheet_dialog,
 //            R.id.btn_bottom_sheet_dialog_fragment, R.id.btn_float_edit, R.id.btn_left_dialog,
 //            R.id.btn_right_dialog, R.id.btn_bottom_activity})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_test_dialog://普通Dialog

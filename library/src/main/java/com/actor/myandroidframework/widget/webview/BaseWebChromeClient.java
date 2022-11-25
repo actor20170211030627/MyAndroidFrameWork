@@ -27,7 +27,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     @Override
     public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
-        LogUtils.formatError("网页标题onReceivedTitle: %s", title);
+        LogUtils.errorFormat("网页标题onReceivedTitle: %s", title);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
-        //LogUtils.formatError("网页进度改变, onProgressChanged=%d", newProgress);
+        //LogUtils.errorFormat("网页进度改变, onProgressChanged=%d", newProgress);
     }
 
     //打印前端的日记
@@ -51,7 +51,7 @@ public class BaseWebChromeClient extends WebChromeClient {
         String sourceId = consoleMessage.sourceId();
         //日志级别:ConsoleMessage.MessageLevel.TIP,LOG,WARNING,ERROR,DEBUG;
         ConsoleMessage.MessageLevel messageLevel = consoleMessage.messageLevel();
-        LogUtils.formatError("前端日记: lineNumber=%d, message=%s, sourceId=%s, messageLevel=%s",
+        LogUtils.errorFormat("前端日记: lineNumber=%d, message=%s, sourceId=%s, messageLevel=%s",
                 lineNumber, message, sourceId, messageLevel);
         return super.onConsoleMessage(consoleMessage);
     }
@@ -63,7 +63,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     //js的alert弹窗
     @Override
     public boolean onJsAlert(WebView webView, String url, String message, JsResult result) {
-        LogUtils.formatError("alert弹窗: url=%s, message=%s", url, message);
+        LogUtils.errorFormat("alert弹窗: url=%s, message=%s", url, message);
 //        new AlertDialog.Builder(webView.getContext())
 //                .setTitle(url)
 //                .setMessage(message)
@@ -94,7 +94,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     //js 确认/取消对话框
     @Override
     public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-        LogUtils.formatError("网页对话框: url=%s, message=%s", url, message);
+        LogUtils.errorFormat("网页对话框: url=%s, message=%s", url, message);
         return super.onJsConfirm(view, url, message, result);
     }
 
@@ -105,7 +105,7 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        LogUtils.formatError("网页提示: url=%s, message=%s, defaultValue=%s", url, message, defaultValue);
+        LogUtils.errorFormat("网页提示: url=%s, message=%s, defaultValue=%s", url, message, defaultValue);
         return super.onJsPrompt(view, url, message, defaultValue, result);
     }
 
@@ -114,7 +114,7 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public View getVideoLoadingProgressView() {
-        LogUtils.error(false, "getVideoLoadingProgressView: 网页在视频缓冲时显示的视图");
+        LogUtils.error("getVideoLoadingProgressView: 网页在视频缓冲时显示的视图");
 //        FrameLayout frameLayout = new FrameLayout(activity);
 //        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 //        return frameLayout;

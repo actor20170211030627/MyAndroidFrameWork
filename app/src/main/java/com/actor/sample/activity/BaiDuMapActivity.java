@@ -94,6 +94,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
 //    @OnClick({R.id.btn_start, R.id.btn_stop, R.id.btn_get_address_by_latlng,
 //            R.id.btn_get_latlng_by_address, R.id.iv_person, R.id.iv_repository, R.id.iv_car,
 //            R.id.iv_camera, R.id.iv_bridge})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始定位
@@ -141,6 +142,8 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                 break;
             case R.id.iv_bridge://桥
                 showMarkerBridgeList(view);
+                break;
+            default:
                 break;
         }
         view.setSelected(!view.isSelected());//更新选中状态

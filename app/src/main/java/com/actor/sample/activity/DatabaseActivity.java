@@ -91,6 +91,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
     }
 
 //    @OnClick({R.id.btn_add, R.id.btn_update, R.id.btn_query, R.id.btn_query_all})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_add://增, 身份证不为空, 其余的根据自己需求判断
@@ -161,6 +162,8 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                 break;
             case R.id.btn_query_all://查找全部
                 queryAll();
+                break;
+            default:
                 break;
         }
     }

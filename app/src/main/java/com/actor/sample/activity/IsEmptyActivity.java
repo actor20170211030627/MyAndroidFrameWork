@@ -79,6 +79,7 @@ public class IsEmptyActivity extends BaseActivity<ActivityIsEmptyBinding> implem
     }
 
 //    @OnClick(R.id.btn_is_empty)
+    @Override
     public void onViewClicked(View view) {
         /**
          * @param objs 参数的类型为:

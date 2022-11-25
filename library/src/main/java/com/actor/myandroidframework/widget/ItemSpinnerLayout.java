@@ -85,12 +85,12 @@ import java.util.List;
  */
 public class ItemSpinnerLayout<T> extends LinearLayout {
 
-    private TextView         tvRedStar, tvItem;
-    private AppCompatSpinner spinner;
-    private Space            spaceMarginTop;
-    private LinearLayout     llContentForIsl;
-    private float            density;//px = dp * density;
-    private ArrayAdapter<T>  arrayAdapter;
+    protected TextView         tvRedStar, tvItem;
+    protected AppCompatSpinner spinner;
+    protected Space            spaceMarginTop;
+    protected LinearLayout     llContentForIsl;
+    protected float            density;//px = dp * density;
+    protected ArrayAdapter<T>  arrayAdapter;
 
     public ItemSpinnerLayout(Context context) {
         super(context);

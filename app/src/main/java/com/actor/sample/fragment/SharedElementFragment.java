@@ -43,6 +43,7 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
         Glide.with(this).load(url).into(iv);
     }
 
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start_activity://点击跳转Activity
@@ -52,6 +53,8 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
             case R.id.btn_start_activity_for_result://
                 startActivityForResult(new Intent(activity, ViewPagerActivity.class)
                         .putExtra(ViewPagerActivity.START_POSITION, position), 0, iv);
+                break;
+            default:
                 break;
         }
     }

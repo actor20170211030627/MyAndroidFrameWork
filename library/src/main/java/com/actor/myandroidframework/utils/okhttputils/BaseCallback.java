@@ -193,8 +193,9 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * @param total 总大小
      * @param id 请求时传入的id, 默认0
      */
+    @Override
     public void inProgress(float progress, long total, int id) {
-//        logFormat("上传/下载进度: progress=%f, total=%d, id=%d", progress, total, id);
+//        LogUtils.errorFormat("上传/下载进度: progress=%f, total=%d, id=%d", progress, total, id);
     }
 
     //okhttp3.Callback的方法, sub thread
@@ -240,7 +241,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      */
     @Override
     public final void onError(Call call, Exception e, int id) {
-        LogUtils.formatError("onError: call=%s, e=%s, id=%d", call, e, id);
+        LogUtils.errorFormat("onError: call=%s, e=%s, id=%d", call, e, id);
         if (call == null || call.isCanceled() || e == null) return;
         onError(id, call, e);
     }
@@ -287,7 +288,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * 数据解析为空, 默认会toast, 可重写此方法
      */
     public void onParseNetworkResponseIsNull(int requestId) {
-        LogUtils.formatError("数据解析为空: tag=%s, requestId=%d", tag, requestId);
+        LogUtils.errorFormat("数据解析为空: tag=%s, requestId=%d", tag, requestId);
         ToastUtils.showShort("数据解析为空");
     }
 

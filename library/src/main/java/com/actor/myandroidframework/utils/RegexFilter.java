@@ -63,7 +63,7 @@ public class RegexFilter implements InputFilter {
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
 //        return source.toString().replaceAll(regex, "");//只对输入的内容判断, 不对!
 
-//        LogUtils.formatError("source=%s, start=%d, end=%d, dest=%s, dstart=%d, dend=%d", source, start, end, dest, dstart, dend);
+//        LogUtils.errorFormat("source=%s, start=%d, end=%d, dest=%s, dstart=%d, dend=%d", source, start, end, dest, dstart, dend);
         //如果是删除
         if (TextUtils.isEmpty(source)) {
             return null;
@@ -76,7 +76,7 @@ public class RegexFilter implements InputFilter {
             String dprefix = dest.toString().substring(0, dstart);//被替换部分的前面部分
             String dsuffix = dest.toString().substring(dend, dest.length());
             String allInput = dprefix.concat(source.toString()).concat(dsuffix);//所有输入内容
-//            LogUtils.formatError("dprefix=%s, dsuffix=%s, all=%s", dprefix, dsuffix, allInput);
+//            LogUtils.errorFormat("dprefix=%s, dsuffix=%s, all=%s", dprefix, dsuffix, allInput);
             //如果匹配
             if (pattern.matcher(allInput).matches()) {
                 return null;

@@ -26,12 +26,12 @@ public class MyWakedResultReceiver extends WakedResultReceiver {
     @Override
     public void onWake(int wakeType) {
         super.onWake(wakeType);
-        LogUtils.formatError("被拉起了, 拉起类型(wakeType)=%d", wakeType);
+        LogUtils.errorFormat("被拉起了, 拉起类型(wakeType)=%d", wakeType);
     }
 
     @Override
     public void onWake(Context context, int wakeType) {
         super.onWake(context, wakeType);
-        LogUtils.formatError("被拉起了, context=%s, 拉起类型(wakeType)=%d", context, wakeType);
+        LogUtils.errorFormat("被拉起了, context=%s, 拉起类型(wakeType)=%d", context, wakeType);
     }
 }

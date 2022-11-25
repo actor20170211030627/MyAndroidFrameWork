@@ -53,7 +53,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onMessage(Context context, CustomMessage customMessage) {
         super.onMessage(context, customMessage);//调用super才会发给旧Receiver
-        logFormat("收到自定义消息回调: context=%s, customMessage=%s", context, customMessage);
+        LogUtils.errorFormat("收到自定义消息回调: context=%s, customMessage=%s", context, customMessage);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_MESSAGE, customMessage));
     }
 
@@ -64,7 +64,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onNotifyMessageArrived(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageArrived(context, notificationMessage);//调用super才会发给旧Receiver
-        logFormat("收到通知回调: context=%s, notificationMessage=%s", context, notificationMessage);
+        LogUtils.errorFormat("收到通知回调: context=%s, notificationMessage=%s", context, notificationMessage);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_NOTIFY_MESSAGE_ARRIVED, notificationMessage));
     }
 
@@ -75,7 +75,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onNotifyMessageOpened(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageOpened(context, notificationMessage);//调用super才会发给旧Receiver
-        logFormat("点击通知回调: context=%s, notificationMessage=%s", context, notificationMessage);
+        LogUtils.errorFormat("点击通知回调: context=%s, notificationMessage=%s", context, notificationMessage);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_NOTIFYMESSAGE_OPENED, notificationMessage));
     }
 
@@ -88,7 +88,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onNotifyMessageDismiss(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageDismiss(context, notificationMessage);
-        logFormat("清除通知回调: context=%s, notificationMessage=%s", context, notificationMessage);
+        LogUtils.errorFormat("清除通知回调: context=%s, notificationMessage=%s", context, notificationMessage);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_NOTIFYMESSAGE_DISMISS, notificationMessage));
     }
 
@@ -100,7 +100,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onRegister(Context context, String registrationId) {
         super.onRegister(context, registrationId);
-        logFormat("注册成功回调: context=%s, registrationId=%s", context, registrationId);
+        LogUtils.errorFormat("注册成功回调: context=%s, registrationId=%s", context, registrationId);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_REGISTER, registrationId));
     }
 
@@ -111,7 +111,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onConnected(Context context, boolean isConnected) {
         super.onConnected(context, isConnected);
-        logFormat("长连接状态回调: context=%s, isConnected=%b", context, isConnected);
+        LogUtils.errorFormat("长连接状态回调: context=%s, isConnected=%b", context, isConnected);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_CONNECTED, isConnected));
     }
 
@@ -122,7 +122,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onCommandResult(Context context, CmdMessage cmdMessage) {
         super.onCommandResult(context, cmdMessage);
-        logFormat("注册失败回调: context=%s, cmdMessage=%s", context, cmdMessage);
+        LogUtils.errorFormat("注册失败回调: context=%s, cmdMessage=%s", context, cmdMessage);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_COMMAND_RESULT, cmdMessage));
     }
 
@@ -133,7 +133,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onNotifyMessageUnShow(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageUnShow(context, notificationMessage);
-        logFormat("通知未展示的回调: context=%s, notificationMessage=%s", context, notificationMessage);
+        LogUtils.errorFormat("通知未展示的回调: context=%s, notificationMessage=%s", context, notificationMessage);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_NOTIFYMESSAGE_UNSHOW, notificationMessage));
     }
 
@@ -145,7 +145,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onMultiActionClicked(Context context, Intent intent) {
         super.onMultiActionClicked(context, intent);//调用super才会发给旧Receiver
-        logFormat("通知的MultiAction回调: context=%s, intent=%s", context, intent);
+        LogUtils.errorFormat("通知的MultiAction回调: context=%s, intent=%s", context, intent);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_MULTIACTION_CLICKED, intent));
     }
 
@@ -162,20 +162,20 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     @Override
     public void onNotificationSettingsCheck(Context context,boolean isOn, int source) {
         super.onNotificationSettingsCheck(context, isOn, source);
-        logFormat("通知开关的回调: context=%s, isOn=%b, source=%d", context, isOn, source);
+        LogUtils.errorFormat("通知开关的回调: context=%s, isOn=%b, source=%d", context, isOn, source);
         EventBus.getDefault().post(new JPushEvent<>(TYPE_NOTIFICATION_SETTINGS_CHECK, isOn, source));
     }
 
     @Override
     public Notification getNotification(Context context, NotificationMessage notificationMessage) {
-        logFormat("getNotification: context=%s, notificationMessage=%s", context, notificationMessage);
+        LogUtils.errorFormat("getNotification: context=%s, notificationMessage=%s", context, notificationMessage);
 //        return super.getNotification(context, notificationMessage);
         return JPushUtils.getNotification(context, notificationMessage);
     }
 
     @Override
     public boolean isNeedShowNotification(Context context, NotificationMessage notificationMessage, String s) {
-        logFormat("isNeedShowNotification: context=%s, notificationMessage=%s, s=%s", context, notificationMessage, s);
+        LogUtils.errorFormat("isNeedShowNotification: context=%s, notificationMessage=%s, s=%s", context, notificationMessage, s);
 //        return super.isNeedShowNotification(context, notificationMessage, s);
         return JPushUtils.isNeedShowNotification(context, notificationMessage, s);
     }
@@ -190,7 +190,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
         EventBus.getDefault().post(new JPushEvent<>(TYPE_TAG_OPERATOR_RESULT, jPushMessage));
 
         super.onTagOperatorResult(context, jPushMessage);
-        logFormat("tag 增删查改: context=%s, jPushMessage=%s", context, jPushMessage);
+        LogUtils.errorFormat("tag 增删查改: context=%s, jPushMessage=%s", context, jPushMessage);
     }
 
     /**
@@ -203,7 +203,7 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
         EventBus.getDefault().post(new JPushEvent<>(TYPE_CHECK_TAG_OPERATOR_RESULT, jPushMessage));
 
         super.onCheckTagOperatorResult(context, jPushMessage);
-        logFormat("查询某个 tag 与当前用户的绑定状态: context=%s, jPushMessage=%s", context, jPushMessage);
+        LogUtils.errorFormat("查询某个 tag 与当前用户的绑定状态: context=%s, jPushMessage=%s", context, jPushMessage);
     }
 
     /**
@@ -216,10 +216,10 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
         EventBus.getDefault().post(new JPushEvent<>(TYPE_ALIAS_OPERATOR_RESULT, jPushMessage));
 
         super.onAliasOperatorResult(context, jPushMessage);
-        logFormat("alias(别名) 相关的操作: context=%s, jPushMessage=%s", context, jPushMessage);
+        LogUtils.errorFormat("alias(别名) 相关的操作: context=%s, jPushMessage=%s", context, jPushMessage);
         if (jPushMessage != null) {
             int errorCode = jPushMessage.getErrorCode();
-            if (errorCode != 0) logFormat("别名设置失败, 请重新设置. errCode=%d", errorCode);
+            if (errorCode != 0) LogUtils.errorFormat("别名设置失败, 请重新设置. errCode=%d", errorCode);
         }
     }
 
@@ -233,14 +233,6 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
         EventBus.getDefault().post(new JPushEvent<>(TYPE_MOBILE_NUMBER_OPERATOR_RESULT, jPushMessage));
 
         super.onMobileNumberOperatorResult(context, jPushMessage);
-        logFormat("设置手机号码: context=%s, jPushMessage=%s", context, jPushMessage);
-    }
-
-    protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(false, format, args);
-    }
-
-    protected void logError(String msg) {
-        LogUtils.error(false, msg);
+        LogUtils.errorFormat("设置手机号码: context=%s, jPushMessage=%s", context, jPushMessage);
     }
 }

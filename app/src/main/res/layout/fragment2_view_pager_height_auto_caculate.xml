@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_rec_stroke_dcdcdc_for_chat_layout"
+        android:background="@color/red_trans_CC99"
         android:hint="说说你的感受吧.."
         android:padding="10dp" />
 

@@ -69,12 +69,12 @@ public abstract class GetFileCallback extends BaseCallback<File> {
 //    public void onBefore(Request request, int id) {
 //        if (fileName == null) {
 //            List<String> strings = request.url().pathSegments();
-//            logError("下面开始下载文件, 从pathSegments(路径片段)中获取下载下载的文件名");
+//            LogUtils.error("下面开始下载文件, 从pathSegments(路径片段)中获取下载下载的文件名");
 ////            request.url().url().toString();
 //            String url = request.url().toString();
-//            logError("url =" + url);
+//            LogUtils.error("url =" + url);
 //            for (int i = 0; i < strings.size(); i++) {
-//                logError(strings.get(i));
+//                LogUtils.error(strings.get(i));
 //            }
 //            fileName = strings.get(strings.size() - 1);
 ////            fileName = getFileNameFromUrl(url);
@@ -91,7 +91,7 @@ public abstract class GetFileCallback extends BaseCallback<File> {
     @Override
     public void inProgress(float progress, long total, int id) {
         super.inProgress(progress, total, id);
-//        logFormat("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
+//        LogUtils.errorFormat("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
     }
 
     @Override

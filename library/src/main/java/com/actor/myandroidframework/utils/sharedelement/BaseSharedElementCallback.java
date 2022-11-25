@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.sharedelement;
+package com.actor.myandroidframework.utils.sharedelement;
 
 import android.os.Build;
 import android.view.View;

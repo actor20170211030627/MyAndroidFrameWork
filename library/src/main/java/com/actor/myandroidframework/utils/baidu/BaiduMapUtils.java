@@ -181,10 +181,10 @@ public class BaiduMapUtils {
      * 计算两点之间的距离,单位m
      */
     public static double getDistance(double lat_a, double lng_a, double lat_b, double lng_b) {
-        logFormat("计算两点之间的距离: lat_a=%f, lng_a=%f, lat_b=%f, lng_b=%f", lat_a, lng_a, lat_b, lng_b);
+        LogUtils.errorFormat("计算两点之间的距离: lat_a=%f, lng_a=%f, lat_b=%f, lng_b=%f", lat_a, lng_a, lat_b, lng_b);
         float[] distance = new float[3];
         Location.distanceBetween(lat_a, lng_a, lat_b, lng_b, distance);
-        logError(Arrays.toString(distance));//[404982.97, -155.15123, -156.33034]
+        LogUtils.error(Arrays.toString(distance));//[404982.97, -155.15123, -156.33034]
 
         if (true) return distance[0];
 
@@ -198,7 +198,7 @@ public class BaiduMapUtils {
         double t3 = Math.sin(a1) * Math.sin(b1);
         double tt = Math.acos(t1 + t2 + t3);
         double v = 6371000 * tt;
-        logFormat("距离: %f", v);//405415.61429350835
+        LogUtils.errorFormat("距离: %f", v);//405415.61429350835
         return v;
     }
 
@@ -474,13 +474,5 @@ public class BaiduMapUtils {
      */
     public static void clear(BaiduMap baiduMap) {
         baiduMap.clear();
-    }
-
-    protected static void logError(String msg) {
-        LogUtils.error(false, msg);
-    }
-
-    protected static void logFormat(String format, Object... args) {
-        LogUtils.formatError(false, format, args);
     }
 }

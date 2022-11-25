@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.widget.BaseRadioGroup;
 import com.actor.myandroidframework.widget.BaseSpinner;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
@@ -48,42 +49,43 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId, int position, boolean reChecked) {
                 String format = getStringFormat("checkedId=%d, pos=%d, reChecked=%b", checkedId, position, reChecked);
-                logError(format);
+                LogUtils.error(format);
                 showToast(format);
             }
         });
         baseSpinner.setOnItemSelectedListener(new BaseSpinner.OnItemSelectedListener2() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                logError("选中了: " + position);
+                LogUtils.error("选中了: " + position);
                 showToast("选中了: " + position);
             }
 
             @Override
             public void onItemReSelected(AdapterView<?> parent, View view, int position, long id) {
-                logError("重复选中了: " + position);
+                LogUtils.error("重复选中了: " + position);
                 showToast("重复选中了: " + position);
             }
         });
     }
 
 //    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.itil_can_not_input2})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_check:
                 int checkedPosition = itemRadioGroup.getCheckedPosition();
                 itemRadioGroup.setCheckedPosition(2);
-                logFormat("ItemRadioGroupLayout: checkedPosition=%s", checkedPosition);
+                LogUtils.errorFormat("ItemRadioGroupLayout: checkedPosition=%s", checkedPosition);
                 itemRadioGroup.setDatas(new String[]{"11111", "2", "33"});
                 itemRadioGroup.addRadioButton("45");
 
                 String selectedItem = baseSpinner.getSelectedItem();
                 String itemAtPosition = baseSpinner.getItemAtPosition(1);
-                logFormat("BaseSpinner: selectedItem=%s, itemAtPosition=%s", selectedItem, itemAtPosition);
+                LogUtils.errorFormat("BaseSpinner: selectedItem=%s, itemAtPosition=%s", selectedItem, itemAtPosition);
 
                 String selectedItem1 = itemSpinner.getSelectedItem();
                 String itemAtPosition1 = itemSpinner.getItemAtPosition(1);
-                logFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
+                LogUtils.errorFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
                 break;
             case R.id.btn2:
                 if (++pos == btns.length) pos = 0;

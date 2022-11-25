@@ -117,7 +117,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      */
     @Override
     public final void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
-        LogUtils.formatError("onError: call=%s, throwable=%s", call, t);
+        LogUtils.errorFormat("onError: call=%s, throwable=%s", call, t);
         if (call == null || call.isCanceled() || t == null) return;
         onError(call, t);
     }
@@ -141,7 +141,7 @@ public abstract class BaseCallback2<T> implements Callback<T> {
      * 状态码错误, 默认会toast, 可以重写本方法
      */
     public void onStatusCodeError(int errCode, Call<T> call, Response<T> response) {
-        LogUtils.formatError("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
+        LogUtils.errorFormat("状态码错误: errCode=%d, call=%s, response=%s", errCode, call, response);
         ToastUtils.showShort(TextUtils2.getStringFormat("状态码错误: %d", errCode));
     }
 

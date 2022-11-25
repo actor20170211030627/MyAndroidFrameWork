@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.jpush.JPushEvent;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
 import com.actor.myandroidframework.utils.jpush.MyJPushMessageReceiver;
@@ -37,6 +38,7 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
     }
 
 //    @OnClick({R.id.btn_start, R.id.btn_stop})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始接收
@@ -45,6 +47,8 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
                 break;
             case R.id.btn_stop://停止接收
                 JPushUtils.stopPush(activity);
+                break;
+            default:
                 break;
         }
     }
@@ -73,10 +77,10 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
                 int errorCode = message.getErrorCode();
                 //别名设置错误, 常见错误6002: 设置超时  建议重试，一般出现在网络不佳、初始化尚未完成时。
                 if (errorCode != 0) {
-                    logError("别名设置失败!");
+                    LogUtils.error("别名设置失败!");
                     JPushUtils.setAlias(activity, 0, "这儿填写需再次设置的别名");//设置别名, 还有其他推送方式
                 } else {
-                    logError("别名设置成功!");
+                    LogUtils.error("别名设置成功!");
                 }
                 break;
             default:

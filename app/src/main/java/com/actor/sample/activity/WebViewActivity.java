@@ -37,6 +37,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
     }
 
 //    @OnClick({R.id.btn_go})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_go:

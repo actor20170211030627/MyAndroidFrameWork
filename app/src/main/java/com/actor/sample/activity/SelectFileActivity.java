@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.actor.myandroidframework.adapter_recyclerview.AddAudioAdapter;
 import com.actor.myandroidframework.adapter_recyclerview.AddPicAdapter;
 import com.actor.myandroidframework.adapter_recyclerview.AddVideoAdapter;
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.widget.BaseItemDecoration;
 import com.actor.sample.R;
@@ -68,6 +69,7 @@ public class SelectFileActivity extends BaseActivity<ActivitySelectFileBinding> 
     }
 
 //    @OnClick({R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //AlbumUtils:
@@ -94,7 +96,7 @@ public class SelectFileActivity extends BaseActivity<ActivitySelectFileBinding> 
         public void onAction(@NonNull ArrayList<AlbumFile> result) {
             mAdapter1.addData(result);
             String json = GsonUtils.toJson(result);
-            logError(json);
+            LogUtils.error(json);
         }
     };
 }

@@ -30,13 +30,13 @@ public class BaseWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {//页面开始加载
         super.onPageStarted(view, url, favicon);
-        LogUtils.formatError("开始加载网页: url = %s", url);
+        LogUtils.errorFormat("开始加载网页: url = %s", url);
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {//页面加载完成
         super.onPageFinished(view, url);
-        LogUtils.formatError("网页加载完成: url = %s", url);
+        LogUtils.errorFormat("网页加载完成: url = %s", url);
     }
 
     /**
@@ -45,7 +45,7 @@ public class BaseWebViewClient extends WebViewClient {
      */
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        LogUtils.formatError("跳转网页: url=%s", url);
+        LogUtils.errorFormat("跳转网页: url=%s", url);
         //百家号url: https://baijiahao.baidu.com/s?id=1642175663200722386&wfr=spider&for=pc
         //百家号加载过程中的url: baiduboxapp://utils?action=sendIntent&minver=7.4&params=%7B%22intent%22%3A%22intent%3A%23Intent%3Baction%3Dcom.baidu.searchbox.action.HOME%3Bpackage%3Dcom.baidu.searchbox%3BS.targetCommand%3D%257B%2522mode%2522%253A%25220%2522%252C%2522intent%2522%253A%2522intent%253A%2523Intent%253BS.toolbaricons%253D%25257B%252522toolids%252522%25253A%25255B%2525224%252522%25252C%2525221%252522%25252C%2525222%252522%25252C%2525223%252522%25255D%25257D%253BS.actionBarConfig%253D%25257B%252522extCase%252522%25253A%2525220%252522%25257D%253Bcomponent%253Dcom.baidu.searchbox%252F.home.feed.FeedDetailActivity%253BS.menumode%253D2%253BS.sfrom%253Dfeed%253BS.context%253D%25257B%252522nid%252522%25253A%252522news_9138480105384862915%252522%25257D%253BS.tpl_id%253Dlanding_app.html%253BS.ch_url%253Dhttps%25253A%25252F%25252Fmbd.baidu.com%25252Fnewspage%25252Fdata%25252Flandingreact%25253FpageType%25253D2%252526sourceFrom%25253DlandingShare%252526nid%25253Dnews_9138480105384862915%253BS.commentInfo%253D%25257B%252522topic_id%252522%25253A%2525221052000023481251%252522%25252C%252522opentype%252522%25253A%2525222%252522%25257D%253Bend%2522%252C%2522min_v%2522%253A%252216787968%2522%257D%3Bend%22%7D&needlog=1&logargs=%7B%22source%22%3A%221020418p%22%2C%22from%22%3A%22openbox%22%2C%22page%22%3A%22chrome%22%2C%22type%22%3A%22%22%2C%22value%22%3A%22%22%2C%22channel%22%3A%221020418o%22%2C%22extlog%22%3A%22%22%2C%22app_now%22%3A%22chrome_1566267888375_6692356467%22%2C%22yyb_pkg%22%3A%22com.baidu.searchbox%22%2C%22idmData%22%3A%7B%7D%2C%22matrix%22%3A%22main%22%7D
         if (url != null) {
@@ -61,7 +61,7 @@ public class BaseWebViewClient extends WebViewClient {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        LogUtils.formatError("跳转网页: request=%s", request);
+        LogUtils.errorFormat("跳转网页: request=%s", request);
         view.loadUrl(request.getUrl().toString());
         return super.shouldOverrideUrlLoading(view, request);
     }
@@ -93,7 +93,7 @@ public class BaseWebViewClient extends WebViewClient {
         }
         boolean hasGesture = request.hasGesture();
         String method = request.getMethod();
-        LogUtils.formatError("拦截器, shouldInterceptRequest: Uri=%s, isForMainFrame=%b," +
+        LogUtils.errorFormat("拦截器, shouldInterceptRequest: Uri=%s, isForMainFrame=%b," +
                         " isRedirect=%s, hasGesture=%b, Method=%s, RequestHeaders=%s",
                 url, isForMainFrame, isRedirect, hasGesture, method, requesJson);
 
@@ -109,7 +109,7 @@ public class BaseWebViewClient extends WebViewClient {
      */
     @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-        LogUtils.formatError("加载网页发生证书认证错误: handler=%s, error=%s", handler, error);
+        LogUtils.errorFormat("加载网页发生证书认证错误: handler=%s, error=%s", handler, error);
         super.onReceivedSslError(view, handler, error);//取消
 //        handler.cancel(); //默认的处理方式，WebView变成空白页
 //        handler.proceed();//忽略错误
@@ -144,13 +144,13 @@ public class BaseWebViewClient extends WebViewClient {
         }
         boolean hasGesture = request.hasGesture();
         String method = request.getMethod();
-        LogUtils.formatError("Http请求错误, onReceivedHttpError, request: Uri=%s, isForMainFrame=%b, " +
+        LogUtils.errorFormat("Http请求错误, onReceivedHttpError, request: Uri=%s, isForMainFrame=%b, " +
                         "isRedirect=%s, hasGesture=%b, Method=%s, RequestHeaders=%s",
                 url, isForMainFrame, isRedirect, hasGesture, method, requesJson);
 
         Map<String, String> responseHeaders = errorResponse.getResponseHeaders();
         String responseJson = GsonUtils.toJson(responseHeaders);
-        LogUtils.formatError("Http请求错误, onReceivedHttpError, errorResponse: StatusCode=%d," +
+        LogUtils.errorFormat("Http请求错误, onReceivedHttpError, errorResponse: StatusCode=%d," +
                         " Encoding=%s, MimeType=%s, ReasonPhrase=%s, ResponseHeaders=%s, Data=%s",
                 errorResponse.getStatusCode(), errorResponse.getEncoding(), errorResponse.getMimeType(),
                 errorResponse.getReasonPhrase(), responseJson, errorResponse.getData());
@@ -173,7 +173,7 @@ public class BaseWebViewClient extends WebViewClient {
         }
         boolean hasGesture = request.hasGesture();
         String method = request.getMethod();
-        LogUtils.formatError("收到错误, onReceivedError, request: Uri=%s, isForMainFrame=%b," +
+        LogUtils.errorFormat("收到错误, onReceivedError, request: Uri=%s, isForMainFrame=%b," +
                         " isRedirect=%s, hasGesture=%b, Method=%s, RequestHeaders=%s",
                 url, isForMainFrame, isRedirect, hasGesture, method, requesJson);
 
@@ -181,7 +181,7 @@ public class BaseWebViewClient extends WebViewClient {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //网页超时例: ErrorCode=-2, Description=net::ERR_INTERNET_DISCONNECTED
             //网页不存在例: ErrorCode=-6, Description=net::ERR_CONNECTION_REFUSED
-            LogUtils.formatError("收到错误, onReceivedError, error: ErrorCode=%d, Description=%s",
+            LogUtils.errorFormat("收到错误, onReceivedError, error: ErrorCode=%d, Description=%s",
                     error.getErrorCode(), error.getDescription());
         }
 

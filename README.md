@@ -29,15 +29,12 @@ annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 api 'org.greenrobot:eventbus:3.2.0'
 </li>
 <li>//https://github.com/Blankj/AndroidUtilCode 许多工具
-api 'com.blankj:utilcodex:1.30.6'
-</li>
-<li>//https://github.com/JessYanCoding/AndroidAutoSize 极低成本的 Android 屏幕适配方案
-api 'me.jessyan:autosize:1.2.1'
+api 'com.blankj:utilcodex:1.31.0'
 </li>
 <li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
-<li>//https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩)、视频、音频
+<li>//https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频
 api 'io.github.lucksiege:pictureselector:v2.7.3-rc05'
 </li>
 <li>//https://gitee.com/getActivity/XXPermissions 轮子哥权限
@@ -48,7 +45,7 @@ api 'com.github.getActivity:XXPermissions:13.2'
 api 'com.contrarywind:Android-PickerView:4.1.9'
 </li>
 <li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup, compileSdkVersion 29
-api 'com.github.li-xiaojun:XPopup:2.6.7'
+api 'com.github.li-xiaojun:XPopup:2.8.3'
 </li>
 <li>//https://github.com/square/okhttp
 api "com.squareup.okhttp3:okhttp:4.9.2"
@@ -102,10 +99,12 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" targt="_blank">MyOkHttpUtils</a> (Okhttp网络请求)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/picture_selector/PictureSelectorUtils.java" targt="_blank">PictureSelectorUtils</a> (图片/视频/音频选择和预览. 拍照/拍视频/录音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" targt="_blank">RetrofitNetwork</a> (retrofit简单封装)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" targt="_blank">SharedElementUtils</a> (元素共享跳转页面)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/QQUtils.java" targt="_blank">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java" targt="_blank">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java" targt="_blank">VideoProcessorUtils</a> (视频压缩)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java" targt="_blank">AssetsUtils</a> (Assets读取)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/BRVUtils.java" targt="_blank">BRVUtils</a> (BaseRecyclerView框架辅助)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" targt="_blank">ClickUtils2</a> (防止2次点击)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java" targt="_blank">LogUtils</a> (Log简单打印)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java" targt="_blank">NotificationHelper</a> (通知栏)
@@ -116,7 +115,6 @@ api 'com.zhy:okhttputils:2.6.2'
 
 **2.5.Widget小控件**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/widget/chat/ChatLayout.java" targt="_blank">ChatLayout</a> (聊天控件,可填充emoji,语音)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/chat/VoiceRecorderView.java" targt="_blank">VoiceRecorderView</a> (低仿微信录音)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java" targt="_blank">NineGridView</a> (九宫格)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/AutoCaculateHeightViewpager.java" targt="_blank">AutoCaculateHeightViewpager</a> (自动计算子类高度的ViewPager)
@@ -179,19 +177,20 @@ Add it in your root build.gradle at the end of repositories:
     }
 
     dependencies {
+            //需要在自己项目中集成constraint包, 版本version>=1.1.3
+            implementation 'androidx.constraintlayout:constraintlayout:version xxx'
+
             //https://gitee.com/actor20170211030627/MyAndroidFrameWork
             implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's last version'
             <s>implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'(不再维护 Deprecated)</s>
     }
 </pre>
-## 7. 需要在自己项目中集成<code>constraint</code>包, 否则报错
-    implementation 'androidx.constraintlayout:constraintlayout:version xxx'//约束布局, 版本version>=1.1.3
 
-## 8.<code>AndroidManifest.xml</code>合并清单文件报错
+## 7.<code>AndroidManifest.xml</code>合并清单文件报错
     1.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found.
       需要将 compileSdkVersion 升级到 29
 
-## 9.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:
+## 8.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:
 <pre>
     android {
         ...
@@ -204,24 +203,15 @@ Add it in your root build.gradle at the end of repositories:
     }
 </pre>
 
-## 10.使用步骤
+## 9.使用步骤
 <pre>
 1.写一个 Application extends ActorApplication, 然后重写方法, 可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" targt="_blank">MyApplication</a>  (非必须继承, ActorApplication里有一些配置, 可把配置代码copy到自己Application)
 2.写一个 BaseActivity extends ActorBaseActivity, 然后你的Activity 继承 BaseActivity (非必须继承)
 3.写一个 BaseFragment extends ActorBaseFragment, 然后你的Fragment 继承 BaseFragment (非必须继承)
-4.已经集成了 <a href="https://github.com/JessYanCoding/AndroidAutoSize" targt="_blank">AndroidAutoSize</a>, 如果你需要使用它, 请在 AndroidManifest.xml 中填写全局设计图尺寸 (单位 dp):
-  &lt;application>
-    &lt;meta-data
-        android:name="design_width_in_dp"
-        android:value="(例)360"/>
-    &lt;meta-data
-        android:name="design_height_in_dp"
-        android:value="(例)640"/>
-  &lt;/application>
-5.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
+4.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
 </pre>
 
-## 11.有问题请升级到最新版本: <s>Github:</s>[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) Gitee: [![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues" targt="_blank">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 10.有问题请升级到最新版本: <s>Github:</s>[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) Gitee: [![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues" targt="_blank">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
-## 12.License
+## 11.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

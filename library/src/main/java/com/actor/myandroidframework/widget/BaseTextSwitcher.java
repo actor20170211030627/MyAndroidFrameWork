@@ -128,7 +128,7 @@ import java.util.List;
  * baseTextSwitcher.setOnItemClickListener(new BaseTextSwitcher.OnItemClickListener<T>() {
  *     @Override
  *     public void onItemClick(int position, T item) {
- *         logFormat("pos=%d, str=%s", position, item);
+ *         LogUtils.errorFormat("pos=%d, str=%s", position, item);
  *     }
  * });
  * }

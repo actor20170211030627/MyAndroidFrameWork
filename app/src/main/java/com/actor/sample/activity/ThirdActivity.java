@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.EventBusEvent;
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.tencent.BaseUiListener;
@@ -62,6 +63,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
 
 //    @OnClick({R.id.btn_login_qq, R.id.btn_login_qr_account_password, R.id.btn_get_user_info_qq,
 //            R.id.btn_share_img, R.id.btn_logout, R.id.btn_chat})
+    @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login_qq://登录
@@ -87,7 +89,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                                 new BaseUiListener() {
                             @Override
                             public void doComplete(@Nullable JSONObject response) {
-                                logError(response);
+                                LogUtils.error(response);
                             }
                         });
                         //还有其它分享方式
@@ -103,7 +105,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
             case R.id.btn_chat://聊天
                 if (isNoEmpty(etTargetQq)) {
                     int code = QQUtils.startIMAio(this, getText(etTargetQq));
-                    logError("错误码: " + code);
+                    LogUtils.error("错误码: " + code);
 
 //                    int code = QQUtils.startIMAudio(this, getText(etTargetQq));//语音
 //                    int code = QQUtils.startIMVideo(this, getText(etTargetQq));//视频
@@ -137,6 +139,8 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                     }
                 });
                 break;
+            default:
+                break;
         }
     }
 
@@ -153,7 +157,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     //处理QQ返回
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        logError("-->onActivityResult " + requestCode + " resultCode=" + resultCode);
+        LogUtils.error("-->onActivityResult " + requestCode + " resultCode=" + resultCode);
         if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
             Tencent.onActivityResultData(requestCode, resultCode, data, listener);
         }
@@ -167,7 +171,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
          switch (eventBusEvent.code) {
              case WXEntryActivity.MSG_EVT_WX_LOGIN://登录
                  showToast("登录成功!");
-                 logError(eventBusEvent);
+                 LogUtils.error(eventBusEvent);
                  String code = eventBusEvent.msg;
                  /**
                   * 调用后台接口获取token
@@ -179,7 +183,9 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                  break;
              case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT://支付
                  showToast("支付成功!");
-                 logError(eventBusEvent);
+                 LogUtils.error(eventBusEvent);
+                 break;
+             default:
                  break;
          }
      }

@@ -77,7 +77,7 @@ public class BarChartUtils {
 //        barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 //            @Override
 //            public void onValueSelected(Entry e, Highlight h) {
-//                LogUtils.formatError("Entry selected=%s, Highlight=%s", e, h);
+//                LogUtils.errorFormat("Entry selected=%s, Highlight=%s", e, h);
 //                if (e == null) {
 //                    return;
 //                }
@@ -85,8 +85,8 @@ public class BarChartUtils {
 //                barChart.getBarBounds((BarEntry) e, bounds);
 //                MPPointF position = barChart.getPosition(e, YAxis.AxisDependency.LEFT);
 //
-//                LogUtils.formatError("bounds=%s, position=%s", bounds, position);
-//                LogUtils.formatError("x-index, low=%f, high=%f", barChart.getLowestVisibleX(), barChart.getHighestVisibleX());
+//                LogUtils.errorFormat("bounds=%s, position=%s", bounds, position);
+//                LogUtils.errorFormat("x-index, low=%f, high=%f", barChart.getLowestVisibleX(), barChart.getHighestVisibleX());
 //
 //                MPPointF.recycleInstance(position);
 //            }

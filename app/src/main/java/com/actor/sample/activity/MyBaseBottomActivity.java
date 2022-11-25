@@ -48,6 +48,8 @@ public class MyBaseBottomActivity extends BaseBottomActivity {
             case R.id.tv_content:
                 ToastUtils.showShort("you clicked me!!");
                 break;
+            default:
+                break;
         }
     }
 }

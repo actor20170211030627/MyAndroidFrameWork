@@ -45,7 +45,7 @@ import org.greenrobot.eventbus.EventBus;
  *     switch (eventBusEvent.code) {
  *         case WXEntryActivity.MSG_EVT_WX_LOGIN:
  *             showToast("登录成功!");
- *             logError(eventBusEvent);
+ *             LogUtils.error(eventBusEvent);
  *             break;
  *     }
  * }
@@ -69,7 +69,7 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
         // 避免外部通过传递非法参数的Intent导致停留在透明界面，引起用户的疑惑
         boolean result =  iwxapi.handleIntent(getIntent(), this);
         if(!result){
-            logError("微信登录参数不合法，未被SDK处理，退出");
+            LogUtils.error("微信登录参数不合法，未被SDK处理，退出");
             onBackPressed();
         }
     }
@@ -85,13 +85,13 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
     @Override
     public void onReq(BaseReq baseReq) {
         String json = baseReq == null ? "null" : GsonUtils.toJson(baseReq);
-        logFormat("onReq微信发送的请求: baseReq = %s", json);
+        LogUtils.errorFormat("onReq微信发送的请求: baseReq = %s", json);
     }
 
     @Override
     public void onResp(BaseResp baseResp) {
         String json = baseResp == null ? "null" : GsonUtils.toJson(baseResp);
-        logFormat("onResp微信响应: baseResp = %s", json);
+        LogUtils.errorFormat("onResp微信响应: baseResp = %s", json);
         if (baseResp == null) return;
         switch (baseResp.getType()) {
             case ConstantsAPI.COMMAND_SENDAUTH://微信登录
