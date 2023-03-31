@@ -137,7 +137,6 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                             result.add(EXTRA_LAST_MEDIA);
                                             setNewData(result);
                                         }
-
                                         @Override
                                         public void onCancel() {
                                         }
@@ -152,7 +151,6 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                             result.add(EXTRA_LAST_MEDIA);
                                             setNewData(result);
                                         }
-
                                         @Override
                                         public void onCancel() {
                                         }

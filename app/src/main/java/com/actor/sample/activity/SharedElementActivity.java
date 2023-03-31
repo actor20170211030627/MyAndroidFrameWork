@@ -24,7 +24,7 @@ import java.util.Arrays;
  */
 public class SharedElementActivity extends BaseActivity<ActivitySharedElementBinding> {
 
-    private RecyclerView recyclerView;
+    private           RecyclerView              recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +42,18 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
         recyclerView.setAdapter(myAdapter);
     }
 
+    /**
+     * 4.重写方法, 用于更新动画位置
+     */
     @Override
     @NonNull
     public View sharedElementPositionChanged(int oldPosition, int currentPosition) {
         return recyclerView.findViewHolderForAdapterPosition(currentPosition).itemView.findViewById(R.id.iv);
     }
 
+    /***
+     * 5.重写方法, 更新位置
+     */
     @Override
     public void onSharedElementBacked(int oldPosition, int currentPosition) {
         super.onSharedElementBacked(oldPosition, currentPosition);

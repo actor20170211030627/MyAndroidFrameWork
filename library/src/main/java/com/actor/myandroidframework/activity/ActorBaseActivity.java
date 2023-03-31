@@ -56,7 +56,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
-        logError(getClass().getName());
+        LogUtils.error(getClass().getName());
         //设置屏幕朝向,在setContentView之前
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -243,21 +243,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // 打印日志区
-    ///////////////////////////////////////////////////////////////////////////
-    protected void logError(Object msg) {
-        LogUtils.error(false, String.valueOf(msg));
-    }
-
-    /**
-     * 打印格式化后的字符串
-     */
-    protected void logFormat(String format, Object... args) {
-        LogUtils.formatError(false, format, args);
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
     // toast区
     ///////////////////////////////////////////////////////////////////////////
     protected void showToast(@StringRes int resId) {
@@ -302,21 +287,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     ///////////////////////////////////////////////////////////////////////////
     // 下拉刷新 & 上拉加载更多 & 空布局
     ///////////////////////////////////////////////////////////////////////////
-
     /**
      * adapter设置空布局
      *
      * @param adapter      不能为空
      */
     protected void setEmptyView(BaseQuickAdapter adapter) {
-        setEmptyView(R.layout.layout_for_empty, adapter);
+        BRVUtils.setEmptyView(adapter);
     }
-    protected void setEmptyView(@LayoutRes int layoutId, BaseQuickAdapter adapter) {
-        RecyclerView recyclerView = adapter.getRecyclerViewOrNull();
-        if (recyclerView == null) {
-            throw new IllegalStateException("需要先recyclerView.setAdapter(adapter), 才能setEmptyView()!");
-        }
-        adapter.setEmptyView(layoutId);
+    protected void setEmptyView(BaseQuickAdapter adapter, @LayoutRes int layoutId) {
+        BRVUtils.setEmptyView(adapter, layoutId);
     }
 
     /**
@@ -369,24 +349,17 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      * @param listener     不能为空
      */
     protected void setLoadMore$Empty(BaseQuickAdapter adapter, OnLoadMoreListener listener) {
-        setLoadMore$Empty(R.layout.layout_for_empty, adapter, listener);
+        BRVUtils.setLoadMore$Empty(adapter, listener);
     }
 
     protected void setLoadMore$Empty(@LayoutRes int emptyLayoutRes, BaseQuickAdapter adapter, OnLoadMoreListener listener) {
-        if (adapter instanceof LoadMoreModule) {
-            //上拉加载更多
-            adapter.getLoadMoreModule().setOnLoadMoreListener(listener);
-            //空布局
-            setEmptyView(emptyLayoutRes, adapter);
-        } else {
-            throw new IllegalStateException("BaseQuickAdapter 需要实现 LoadMoreModule 接口, 才能上拉加载更多!");
-        }
+        BRVUtils.setLoadMore$Empty(emptyLayoutRes, adapter, listener);
     }
 
     /**
      * 获取'下拉刷新/上拉加载'列表page, 如果和项目逻辑不符合, 可重写此方法
-     * @param isRefresh 是否是下拉刷新
      * @param adapter   列表Adapter extends BaseQuickAdapter
+     * @param isRefresh 是否是下拉刷新
      * @param size      每次加载多少条
      * @return
      * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
@@ -417,11 +390,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      *     </tr>
      * </table>
      */
-    protected int getPage(boolean isRefresh, @NonNull BaseQuickAdapter adapter, int size) {
-        if (isRefresh) return 1;
-        int currentSize = adapter.getData().size();//目前列表数据条数
-        if (currentSize < size) return 1;
-        return currentSize / size + 1;
+    protected int getPage(@NonNull BaseQuickAdapter adapter, boolean isRefresh, int size) {
+        return BRVUtils.getPage(adapter, isRefresh, size);
     }
 
     /**
@@ -430,13 +400,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      * @param size 每次加载多少条
      */
     protected void setLoadMoreState(@NonNull BaseQuickAdapter adapter, @Nullable List<?> list, int size) {
-        //"list = null"     or     "list为空"     or     "list < size"(比如一次获取20条, 但是只返回15条, 说明服务器没有更多数据了)
-        boolean isLoadMoreEnd = list == null || list.size() < size;
-        if (isLoadMoreEnd) {
-            adapter.getLoadMoreModule().loadMoreEnd();//已经没有数据了
-        } else {
-            adapter.getLoadMoreModule().loadMoreComplete();//加载完成
-        }
+        BRVUtils.setLoadMoreState(adapter, list, size);
     }
 
     /**
@@ -444,9 +408,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      * @param total   服务器返回的数据总数(如果后端返回了total的话...)
      */
     protected void setLoadMoreState(@NonNull BaseQuickAdapter adapter, int total) {
-        if (adapter.getData().size() < total) {
-            adapter.getLoadMoreModule().loadMoreComplete();//加载完成
-        } else adapter.getLoadMoreModule().loadMoreEnd();//已经没有数据了
+        BRVUtils.setLoadMoreState(adapter, total);
     }
 
 
@@ -460,7 +422,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         super.onMultiWindowModeChanged(isInMultiWindowMode);
-        logFormat("分屏: onMultiWindowModeChanged: isInMultiWindowMode = %b", isInMultiWindowMode);
+        LogUtils.errorFormat("分屏: onMultiWindowModeChanged: isInMultiWindowMode = %b", isInMultiWindowMode);
     }
 
     @Override
