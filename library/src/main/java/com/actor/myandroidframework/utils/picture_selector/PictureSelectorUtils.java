@@ -15,15 +15,17 @@ import androidx.fragment.app.Fragment;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.video.VideoProcessorUtils;
-import com.luck.picture.lib.PictureSelectionModel;
-import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.basic.PictureSelectionModel;
+import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.config.PictureSelectionConfig;
+import com.luck.picture.lib.config.SelectMimeType;
+import com.luck.picture.lib.config.SelectModeConfig;
 import com.luck.picture.lib.engine.ImageEngine;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.listener.OnResultCallbackListener;
-import com.luck.picture.lib.tools.PictureFileUtils;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+import com.luck.picture.lib.utils.PictureFileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,17 +144,67 @@ public class PictureSelectorUtils {
     /**
      * 单选/多选 图片
      * @param model 图片选择配置, 可自定义
-     * @param listener 回调监听
+     * @param listener 回调监听 <br />
      *
-     *  @see LocalMedia#getPath();          // content://media/external/file/116272
-     *  @see LocalMedia#getRealPath();      // /storage/emulated/0/news_article/a9f5fb.png
-     *  @see LocalMedia#getAndroidQToPath();// null, 只有 "Version >= Android Q(Android 10.0, API Level 29)" 才返回
-     *  @see LocalMedia#getCompressPath();  // null, "压缩"后才有值
-     *  @see LocalMedia#getCutPath();       // null, "裁剪"后才有值
-     *  @see LocalMedia#getOriginalPath();  // null, 选择"原图"后才有值
+     *  <a href="https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-3.0-LocalMedia%E8%AF%B4%E6%98%8E" target="_blank">PictureSelector 3.0 LocalMedia说明</a> <br />
+     *
+     *  <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *      <tr>
+     *          <th align="center">方法</th>
+     *          <th align="center">返回示例</th>
+     *          <th align="center">说明</th>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getAvailablePath()}</td>
+     *          <td></td>
+     *          <td>SDK_INT为任意版本都返回直接可用地址(但SDK_INT >29且未开启压缩、裁剪或未实现setSandboxFileEngine，请参考getPath())，但如果你需要具体业务场景下的地址，请参考如上几种路径；</td>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getCompressPath()}</td>
+     *          <td>null</td>
+     *          <td>压缩路径；实现了setCompressEngine();时返回；</td>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getCutPath()}</td>
+     *          <td>null</td>
+     *          <td>裁剪或编辑路径；实现了setCropEngine();或setEditMediaInterceptListener();时返回；</td>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getOriginalPath()}</td>
+     *          <td>null</td>
+     *          <td>原图路径；isOriginalImageControl(true); 且勾选了原图选项时返回；但SDK_INT >=29且未实现.setSandboxFileEngine(); 直接使用会报FileNotFoundException异常；</td>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getPath()}</td>
+     *          <td>content://media/external/file/116272</td>
+     *          <td>指从MediaStore查询返回的路径；SDK_INT >=29 返回content://类型；其他情况返回绝对路径。</td>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getRealPath()}</td>
+     *          <td>/storage/emulated/0/news_article/a9f5fb.png</td>
+     *          <td>绝对路径；SDK_INT >=29且处于沙盒环境下直接使用会报FileNotFoundException异常；</td>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getSandboxPath()}</td>
+     *          <td></td>
+     *          <td>SDK_INT >=29且实现了.setSandboxFileEngine();返回；</td>
+     *      </tr>
+     *      <tr>
+     *          <td nowrap="nowrap">{@link LocalMedia#getVideoThumbnailPath()}</td>
+     *          <td></td>
+     *          <td>视频缩略图，需要实现setVideoThumbnailListener接口</td>
+     *      </tr>
+     *      <tr>
+     *          <td>{@link LocalMedia#getWatermarkPath()}</td>
+     *          <td></td>
+     *          <td>水印地址，需要实现setAddBitmapWatermarkListener接口</td>
+     *      </tr>
+     *  </table>
      */
     public static void selectImage$s(PictureSelectionModel model, OnResultCallbackListener<LocalMedia> listener) {
-        model.forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
+//        model.forResult(requestCode); //结果回调 onActivityResult()
+//        model.forResult(ActivityResultLauncher<Intent> launcher);
+        model.forResult(listener);      //结果回调 OnResultCallbackListener
     }
 
     /**
@@ -168,31 +220,29 @@ public class PictureSelectorUtils {
                                                                  boolean showGif, boolean isCompress,
                                                                  List<LocalMedia> selectionData, boolean singleSelect,
                                                                  int maxSelect) {
-        PictureSelectionModel model = selector.openGallery(PictureMimeType.ofImage())//相册 媒体类型 PictureMimeType.ofAll()、ofImage()、ofVideo()、ofAudio()
-                .imageEngine(getImageEngine())
-                .selectionMode(singleSelect ? PictureConfig.SINGLE : PictureConfig.MULTIPLE)//单选or多选 PictureConfig.SINGLE PictureConfig.MULTIPLE
-                .isCamera(showCamera)//列表是否显示拍照按钮
-//                .imageFormat(PictureMimeType.JPEG)//拍照图片格式后缀,默认jpeg, PictureMimeType.PNG，Android Q使用PictureMimeType.PNG_Q
-//                .maxSelectNum(9)//最大选择数量,默认9张
-//                .minSelectNum(0)// 最小选择数量
-//                .imageSpanCount(4)//列表每行显示个数
-//                .selectionMedia(selectionData)//@Deprecated 是否传入已选图片
-                .selectionData(selectionData)
-                .isGif(showGif)//是否显示gif, 默认false
-                .isCompress(isCompress)//是否压缩图片, 默认false
-                .synOrAsy(false);//同步true或异步false 压缩 默认同步
-        //如果多选
-        if (!singleSelect) {
-            model.maxSelectNum(maxSelect);//最大选择数量,默认9张
-        }
-
-        //屏幕旋转方向, 默认: ActivityInfo.SCREEN_ORIENTATION_SENSOR
-        model.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//屏幕旋转方向 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED ...
-//                .isOriginalImageControl(false)//开启原图选项
-                .isAutomaticTitleRecyclerTop(false)//图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
-//                .setOutputCameraPath("")// 自定义相机输出目录只针对Android Q以下版本，具体参考Demo
-        ;
-        return model;
+        return selector.dataSource()
+                .isBmp()
+                .isGif()
+                .isPageStrategy()
+                .isPageStrategy()
+                .isPageStrategy()
+                .isWebp()
+//                .themeStyle(R.style.picture_default_style)        //demo有这个属性, 实际没有...
+                .openGallery(SelectMimeType.ofImage())//相册 媒体类型
+                .setImageEngine(getImageEngine())
+                .setSelectionMode(singleSelect ? SelectModeConfig.SINGLE : SelectModeConfig.MULTIPLE)//单选or多选
+                .isDisplayCamera(showCamera)    //列表是否显示拍照按钮
+                .setCameraImageFormat(PictureMimeType.JPEG)//拍照图片格式后缀,默认jpeg
+                .setMaxSelectNum(maxSelect)     //最大选择数量,默认9张
+//                .setMinSelectNum(0)           // 最小选择数量
+//                .setImageSpanCount(4)         //列表每行显示个数
+                .setSelectedData(selectionData) //传入已选图片
+                .isGif(showGif)                 //是否显示gif, 默认false
+                .isOriginalSkipCompress(!isCompress)//是否选择原图, 不压缩图片. 默认false
+//                .synOrAsy(false)              //同步true或异步false 压缩 默认同步
+//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//屏幕旋转方向, 默认: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                .isOriginalControl(false)       //开启原图☑选项, 默认false
+                .isAutomaticTitleRecyclerTop(false);//图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
     }
 
 
@@ -286,35 +336,19 @@ public class PictureSelectorUtils {
     public static PictureSelectionModel getVideoSelectionModel(PictureSelector selector, boolean showCamera, boolean singleSelect,
                                                                List<LocalMedia> selectionData, int maxSelect, int maxSecond,
                                                                int minSecond) {
-        PictureSelectionModel selectionModel = selector.openGallery(PictureMimeType.ofVideo())//相册 媒体类型 PictureMimeType.ofAll()、ofImage()、ofVideo()、ofAudio()
-                .imageEngine(getImageEngine())
-                .selectionMode(singleSelect ? PictureConfig.SINGLE : PictureConfig.MULTIPLE)//单选or多选 PictureConfig.SINGLE PictureConfig.MULTIPLE
-                .isCamera(showCamera)//列表是否显示拍照按钮
-//                .isCompress()     //视频不支持压缩, 请自行压缩
-                ;
-        if (!singleSelect) {
-            selectionModel.maxVideoSelectNum(maxSelect);//视频最大选择数量,默认4
-        }
-//                .minVideoSelectNum(0)//视频最小选择数量
-        selectionModel.videoMaxSecond(maxSecond)// 查询多少秒以内的视频, 默认0
-                .videoMinSecond(minSecond)// 查询多少秒以内的视频, 默认0
-//                .selectionMedia(selectionData)//@Deprecated 是否传入已选图片
-                .selectionData(selectionData)
-//                .recordVideoSecond(60)//录制视频秒数 默认60s
-//                .previewVideo(true)//是否预览视频
-
-//                .queryMaxFileSize(-1)//查询指定大小内的图片、视频、音频大小，单位M
-
-                //屏幕旋转方向, 默认: ActivityInfo.SCREEN_ORIENTATION_SENSOR
-                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//屏幕旋转方向 ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED ...
-//                .bindCustomPlayVideoCallback(null)//自定义视频播放拦截
-//                .cameraFileName("")//自定义拍照文件名，如果是相册内拍照则内部会自动拼上当前时间戳防止重复
-//                .isUseCustomCamera(false)// 开启自定义相机
-//                .setButtonFeatures(CustomCameraView.BUTTON_STATE_BOTH)// 自定义相机按钮状态,CustomCameraView.BUTTON_STATE_BOTH
-                .isAutomaticTitleRecyclerTop(false)//图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
-//                .setOutputCameraPath("")// 自定义相机输出目录只针对Android Q以下版本，具体参考Demo
-        ;
-        return selectionModel;
+        return selector.openGallery(SelectMimeType.ofVideo())
+                .setImageEngine(getImageEngine())
+                .setSelectionMode(singleSelect ? SelectModeConfig.SINGLE : SelectModeConfig.MULTIPLE)//单选or多选
+                .isDisplayCamera(showCamera)        //列表是否显示拍照按钮
+                .setMaxVideoSelectNum(maxSelect)    //最大选择数量,默认1个
+//                .setMinVideoSelectNum(0)          //视频最小选择数量
+                .setSelectedData(selectionData)
+//                .setCompressEngine()              //视频不支持压缩, 请自行压缩
+//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//屏幕旋转方向, 默认: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+//                .isOriginalControl(false)         //开启原图☑选项, 默认false, 视频没有这选项?
+                .isAutomaticTitleRecyclerTop(false) //图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
+                .setFilterVideoMaxSecond(maxSecond) // 查询多少秒以内的视频, 默认0
+                .setFilterVideoMinSecond(minSecond);
     }
 
 
@@ -478,9 +512,9 @@ public class PictureSelectorUtils {
      * @param listener 返回监听, 这儿没用, 传null
      */
     protected static void recordAudio(PictureSelector selector, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
-        selector.openCamera(PictureMimeType.ofAudio())
+        selector.openCamera(SelectMimeType.ofAudio())
 //                .selectionMode(PictureConfig.SINGLE)
-                .selectionData(selectionData)
+                .setSelectedData(selectionData)
                 .forResult(listener);
     }
 
@@ -502,10 +536,10 @@ public class PictureSelectorUtils {
     }
 
     protected static void selectAudio$s(PictureSelector selector, @IntRange(from = 1) int maxSelect, List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {
-        selector.openGallery(PictureMimeType.ofAudio())
-                .selectionMode(maxSelect <= 1 ? PictureConfig.SINGLE : PictureConfig.MULTIPLE)//单选or多选 PictureConfig.SINGLE PictureConfig.MULTIPLE
+        selector.openGallery(SelectMimeType.ofAudio())
+                .setSelectionMode(maxSelect <= 1 ? SelectModeConfig.SINGLE : SelectModeConfig.MULTIPLE)//单选or多选
 //                .selectionMedia(selectionData)//@Deprecated 是否传入已选音频
-                .selectionData(selectionData)
+                .setSelectedData(selectionData)
 //                .enablePreviewAudio(true)//是否预览音频
 //                .isEnablePreviewAudio(true)
                 .forResult(/*requestCode, */listener);//结果回调分两种方式onActivityResult()和OnResultCallbackListener方式
@@ -550,8 +584,26 @@ public class PictureSelectorUtils {
      * @param medias 图片集合, 如果是一张图片, 请务必传入: java.util.ArrayList<>();
      */
     public static void previewImageVideos(Activity activity, boolean longPressDownload, int position, List<LocalMedia> medias) {
+
+        selector.openGallery(SelectMimeType.ofImage())//相册 媒体类型
+                .setImageEngine(getImageEngine())
+                .setSelectionMode(singleSelect ? SelectModeConfig.SINGLE : SelectModeConfig.MULTIPLE)//单选or多选
+                .isDisplayCamera(showCamera)    //列表是否显示拍照按钮
+                .setCameraImageFormat(PictureMimeType.JPEG)//拍照图片格式后缀,默认jpeg
+                .setMaxSelectNum(maxSelect)     //最大选择数量,默认9张
+//                .setMinSelectNum(0)           // 最小选择数量
+//                .setImageSpanCount(4)         //列表每行显示个数
+                .setSelectedData(selectionData) //传入已选图片
+                .isGif(showGif)                 //是否显示gif, 默认false
+                .isOriginalSkipCompress(!isCompress)//是否选择原图, 不压缩图片. 默认false
+//                .synOrAsy(false)              //同步true或异步false 压缩 默认同步
+//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)//屏幕旋转方向, 默认: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                .isOriginalControl(false)       //开启原图☑选项, 默认false
+                .isAutomaticTitleRecyclerTop(false);//图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
+
+
         PictureSelector.create(activity)
-                .themeStyle(R.style.picture_default_style)
+//                .themeStyle(R.style.picture_default_style)
                 .isNotPreviewDownload(longPressDownload)         //预览不显示下载
 //                .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
                 .imageEngine(getImageEngine())
@@ -606,7 +658,7 @@ public class PictureSelectorUtils {
 
 
     /**
-     * PictureSelector Api说明 https://github.com/LuckSiege/PictureSelector/wiki/PictureSelector-Api%E8%AF%B4%E6%98%8E
+     * <a href="https://github.com/LuckSiege/PictureSelector/blob/version_component/app/src/main/java/com/luck/pictureselector/MainActivity.java" target="_blank">MainActivity.java (PictureSelector Api配置大全)</a> <br />
      * 括号内填的参数是 "默认参数"
      */
     private void selectFile(List<LocalMedia> selectionData, OnResultCallbackListener<LocalMedia> listener) {

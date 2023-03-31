@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -131,7 +131,7 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                 case TYPE_SELECT_AUDIO://选择音频
                                     PictureSelectorUtils.selectAudio(topActivity, maxFiles, localMedias, new OnResultCallbackListener<LocalMedia>() {
                                         @Override
-                                        public void onResult(List<LocalMedia> result) {
+                                        public void onResult(ArrayList<LocalMedia> result) {
                                             localMedias.clear();
                                             localMedias.addAll(result);
                                             result.add(EXTRA_LAST_MEDIA);
@@ -146,7 +146,7 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                 case TYPE_RECORD_SELECT_AUDIO://录制音频&选择音频
                                     PictureSelectorUtils.selectAudio(topActivity, maxFiles, localMedias, new OnResultCallbackListener<LocalMedia>() {
                                         @Override
-                                        public void onResult(List<LocalMedia> result) {
+                                        public void onResult(ArrayList<LocalMedia> result) {
                                             localMedias.clear();
                                             localMedias.addAll(result);
                                             result.add(EXTRA_LAST_MEDIA);

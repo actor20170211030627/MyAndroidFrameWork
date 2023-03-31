@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,21 +14,20 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
 import com.actor.myandroidframework.service.BaseService;
-import com.actor.myandroidframework.sharedelement.BaseSharedElementCallback;
-import com.actor.myandroidframework.sharedelement.SharedElementAble;
-import com.actor.myandroidframework.sharedelement.SharedElementUtils;
+import com.actor.myandroidframework.utils.BRVUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
+import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
+import com.actor.myandroidframework.utils.sharedelement.SharedElementA;
+import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
-import com.chad.library.adapter.base.module.LoadMoreModule;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,14 +41,13 @@ import java.util.Map;
  *
  * @version 1.0
  */
-public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkLoadingDialogable, SharedElementAble {
+public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkLoadingDialogable {
 
 //    protected CacheDiskUtils aCache = ActorApplication.instance.aCache;
 
     //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
     protected AppCompatActivity         activity;
     protected Map<String, Object>       params = new LinkedHashMap<>();
-    protected BaseSharedElementCallback sharedElementCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +56,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         logError(getClass().getName());
         //设置屏幕朝向,在setContentView之前
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        sharedElementCallback = SharedElementUtils.getSharedElementCallback(this, this);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -76,10 +71,15 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     /**
      * 共享元素方式跳转
      * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.
+     * @param sharedElementA 如果A界面需要更新position, 需要 implements SharedElementA
+     * @param sharedElementCallback 共享元素跳转回调
      * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
-    public void startActivity(Intent intent, boolean isNeedUpdatePosition, @NonNull View... sharedElements) {
-        SharedElementUtils.startActivity(this, this, intent, isNeedUpdatePosition, sharedElementCallback, sharedElements);
+    public void startActivity(Intent intent, boolean isNeedUpdatePosition,
+                              @Nullable SharedElementA sharedElementA,
+                              @Nullable BaseSharedElementCallback sharedElementCallback,
+                              @NonNull View... sharedElements) {
+        SharedElementUtils.startActivity(this, intent, isNeedUpdatePosition, sharedElementA, sharedElementCallback, sharedElements);
     }
 
     @Override
@@ -91,59 +91,17 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
 
     /**
      * 共享元素方式跳转
-     *
+     * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.
+     * @param sharedElementA 如果A界面需要更新position, 需要 implements SharedElementA
+     * @param sharedElementCallback 共享元素跳转回调
      * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
-    public void startActivityForResult(Intent intent, int requestCode, boolean isNeedUpdatePosition, @NonNull View... sharedElements) {
-        SharedElementUtils.startActivityForResult(this, this, intent, requestCode, isNeedUpdatePosition, sharedElementCallback, sharedElements);
-    }
-
-    /**
-     * B界面返回A界面
-     *
-     * @param requestCode
-     * @param data B界面setResult(RESULT_OK, data);返回的值, 即使A界面startActivity, 只要B界面setResult有值, 都能收到
-     */
-    @Override
-    public void onActivityReenter(int requestCode, Intent data) {
-        super.onActivityReenter(requestCode, data);
-        SharedElementUtils.onActivityReenter(this, sharedElementCallback, data);
-    }
-
-    /**
-     * RecyclerView <--> ViewPager, 共享元素跳转
-     */
-    @Override
-    @NonNull
-    public View sharedElementPositionChanged(int oldPosition, int currentPosition) {
-        return null;
-    }
-
-    /***
-     * B界面返回A界面, 且position发生了改变. A界面重写此方法, 更新共享元素位置
-     * @param oldPosition
-     * @param currentPosition
-     */
-    @Override
-    public void onSharedElementBacked(int oldPosition, int currentPosition) {
-    }
-
-    /**
-     * 共享元素跳转, B界面返回A界面时, super.onBackPressed();之前调用这个方法
-     *
-     * @param intent          用于返回A界面值的intent
-     * @param oldPosition     从A界面跳过来时的position
-     * @param currentPosition B界面现在的position, 用于A界面元素共享动画跳转到这个位置
-     */
-    protected void onBackPressedSharedElement(Intent intent, int oldPosition, int currentPosition) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (sharedElementCallback != null) {
-                sharedElementCallback.set(true, oldPosition, currentPosition);
-                intent.putExtra(BaseSharedElementCallback.EXTRA_START_POSITION, oldPosition);
-                intent.putExtra(BaseSharedElementCallback.EXTRA_CURRENT_POSITION, currentPosition);
-            }
-        }
-        setResult(RESULT_OK, intent);
+    public void startActivityForResult(Intent intent, int requestCode, boolean isNeedUpdatePosition,
+                                       @Nullable SharedElementA sharedElementA,
+                                       @Nullable BaseSharedElementCallback sharedElementCallback,
+                                       @NonNull View... sharedElements) {
+        SharedElementUtils.startActivityForResult(this, intent, requestCode, isNeedUpdatePosition,
+                sharedElementA, sharedElementCallback, sharedElements);
     }
 
     @Override
@@ -208,7 +166,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     ///////////////////////////////////////////////////////////////////////////
     // 判空区
     ///////////////////////////////////////////////////////////////////////////
-
     /**
      * 只要有一个为空, 就返回true
      */

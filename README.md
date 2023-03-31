@@ -35,7 +35,7 @@ api 'com.blankj:utilcodex:1.31.0'
 api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
 <li>//https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频
-api 'io.github.lucksiege:pictureselector:v2.7.3-rc05'
+api 'io.github.lucksiege:pictureselector:v3.10.7'
 </li>
 <li>//https://gitee.com/getActivity/XXPermissions 轮子哥权限
 //https://github.com/getActivity/XXPermissions
