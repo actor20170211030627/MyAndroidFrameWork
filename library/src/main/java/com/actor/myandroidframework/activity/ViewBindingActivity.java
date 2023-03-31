@@ -52,7 +52,7 @@ public class ViewBindingActivity<VB extends ViewBinding> extends ActorBaseActivi
         if (needInitViewBinding) {
             viewBinding = ViewBindingUtils.initViewBinding(this);
             if (viewBinding != null) {
-                super.setContentView(viewBinding.getRoot());
+                setContentView(viewBinding.getRoot());
             }
         }
     }
