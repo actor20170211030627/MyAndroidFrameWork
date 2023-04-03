@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -55,9 +55,9 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
     private final int              lastItemPic;//最后一个Item显示的图片
     @DrawableRes
     private final int              deletePic;//删除按钮图片
-    private final List<LocalMedia> localMedias = new ArrayList<>();
+    private final List<LocalMedia>                      localMedias = new ArrayList<>();
     //item点击
-    private AddLocalMediaAble.OnItemClickListener itemClickListener;
+    private final AddLocalMediaAble.OnItemClickListener itemClickListener;
 
     public AddPicAdapter(int maxFile, @SelectType int type) {
         this(maxFile, type, null);
@@ -111,47 +111,54 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                             }
                             switch (selectType) {
                                 case TYPE_TAKE_PHOTO://拍照
-                                    /**
-                                     * 需要添加权限: <uses-permission android:name="android.permission.CAMERA" />
-                                     */
-                                    PictureSelectorUtils.takePhoto(topActivity, new OnResultCallbackListener<LocalMedia>() {
+                                    PictureSelectorUtils.create(topActivity, localMedias)
+                                            .takePhoto(true)
+                                            .setMaxSelect(maxFiles)
+                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
                                         @Override
-                                        public void onResult(List<LocalMedia> result) {
-                                            LocalMedia localMedia = result.get(0);
-                                            localMedias.add(localMedia);
-                                            addData(getData().size() - 1, localMedia);
+                                        public void onResult(ArrayList<LocalMedia> result) {
+                                            //result和localMedias不是同一个对象
+                                            localMedias.clear();
+                                            localMedias.addAll(result);
+                                            result.add(EXTRA_LAST_MEDIA);
+                                            setNewData(result);
                                         }
-
                                         @Override
                                         public void onCancel() {
                                         }
                                     });
                                     break;
                                 case TYPE_SELECT_PHOTO://选择图片
-                                    PictureSelectorUtils.selectImages(topActivity, false, false, localMedias, maxFiles, new OnResultCallbackListener<LocalMedia>() {
+                                    PictureSelectorUtils.create(topActivity, localMedias)
+                                            .selectImage(true)
+                                            .setMaxSelect(maxFiles)
+                                            .setShowCamera(false)
+                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
                                         @Override
-                                        public void onResult(List<LocalMedia> result) {
+                                        public void onResult(ArrayList<LocalMedia> result) {
                                             localMedias.clear();
                                             localMedias.addAll(result);
                                             result.add(EXTRA_LAST_MEDIA);
                                             setNewData(result);
                                         }
-
                                         @Override
                                         public void onCancel() {
                                         }
                                     });
                                     break;
                                 case TYPE_TAKE_SELECT_PHOTO://拍照&选择图片
-                                    PictureSelectorUtils.selectImages(topActivity, true, false, localMedias, maxFiles, new OnResultCallbackListener<LocalMedia>() {
+                                    PictureSelectorUtils.create(topActivity, localMedias)
+                                            .selectImage(true)
+                                            .setMaxSelect(maxFiles)
+                                            .setShowCamera(true)
+                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
                                         @Override
-                                        public void onResult(List<LocalMedia> result) {
+                                        public void onResult(ArrayList<LocalMedia> result) {
                                             localMedias.clear();
                                             localMedias.addAll(result);
                                             result.add(EXTRA_LAST_MEDIA);
                                             setNewData(result);
                                         }
-
                                         @Override
                                         public void onCancel() {
                                         }
@@ -165,7 +172,7 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                     } else {//预览
                         Activity topActivity = ActivityUtils.getTopActivity();
                         if (topActivity != null && !topActivity.isDestroyed()) {
-                            PictureSelectorUtils.previewImageVideos(topActivity, false, position, localMedias);
+                            PictureSelectorUtils.create(topActivity, localMedias).openPreview().preview(position, false);
                         }
                     }
                 } else if (id == R.id.iv_delete_for_file_select) {//删除

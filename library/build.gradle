@@ -90,29 +90,24 @@ dependencies {
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     //https://github.com/greenrobot/EventBus
-    api 'org.greenrobot:eventbus:3.2.0'
+    api 'org.greenrobot:eventbus:3.3.1'
 
     //https://github.com/Blankj/AndroidUtilCode 许多工具
-    api 'com.blankj:utilcodex:1.31.0'
+    api 'com.blankj:utilcodex:1.31.1'
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     //TODO 考虑使用: https://github.com/liangjingkanji/BRV
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 
-    //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频(minSdkVersion 21)
-    api 'io.github.lucksiege:pictureselector:v2.7.3-rc05'
-    //TODO 改动较大, 没时间替换
-//    api 'io.github.lucksiege:pictureselector:v3.10.2'
-
-    //https://gitee.com/getActivity/XXPermissions 轮子哥权限
+    //https://gitee.com/getActivity/XXPermissions 轮子哥权限(Android 10需要适配分区存储特性)
     //https://github.com/getActivity/XXPermissions
-    api 'com.github.getActivity:XXPermissions:13.2'
+    api 'com.github.getActivity:XXPermissions:16.6'
 
     //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
     api 'com.contrarywind:Android-PickerView:4.1.9'
 
-    //https://github.com/li-xiaojun/XPopup 各种Dialog & Popup, compileSdkVersion 29
-    api 'com.github.li-xiaojun:XPopup:2.8.3'
+    //https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
+    api 'com.github.li-xiaojun:XPopup:2.9.19'
 
     //https://github.com/square/okhttp
     api "com.squareup.okhttp3:okhttp:4.9.2"

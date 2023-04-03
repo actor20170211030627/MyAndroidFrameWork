@@ -57,7 +57,7 @@ import java.util.List;
  *       implementation "androidx.sqlite:sqlite:2.1.0"
  *    }
  *
- * 3.写一个你想要存储到 GreenDao 的实体类, 示例: } <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/database/ItemEntity.java" targt="_blank">ItemEntity.java</a>
+ * 3.写一个你想要存储到 GreenDao 的实体类, 示例: } <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/database/ItemEntity.java" target="_blank">ItemEntity.java</a>
  *
  * {@code
  * 4.Build -> Make Project, 生成 DaoMaster.java, DaoSession.java, ItemEntityDao.java
@@ -68,7 +68,7 @@ import java.util.List;
  * 6.获取某个Dao示例:
  *   ItemEntityDao dao = GreenDaoUtils.getDaoSession().getItemEntityDao();//ItemEntityDao是生成的文件
  *
- * 7.数据库操作使用示例: } <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java" targt="_blank">DatabaseActivity.java</a>
+ * 7.数据库操作使用示例: } <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/DatabaseActivity.java" target="_blank">DatabaseActivity.java</a>
  *
  * 8.数据库 删/改/查 的条件查询, 从 {@link WhereCondition} 的一些方法开始:
  *   ItemEntityDao.Properties properties = ItemEntityDao.Properties;
@@ -239,7 +239,7 @@ import java.util.List;
  *
  * <br />
  * <br />
- * 9.更多信息参考: <a href="https://www.jianshu.com/p/53083f782ea2" targt="_blank">简书</a>
+ * 9.更多信息参考: <a href="https://www.jianshu.com/p/53083f782ea2" target="_blank">简书</a>
  * <br />
  * Author     : ldf
  * Date       : 2019/10/28 on 22:53

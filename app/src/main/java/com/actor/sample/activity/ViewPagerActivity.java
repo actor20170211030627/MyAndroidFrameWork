@@ -42,6 +42,7 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> im
         viewPager.setCurrentItem(startPosition);
     }
 
+    //3.重写接口 SharedElementAble 的方法
     @Override
     @NonNull
     public View sharedElementPositionChanged(int oldPosition, int currentPosition) {

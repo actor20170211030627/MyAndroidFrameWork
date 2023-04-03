@@ -3,10 +3,12 @@ package com.actor.myandroidframework.utils;
 import android.view.View;
 
 import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+
+import com.blankj.utilcode.util.ClickUtils;
 
 /**
- * description: 双击工具类 <br />
- * {@link com.blankj.utilcode.util.ClickUtils#applySingleDebouncing(View, View.OnClickListener)}
+ * description: 点击工具类 <br />
  *
  * Author     : ldf <br />
  * date       : 2021/2/7 on 13
@@ -18,43 +20,37 @@ public class ClickUtils2 {
      * 点击间隔
      * @see com.blankj.utilcode.util.ClickUtils#DEBOUNCING_DEFAULT_VALUE
      */
-    protected static final int                   DEBOUNCING_DEFAULT_VALUE = 200;
-    /**
-     * 点击的Tag
-     * @see com.blankj.utilcode.util.ClickUtils#DEBOUNCING_TAG
-     */
-    protected static final int  DEBOUNCING_TAG           = -7;
+    protected static final int        DEBOUNCING_DEFAULT_VALUE = 200;
 
     /**
-     * @return 是否是消除抖动点击, 防止快速点击
+     * 对单视图应用防抖点击. (请勿重复调用添加点击事件)
+     * @param listener 点击监听
      */
-    public static boolean isDebouncingClick(View view) {
-        return isDebouncingClick(view, DEBOUNCING_DEFAULT_VALUE);
+    public static void applySingleDebouncing(View view, @NonNull View.OnClickListener listener) {
+        applySingleDebouncing(view, DEBOUNCING_DEFAULT_VALUE, listener);
     }
 
     /**
-     * 是否是消除抖动点击, 防止快速点击
+     * 对单视图应用防抖点击. (请勿重复调用添加点击事件)
+     * @see com.blankj.utilcode.util.ClickUtils#applySingleDebouncing(View, View.OnClickListener)
      * @param duration 点击间隔, 单位ms
+     * @param listener 点击监听
      */
-    public static boolean isDebouncingClick(View view, @IntRange(from = 0) int duration) {
-        long curTime = System.currentTimeMillis();
-        Object tag = view.getTag(DEBOUNCING_TAG);
-        //如果第一次点击
-        if (!(tag instanceof Long)) {
-            view.setTag(DEBOUNCING_TAG, curTime);
-            return true;
-        }
-        long preTime = (Long) tag;
-        //如果时间错乱
-        if (curTime < preTime) {
-            //重设时间
-            view.setTag(DEBOUNCING_TAG, curTime);
-            return false;
-        } else if (curTime - preTime <= duration) {
-            //如果在间隔时间内
-            return false;
-        }
-        view.setTag(DEBOUNCING_TAG, curTime);
-        return true;
+    public static void applySingleDebouncing(View view, @IntRange(from = 0) int duration, @NonNull View.OnClickListener listener) {
+        ClickUtils.applySingleDebouncing(view, duration, listener);
+    }
+
+
+    /**
+     * 是否在 规定时间 内, 点击了 m 次. (请勿重复调用添加点击事件)
+     * @param multiClickListener 多次点击监听, 需要传入1个/2个参数: <br />
+     *            参1: int triggerClickCount: 点击次数 <br />
+     *            参2: long clickInterval   : 点击间隔. 比如1秒(1000ms)内需要点击5次, 值=1000/5=200 <br />
+     *        需要重写2个方法: <br />
+     * {@link com.blankj.utilcode.util.ClickUtils.OnMultiClickListener#onTriggerClick(View) onTriggerClick(View)}: 当规定时间内点击了m次, 会回调这个方法. <br />
+     * {@link com.blankj.utilcode.util.ClickUtils.OnMultiClickListener#onBeforeTriggerClick(View, int) onBeforeTriggerClick(View, int)}: 发生了点击, 但没有触发↑的事件.
+     */
+    public static void setMultiClicksInSends(View view, ClickUtils.OnMultiClickListener multiClickListener) {
+        view.setOnClickListener(multiClickListener);
     }
 }

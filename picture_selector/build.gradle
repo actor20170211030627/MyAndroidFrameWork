@@ -1,0 +1,80 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode         rootProject.ext.android.versionCode
+        versionName         rootProject.ext.android.versionName
+
+        consumerProguardFiles "consumer-rules.pro"
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
+    // 打包源码jar
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+    task javadoc(type: Javadoc) {
+        failOnError false
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.compile
+    }
+    // 打包文档jar
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+    // javadoc configuration
+    javadoc {
+        options{
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/7/docs/api"
+//            title javadocName
+        }
+    }
+
+    //Android8, 在android节点内添加
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //基础库
+    compileOnly project(path: ':library')
+
+
+    //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频(minSdkVersion 21)
+    api 'io.github.lucksiege:pictureselector:v3.10.8'
+
+    // 图片压缩 (按需引入)
+    compileOnly 'io.github.lucksiege:compress:v3.10.8'
+
+    // 图片裁剪 (按需引入)
+    compileOnly 'io.github.lucksiege:ucrop:v3.10.8'
+
+    // 自定义相机 (按需引入)
+    compileOnly 'io.github.lucksiege:camerax:v3.10.8'
+}

@@ -4,6 +4,8 @@
     1.在res目录下新建xml目录
     2.将这个文件放到xml目录下
     3.在清单文件的<application中添加: android:networkSecurityConfig="@xml/network_security_config"
+
+    或者直接在<application 标签添加 android:usesCleartextTraffic="true" 属性
     -->
 <network-security-config>
     <base-config cleartextTrafficPermitted="true" />

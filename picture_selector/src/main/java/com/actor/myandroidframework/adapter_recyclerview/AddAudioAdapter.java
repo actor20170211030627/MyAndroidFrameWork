@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -31,18 +31,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * description: 添加视频, 使用示例: {@link AddLocalMediaAble}
+ * description: 添加音频, 目前只有选择音频功能, 使用示例: {@link AddLocalMediaAble}
  *
  * @author : ldf
  * date       : 2020/9/18 on 20:28
  * @version 1.0
  */
-public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, BaseViewHolder> implements AddLocalMediaAble<UploadInfo> {
+public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, BaseViewHolder> implements AddLocalMediaAble<UploadInfo> {
 
-    public static final int TYPE_TAKE_VIDEO        = 0;//拍视频
-    public static final int TYPE_SELECT_VIDEO      = 1;//选择视频
-    public static final int TYPE_TAKE_SELECT_VIDEO = 2;//拍视频&选择视频
-    @IntDef({TYPE_TAKE_VIDEO, TYPE_SELECT_VIDEO, TYPE_TAKE_SELECT_VIDEO})
+    public static final int TYPE_RECORD_AUDIO        = 0;//录制音频
+    public static final int TYPE_SELECT_AUDIO        = 1;//选择音频
+    public static final int TYPE_RECORD_SELECT_AUDIO = 2;//录制音频&选择音频
+    @IntDef({TYPE_RECORD_AUDIO, TYPE_SELECT_AUDIO, TYPE_RECORD_SELECT_AUDIO})
     @Retention(RetentionPolicy.SOURCE)
     @Target({ElementType.FIELD, ElementType.PARAMETER})
     @interface SelectType {
@@ -55,33 +55,38 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
     private final int              lastItemPic;//最后一个Item显示的图片
     @DrawableRes
     private final int              deletePic;//删除按钮图片
-    private final List<LocalMedia> localMedias = new ArrayList<>();
+    @DrawableRes
+    private final int              normalItemPic;//已选择Item显示的图片
+    private final List<LocalMedia>                      localMedias = new ArrayList<>();
     //item点击
-    private AddLocalMediaAble.OnItemClickListener itemClickListener;
+    private final AddLocalMediaAble.OnItemClickListener itemClickListener;
 
-    public AddVideoAdapter(int maxFile, @SelectType int type) {
+    public AddAudioAdapter(int maxFile, @SelectType int type) {
         this(maxFile, type, null);
     }
 
-    public AddVideoAdapter(int maxFile, @SelectType int type, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
-        this(maxFile, type, LAYOUT_RES_ID, R.drawable.video_gray_for_file_select, DRAWABLE_DELETE_ICON, listener);
+    public AddAudioAdapter(int maxFile, @SelectType int type, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
+        this(maxFile, type, LAYOUT_RES_ID, R.drawable.audio_gray_for_file_select, R.drawable.headset_gray_for_file_select,
+                DRAWABLE_DELETE_ICON, listener);
     }
 
     /**
-     * @param maxFile 最多选择多少个视频
-     * @param type 选择类型, 例: AddVideoAdapter.TYPE_SELECT_VIDEO
+     * @param maxFile 最多选择多少个音频
+     * @param type 选择类型, 例: AddAudioAdapter.TYPE_SELECT_AUDIO
      * @param layoutResId 自定义Item布局
      * @param lastItemPic 最后一个Item显示的图片
+     * @param normalItemPic 已选择音频Item显示的图片
      * @param deletePic 删除按钮图片
      * @param listener item点击监听
      */
-    public AddVideoAdapter(int maxFile, @SelectType int type, @LayoutRes int layoutResId,
-                           @DrawableRes int lastItemPic, @DrawableRes int deletePic,
-                           @Nullable AddLocalMediaAble.OnItemClickListener listener) {
+    public AddAudioAdapter(int maxFile, @SelectType int type, @LayoutRes int layoutResId,
+                           @DrawableRes int lastItemPic, @DrawableRes int normalItemPic,
+                           @DrawableRes int deletePic, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
         super(layoutResId);
         this.maxFiles = maxFile;
         this.selectType = type;
         this.lastItemPic = lastItemPic;
+        this.normalItemPic = normalItemPic;
         this.deletePic = deletePic;
         this.itemClickListener = listener;
         initAddLocalMediaAble();
@@ -110,51 +115,59 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                 return;
                             }
                             switch (selectType) {
-                                case TYPE_TAKE_VIDEO://拍视频
+                                case TYPE_RECORD_AUDIO://录制音频
                                     /**
-                                     * 需要添加权限:
-                                     * <uses-permission android:name="android.permission.CAMERA" />
+                                     * 调用系统录音, 需要添加权限:
                                      * <uses-permission android:name="android.permission.RECORD_AUDIO" />
                                      * <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
                                      */
-                                    PictureSelectorUtils.recordVideo(topActivity, new OnResultCallbackListener<LocalMedia>() {
+                                    PictureSelectorUtils.create(topActivity, localMedias)
+                                            .recordAudio()
+                                            .setMaxSelect(maxFiles)
+                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
                                         @Override
-                                        public void onResult(List<LocalMedia> result) {
-                                            LocalMedia localMedia = result.get(0);
-                                            localMedias.add(localMedia);
-                                            addData(getData().size() - 1, localMedia);
-                                        }
-
-                                        @Override
-                                        public void onCancel() {
-                                        }
-                                    });
-                                    break;
-                                case TYPE_SELECT_VIDEO://选择视频
-                                    PictureSelectorUtils.selectVideos(topActivity, false, maxFiles, localMedias, new OnResultCallbackListener<LocalMedia>() {
-                                        @Override
-                                        public void onResult(List<LocalMedia> result) {
+                                        public void onResult(ArrayList<LocalMedia> result) {
                                             localMedias.clear();
                                             localMedias.addAll(result);
                                             result.add(EXTRA_LAST_MEDIA);
                                             setNewData(result);
                                         }
-
                                         @Override
                                         public void onCancel() {
                                         }
                                     });
                                     break;
-                                case TYPE_TAKE_SELECT_VIDEO://拍视频&选择视频
-                                    PictureSelectorUtils.selectVideos(topActivity, true, maxFiles, localMedias, new OnResultCallbackListener<LocalMedia>() {
+                                case TYPE_SELECT_AUDIO://选择音频
+                                    PictureSelectorUtils.create(topActivity, localMedias)
+                                            .selectAudio()
+                                            .setMaxSelect(maxFiles)
+                                            .setShowCamera(false)
+                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
                                         @Override
-                                        public void onResult(List<LocalMedia> result) {
+                                        public void onResult(ArrayList<LocalMedia> result) {
                                             localMedias.clear();
                                             localMedias.addAll(result);
                                             result.add(EXTRA_LAST_MEDIA);
                                             setNewData(result);
                                         }
-
+                                        @Override
+                                        public void onCancel() {
+                                        }
+                                    });
+                                    break;
+                                case TYPE_RECORD_SELECT_AUDIO://录制音频&选择音频
+                                    PictureSelectorUtils.create(topActivity, localMedias)
+                                            .selectAudio()
+                                            .setMaxSelect(maxFiles)
+                                            .setShowCamera(true)
+                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
+                                        @Override
+                                        public void onResult(ArrayList<LocalMedia> result) {
+                                            localMedias.clear();
+                                            localMedias.addAll(result);
+                                            result.add(EXTRA_LAST_MEDIA);
+                                            setNewData(result);
+                                        }
                                         @Override
                                         public void onCancel() {
                                         }
@@ -163,15 +176,12 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                 default:
                                     break;
                             }
-
                         }
                     } else {//预览
                         Activity topActivity = ActivityUtils.getTopActivity();
                         if (topActivity != null) {
-                            LocalMedia item = getItem(position);
-                            if (item != null) {
-                                PictureSelectorUtils.previewVideo(topActivity, item.getPath());
-                            }
+                            // FIXME: 预览崩溃
+                            PictureSelectorUtils.create(topActivity, localMedias).openPreview().preview(position, false);
                         }
                     }
                 } else if (id == R.id.iv_delete_for_file_select) {//删除
@@ -193,7 +203,7 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
         if (isLastPos) {
             Glide.with(iv).load(lastItemPic).into(iv);
         } else {
-            Glide.with(iv).load(item.getPath()).into(iv);
+            Glide.with(iv).load(normalItemPic).into(iv);
         }
     }
 

@@ -34,7 +34,7 @@ public class ViewPagerHeightAutoCaculatePicsAdapter extends BaseQuickAdapter<Str
         addChildClickViewIds(R.id.iv_pic);
         setOnItemChildClickListener((adapter, view, position) -> {
             Activity context = (Activity) getContext();
-            PictureSelectorUtils.previewImageVideosS(context, position, getData());
+            PictureSelectorUtils.create(context, null).openPreview().setPaths(getData()).preview(position, false);
         });
 
         List<String> data = getData();

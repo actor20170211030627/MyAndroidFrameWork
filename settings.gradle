@@ -1,1 +1,1 @@
-include ':app', ':library', ':tempgen'
+include ':app', ':library', ':tempgen', ':picture_selector'

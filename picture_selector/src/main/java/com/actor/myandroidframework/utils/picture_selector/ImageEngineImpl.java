@@ -28,7 +28,7 @@ public class ImageEngineImpl implements ImageEngine {
     }
 
     @Override
-    public void loadAlbumCover(Context context, String url, ImageView imageView) {
+    public void loadAlbumCover(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView) {
         Glide.with(context).load(url).into(imageView);
     }
 

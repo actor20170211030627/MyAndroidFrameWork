@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * description: 添加文件公共方法抽取
- * @see AddPicAdapter
- * @see AddVideoAdapter
- * @see AddAudioAdapter
+ * description: 添加文件公共方法抽取 <br />
+ * {@link AddPicAdapter}, {@link AddVideoAdapter}, {@link AddAudioAdapter}
+ * <br />
  *
- * 选择图片示例使用:
- * //UploadFileInfo: 这是自己项目上传文件后返回的json解析的实体类.
+ * 选择图片示例使用: <br />
+ * <pre> {@code
+ * //UploadFileInfo: 这是你自己项目上传文件后返回的json解析的实体类.
  * private AddPicAdapter<UploadFileInfo> picAdapter = new AddPicAdapter<>(9, AddPicAdapter.TYPE_SELECT_PHOTO);
  * //是否已经选择了图片
  * boolean picSelected = picAdapter.hasFileSelected();
- * //如果选择了图片
+ * //如果选择了图片, 就可以上传图片
  * if(picSelected) {
  *     uploadPics();
  * }
@@ -39,6 +39,7 @@ import java.util.Map;
  * }
  * //获取已上传文件Map<文件路径, UploadInfo>, 注意: 如果上传了1次后又选择了新的文件, 那么上传路径有可能=null
  * Map<String, UploadFileInfo> alreadyUploads = picAdapter.getAlreadyUploadFiles();
+ * } </pre>
  *
  * @author : ldf
  * date       : 2021/2/8 on 11

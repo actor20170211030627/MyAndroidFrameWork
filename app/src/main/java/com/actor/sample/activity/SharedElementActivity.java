@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
+import com.actor.myandroidframework.utils.sharedelement.SharedElementA;
+import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SharedElementAdapter;
 import com.actor.sample.databinding.ActivitySharedElementBinding;
