@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -326,6 +327,7 @@ public class ChatLayout extends LinearLayout {
             super(fm, size);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             switch (position) {

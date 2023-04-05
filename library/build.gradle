@@ -170,7 +170,7 @@ dependencies {
 
 configurations.all {
     resolutionStrategy {
-        //如果 constraintlayout 2.0.4版本, 会有一些依赖包的androidx_core版本冲突, 这儿强制使用1.3.1
+        //如果 constraintlayout 2.0.4版本, 会有一些依赖包的androidx_core版本冲突, 这儿强制使用1.5.0
         force rootProject.ext.dependencies.androidx_core
     }
 }
