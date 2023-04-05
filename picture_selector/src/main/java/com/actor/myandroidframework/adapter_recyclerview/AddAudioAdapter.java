@@ -180,7 +180,6 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                     } else {//预览
                         Activity topActivity = ActivityUtils.getTopActivity();
                         if (topActivity != null) {
-                            // FIXME: 预览崩溃
                             PictureSelectorUtils.create(topActivity, localMedias).openPreview().preview(position, false);
                         }
                     }

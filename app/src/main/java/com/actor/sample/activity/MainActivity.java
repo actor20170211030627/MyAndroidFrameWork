@@ -85,6 +85,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_is_empty://判空
                 startActivity(new Intent(this, IsEmptyActivity.class), false, null, null, view);
                 break;
+            case R.id.btn_chat://聊天
+                startActivity(new Intent(activity, ChatActivity.class));
+                break;
             case R.id.btn_third://第三方登录/分享
                 startActivity(new Intent(this, ThirdActivity.class), false, null, null, view);
                 break;

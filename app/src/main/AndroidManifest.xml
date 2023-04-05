@@ -61,6 +61,9 @@
         <activity android:name=".activity.QuickSearchBarActivity" />
         <activity android:name=".activity.OtherActivity" />
         <activity android:name=".activity.IsEmptyActivity" />
+        <activity
+            android:name=".activity.ChatActivity"
+            android:theme="@style/NoActionBar" />
         <activity android:name=".activity.ViewPagerAndFragmentActivity" />
         <activity android:name=".activity.NineGridViewActivity" />
         <activity android:name=".activity.CustomViewActivity" />

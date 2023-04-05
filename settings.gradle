@@ -1,1 +1,2 @@
-include ':app', ':library', ':tempgen', ':picture_selector'
+include ':app', ':library', ':tempgen', ':picture_selector',
+        ':chat_layout', ':emojis'

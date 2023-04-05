@@ -70,6 +70,14 @@
             android:transitionName="btn" />
 
         <Button
+            android:id="@+id/btn_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="聊天"
+            android:transitionName="btn" />
+
+        <Button
             android:id="@+id/btn_third"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

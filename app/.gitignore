@@ -5,3 +5,4 @@
 /build/tmp
 /build/outputs/logs
 /build/outputs/mapping
+/build/outputs/apk/debug/*.apk

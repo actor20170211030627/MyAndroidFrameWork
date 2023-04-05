@@ -77,8 +77,15 @@ dependencies {
 
     //https://gitee.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':library')
-//    implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:2.0.9'
+
+    //图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频
     implementation project(path: ':picture_selector')
+
+    //聊天控件 & 按住说话 & 可加入emoji表情
+    implementation project(path: ':chat_layout')
+
+    //一些emoji表情, 如果项目中要使用emoji表情, 可使用这个(非必须使用)
+    implementation project(path: ':emojis')
 
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库
@@ -114,11 +121,11 @@ dependencies {
 
 
     // 图片压缩 (按需引入): 如果你需要使用压缩图片功能, 需要添加下面这行依赖
-    implementation 'io.github.lucksiege:compress:v3.10.8'
+    implementation 'io.github.lucksiege:compress:v3.10.9'
     // 图片裁剪 (按需引入)
-    implementation 'io.github.lucksiege:ucrop:v3.10.8'
+    implementation 'io.github.lucksiege:ucrop:v3.10.9'
     // 自定义相机 (按需引入)
-//    implementation 'io.github.lucksiege:camerax:v3.10.8'
+//    implementation 'io.github.lucksiege:camerax:v3.10.9'
 
 
     //https://github.com/JakeWharton/butterknife 用于生成点击事件

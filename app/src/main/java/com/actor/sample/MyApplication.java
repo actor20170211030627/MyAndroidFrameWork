@@ -3,8 +3,11 @@ package com.actor.sample;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.chat_layout.ChatLayoutKit;
+import com.actor.chat_layout.emoji.DefaultEmojiList;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
+import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
@@ -28,11 +31,11 @@ public class MyApplication extends ActorApplication {
         super.onCreate();
         instance = this;
 
-        //配置画廊, 图片/视频选择
+        //配置画廊, 图片/视频选择(不建议使用这个工具类, 建议直接使用 PictureSelectorUtils)
         AlbumUtils.init(this);
 
         /**
-         * @param context application
+         * 数据库使用示例
          * @param isDebug 如果是debug模式, 数据库操作会打印日志
          * @param dbName 数据库名称
          * @param dbPassword 数据库密码(如果数据库没有加密, 密码传null)
@@ -41,13 +44,23 @@ public class MyApplication extends ActorApplication {
          */
         GreenDaoUtils.init(this, isAppDebug(), "test_db.db3", "123456", ItemEntityDao.class/*, ...*/);
 
-        BaiduMapUtils.init(this);//初始化百度地图
+        //百度地图示例
+        BaiduMapUtils.init(this);
 
-        //Application中初始化极光推送
+        //极光推送示例
         JPushUtils.setDebugMode(isAppDebug());//设置调试模式,在 init 接口之前调用
         JPushUtils.init(this);//初始化
         JPushUtils.stopPush(this);//停止推送, 防止未登录就接收到消息
         //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
+
+        /**
+         * 聊天示例
+         * 如果需要使用emoji表情, 需要在Application中初始化(如果不使用emoji, 不要初始化)
+         * 也可以不使用 DefaultEmojiList.DEFAULT_EMOJI_LIST 这些emoji, 可以自定义后传入
+         */
+        ChatLayoutKit.init(DefaultEmojiList.DEFAULT_EMOJI_LIST, "emoji");
+        //初始化聊天语音, 默认最大录音时长2分钟(如果不用语音, 不用初始化)
+        AudioUtils.getInstance().init(null, null);
     }
 
     @Nullable
@@ -66,7 +79,8 @@ public class MyApplication extends ActorApplication {
     }
 
     /**
-     *
+     * release环境中App崩溃的时候会回调这个方法.
+     * 如果是debug环境, 不会抓取bug并且不会回调这个方法
      * @param e 堆栈信息
      *
      * 示例处理:

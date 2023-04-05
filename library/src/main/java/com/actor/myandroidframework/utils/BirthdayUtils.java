@@ -13,9 +13,7 @@ import java.util.Date;
 /**
  * description: 计算生日相关 <br />
  * 其中 LunarCalendar 使用的依赖是: <br />
- * //<a href="https://github.com/Bigkoo/Android-PickerView" target="_blank">Android-PickerView(时间选择器等等等)</a>
- * <br />
- * implementation 'com.contrarywind:Android-PickerView:4.1.9' <br />
+ * //<a href="https://github.com/Bigkoo/Android-PickerView" target="_blank">Android-PickerView(时间选择器等等等)</a> <br />
  *
  * @author : ldf
  * date       : 2022/12/31/0031 on 22

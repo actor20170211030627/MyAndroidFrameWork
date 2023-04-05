@@ -35,7 +35,7 @@ api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
 <li>//https://gitee.com/getActivity/XXPermissions 轮子哥权限
 //https://github.com/getActivity/XXPermissions
-api 'com.github.getActivity:XXPermissions:16.6'
+api 'com.github.getActivity:XXPermissions:16.8'
 </li>
 <li>//https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
 api 'com.contrarywind:Android-PickerView:4.1.9'
@@ -128,10 +128,12 @@ api 'com.zhy:okhttputils:2.6.2'
 </pre>
 
 ## 3.Screenshot
-<img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=35%></img>
-<img src="captures/BaseBottomSheetDialogFragment.gif" width=35%></img> <br/>
-<img src="captures/QuickSearchBar.gif" width=35%></img>
-<img src="captures/BaseRatingBar.gif" width=35%></img>
+<img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=33%></img>
+<img src="captures/BaseBottomSheetDialogFragment.gif" width=33%></img>
+<img src="captures/QuickSearchBar.gif" width=33%></img> <br/>
+<img src="captures/BaseRatingBar.gif" width=33%></img>
+<img src="captures/chatlayout.png" width=33%></img>
+<img src="captures/chat_layout.gif" width=33%></img>
 
 ## 4.Sample
 <a href="app/build/outputs/apk/debug/app-debug.apk" target="_blank">download apk</a>
@@ -174,7 +176,7 @@ Add it in your root build.gradle at the end of repositories:
             <s>implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'(不再维护 Deprecated)</s>
 
             /**
-             * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架)
+             * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
              * 并可使用: <a href="picture_selector/src/main/java/com/actor/myandroidframework/utils/picture_selector/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
              * <a href="picture_selector/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
              * <a href="picture_selector/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
@@ -182,11 +184,16 @@ Add it in your root build.gradle at the end of repositories:
              */
             implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:picture_selector:gitee's last version'
             // 图片压缩 (按需引入): 如果你选择图片/拍照后, 需要使用压缩图片功能, 需要添加下面这行依赖
-            implementation 'io.github.lucksiege:compress:v3.10.8'
+            implementation 'io.github.lucksiege:compress:v3.10.9'
             // 图片裁剪 (按需引入)
-            implementation 'io.github.lucksiege:ucrop:v3.10.8'
+            implementation 'io.github.lucksiege:ucrop:v3.10.9'
             // 自定义相机 (按需引入)
-            implementation 'io.github.lucksiege:camerax:v3.10.8'
+            implementation 'io.github.lucksiege:camerax:v3.10.9'
+
+            //如果需要聊天, 可添加如下依赖 (按需引入)
+            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:chat_layout:gitee's last version'
+            //如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入)
+            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:emojis:gitee's last version'
     }
 </pre>
 

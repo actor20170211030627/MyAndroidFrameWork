@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * 注意: 需要裁剪图片, 请添加依赖! <br /> <br />
  *
  * // 图片裁剪 (按需引入): 如果你选择图片/拍照后, 需要使用裁剪图片功能, 需要添加下面这行依赖 <br />
- * implementation 'io.github.lucksiege:ucrop:v3.10.8' <br />
+ * implementation 'io.github.lucksiege:ucrop:v3.10.9' <br />
  *<br />
  * 具体更多的压缩API见: <a href="https://github.com/Yalantis/uCrop" target="_blank">https://github.com/Yalantis/uCrop</a>
  * <br />

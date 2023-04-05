@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.luck.picture.lib.PictureSelectorPreviewFragment;
 import com.luck.picture.lib.basic.PictureSelectionPreviewModel;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnExternalPreviewEventListener;
@@ -83,10 +82,9 @@ public class PreviewConfiger {
         if (selectionData == null || selectionData.isEmpty()) {
             return;
         }
-        // FIXME: 预览崩溃
-//        selectionPreviewModel.startActivityPreview(currentPosition, isDisplayDelete, selectionData);
+        selectionPreviewModel.startActivityPreview(currentPosition, isDisplayDelete, selectionData);
 //        selectionPreviewModel.startFragmentPreview(currentPosition, isDisplayDelete, selectionData);
-        selectionPreviewModel.startFragmentPreview(PictureSelectorPreviewFragment.newInstance(), currentPosition, isDisplayDelete, selectionData);
+//        selectionPreviewModel.startFragmentPreview(PictureSelectorPreviewFragment.newInstance(), currentPosition, isDisplayDelete, selectionData);
         //
         this.selectionPreviewModel = null;
         this.selectionData = null;

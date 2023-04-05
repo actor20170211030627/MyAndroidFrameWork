@@ -23,9 +23,9 @@ import com.luck.picture.lib.basic.PictureSelectionQueryModel;
 import com.luck.picture.lib.basic.PictureSelectionSystemModel;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.config.SelectModeConfig;
+import com.luck.picture.lib.config.SelectorConfig;
 import com.luck.picture.lib.config.VideoQuality;
 import com.luck.picture.lib.engine.CropFileEngine;
 import com.luck.picture.lib.engine.ImageEngine;
@@ -43,13 +43,13 @@ import java.util.List;
  * description: 图片/视频/音频 选择, 拍照, 裁剪, 压缩... <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector的Github</a> <br />
  * <br />
  * // 图片压缩 (按需引入): 如果你需要使用压缩图片功能, 需要添加下面这行依赖 <br />
- *   implementation 'io.github.lucksiege:compress:v3.10.8' <br />
+ *   implementation 'io.github.lucksiege:compress:v3.10.9' <br />
  * <br />
  *   // 图片裁剪 (按需引入) <br />
- *   implementation 'io.github.lucksiege:ucrop:v3.10.8' <br />
+ *   implementation 'io.github.lucksiege:ucrop:v3.10.9' <br />
  * <br />
  *   // 自定义相机 (按需引入) <br />
- *   implementation 'io.github.lucksiege:camerax:v3.10.8' <br />
+ *   implementation 'io.github.lucksiege:camerax:v3.10.9' <br />
  */
 public class PictureSelectorUtils {
 
@@ -402,7 +402,7 @@ public class PictureSelectorUtils {
     }
 
     /**
-     * 获取默认的图片选择配置, 默认配置见: {@link PictureSelectionConfig#initDefaultValue()} <br />
+     * 获取默认的图片选择配置, 默认配置见: {@link SelectorConfig#initDefaultValue()} <br />
      * <a href="https://github.com/LuckSiege/PictureSelector/blob/version_component/app/src/main/java/com/luck/pictureselector/MainActivity.java" target="_blank">MainActivity.java (PictureSelector Api配置大全)</a> <br />
      * @deprecated 获取自定义配置
      */
@@ -559,7 +559,7 @@ public class PictureSelectorUtils {
     }
 
     /**
-     * 获取默认的 "拍照/录视频/录语音" 选择配置, 默认配置见: {@link PictureSelectionConfig#initDefaultValue()} <br />
+     * 获取默认的 "拍照/录视频/录语音" 选择配置, 默认配置见: {@link SelectorConfig#initDefaultValue()} <br />
      * <a href="https://github.com/LuckSiege/PictureSelector/blob/version_component/app/src/main/java/com/luck/pictureselector/MainActivity.java" target="_blank">MainActivity.java (PictureSelector Api配置大全)</a> <br />
      * @deprecated 获取自定义配置
      */
