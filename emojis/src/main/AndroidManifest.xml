@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.actor.chat_layout">
+    package="com.actor.chat_layout.emoji">
+    <!--包名不要和别的模块重复, 否则JitPack打包报错: Task :app:minifyReleaseWithR8 FAILED
+        /home/jitpack/build/chat_layout/build/intermediates/runtime_library_classes_jar/release/classes.jar: R8: Type com.actor.chat_layout.BuildConfig is defined multiple times:
+        /home/jitpack/build/chat_layout/build/intermediates/runtime_library_classes_jar/release/classes.jar:com/actor/chat_layout/BuildConfig.class,
+        /home/jitpack/build/emojis/build/intermediates/runtime_library_classes_jar/release/classes.jar:com/actor/chat_layout/BuildConfig.class
+-->
 
 </manifest>

@@ -1,7 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply from: "config.gradle"
-//添加下面1行, 否则jitpack打包的时候报错: Gradle 'publishToMavenLocal' task not found. Please add the 'maven-publish' or 'maven' plugin.
-apply plugin: 'maven-publish'
 
 buildscript {
     repositories {
