@@ -61,5 +61,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //基础库
-    compileOnly project(path: ':library')
+    compileOnly 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:2.0.9'
 }

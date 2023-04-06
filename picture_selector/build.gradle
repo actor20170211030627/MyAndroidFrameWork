@@ -63,7 +63,7 @@ android {
 
 dependencies {
     //基础库
-    compileOnly project(path: ':library')
+    compileOnly 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:2.0.9'
 
 
     //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频(minSdkVersion 21)
