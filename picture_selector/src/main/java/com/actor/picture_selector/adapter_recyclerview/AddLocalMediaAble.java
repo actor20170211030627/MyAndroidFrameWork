@@ -1,8 +1,8 @@
-package com.actor.myandroidframework.adapter_recyclerview;
+package com.actor.picture_selector.adapter_recyclerview;
 
 import android.widget.ImageView;
 
-import com.actor.myandroidframework.R;
+import com.actor.picture_selector.R;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.LinkedHashMap;

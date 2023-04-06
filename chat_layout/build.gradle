@@ -12,7 +12,7 @@ android {
         consumerProguardFiles 'proguard-rules.pro'
 
         //增加vector图像支持
-//        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

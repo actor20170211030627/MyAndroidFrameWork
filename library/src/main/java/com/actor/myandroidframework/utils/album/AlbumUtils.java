@@ -50,7 +50,7 @@ import java.util.Map;
  * AlbumVersion: album:2.1.3
  * Version    : 1.2.2 增加预览一张图片的方法 {@link #gallery(Context, String, boolean, Action)}
  *
- * @deprecated 建议使用 {@link com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils}
+ * @deprecated 建议使用 {@link com.actor.picture_selector.utils.PictureSelectorUtils}
  */
 @Deprecated
 public class AlbumUtils {

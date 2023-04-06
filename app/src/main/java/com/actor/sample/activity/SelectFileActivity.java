@@ -6,9 +6,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.actor.myandroidframework.adapter_recyclerview.AddAudioAdapter;
-import com.actor.myandroidframework.adapter_recyclerview.AddPicAdapter;
-import com.actor.myandroidframework.adapter_recyclerview.AddVideoAdapter;
+import com.actor.picture_selector.adapter_recyclerview.AddAudioAdapter;
+import com.actor.picture_selector.adapter_recyclerview.AddPicAdapter;
+import com.actor.picture_selector.adapter_recyclerview.AddVideoAdapter;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.widget.BaseItemDecoration;

@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.picture_selector;
+package com.actor.picture_selector.utils;
 
 import android.Manifest;
 import android.app.Activity;

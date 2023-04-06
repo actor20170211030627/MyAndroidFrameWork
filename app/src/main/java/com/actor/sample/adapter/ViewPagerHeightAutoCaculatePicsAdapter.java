@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils;
+import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.sample.R;
 import com.actor.sample.utils.Global;
 import com.blankj.utilcode.util.SizeUtils;

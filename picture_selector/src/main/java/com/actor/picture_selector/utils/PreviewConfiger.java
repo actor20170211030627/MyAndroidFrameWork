@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.picture_selector;
+package com.actor.picture_selector.utils;
 
 import android.text.TextUtils;
 import android.view.ViewGroup;

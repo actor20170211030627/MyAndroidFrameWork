@@ -9,5 +9,5 @@
         android:width="1dp"
         android:color="@color/gray_6f7378_for_chat_layout" />
 
-    <solid android:color="@color/white" />
+    <solid android:color="@android:color/white" />
 </shape>

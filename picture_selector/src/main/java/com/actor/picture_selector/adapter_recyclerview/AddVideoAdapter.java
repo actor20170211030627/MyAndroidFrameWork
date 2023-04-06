@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.adapter_recyclerview;
+package com.actor.picture_selector.adapter_recyclerview;
 
 import android.app.Activity;
 import android.view.View;
@@ -10,8 +10,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.R;
-import com.actor.myandroidframework.utils.picture_selector.PictureSelectorUtils;
+import com.actor.picture_selector.R;
+import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;

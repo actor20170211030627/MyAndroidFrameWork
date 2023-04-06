@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="* "
-            android:textColor="@color/red_D90000"
+            android:textColor="#D90000"
             android:textSize="20sp" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="90dp"
-            android:textColor="@color/gray_666"
+            android:textColor="#666"
             android:textSize="15sp"
             tools:text="itilItemName: " />
 
@@ -45,10 +45,11 @@
             android:layout_weight="1"
             android:background="@null"
             android:minHeight="40dp"
-            android:textColor="@color/gray_999"
+            android:textColor="#999"
             android:textSize="15sp"
             tools:hint="itilHint" />
 
+        <!--图片应该向右, 这儿乱写的图片-->
         <ImageView
             android:id="@+id/iv_arrow_right_for_itil"
             android:layout_width="wrap_content"
@@ -56,6 +57,6 @@
             android:layout_marginEnd="10dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/arrow_right_gray_dcdcdc" />
+            android:src="@android:drawable/arrow_down_float" />
     </LinearLayout>
 </LinearLayout>

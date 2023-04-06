@@ -177,10 +177,10 @@ Add it in your root build.gradle at the end of repositories:
 
             /**
              * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
-             * 并可使用: <a href="picture_selector/src/main/java/com/actor/myandroidframework/utils/picture_selector/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
-             * <a href="picture_selector/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
-             * <a href="picture_selector/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
-             * <a href="picture_selector/src/main/java/com/actor/myandroidframework/adapter_recyclerview/AddVideoAdapter.java" target="_blank">AddVideoAdapter(选择添加视频)</a>
+             * 并可使用: <a href="picture_selector/src/main/java/com/actor/picture_selector/utils/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
+             * <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
+             * <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
+             * <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddVideoAdapter.java" target="_blank">AddVideoAdapter(选择添加视频)</a>
              */
             implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:picture_selector:gitee's last version'
             // 图片压缩 (按需引入): 如果你选择图片/拍照后, 需要使用压缩图片功能, 需要添加下面这行依赖

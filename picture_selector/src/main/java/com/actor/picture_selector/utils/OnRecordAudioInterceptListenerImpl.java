@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.picture_selector;
+package com.actor.picture_selector.utils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
