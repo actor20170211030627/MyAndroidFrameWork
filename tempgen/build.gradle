@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    //implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //https://github.com/greenrobot/greenDAO 数据库
     compileOnly rootProject.ext.dependencies.greendao
