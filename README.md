@@ -1,6 +1,6 @@
 ## MyAndroidFrameWork
-> <a href="https://github.com/actor20170211030627/MyAndroidFrameWork" target="_blank"><s>Github(网速慢,不再维护 Deprecated)</s></a> <br/>
-> <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork" target="_blank">Gitee码云(国内网速更快)</a>
+> <a href="https://github.com/actor20170211030627/MyAndroidFrameWork" target="_blank">Github</a>, 
+> <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork" target="_blank">Gitee码云</a>
 >
 > 注意: 这是 <font color='red' size='6'><b>Androidx</b></font> 版, 非Androidx版本在&nbsp;
 > <a style="font-size:23px" href="./README-1.4.1.md"><s>这儿 </s></a>
@@ -157,7 +157,7 @@ Add it in your root build.gradle at the end of repositories:
 </pre>
 
 **Step 2.** Add the dependency, the last version(最新版本):
-<s>Github:</s>[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) &nbsp; Gitee: [![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork)
+Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) &nbsp; <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork)
 <pre>
     android {
       ...
@@ -172,8 +172,8 @@ Add it in your root build.gradle at the end of repositories:
             implementation 'androidx.constraintlayout:constraintlayout:version xxx'
 
             //https://gitee.com/actor20170211030627/MyAndroidFrameWork
-            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's last version'
-            <s>implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'(不再维护 Deprecated)</s>
+            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'
+            <s>implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's last version'(jitpack不能打包,不再维护 Deprecated)</s>
 
             /**
              * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
@@ -222,7 +222,7 @@ Add it in your root build.gradle at the end of repositories:
 4.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
 </pre>
 
-## 10.有问题请升级到最新版本: <s>Github:</s>[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) Gitee: [![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues" target="_blank">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 10.有问题请升级到最新版本: Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues" target="_blank">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 11.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
