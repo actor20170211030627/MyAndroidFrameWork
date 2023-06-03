@@ -104,7 +104,6 @@ api 'com.zhy:okhttputils:2.6.2'
 
 **2.4.Widget小控件**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/widget/chat/VoiceRecorderView.java" target="_blank">VoiceRecorderView</a> (低仿微信录音)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java" target="_blank">NineGridView</a> (九宫格)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/AutoCaculateHeightViewpager.java" target="_blank">AutoCaculateHeightViewpager</a> (自动计算子类高度的ViewPager)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" target="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
@@ -156,7 +155,7 @@ Add it in your root build.gradle at the end of repositories:
     }
 </pre>
 
-**Step 2.** Add the dependency, the last version(最新版本):
+**Step 2.** Add the dependency, the latest version(最新版本):
 Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) &nbsp; <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork)
 <pre>
     android {
@@ -171,18 +170,18 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             //需要在自己项目中集成constraint包, 版本version>=1.1.3
             implementation 'androidx.constraintlayout:constraintlayout:version xxx'
 
-            //https://gitee.com/actor20170211030627/MyAndroidFrameWork
-            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:myandroidframework:github's last version'
-            <s>implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's last version'(jitpack不能打包,不再维护 Deprecated)</s>
+            //https://github.com/actor20170211030627/MyAndroidFrameWork
+            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:library:github's latest version'
+            <s>implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's latest version'(Gitee在jitpack不能打包,不再维护 Deprecated)</s>
 
             /**
              * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
              * 并可使用: <a href="picture_selector/src/main/java/com/actor/picture_selector/utils/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
-             * <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
-             * <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
-             * <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddVideoAdapter.java" target="_blank">AddVideoAdapter(选择添加视频)</a>
+             *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
+             *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
+             *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddVideoAdapter.java" target="_blank">AddVideoAdapter(选择添加视频)</a>
              */
-            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:picture_selector:gitee's last version'
+            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:picture_selector:github's latest version'
             // 图片压缩 (按需引入): 如果你选择图片/拍照后, 需要使用压缩图片功能, 需要添加下面这行依赖
             implementation 'io.github.lucksiege:compress:v3.10.9'
             // 图片裁剪 (按需引入)
@@ -190,10 +189,14 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             // 自定义相机 (按需引入)
             implementation 'io.github.lucksiege:camerax:v3.10.9'
 
-            //如果需要聊天, 可添加如下依赖 (按需引入)
-            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:chat_layout:gitee's last version'
-            //如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入)
-            implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:emojis:gitee's last version'
+            /**
+             * 如果需要聊天, 可添加如下依赖 (按需引入)
+             * 并可使用: <a href="chat_layout/src/main/java/com/actor/chat_layout/VoiceRecorderView.java" target="_blank">VoiceRecorderView</a> (低仿微信录音)
+             *          <a href="chat_layout/src/main/java/com/actor/chat_layout/ChatLayout.java" target="_blank">ChatLayout</a> (聊天框,语言,emoji表情,自定义功能按钮, 效果见上图)
+             */
+            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:chat_layout:github's latest version'
+            //如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入), emoji表情初始化可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>
+            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github's latest version'
     }
 </pre>
 
@@ -217,12 +220,12 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
 ## 9.使用步骤
 <pre>
 1.写一个 Application extends ActorApplication, 然后重写方法, 可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>  (非必须继承, ActorApplication里有一些配置, 可把配置代码copy到自己Application)
-2.写一个 BaseActivity extends ActorBaseActivity, 然后你的Activity 继承 BaseActivity (非必须继承)
-3.写一个 BaseFragment extends ActorBaseFragment, 然后你的Fragment 继承 BaseFragment (非必须继承)
+2.写一个 BaseActivity extends ActorBaseActivity(或ViewBindingActivity)(非必须继承), 然后你的Activity 继承 BaseActivity
+3.写一个 BaseFragment extends ActorBaseFragment(或ViewBindingFragment)(非必须继承), 然后你的Fragment 继承 BaseFragment
 4.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
 </pre>
 
-## 10.有问题请升级到最新版本: Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/issues" target="_blank">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 10.有问题请升级到最新版本: Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues" target="_blank">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 11.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

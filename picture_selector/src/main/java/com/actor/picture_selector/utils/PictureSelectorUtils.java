@@ -843,10 +843,20 @@ public class PictureSelectorUtils {
     /**
      * @return UI主题, 微信主题最好看, 但配置较多, 懒得弄
      */
-    protected static PictureSelectorStyle getPictureSelectorStyle() {
+    public static PictureSelectorStyle getPictureSelectorStyle() {
         if (selectorStyle == null) {
             selectorStyle = new PictureSelectorStyle();
         }
         return selectorStyle;
+    }
+
+    /**
+     * 设置 UI主题
+     * @param
+     */
+    public static void setPictureSelectorStyle(PictureSelectorStyle style) {
+        if (style != null) {
+            selectorStyle = style;
+        }
     }
 }
