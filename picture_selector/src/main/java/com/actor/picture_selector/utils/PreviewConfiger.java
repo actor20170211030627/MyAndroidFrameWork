@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.luck.picture.lib.basic.PictureSelectionPreviewModel;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnExternalPreviewEventListener;
@@ -137,8 +138,7 @@ public class PreviewConfiger {
     ///////////////////////////////////////////////////////////////////////////
     public PreviewConfiger setPath(@NonNull String path) {
         if (TextUtils.isEmpty(path)) return this;
-        LocalMedia localMedia = new LocalMedia();
-        localMedia.setPath(path);
+        LocalMedia localMedia = LocalMedia.generateLocalMedia(ConfigUtils.APPLICATION, path);
         setLocalMedia(localMedia);
         return this;
     }
@@ -154,8 +154,7 @@ public class PreviewConfiger {
         ArrayList<LocalMedia> medias = new ArrayList<>(paths.size());
         for (String path : paths) {
             if (!TextUtils.isEmpty(path)) {
-                LocalMedia localMedia = new LocalMedia();
-                localMedia.setPath(path);
+                LocalMedia localMedia = LocalMedia.generateLocalMedia(ConfigUtils.APPLICATION, path);
                 medias.add(localMedia);
             }
         }

@@ -83,11 +83,13 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     @Override
     public void onBefore(@Nullable Request request, int requestId) {
         super.onBefore(request, requestId);
-        if (tag instanceof ShowNetWorkLoadingDialogable) {
-            ((ShowNetWorkLoadingDialogable) tag).showNetWorkLoadingDialog();
-            isShowedLoadingDialog = true;
-        } else {
-            isShowedLoadingDialog = false;
+        if (isShowedLoadingDialog) {
+            if (tag instanceof ShowNetWorkLoadingDialogable) {
+                ((ShowNetWorkLoadingDialogable) tag).showNetWorkLoadingDialog();
+                isShowedLoadingDialog = true;
+            } else {
+                isShowedLoadingDialog = false;
+            }
         }
     }
 
@@ -191,10 +193,10 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
      * 上传/下载进度
      * @param progress 进度[0, 1]
      * @param total 总大小
-     * @param id 请求时传入的id, 默认0
+     * @param requestId 请求时传入的requestId, 默认0
      */
     @Override
-    public void inProgress(float progress, long total, int id) {
+    public void inProgress(float progress, long total, int requestId) {
 //        LogUtils.errorFormat("上传/下载进度: progress=%f, total=%d, id=%d", progress, total, id);
     }
 
@@ -247,7 +249,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     }
 
     //不能重写上面那个方法, 要重写就重写这个
-    public void onError(int id, Call call, Exception e) {
+    public void onError(int requestId, Call call, Exception e) {
         //请求出错, 默认隐藏LoadingDialog. 如果不想隐藏或自定义, 请重写此方法
         if (isShowedLoadingDialog && tag instanceof ShowNetWorkLoadingDialogable) {
             ((ShowNetWorkLoadingDialogable) tag).dismissNetWorkLoadingDialog();

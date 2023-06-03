@@ -87,7 +87,7 @@ public class LogUtils {
     protected static void printlnLogInfo(int level, Object msg, @Nullable Throwable tr) {
         if (!IS_DEBUG_MODE) return;
         //堆栈跟踪
-        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[4];
+        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[5];
         //文件名: Xxx.java
         String fileName = TextUtils2.getNoNullString(stackTraceElement.getFileName(), "TAG");
         //ClassName: 包名 + 类名

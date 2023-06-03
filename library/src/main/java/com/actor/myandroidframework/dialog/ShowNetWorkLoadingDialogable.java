@@ -1,5 +1,7 @@
 package com.actor.myandroidframework.dialog;
 
+import android.app.Dialog;
+
 import androidx.annotation.Nullable;
 
 /**
@@ -12,7 +14,7 @@ import androidx.annotation.Nullable;
 public interface ShowNetWorkLoadingDialogable {
 
     @Nullable
-    LoadingDialog getNetWorkLoadingDialog();
+    Dialog getNetWorkLoadingDialog();
 
     /**
      * @return 返回网络请求次数.(一个页面有可能有很多个请求)
@@ -33,7 +35,7 @@ public interface ShowNetWorkLoadingDialogable {
         //增加一次请求
         setRequestCount(getRequestCount() + 1);
 //        if (getRequestCount() == 1) {
-        LoadingDialog dialog = getNetWorkLoadingDialog();
+        Dialog dialog = getNetWorkLoadingDialog();
         if (dialog != null && !dialog.isShowing()) dialog.show();
 //        }
     }
@@ -48,7 +50,7 @@ public interface ShowNetWorkLoadingDialogable {
         setRequestCount(getRequestCount() - 1);
         //如果最后一次请求
         if (getRequestCount() == 0) {
-            LoadingDialog dialog = getNetWorkLoadingDialog();
+            Dialog dialog = getNetWorkLoadingDialog();
             if (dialog != null && dialog.isShowing()) dialog.dismiss();
         }
     }

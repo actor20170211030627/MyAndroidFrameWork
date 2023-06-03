@@ -68,7 +68,7 @@ import com.google.android.material.tabs.TabLayout;
  *     <li>1.如果需要使用emoji表情, 请添加一个emoji库, 或自己添加一些emoji表情. <br/>
  *         &emsp; 示例可以添加如下emoji库 <br/>
  *         &emsp; //https://gitee.com/actor20170211030627/MyAndroidFrameWork <br/>
- *         &emsp; implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:emojis:gitee's last version' <br/>
+ *         &emsp; implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:emojis:gitee's latest version' <br/>
  *     </li>
  *     <li>2.如果需要使用emoji表情, 需要在Application中初始化: ChatLayoutKit.init();</li>
  *     <li>3.如果需要使用语音功能, 需要初始化: AudioUtils.getInstance().init();</li>
