@@ -34,7 +34,7 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  *     defaultConfig {
  *         ndk {//选择要添加的对应 cpu 类型的 .so 库
  *              //"armeabi", "armeabi-v7a", "x86","arm64-v8a","x86_64", 'mips', 'mips64'
- *             abiFilters 'armeabi'
+ *             abiFilters "armeabi-v7a", "arm64-v8a"
  *         }
  *         manifestPlaceholders = [
  *             JPUSH_PKGNAME : applicationId,

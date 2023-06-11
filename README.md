@@ -74,13 +74,8 @@ api 'com.zhy:okhttputils:2.6.2'
 <pre>
 <s><a href="library/src/main/java/com/actor/myandroidframework/utils/album/AlbumUtils.java" target="_blank">AlbumUtils</a> (选图片/选视频/拍照/录视频/预览图片)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放录音)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduLocationUtils.java" target="_blank">BaiduLocationUtils</a> (百度地图定位)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/baidu/BaiduMapUtils.java" target="_blank">BaiduMapUtils</a> (百度地图)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
 <s><a href="library/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java" target="_blank">SQLiteDatabaseUtils</a> (原生数据库)</s>
-<a href="library/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeLocationUtils.java" target="_blank">GaoDeLocationUtils</a> (高德地图定位)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeMapUtils.java" target="_blank">GaoDeMapUtils</a> (高德地图)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/gaode/GaoDeUiSettingUtils.java" target="_blank">GaoDeUiSettingUtils</a> (高德地图UI界面)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/jpush/JPushUtils.java" target="_blank">JPushUtils</a> (极光推送)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/mpchart/BarChartUtils.java" target="_blank">BarChartUtils</a> (柱状图)
@@ -151,6 +146,11 @@ Add it in your root build.gradle at the end of repositories:
         repositories {
             ...
             maven { url 'https://jitpack.io' }
+            //如果发现jitpack的依赖下载不下来, 并报错: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+            那么这是jitpack网站证书问题, 解决办法:
+            1.AndroidStudio -> Settings -> Build -> Build Tools -> Gradle -> 查看Gradle JDK 目录.
+            2.下载 <a href="captures/cacerts" target="_blank">cacerts</a> 文件, 替换上方的 JDK目录jre\lib\security\cacerts 文件.(原文件记得自己备份)
+            3.Gradle重新同步一下应该就可以了
         }
     }
 </pre>
@@ -197,6 +197,23 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:chat_layout:github's latest version'
             //如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入), emoji表情初始化可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github's latest version'
+
+            /**
+             * 如果需要百度/高德地图, 可添加如下依赖 (按需引入)
+             * 并可使用:
+             * <a href="map/src/main/java/com/actor/map/baidu/BaiduLocationUtils.java" target="_blank">BaiduLocationUtils</a> (百度地图定位)
+             * <a href="map/src/main/java/com/actor/map/baidu/BaiduMapUtils.java" target="_blank">BaiduMapUtils</a> (百度地图)
+             * <a href="map/src/main/java/com/actor/map/baidu/BaiduGeoCoderUtils.java" target="_blank">BaiduGeoCoderUtils</a> (百度地理编码)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeLocationUtils.java" target="_blank">GaoDeLocationUtils</a> (高德地图定位)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDe3DMapUtils.java" target="_blank">GaoDe3DMapUtils</a> (高德3D地图)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUiSettingUtils.java" target="_blank">GaoDeUiSettingUtils</a> (高德地图UI界面)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeGeoCoderUtils.java" target="_blank">GaoDeGeoCoderUtils</a> (高德地理编码)
+             */
+             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:map:github's latest version'
+
+
+
+
     }
 </pre>
 

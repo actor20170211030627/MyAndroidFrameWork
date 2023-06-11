@@ -4,10 +4,9 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
@@ -21,10 +20,9 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        jcenter()
     }
 }
 

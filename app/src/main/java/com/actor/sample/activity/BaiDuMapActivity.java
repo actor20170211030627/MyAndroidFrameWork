@@ -7,9 +7,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.utils.baidu.BaiduLocationUtils;
-import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
-import com.actor.myandroidframework.utils.baidu.LngLatInfo;
+import com.actor.map.baidu.BaiduGeoCoderUtils;
+import com.actor.map.baidu.BaiduLocationUtils;
+import com.actor.map.baidu.BaiduMapUtils;
+import com.actor.map.baidu.LngLatInfo;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityBaiDuMapBinding;
@@ -22,7 +23,16 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +57,9 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
     private MarkerOptions markerCamera;//摄像头
     private MarkerOptions markerBridge;//桥
 
-    private double lat = 30.624659D, lng = 104.10621D;//中心红点
-    private List<Overlay> overlayPersons;//人员覆盖物列表
+    private final double        lat = 30.624659D;
+    private final double        lng = 104.10621D;//中心红点
+    private       List<Overlay> overlayPersons;//人员覆盖物列表
     private List<Overlay> overlayRepositorys;//仓库覆盖物列表
     private List<Overlay> overlayCars;//车辆覆盖物列表
     private List<Overlay> overlayCameras;//摄像头覆盖物列表
@@ -69,6 +80,8 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
     private static final String arg5 = "arg5";
 
     private InfoWindow                             infoWindow;//提示窗(像Dialog)
+    private final String[] permissions = {Permission.ACCESS_COARSE_LOCATION,
+            Permission.ACCESS_FINE_LOCATION, Permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +96,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
         //地图定位移动到这个位置
         BaiduMapUtils.setMapLocation(baiduMap, latLng);
 //        BaiduMapUtils.clear(baiduMap);
-        markerLocation = BaiduMapUtils.getMarkerOptions(R.drawable.baidumap_location_icon, 90, 90);
+        markerLocation = BaiduMapUtils.getMarkerOptions(R.drawable.map_location_icon, 90, 90);
         //在地图上添加Marker,并显示(红点)
         BaiduMapUtils.addOverlay(baiduMap, markerLocation, latLng, getBundle(WINDOW_TYPE_EVENT));
 
@@ -98,22 +111,38 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始定位
-                BaiduLocationUtils.registerListener(locationListener);
-                BaiduLocationUtils.start();
+                boolean granted = XXPermissions.isGranted(this, permissions);
+                if (granted) {
+                    BaiduLocationUtils.registerListener(locationListener);
+                    BaiduLocationUtils.start();
+                } else {
+                    XXPermissions.with(this).permission(permissions).request(new OnPermissionCallback() {
+                        @Override
+                        public void onGranted(@NonNull List<String> list, boolean b) {
+                            if (b) {
+                                BaiduLocationUtils.registerListener(locationListener);
+                                BaiduLocationUtils.start();
+                            } else {
+                                ToastUtils.showShort("您有权限未同意!");
+                                XXPermissions.startPermissionActivity(activity);
+                            }
+                        }
+                    });
+                }
                 break;
             case R.id.btn_stop://结束定位
                 stopLocation();
                 break;
-            case R.id.btn_get_address_by_latlng://坐标→'网络'→地址
-                BaiduMapUtils.getAddressStringByNet(87.593087, 43.795592, new BaiduMapUtils.OnAddressCallback(this) {
+            case R.id.btn_get_address_by_latlng_http://坐标→'网络'→地址
+                BaiduGeoCoderUtils.getAddressStringByNet(87.593087, 43.795592, new BaiduGeoCoderUtils.OnAddressCallback(this) {
                     @Override
                     public void onOk(double lng, double lat, @Nullable String address, int id) {
                         showToast(address);
                     }
                 });
                 break;
-            case R.id.btn_get_latlng_by_address://地址→'网络'→坐标
-                BaiduMapUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
+            case R.id.btn_get_latlng_by_address_http://地址→'网络'→坐标
+                BaiduGeoCoderUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
                     @Override
                     public void onOk(@NonNull LngLatInfo info, int id, boolean isRefresh) {
                         if (info.status == 0) {
@@ -125,6 +154,44 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                                 }
                             }
                         } else showToast(info.message);
+                    }
+                });
+                break;
+            case R.id.btn_get_address_by_latlng_geo://坐标→'SDK'→地址
+                BaiduGeoCoderUtils.getAddressByGenCoder(new LatLng(43.795592, 87.593087), new OnGetGeoCoderResultListener() {
+                    @Override
+                    public void onGetGeoCodeResult(GeoCodeResult result) {
+                    }
+                    @Override
+                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+                        //获取反向地理编码结果(根据point获取地址)
+                        if (result != null && result.error == SearchResult.ERRORNO.NO_ERROR) {
+                        String address = result.getAddress();
+                        ReverseGeoCodeResult.AddressComponent addressDetail = result.getAddressDetail();
+                        String businessCircle = result.getBusinessCircle();
+                        LatLng location = result.getLocation();
+                        int describeContents = result.describeContents();
+                        List<PoiInfo> poiList = result.getPoiList();
+
+                            showToast(address);
+                        }//else 没有找到检索结果
+                    }
+                });
+                break;
+            case R.id.btn_get_latlng_by_address_geo://地址→'SDK'→坐标
+                BaiduGeoCoderUtils.getLngLatByGenCoder("新疆", "新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new OnGetGeoCoderResultListener() {
+                    @Override
+                    public void onGetGeoCodeResult(GeoCodeResult result) {
+                        //获取地理编码结果(根据地址获取point)
+                        if (result != null && result.error == SearchResult.ERRORNO.NO_ERROR) {
+                            String address = result.getAddress();
+                            LatLng location = result.getLocation();
+                            int describeContents = result.describeContents();
+                            ToastUtils.showShort(location.toString());
+                        }//else 没有检索到结果
+                    }
+                    @Override
+                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
                     }
                 });
                 break;
@@ -284,7 +351,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
 
     /**
      * 定位回调监听
-     * @see com.actor.myandroidframework.utils.baidu.MyLocationListener extends BDAbstractLocationListener
+     * @see com.actor.map.baidu.MyLocationListener extends BDAbstractLocationListener
      */
     private BDAbstractLocationListener locationListener = new BDAbstractLocationListener() {
         @Override
@@ -340,7 +407,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
     //中心红点信息窗
     private void showEventInfoWindow(LatLng latLng, @NonNull Bundle extraInfo) {
         //自定义布局
-        infoWindow = BaiduMapUtils.getInfoWindow(getLayoutInflater(), R.layout.baidu_map_info_window_event, latLng, -90);
+        infoWindow = BaiduMapUtils.getInfoWindow(getLayoutInflater(), R.layout.map_info_window_event, latLng, -90);
         View view = infoWindow.getView();
         TextView tvType = view.findViewById(R.id.tv_type);//类型
         view.findViewById(R.id.iv_close).setOnClickListener(infoWindowClickListener);//关闭
@@ -382,7 +449,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.iv_close://关闭 InfoWindow
-                    baiduMap.hideInfoWindow(infoWindow);//隐藏信息窗
+                    BaiduMapUtils.hideInfoWindow(baiduMap, infoWindow);//隐藏信息窗
                     break;
                 case R.id.btn:
                     showToast("clicked btn");
@@ -438,5 +505,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
         if (isNoEmpty(overlayCars)) overlayCars.clear();//车辆覆盖物列表
         if (isNoEmpty(overlayCameras)) overlayCameras.clear();//摄像头覆盖物列表
         if (isNoEmpty(overlayBridges)) overlayBridges.clear();//摄像头覆盖物列表
+
+        BaiduGeoCoderUtils.recycleGeoCoder();
     }
 }

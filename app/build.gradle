@@ -18,7 +18,7 @@ android {
         //在 defaultConfig { 中添加ndk
         ndk {
             //"armeabi", "armeabi-v7a", "x86","arm64-v8a","x86_64", 'mips', 'mips64'
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a", "arm64-v8a"
         }
         //清单文件替换, 添加在 defaultConfig { 中
         manifestPlaceholders = [
@@ -75,18 +75,6 @@ dependencies {
     //https://github.com/google/flexbox-layout
     implementation 'com.google.android:flexbox:1.0.0'
 
-    //https://gitee.com/actor20170211030627/MyAndroidFrameWork
-    implementation project(path: ':library')
-
-    //图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频
-    implementation project(path: ':picture_selector')
-
-    //聊天控件 & 按住说话 & 可加入emoji表情
-    implementation project(path: ':chat_layout')
-
-    //一些emoji表情, 如果项目中要使用emoji表情, 可使用这个(非必须使用)
-    implementation project(path: ':emojis')
-
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库
 
@@ -102,14 +90,10 @@ dependencies {
     //可选，适用于Android的中国地区词典
     //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'
 
-    //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等v3.3.7
-    implementation files('libs/open_sdk_r2973327_lite.jar')
+
 
     //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
-
-    //http://lbs.baidu.com/index.php?title=sdk/download&action#selected=location_all 百度定位/地图/检索 等
-    implementation files('libs/BaiduLBS_aar_android_V1.1.9_100665344.aar')
 
     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
@@ -126,6 +110,42 @@ dependencies {
     implementation 'io.github.lucksiege:ucrop:v3.10.9'
     // 自定义相机 (按需引入)
 //    implementation 'io.github.lucksiege:camerax:v3.10.9'
+
+
+
+    //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等v3.3.7
+    implementation files('libs/open_sdk_r2973327_lite.jar')
+
+    //百度定位
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.4.0'
+    //百度地图
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Map:7.5.7.1'
+    //百度检索
+    implementation 'com.baidu.lbsyun:BaiduMapSDK_Search:7.5.7.1'
+
+    //高德地图
+    implementation 'com.amap.api:3dmap:9.7.0' //3D地图 <br />
+//    implementation 'com.amap.api:map2d:6.0.0' //2D地图 <br />
+//    implementation 'com.amap.api:navi-3dmap:9.8.0_3dmap9.6.2' //导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap) <br />
+    implementation 'com.amap.api:search:9.5.0' //搜索 <br />
+    implementation 'com.amap.api:location:6.3.0' //定位 <br />
+
+
+
+    //https://gitee.com/actor20170211030627/MyAndroidFrameWork
+    implementation project(path: ':library')
+
+    //图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频
+    implementation project(path: ':picture_selector')
+
+    //聊天控件 & 按住说话 & 可加入emoji表情
+    implementation project(path: ':chat_layout')
+
+    //一些emoji表情, 如果项目中要使用emoji表情, 可使用这个(非必须使用)
+    implementation project(path: ':emojis')
+
+    implementation project(path: ':map')
+
 
 
     //https://github.com/JakeWharton/butterknife 用于生成点击事件

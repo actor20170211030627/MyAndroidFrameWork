@@ -1,2 +1,3 @@
-include ':app', ':library', ':tempgen', ':picture_selector',
-        ':chat_layout', ':emojis'
+include ':app', ':library', ':picture_selector', ':map',
+        ':chat_layout', ':emojis', ':qq_wechat'
+include ':tempgen'

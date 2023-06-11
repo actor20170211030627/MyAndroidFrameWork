@@ -9,9 +9,9 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
+import com.actor.map.baidu.BaiduGeoCoderUtils;
+import com.actor.map.baidu.LngLatInfo;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
-import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
-import com.actor.myandroidframework.utils.baidu.LngLatInfo;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
@@ -112,7 +112,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     }
 
     private void getByOkHttpUtils() {
-        BaiduMapUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
+        BaiduGeoCoderUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
             @Override
             public void onOk(@NonNull LngLatInfo info, int id, boolean isRefresh) {
                 if (info.status == 0) {

@@ -20,6 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+
+
 # 代码混淆压缩比，在0~7之间，默认为5，一般不做修改
 #-optimizationpasses 5
 
@@ -162,6 +164,7 @@
 # for DexGuard only(fixed: DexGuard 基于 ProGuard, 报错, 先注释掉)
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
+
 #############################################################################
 ## Album
 -dontwarn com.yanzhenjie.album.**
@@ -184,10 +187,12 @@
 ## AndroidUtilCode
 -dontwarn com.blankj.utilcode.**
 
+
 #############################################################################
 ## ProgressManager
 -keep class me.jessyan.progressmanager.** { *; }
 -keep interface me.jessyan.progressmanager.** { *; }
+
 
 #############################################################################
 ## GreenDao
@@ -215,71 +220,6 @@ public static java.lang.String TABLENAME;
 ## https://github.com/sqlcipher/android-database-sqlcipher greenDao数据库加密
 -keep,includedescriptorclasses class net.sqlcipher.** { *; }
 -keep,includedescriptorclasses interface net.sqlcipher.** { *; }
-
-
-#############################################################################
-## baidu 百度定位, 百度地图 http://lbsyun.baidu.com/index.php?title=androidsdk/guide/buildproject#.E5.BA.94.E7.94.A8.E6.B7.B7.E6.B7.86
--keep class com.baidu.** {*;}
-#-keep class vi.com.** {*;}     //这句不对, 没有这个包, 是↓这个
--keep class mapsdkvi.com.** {*;}
--dontwarn com.baidu.**
-
-
-#############################################################################
-## tencent QQ登录, 分享
--keep class com.tencent.** {*;}
-
-
-#############################################################################
-## 微信登录分享等 https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
--keep class com.tencent.mm.opensdk.** {
-    *;
-}
--keep class com.tencent.wxop.** {
-    *;
-}
--keep class com.tencent.mm.sdk.** {
-    *;
-}
-
-
-#############################################################################
-## 高德地图
-## 3D 地图 V5.0.0之前：
--keep   class com.amap.api.maps.**{*;}
--keep   class com.autonavi.amap.mapcore.*{*;}
--keep   class com.amap.api.trace.**{*;}
-
-## 3D 地图 V5.0.0之后：
--keep   class com.amap.api.maps.**{*;}
--keep   class com.autonavi.**{*;}
--keep   class com.amap.api.trace.**{*;}
-
-## 定位
--keep class com.amap.api.location.**{*;}
--keep class com.amap.api.fence.**{*;}
--keep class com.autonavi.aps.amapapi.model.**{*;}
-
-## 搜索
--keep   class com.amap.api.services.**{*;}
-
-## 2D地图
--keep class com.amap.api.maps2d.**{*;}
--keep class com.amap.api.mapcore2d.**{*;}
-
-## 导航
--keep class com.amap.api.navi.**{*;}
--keep class com.autonavi.**{*;}
-
-
-#############################################################################
-#PictureSelector 2.0
--keep class com.luck.picture.lib.** { *; }
-
-#Ucrop
--dontwarn com.yalantis.ucrop**
--keep class com.yalantis.ucrop** { *; }
--keep interface com.yalantis.ucrop** { *; }
 
 
 #############################################################################

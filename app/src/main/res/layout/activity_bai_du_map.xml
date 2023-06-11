@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@id/btn_start" />
 
     <Button
-        android:id="@+id/btn_get_address_by_latlng"
+        android:id="@+id/btn_get_address_by_latlng_http"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -50,13 +50,32 @@
         app:layout_constraintTop_toBottomOf="@id/btn_start" />
 
     <Button
-        android:id="@+id/btn_get_latlng_by_address"
+        android:id="@+id/btn_get_latlng_by_address_http"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onViewClicked"
         android:text="地址→'网络'→坐标"
-        app:layout_constraintLeft_toRightOf="@id/btn_get_address_by_latlng"
-        app:layout_constraintTop_toTopOf="@id/btn_get_address_by_latlng" />
+        app:layout_constraintLeft_toRightOf="@id/btn_get_address_by_latlng_http"
+        app:layout_constraintTop_toTopOf="@id/btn_get_address_by_latlng_http" />
+
+    <Button
+        android:id="@+id/btn_get_address_by_latlng_geo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onViewClicked"
+        android:text="坐标→'SDK'→地址"
+        app:layout_constraintLeft_toLeftOf="@id/btn_start"
+        app:layout_constraintTop_toBottomOf="@id/btn_get_latlng_by_address_http" />
+
+    <Button
+        android:id="@+id/btn_get_latlng_by_address_geo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="地址→'SDK'→坐标"
+        app:layout_constraintLeft_toRightOf="@id/btn_get_address_by_latlng_geo"
+        app:layout_constraintTop_toTopOf="@id/btn_get_address_by_latlng_geo" />
 
     <LinearLayout
         android:layout_width="wrap_content"

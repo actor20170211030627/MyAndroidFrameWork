@@ -13,23 +13,25 @@
         <!-- User defined. 用户自定义的广播接收器-->
         <!-- 这是3.3.0之前版本的接收方式，3.3.0开始是通过继承 JPushMessageReceiver并配置来接收所有事件回调。-->
         <!-- 如果仍然需要在这个Receiver里接收，需要在JPushMessageReceiver 的子类里不重写对应的回调方法，或者重写方法且调用super-->
-<!--        <receiver-->
-<!--            android:name=".utils.jpush.MyReceiver"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="false">-->
-<!--            <intent-filter>-->
-<!--                &lt;!&ndash;Required 用户注册 SDK 的 intent&ndash;&gt;-->
-<!--                <action android:name="cn.jpush.android.intent.REGISTRATION" />-->
-<!--                &lt;!&ndash;Required 用户接收 SDK 消息的 intent&ndash;&gt;-->
-<!--                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />-->
-<!--                &lt;!&ndash;Required 用户接收 SDK 通知栏信息的 intent&ndash;&gt;-->
-<!--                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />-->
-<!--                &lt;!&ndash;Required 用户打开自定义通知栏的 intent&ndash;&gt;-->
-<!--                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />-->
-<!--                &lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt;-->
-<!--                <action android:name="cn.jpush.android.intent.CONNECTION" />-->
-<!--                <category android:name="您应用的包名" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
+<!--
+        <receiver
+            android:name=".utils.jpush.MyReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                &lt;!&ndash;Required 用户注册 SDK 的 intent&ndash;&gt;
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                &lt;!&ndash;Required 用户接收 SDK 消息的 intent&ndash;&gt;
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                &lt;!&ndash;Required 用户接收 SDK 通知栏信息的 intent&ndash;&gt;
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                &lt;!&ndash;Required 用户打开自定义通知栏的 intent&ndash;&gt;
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                &lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt;
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="您应用的包名" />
+            </intent-filter>
+        </receiver>
+-->
     </application>
 </manifest>

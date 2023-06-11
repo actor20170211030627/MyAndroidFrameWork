@@ -5,10 +5,13 @@ import androidx.annotation.Nullable;
 
 import com.actor.chat_layout.ChatLayoutKit;
 import com.actor.chat_layout.emoji.DefaultEmojiList;
+import com.actor.map.baidu.BaiduLocationUtils;
+import com.actor.map.baidu.BaiduMapUtils;
+import com.actor.map.gaode.GaoDe3DMapUtils;
+import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
-import com.actor.myandroidframework.utils.baidu.BaiduMapUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
 import com.actor.sample.utils.Global;
@@ -44,14 +47,32 @@ public class MyApplication extends ActorApplication {
          */
         GreenDaoUtils.init(this, isAppDebug(), "test_db.db3", "123456", ItemEntityDao.class/*, ...*/);
 
-        //百度地图示例
+
+
+        //百度定位, 先同意隐私政策
+        BaiduLocationUtils.setAgreePrivacy(true);
+        //百度地图, 先同意隐私政策
+        BaiduMapUtils.setAgreePrivacy(true);
         BaiduMapUtils.init(this);
+
+
+
+        //高德定位, 先同意隐私政策
+        GaoDeLocationUtils.updatePrivacyShow(this, true, false);
+        GaoDeLocationUtils.updatePrivacyAgree(this, true);
+        //高德地图, 先同意隐私政策
+        GaoDe3DMapUtils.updatePrivacyShow(this, true, false);
+        GaoDe3DMapUtils.updatePrivacyAgree(this, true);
+
+
 
         //极光推送示例
         JPushUtils.setDebugMode(isAppDebug());//设置调试模式,在 init 接口之前调用
         JPushUtils.init(this);//初始化
         JPushUtils.stopPush(this);//停止推送, 防止未登录就接收到消息
         //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
+
+
 
         /**
          * 聊天示例

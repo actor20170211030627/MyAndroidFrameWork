@@ -1,11 +1,13 @@
 package com.actor.myandroidframework.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.View;
 
 import androidx.annotation.LayoutRes;
@@ -48,23 +50,35 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
     protected AppCompatActivity         activity;
     protected Map<String, Object>       params = new LinkedHashMap<>();
+    /** Activity 回调集合 */
+    @Nullable protected SparseArray<OnActivityCallback> mActivityCallbacks;
+    private   int                             requestCodeCounter4BaseActivity = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
         LogUtils.error(getClass().getName());
-        //设置屏幕朝向,在setContentView之前
+        /**
+         * 设置屏幕朝向,在setContentView之前. 如果 TODO
+         */
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // 界面跳转
     ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 跳转 Activity 简化版, from hjq
+     */
+    public void startActivity(Class<? extends Activity> clazz) {
+        startActivity(new Intent(this, clazz));
+    }
+
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        //如果自定义切换动画, 请重写这个方法
+        //如果自定义切换动画, 请重写↓这个方法
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
     }
 
@@ -82,17 +96,32 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         SharedElementUtils.startActivity(this, intent, isNeedUpdatePosition, sharedElementA, sharedElementCallback, sharedElements);
     }
 
+
+    public void startActivityForResult(Intent intent, OnActivityCallback callback) {
+        startActivityForResult(intent, null, callback);
+    }
+    public void startActivityForResult(Intent intent, @Nullable Bundle options, OnActivityCallback callback) {
+        if (mActivityCallbacks == null) mActivityCallbacks = new SparseArray<>(1);
+        mActivityCallbacks.put(++requestCodeCounter4BaseActivity, callback);
+        startActivityForResult(intent, requestCodeCounter4BaseActivity, options);
+    }
     @Override
+    @Deprecated
     public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-        //如果自定义切换动画, 请重写这个方法
+        startActivityForResult(intent, requestCode, null);
+    }
+    @Override
+    @Deprecated
+    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        //如果自定义切换动画, 请重写↓这个方法
+        super.startActivityForResult(intent, requestCode, options);
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
     }
 
     /**
      * 共享元素方式跳转
      * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.
-     * @param sharedElementA 如果A界面需要更新position, 需要 implements SharedElementA
+     * @param sharedElementA 如果A界面需要更新position, 需要 {@link SharedElementA implements SharedElementA}
      * @param sharedElementCallback 共享元素跳转回调
      * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
@@ -102,6 +131,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
                                        @NonNull View... sharedElements) {
         SharedElementUtils.startActivityForResult(this, intent, requestCode, isNeedUpdatePosition,
                 sharedElementA, sharedElementCallback, sharedElements);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        OnActivityCallback callback;
+        if (mActivityCallbacks != null && (callback = mActivityCallbacks.get(requestCode)) != null) {
+            callback.onActivityResult(resultCode, data);
+        }
+        mActivityCallbacks.remove(requestCode);
     }
 
     @Override
@@ -389,5 +428,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         params.clear();
         params = null;
 //        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
+    }
+
+
+    public interface OnActivityCallback {
+
+        /**
+         * 结果回调 from hjq
+         * @param resultCode        结果码
+         * @param data              数据
+         */
+        void onActivityResult(int resultCode, @Nullable Intent data);
     }
 }

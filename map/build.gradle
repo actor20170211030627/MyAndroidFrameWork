@@ -1,0 +1,81 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode         rootProject.ext.android.versionCode
+        versionName         rootProject.ext.android.versionName
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
+    // 打包源码jar
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+    task javadoc(type: Javadoc) {
+        failOnError false
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.compile
+    }
+    // 打包文档jar
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+    // javadoc configuration
+    javadoc {
+        options{
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/7/docs/api"
+//            title javadocName
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //基础库
+    implementation project(path: ':library')
+
+
+    //百度定位
+    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Location:9.4.0'
+    //百度地图
+    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Map:7.5.7.1'
+    //百度检索
+    compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Search:7.5.7.1'
+
+
+    //高德地图, 最新版本: https://lbs.amap.com/api/android-sdk/download
+    compileOnly 'com.amap.api:3dmap:9.7.0'//3D地图
+//    compileOnly 'com.amap.api:map2d:6.0.0'//2D地图
+//    compileOnly 'com.amap.api:navi-3dmap:9.8.0_3dmap9.6.2'//导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap)
+    compileOnly 'com.amap.api:search:9.5.0'//搜索
+    compileOnly 'com.amap.api:location:6.3.0'//定位
+}

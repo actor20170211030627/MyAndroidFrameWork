@@ -58,8 +58,10 @@ public class ViewBindingActivity<VB extends ViewBinding> extends ActorBaseActivi
     }
 
     /**
-     * 替换掉 Butterknife 的 @OnClick() 点击事件注解. 如果点击事件很多, 写起来很麻烦.
-     * Activity中可以在xml中的view写: android:onClick="onViewClicked", 然后Activity中的 onViewClicked(View view)用 ButterKnife 生成.
+     * 替换掉 Butterknife 的 @OnClick() 点击事件注解. 如果点击事件很多, 写起来很麻烦. <br />
+     * 1.Activity中可以在xml中的view写: <br />
+     *   &emsp; android:onClick="onViewClicked" <br />
+     * 2.然后Activity中的 重写 {@link #onViewClicked(View view)} (用 ButterKnife 生成).
      * @param ids 要设置点击事件的view的id
      *
      */
