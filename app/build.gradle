@@ -100,9 +100,6 @@ dependencies {
     implementation 'cn.jiguang.sdk:jpush:3.6.6'
     implementation 'cn.jiguang.sdk:jcore:2.3.8'
 
-    //https://github.com/yanzhenjie/Album 图片选择
-    implementation 'com.yanzhenjie:album:2.1.3'
-
 
     // 图片压缩 (按需引入): 如果你需要使用压缩图片功能, 需要添加下面这行依赖
     implementation 'io.github.lucksiege:compress:v3.10.9'
@@ -123,12 +120,12 @@ dependencies {
     //百度检索
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Search:7.5.7.1'
 
-    //高德地图
-    implementation 'com.amap.api:3dmap:9.7.0' //3D地图 <br />
+    //高德地图, 最新版本: https://lbs.amap.com/api/android-sdk/download
+    implementation 'com.amap.api:3dmap:9.7.0' //3D地图(9.3.0以后版本包含了location定位SDK,就不用导入location) <br />
 //    implementation 'com.amap.api:map2d:6.0.0' //2D地图 <br />
 //    implementation 'com.amap.api:navi-3dmap:9.8.0_3dmap9.6.2' //导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap) <br />
-    implementation 'com.amap.api:search:9.5.0' //搜索 <br />
-    implementation 'com.amap.api:location:6.3.0' //定位 <br />
+    implementation 'com.amap.api:search:9.7.0' //搜索 <br />
+//    implementation 'com.amap.api:location:6.3.0' //定位 <br />
 
 
 
@@ -145,6 +142,8 @@ dependencies {
     implementation project(path: ':emojis')
 
     implementation project(path: ':map')
+
+    implementation project(path: ':qq_wechat')
 
 
 

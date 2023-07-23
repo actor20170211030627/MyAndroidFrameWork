@@ -32,9 +32,16 @@ public class Global {
             "-debug.apk";
 
 
-    //thanks: https://www.cr173.com/soft/2134.html
-    public static final String PICPICK_DOWNLOAD_URL = "http://cr3.197946.com/picpick_portable_5.0.7.zip";
+    //thanks: https://downloads.gradle.org/distributions/ 10.09MB
+    public static final String GRADLE_DOWNLOAD_URL = "https://downloads.gradle.org/distributions/gradle-1.9-rc-4-src.zip";
 
+    //豆瓣书
+    public static final String DOU_BAN_BOOK = "https://api.douban.com/v2/book/1220562";
+
+    //红点位置
+    public static final String ADDRESS_RED_POINT = "四川省成都市锦江区锦华路1段-189号";
+    //新疆位置
+    public static final String ADDRESS_XIN_JIANG = "新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号";
 
     public static final String CONTENT = "CONTENT";
     public static final String ID = "ID";

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.tencent.WeChatUtils;
+import com.actor.qq_wechat.WeChatUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;

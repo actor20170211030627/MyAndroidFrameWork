@@ -3,10 +3,7 @@
     package="com.actor.myandroidframework">
 
     <!-- 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'里面的allowBackup=true... -->
-    <application
-        android:allowBackup="false"
-        android:networkSecurityConfig="@xml/network_security_config"
-        tools:replace="android:allowBackup">
+    <application android:networkSecurityConfig="@xml/network_security_config">
 
         <!--极光推送-->
         <!--https://docs.jiguang.cn//jpush/client/Android/android_guide/-->

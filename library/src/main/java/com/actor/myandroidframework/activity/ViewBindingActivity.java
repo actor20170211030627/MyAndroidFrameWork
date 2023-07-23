@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
@@ -80,12 +81,12 @@ public class ViewBindingActivity<VB extends ViewBinding> extends ActorBaseActivi
     }
 
     /**
-     * 就是和 ButterKnife 生成的点击事件一样的名称
-     * //https://github.com/JakeWharton/butterknife 可用于生成onViewClicked()方法 switch-case 的点击事件
-     * compileOnly 'com.jakewharton:butterknife:10.2.3'
-     * //annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+     * 就是和 ButterKnife 生成的点击事件一样的名称 <br />
+     * //https://github.com/JakeWharton/butterknife 可用于生成onViewClicked()方法 switch-case 的点击事件 <br />
+     * compileOnly 'com.jakewharton:butterknife:10.2.3' <br />
+     * //annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3' <br />
      * @param view
      */
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
     }
 }

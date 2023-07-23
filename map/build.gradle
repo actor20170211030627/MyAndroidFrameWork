@@ -73,9 +73,9 @@ dependencies {
 
 
     //高德地图, 最新版本: https://lbs.amap.com/api/android-sdk/download
-    compileOnly 'com.amap.api:3dmap:9.7.0'//3D地图
+    compileOnly 'com.amap.api:3dmap:9.7.0'//3D地图(9.3.0以后版本包含了location定位SDK,就不用导入location)
 //    compileOnly 'com.amap.api:map2d:6.0.0'//2D地图
 //    compileOnly 'com.amap.api:navi-3dmap:9.8.0_3dmap9.6.2'//导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap)
-    compileOnly 'com.amap.api:search:9.5.0'//搜索
-    compileOnly 'com.amap.api:location:6.3.0'//定位
+    compileOnly 'com.amap.api:search:9.7.0'//搜索
+//    compileOnly 'com.amap.api:location:6.3.0'//定位
 }

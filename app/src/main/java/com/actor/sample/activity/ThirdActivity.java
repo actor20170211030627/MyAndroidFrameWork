@@ -11,20 +11,20 @@ import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
-import com.actor.myandroidframework.utils.tencent.BaseUiListener;
-import com.actor.myandroidframework.utils.tencent.QQUtils;
-import com.actor.myandroidframework.utils.tencent.WeChatUtils;
+import com.actor.picture_selector.utils.PictureSelectorUtils;
+import com.actor.qq_wechat.BaseUiListener;
+import com.actor.qq_wechat.QQUtils;
+import com.actor.qq_wechat.WeChatUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityThirdBinding;
 import com.actor.sample.wxapi.WXEntryActivity;
 import com.actor.sample.wxapi.WXPayEntryActivity;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.tauth.Tencent;
-import com.yanzhenjie.album.Action;
-import com.yanzhenjie.album.AlbumFile;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,22 +82,29 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                 });
                 break;
             case R.id.btn_share_img://分享图片
-                AlbumUtils.selectImage(this, false, new Action<ArrayList<AlbumFile>>() {
-                    @Override
-                    public void onAction(@NonNull ArrayList<AlbumFile> result) {
-                        QQUtils.shareToQQImg(activity, result.get(0).getPath(), "点我返回哟哟a", null,
-                                new BaseUiListener() {
+                PictureSelectorUtils.create(this, null)
+                        .selectImage(false)
+                        .setSingleSelect(true)
+                        .setShowCamera(true)
+                        .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
-                            public void doComplete(@Nullable JSONObject response) {
-                                LogUtils.error(response);
+                            public void onResult(ArrayList<LocalMedia> result) {
+                                QQUtils.shareToQQImg(activity, result.get(0).getPath(), "点我返回哟哟a", null,
+                                        new BaseUiListener() {
+                                            @Override
+                                            public void doComplete(@Nullable JSONObject response) {
+                                                LogUtils.error(response);
+                                            }
+                                        });
+                                //还有其它分享方式
+//                                QQUtils.shareToQQApp();
+//                                QQUtils.shareToQQAudio();
+//                                QQUtils.shareToQQImgTxt();
+                            }
+                            @Override
+                            public void onCancel() {
                             }
                         });
-                        //还有其它分享方式
-//                        QQUtils.shareToQQApp();
-//                        QQUtils.shareToQQAudio();
-//                        QQUtils.shareToQQImgTxt();
-                    }
-                });
                 break;
             case R.id.btn_logout://退出
                 QQUtils.logout();

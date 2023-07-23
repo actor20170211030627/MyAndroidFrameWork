@@ -10,7 +10,6 @@ import com.actor.map.baidu.BaiduMapUtils;
 import com.actor.map.gaode.GaoDe3DMapUtils;
 import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
-import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
@@ -33,9 +32,6 @@ public class MyApplication extends ActorApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
-
-        //配置画廊, 图片/视频选择(不建议使用这个工具类, 建议直接使用 PictureSelectorUtils)
-        AlbumUtils.init(this);
 
         /**
          * 数据库使用示例
@@ -61,7 +57,7 @@ public class MyApplication extends ActorApplication {
         GaoDeLocationUtils.updatePrivacyShow(this, true, false);
         GaoDeLocationUtils.updatePrivacyAgree(this, true);
         //高德地图, 先同意隐私政策
-        GaoDe3DMapUtils.updatePrivacyShow(this, true, false);
+        GaoDe3DMapUtils.updatePrivacyShow(this, true, true);
         GaoDe3DMapUtils.updatePrivacyAgree(this, true);
 
 
@@ -86,7 +82,7 @@ public class MyApplication extends ActorApplication {
 
     @Nullable
     @Override
-    protected OkHttpClient.Builder configOkHttpClientBuilder(OkHttpClient.Builder builder) {
+    protected OkHttpClient.Builder configOkHttpClientBuilder(@NonNull OkHttpClient.Builder builder) {
         return null;
     }
 //    @Override

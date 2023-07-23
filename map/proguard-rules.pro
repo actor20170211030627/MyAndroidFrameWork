@@ -36,6 +36,7 @@
 
 
 #############################################################################
+# https://lbs.amap.com/api/android-sdk/guide/create-project/dev-attention
 ## 高德地图
 # 3D 地图 V5.0.0之前：
 -keep   class com.amap.api.maps.**{*;}

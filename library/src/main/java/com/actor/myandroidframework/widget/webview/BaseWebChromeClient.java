@@ -201,13 +201,20 @@ public class BaseWebChromeClient extends WebChromeClient {
 //        Intent intent = fileChooserParams.createIntent();
 
         //选择图片
-//        AlbumUtils.selectImage(activity, true, new Action<ArrayList<AlbumFile>>() {
-//            @Override
-//            public void onAction(@NonNull ArrayList<AlbumFile> result) {
-//                Uri uri = Uri.fromFile(new File(result.get(0).getPath()));
-//                filePathCallback.onReceiveValue(new Uri[]{uri});
-//            }
-//        });
+//        PictureSelectorUtils.create(activity, null)
+//                .selectImage(false)
+//                .setSingleSelect(true)
+//                .setShowCamera(true)
+//                .forResult(new OnResultCallbackListener<LocalMedia>() {
+//                    @Override
+//                    public void onResult(ArrayList<LocalMedia> result) {
+//                        Uri uri = Uri.fromFile(new File(result.get(0).getRealPath()));
+//                        filePathCallback.onReceiveValue(new Uri[]{uri});
+//                    }
+//                    @Override
+//                    public void onCancel() {
+//                    }
+//                });
 
 //        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
         return true;

@@ -18,18 +18,17 @@ import com.blankj.utilcode.util.GsonUtils;
  * 该接口会异步获取定位结果，实现方式如下：
  */
 
-public class MyLocationListener extends BDAbstractLocationListener {
+public class BDLocationListener extends BDAbstractLocationListener {
 
     protected OnLocationResult onLocationResult;
 
     public static double lngDefault, latDefault;//默认经纬度, 如果定位失败返回默认, 可在Application中设置
     public static String addressDefault;//默认地址, 如果定位失败返回默认, 可在Application中设置
 
-    public MyLocationListener(OnLocationResult onLocationResult) {
+    public BDLocationListener(OnLocationResult onLocationResult) {
         this.onLocationResult = onLocationResult;
     }
 
-    private String  msg;
     private boolean locationSuccess = false;
 
     @Override

@@ -268,9 +268,10 @@ public class TextUtils2 {
      * 具体格式化方式可参考:
      * https://gitee.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
      */
-    public static String getStringFormat(String format, Object... args) {
+    @NonNull
+    public static String getStringFormat(@NonNull String format, @Nullable Object... args) {
         //如果args为空, format会报错: MissingFormatArgumentException: Format specifier '%E'
-        if (args == null || args.length == 0) return format;
+        if (format == null || args == null || args.length == 0) return getNoNullString(format);
         return String.format(format, args);
     }
 
@@ -284,7 +285,8 @@ public class TextUtils2 {
     /**
      * @return 返回不为空的字符串, 如果为空返回""
      */
-    public static @NonNull String getNoNullString(Object object) {
+    @NonNull
+    public static String getNoNullString(@Nullable Object object) {
         return getNoNullString(object, "");
     }
 
@@ -292,7 +294,8 @@ public class TextUtils2 {
      * @return 返回不为空的字符串, 如果为空返回defaultStr
      * @param defaultStr 如果object = null, 返回这个默认值
      */
-    public static @NonNull String getNoNullString(Object object, String defaultStr) {
+    @NonNull
+    public static String getNoNullString(@Nullable Object object, @NonNull String defaultStr) {
         return object == null ? defaultStr == null ? "" : defaultStr : object.toString();
     }
 

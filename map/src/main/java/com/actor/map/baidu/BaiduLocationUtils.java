@@ -69,17 +69,17 @@ import com.blankj.utilcode.util.Utils;
  *     </li>
  *     <li>
  *         使用示例: <br />
- *         BaiduLocationUtils.setAgreePrivacy(true); //先同意隐私政策 <br />
+ *         {@link BaiduLocationUtils#setAgreePrivacy(boolean) BaiduLocationUtils.setAgreePrivacy(true);} //先同意隐私政策 <br />
  *         <br />
- *         //1.开始定位, listener 可直接使用or继承or参考: {@link MyLocationListener} <br />
+ *         //1.开始定位, listener 可直接使用or继承or参考: {@link BDLocationListener} <br />
  *         <code>
- *             BaiduLocationUtils.registerListener(locationListener); <br />
- *             BaiduLocationUtils.start();                            <br />
- *         </code>                                                    <br />
+ *             {@link BaiduLocationUtils#registerLocationListener(BDAbstractLocationListener) BaiduLocationUtils.registerLocationListener(locationListener);} <br />
+ *             {@link BaiduLocationUtils#start() BaiduLocationUtils.start();}   <br />
+ *         </code>                                                              <br />
  *         //2.停止定位 or Activity/Fragment销毁后 <br />
  *         <code>
- *             BaiduLocationUtils.unregisterListener(locationListener); <br />
- *             BaiduLocationUtils.stop();
+ *             {@link BaiduLocationUtils#unRegisterLocationListener(BDAbstractLocationListener) BaiduLocationUtils.unRegisterLocationListener(locationListener);} <br />
+ *             {@link BaiduLocationUtils#stop() BaiduLocationUtils.stop();}
  *         </code>
  *     </li>
  * </ol> <br />
@@ -135,15 +135,15 @@ public class BaiduLocationUtils {
     /**
      * 注册定位监听
      */
-    public static void registerListener(@NonNull BDAbstractLocationListener listener) {
-        registerListener(null, listener);
+    public static void registerLocationListener(@NonNull BDAbstractLocationListener listener) {
+        registerLocationListener(null, listener);
     }
 
     /**
      * 注册定位监听
      * @param option 定位配置选项
      */
-    public static void registerListener(@Nullable LocationClientOption option, @NonNull BDAbstractLocationListener listener) {
+    public static void registerLocationListener(@Nullable LocationClientOption option, @NonNull BDAbstractLocationListener listener) {
         LocationClient client = getLocationClient();
         client.setLocOption(option == null ? getDefaultLocationClientOption() : option);
         /**
@@ -155,7 +155,7 @@ public class BaiduLocationUtils {
     /**
      * 注销定位监听
      */
-    public static void unregisterListener(@NonNull BDAbstractLocationListener listener) {
+    public static void unRegisterLocationListener(@NonNull BDAbstractLocationListener listener) {
         getLocationClient().unRegisterLocationListener(listener);
     }
 

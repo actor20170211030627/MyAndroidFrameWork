@@ -156,6 +156,28 @@ public class BaseWebViewClient extends WebViewClient {
                 errorResponse.getReasonPhrase(), responseJson, errorResponse.getData());
     }
 
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        super.onReceivedError(view, errorCode, description, failingUrl);
+        LogUtils.errorFormat("收到错误, onReceivedError, errorCode=%d, description=%s, failingUrl=%s",
+                errorCode, description, failingUrl);
+        /**
+         * 系统默认界面难看，而且也会暴露网页地址, 不安全, 应该重写本方法, 示例错误处理:
+         */
+//        if (errorCode == ERROR_HOST_LOOKUP) {
+//            //网页无法打开, 显示自定义提示
+//            view.loadData("<font size='20px' color='red'>网页无法打开, 请检查网络!</font>", "text/html; charset=UTF-8", "UTF-8");
+//        } else {
+//            //网页显示空白, 避免出现默认的错误界面(会暴露网页地址)
+//            view.loadUrl("about:blank");
+//        }
+        /**
+         * 或者在Activity/Fragment显示自定义错误View
+         */
+//        tvError.setVisibility(View.VISIBLE);//正在维护中...
+//        webView.setVisibility(View.GONE);
+    }
+
     /**
      * 向主机应用程序报告web资源加载错误。这些错误通常表明无法连接到服务器(超时/不存在等)
      */
@@ -184,8 +206,5 @@ public class BaseWebViewClient extends WebViewClient {
             LogUtils.errorFormat("收到错误, onReceivedError, error: ErrorCode=%d, Description=%s",
                     error.getErrorCode(), error.getDescription());
         }
-
-//        tvError.setVisibility(View.VISIBLE);//正在维护中...
-//        view.setVisibility(View.GONE);
     }
 }

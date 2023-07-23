@@ -9,23 +9,21 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
-import com.actor.map.baidu.BaiduGeoCoderUtils;
-import com.actor.map.baidu.LngLatInfo;
-import com.actor.myandroidframework.utils.album.AlbumUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.PostFileCallback;
 import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
+import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityNetWorkAndImageBinding;
 import com.actor.sample.info.GithubInfo;
 import com.actor.sample.retrofit.api.GithubApi;
 import com.actor.sample.utils.Global;
 import com.bumptech.glide.Glide;
-import com.yanzhenjie.album.Action;
-import com.yanzhenjie.album.AlbumFile;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -89,15 +87,22 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
             case R.id.btn_download://下载进度测试
                 downloadApk();
                 break;
-            case R.id.btn_select_pic://上传文件(可上传中文名文件)
-                AlbumUtils.selectImage(this, false, new Action<ArrayList<AlbumFile>>() {
-                    @Override
-                    public void onAction(@NonNull ArrayList<AlbumFile> result) {
-                        picPath = result.get(0).getPath();
-                    }
-                });
+            case R.id.btn_select_pic://选择图片
+                PictureSelectorUtils.create(this, null)
+                        .selectImage(false)
+                        .setSingleSelect(true)
+                        .setShowCamera(true)
+                        .forResult(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(ArrayList<LocalMedia> result) {
+                                picPath = result.get(0).getRealPath();
+                            }
+                            @Override
+                            public void onCancel() {
+                            }
+                        });
                 break;
-            case R.id.btn_upload:
+            case R.id.btn_upload://上传文件(可上传中文名文件)
                 if (picPath != null) {
                     uploadFile(picPath);
                 } else showToast("请选择图片");
@@ -112,18 +117,10 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     }
 
     private void getByOkHttpUtils() {
-        BaiduGeoCoderUtils.getLngLatByNet("新疆维吾尔自治区乌鲁木齐市沙依巴克区奇台路676号", new BaseCallback<LngLatInfo>(this) {
+        MyOkHttpUtils.get(Global.DOU_BAN_BOOK, null, new BaseCallback<String>(this) {
             @Override
-            public void onOk(@NonNull LngLatInfo info, int id, boolean isRefresh) {
-                if (info.status == 0) {
-                    LngLatInfo.ResultBean result = info.result;
-                    if (result != null) {
-                        LngLatInfo.ResultBean.LocationBean location = result.location;
-                        if (location != null) {
-                            showToastFormat("lng=%f, lat=%f", location.lng, location.lat);
-                        }
-                    }
-                } else showToast(info.message);
+            public void onOk(@NonNull String info, int requestId, boolean isRefresh) {
+                showToast(info);
             }
         });
     }
@@ -155,8 +152,8 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
 
     private void downloadApk() {
         if (!alreadyDownload) {
-            MyOkHttpUtils.getFile(Global.PICPICK_DOWNLOAD_URL, null, null,
-                    new GetFileCallback(this, GetFileCallback.getFileNameFromUrl(Global.PICPICK_DOWNLOAD_URL)) {
+            MyOkHttpUtils.getFile(Global.GRADLE_DOWNLOAD_URL, null, null,
+                    new GetFileCallback(this, GetFileCallback.getFileNameFromUrl(Global.GRADLE_DOWNLOAD_URL)) {
                 @Override
                 public void onOk(@NonNull File info, int id, boolean isRefresh) {
                 }

@@ -166,11 +166,6 @@
 
 
 #############################################################################
-## Album
--dontwarn com.yanzhenjie.album.**
--dontwarn com.yanzhenjie.mediascanner.**
-
-#############################################################################
 ## EventBus
 -keepattributes *Annotation*
 -keepclassmembers class ** {

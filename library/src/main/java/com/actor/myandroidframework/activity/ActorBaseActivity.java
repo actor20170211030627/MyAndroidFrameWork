@@ -50,6 +50,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
     protected AppCompatActivity         activity;
     protected Map<String, Object>       params = new LinkedHashMap<>();
+
     /** Activity 回调集合 */
     @Nullable protected SparseArray<OnActivityCallback> mActivityCallbacks;
     private   int                             requestCodeCounter4BaseActivity = 0;
@@ -59,11 +60,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         super.onCreate(savedInstanceState);
         activity = this;
         LogUtils.error(getClass().getName());
-        /**
-         * 设置屏幕朝向,在setContentView之前. 如果 TODO
-         */
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //设置屏幕朝向,在setContentView之前
+        setRequestedOrientation(getScreenOrientation());
     }
+    /**
+     * 屏幕方向, 可重写此方法. 如果不设置时的默认值: SCREEN_ORIENTATION_UNSPECIFIED(未指定)
+     */
+    protected int getScreenOrientation() {
+        return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;    //竖屏
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     // 界面跳转
@@ -78,7 +84,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        //如果自定义切换动画, 请重写↓这个方法
+        //如果自定义切换动画, 请在子类调用startActivity(intent);之后, 复制↓这1行并填入动画
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
     }
 
@@ -113,8 +119,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     @Deprecated
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        //如果自定义切换动画, 请重写↓这个方法
         super.startActivityForResult(intent, requestCode, options);
+        //如果自定义切换动画, 请在子类调用startActivityForResult(intent, requestCode, options);之后, 复制↓这1行并填入动画
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
     }
 
@@ -146,7 +152,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     public void finish() {
         super.finish();
-        //如果自定义切换动画, 请重写这个方法
+        //如果自定义切换动画, 请在子类调用finish();之后, 复制↓这1行并填入动画
         overridePendingTransition(R.anim.pre_enter, R.anim.next_exit);
     }
 

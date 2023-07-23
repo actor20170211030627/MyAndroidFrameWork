@@ -72,7 +72,6 @@ api 'com.zhy:okhttputils:2.6.2'
 
 **2.3.Utils工具类**
 <pre>
-<s><a href="library/src/main/java/com/actor/myandroidframework/utils/album/AlbumUtils.java" target="_blank">AlbumUtils</a> (选图片/选视频/拍照/录视频/预览图片)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放录音)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
 <s><a href="library/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java" target="_blank">SQLiteDatabaseUtils</a> (原生数据库)</s>
@@ -170,7 +169,7 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             //需要在自己项目中集成constraint包, 版本version>=1.1.3
             implementation 'androidx.constraintlayout:constraintlayout:version xxx'
 
-            //https://github.com/actor20170211030627/MyAndroidFrameWork
+            //https://github.com/actor20170211030627/MyAndroidFrameWork (基类依赖,这个必须添加)
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:library:github's latest version'
             <s>implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's latest version'(Gitee在jitpack不能打包,不再维护 Deprecated)</s>
 
@@ -201,13 +200,16 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             /**
              * 如果需要百度/高德地图, 可添加如下依赖 (按需引入)
              * 并可使用:
+             * <a href="map/src/main/java/com/actor/map/baidu/BaiduGeoCoderUtils.java" target="_blank">BaiduGeoCoderUtils</a> (百度地理编码)
              * <a href="map/src/main/java/com/actor/map/baidu/BaiduLocationUtils.java" target="_blank">BaiduLocationUtils</a> (百度地图定位)
              * <a href="map/src/main/java/com/actor/map/baidu/BaiduMapUtils.java" target="_blank">BaiduMapUtils</a> (百度地图)
-             * <a href="map/src/main/java/com/actor/map/baidu/BaiduGeoCoderUtils.java" target="_blank">BaiduGeoCoderUtils</a> (百度地理编码)
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeLocationUtils.java" target="_blank">GaoDeLocationUtils</a> (高德地图定位)
+             * <a href="map/src/main/java/com/actor/map/baidu/BaiduUriApiUtils.java" target="_blank">BaiduUriApiUtils</a> (百度地图Uri调起)<b>(注意: 本工具类不用集成百度地图SDK)</b>
              * <a href="map/src/main/java/com/actor/map/gaode/GaoDe3DMapUtils.java" target="_blank">GaoDe3DMapUtils</a> (高德3D地图)
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUiSettingUtils.java" target="_blank">GaoDeUiSettingUtils</a> (高德地图UI界面)
              * <a href="map/src/main/java/com/actor/map/gaode/GaoDeGeoCoderUtils.java" target="_blank">GaoDeGeoCoderUtils</a> (高德地理编码)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeLocationUtils.java" target="_blank">GaoDeLocationUtils</a> (高德地图定位)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeShapeUtils.java" target="_blank">GaoDeShapeUtils</a> (高德画形状小工具)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUiSettingUtils.java" target="_blank">GaoDeUiSettingUtils</a> (高德地图UI界面)
+             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUriApiUtils.java" target="_blank">GaoDeUriApiUtils</a> (高德地图Uri调起)<b>(注意: 本工具类不用集成高德地图SDK)</b>
              */
              implementation 'com.github.actor20170211030627.MyAndroidFrameWork:map:github's latest version'
 
@@ -242,7 +244,7 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
 4.&lt;style name="AppTheme" parent="AppThemeForMyAndroidFrameWork"> 你的style可继承这个style (非必须继承)
 </pre>
 
-## 10.有问题请升级到最新版本: Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues" target="_blank">issues</a>, 或发邮箱: <a href="mailto:1455198886@qq.com">email</a>
+## 10.有问题请升级到最新版本: Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues" target="_blank">issues</a>, 发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 11.License
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
