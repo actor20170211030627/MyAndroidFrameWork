@@ -433,8 +433,10 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
         Editable text = editText.getText();
         CharSequence result = regexFilter.filterCharSequence(text);
         if (!TextUtils.equals(text, result)) {
+            int selectionEnd = editText.getSelectionEnd();
             setText(result);
-            //光标移动到最后
+            //移动光标
+            editText.setSelection(Math.min(selectionEnd, result.length()));
             editText.setSelection(result.length());
         }
     }

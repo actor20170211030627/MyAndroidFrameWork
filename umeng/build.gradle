@@ -1,0 +1,75 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode         rootProject.ext.android.versionCode
+        versionName         rootProject.ext.android.versionName
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
+    // 打包源码jar
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+    task javadoc(type: Javadoc) {
+        failOnError false
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.compile
+    }
+    // 打包文档jar
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+    // javadoc configuration
+    javadoc {
+        options{
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/7/docs/api"
+//            title javadocName
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //基础库
+    implementation project(path: ':library')
+
+    //友盟基础组件库（所有友盟业务SDK都依赖基础组件库 <br />
+    compileOnly  'com.umeng.umsdk:common:9.6.3'  // (必选) <br />
+    compileOnly  'com.umeng.umsdk:asms:1.8.0'    // 必选 <br />
+    //高级运营分析功能依赖库，请务必集成，以免影响应用安装卸载情况、及对异常设备的准确识别。common需搭配v9.6.3及以上版本，asms需搭配v1.7.0及以上版本 <br />
+    compileOnly 'com.umeng.umsdk:uyumao:1.1.2'
+
+//    compileOnly  'com.umeng.umsdk:abtest:1.0.1'  //使用U-App中ABTest能力，可选
+
+    compileOnly  'com.umeng.umsdk:push:6.6.1'    //消息推送
+}

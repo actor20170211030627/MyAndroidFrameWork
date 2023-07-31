@@ -129,7 +129,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <img src="captures/chat_layout.gif" width=33%></img>
 
 ## 4.Sample
-<a href="app/build/outputs/apk/debug/app-debug.apk" target="_blank">download apk</a>
+<s><a href="app/build/outputs/apk/debug/app-debug.apk" target="_blank">download apk</a> 请自行下载项目运行</s>
 
 ## 5.minSdkVersion [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
     如果您项目的minSdkVersion小于21, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
@@ -146,10 +146,10 @@ Add it in your root build.gradle at the end of repositories:
             ...
             maven { url 'https://jitpack.io' }
             //如果发现jitpack的依赖下载不下来, 并报错: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
-            那么这是jitpack网站证书问题, 解决办法:
-            1.AndroidStudio -> Settings -> Build -> Build Tools -> Gradle -> 查看Gradle JDK 目录.
-            2.下载 <a href="captures/cacerts" target="_blank">cacerts</a> 文件, 替换上方的 JDK目录jre\lib\security\cacerts 文件.(原文件记得自己备份)
-            3.Gradle重新同步一下应该就可以了
+            //那么这是jitpack网站证书问题, 解决办法:
+            //1.AndroidStudio -> Settings -> Build -> Build Tools -> Gradle -> 查看Gradle JDK 目录.
+            //2.下载 <a href="captures/cacerts" target="_blank">cacerts</a> 文件, 替换上方的 JDK目录jre\lib\security\cacerts 文件.(原文件记得自己备份)
+            //3.Gradle重新同步一下应该就可以了
         }
     }
 </pre>
@@ -172,7 +172,9 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             //https://github.com/actor20170211030627/MyAndroidFrameWork (基类依赖,这个必须添加)
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:library:github's latest version'
             <s>implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's latest version'(Gitee在jitpack不能打包,不再维护 Deprecated)</s>
-
+    }
+</pre>
+<pre>
             /**
              * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
              * 并可使用: <a href="picture_selector/src/main/java/com/actor/picture_selector/utils/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
@@ -187,7 +189,8 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             implementation 'io.github.lucksiege:ucrop:v3.10.9'
             // 自定义相机 (按需引入)
             implementation 'io.github.lucksiege:camerax:v3.10.9'
-
+</pre>
+<pre>
             /**
              * 如果需要聊天, 可添加如下依赖 (按需引入)
              * 并可使用: <a href="chat_layout/src/main/java/com/actor/chat_layout/VoiceRecorderView.java" target="_blank">VoiceRecorderView</a> (低仿微信录音)
@@ -196,7 +199,8 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:chat_layout:github's latest version'
             //如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入), emoji表情初始化可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github's latest version'
-
+</pre>
+<pre>
             /**
              * 如果需要百度/高德地图, 可添加如下依赖 (按需引入)
              * 并可使用:
@@ -212,11 +216,16 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
              * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUriApiUtils.java" target="_blank">GaoDeUriApiUtils</a> (高德地图Uri调起)<b>(注意: 本工具类不用集成高德地图SDK)</b>
              */
              implementation 'com.github.actor20170211030627.MyAndroidFrameWork:map:github's latest version'
-
-
-
-
-    }
+</pre>
+<pre>
+            /**
+             * 如果需要友盟统计/推送, 可添加如下依赖 (按需引入)
+             * 并可使用:
+             * <a href="umeng/src/main/java/com/actor/umeng/UMConfigureUtils.java" target="_blank">UMConfigureUtils</a> (友盟基础配置)
+             * <a href="umeng/src/main/java/com/actor/umeng/UMAnalyticsUtils.java" target="_blank">UMAnalyticsUtils</a> (友盟统计)
+             * <a href="umeng/src/main/java/com/actor/umeng/UMPushUtils.java" target="_blank">UMPushUtils</a> (友盟推送)
+             */
+             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:umeng:github's latest version'
 </pre>
 
 ## 7.<code>AndroidManifest.xml</code>合并清单文件报错
