@@ -81,8 +81,7 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
 //    private static final String arg5 = "arg5";
 
     private Marker         infoWindowMarker;//提示窗
-    private final String[] permissions = {Permission.ACCESS_COARSE_LOCATION,
-            Permission.ACCESS_FINE_LOCATION, Permission.WRITE_EXTERNAL_STORAGE};
+    private final String[] permissions = {Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

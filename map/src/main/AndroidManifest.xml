@@ -93,8 +93,7 @@
 
 
 
-    <!-- 添加android:requestLegacyExternalStorage 属性, 否则Honor 7A(Android 8.0.0)请求定位权限的时候会崩溃 -->
-    <application android:requestLegacyExternalStorage="true">
+    <application>
 
         <!-- https://lbsyun.baidu.com/index.php?title=android-locsdk/guide/create-project/android-studio -->
         <!--百度定位设置AK，在Application标签中加入-->

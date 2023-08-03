@@ -33,9 +33,11 @@ api 'com.blankj:utilcodex:1.31.1'
 <li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
-<li>//https://gitee.com/getActivity/XXPermissions 轮子哥权限
-//https://github.com/getActivity/XXPermissions
-api 'com.github.getActivity:XXPermissions:16.8'
+<li>//https://github.com/getActivity/XXPermissions 轮子哥权限
+api 'com.github.getActivity:XXPermissions:18.2'
+</li>
+<li>// 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
+api 'com.github.getActivity:Toaster:12.3'
 </li>
 <li>//https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
 api 'com.contrarywind:Android-PickerView:4.1.9'
@@ -94,6 +96,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/SPUtils.java" target="_blank">SPUtils</a> (SP工具)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/TextUtils2.java" target="_blank">TextUtils2</a> (获取Text, 判空, getStringFormat, ...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ThreadUtils.java" target="_blank">ThreadUtils</a> (线程判断/切换)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/ToasterUtils.java" target="_blank">ToasterUtils</a> (吐司工具类-轮子哥)
 </pre>
 
 **2.4.Widget小控件**
@@ -229,7 +232,7 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
 </pre>
 
 ## 7.<code>AndroidManifest.xml</code>合并清单文件报错
-    1.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found.
+    1.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found. //分区存储
       需要将 compileSdkVersion 升级到 29
 
 ## 8.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:

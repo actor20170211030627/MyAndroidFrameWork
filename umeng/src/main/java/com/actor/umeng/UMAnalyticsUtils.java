@@ -22,7 +22,7 @@ import java.util.Map;
  * </ul>
  *
  * @author : ldf
- * date       : 2023/7/26 on 12
+ * @update : 2023/7/26 on 12
  */
 public class UMAnalyticsUtils {
 

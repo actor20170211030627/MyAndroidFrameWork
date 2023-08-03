@@ -145,8 +145,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         OnActivityCallback callback;
         if (mActivityCallbacks != null && (callback = mActivityCallbacks.get(requestCode)) != null) {
             callback.onActivityResult(resultCode, data);
+            mActivityCallbacks.remove(requestCode);
         }
-        mActivityCallbacks.remove(requestCode);
     }
 
     @Override

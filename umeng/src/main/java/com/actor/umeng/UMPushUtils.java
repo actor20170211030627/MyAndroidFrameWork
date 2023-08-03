@@ -41,7 +41,7 @@ import java.util.List;
  * </ul>
  *
  * @author    : ldf
- * date       : 2023/7/26 on 11:10
+ * @update    : 2023/7/26 on 11:10
  */
 public class UMPushUtils {
 

@@ -52,7 +52,7 @@ import com.umeng.commonsdk.listener.OnGetOaidListener;
  *     </li>
  * </ul>
  * @author : ldf
- * date       : 2023/7/29 on 18
+ * @update : 2023/7/29 on 18
  */
 public class UMConfigureUtils {
 

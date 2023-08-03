@@ -86,8 +86,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
     private final Map<String, InfoWindow> infoWindowMaps = new HashMap<>();
     //其余类型, 同时仅允许显示1个InfoWindow
     private InfoWindow              infoWindow;
-    private final String[]   permissions = {Permission.ACCESS_COARSE_LOCATION,
-            Permission.ACCESS_FINE_LOCATION, Permission.WRITE_EXTERNAL_STORAGE};
+    private final String[]   permissions = {Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

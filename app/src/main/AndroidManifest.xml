@@ -19,7 +19,6 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.ViewPagerHeightAutoCaculateActivity" />
         <activity android:name=".activity.SocketTestActivity" />
