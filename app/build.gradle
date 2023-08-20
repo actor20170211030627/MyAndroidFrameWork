@@ -85,10 +85,8 @@ dependencies {
     implementation "net.zetetic:android-database-sqlcipher:4.4.3@aar"
     implementation "androidx.sqlite:sqlite:2.1.0"
 
-    //https://github.com/promeG/TinyPinyin
-    implementation 'com.github.promeg:tinypinyin:2.0.3'//TinyPinyin核心包，约80KB
-    //可选，适用于Android的中国地区词典
-    //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'
+    //https://github.com/hellokaton/TinyPinyin
+    implementation 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'//TinyPinyin核心包，约80KB
 
 
 
@@ -110,8 +108,8 @@ dependencies {
 
 
 
-    //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等v3.3.7
-    implementation files('libs/open_sdk_r2973327_lite.jar')
+    //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等
+    implementation files('libs/open_sdk_3.5.14.3_rc26220c_lite.jar')
 
     //百度定位
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.4.0'

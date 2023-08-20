@@ -37,11 +37,9 @@ import java.util.Map;
  * <pre> {@code
  * 用法:
  * 1.由于pinyin不常用, 所以如果使用本类, 需要在自己project中添加依赖:
- * //https://github.com/promeG/TinyPinyin
+ * //https://github.com/hellokaton/TinyPinyin
  * //TinyPinyin核心包，约80KB
- * implementation 'com.github.promeg:tinypinyin:2.0.3'
- * //可选，适用于Android的中国地区词典
- * //implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'
+ * implementation 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'
  *
  * 2. 布局文件中
  * <com.actor.myandroidframework.widget.QuickSearchBar

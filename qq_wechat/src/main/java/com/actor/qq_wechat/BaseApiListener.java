@@ -4,7 +4,6 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.tencent.open.utils.HttpUtils;
 import com.tencent.tauth.IRequestListener;
 
-import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,11 +39,6 @@ public class BaseApiListener implements IRequestListener {
 
     @Override
     public void onJSONException(JSONException e) {
-        e.printStackTrace();
-    }
-
-    @Override
-    public void onConnectTimeoutException(ConnectTimeoutException e) {
         e.printStackTrace();
     }
 

@@ -15,8 +15,6 @@ import org.json.JSONObject;
  */
 public abstract class BaseUiListener implements IUiListener {
 
-    private static final String TAG = "BaseUiListener";
-
     /**
      * @param response 是一个 JSONObject
      */
@@ -34,6 +32,11 @@ public abstract class BaseUiListener implements IUiListener {
     }
     @Override
     public void onCancel() {
-        LogUtils.error(TAG + ":onCancel");
+        LogUtils.error(":onCancel");
+    }
+
+    @Override
+    public void onWarning(int i) {
+        LogUtils.error(i);
     }
 }

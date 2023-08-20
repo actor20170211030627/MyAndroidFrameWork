@@ -18,7 +18,8 @@
 
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:flexWrap="wrap">
 
         <Button
             android:id="@+id/btn_login_qq"
@@ -33,32 +34,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="二维码登录or账号密码登录"
-            android:transitionName="btn" />
+            android:text="二维码登录or账号密码登录" />
+
+        <Button
+            android:id="@+id/btn_login_server_side"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="Server-Side登录模式" />
 
         <Button
             android:id="@+id/btn_get_user_info_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="获取用户信息"
-            android:transitionName="btn" />
+            android:text="获取用户信息" />
 
         <Button
             android:id="@+id/btn_share_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="分享图片"
-            android:transitionName="btn" />
+            android:text="分享图片" />
 
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="退出"
-            android:transitionName="btn" />
+            android:text="退出" />
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
@@ -83,8 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onViewClicked"
-        android:text="聊天"
-        android:transitionName="btn" />
+        android:text="聊天" />
 
     <TextView
         android:layout_width="match_parent"
@@ -104,24 +107,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="登录"
-            android:transitionName="btn" />
+            android:text="登录" />
 
         <Button
             android:id="@+id/btn_share_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="分享文字(还可以分享其它)"
-            android:transitionName="btn" />
+            android:text="分享文字(还可以分享其它)" />
 
         <Button
             android:id="@+id/btn_get_user_info_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="获取用户信息"
-            android:transitionName="btn" />
+            android:text="获取用户信息" />
     </LinearLayout>
 
     <TextView

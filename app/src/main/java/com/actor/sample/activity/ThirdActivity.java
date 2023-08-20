@@ -53,16 +53,8 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
         tvResultQq = viewBinding.tvResultQq;
         etTargetQq = viewBinding.etTargetQq;
         EventBus.getDefault().register(this);
-
-        //在Application中设置appId, 一般是一串数字(我这儿设置的appid是QQ2786985624申请的)
-        QQUtils.setAppId("101890804");//222222
-
-        //在Application中设置appId
-        WeChatUtils.setAppId("wx88888888");
     }
 
-//    @OnClick({R.id.btn_login_qq, R.id.btn_login_qr_account_password, R.id.btn_get_user_info_qq,
-//            R.id.btn_share_img, R.id.btn_logout, R.id.btn_chat})
     @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -72,6 +64,9 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
             case R.id.btn_login_qr_account_password://二维码登录or账号密码登录
                 isQrCode = !isQrCode;
                 QQUtils.loginQrCode$AccountPassword(this, "all", isQrCode, listener);
+                break;
+            case R.id.btn_login_server_side://Server-Side登录模式
+                QQUtils.loginServerSide(this, "all", listener);
                 break;
             case R.id.btn_get_user_info_qq://获取用户信息
                 QQUtils.getUserInfo(new BaseUiListener() {
@@ -164,7 +159,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     //处理QQ返回
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtils.error("-->onActivityResult " + requestCode + " resultCode=" + resultCode);
+        LogUtils.errorFormat("requestCode=%d, resultCode=%d", requestCode, resultCode);
         if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
             Tencent.onActivityResultData(requestCode, resultCode, data, listener);
         }
@@ -173,7 +168,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
 
     //Eventbus微信登录/支付回调
      @Subscribe(threadMode = ThreadMode.MAIN)
-     public void onWxLoginResult(EventBusEvent eventBusEvent) {
+     public void onWxLoginResult(EventBusEvent<Object> eventBusEvent) {
          if (eventBusEvent == null) return;
          switch (eventBusEvent.code) {
              case WXEntryActivity.MSG_EVT_WX_LOGIN://登录

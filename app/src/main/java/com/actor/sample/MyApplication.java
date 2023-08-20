@@ -13,6 +13,8 @@ import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
+import com.actor.qq_wechat.QQUtils;
+import com.actor.qq_wechat.WeChatUtils;
 import com.actor.sample.utils.Global;
 import com.greendao.gen.ItemEntityDao;
 
@@ -43,6 +45,15 @@ public class MyApplication extends ActorApplication {
          */
         GreenDaoUtils.init(this, isAppDebug(), "test_db.db3", "123456", ItemEntityDao.class/*, ...*/);
 
+        /**
+         * 聊天示例
+         * 如果需要使用emoji表情, 需要在Application中初始化(如果不使用emoji, 不要初始化)
+         * 也可以不使用 DefaultEmojiList.DEFAULT_EMOJI_LIST 这些emoji, 可以自定义后传入
+         */
+        ChatLayoutKit.init(DefaultEmojiList.DEFAULT_EMOJI_LIST, "emoji");
+        //初始化聊天语音, 默认最大录音时长2分钟(如果不用语音, 不用初始化)
+        AudioUtils.getInstance().init(null, null);
+
 
 
         //百度定位, 先同意隐私政策
@@ -70,14 +81,15 @@ public class MyApplication extends ActorApplication {
 
 
 
-        /**
-         * 聊天示例
-         * 如果需要使用emoji表情, 需要在Application中初始化(如果不使用emoji, 不要初始化)
-         * 也可以不使用 DefaultEmojiList.DEFAULT_EMOJI_LIST 这些emoji, 可以自定义后传入
-         */
-        ChatLayoutKit.init(DefaultEmojiList.DEFAULT_EMOJI_LIST, "emoji");
-        //初始化聊天语音, 默认最大录音时长2分钟(如果不用语音, 不用初始化)
-        AudioUtils.getInstance().init(null, null);
+        //QQ
+        QQUtils.setIsPermissionGranted(true);
+        //在Application中设置appId, 一般是一串数字(我这儿设置的appid是QQ2786985624申请的)
+        QQUtils.setAppId("101890804");//222222
+
+
+
+        //在Application中设置appId
+        WeChatUtils.setAppId("wx88888888");
     }
 
     @Nullable

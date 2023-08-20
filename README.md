@@ -88,6 +88,7 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java" target="_blank">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java" target="_blank">VideoProcessorUtils</a> (视频压缩)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java" target="_blank">AssetsUtils</a> (Assets读取)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/BaseCountDownTimer.java" target="_blank">BaseCountDownTimer</a> (倒计时, 在CountDownTimer基础上增加了一些功能)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BirthdayUtils.java" target="_blank">BirthdayUtils</a> (生日: 天数倒数, 农历生日, 年龄)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BRVUtils.java" target="_blank">BRVUtils</a> (BaseRecyclerView框架辅助)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
