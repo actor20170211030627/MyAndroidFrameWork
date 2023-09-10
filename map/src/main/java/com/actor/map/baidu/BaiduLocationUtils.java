@@ -41,7 +41,7 @@ import com.blankj.utilcode.util.Utils;
  *         target="_blank">官网</a> <br />
  *         //在 defaultConfig { 节点中添加ndk <br />
  *         ndk { <br />
- *         &emsp;&emsp; //"armeabi", "armeabi-v7a", "x86", "arm64-v8a", "x86_64", 'mips', 'mips64' <br />
+ *         &emsp;&emsp; //"armeabi-v7a", "arm64-v8a", "armeabi", "x86", "x86_64", "mips", "mips64" <br />
  *         &emsp;&emsp; abiFilters "armeabi-v7a", "arm64-v8a" <br />
  *         }
  *     </li>

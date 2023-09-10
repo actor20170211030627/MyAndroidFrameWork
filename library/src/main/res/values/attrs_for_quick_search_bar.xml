@@ -3,6 +3,9 @@
     <!--这是QuickSearchBar的属性-->
     <declare-styleable name="QuickSearchBar">
 
+        <!--默认背景, 默认透明-->
+        <attr name="qsbBackgroundNormal" format="reference|color" />
+
         <!--按下时背景, 有默认值-->
         <attr name="qsbBackgroundPressed" format="reference|color" />
 

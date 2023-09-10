@@ -40,7 +40,12 @@ import java.util.List;
  *   android {
  *       greendao {
  *         schemaVersion 1                 //指定数据库schema版本号，迁移等操作会用到
- *         daoPackage 'com.greendao.gen'   //dao的包名，包名默认是entity所在的包
+ *         /**
+ *          * dao的包名，包名默认是entity所在的包。
+ *          * (请务必使用此包名, 否则这个Utils会找不到DaoMaster和DaoSession)。
+ *          * (如果你实在不用这个包名, 那么可以将本Utils拷贝到自己项目, 使用拷贝的Utils也可以!)。
+ *          * /
+ *         daoPackage 'com.greendao.gen'
  *         targetGenDir 'src/main/java'    //生成数据库文件的目录
  *       }
  *   }

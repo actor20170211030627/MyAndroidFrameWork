@@ -11,13 +11,68 @@ import androidx.annotation.NonNull;
 /**
  * description: 倒计时 <br />
  *              参考{@link android.os.CountDownTimer}, 扩展了一些功能:
- *              <ul>
- *                  <li>重设倒计时总时长: {@link #setMillisInFuture(long)}</li>
- *                  <li>重设计时间隔: {@link #setCountdownInterval(long)}</li>
- *                  <li>获取倒计时总时长: {@link #getMillisInFuture()}</li>
- *                  <li>获取计时间隔: {@link #getCountdownInterval()}</li>
- *                  <li>获取实际计时时间: {@link #getTimingDuration()}</li>
- *              </ul>
+ *              <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *                  <tr>
+ *                      <th>№</th>
+ *                      <th>Method方法</th>
+ *                      <th>Doc说明</th>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>1</td>
+ *                      <td>{@link #start()}</td>
+ *                      <td>开始/重新开始倒计时.</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>2</td>
+ *                      <td>{@link #cancel()}</td>
+ *                      <td>取消计时/取消本次计时.</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>---</td>
+ *                      <td>------下方是扩展方法------</td>
+ *                      <td>------------------</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>3</td>
+ *                      <td>{@link #setMillisInFuture(long)}</td>
+ *                      <td>重设倒计时总时长</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>4</td>
+ *                      <td>{@link #setCountdownInterval(long)}</td>
+ *                      <td>重设计时间隔</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>5</td>
+ *                      <td>{@link #getCountdownInterval()}</td>
+ *                      <td>获取计时间隔</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>6</td>
+ *                      <td>{@link #getMillisInFuture()}</td>
+ *                      <td>获取倒计时总时长</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>7</td>
+ *                      <td>{@link #getTimingDuration()}</td>
+ *                      <td>获取实际计时时间</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>8</td>
+ *                      <td>{@link #pause()}</td>
+ *                      <td>暂停倒计时, 调用{@link #resume()}继续计时</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>9</td>
+ *                      <td>{@link #resume()}</td>
+ *                      <td>继续倒计时, 需要先{@link #pause()}暂停后, 调用本方法才有效</td>
+ *                  </tr>
+ *                  <tr>
+ *                      <td>10</td>
+ *                      <td>{@link #getState()}</td>
+ *                      <td>获取计时状态</td>
+ *                  </tr>
+ *              </table>
  *              使用示例:                                                            <br />
  *              private BaseCountDownTimer countDownTimer = new BaseCountDownTimer(5 * 1000L, 500L) { <br />
  *                  &emsp;//重写2个方法                                                                  <br />
@@ -30,36 +85,47 @@ import androidx.annotation.NonNull;
  *              //在Activity的onDestroy(), Fragment的onDestroyView() 的时候要调用!                       <br />
  *              countDownTimer.cancel();                                                                <br />
  * @author    : ldf
- * @update    : 2023/8/16
+ * @update    : 2023/9/10
  */
 public abstract class BaseCountDownTimer /*extends CountDownTimer*/ {
 
     /**
-     * Millis since epoch when alarm should stop.
+     * Millis since epoch when alarm should stop. 设置倒计时总时长
      */
     protected long mMillisInFuture;
 
     /**
-     * The interval in millis that the user receives callbacks
+     * The interval in millis that the user receives callbacks 设置倒计时间隔
      */
     protected long mCountdownInterval;
 
+    /**
+     * 停止时间 = 开始计时'开机时间 + 倒计时总时长 - 实际计时时长
+     */
     protected long mStopTimeInFuture;
+
+
 
     /**
      * boolean representing if the timer was cancelled
      */
-    protected boolean mCancelled = false;
+//    protected boolean mCancelled = false;
+
+    public enum Status {
+        IDLE,   //空闲
+        START,  //已开始
+        PAUSE,  //已暂停
+        RESUME, //已重新开始 (暂停后)
+        FINISH, //已计时完成
+        CANCEL  //已取消
+    }
+    //状态
+    protected Status state = Status.IDLE;
 
     /**
-     * 实际计时时长
+     * 实际计时时长 = 开始计时'开机时间 + 倒计时总时长 - 停止时间
      */
     protected long mTimingDuration;
-
-    /**
-     * 倒计时是否结束
-     */
-    protected boolean isTimingFinished = false;
 
     /**
      * @param millisInFuture 倒计时总时长, 单位ms (如果≤0, 会直接调用onFinish())
@@ -81,7 +147,7 @@ public abstract class BaseCountDownTimer /*extends CountDownTimer*/ {
     }
 
     /**
-     * 重新设置 倒计时间隔
+     * 重新设置倒计时间隔
      * @param countDownInterval 倒计时间隔, 单位ms(如果你计时间隔1秒, 这个值要小于1秒, 否则几百毫秒的时候直接调用onFinish())
      */
     public BaseCountDownTimer setCountdownInterval(@IntRange(from = 1L) long countDownInterval) {
@@ -91,34 +157,31 @@ public abstract class BaseCountDownTimer /*extends CountDownTimer*/ {
     }
 
     /**
-     * 取消计时, 在Activity的onDestroy(), Fragment的onDestroyView() 的时候要调用! Cancel the countdown.
+     * Cancel the countdown. 取消计时/取消本次计时. <br />
+     * 在Activity的onDestroy(), Fragment的onDestroyView() 的时候也要调用!
      */
     public synchronized void cancel() {
-        //如果已经开始倒计时 & 倒计时未结束  &&  不要重复计算
-        if (mStopTimeInFuture != 0 && mTimingDuration == 0) {
-            mTimingDuration = mMillisInFuture + SystemClock.elapsedRealtime() - mStopTimeInFuture;
-        }
-        mCancelled = true;
         mHandler.removeMessages(MSG);
+        if (state == Status.START || state == Status.RESUME) {
+            mTimingDuration = SystemClock.elapsedRealtime() + mMillisInFuture - mStopTimeInFuture;
+            mStopTimeInFuture = 0;
+        }
+        state = Status.CANCEL;
     }
 
     /**
-     * Start the countdown.
+     * Start the countdown. 开始/重新开始倒计时.
      */
     public synchronized /*BaseCountDownTimer*/void start() {
-        //移除消息, 防止重复多次计时
+//        mCancelled = false;
         mHandler.removeMessages(MSG);
-        mCancelled = false;
-        isTimingFinished = false;
-        mTimingDuration = 0;
-        if (mMillisInFuture <= 0) {
-            isTimingFinished = true;
-            mStopTimeInFuture = 0;
-            onFinish();
-            return /*this*/;
+        //倒计时总时长 > 0       && 计时间隔 > 0
+        if (mMillisInFuture > 0 && mCountdownInterval > 0) {
+            mTimingDuration = 0;        //实际计时时长
+            mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture - mTimingDuration;
+            mHandler.sendMessage(mHandler.obtainMessage(MSG));
+            state = Status.START;
         }
-        mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture;
-        mHandler.sendMessage(mHandler.obtainMessage(MSG));
         return /*this*/;
     }
 
@@ -126,12 +189,12 @@ public abstract class BaseCountDownTimer /*extends CountDownTimer*/ {
      * 倒计时
      * @param millisUntilFinished 离计时结束还有多少时间. The amount of time until finished.
      */
-    public abstract void onTick(long millisUntilFinished);
+    protected abstract void onTick(long millisUntilFinished);
 
     /**
      * 计时结束. Callback fired when the time is up.
      */
-    public abstract void onFinish();
+    protected abstract void onFinish();
 
 
     protected static final int MSG = 1;
@@ -144,15 +207,15 @@ public abstract class BaseCountDownTimer /*extends CountDownTimer*/ {
         public void handleMessage(@NonNull Message msg) {
 
             synchronized (BaseCountDownTimer.this) {
-                if (mCancelled) {
+//                if (mCancelled) {
+                if (state == Status.PAUSE || state == Status.FINISH || state == Status.CANCEL) {
                     return;
                 }
 
                 final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
 
                 if (millisLeft <= 0) {
-                    isTimingFinished = true;
-                    mStopTimeInFuture = 0;
+                    state = Status.FINISH;
                     onFinish();
                 } else {
                     long lastTickStart = SystemClock.elapsedRealtime();
@@ -184,6 +247,37 @@ public abstract class BaseCountDownTimer /*extends CountDownTimer*/ {
     };
 
     /**
+     * 暂停计时 (非停止计时)
+     */
+    public void pause() {
+        //if         已开始        or          重新开始
+        if (state == Status.START || state == Status.RESUME) {
+            //实际计时时长
+            mTimingDuration = SystemClock.elapsedRealtime() + mMillisInFuture  - mStopTimeInFuture;
+            state = Status.PAUSE;
+            mHandler.removeMessages(MSG);
+        }
+    }
+
+    /**
+     * 暂停后, 继续计时
+     */
+    public void resume() {
+        if (state == Status.PAUSE) {
+            //if计时未完成
+            if (mMillisInFuture > mTimingDuration) {
+                //停止时间        = 系统开机时间                    + 上次计时'剩余时间
+                mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture - mTimingDuration;
+                state = Status.RESUME;
+                mHandler.sendMessage(mHandler.obtainMessage(MSG));
+            } else {
+                state = Status.FINISH;
+                onFinish();
+            }
+        }
+    }
+
+    /**
      * @return 获取你设置的倒计时总时长, 单位ms
      */
     public long getMillisInFuture() {
@@ -202,14 +296,23 @@ public abstract class BaseCountDownTimer /*extends CountDownTimer*/ {
      * @return 0 ~ mMillisInFuture
      */
     public long getTimingDuration() {
-        if (isTimingFinished) {
+        if (state == Status.IDLE) {
+            return 0;
+        } else if (state == Status.FINISH) {
             //if倒计时正常结束
             return mMillisInFuture;
-        } else if (mCancelled) {
-            //if调用了cancel()取消倒计时
+        } else if (state == Status.PAUSE || state == Status.CANCEL) {
+            //if调用了pause(), cancel()
             return mTimingDuration;
         }
         //if还在倒计时中
-        return mMillisInFuture + SystemClock.elapsedRealtime() - mStopTimeInFuture;
+        return SystemClock.elapsedRealtime() + mMillisInFuture - mStopTimeInFuture;
+    }
+
+    /**
+     * 获取倒计时状态
+     */
+    public Status getState() {
+        return state;
     }
 }

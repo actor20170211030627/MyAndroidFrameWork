@@ -139,13 +139,6 @@ dependencies {
 
     //https://github.com/PhilJay/MPAndroidChart 图表
     compileOnly 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
-
-    //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
-    //http://docs.jiguang.cn/jpush/updates/ 最新版本号
-    compileOnly 'cn.jiguang.sdk:jpush:3.6.6'
-    compileOnly 'cn.jiguang.sdk:jcore:2.3.8'
-
 }
 
 configurations.all {

@@ -17,10 +17,10 @@ android {
 
         //在 defaultConfig { 中添加ndk
         ndk {
-            //"armeabi", "armeabi-v7a", "x86","arm64-v8a","x86_64", 'mips', 'mips64'
+            //"armeabi-v7a", "arm64-v8a", "armeabi", "x86", "x86_64", "mips", "mips64"
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-        //清单文件替换, 添加在 defaultConfig { 中
+        //极光推送, 清单文件替换, 添加在 defaultConfig { 中
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "0cf598cd297e3f86949e40f5", //JPush 上注册的包名对应的 Appkey.
@@ -95,8 +95,8 @@ dependencies {
 
     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
-    implementation 'cn.jiguang.sdk:jpush:3.6.6'
-    implementation 'cn.jiguang.sdk:jcore:2.3.8'
+    implementation 'cn.jiguang.sdk:jpush:5.0.3'    //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+//    implementation 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
 
 
     // 图片压缩 (按需引入): 如果你需要使用压缩图片功能, 需要添加下面这行依赖

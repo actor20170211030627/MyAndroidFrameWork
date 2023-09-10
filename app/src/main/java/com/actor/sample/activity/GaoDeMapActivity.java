@@ -325,7 +325,7 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
         public void onLocationChanged(AMapLocation aMapLocation) {
             String result = aMapLocation.toString();
             tvResult.setText(result);
-            //定位成功后, 调用stop()方法不会不会及时的停下来, 所以这儿延时5秒后再调停止
+            //定位成功后, 调用stop()方法不会及时的停下来, 所以这儿延时5秒后再调停止
 //            tvResult.postDelayed(new Runnable() {
 //                @Override
 //                public void run() {
@@ -345,7 +345,6 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
             if (title == null) return false;
             switch (title) {
                 case WINDOW_TYPE_PERSON:    //显示人员信息(显示多个InfoWindow模式)
-//                    showPersonInfoWindow(marker, object);
                     GaoDe3DMapUtils.showInfoWindow(marker);//显示信息窗
                     break;
                 case WINDOW_TYPE_REPOSITORY://显示仓库信息窗

@@ -59,7 +59,7 @@ import java.util.List;
  *         //在 defaultConfig { 标签中添加ndk                            <br />
  *         <code>
  *             ndk {                                                    <br />
- *             &emsp;&emsp; //"armeabi", "armeabi-v7a", "x86", "arm64-v8a", "x86_64", 'mips', 'mips64' <br />
+ *             &emsp;&emsp; //"armeabi-v7a", "arm64-v8a", "armeabi", "x86", "x86_64", "mips", "mips64" <br />
  *             &emsp;&emsp; abiFilters "armeabi-v7a", "arm64-v8a"       <br />
  *             }
  *         </code>
