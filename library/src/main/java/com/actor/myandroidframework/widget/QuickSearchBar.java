@@ -3,9 +3,9 @@ package com.actor.myandroidframework.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -14,8 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +43,7 @@ import java.util.Map;
  *
  * 2. 布局文件中
  * <com.actor.myandroidframework.widget.QuickSearchBar
- *     android:id="@+id/quicksearchbar"
+ *     android:id="@+id/quick_search_bar"
  *     android:layout_width="30dp"
  *     android:layout_height="match_parent"
  *     app:qsbBackgroundPressed="@drawable/shape_rec_cor_for_quicksearchbar" //这是默认背景
@@ -54,14 +54,9 @@ import java.util.Map;
  *
  * <pre>
  * 3.Java文件中
- *   注意: 列表中的数据必须 extends {@link PinYinSortAble PinYinSortAble}, 否则报错
- *   1.设置字母监听: {@link #setOnLetterChangedListener(RecyclerView, OnLetterChangedListener) setOnLetterChangedListener(RecyclerView, OnLetterChangedListener)}
- *   2.设置字体正常颜色: {@link #setTextColorNormal(int)}
- *   3.设置字体按下时颜色: {@link #setTextColorPressed(int)}
- *   4.设置字体大小: {@link #setTextSize(int)}
- *   5.设置按下时背景资源: {@link #setBackgroundPressed(int)}
+ *   注意: 列表中的数据必须 extends {@link PinYinSortAble}, 否则报错
  *
- * 4.在RecyclerView列表中控制 {@link #LETTERS} 字母的显示/隐藏:
+ * 4.在RecyclerView列表中控制 {@link #LETTERS} 字母的显示/隐藏, 示例:
  * int position = helper.getAdapterPosition();
  * helper.setText(R.id.tv_letter, item.letter)//显示letter: "A", "B" ...
  *         .setGone(R.id.tv_letter, position > 0 &&
@@ -86,6 +81,8 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
     protected              int                         textColorPressed;
     //字体大小, 默认10sp
     protected              int                         textSize;
+    //默认背景
+    protected              Drawable                    normalBackground;
     //按下时背景
     protected              Drawable                    pressedBackground;
     protected              RecyclerView                recyclerView;
@@ -98,7 +95,7 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
             "#", "A", "B", "C", "D", "E", "F", "G", "H",
             "I", "J", "K", "L", "M", "N", "O", "P", "Q",
             "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    //"A"在上方的position, 从0开始
+    //"A"在上方的position
     public static final    int                         POSITION_A    = 1;
 
     public QuickSearchBar(Context context) {
@@ -122,22 +119,21 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
     }
 
     protected void init(Context context, @Nullable AttributeSet attrs) {
-        pressedBackground = getResources().getDrawable(R.drawable.shape_rec_cor_for_quicksearchbar);
-        textColorNormal = Color.parseColor("#8c8c8c");
-        textColorPressed = context.getResources().getColor(R.color.colorAccent);
+        normalBackground = new ColorDrawable();
+        pressedBackground = ResourcesCompat.getDrawable(getResources(), R.drawable.shape_rec_cor_for_quicksearchbar, null);
+        textColorNormal = ResourcesCompat.getColor(getResources(), R.color.gray_8c8c8c, null);
+        textColorPressed = ResourcesCompat.getColor(getResources(), R.color.colorAccent, null);
         textSize = ConvertUtils.sp2px(10);
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.QuickSearchBar);
-            Drawable background = typedArray.getDrawable(R.styleable.QuickSearchBar_qsbBackgroundPressed);
-            int textColorNormal = typedArray.getColor(R.styleable.QuickSearchBar_qsbTextColorNormal,
-                    this.textColorNormal);
-            int textColorPressed = typedArray.getColor(R.styleable.QuickSearchBar_qsbTextColorPressed,
-                    this.textColorPressed);
+            Drawable normalBg = typedArray.getDrawable(R.styleable.QuickSearchBar_qsbBackgroundNormal);
+            Drawable pressedBg = typedArray.getDrawable(R.styleable.QuickSearchBar_qsbBackgroundPressed);
+            textColorNormal = typedArray.getColor(R.styleable.QuickSearchBar_qsbTextColorNormal, textColorNormal);
+            textColorPressed = typedArray.getColor(R.styleable.QuickSearchBar_qsbTextColorPressed, textColorPressed);
             textSize = typedArray.getDimensionPixelSize(R.styleable.QuickSearchBar_qsbTextSize, textSize);
             typedArray.recycle();
-            if (background != null) pressedBackground = background;
-            this.textColorNormal = textColorNormal;
-            this.textColorPressed = textColorPressed;
+            if (normalBg != null) normalBackground = normalBg;
+            if (pressedBg != null) pressedBackground = pressedBg;
         }
         paint = new Paint();
         rect = new Rect();              //矩形
@@ -154,7 +150,7 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {//canvas帆布
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for (int i = 0; i < LETTERS.length; i++) {
             //绘制图片:起点在左上角
@@ -177,6 +173,7 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                setBackground(pressedBackground);//当选中右侧条目时背景色
             case MotionEvent.ACTION_MOVE:
                 float y = event.getY();     //相对与这个控件左上角的y坐标
                 int oldIndex = mCurrentIndex;
@@ -211,7 +208,6 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
                     }
                     invalidate();//请求重新绘制，此方法会触发系统再次调用onDraw方法
                 }
-                setBackground(pressedBackground);//当选中右侧条目时背景色
                 break;
             case MotionEvent.ACTION_UP:
             default:
@@ -219,7 +215,7 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
                 if (letterChangedListener != null) {
                     letterChangedListener.onActionUp();
                 }
-                setBackground(null);
+                setBackground(normalBackground);
                 //颜色
 //            setBackgroundColor(Color.TRANSPARENT);//设置透明的颜色背景
 //            setBackgroundDrawable(new ColorDrawable());//这个也可以设置透明
@@ -230,8 +226,8 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
     }
 
     /**
-     * 排序, 在recyclerview.setAdapter 或 notifydasetchanged之前调用.
-     * 注意, List里的数据必须 extends PinYinSortAble, 否则报错. {@link PinYinSortAble}
+     * 排序, 在recyclerview.setAdapter 或 notifydasetchanged之前调用. <br />
+     * 注意, List里的数据必须 extends {@link PinYinSortAble}, 否则报错.
      */
     public void sortData(List<T> items) {
         if (items != null) {
@@ -302,8 +298,6 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
 
     /**
      * 设置选中文字按下时颜色
-     *
-     * @param colorPressed
      */
     public void setTextColorPressed(@ColorInt int colorPressed) {
         this.textColorPressed = colorPressed;
@@ -318,10 +312,17 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
     }
 
     /**
-     * @param backgroundPressed 设置按下时背景资源, 示例: R.drawable.xxx
+     * @param normalBackground 设置默认时背景
      */
-    public void setBackgroundPressed(@DrawableRes int backgroundPressed) {
-        this.pressedBackground = getResources().getDrawable(backgroundPressed);
+    public void setBackgroundNormal(Drawable normalBackground) {
+        this.normalBackground = normalBackground;
+    }
+
+    /**
+     * @param backgroundPressed 设置按下时背景
+     */
+    public void setBackgroundPressed(Drawable backgroundPressed) {
+        this.pressedBackground = backgroundPressed;
     }
 
     public interface PinYinSortAble {
@@ -331,12 +332,12 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
 
         /**
          * @param letter 每一条数据经过拼音排序后返回的字符串, 例: "A", "B" ...
-         *               照下放这样写↓
+         *               照下方这样写↓
          */
         void setLetter(String letter) /*{this.letter = letter}*/;
 
         /**
-         * @return 返回 letter  照下放这样写↓
+         * @return 返回 letter  照下方这样写↓
          */
         String getLetter() /*{return letter}*/;
 

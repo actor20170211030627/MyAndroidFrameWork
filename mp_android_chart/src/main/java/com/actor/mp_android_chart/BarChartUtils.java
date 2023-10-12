@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.mpchart;
+package com.actor.mp_android_chart;
 
 import android.graphics.Color;
 
@@ -310,7 +310,9 @@ public class BarChartUtils {
 //            //barData.
 //        }
         barData.setBarWidth(barWidth);
-        barData.groupBars(fromX, groupSpace, barSpace);
+        if (dataSets.length > 1) {
+            barData.groupBars(fromX, groupSpace, barSpace);
+        }
         //设置柱状图顶部显示的内容(自定义显示内容), 可重写 getFormattedValue()方法, 也可传null
         //barData.setValueFormatter();
 

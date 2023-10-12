@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.mpchart;
+package com.actor.mp_android_chart;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;

@@ -79,8 +79,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <s><a href="library/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java" target="_blank">SQLiteDatabaseUtils</a> (原生数据库)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/jpush/JPushUtils.java" target="_blank">JPushUtils</a> (极光推送)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/mpchart/BarChartUtils.java" target="_blank">BarChartUtils</a> (柱状图)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/mpchart/LineChartUtils.java" target="_blank">LineChartUtils</a> (折线图)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" target="_blank">MyOkHttpUtils</a> (Okhttp网络请求)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" target="_blank">RetrofitNetwork</a> (retrofit简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" target="_blank">SharedElementUtils</a> (元素共享跳转页面)
@@ -231,6 +229,18 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
              */
              implementation 'com.github.actor20170211030627.MyAndroidFrameWork:umeng:github's latest version'
 </pre>
+<pre>
+            /**
+             * 如果需要MPAndroidChart 图表, 可添加如下依赖(仅简单封装,可供参考) (按需引入)
+             * 并可使用:
+             * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/BarChartUtils.java" target="_blank">BarChartUtils</a> (柱状图)
+             * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/LineChartUtils.java" target="_blank">LineChartUtils</a> (折线图)
+             */
+             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:mp_android_chart:github's latest version'
+</pre>
+
+
+
 
 ## 7.<code>AndroidManifest.xml</code>合并清单文件报错
     1.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found. //分区存储

@@ -1,12 +1,11 @@
 
-package com.actor.myandroidframework.utils.mpchart;
+package com.actor.mp_android_chart;
 
 import android.content.Context;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
 
-import com.actor.myandroidframework.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;

@@ -136,9 +136,6 @@ dependencies {
 
     //https://github.com/yellowcath/VideoProcessor 视频压缩
     compileOnly 'com.github.yellowcath:VideoProcessor:2.4.2'
-
-    //https://github.com/PhilJay/MPAndroidChart 图表
-    compileOnly 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
 
 configurations.all {

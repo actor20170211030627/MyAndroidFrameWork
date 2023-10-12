@@ -3,7 +3,6 @@ package com.actor.sample.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actor.sample.R;
@@ -22,19 +21,17 @@ import com.lxj.xpopup.impl.CenterListPopupView;
  */
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
-    private ImageView iv;
     private CenterListPopupView viewPagerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        iv = viewBinding.iv;
         TextView tvVersion = viewBinding.tvVersion;
 
         Glide.with(this).load(Global.girl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
-                .into(iv);
+                .into(viewBinding.iv);
 
         AppUtils.AppInfo appInfo = AppUtils.getAppInfo();
         tvVersion.setText(getStringFormat("VersionName: %s(VersionCode: %d)", appInfo.getVersionName(), appInfo.getVersionCode()));
@@ -67,7 +64,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
-                startActivity(new Intent(this, NetWorkAndImageActivity.class), false, null, null, iv);
+                startActivity(new Intent(this, NetWorkAndImageActivity.class), false, null, null, viewBinding.iv);
                 break;
             case R.id.btn_shared_element://元素共享跳转
                 startActivity(new Intent(this, SharedElementActivity.class), false, null, null, view);
