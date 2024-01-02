@@ -101,8 +101,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
      * 注意: 布局里面根部局不能是ConstraintLayout, 否则不适配, 原因未知
      *       要在外面套一层布局, 比如LinearLayout
      */
-    protected abstract @LayoutRes
-    int getLayoutResId();
+    protected abstract @LayoutRes int getLayoutResId();
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {

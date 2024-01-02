@@ -18,7 +18,7 @@
 
     <View
         android:id="@+id/view_space"
-        android:layout_width="30dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         app:layout_constraintLeft_toRightOf="@id/view"
         app:layout_constraintRight_toRightOf="parent" />
