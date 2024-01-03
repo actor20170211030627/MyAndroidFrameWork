@@ -37,7 +37,7 @@ api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 api 'com.github.getActivity:XXPermissions:18.2'
 </li>
 <li>// 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
-api 'com.github.getActivity:Toaster:12.3'
+api 'com.github.getActivity:Toaster:12.6'
 </li>
 <li>//https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
 api 'com.contrarywind:Android-PickerView:4.1.9'
@@ -62,13 +62,9 @@ api 'com.zhy:okhttputils:2.6.2'
 
 **2.2.Dialog(继承对应Dialog并自定义界面, 不用再关注style等. )**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseAlertDialogV7.java" target="_blank">BaseAlertDialogV7</a> (V7包AlertDialog简单封装)
-<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseBottomDialog.java" target="_blank">BaseBottomDialog</a> (从底部弹出并停留底部)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseAlertDialog.java" target="_blank">BaseAlertDialog</a> (AlertDialog简单说明)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseBottomSheetDialog.java" target="_blank">BaseBottomSheetDialog</a> (从底部弹出并停留底部, 可二次滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseDialog.java" target="_blank">BaseDialog</a> (Dialog简单封装)
-<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseLeftDialog.java" target="_blank">BaseLeftDialog</a> (从左侧弹出的Dialog)
-<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseRightDialog.java" target="_blank">BaseRightDialog</a> (从右侧弹出的Dialog)
-<a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseTopDialog.java" target="_blank">BaseTopDialog</a> (从顶部弹出的Dialog)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/LoadingDialog.java" target="_blank">LoadingDialog</a> (加载Dialog, 耗时操作时可显示这个Dialog)
 </pre>
 

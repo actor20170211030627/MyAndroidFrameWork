@@ -3,7 +3,6 @@ package com.actor.myandroidframework.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Window;
@@ -29,15 +28,20 @@ import com.blankj.utilcode.util.BarUtils;
  *          有可能会造成 '下方圆角被颜色覆盖' 的问题! 解决方法: <br />
  *          1. shape 加上 padding(bottom) 属性 <br />
  *          2. 下方圆角位置的view 加一个同样圆角的 shape <br />
- * Author     : ldf
- * Date       : 2020-1-21 on 16:49
+ *
+ * @see Dialog
+ * @see android.app.AlertDialog extends Dialog: setIcon, title, message, button x 3, setView, setContentView
+ * @see androidx.appcompat.app.AppCompatDialog extends Dialog
+ * @see androidx.appcompat.app.AlertDialog extends AppCompatDialog: setIcon, title, message, button x 3, setView, setContentView
+ *
+ * @Author     : ldf
+ * @Date       : 2020-1-21 on 16:49
  */
 public abstract class BaseDialog extends Dialog implements LifecycleOwner,
         DialogInterface.OnShowListener,
         DialogInterface.OnDismissListener {
 
     protected Window window;
-    protected float  dimAmount = 0.6F;//背景灰度[0, 1], 默认=0.6
 
     //增加生命周期
     protected final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
@@ -70,14 +74,10 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
 
     protected void init() {
         window = getWindow();//获取当前dialog所在的窗口对象
-
-        //可设置Dialog所在Window的进入&退出动画
-//        window.setWindowAnimations(R.style.dialog_bottom_in_bottom_out);
-
         int layoutResId = getLayoutResId();
-        if (layoutResId != Resources.ID_NULL) setContentView(layoutResId);
+        if (layoutResId != 0) setContentView(layoutResId);
 
-//        findViewById();//可以初始化控件等
+//        findViewById();//子类可以初始化控件
     }
 
     /**
@@ -94,22 +94,24 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
         if (window != null) {
             WindowManager.LayoutParams params = window.getAttributes();//获取当前窗口的属性, 布局参数
-            if (params != null) {
-                params.width = WindowManager.LayoutParams.MATCH_PARENT;//宽度全屏
-                params.x = 0;
-                params.y = 0;//相对上方的偏移,负值忽略.
-                params.dimAmount = dimAmount;
-//                int windowAnimations = params.windowAnimations;
-//                window.setAttributes(params);//将修改后的布局参数作用到窗口上
-            }
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//FLAG_BLUR_BEHIND模糊(毛玻璃效果), FLAG_DIM_BEHIND暗淡
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;//宽度全屏
+            params.x = 0;
+            params.y = 0;//相对上方的偏移,负值忽略.
+//            params.dimAmount = dimAmount;
+//            int windowAnimations = params.windowAnimations;
+//            window.setAttributes(params);
+
+            //FLAG_BLUR_BEHIND模糊(毛玻璃效果), FLAG_DIM_BEHIND暗淡
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 //            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         }
-
-//        findViewById();//可以初始化控件等
+        //设置Dialog所在Window的进入&退出动画
+//        window.setWindowAnimations(R.style.dialog_bottom_in_bottom_out);
 
         super.setOnShowListener(this);
         super.setOnDismissListener(this);
+
+//        findViewById();//子类可以初始化控件等
     }
 
     /**
@@ -176,54 +178,85 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
      */
     public BaseDialog setGravityAndAnimation(int gravity, @Nullable Integer windowAnimations) {
         if (window != null) {
-            WindowManager.LayoutParams params = window.getAttributes();
-            if (params != null) {
-                params.gravity = gravity;
-                if (windowAnimations == null) {
-                    //Gravity.START 里面包含 Gravity.LEFT, 所以不用另外判断Gravity.START
-                    if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
-                        params.windowAnimations = R.style.LeftAnimationStyle;
-                    } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
-                        params.windowAnimations = R.style.TopAnimationStyle;
-                    } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
-                        params.windowAnimations = R.style.RightAnimationStyle;
-                    } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
-                        params.windowAnimations = R.style.BottomAnimationStyle;
-                    } else {
-                        //其它情况, 默认居中.
-                        params.windowAnimations = R.style.Animation_AppCompat_Dialog;
-                    }
-                } else if (windowAnimations == 0) {
-                    params.windowAnimations = R.style.Animation_AppCompat_Dialog;
+            window.setGravity(gravity);
+            if (windowAnimations == null) {
+                //Gravity.START 里面包含 Gravity.LEFT, 所以不用另外判断Gravity.START
+                if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
+                    window.setWindowAnimations(R.style.LeftAnimationStyle);
+                } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
+                    window.setWindowAnimations(R.style.TopAnimationStyle);
+                } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
+                    window.setWindowAnimations(R.style.RightAnimationStyle);
+                } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
+                    window.setWindowAnimations(R.style.BottomAnimationStyle);
                 } else {
-                    params.windowAnimations = windowAnimations;
+                    //其它情况, 默认居中.
+                    window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
                 }
+            } else if (windowAnimations == 0) {
+                window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
+            } else {
+                window.setWindowAnimations(windowAnimations);
             }
         }
         return this;
     }
 
     /**
-     * 全屏, 包括状态栏
+     * 设置是否全屏, 包括状态栏
      */
-    public BaseDialog setFullScreen() {
+    public BaseDialog setFullScreen(boolean isFullScreen) {
         if (window != null) {
-            BarUtils.setNavBarVisibility(window, false);    //关键代码
+            BarUtils.setNavBarVisibility(window, !isFullScreen);    //关键代码
+            //高度全屏(if没有↑, 还有状态栏会显示)
             WindowManager.LayoutParams params = window.getAttributes();
-            if (params != null) {
-                //高度全屏(if没有↑, 还有状态栏会显示)
-                params.height = WindowManager.LayoutParams.MATCH_PARENT;
-            }
+            params.height = isFullScreen ? WindowManager.LayoutParams.MATCH_PARENT : WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(params);
         }
         return this;
     }
 
     /**
-     * 设置窗口后面灰色大背景的亮度[0-1], 0最亮.  show()之前设置
+     * 设置窗口后面灰色大背景的亮度[0-1], 0最亮, 默认=0.6
      * @param dimAmount 昏暗的数量
      */
     public BaseDialog setDimAmount(@FloatRange(from = 0.0f, to = 1.0f) float dimAmount) {
-        this.dimAmount = dimAmount;
+        if (window != null) window.setDimAmount(dimAmount);
+        return this;
+    }
+
+    /**
+     * 点击弹窗外部时, 是否将点击事件透传到弹窗下，默认是false
+     */
+    public BaseDialog isClickThrough(boolean isClickThrough) {
+        if (window == null) return this;
+        WindowManager.LayoutParams params = window.getAttributes();
+        int flags1 = params.flags, flags2 = -1, flags3 = -1, flags4 = -1, flags5 = -1;
+
+        if (isClickThrough) {
+            //将允许对话框外的事件被发送到后面的视图
+            window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+//            window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+            flags2 = params.flags;
+
+            /**
+             * 允许对话框在被触摸时接收到外部的触摸事件, 示例代码:
+             * window.getDecorView().setOnTouchListener((v, event) -> {
+             *     if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+             *     }
+             *     return false;
+             * });
+             */
+            window.addFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
+            flags3 = params.flags;
+        } else {
+            window.setFlags(0, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+            flags4 = params.flags;
+            window.setFlags(0, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
+            flags5 = params.flags;
+        }
+        //flag1 = 8389634, flag2 = 8389666
+        LogUtils.errorFormat("flag1 = %d, flag2 = %d, flag3 = %d, flag4 = %d, flag5 = %d", flags1, flags2, flags3, flags4, flags5);
         return this;
     }
 

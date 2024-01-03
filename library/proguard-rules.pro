@@ -184,6 +184,11 @@
 
 
 #############################################################################
+## https://github.com/getActivity/Toaster
+-keep class com.hjq.toast.** {*;}
+
+
+#############################################################################
 ## ProgressManager
 -keep class me.jessyan.progressmanager.** { *; }
 -keep interface me.jessyan.progressmanager.** { *; }

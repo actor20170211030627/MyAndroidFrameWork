@@ -33,9 +33,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
  * };
  * Button btn = baseBottomDialog.findViewById(R.id.button0);
  * baseBottomDialog.setPeekHeight(dp2px(322));
- * baseBottomDialog..setMaxHeight(dp2px(322))
- * baseBottomDialog..setDimAmount(0.2F);
- * baseBottomDialog..show();
+ * baseBottomDialog.setMaxHeight(dp2px(322))
+ * baseBottomDialog.setDimAmount(0.2F);
+ * baseBottomDialog.show();
  *
  * Description: 从底部弹出的Dialog, 能上下拖拽滑动
  * Author     : ldf
