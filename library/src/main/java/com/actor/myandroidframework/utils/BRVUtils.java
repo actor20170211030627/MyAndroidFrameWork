@@ -137,8 +137,18 @@ public class BRVUtils {
      * </table>
      */
     public static int getPage(@NonNull BaseQuickAdapter adapter, boolean isRefresh, int size) {
+        return getPage(adapter.getData(), isRefresh, size);
+    }
+
+    /**
+     * 因为有些分页请求的数据, 不一定会填充到RecyclerView, 所以不会有adapter参数
+     * @param items 数据列表
+     * @param isRefresh 是否是下拉刷新
+     * @param size      每次加载多少条
+     */
+    public static int getPage(@NonNull List items, boolean isRefresh, int size) {
         if (isRefresh) return 1;
-        int currentSize = adapter.getData().size();//目前列表数据条数
+        int currentSize = items.size(); //目前列表数据条数
         if (currentSize < size) return 1;
         return currentSize / size + 1;
     }

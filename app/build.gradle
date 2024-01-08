@@ -73,7 +73,8 @@ dependencies {
     implementation rootProject.ext.dependencies.material
 
     //https://github.com/google/flexbox-layout
-    implementation 'com.google.android:flexbox:1.0.0'
+//    implementation 'com.google.android:flexbox:1.0.0'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库

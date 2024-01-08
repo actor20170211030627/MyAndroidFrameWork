@@ -217,7 +217,7 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
     }
 
     /**
-     * 设置窗口后面灰色大背景的亮度[0-1], 0最亮, 默认=0.6
+     * 设置窗口后面的暗淡程度[0-1], 0最亮, 默认=0.6
      * @param dimAmount 昏暗的数量
      */
     public BaseDialog setDimAmount(@FloatRange(from = 0.0f, to = 1.0f) float dimAmount) {
@@ -226,19 +226,30 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
     }
 
     /**
+     * Dialog弹起后, 状态栏是否变暗
+     * @param isStatusBarDimmed 是否变暗, 默认=true <br />
+     *                         if=true, {@link #setDimAmount(float)}才有效。<br />
+     *                          if=false, {@link #setDimAmount(float)}无效, 背景会全亮
+     */
+    public BaseDialog isStatusBarDimmed(boolean isStatusBarDimmed) {
+        if (window == null) return this;
+        if (isStatusBarDimmed) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        }
+        return this;
+    }
+
+    /**
      * 点击弹窗外部时, 是否将点击事件透传到弹窗下，默认是false
      */
     public BaseDialog isClickThrough(boolean isClickThrough) {
         if (window == null) return this;
-        WindowManager.LayoutParams params = window.getAttributes();
-        int flags1 = params.flags, flags2 = -1, flags3 = -1, flags4 = -1, flags5 = -1;
-
         if (isClickThrough) {
             //将允许对话框外的事件被发送到后面的视图
             window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
 //            window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-            flags2 = params.flags;
-
             /**
              * 允许对话框在被触摸时接收到外部的触摸事件, 示例代码:
              * window.getDecorView().setOnTouchListener((v, event) -> {
@@ -248,15 +259,10 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
              * });
              */
             window.addFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
-            flags3 = params.flags;
         } else {
-            window.setFlags(0, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-            flags4 = params.flags;
-            window.setFlags(0, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
-            flags5 = params.flags;
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
         }
-        //flag1 = 8389634, flag2 = 8389666
-        LogUtils.errorFormat("flag1 = %d, flag2 = %d, flag3 = %d, flag4 = %d, flag5 = %d", flags1, flags2, flags3, flags4, flags5);
         return this;
     }
 

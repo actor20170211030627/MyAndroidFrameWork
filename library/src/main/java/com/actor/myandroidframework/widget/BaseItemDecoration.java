@@ -10,16 +10,31 @@ import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.actor.myandroidframework.utils.LogUtils;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexLine;
+import com.google.android.flexbox.FlexboxLayoutManager;
+
+import java.util.List;
+
 /**
  * Description:设置{@link RecyclerView}间距. Decoration:装饰物 <br />
  * Author     : ldf <br />
  * Date       : 2019/7/21 on 16:31 <br />
  *
  *  <br />
- * 设置{@link RecyclerView}的{@link LinearLayoutManager}&{@link GridLayoutManager}&{@link StaggeredGridLayoutManager}的水平/垂直间距, 示例用法: <br />
- * int dp20 = UiUtils.dp2px(20); <br />
- * recyclerView.{@link RecyclerView#addItemDecoration(RecyclerView.ItemDecoration) addItemDecoration(new BaseItemDecoration(dp20, dp20))};
- * @version 1.0
+ * 设置{@link RecyclerView}的 LayoutManager 的水平/垂直间距:
+ * <ul>
+ *     <li>{@link LinearLayoutManager}</li>
+ *     <li>{@link GridLayoutManager}</li>
+ *     <li>{@link StaggeredGridLayoutManager}</li>
+ *     <li>{@link FlexboxLayoutManager}</li>
+ * </ul>
+ * 示例用法:
+ * <pre>
+ *     int dp20 = UiUtils.dp2px(20);
+ *     recyclerView.{@link RecyclerView#addItemDecoration(RecyclerView.ItemDecoration) addItemDecoration(new BaseItemDecoration(dp20, dp20))};
+ * </pre>
  */
 public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -46,9 +61,9 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         int position = parent.getChildAdapterPosition(view); // item position
         if (layoutManager instanceof GridLayoutManager) {//网格布局,不能先判断LinearLayoutManager
-            GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
-            int orientation = gridLayoutManager.getOrientation();
-            int spanCount = gridLayoutManager.getSpanCount();//一共多少行/列
+            GridLayoutManager glm = (GridLayoutManager) layoutManager;
+            int orientation = glm.getOrientation();
+            int spanCount = glm.getSpanCount();//一共多少行/列
             if (orientation == OrientationHelper.HORIZONTAL) {//水平方向(Grid左右滑动)
                 int row = position % spanCount; // item在第几行,从0开始
                 float min = verticalSpacing / spanCount;//最小基数(有可能除出来=0, 所以这儿用float)
@@ -65,8 +80,8 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
                 outRect.top = position < spanCount ? 0 : (int) verticalSpacing;//第一行的都没有top
             }
         } else if (layoutManager instanceof LinearLayoutManager) {//线性布局
-            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-            int orientation = linearLayoutManager.getOrientation();
+            LinearLayoutManager llm = (LinearLayoutManager) layoutManager;
+            int orientation = llm.getOrientation();
             if (orientation == OrientationHelper.HORIZONTAL) {//水平方向(List水平滑动)
                 outRect.left = position == 0 ? 0 : (int) horizontalSpacing;
             } else if (orientation == OrientationHelper.VERTICAL) {//垂直方向(List上下滑动,默认)
@@ -91,21 +106,65 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 //                outRect.left = column * horizontalSpacing / spanCount; // column * ((1f / spanCount) * spacing)
 //                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
             }
+        } else if (layoutManager instanceof FlexboxLayoutManager) {
+            /**
+             * if你使用了这个FlexboxLayoutManager, 你需要添加依赖:
+             * //https://github.com/google/flexbox-layout
+             * implementation 'com.google.android.flexbox:flexbox:3.0.0'
+             *
+             * @see com.google.android.flexbox.FlexboxItemDecoration
+             */
+            FlexboxLayoutManager fblm = (FlexboxLayoutManager) layoutManager;
+            int orientation = fblm.getFlexDirection();
+
+//            int height = fblm.getHeight();  //每1行高度??
+//            int topOffset = fblm.getTopDecorationHeight(view);  //当前Item高度Offset = 0
+//            int topOffset = fblm.getDecoratedMeasuredHeight(view);//180
+//            int currentRow = height <= 0 ? 0 : topOffset / height;  //当前Item第几行, 不对
+//            LogUtils.errorFormat("height=%d, position=%d, topOffset=%d, currentRow=%d", height, position, topOffset, currentRow);
+
+            //position在第几行
+//            List<FlexLine> flexLines = fblm.getFlexLines();
+            List<FlexLine> flexLinesInternal = fblm.getFlexLinesInternal();
+//            int maxLine = fblm.getMaxLine(); // -1
+//            LogUtils.errorFormat("flexLines=%d, flexLinesInternal=%d, maxLine=%d", flexLines.size(), flexLinesInternal.size(), maxLine);
+            int size = flexLinesInternal.size();
+
+            if (orientation == FlexDirection.ROW || orientation == FlexDirection.ROW_REVERSE) {//水平方向
+                if (size > 0) {
+                    //上一行的信息(不是position所在行)
+//                    FlexLine flexLine = flexLinesInternal.get(size - 1);
+                    //                                                    上1行第0个元素的position    上1行有多少个元素
+//                    LogUtils.errorFormat("FirstIndex=%d, ItemCount=%d", flexLine.getFirstIndex(), flexLine.getItemCount());
+
+                    //int mLastIndex = flexLine.mLastIndex; //访问不到, 无语
+                    int mTotalCount = 0;
+                    for (int i = 0; i < size; i++) {
+                        mTotalCount += flexLinesInternal.get(i).getItemCount();
+                    }
+                    //判断是否是每行第1个Item
+                    outRect.left = mTotalCount == position ? 0 : (int) horizontalSpacing;
+                } else {
+                    //第0行
+                    outRect.left = position == 0 ? 0 : (int) horizontalSpacing;
+                }
+                outRect.top = size == 0 ? 0 : (int) verticalSpacing;
+            } else if (orientation == FlexDirection.COLUMN || orientation == FlexDirection.COLUMN_REVERSE) {//垂直方向
+                outRect.left = size == 0 ? 0 : (int) horizontalSpacing;
+                if (size > 0) {
+                    int mTotalCount = 0;
+                    for (int i = 0; i < size; i++) {
+                        mTotalCount += flexLinesInternal.get(i).getItemCount();
+                    }
+                    //判断是否是每列第1个Item
+                    outRect.top = mTotalCount == position ? 0 : (int) verticalSpacing;
+                } else {
+                    //第0列
+                    outRect.top = position == 0 ? 0 : (int) verticalSpacing;
+                }
+            }
+        } else {
+            LogUtils.errorFormat("%s 还未适配间隙的设定!", layoutManager);
         }
-//            if (includeEdge) {
-//                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-//                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-//
-//                if (position < spanCount) { // top edge
-//                    outRect.top = spacing;
-//                }
-//                outRect.bottom = spacing; // item bottom
-//            } else {
-//                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-//                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-//                if (position >= spanCount) {
-//                    outRect.top = spacing; // item top
-//                }
-//            }
     }
 }

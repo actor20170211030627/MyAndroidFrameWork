@@ -39,6 +39,9 @@ api 'com.github.getActivity:XXPermissions:18.2'
 <li>// 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
 api 'com.github.getActivity:Toaster:12.6'
 </li>
+<li>// Shape 框架：https://github.com/getActivity/ShapeView
+api 'com.github.getActivity:ShapeView:9.0'
+</li>
 <li>//https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
 api 'com.contrarywind:Android-PickerView:4.1.9'
 </li>
