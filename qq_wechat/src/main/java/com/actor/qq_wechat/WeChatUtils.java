@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
@@ -48,40 +49,23 @@ import java.util.concurrent.ExecutionException;
  *
  * <br />
  * <pre>
- * 1.在gradle中添加依赖
- *   //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
- *   implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
+ * 1.在gradle中<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">添加依赖</a>, 在<a href="https://central.sonatype.com/artifact/com.tencent.mm.opensdk/wechat-sdk-android" target="_blank">mavenCentral()</a>中可查看最新依赖版本号
+ *   //微信登录&支付
+ *   implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
  *
- * 2.添加相关Activity, 必须放在: 包名.wxapi文件夹下, 可参考:
- *   <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXEntryActivity.java" target="_blank">WXEntryActivity.java, 登录等功能(如果app没有使用 登录等 这些功能, 请忽略)</a>
- *   <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/wxapi/WXPayEntryActivity.java" target="_blank">WXPayEntryActivity.java, 支付功能(如果app没有使用 支付 等这些功能, 请忽略)</a>
+ * 2.WXPayEntryActivity: 微信支付回调页面, 已在框架的添加, 使用者不要再在自己项目中添加本页面到清单文件中!!!
  *
- * 3.在 AndroidManifest.xml中添加以下2个Activity:{@code
- * <!--微信登录等-->
- * <!-- https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html -->
- * <activity
- *     android:name=".wxapi.WXEntryActivity"
- *     android:label="@string/app_name"
- *     android:theme="@android:style/Theme.Translucent.NoTitleBar"
- *     android:exported="true"
- *     android:launchMode="singleTask"
- *     android:taskAffinity="${applicationId}" />
- * <!--微信支付-->
- * <!-- https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5 -->
- * <activity
- *     android:name=".wxapi.WXPayEntryActivity"
- *     android:exported="true"
- *     android:launchMode="singleTop" />
- * }
+ * 3.已经添加<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">混淆</a>, 使用者可不再关心混淆问题.
  *
  * 4.在Application中初始化: {@link #setAppId(String) WeChatUtils.setAppId(String)}
  *
- * 5.登录: {@link #login(String, String) WeChatUtils.login(String, String)}
- *
- * 6.示例使用: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java" target="_blank">ThirdActivity.java</a>
  * </pre>
- *
- * @version 1.0
+ * 5.使用示例
+ * <ul>
+ *     <li>登录: {@link #login(String, String) WeChatUtils.login(String, String)}</li>
+ *     <li>支付: {@link #pay(String, String, String, String, String, WxPayListener) WeChatUtils.pay(...)}</li>
+ *     <li>更多使用示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java" target="_blank">ThirdActivity.java</a></li>
+ * </ul>
  */
 public class WeChatUtils {
 
@@ -101,6 +85,12 @@ public class WeChatUtils {
 
     // IWXAPI 是第三方app和微信通信的openApi接口
     protected static IWXAPI api;
+
+    //支付回调
+    protected static WxPayListener wxPayListener;
+
+    //登录回调
+    protected static WxLoginListener wxLoginListener;
 
     /**
      * @param appId 设置appid
@@ -477,26 +467,35 @@ public class WeChatUtils {
     // 下面是微信支付
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * 微信支付, 参考'HIHI交友' MoneyAddActivity.java
+     * 微信支付
      * @param partnerId 商户号
-     * @param prepayid 预支付交易会话ID
+     * @param prepayId 预支付交易会话ID
      * @param nonceStr 随机字符串
      * @param timeStamp 时间戳
-     * @param packageValue 扩展字段,这里固定填写Sign=WXPay
-     * @param sign 签名
+     * @param sign 服务器调用微信的Sdk生成的签名
+     * @param payListener 支付回调
      */
-    public static boolean pay(String partnerId, String prepayid, String nonceStr, String timeStamp,
-                       String packageValue, String sign) {
+    public static boolean pay(@NonNull String partnerId, @NonNull String prepayId,
+                              @NonNull String nonceStr, @NonNull String timeStamp,
+                              @NonNull String sign, @NonNull WxPayListener payListener) {
+        wxPayListener = payListener;
         PayReq req = new PayReq();
-        req.appId = getAppId();//你的微信appid
-        req.partnerId = partnerId;//商户号
-        req.prepayId = prepayid;//预支付交易会话ID
-        req.nonceStr = nonceStr;//随机字符串
-        req.timeStamp = timeStamp;//时间戳
-        req.packageValue = packageValue;//扩展字段,这里固定填写Sign=WXPay
-        req.sign = sign;//签名
+        req.appId = getAppId();         //你的微信appId
+        req.partnerId = partnerId;      //商户号
+        req.prepayId = prepayId;        //预支付交易会话ID
+        req.nonceStr = nonceStr;        //随机字符串
+        req.timeStamp = timeStamp;      //时间戳
+        req.packageValue = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
+        req.sign = sign;                //签名
+//        req.signType = ;                //签名类型, V3版本仅支持RSA
         //      req.extData         = "app data"; // optional
         return getIWXAPI().sendReq(req);
+    }
+    //获取支付监听
+    public static WxPayListener getWxPayListener() {
+        WxPayListener listener = wxPayListener;
+        wxPayListener = null;
+        return listener;
     }
     /**
      * 打开离线支付
@@ -513,11 +512,13 @@ public class WeChatUtils {
     // 下面是微信登录
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Development_Guide.html
-     * 获取token/登录
-     * 1. 第三方发起微信授权登录请求，微信用户允许授权第三方应用后，微信会拉起应用或重定向到第三方网站，并且带上授权临时票据code参数；
-     * 2. 通过code参数加上AppID和AppSecret等，通过API换取access_token；
-     * 3. 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。
+     * <a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Development_Guide.html">微信登录, 获取授权临时票据code</a>, 然后把 loginListener.code 传到服务器进行以下2~4步骤 <br />
+     * <ol>
+     *     <li>(安卓端 调用本方法) 第三方发起微信授权登录请求，微信用户允许授权第三方应用后，微信会拉起应用或重定向到第三方网站，并且带上授权临时票据code参数；</li>
+     *     <li> (服务器) 通过code参数加上AppID和AppSecret等，通过API换取access_token；(access_token 有效期（目前为 2 个小时）)</li>
+     *     <li>(服务器 刷新 access_token 有效期) access_token 是调用授权关系接口的调用凭证，由于 access_token 有效期（目前为 2 个小时）较短，当 access_token 超时后，可以使用 refresh_token 进行刷新。(refresh_token 拥有较长的有效期（30 天）)</li>
+     *     <li>(服务器 获取用户信息) 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。</li>
+     * </ol>
      * <img src="https://res.wx.qq.com/op_res/ZLIc-BdWcu_ixroOT0sBEtk0UwpTewqS6ujxbC2QOpbKIVp_DzleM_C9I-9GPDDh" />
      *
      * @param scope 应用授权作用域，如获取用户个人信息则填写snsapi_userinfo, 多个用逗号隔开
@@ -526,90 +527,18 @@ public class WeChatUtils {
      *              该参数可用于防止 csrf 攻击（跨站请求伪造攻击），建议第三方带上该参数，
      *              可设置为简单的随机数加 session 进行校验    (可以瞎填任何值)
      */
-    public static void login(String scope, @Nullable String state) {
+    public static void login(@NonNull String scope, @Nullable String state, @NonNull WxLoginListener loginListener) {
+        wxLoginListener = loginListener;
         SendAuth.Req req = new SendAuth.Req();
         req.scope = scope;
         req.state = state;
         getIWXAPI().sendReq(req);
     }
-
-    /**
-     * (应该服务端调这个接口)
-     * 第二步：通过 {@link #login(String, String) 登录} 后返回的 code 获取 access_token
-     * appid	是	应用唯一标识，在微信开放平台提交应用审核通过后获得
-     * secret	是	应用密钥 AppSecret，在微信开放平台提交应用审核通过后获得
-     * code	是	填写第一步获取的 code 参数
-     * grant_type	是	填 authorization_code
-     *
-     * 返回Json:
-     * {
-     *   "access_token": "ACCESS_TOKEN",            //接口调用凭证, 有效期（目前为 2 个小时）
-     *   "expires_in": 7200,                        //access_token 接口调用凭证超时时间，单位（秒）
-     *   "refresh_token": "REFRESH_TOKEN",          //用户刷新 access_token, 较长的有效期（30 天），当 refresh_token 失效的后，需要用户重新授权
-     *   "openid": "OPENID",                        //授权用户唯一标识
-     *   "scope": "SCOPE",                          //用户授权的作用域，使用逗号（,）分隔
-     *   "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL" //当且仅当该移动应用已获得该用户的 userinfo 授权时，才会出现该字段
-     * }
-     * @deprecated access_token 为用户授权第三方应用发起接口调用的凭证（相当于用户登录态），存储在客户端，
-     * 可能出现恶意获取access_token 后导致的用户数据泄漏、用户微信相关接口功能被恶意发起等行为；
-     */
-    @Deprecated
-    public static void getAccessToken(String code, BaseCallback<Object> callback) {
-        String url = TextUtils2.getStringFormat("https://api.weixin.qq.com/sns/oauth2/access_token?" +
-                "appid=%s&secret=%s&code=%s&grant_type=authorization_code", getAppId(),
-                appSecret, code);
-        MyOkHttpUtils.get(url, null, callback);
-    }
-
-    /**
-     * (应该服务端调这个接口)
-     * 刷新 access_token 有效期
-     * access_token 是调用授权关系接口的调用凭证，由于 access_token 有效期（目前为 2 个小时）较短，
-     * 当 access_token 超时后，可以使用 refresh_token 进行刷新，access_token 刷新结果有两种：
-     *   1. 若access_token已超时，那么进行refresh_token会获取一个新的access_token，新的超时时间；
-     *   2. 若access_token未超时，那么进行refresh_token不会改变access_token，但超时时间会刷新，相当于续期access_token。
-     * refresh_token 拥有较长的有效期（30 天），当 refresh_token 失效的后，需要用户重新授权。
-     *
-     * appid	是	应用唯一标识
-     * grant_type	是	填 refresh_token
-     * refresh_token	是	填写通过 access_token 获取到的 refresh_token 参数
-     *
-     * 返回Json:
-     * {
-     *   "access_token": "ACCESS_TOKEN",    //接口调用凭证
-     *   "expires_in": 7200,                //access_token 接口调用凭证超时时间，单位（秒）
-     *   "refresh_token": "REFRESH_TOKEN",  //用户刷新 access_token
-     *   "openid": "OPENID",                //授权用户唯一标识
-     *   "scope": "SCOPE"                   //用户授权的作用域，使用逗号（,）分隔
-     * }
-     * @deprecated refresh_token 为用户授权第三方应用的长效凭证，仅用于刷新access_token，但泄漏后相当于access_token 泄漏，风险同上。
-     */
-    @Deprecated
-    public static void refreshToken(String refresh_token, BaseCallback<Object> callback) {
-        String url = TextUtils2.getStringFormat("https://api.weixin.qq.com/sns/oauth2/refresh_token?" +
-                "appid=%s&grant_type=refresh_token&refresh_token=%s", getAppId(), refresh_token);
-        MyOkHttpUtils.get(url, null, callback);
-    }
-
-    /**
-     * (应该服务端调这个接口)
-     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Authorized_API_call_UnionID.html
-     * 检验授权凭证（access_token）是否有效
-     * @param access_token	是	调用接口凭证
-     * @param openid	是	普通用户标识，对该公众帐号唯一
-     *
-     * 正确返回Json:
-     * {
-     *   "errcode": 0,
-     *   "errmsg": "ok"
-     * }
-     * @deprecated 不用调用, 就算要调用也是服务端去调
-     */
-    @Deprecated
-    public static void authToken(String access_token, String openid, BaseCallback<Object> callback) {
-        String url = TextUtils2.getStringFormat("https://api.weixin.qq.com/sns/auth?" +
-                "access_token=%s&openid=%s", access_token, openid);
-        MyOkHttpUtils.get(url, null, callback);
+    //获取微信登录回调监听
+    public static WxLoginListener getWxLoginListener() {
+        WxLoginListener listener = wxLoginListener;
+        wxLoginListener = null;
+        return listener;
     }
 
     /**

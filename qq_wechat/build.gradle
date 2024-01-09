@@ -70,5 +70,6 @@ dependencies {
 //    compileOnly 'com.tencent.tauth:qqopensdk:3.52.0'
 
     //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
-    compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
+//    compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
+    compileOnly 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
 }

@@ -9,26 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.ToasterUtils;
 import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.qq_wechat.BaseUiListener;
 import com.actor.qq_wechat.QQUtils;
 import com.actor.qq_wechat.WeChatUtils;
+import com.actor.qq_wechat.WxLoginListener;
+import com.actor.qq_wechat.WxPayListener;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityThirdBinding;
-import com.actor.sample.wxapi.WXEntryActivity;
-import com.actor.sample.wxapi.WXPayEntryActivity;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.tencent.connect.common.Constants;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.tauth.Tencent;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -52,7 +51,6 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
         setTitle("主页->第三方登录/分享");
         tvResultQq = viewBinding.tvResultQq;
         etTargetQq = viewBinding.etTargetQq;
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -117,10 +115,45 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
 
 
             //下方是微信区
+            case R.id.btn_pay_wechat://微信支付
+                if (WeChatUtils.isWXAppInstalled()) {
+                    //使用服务器返回的一下几个参数↓
+                    WeChatUtils.pay("partnerId", "prepayId", "nonceStr", "timeStamp", "sign", new WxPayListener() {
+                        @Override
+                        public void onPaySuccess(@NonNull BaseResp baseResp) {
+                            ToasterUtils.success("支付成功");
+                        }
+                        @Override
+                        public void onPayError(@NonNull BaseResp baseResp) {
+                            //支付失败, 使用默认提示. (也可注释下面这句, 使用自定义提示)
+                            WxPayListener.super.onPayError(baseResp);
+                        }
+                    });
+                } else {
+                    showToast("您手机尚未安装微信");
+                }
+                break;
             case R.id.btn_login_wechat://微信登录
                 if (WeChatUtils.isWXAppInstalled()) {
-                    WeChatUtils.login("snsapi_userinfo", "test-----微信登录");
-                } else showToast("您手机尚未安装微信，请安装后再登录");
+                    WeChatUtils.login("snsapi_userinfo", "test-----微信登录", new WxLoginListener() {
+                        @Override
+                        public void onLoginSuccess(@NonNull SendAuth.Resp authResp) {
+                            showToast("登录成功!");
+                            String code = authResp.code;
+
+                            //然后把code传给后台服务器, 从服务器返回 accessToken, openId, unionid 等
+                            accessToken = "from service";
+                            openId = "from service";
+                        }
+                        @Override
+                        public void onLoginError(@NonNull BaseResp authResp) {
+                            //登录失败, 使用默认提示. (也可注释下面这句, 使用自定义提示)
+                            WxLoginListener.super.onLoginError(authResp);
+                        }
+                    });
+                } else {
+                    showToast("您手机尚未安装微信，请安装后再登录");
+                }
                 break;
             case R.id.btn_share_text://分享文字(还可以分享其它)
                 //分享返回需要自己在 WXEntryActivity 中添加逻辑
@@ -164,37 +197,5 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
             Tencent.onActivityResultData(requestCode, resultCode, data, listener);
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    //Eventbus微信登录/支付回调
-     @Subscribe(threadMode = ThreadMode.MAIN)
-     public void onWxLoginResult(EventBusEvent<Object> eventBusEvent) {
-         if (eventBusEvent == null) return;
-         switch (eventBusEvent.code) {
-             case WXEntryActivity.MSG_EVT_WX_LOGIN://登录
-                 showToast("登录成功!");
-                 LogUtils.error(eventBusEvent);
-                 String code = eventBusEvent.msg;
-                 /**
-                  * 调用后台接口获取token
-                  * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=&lang=zh_CN
-                  */
-                 //把code传到服务器, 从服务器返回 accessToken, openId, unionid 等
-                 accessToken = "from service";
-                 openId = "from service";
-                 break;
-             case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT://支付
-                 showToast("支付成功!");
-                 LogUtils.error(eventBusEvent);
-                 break;
-             default:
-                 break;
-         }
-     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }
