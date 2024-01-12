@@ -97,17 +97,17 @@
         android:padding="5dp"
         android:text="微信区" />
 
-    <Button
-        android:id="@+id/btn_pay_wechat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="支付" />
-
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        app:flexWrap="wrap">
+
+        <Button
+            android:id="@+id/btn_pay_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="支付" />
 
         <Button
             android:id="@+id/btn_login_wechat"
@@ -121,15 +121,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="分享文字(还可以分享其它)" />
+            android:text="分享文字" />
 
         <Button
-            android:id="@+id/btn_get_user_info_wechat"
+            android:id="@+id/btn_share_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="获取用户信息" />
-    </LinearLayout>
+            android:text="分享图片" />
+
+        <Button
+            android:id="@+id/btn_share_video_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="分享网络视频Url" />
+
+        <Button
+            android:id="@+id/btn_share_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="分享链接url" />
+
+        <Button
+            android:id="@+id/btn_share_miniprogram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="分享小程序" />
+
+        <Button
+            android:id="@+id/btn_share_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="分享音乐" />
+
+        <Button
+            android:id="@+id/btn_pay_offline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="打开离线支付" />
+    </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
         android:id="@+id/tv_result_wechat"

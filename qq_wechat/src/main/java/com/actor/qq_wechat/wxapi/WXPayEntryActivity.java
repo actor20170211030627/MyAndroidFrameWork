@@ -63,6 +63,8 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
     public void onResp(BaseResp baseResp) {
         if (AppUtils.isAppDebug()) {
             String json = baseResp == null ? "null" : GsonUtils.toJson(baseResp);
+            String respClassName = baseResp == null ? "null" : baseResp.getClass().getName();
+            LogUtils.errorFormat("onResp微信响应, baseResp实际类型 = %s", respClassName);
             LogUtils.errorFormat("onResp微信响应: baseResp = %s", json);
         }
         finish();

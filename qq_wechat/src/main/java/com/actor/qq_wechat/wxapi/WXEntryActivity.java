@@ -6,12 +6,15 @@ import android.os.Bundle;
 import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.qq_wechat.WeChatUtils;
+import com.actor.qq_wechat.WxLaunchMiniProgramListener;
 import com.actor.qq_wechat.WxLoginListener;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
@@ -63,26 +66,62 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
     public void onResp(BaseResp baseResp) {
         if (AppUtils.isAppDebug()) {
             String json = baseResp == null ? "null" : GsonUtils.toJson(baseResp);
+            String respClassName = baseResp == null ? "null" : baseResp.getClass().getName();
+            LogUtils.errorFormat("onResp微信响应, baseResp实际类型 = %s", respClassName);
             LogUtils.errorFormat("onResp微信响应: baseResp = %s", json);
         }
         finish();
         if (baseResp == null) return;
-        //if是微信登录
-        if (baseResp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
-            WxLoginListener wxLoginListener = WeChatUtils.getWxLoginListener();
-            if (wxLoginListener == null) return;
-            if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                if (baseResp instanceof SendAuth.Resp) {
-                    SendAuth.Resp authResp = (SendAuth.Resp) baseResp;
-                    wxLoginListener.onLoginSuccess(authResp);
+        switch (baseResp.getType()) {
+            case ConstantsAPI.COMMAND_SENDAUTH:             //1, 微信登录
+                WxLoginListener wxLoginListener = WeChatUtils.getWxLoginListener();
+                if (wxLoginListener == null) return;
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
+                    if (baseResp instanceof SendAuth.Resp) {
+                        SendAuth.Resp authResp = (SendAuth.Resp) baseResp;
+                        wxLoginListener.onLoginSuccess(authResp);
+                    } else {
+                        wxLoginListener.onLoginError(baseResp);
+                    }
                 } else {
                     wxLoginListener.onLoginError(baseResp);
                 }
-            } else {
-                wxLoginListener.onLoginError(baseResp);
-            }
-        } else {
-            LogUtils.errorFormat("微信登录: baseResp.getType() = %d", baseResp.getType());
+                break;
+            case ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM://19, 拉起小程序
+                WxLaunchMiniProgramListener wxLaunchMiniProgramListener = WeChatUtils.getWxLaunchMiniProgramListener();
+                if (wxLaunchMiniProgramListener == null) return;
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
+                    if (baseResp instanceof WXLaunchMiniProgram.Resp) {
+                        WXLaunchMiniProgram.Resp launchMiniProResp = (WXLaunchMiniProgram.Resp) baseResp;
+                        wxLaunchMiniProgramListener.onLaunchMiniProgramSuccess(launchMiniProResp);
+                    } else {
+                        wxLaunchMiniProgramListener.onLaunchMiniProgramError(baseResp);
+                    }
+                } else {
+                    wxLaunchMiniProgramListener.onLaunchMiniProgramError(baseResp);
+                }
+                break;
+            case ConstantsAPI.COMMAND_OPEN_CUSTOMER_SERVICE_CHAT://37, APP拉起微信客服功能
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
+                    if (baseResp instanceof WXOpenCustomerServiceChat.Resp) {
+                    } else {
+                    }
+                    LogUtils.error("APP拉起微信客服功能成功!");
+                } else {
+                    LogUtils.error("APP拉起微信客服功能失败!");
+                }
+                break;
+            case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX:    //2, 分享消息/图片/视频(...)到微信
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
+                    LogUtils.error("分享到微信可能成功(∵用户取消分享也会回调成功).");
+                } else {
+                    LogUtils.error("分享到微信失败!");
+                }
+                break;
+            case ConstantsAPI.COMMAND_UNKNOWN:    //0, 未知
+            default:
+                LogUtils.errorFormat("其余类型, baseResp.getType() = %d", baseResp.getType());
+                break;
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.actor.sample.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,7 +12,6 @@ import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ToasterUtils;
-import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.qq_wechat.BaseUiListener;
 import com.actor.qq_wechat.QQUtils;
@@ -20,12 +20,14 @@ import com.actor.qq_wechat.WxLoginListener;
 import com.actor.qq_wechat.WxPayListener;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityThirdBinding;
+import com.blankj.utilcode.util.ImageUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.tencent.tauth.Tencent;
 
 import org.json.JSONObject;
@@ -43,7 +45,6 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     private EditText etTargetQq;
 
     private boolean isQrCode = false;
-    private String accessToken, openId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
-                                QQUtils.shareToQQImg(activity, result.get(0).getPath(), "点我返回哟哟a", null,
+                                QQUtils.shareToQQImg(activity, result.get(0).getRealPath(), "点我返回哟哟a", null,
                                         new BaseUiListener() {
                                             @Override
                                             public void doComplete(@Nullable JSONObject response) {
@@ -142,8 +143,8 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                             String code = authResp.code;
 
                             //然后把code传给后台服务器, 从服务器返回 accessToken, openId, unionid 等
-                            accessToken = "from service";
-                            openId = "from service";
+                            String accessToken = "from service";
+                            String openId = "from service";
                         }
                         @Override
                         public void onLoginError(@NonNull BaseResp authResp) {
@@ -155,24 +156,59 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                     showToast("您手机尚未安装微信，请安装后再登录");
                 }
                 break;
-            case R.id.btn_share_text://分享文字(还可以分享其它)
-                //分享返回需要自己在 WXEntryActivity 中添加逻辑
+            case R.id.btn_share_text://分享文字
                 WeChatUtils.sendReqText("这是分享的文字", SendMessageToWX.Req.WXSceneSession);
-//                WeChatUtils.sendReqImage();
-                //...
                 break;
-            case R.id.btn_get_user_info_wechat://获取用户信息
-                //没试过...
-                if (accessToken == null) {
-                    showToast("请先微信登录");
-                    return;
-                }
-                //这个也应该后台调用后一起返回
-                WeChatUtils.getUserInfo(accessToken, openId, new BaseCallback<Object>(this) {
-                    @Override
-                    public void onOk(@NonNull Object info, int id, boolean isRefresh) {
-                    }
-                });
+            case R.id.btn_share_image://分享图片
+                PictureSelectorUtils.create(this, null).selectImage(false)
+                        .forResult(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(ArrayList<LocalMedia> result) {
+                                LocalMedia localMedia = result.get(0);
+                                PictureSelectorUtils.printLocalMedia(localMedia);
+                                WeChatUtils.sendReqImage(result.get(0).getRealPath(), null, SendMessageToWX.Req.WXSceneSession);
+                            }
+                            @Override
+                            public void onCancel() {
+                            }
+                        });
+                break;
+            case R.id.btn_share_video_url://分享网络视频Url
+                Bitmap coverVideo = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqVideo("http://v.youku.com/v_show/id_XMzI0MzA3NjI1Ng==.html",
+                        "标题啊", "视频的描述啊", coverVideo, SendMessageToWX.Req.WXSceneSession
+                );
+                coverVideo.recycle();
+                break;
+            case R.id.btn_share_url://分享网页链接url
+                Bitmap coverWeb = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqWebpage("https://www.baidu.com", "视频标题啊", "视频的描述啊",
+                        coverWeb, SendMessageToWX.Req.WXSceneSession);
+                coverWeb.recycle();
+                break;
+            case R.id.btn_share_miniprogram://分享小程序
+                Bitmap coverMiniprogram = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqMiniProgram(
+                        "https://www.baidu.com",    //可随意填1个非空字符串都行
+                       "gh_07933c23d664",
+                        null,                       // "/pages/down/index?user_id=123",
+                        false,
+                        WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE,
+                        "小程序标题啊",
+                        "小程序描述啊",
+                        coverMiniprogram,
+                        SendMessageToWX.Req.WXSceneSession);
+                coverMiniprogram.recycle();
+                break;
+            case R.id.btn_share_music://分享音乐
+                Bitmap coverMusic = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqMusic(
+                        "https://music.163.com/song/media/outer/url?id=1646740.mp3",
+                        "音乐标题", "音乐描述", coverMusic, SendMessageToWX.Req.WXSceneSession);
+                coverMusic.recycle();
+                break;
+            case R.id.btn_pay_offline://打开离线支付
+                WeChatUtils.payOffline();
                 break;
             default:
                 break;

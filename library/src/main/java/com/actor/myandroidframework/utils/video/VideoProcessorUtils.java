@@ -16,10 +16,6 @@ import java.io.IOException;
 
 /**
  * description: 视频压缩, 逆序, 混音, 参考: <a href="https://www.jianshu.com/p/78b7176c041e" target="_blank">简书</a> <br />
- * Author     : ldf <br />
- * date       : 2021/3/30 on 00 <br />
- *
- * <br />
  * <pre>
  *  使用本工具前, 需要添加依赖:
  *  1. 在项目的 build.gradle 中添加
@@ -31,9 +27,10 @@ import java.io.IOException;
  * </pre>
  *
  * @version 1.0
+ * @Author     : ldf
+ * @date       : 2021/3/30 on 00
  */
 public class VideoProcessorUtils {
-
 
     /**
      * 视频压缩
@@ -41,9 +38,6 @@ public class VideoProcessorUtils {
      * @param listener 回调监听
      */
     public static void compressVideo(Context context, String videoPath, @NonNull OnCompressListener listener) {
-        if (listener == null) {
-            return;
-        }
         //开始压缩
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(videoPath);

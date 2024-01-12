@@ -811,22 +811,22 @@ public class PictureSelectorUtils {
      */
     public static void printLocalMedia(@Nullable LocalMedia media) {
         if (media == null) return;
-        Log.i(TAG, "文件名      :" + media.getFileName());
-        Log.i(TAG, "是否压缩    :" + media.isCompressed());
-        Log.i(TAG, "压缩        :" + media.getCompressPath());
-        Log.i(TAG, "初始路径    :" + media.getPath());
-        Log.i(TAG, "绝对路径    :" + media.getRealPath());
-        Log.i(TAG, "是否裁剪    :" + media.isCut());
-        Log.i(TAG, "裁剪路径    :" + media.getCutPath());
-        Log.i(TAG, "是否开启原图:" + media.isOriginal());
-        Log.i(TAG, "原图路径    :" + media.getOriginalPath());
-        Log.i(TAG, "沙盒路径    :" + media.getSandboxPath());
-        Log.i(TAG, "水印路径    :" + media.getWatermarkPath());
-        Log.i(TAG, "视频缩略图  :" + media.getVideoThumbnailPath());
-        Log.i(TAG, "原始宽高    :" + media.getWidth() + "x" + media.getHeight());
-        Log.i(TAG, "裁剪宽高    :" + media.getCropImageWidth() + "x" + media.getCropImageHeight());
-        Log.i(TAG, "文件大小    :" + PictureFileUtils.formatAccurateUnitFileSize(media.getSize()));
-        Log.i(TAG, "文件时长    :" + media.getDuration());
+        Log.i(TAG, "文件名getFileName()                             :" + media.getFileName());
+        Log.i(TAG, "是否压缩isCompressed()                          :" + media.isCompressed());
+        Log.i(TAG, "压缩路径getCompressPath()                       :" + media.getCompressPath());
+        Log.i(TAG, "初始路径getPath()                               :" + media.getPath());
+        Log.i(TAG, "绝对路径getRealPath()                           :" + media.getRealPath());
+        Log.i(TAG, "是否裁剪isCut()                                 :" + media.isCut());
+        Log.i(TAG, "裁剪路径getCutPath()                            :" + media.getCutPath());
+        Log.i(TAG, "是否开启原图isOriginal()                        :" + media.isOriginal());
+        Log.i(TAG, "原图路径getOriginalPath()                       :" + media.getOriginalPath());
+        Log.i(TAG, "沙盒路径getSandboxPath()                        :" + media.getSandboxPath());
+        Log.i(TAG, "水印路径getWatermarkPath()                      :" + media.getWatermarkPath());
+        Log.i(TAG, "视频缩略图getVideoThumbnailPath()               :" + media.getVideoThumbnailPath());
+        Log.i(TAG, "原始宽高getWidth(),getHeight()                  :" + media.getWidth() + "x" + media.getHeight());
+        Log.i(TAG, "裁剪宽高getCropImageWidth(),getCropImageHeight():" + media.getCropImageWidth() + "x" + media.getCropImageHeight());
+        Log.i(TAG, "文件大小getSize()                               :" + PictureFileUtils.formatAccurateUnitFileSize(media.getSize()));
+        Log.i(TAG, "文件时长getDuration()                           :" + media.getDuration());
     }
 
 

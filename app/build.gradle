@@ -35,10 +35,10 @@ android {
     }
     signingConfigs {
         release {
-            keyAlias 'actor'
-            keyPassword '123456'
-            storeFile file('actorKey.jks')
-            storePassword '123456'
+            storeFile file('maituo_bdc.jks')
+            storePassword 'bdc002022'
+            keyAlias 'bdc'
+            keyPassword 'bdc002022'
         }
     }
     buildTypes {
