@@ -53,8 +53,9 @@
 # 抑制警告
 #-ignorewarnings
 
-# @Keep 会自动不混淆.
+# @Keep 保留@Keep注解的类以及它的属性方法不被混淆
 # 注意: 如果某个json解析成的Entity里有静态class, 也需要在这个静态class上加上@Keep, 否则静态class会被混淆!!
+-keep @androidx.annotation.Keep class **
 
 # ViewBinding: 防止反射方法被混淆
 -keepclassmembers class * implements androidx.viewbinding.ViewBinding {

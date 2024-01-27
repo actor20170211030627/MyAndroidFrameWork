@@ -65,7 +65,7 @@ dependencies {
     implementation project(path: ':library')
 
     //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等
-    compileOnly files('../app/libs/open_sdk_3.5.14.3_rc26220c_lite.jar')
+    compileOnly files('../app/libs/open_sdk_3.5.15.6_r972e71b_lite.jar')
     //https://wiki.connect.qq.com/互联sdk支持maven  2021年的sdk, 也不更新一下...
 //    compileOnly 'com.tencent.tauth:qqopensdk:3.52.0'
 

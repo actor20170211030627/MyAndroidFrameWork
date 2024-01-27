@@ -105,6 +105,9 @@ public class WeChatUtils {
     //拉起小程序回调
     protected static WxLaunchMiniProgramListener wxLaunchMiniProgramListener;
 
+    //APP拉起微信客服功能
+    protected static WXOpenCustomerServiceChatListener wxOpenCustomerServiceChatListener;
+
     /**
      * @param appId 设置appId
      */
@@ -662,9 +665,10 @@ public class WeChatUtils {
     /**
      * 从APP拉起指定的微信客服会话
      * @param corpId 企业ID
-     * @param kfUrl 客服URL: https://work.weixin.qq.com/kfid/kfcxxxxx
+     * @param kfUrl 客服URL, 示例: https://work.weixin.qq.com/kfid/kfcxxxxx
      */
-    public static boolean openCustomerServiceChat(@NonNull String corpId, @NonNull String kfUrl) {
+    public static boolean openCustomerServiceChat(@NonNull String corpId, @NonNull String kfUrl, @Nullable WXOpenCustomerServiceChatListener listener) {
+        wxOpenCustomerServiceChatListener = listener;
         // 判断当前版本是否支持拉起客服会话
         if (getWXAppSupportAPI() >= Build.SUPPORT_OPEN_CUSTOMER_SERVICE_CHAT) {
             WXOpenCustomerServiceChat.Req req = new WXOpenCustomerServiceChat.Req();
@@ -673,6 +677,11 @@ public class WeChatUtils {
             return getIWXAPI().sendReq(req);
         }
         return false;
+    }
+    public static WXOpenCustomerServiceChatListener getWxOpenCustomerServiceChatListener() {
+        WXOpenCustomerServiceChatListener listener = wxOpenCustomerServiceChatListener;
+        wxOpenCustomerServiceChatListener = null;
+        return listener;
     }
 
 

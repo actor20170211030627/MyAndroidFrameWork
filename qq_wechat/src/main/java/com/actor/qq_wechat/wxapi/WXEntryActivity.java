@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.qq_wechat.WXOpenCustomerServiceChatListener;
 import com.actor.qq_wechat.WeChatUtils;
 import com.actor.qq_wechat.WxLaunchMiniProgramListener;
 import com.actor.qq_wechat.WxLoginListener;
@@ -78,8 +79,8 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
                 if (wxLoginListener == null) return;
                 if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
                     if (baseResp instanceof SendAuth.Resp) {
-                        SendAuth.Resp authResp = (SendAuth.Resp) baseResp;
-                        wxLoginListener.onLoginSuccess(authResp);
+                        SendAuth.Resp resp = (SendAuth.Resp) baseResp;
+                        wxLoginListener.onLoginSuccess(resp);
                     } else {
                         wxLoginListener.onLoginError(baseResp);
                     }
@@ -92,8 +93,8 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
                 if (wxLaunchMiniProgramListener == null) return;
                 if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
                     if (baseResp instanceof WXLaunchMiniProgram.Resp) {
-                        WXLaunchMiniProgram.Resp launchMiniProResp = (WXLaunchMiniProgram.Resp) baseResp;
-                        wxLaunchMiniProgramListener.onLaunchMiniProgramSuccess(launchMiniProResp);
+                        WXLaunchMiniProgram.Resp resp = (WXLaunchMiniProgram.Resp) baseResp;
+                        wxLaunchMiniProgramListener.onLaunchMiniProgramSuccess(resp);
                     } else {
                         wxLaunchMiniProgramListener.onLaunchMiniProgramError(baseResp);
                     }
@@ -102,18 +103,22 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
                 }
                 break;
             case ConstantsAPI.COMMAND_OPEN_CUSTOMER_SERVICE_CHAT://37, APP拉起微信客服功能
+                WXOpenCustomerServiceChatListener wxOpenCustomerServiceChatListener = WeChatUtils.getWxOpenCustomerServiceChatListener();
+                if (wxOpenCustomerServiceChatListener == null) return;
                 if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
                     if (baseResp instanceof WXOpenCustomerServiceChat.Resp) {
+                        WXOpenCustomerServiceChat.Resp resp = (WXOpenCustomerServiceChat.Resp) baseResp;
+                        wxOpenCustomerServiceChatListener.onOpenCustomerServiceChatSuccess(resp);
                     } else {
+                        wxOpenCustomerServiceChatListener.onOpenCustomerServiceChatError(baseResp);
                     }
-                    LogUtils.error("APP拉起微信客服功能成功!");
                 } else {
-                    LogUtils.error("APP拉起微信客服功能失败!");
+                    wxOpenCustomerServiceChatListener.onOpenCustomerServiceChatError(baseResp);
                 }
                 break;
             case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX:    //2, 分享消息/图片/视频(...)到微信
                 if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                    LogUtils.error("分享到微信可能成功(∵用户取消分享也会回调成功).");
+                    LogUtils.error("分享到微信可能成功。(∵用户取消分享也会回调成功)");
                 } else {
                     LogUtils.error("分享到微信失败!");
                 }

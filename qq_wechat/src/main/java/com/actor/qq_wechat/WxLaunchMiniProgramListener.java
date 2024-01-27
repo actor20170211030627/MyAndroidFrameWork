@@ -14,8 +14,13 @@ import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
  */
 public interface WxLaunchMiniProgramListener {
     /**
-     * 拉起成功, 一定有返回值?, authResp.errCode = BaseResp.ErrCode.ERR_OK <br />
-     * String extraData =launchMiniProResp.extMsg;  //对应小程序组件 <button open-type="launchApp"> 中的 app-parameter 属性
+     * 拉起成功, 一定有返回值?
+     * <ul>
+     *     <li>
+     *         //对应小程序组件 &lt;button open-type="launchApp"> 中的 app-parameter 属性 <br />
+     *         <code>String extraData =launchMiniProResp.extMsg;</code>
+     *     </li>
+     * </ul>
      */
     void onLaunchMiniProgramSuccess(@NonNull WXLaunchMiniProgram.Resp launchMiniProResp);
 

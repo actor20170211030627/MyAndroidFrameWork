@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/red_trans_CC99"
         android:padding="5dp"
-        android:text="QQ区" />
+        android:text="1.QQ登录/退出" />
 
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
@@ -51,6 +51,40 @@
             android:text="获取用户信息" />
 
         <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="退出" />
+
+        <TextView
+            android:id="@+id/tv_result_qq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="result"
+            android:padding="10dp" />
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_trans_CC99"
+        android:padding="5dp"
+        android:text="2.QQ分享区" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexWrap="wrap">
+
+        <Button
+            android:id="@+id/btn_share_img_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="分享图文" />
+
+        <Button
             android:id="@+id/btn_share_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,19 +92,12 @@
             android:text="分享图片" />
 
         <Button
-            android:id="@+id/btn_logout"
+            android:id="@+id/btn_share_img2_qzone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="退出" />
+            android:text="分享图文到QQ空间" />
     </com.google.android.flexbox.FlexboxLayout>
-
-    <TextView
-        android:id="@+id/tv_result_qq"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="result"
-        android:padding="10dp" />
 
     <EditText
         android:id="@+id/et_target_qq"

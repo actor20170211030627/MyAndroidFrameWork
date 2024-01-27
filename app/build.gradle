@@ -35,10 +35,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('maituo_bdc.jks')
-            storePassword 'bdc002022'
-            keyAlias 'bdc'
-            keyPassword 'bdc002022'
+            keyAlias 'actor'
+            keyPassword '123456'
+            storeFile file('actorKey.jks')
+            storePassword '123456'
         }
     }
     buildTypes {
@@ -110,7 +110,7 @@ dependencies {
 
 
     //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等
-    implementation files('libs/open_sdk_3.5.14.3_rc26220c_lite.jar')
+    implementation files('libs/open_sdk_3.5.15.6_r972e71b_lite.jar')
 
     //百度定位
     implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.4.0'

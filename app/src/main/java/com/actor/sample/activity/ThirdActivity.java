@@ -23,7 +23,6 @@ import com.actor.sample.databinding.ActivityThirdBinding;
 import com.blankj.utilcode.util.ImageUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
-import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -75,6 +74,16 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                     }
                 });
                 break;
+            case R.id.btn_share_img_text://分享图文
+                QQUtils.shareToQQImgTxt(activity, "图文标题", null, "https://www.baidu.com",
+                        null, "返回1", null, null, new BaseUiListener() {
+                    @Override
+                    public void doComplete(@Nullable JSONObject response) {
+                        LogUtils.error(response);
+                        ToasterUtils.success("分享图文成功!");
+                    }
+                });
+                break;
             case R.id.btn_share_img://分享图片
                 PictureSelectorUtils.create(this, null)
                         .selectImage(false)
@@ -83,11 +92,14 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
-                                QQUtils.shareToQQImg(activity, result.get(0).getRealPath(), "点我返回哟哟a", null,
+                                LocalMedia localMedia = result.get(0);
+                                PictureSelectorUtils.printLocalMedia(localMedia);
+                                QQUtils.shareToQQImg(activity, localMedia.getRealPath(), "点我返回哟哟a", null, null,
                                         new BaseUiListener() {
                                             @Override
                                             public void doComplete(@Nullable JSONObject response) {
                                                 LogUtils.error(response);
+                                                ToasterUtils.success("分享图片成功!");
                                             }
                                         });
                                 //还有其它分享方式
@@ -97,6 +109,16 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                             }
                             @Override
                             public void onCancel() {
+                            }
+                        });
+                break;
+            case R.id.btn_share_img2_qzone://分享图文到QQ空间
+                QQUtils.shareToQzone(activity, "标题呀", null, "https://www.baidu.com", null,
+                        new BaseUiListener() {
+                            @Override
+                            public void doComplete(@Nullable JSONObject response) {
+                                LogUtils.error(response);
+                                ToasterUtils.success("分享图文到QQ空间成功!");
                             }
                         });
                 break;
@@ -118,7 +140,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
             //下方是微信区
             case R.id.btn_pay_wechat://微信支付
                 if (WeChatUtils.isWXAppInstalled()) {
-                    //使用服务器返回的一下几个参数↓
+                    //使用服务器返回的以下几个参数↓
                     WeChatUtils.pay("partnerId", "prepayId", "nonceStr", "timeStamp", "sign", new WxPayListener() {
                         @Override
                         public void onPaySuccess(@NonNull BaseResp baseResp) {
@@ -216,12 +238,14 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     }
 
     //QQ登录回调
-    private BaseUiListener listener =new BaseUiListener() {
+    private final BaseUiListener listener = new BaseUiListener() {
 
         @Override
         public void doComplete(@Nullable JSONObject response) {
             QQUtils.initSessionCache(response);
-            tvResultQq.setText(String.valueOf(response));
+            String json = String.valueOf(response);
+            LogUtils.error(json);
+            tvResultQq.setText(json);
         }
     };
 
@@ -229,9 +253,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         LogUtils.errorFormat("requestCode=%d, resultCode=%d", requestCode, resultCode);
-        if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
-            Tencent.onActivityResultData(requestCode, resultCode, data, listener);
-        }
+        Tencent.onActivityResultData(requestCode, resultCode, data, null);
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.actor.qq_wechat">
 
+    <!--QQ需要权限-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <!-- https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html#jump
         targetSdkVersion升级到30的第三方应用，
@@ -16,10 +18,10 @@
 
     <application>
 
-        <!-- 设置QQ头像等, 要加上, 否则getTencent()返回null -->
+        <!-- 设置QQ头像等, 要加上 -->
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 

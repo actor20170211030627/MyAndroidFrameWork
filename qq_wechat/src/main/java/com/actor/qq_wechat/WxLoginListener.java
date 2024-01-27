@@ -19,14 +19,14 @@ public interface WxLoginListener {
      * <ol>
      *     <li>
      *         //获取的授权临时票据code, 需要把code传到服务器, 从服务器获取userinfo等... <br />
-     *         String code = authResp.code; <br />
+     *         <code>String code = authResp.code;</code> <br />
      *     </li>
      *     <li>
-     *         //{@link WeChatUtils#login(String, String, WxLoginListener)} 登录的时候传入的唯一性的标志，state字符串长度不能超过1K <br />
-     *         String state = authResp.state;
+     *         //state: 调用 {@link WeChatUtils#login(String, String, WxLoginListener) WeChatUtils.login(...)} 登录的时候传入的唯一性的标志 <br />
+     *         <code>String state = authResp.state;</code>
      *     </li>
-     *     <li>String lang = authResp.lang; //微信客户端当前语言</li>
-     *     <li>String country = authResp.country;   //微信用户当前国家信息</li>
+     *     <li><code>String lang = authResp.lang;</code>    //微信客户端当前语言</li>
+     *     <li><code>String country = authResp.country;</code>   //微信用户当前国家信息</li>
      *     <li>还有其余参数...</li>
      * </ol>
      */
