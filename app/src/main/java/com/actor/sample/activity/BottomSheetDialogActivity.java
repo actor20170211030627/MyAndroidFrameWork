@@ -2,13 +2,12 @@ package com.actor.sample.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.actor.myandroidframework.dialog.BaseBottomDialog;
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
-import com.actor.myandroidframework.dialog.BaseLeftDialog;
-import com.actor.myandroidframework.dialog.BaseRightDialog;
+import com.actor.myandroidframework.dialog.BaseDialog;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityBottomSheetDialogBinding;
 import com.actor.sample.dialog.BottomFloatEditorDialog;
@@ -23,21 +22,19 @@ import com.blankj.utilcode.util.ConvertUtils;
  */
 public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetDialogBinding> {
 
-    private TextView tvContent;
-
     private TestDialog                  alertDialog;
-    private BaseBottomDialog            baseBottomDialog;
+    private BaseDialog bottomDialog;
     private BaseBottomSheetDialog       baseBottomSheetDialog;
     private MyBottomSheetDialogFragment bottomSheetDialogFragment;
     private BottomFloatEditorDialog     bottomFloatEditorDialog;
-    private BaseLeftDialog              baseLeftDialog;
-    private BaseRightDialog             baseRightDialog;
+    private BaseDialog leftDialog;
+    private BaseDialog rightDialog;
+    private BaseDialog topDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("主页->BottomSheetDialog");
-        tvContent = viewBinding.tvContent;
 
         /**
          * 普通Dialog
@@ -47,21 +44,24 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
 
         /**
          * 从底部弹出的Dialog
-         * 可以写个Dialog extends BaseBottomDialog, 把所有这个Dialog应该有的功能写到你的Dialog中,
-         * 一处编写, 到处使用...
          */
-        baseBottomDialog = new BaseBottomDialog(this) {
+        bottomDialog = new BaseDialog(this) {
             @Override
             protected int getLayoutResId() {
                 return R.layout.fragment_base_bottom_sheet_dialog;
             }
-        };
-        baseBottomDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> baseBottomDialog.dismiss());
-        baseBottomDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("yes~"));
-        baseBottomDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
-        baseBottomDialog.setDimAmount(0.3F);//设置背景昏暗度
-        TextView tvContent1 = baseBottomDialog.findViewById(R.id.tv_content);
-        tvContent1.setText("this is BaseBottomDialog, Click me(点击我试一下)");
+        }.setGravityAndAnimation(Gravity.BOTTOM, null)
+        //设置背景昏暗度
+        .setDimAmount(0.3f)
+        //设置点击穿透
+        .isClickThrough(true)
+        .setCancelAble(false);
+        //
+        bottomDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> bottomDialog.dismiss());
+        bottomDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("yes~"));
+        bottomDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
+        TextView tvContent1 = bottomDialog.findViewById(R.id.tv_content);
+        tvContent1.setText("this is BottomDialog, Click me(点击我试一下)");
         tvContent1.setOnClickListener(v -> showToast("you clicked me~"));
 
 
@@ -102,47 +102,56 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
         bottomFloatEditorDialog = new BottomFloatEditorDialog(this, new BottomFloatEditorDialog.OnResultListener() {
             @Override
             public void onResult(CharSequence content) {
-                tvContent.setText(content);
+                viewBinding.tvContent.setText(content);
             }
         });
 
         /**
          * 左侧弹出的Dialog
          */
-        baseLeftDialog = new BaseLeftDialog(this) {
+        leftDialog = new BaseDialog(this) {
             @Override
             protected int getLayoutResId() {
                 return R.layout.dialog_base_left;
             }
-        };
-        baseLeftDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> baseLeftDialog.dismiss());
-        baseLeftDialog.findViewById(R.id.view_space).setOnClickListener(v -> baseLeftDialog.dismiss());
+        }.setGravityAndAnimation(Gravity.START, R.style.LeftAnimationStyle)
+                .setFullScreen(true);
+        leftDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> leftDialog.dismiss());
+        leftDialog.findViewById(R.id.view_space).setOnClickListener(v -> leftDialog.dismiss());
 
 
         /**
          * 右侧弹出的Dialog
          */
-        baseRightDialog = new BaseRightDialog(this) {
+        rightDialog = new BaseDialog(this) {
             @Override
             protected int getLayoutResId() {
                 return R.layout.dialog_base_left;
             }
-        };
-        baseRightDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> baseRightDialog.dismiss());
-        baseRightDialog.findViewById(R.id.view_space).setOnClickListener(v -> baseRightDialog.dismiss());
+        }.setGravityAndAnimation(Gravity.END, null);
+        rightDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
+        rightDialog.findViewById(R.id.view_space).setOnClickListener(v -> rightDialog.dismiss());
+
+
+        /**
+         * 右侧弹出的Dialog
+         */
+        topDialog = new BaseDialog(this) {
+            @Override
+            protected int getLayoutResId() {
+                return R.layout.fragment_base_bottom_sheet_dialog;
+            }
+        }.setGravityAndAnimation(Gravity.TOP, null);
+        topDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
+        topDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
+        topDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("ok~~"));
     }
 
-//    @OnClick({R.id.btn_test_dialog, R.id.btn_bottom_dialog, R.id.btn_bottom_sheet_dialog,
-//            R.id.btn_bottom_sheet_dialog_fragment, R.id.btn_float_edit, R.id.btn_left_dialog,
-//            R.id.btn_right_dialog, R.id.btn_bottom_activity})
     @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_test_dialog://普通Dialog
                 alertDialog.show();
-                break;
-            case R.id.btn_bottom_dialog://从底部弹出的Dialog
-                baseBottomDialog.show();
                 break;
             case R.id.btn_bottom_sheet_dialog://从底部弹出, 可上下滑动的Dialog
                 baseBottomSheetDialog.show();
@@ -154,10 +163,16 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
                 bottomFloatEditorDialog.show();
                 break;
             case R.id.btn_left_dialog://左侧弹出
-                baseLeftDialog.show();
+                leftDialog.show();
                 break;
             case R.id.btn_right_dialog://右侧弹出
-                baseRightDialog.show();
+                rightDialog.show();
+                break;
+            case R.id.btn_top_dialog://
+                topDialog.show();
+                break;
+            case R.id.btn_bottom_dialog1://从底部弹出的Dialog
+                bottomDialog.show();
                 break;
             case R.id.btn_bottom_activity://从底部弹出的Activity
                 //不要弄元素共享动画, 否则动画有问题

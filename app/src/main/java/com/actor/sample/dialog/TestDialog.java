@@ -3,12 +3,11 @@ package com.actor.sample.dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.actor.myandroidframework.dialog.BaseDialog;
-import com.actor.sample.R;
+import com.actor.myandroidframework.dialog.ViewBindingDialog;
+import com.actor.sample.databinding.FragmentBaseBottomSheetDialogBinding;
 import com.blankj.utilcode.util.ToastUtils;
 
 /**
@@ -18,7 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
  *
  * @version 1.0
  */
-public class TestDialog extends BaseDialog {
+public class TestDialog extends ViewBindingDialog<FragmentBaseBottomSheetDialogBinding> {
 
     public TestDialog(@NonNull Context context) {
         super(context);
@@ -27,16 +26,13 @@ public class TestDialog extends BaseDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
-        TextView tv = findViewById(R.id.tv_content);
-        tv.setText("this is TestDialog");
-        findViewById(R.id.btn_dismiss).setOnClickListener(v -> dismiss());
-        findViewById(R.id.btn_ok).setOnClickListener(v -> ToastUtils.showShort("u clicked TestDialog"));
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_base_bottom_sheet_dialog;
+        viewBinding.tvTips.setVisibility(View.INVISIBLE);
+        viewBinding.tvContent.setText("this is TestDialog");
+        viewBinding.btnDismiss.setOnClickListener(v ->
+                dismiss()
+        );
+        viewBinding.btnOk.setOnClickListener(v ->
+                ToastUtils.showShort("u clicked TestDialog")
+        );
     }
 }

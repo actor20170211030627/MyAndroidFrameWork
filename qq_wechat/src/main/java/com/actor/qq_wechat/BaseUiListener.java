@@ -3,6 +3,7 @@ package com.actor.qq_wechat;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.UiError;
 
@@ -19,7 +20,7 @@ public abstract class BaseUiListener implements IUiListener {
      * @param response 是一个 JSONObject
      */
     @Override
-    public void onComplete(Object response) {
+    public final void onComplete(Object response) {
         JSONObject jsonResponse = (JSONObject) response;
             doComplete(jsonResponse);
     }
@@ -36,7 +37,10 @@ public abstract class BaseUiListener implements IUiListener {
     }
 
     @Override
-    public void onWarning(int i) {
-        LogUtils.error(i);
+    public void onWarning(int code) {
+        LogUtils.error(code);
+        if (code == Constants.ERROR_NO_AUTHORITY) {
+            LogUtils.error("onWarning: 请授权手Q访问分享的文件的读取权限!");
+        }
     }
 }

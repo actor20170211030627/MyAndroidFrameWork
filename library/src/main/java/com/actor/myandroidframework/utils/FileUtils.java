@@ -1,12 +1,22 @@
 package com.actor.myandroidframework.utils;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.text.format.Formatter;
+import android.webkit.MimeTypeMap;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.PathUtils;
+import com.blankj.utilcode.util.UriUtils;
+import com.blankj.utilcode.util.Utils;
+
+import java.io.File;
 
 /**
  * Description: 文件帮助类 <br />
@@ -18,10 +28,6 @@ import com.blankj.utilcode.util.PathUtils;
  */
 public class FileUtils {
 
-    @SuppressLint("StaticFieldLeak")
-    protected static final Context CONTEXT = ConfigUtils.APPLICATION;
-
-
     ///////////////////////////////////////////////////////////////////////////
     // 1.格式化
     ///////////////////////////////////////////////////////////////////////////
@@ -30,7 +36,7 @@ public class FileUtils {
      * @param sizeBytes 文件大小
      */
     public static String formatFileSize(long sizeBytes) {
-        return Formatter.formatFileSize(CONTEXT, sizeBytes);
+        return Formatter.formatFileSize(Utils.getApp(), sizeBytes);
     }
 
     /**
@@ -38,7 +44,7 @@ public class FileUtils {
      * @param sizeBytes 文件大小
      */
     public static String formatShortFileSize(long sizeBytes) {
-        return Formatter.formatShortFileSize(CONTEXT, sizeBytes);
+        return Formatter.formatShortFileSize(Utils.getApp(), sizeBytes);
     }
 
 
@@ -189,11 +195,52 @@ public class FileUtils {
     }
 
     /**
+     * <a href="https://developer.android.google.cn/training/secure-file-sharing?hl=zh-cn">分享文件 _ Android 开发者</a> <br />
      * 分享文件, 调用系统分享
      * @param filePath 文件路径
      */
-    public static void shareFile(String filePath) {
-        CONTEXT.startActivity(Intent.createChooser(IntentUtils.getShareImageIntent(filePath)
-                .setType("*/*"), "请选择需要分享的应用程序"));
+    public static void shareFile(@NonNull Context context, @NonNull String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) return;
+        Uri fileUri = UriUtils.file2Uri(file);
+
+//        String mimeType = getMimeType(filePath);
+//        mimeType = "*/*";
+        Intent shareIntent = IntentUtils.getShareImageIntent(fileUri);
+//        shareIntent.setType(mimeType);
+//        if (mimeType != null) {
+//            LogUtils.errorFormat("mimeType = %s", mimeType);
+//            Uri data = shareIntent.getData();
+//            shareIntent.setDataAndType(data, mimeType);
+//        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //对目标应用临时授权该Uri所代表的文件
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+//        context.grantUriPermission("dest package", fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        context.startActivity(Intent.createChooser(shareIntent , "请选择需要分享的应用程序")
+                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
+        );
+    }
+
+    /**
+     * <a href="https://stackoverflow.com/questions/8589645/how-to-determine-mime-type-of-file-in-android">获取文件的MimeType</a>
+     * @param url 文件路径或任何合适的URL
+     */
+    @Nullable
+    public static String getMimeType(String url) {
+        File file = new File(url);
+        if (!file.exists()) return null;
+        Uri fileUri = UriUtils.file2Uri(file);
+        String mimeType = Utils.getApp().getContentResolver().getType(fileUri);
+        if (mimeType != null) return mimeType;
+
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+        }
+        return mimeType;
     }
 }

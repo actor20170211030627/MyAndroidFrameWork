@@ -3,12 +3,12 @@ package com.actor.sample.dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
-import android.widget.EditText;
+import android.view.Gravity;
 
 import androidx.annotation.NonNull;
 
-import com.actor.myandroidframework.dialog.BaseBottomDialog;
-import com.actor.sample.R;
+import com.actor.myandroidframework.dialog.ViewBindingDialog;
+import com.actor.sample.databinding.DialogFloatEditorBinding;
 import com.blankj.utilcode.util.ToastUtils;
 
 /**
@@ -18,35 +18,29 @@ import com.blankj.utilcode.util.ToastUtils;
  *
  * @version 1.0
  */
-public class BottomFloatEditorDialog extends BaseBottomDialog {
+public class BottomFloatEditorDialog extends ViewBindingDialog<DialogFloatEditorBinding> {
 
-    private EditText         etContent;
-    private OnResultListener listener;
+    private final OnResultListener listener;
 
     public BottomFloatEditorDialog(@NonNull Context context, OnResultListener listener) {
         super(context);
         this.listener = listener;
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.dialog_float_editor;
+        setGravityAndAnimation(Gravity.BOTTOM, null);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        findViewById(R.id.tv_cancel).setOnClickListener(v -> {
+        viewBinding.tvCancel.setOnClickListener(v -> {
             ToastUtils.showShort("dismiss");
             dismiss();
         });
-        findViewById(R.id.tv_send).setOnClickListener(v -> {
-            Editable text = etContent.getText();
+        viewBinding.tvSend.setOnClickListener(v -> {
+            Editable text = viewBinding.etContent.getText();
             ToastUtils.showShort(text);
             if (listener != null) listener.onResult(text);
             dismiss();
         });
-        etContent = findViewById(R.id.et_content);
     }
 
     public interface OnResultListener {

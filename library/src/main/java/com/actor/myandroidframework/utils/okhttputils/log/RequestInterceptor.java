@@ -170,7 +170,17 @@ public class RequestInterceptor implements Interceptor {
             }
             String json = requestbuffer.readString(charset);
             if (UrlEncoderUtils.hasUrlEncoded(json)) {
-                json = URLDecoder.decode(json, convertCharset(charset));
+                try {
+                    /**
+                     * TODO: 2024/1/8 以后去官网看看作者怎么改的
+                     * Edited:
+                     * https://github.com/JessYanCoding/MVPArt/issues/18
+                     * if自己上传服务起的String参数包含 "%u7", 就会解码错误, 导致崩溃
+                     */
+                    json = URLDecoder.decode(json, convertCharset(charset));
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
             }
             return CharacterHandler.jsonFormat(json);
         } catch (IOException e) {

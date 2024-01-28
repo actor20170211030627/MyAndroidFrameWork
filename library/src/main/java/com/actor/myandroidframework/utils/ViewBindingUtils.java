@@ -1,13 +1,16 @@
 package com.actor.myandroidframework.utils;
 
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import java.lang.reflect.InvocationTargetException;
@@ -39,87 +42,146 @@ import java.lang.reflect.Type;
 public class ViewBindingUtils {
 
     /**
-     * 从Activity中获取viewBinding
+     * 从 XxxActivity<XxxBinding> 的泛型中获取viewBinding
      */
     @Nullable
-    public static <VB extends ViewBinding> VB initViewBinding(AppCompatActivity activity) {
+    public static <VB extends ViewBinding> VB initViewBinding(@NonNull AppCompatActivity activity) {
         Class<? extends AppCompatActivity> aClass = activity.getClass();
-        Type type = aClass.getGenericSuperclass();
-        if (type instanceof ParameterizedType) {
-            Class<VB> cls = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];
-            try {
-                Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class);
-                return (VB) inflate.invoke(null, activity.getLayoutInflater());
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-                if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
-                    LogUtils.errorFormat("%s 的 viewBinding 初始化失败,\n" +
-                                    "泛型类型为: %s.\n" +
-                                    "是混淆代码后在 %s 中对 viewBinding 没有直接的引用造成的!\n" +
-                                    "请在onCreate()中至少添加一条引用代码, 例: viewBinding.getRoot();",
-                            aClass.getName(), cls.getName(), aClass.getSimpleName());
-                }
+        Class<VB> cls = getBinding(aClass);
+        if (cls == null) return null;
+        try {
+            Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class);
+            return (VB) inflate.invoke(null, activity.getLayoutInflater());
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
+                LogUtils.errorFormat("%s<%s> 的 viewBinding 初始化失败, 可能是混淆代码后在 %s 中对 viewBinding 没有直接的引用造成的!\n" +
+                                "请在onCreate()中至少添加一条引用代码, 例: viewBinding.getRoot();",
+                        aClass.getName(), cls.getSimpleName(), aClass.getSimpleName());
             }
-        } //else LogUtils.error("没有写泛型");
+        }
         return null;
     }
 
     /**
-     * 从Fragment中获取viewBinding
+     * 从 XxxFragment<XxxBinding> 的泛型中获取viewBinding
      */
     @Nullable
-    public static <VB extends ViewBinding> VB initViewBinding(@NonNull Fragment fragment, @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        Class<? extends Fragment> aClass = fragment.getClass();
-        Type type = aClass.getGenericSuperclass();
-        if (type instanceof ParameterizedType) {
-            Class<VB> cls = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];
-            try {
-                Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class, ViewGroup.class, boolean.class);
-                return (VB) inflate.invoke(null, inflater, container, false);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-                if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
-                    LogUtils.errorFormat("%s(是一个Fragment) 的 viewBinding 初始化失败,\n" +
-                                    "泛型类型为: %s.\n" +
-                                    "是混淆代码后在 %s 中对 viewBinding 没有直接的引用造成的!\n" +
-                                    "请在onViewCreated()中至少添加一条引用代码, 例: viewBinding.getRoot();",
-                            aClass.getName(), cls.getName(), aClass.getSimpleName());
-                }
+    public static <VB extends ViewBinding> VB initViewBinding(@NonNull Class<? extends Fragment> fragmentClass, @NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        Class<VB> cls = getBinding(fragmentClass);
+        if (cls == null) return null;
+        try {
+            Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class, ViewGroup.class, boolean.class);
+            return (VB) inflate.invoke(null, inflater, container, false);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
+                LogUtils.errorFormat("%s<%s> 的 viewBinding 初始化失败, 可能是混淆代码后在 %s 中对 viewBinding 没有直接的引用造成的!\n" +
+                                "请在onViewCreated()中至少添加一条引用代码, 例: viewBinding.getRoot();",
+                        fragmentClass.getName(), cls.getSimpleName(), fragmentClass.getSimpleName());
             }
-        } //else LogUtils.error("没有写泛型");
+        }
         return null;
     }
 
     /**
-     * ViewBinding在RecyclerView中使用:
-     *
-     * @NonNull
-     * @Override
-     * public YourAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-     *     XxxViewBinding binding = XxxViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-     *     return new MyViewHolder(binding);
+     * 从 XxxDialog<XxxBinding> 的泛型中获取viewBinding
+     */
+    @Nullable
+    public static <VB extends ViewBinding> VB initViewBinding(@NonNull Dialog dialog) {
+        Class<? extends Dialog> aClass = dialog.getClass();
+        Class<VB> cls = getBinding(aClass);
+        if (cls == null) return null;
+        try {
+            Method inflate = cls.getDeclaredMethod("inflate", LayoutInflater.class);
+            return (VB) inflate.invoke(null, dialog.getLayoutInflater());
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            if (ConfigUtils.IS_APP_DEBUG && e instanceof NoSuchMethodException) {
+                LogUtils.errorFormat("%s<%s> 的 viewBinding 初始化失败, 可能是混淆代码后在 %s 中对 viewBinding 没有直接的引用造成的!\n" +
+                                "请在onCreate()中至少添加一条引用代码, 例: viewBinding.getRoot();",
+                        aClass.getName(), cls.getSimpleName(), aClass.getSimpleName());
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 从 RecyclerView的Adapter 中获取viewBinding, 由于ViewHolder的类型很多, 所以请自己实现, 示例: <br />
+     * <pre>
+     * <code>@</code>NonNull
+     * <code>@</code>Override
+     * public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+     *     XxxBinding viewBinding = XxxBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+     *     return new YourViewHolder(viewBinding);
      * }
-     *
-     * @Override
-     * public void onBindViewHolder(@NonNull YourAdapter.MyViewHolder holder, int position) {
-     *     holder.binding.tvResult.setText("Hello!");
+     * <code>@</code>Override
+     * onBindViewHolder(@NonNull YourViewHolder holder, int position) {
+     *     holder.viewBinding.tvResult.setText("Hello World!");
      * }
-     *
-     * static class MyViewHolder extends RecyclerView.ViewHolder {
-     *     XxxViewBinding binding;
-     *     public ViewHolder(@NonNull XxxViewBinding binding) {
-     *         super(binding.getRoot());
-     *         this.binding = binding;
+     * class YourViewHolder extends RecyclerView.ViewHolder {
+     *     XxxViewBinding viewBinding;
+     *     public YourViewHolder(XxxBinding viewBinding) {
+     *         super(viewBinding.getRoot());
+     *         this.viewBinding = viewBinding;
      *     }
      * }
+     * </pre>
      */
-
+    @Nullable
+    public static <VB extends ViewBinding> VB initViewBinding(RecyclerView.ViewHolder viewHolder, @NonNull ViewGroup parent) {
+        return null;
+    }
 
     /**
-     * 在Dialog的'构造方法'中使用:
-     * XxxBinding inflate = XxxBinding.inflate(getLayoutInflater());
-     * setContentView(inflate.getRoot());
-     * btn = inflate.btn;
-     * ...
+     * 自定义ViewGroup 中获取viewBinding, 示例: <br />
+     * <pre>
+     * protected XxxBinding viewBinding;
+     * public YourCustomView(Context context) {
+     *     super(context);
+     *     init(context, null);
+     * }
+     * public YourCustomView(Context context, AttributeSet attrs) {
+     *     super(context, attrs);
+     *     init(context, attrs);
+     * }
+     * //...其余构造方法等, 都调用init()方法...
+     *
+     * protected void init(Context context, @Nullable AttributeSet attrs) {
+     *     viewBinding = XxxBinding.inflate(LayoutInflater.from(context), this, true);
+     * }
+     * </pre>
      */
+    @Nullable
+    public static <VB extends ViewBinding> VB initViewBinding(@NonNull ViewGroup viewGroup) {
+        return null;
+    }
+
+    /**
+     * PopupWindow 中使用viewBinding, 示例: <br />
+     * <pre>
+     * private XxxBinding viewBinding = XxxBinding.inflate(LayoutInflater.from(context));
+     * PopupWindow popup = new PopupWindow(viewBinding.getRoot(), ...);
+     * </pre>
+     */
+    @Nullable
+    public static <VB extends ViewBinding> VB initViewBinding(@NonNull PopupWindow popupWindow) {
+        return null;
+    }
+
+    /**
+     * 获取类上的 ViewBinding泛型
+     */
+    public static <VB extends ViewBinding> Class<VB> getBinding(Class<?> clazz) {
+        Type type = clazz.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
+            if (actualTypeArguments.length > 0
+//                    && actualTypeArguments[0] instanceof ViewBinding //实际没有继承ViewBinding...
+            ) {
+                return (Class<VB>) actualTypeArguments[0];
+            }
+        } //else LogUtils.error("没有写泛型");
+        return null;
+    }
 }

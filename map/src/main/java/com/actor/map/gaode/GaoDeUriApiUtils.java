@@ -66,7 +66,7 @@ public class GaoDeUriApiUtils {
         LogUtils.errorFormat(str);
         context.startActivity(new Intent(/*Intent.ACTION_VIEW*/)
 //                .setPackage(GAODE_PACKAGE_NAME)
-                .setFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
                 .setData(Uri.parse(str))
         );
     }

@@ -1,6 +1,7 @@
 package com.actor.sample.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,26 +10,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.utils.EventBusEvent;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
+import com.actor.myandroidframework.utils.ToasterUtils;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.qq_wechat.BaseUiListener;
 import com.actor.qq_wechat.QQUtils;
 import com.actor.qq_wechat.WeChatUtils;
+import com.actor.qq_wechat.WxLoginListener;
+import com.actor.qq_wechat.WxPayListener;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityThirdBinding;
-import com.actor.sample.wxapi.WXEntryActivity;
-import com.actor.sample.wxapi.WXPayEntryActivity;
+import com.blankj.utilcode.util.ImageUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
-import com.tencent.connect.common.Constants;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.tencent.tauth.Tencent;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -44,7 +44,6 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     private EditText etTargetQq;
 
     private boolean isQrCode = false;
-    private String accessToken, openId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
         setTitle("主页->第三方登录/分享");
         tvResultQq = viewBinding.tvResultQq;
         etTargetQq = viewBinding.etTargetQq;
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -76,6 +74,16 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                     }
                 });
                 break;
+            case R.id.btn_share_img_text://分享图文
+                QQUtils.shareToQQImgTxt(activity, "图文标题", null, "https://www.baidu.com",
+                        null, "返回1", null, null, new BaseUiListener() {
+                    @Override
+                    public void doComplete(@Nullable JSONObject response) {
+                        LogUtils.error(response);
+                        ToasterUtils.success("分享图文成功!");
+                    }
+                });
+                break;
             case R.id.btn_share_img://分享图片
                 PictureSelectorUtils.create(this, null)
                         .selectImage(false)
@@ -84,11 +92,14 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
-                                QQUtils.shareToQQImg(activity, result.get(0).getPath(), "点我返回哟哟a", null,
+                                LocalMedia localMedia = result.get(0);
+                                PictureSelectorUtils.printLocalMedia(localMedia);
+                                QQUtils.shareToQQImg(activity, localMedia.getRealPath(), "点我返回哟哟a", null, null,
                                         new BaseUiListener() {
                                             @Override
                                             public void doComplete(@Nullable JSONObject response) {
                                                 LogUtils.error(response);
+                                                ToasterUtils.success("分享图片成功!");
                                             }
                                         });
                                 //还有其它分享方式
@@ -98,6 +109,16 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                             }
                             @Override
                             public void onCancel() {
+                            }
+                        });
+                break;
+            case R.id.btn_share_img2_qzone://分享图文到QQ空间
+                QQUtils.shareToQzone(activity, "标题呀", null, "https://www.baidu.com", null,
+                        new BaseUiListener() {
+                            @Override
+                            public void doComplete(@Nullable JSONObject response) {
+                                LogUtils.error(response);
+                                ToasterUtils.success("分享图文到QQ空间成功!");
                             }
                         });
                 break;
@@ -117,29 +138,99 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
 
 
             //下方是微信区
+            case R.id.btn_pay_wechat://微信支付
+                if (WeChatUtils.isWXAppInstalled()) {
+                    //使用服务器返回的以下几个参数↓
+                    WeChatUtils.pay("partnerId", "prepayId", "nonceStr", "timeStamp", "sign", new WxPayListener() {
+                        @Override
+                        public void onPaySuccess(@NonNull BaseResp baseResp) {
+                            ToasterUtils.success("支付成功");
+                        }
+                        @Override
+                        public void onPayError(@NonNull BaseResp baseResp) {
+                            //支付失败, 使用默认提示. (也可注释下面这句, 使用自定义提示)
+                            WxPayListener.super.onPayError(baseResp);
+                        }
+                    });
+                } else {
+                    showToast("您手机尚未安装微信");
+                }
+                break;
             case R.id.btn_login_wechat://微信登录
                 if (WeChatUtils.isWXAppInstalled()) {
-                    WeChatUtils.login("snsapi_userinfo", "test-----微信登录");
-                } else showToast("您手机尚未安装微信，请安装后再登录");
-                break;
-            case R.id.btn_share_text://分享文字(还可以分享其它)
-                //分享返回需要自己在 WXEntryActivity 中添加逻辑
-                WeChatUtils.sendReqText("这是分享的文字", SendMessageToWX.Req.WXSceneSession);
-//                WeChatUtils.sendReqImage();
-                //...
-                break;
-            case R.id.btn_get_user_info_wechat://获取用户信息
-                //没试过...
-                if (accessToken == null) {
-                    showToast("请先微信登录");
-                    return;
+                    WeChatUtils.login("snsapi_userinfo", "test-----微信登录", new WxLoginListener() {
+                        @Override
+                        public void onLoginSuccess(@NonNull SendAuth.Resp authResp) {
+                            showToast("登录成功!");
+                            String code = authResp.code;
+
+                            //然后把code传给后台服务器, 从服务器返回 accessToken, openId, unionid 等
+                            String accessToken = "from service";
+                            String openId = "from service";
+                        }
+                        @Override
+                        public void onLoginError(@NonNull BaseResp authResp) {
+                            //登录失败, 使用默认提示. (也可注释下面这句, 使用自定义提示)
+                            WxLoginListener.super.onLoginError(authResp);
+                        }
+                    });
+                } else {
+                    showToast("您手机尚未安装微信，请安装后再登录");
                 }
-                //这个也应该后台调用后一起返回
-                WeChatUtils.getUserInfo(accessToken, openId, new BaseCallback<Object>(this) {
-                    @Override
-                    public void onOk(@NonNull Object info, int id, boolean isRefresh) {
-                    }
-                });
+                break;
+            case R.id.btn_share_text://分享文字
+                WeChatUtils.sendReqText("这是分享的文字", SendMessageToWX.Req.WXSceneSession);
+                break;
+            case R.id.btn_share_image://分享图片
+                PictureSelectorUtils.create(this, null).selectImage(false)
+                        .forResult(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(ArrayList<LocalMedia> result) {
+                                LocalMedia localMedia = result.get(0);
+                                PictureSelectorUtils.printLocalMedia(localMedia);
+                                WeChatUtils.sendReqImage(result.get(0).getRealPath(), null, SendMessageToWX.Req.WXSceneSession);
+                            }
+                            @Override
+                            public void onCancel() {
+                            }
+                        });
+                break;
+            case R.id.btn_share_video_url://分享网络视频Url
+                Bitmap coverVideo = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqVideo("http://v.youku.com/v_show/id_XMzI0MzA3NjI1Ng==.html",
+                        "标题啊", "视频的描述啊", coverVideo, SendMessageToWX.Req.WXSceneSession
+                );
+                coverVideo.recycle();
+                break;
+            case R.id.btn_share_url://分享网页链接url
+                Bitmap coverWeb = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqWebpage("https://www.baidu.com", "视频标题啊", "视频的描述啊",
+                        coverWeb, SendMessageToWX.Req.WXSceneSession);
+                coverWeb.recycle();
+                break;
+            case R.id.btn_share_miniprogram://分享小程序
+                Bitmap coverMiniprogram = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqMiniProgram(
+                        "https://www.baidu.com",    //可随意填1个非空字符串都行
+                       "gh_07933c23d664",
+                        null,                       // "/pages/down/index?user_id=123",
+                        false,
+                        WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE,
+                        "小程序标题啊",
+                        "小程序描述啊",
+                        coverMiniprogram,
+                        SendMessageToWX.Req.WXSceneSession);
+                coverMiniprogram.recycle();
+                break;
+            case R.id.btn_share_music://分享音乐
+                Bitmap coverMusic = ImageUtils.getBitmap(R.drawable.logo);
+                WeChatUtils.sendReqMusic(
+                        "https://music.163.com/song/media/outer/url?id=1646740.mp3",
+                        "音乐标题", "音乐描述", coverMusic, SendMessageToWX.Req.WXSceneSession);
+                coverMusic.recycle();
+                break;
+            case R.id.btn_pay_offline://打开离线支付
+                WeChatUtils.payOffline();
                 break;
             default:
                 break;
@@ -147,12 +238,14 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     }
 
     //QQ登录回调
-    private BaseUiListener listener =new BaseUiListener() {
+    private final BaseUiListener listener = new BaseUiListener() {
 
         @Override
         public void doComplete(@Nullable JSONObject response) {
             QQUtils.initSessionCache(response);
-            tvResultQq.setText(String.valueOf(response));
+            String json = String.valueOf(response);
+            LogUtils.error(json);
+            tvResultQq.setText(json);
         }
     };
 
@@ -160,41 +253,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         LogUtils.errorFormat("requestCode=%d, resultCode=%d", requestCode, resultCode);
-        if (requestCode == Constants.REQUEST_LOGIN || requestCode == Constants.REQUEST_APPBAR) {
-            Tencent.onActivityResultData(requestCode, resultCode, data, listener);
-        }
+        Tencent.onActivityResultData(requestCode, resultCode, data, null);
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    //Eventbus微信登录/支付回调
-     @Subscribe(threadMode = ThreadMode.MAIN)
-     public void onWxLoginResult(EventBusEvent<Object> eventBusEvent) {
-         if (eventBusEvent == null) return;
-         switch (eventBusEvent.code) {
-             case WXEntryActivity.MSG_EVT_WX_LOGIN://登录
-                 showToast("登录成功!");
-                 LogUtils.error(eventBusEvent);
-                 String code = eventBusEvent.msg;
-                 /**
-                  * 调用后台接口获取token
-                  * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=&lang=zh_CN
-                  */
-                 //把code传到服务器, 从服务器返回 accessToken, openId, unionid 等
-                 accessToken = "from service";
-                 openId = "from service";
-                 break;
-             case WXPayEntryActivity.MSG_EVT_WX_PAY_RESULT://支付
-                 showToast("支付成功!");
-                 LogUtils.error(eventBusEvent);
-                 break;
-             default:
-                 break;
-         }
-     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }

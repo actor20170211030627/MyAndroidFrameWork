@@ -3,6 +3,7 @@
     <!--android:style/Theme.Dialog-->
     <!--Theme.AppCompat.Dialog-->
     <!--Theme.MaterialComponents.Light.BottomSheetDialog-->
+
     <style name="BaseBottomActivity" parent="AppThemeForMyAndroidFrameWork">
         <!--不要显示actionbar-->
         <item name="windowActionBar">false</item>
@@ -14,8 +15,7 @@
         <!--window透明-->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
-<!--        <item name="android:windowAnimationStyle">@style/BaseBottomDialogAnim</item>-->
-        <!--@style/bottom_sheet_animation-->
+<!--        <item name="android:windowAnimationStyle">@style/BottomAnimationStyle</item>-->
 
         <!--如果不全屏, 会有一半概率出现状态栏-->
         <item name="android:windowFullscreen">true</item>

@@ -3,8 +3,10 @@ package com.actor.myandroidframework.utils;
 import android.app.Application;
 import android.view.Gravity;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.actor.myandroidframework.R;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -36,9 +38,9 @@ public class ToasterUtils {
     /**
      * 正常show, 默认是黑色样式, 黑色半透明背景. <br />
      * 如果设置全局样式后, 就变成了全局样式.
-     * @param id 文字资源id: R.string.xxx,  或者1个int值: 123
+     * @param id 文字资源id: R.string.xxx
      */
-    public static void show(int id) {
+    public static void show(@StringRes int id) {
         Toaster.show(id);
     }
     public static void show(@Nullable Object object) {
@@ -51,9 +53,9 @@ public class ToasterUtils {
 
     /**
      * 黑色样式, 黑色半透明背景
-     * @param id 文字资源id: R.string.xxx,  或者1个int值: 123
+     * @param id 文字资源id: R.string.xxx
      */
-    public static void black(int id) {
+    public static void black(@StringRes int id) {
         black(StringUtils.getString(id));
     }
     public static void black(@Nullable Object object) {
@@ -69,15 +71,14 @@ public class ToasterUtils {
             public int getYOffset() { return Toaster.getStyle().getYOffset(); }
         };
         Toaster.show(params);
-        Toaster.show(text);
     }
 
 
     /**
      * 白色样式, 白色不透明背景
-     * @param id 文字资源id: R.string.xxx,  或者1个int值: 123
+     * @param id 文字资源id: R.string.xxx
      */
-    public static void white(int id) {
+    public static void white(@StringRes int id) {
         white(StringUtils.getString(id));
     }
     public static void white(@Nullable Object object) {
@@ -99,67 +100,71 @@ public class ToasterUtils {
     /**
      * 提示样式, 蓝色背景
      */
-    public static void info(int id) {
+    public static void info(@StringRes int id) {
         info(StringUtils.getString(id));
     }
     public static void info(@Nullable Object object) {
         info(TextUtils2.getNoNullString(object, "null"));
     }
     public static void info(@NonNull CharSequence text) {
-        ToastParams params = new ToastParams();
-        params.text = text;
-        params.style = new CustomToastStyle(R.layout.toast_info, Toaster.getStyle().getGravity(), 0, Toaster.getStyle().getYOffset());
-        Toaster.show(params);
+        custom(text, R.layout.toast_info);
     }
 
 
     /**
      * 警告样式, 橘色背景
      */
-    public static void warning(int id) {
+    public static void warning(@StringRes int id) {
         warning(StringUtils.getString(id));
     }
     public static void warning(@Nullable Object object) {
         warning(TextUtils2.getNoNullString(object, "null"));
     }
     public static void warning(@NonNull CharSequence text) {
-        ToastParams params = new ToastParams();
-        params.text = text;
-        params.style = new CustomToastStyle(R.layout.toast_warn, Toaster.getStyle().getGravity(), 0, Toaster.getStyle().getYOffset());
-        Toaster.show(params);
+        custom(text, R.layout.toast_warn);
     }
 
 
     /**
      * 成功样式, 绿色背景
      */
-    public static void success(int id) {
+    public static void success(@StringRes int id) {
         success(StringUtils.getString(id));
     }
     public static void success(@Nullable Object object) {
         success(TextUtils2.getNoNullString(object, "null"));
     }
     public static void success(@NonNull CharSequence text) {
-        ToastParams params = new ToastParams();
-        params.text = text;
-        params.style = new CustomToastStyle(R.layout.toast_success, Toaster.getStyle().getGravity(), 0, Toaster.getStyle().getYOffset());
-        Toaster.show(params);
+        custom(text, R.layout.toast_success);
     }
 
 
     /**
      * 错误样式, 红色背景
      */
-    public static void error(int id) {
+    public static void error(@StringRes int id) {
         error(StringUtils.getString(id));
     }
     public static void error(@Nullable Object object) {
         error(TextUtils2.getNoNullString(object, "null"));
     }
     public static void error(@NonNull CharSequence text) {
+        custom(text, R.layout.toast_error);
+    }
+
+    /**
+     * 自定义样式
+     */
+    public static void custom(@StringRes int id, @LayoutRes int layoutResId) {
+        custom(StringUtils.getString(id), layoutResId);
+    }
+    public static void custom(@Nullable Object object, @LayoutRes int layoutResId) {
+        custom(TextUtils2.getNoNullString(object, "null"), layoutResId);
+    }
+    public static void custom(@NonNull CharSequence text, @LayoutRes int layoutResId) {
         ToastParams params = new ToastParams();
         params.text = text;
-        params.style = new CustomToastStyle(R.layout.toast_error, Toaster.getStyle().getGravity(), 0, Toaster.getStyle().getYOffset());
+        params.style = new CustomToastStyle(layoutResId, Toaster.getStyle().getGravity(), 0, Toaster.getStyle().getYOffset());
         Toaster.show(params);
     }
 
