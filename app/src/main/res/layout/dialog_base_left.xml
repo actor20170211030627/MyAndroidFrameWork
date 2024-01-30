@@ -3,25 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--Dialog中使用ConstraintLayout貌似有bug,
-     所以撑开-->
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/shape_cor5dp_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/view_space"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view_space"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        app:layout_constraintLeft_toRightOf="@id/view"
-        app:layout_constraintRight_toRightOf="parent" />
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_cor5dp_white">
 
     <Button
         android:id="@+id/btn_dismiss"
@@ -46,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="ok~"
         android:transitionName="btn"
-        app:layout_constraintRight_toRightOf="@id/view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -55,8 +38,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="content内容" />
 </androidx.constraintlayout.widget.ConstraintLayout>

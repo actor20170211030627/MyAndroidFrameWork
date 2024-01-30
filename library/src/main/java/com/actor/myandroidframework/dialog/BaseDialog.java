@@ -41,12 +41,14 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
         DialogInterface.OnShowListener,
         DialogInterface.OnDismissListener {
 
-    protected Window window;
-
     //增加生命周期
     protected final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
     protected OnShowListener onShowListener;
     protected OnDismissListener onDismissListener;
+
+    //Widnow宽度
+    protected int windowWidth = WindowManager.LayoutParams.MATCH_PARENT;
+    protected int windowHeight = WindowManager.LayoutParams.WRAP_CONTENT;
 
     public BaseDialog(@NonNull Context context) {
         //给dialog设置样式, 去掉标题栏, 宽度全屏
@@ -73,7 +75,7 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
     }
 
     protected void init() {
-        window = getWindow();//获取当前dialog所在的窗口对象
+//        Window window = getWindow();//获取当前dialog所在的窗口对象
         int layoutResId = getLayoutResId();
         if (layoutResId != 0) setContentView(layoutResId);
 
@@ -92,26 +94,53 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
         super.onCreate(savedInstanceState);
         LogUtils.error("onCreate");
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+        Window window = getWindow();
         if (window != null) {
-            WindowManager.LayoutParams params = window.getAttributes();//获取当前窗口的属性, 布局参数
-            params.width = WindowManager.LayoutParams.MATCH_PARENT;//宽度全屏
+            WindowManager.LayoutParams params = window.getAttributes(); //获取当前窗口的属性, 布局参数
+            params.width = windowWidth;              //设置宽度, 默认全屏
+            params.height = windowHeight;            //设置高度, 默认包裹内容
             params.x = 0;
             params.y = 0;//相对上方的偏移,负值忽略.
 //            params.dimAmount = dimAmount;
 //            int windowAnimations = params.windowAnimations;
 //            window.setAttributes(params);
 
-            //FLAG_BLUR_BEHIND模糊(毛玻璃效果), FLAG_DIM_BEHIND暗淡
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            //FLAG_BLUR_BEHIND模糊(毛玻璃效果)
+//            window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 //            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         }
-        //设置Dialog所在Window的进入&退出动画
-//        window.setWindowAnimations(R.style.dialog_bottom_in_bottom_out);
 
         super.setOnShowListener(this);
         super.setOnDismissListener(this);
 
 //        findViewById();//子类可以初始化控件等
+    }
+
+    /**
+     * 设置宽度
+     */
+    public BaseDialog setWidth(int width) {
+        this.windowWidth = width;
+        return this;
+    }
+
+    /**
+     * 设置高度
+     */
+    public BaseDialog setHeight(int height) {
+        this.windowHeight = height;
+        return this;
+    }
+
+    /**
+     * 设置高度是否全屏, 包括状态栏
+     */
+    public BaseDialog setHeightFullScreen(boolean isFullScreen) {
+        Window window = getWindow();
+        if (window == null) return this;
+        BarUtils.setNavBarVisibility(window, !isFullScreen);    //关键代码
+        //高度全屏(if没有↑, 还有状态栏会显示)
+        return setHeight(isFullScreen ? WindowManager.LayoutParams.MATCH_PARENT : WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
     /**
@@ -177,41 +206,27 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
      *        </table>
      */
     public BaseDialog setGravityAndAnimation(int gravity, @Nullable Integer windowAnimations) {
-        if (window != null) {
-            window.setGravity(gravity);
-            if (windowAnimations == null) {
-                //Gravity.START 里面包含 Gravity.LEFT, 所以不用另外判断Gravity.START
-                if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
-                    window.setWindowAnimations(R.style.LeftAnimationStyle);
-                } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
-                    window.setWindowAnimations(R.style.TopAnimationStyle);
-                } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
-                    window.setWindowAnimations(R.style.RightAnimationStyle);
-                } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
-                    window.setWindowAnimations(R.style.BottomAnimationStyle);
-                } else {
-                    //其它情况, 默认居中.
-                    window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
-                }
-            } else if (windowAnimations == 0) {
-                window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
+        Window window = getWindow();
+        if (window == null) return this;
+        window.setGravity(gravity);
+        if (windowAnimations == null) {
+            //Gravity.START 里面包含 Gravity.LEFT, 所以不用另外判断Gravity.START
+            if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
+                window.setWindowAnimations(R.style.LeftAnimationStyle);
+            } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
+                window.setWindowAnimations(R.style.TopAnimationStyle);
+            } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
+                window.setWindowAnimations(R.style.RightAnimationStyle);
+            } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
+                window.setWindowAnimations(R.style.BottomAnimationStyle);
             } else {
-                window.setWindowAnimations(windowAnimations);
+                //其它情况, 默认居中.
+                window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
             }
-        }
-        return this;
-    }
-
-    /**
-     * 设置是否全屏, 包括状态栏
-     */
-    public BaseDialog setFullScreen(boolean isFullScreen) {
-        if (window != null) {
-            BarUtils.setNavBarVisibility(window, !isFullScreen);    //关键代码
-            //高度全屏(if没有↑, 还有状态栏会显示)
-            WindowManager.LayoutParams params = window.getAttributes();
-            params.height = isFullScreen ? WindowManager.LayoutParams.MATCH_PARENT : WindowManager.LayoutParams.WRAP_CONTENT;
-            window.setAttributes(params);
+        } else if (windowAnimations == 0) {
+            window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
+        } else {
+            window.setWindowAnimations(windowAnimations);
         }
         return this;
     }
@@ -221,6 +236,7 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
      * @param dimAmount 昏暗的数量
      */
     public BaseDialog setDimAmount(@FloatRange(from = 0.0f, to = 1.0f) float dimAmount) {
+        Window window = getWindow();
         if (window != null) window.setDimAmount(dimAmount);
         return this;
     }
@@ -232,6 +248,7 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
      *                          if=false, {@link #setDimAmount(float)}无效, 背景会全亮
      */
     public BaseDialog isStatusBarDimmed(boolean isStatusBarDimmed) {
+        Window window = getWindow();
         if (window == null) return this;
         if (isStatusBarDimmed) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -245,6 +262,7 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
      * 点击弹窗外部时, 是否将点击事件透传到弹窗下，默认是false
      */
     public BaseDialog isClickThrough(boolean isClickThrough) {
+        Window window = getWindow();
         if (window == null) return this;
         if (isClickThrough) {
             //将允许对话框外的事件被发送到后面的视图

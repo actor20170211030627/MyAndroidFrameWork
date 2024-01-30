@@ -100,8 +100,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_jpush://极光推送
                 startActivity(new Intent(this, JPushActivity.class), false, null, null, view);
                 break;
-                case R.id.btn_database://数据库(GreenDao)
-                    startActivity(new Intent(this, DatabaseActivity.class), false, null, null, view);
+            case R.id.btn_database://数据库(GreenDao)
+                startActivity(new Intent(this, DatabaseActivity.class), false, null, null, view);
                 break;
             case R.id.btn_switch://切换
                 startActivity(new Intent(this, SwitcherActivity.class), false, null, null, view);

@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.dialog.BaseDialog;
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityBottomSheetDialogBinding;
@@ -116,9 +118,9 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
                 return R.layout.dialog_base_left;
             }
         }.setGravityAndAnimation(Gravity.START, R.style.LeftAnimationStyle)
-                .setFullScreen(true);
+                .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
+                .setHeightFullScreen(true);
         leftDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> leftDialog.dismiss());
-        leftDialog.findViewById(R.id.view_space).setOnClickListener(v -> leftDialog.dismiss());
 
 
         /**
@@ -129,9 +131,10 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             protected int getLayoutResId() {
                 return R.layout.dialog_base_left;
             }
-        }.setGravityAndAnimation(Gravity.END, null);
+        }.setGravityAndAnimation(Gravity.END, null)
+                .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
+                .setHeight(WindowManager.LayoutParams.MATCH_PARENT);
         rightDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
-        rightDialog.findViewById(R.id.view_space).setOnClickListener(v -> rightDialog.dismiss());
 
 
         /**
