@@ -8,8 +8,8 @@ import android.view.Gravity;
 import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.dialog.ViewBindingDialog;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.databinding.DialogFloatEditorBinding;
-import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * description: 从底部弹出, 可输入的Dialog, 不遮挡键盘.
@@ -32,12 +32,12 @@ public class BottomFloatEditorDialog extends ViewBindingDialog<DialogFloatEditor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewBinding.tvCancel.setOnClickListener(v -> {
-            ToastUtils.showShort("dismiss");
+            ToasterUtils.warning("dismiss");
             dismiss();
         });
         viewBinding.tvSend.setOnClickListener(v -> {
             Editable text = viewBinding.etContent.getText();
-            ToastUtils.showShort(text);
+            ToasterUtils.success(text);
             if (listener != null) listener.onResult(text);
             dismiss();
         });

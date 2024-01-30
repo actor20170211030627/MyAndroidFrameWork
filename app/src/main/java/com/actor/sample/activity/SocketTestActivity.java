@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SocketMsgAdapter;
@@ -147,7 +148,7 @@ public class SocketTestActivity extends BaseActivity<ActivitySocketTestBinding> 
                         webSocket = MyOkHttpUtils.getSocket(socketUrl, null, null, this, webSocketListener);
                     } else {
                         if (isConnect) {
-                            showToast("是已连接状态");
+                            ToasterUtils.success("是已连接状态");
                         } else {
                             //重连
                             MyOkHttpUtils.socketReConnecton(webSocket, webSocketListener);
@@ -158,9 +159,9 @@ public class SocketTestActivity extends BaseActivity<ActivitySocketTestBinding> 
             case R.id.btn_socket_close:
                 //断开Socket
                 if (webSocket == null) {
-                    showToast("Socket还未连接");
+                    ToasterUtils.warning("Socket还未连接");
                 } else {
-                    showToast("开始关闭");
+                    ToasterUtils.warning("开始关闭");
                     /**
                      * 返回排队传输到服务器的所有消息的大小（以字节为单位）。
                      */
@@ -174,18 +175,18 @@ public class SocketTestActivity extends BaseActivity<ActivitySocketTestBinding> 
                      * code: [1000,5000)
                      */
                     boolean close = webSocket.close(1000, "客户端正常关闭!");
-                    showToastFormat("关闭成功? : %b", close);
+                    ToasterUtils.infoFormat("关闭成功? : %b", close);
                 }
                 break;
             case R.id.btn_socket_send:
                 //发Socket消息
                 if (webSocket == null) {
-                    showToast("Socket还未连接");
+                    ToasterUtils.warning("Socket还未连接");
                 } else if (isNoEmpty(itilSocketMsg)) {
                     String text = getText(itilSocketMsg);
                     boolean sendSuccess = webSocket.send(text);
 //                    boolean sendSuccess = webSocket.send(ByteString.decodeHex("adef"));
-                    showToastFormat("发送成功? : %b", sendSuccess);
+                    ToasterUtils.infoFormat("发送成功? : %b", sendSuccess);
                     if (!sendSuccess) {
                         //重连
 //                        MyOkHttpUtils.socketReConnecton(webSocket, webSocketListener);

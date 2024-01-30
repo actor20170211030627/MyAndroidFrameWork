@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
@@ -98,7 +99,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                 if (isNoEmpty(itilIdcard)) {
                     String idCard = getText(itilIdcard);
 //                    if (!RegexUtils.isIDCard15(idCard) && !RegexUtils.isIDCard18(idCard)) {
-//                        showToast("请输入正确的身份证(idcard error)!");
+//                        ToasterUtils.warning("请输入正确的身份证(idcard error)!");
 //                        return;
 //                    }
 
@@ -120,7 +121,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                         person.setId(insertId);
                         myAdapter.addData(0, person);
                     } else {
-                        showToast("这个身份证已经存入数据库(idcard already added)!");
+                        ToasterUtils.warning("这个身份证已经存入数据库(idcard already added)!");
                     }
                 }
                 break;
@@ -143,7 +144,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                         GreenDaoUtils.update(DAO, person);
                         queryAll();
                     } else {
-                        showToast("未找到身份证对应的人(no idcard found)!");
+                        ToasterUtils.error("未找到身份证对应的人(no idcard found)!");
                     }
                 }
                 break;
@@ -155,7 +156,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                     if (person != null) {
                         myAdapter.addData(person);
                     } else {
-                        showToast("未找到身份证对应的人(no idcard found)!");
+                        ToasterUtils.error("未找到身份证对应的人(no idcard found)!");
                     }
                     myAdapter.notifyDataSetChanged();
                 }

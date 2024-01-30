@@ -15,6 +15,7 @@ import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.PostFileCallback;
 import com.actor.myandroidframework.utils.retrofit.BaseCallback2;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityNetWorkAndImageBinding;
@@ -105,7 +106,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
             case R.id.btn_upload://上传文件(可上传中文名文件)
                 if (picPath != null) {
                     uploadFile(picPath);
-                } else showToast("请选择图片");
+                } else ToasterUtils.warning("请选择图片");
                 break;
             case R.id.btn_socket_example:
                 //okhttp的Socket示例
@@ -120,7 +121,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
         MyOkHttpUtils.get(Global.DOU_BAN_BOOK, null, new BaseCallback<String>(this) {
             @Override
             public void onOk(@NonNull String info, int requestId, boolean isRefresh) {
-                showToast(info);
+                ToasterUtils.success(info);
             }
         });
     }
@@ -135,7 +136,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 new BaseCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id, boolean isRefresh) {
-                        showToast(info);
+                        ToasterUtils.success(info);
                     }
                 });
     }
@@ -145,7 +146,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
             @Override
             public void onOk(Call<GithubInfo> call, Response<GithubInfo> response, int id, boolean isRefresh) {
                 GithubInfo body = response.body();
-                if (body != null) showToast(body.hub_url);
+                if (body != null) ToasterUtils.success(body.hub_url);
             }
         });
     }
@@ -161,7 +162,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 @Override
                 public void onError(int id, okhttp3.Call call, Exception e) {
                     super.onError(id, call, e);
-                    showToast("下载错误: ".concat(e.getMessage()));
+                    ToasterUtils.error("下载错误: ".concat(e.getMessage()));
                 }
 
                 @Override
@@ -184,7 +185,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 null, null, new PostFileCallback<String>(this) {
                     @Override
                     public void onOk(@NonNull String info, int id, boolean isRefresh) {
-                        showToast(info);
+                        ToasterUtils.success(info);
                     }
                 });
     }

@@ -6,6 +6,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityIsEmptyBinding;
@@ -101,7 +102,7 @@ public class IsEmptyActivity extends BaseActivity<ActivityIsEmptyBinding> implem
                 isNoEmpty(arrays, "arrays里没有元素哟") &&
                 isNoEmpty(list, "list里没有数据") &&
                 isNoEmpty(map, "map里没有数据")) {
-            showToast("恭喜, 都不为空!");
+            ToasterUtils.success("恭喜, 都不为空!");
         }
     }
 }

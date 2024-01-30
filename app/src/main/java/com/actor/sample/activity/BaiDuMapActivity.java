@@ -11,6 +11,7 @@ import com.actor.map.baidu.BaiduGeoCoderUtils;
 import com.actor.map.baidu.BaiduLocationUtils;
 import com.actor.map.baidu.BaiduMapUtils;
 import com.actor.map.baidu.BaiduUriApiUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityBaiDuMapBinding;
 import com.actor.sample.utils.Global;
@@ -28,7 +29,6 @@ import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.blankj.utilcode.util.ToastUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -134,21 +134,21 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                     @Override
                     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
                         if (result == null) {
-                            showToast("result = null");
+                            ToasterUtils.error("result = null");
                             return;
                         }
                         //获取反向地理编码结果(根据point获取地址)
                         if (result.error == SearchResult.ERRORNO.NO_ERROR) {
-                        String address = result.getAddress();
-                        ReverseGeoCodeResult.AddressComponent addressDetail = result.getAddressDetail();
-                        String businessCircle = result.getBusinessCircle();
-                        LatLng location = result.getLocation();
-                        int describeContents = result.describeContents();
-                        List<PoiInfo> poiList = result.getPoiList();
+                            String address = result.getAddress();
+                            ReverseGeoCodeResult.AddressComponent addressDetail = result.getAddressDetail();
+                            String businessCircle = result.getBusinessCircle();
+                            LatLng location = result.getLocation();
+                            int describeContents = result.describeContents();
+                            List<PoiInfo> poiList = result.getPoiList();
 
-                            showToast(address);
+                            ToasterUtils.success(address);
                         } else {    //没有找到检索结果
-                            showToastFormat("result.error = %s", result.error);
+                            ToasterUtils.errorFormat("result.error = %s", result.error);
                         }
                     }
                 });
@@ -158,7 +158,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                     @Override
                     public void onGetGeoCodeResult(GeoCodeResult result) {
                         if (result == null) {
-                            showToast("result = null");
+                            ToasterUtils.error("result = null");
                             return;
                         }
                         //获取地理编码结果(根据地址获取point)
@@ -166,9 +166,9 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                             String address = result.getAddress();
                             LatLng location = result.getLocation();
                             int describeContents = result.describeContents();
-                            ToastUtils.showShort(location.toString());
+                            ToasterUtils.success(location.toString());
                         } else {    //没有找到检索结果
-                            showToastFormat("result.error = %s", result.error);
+                            ToasterUtils.errorFormat("result.error = %s", result.error);
                         }
                     }
                     @Override
@@ -189,7 +189,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                                 BaiduLocationUtils.registerLocationListener(locationListener);
                                 BaiduLocationUtils.start();
                             } else {
-                                ToastUtils.showShort("您有权限未同意!");
+                                ToasterUtils.warning("您有权限未同意!");
                                 XXPermissions.startPermissionActivity(activity);
                             }
                         }
@@ -206,7 +206,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                             43.795592, 87.593087, Global.ADDRESS_XIN_JIANG, //终点
                             null, null, null, null);
                 } else {
-                    showToast("您还未安装百度地图!");
+                    ToasterUtils.error("您还未安装百度地图!");
                 }
                 break;
             case R.id.iv_person://人
@@ -232,7 +232,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
 
     //显示所有人员覆盖物列表
     private void showMarkerPersonList(View view) {
-        showToast("同时显示多个InfoWindow");
+        ToasterUtils.info("同时显示多个InfoWindow");
         if (overlayPersons.isEmpty()) {
             markerPerson = BaiduMapUtils.getMarkerOptions(R.drawable.location_person, 90, 90);
 
@@ -422,7 +422,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                     }
                     break;
                 case R.id.btn:
-                    showToast("clicked btn");
+                    ToasterUtils.info("clicked btn");
                     break;
             }
         }

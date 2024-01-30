@@ -8,9 +8,9 @@ import androidx.annotation.Nullable;
 import com.actor.chat_layout.emoji.FaceManager;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.info.MessageItem;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -34,7 +34,7 @@ public class ChatListAdapter extends BaseQuickAdapter<MessageItem, BaseViewHolde
             if (item != null) {
                 String message = item.message;
                 if (message != null) {
-                    ToastUtils.showShort(message);
+                    ToasterUtils.info(message);
                 } else {
                     AudioUtils.getInstance().playRecord(item.audioPath, null);
                 }

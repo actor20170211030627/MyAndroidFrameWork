@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.BaseRadioGroup;
 import com.actor.myandroidframework.widget.BaseSpinner;
 import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
@@ -50,20 +51,20 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
             public void onCheckedChanged(RadioGroup group, int checkedId, int position, boolean reChecked) {
                 String format = getStringFormat("checkedId=%d, pos=%d, reChecked=%b", checkedId, position, reChecked);
                 LogUtils.error(format);
-                showToast(format);
+                ToasterUtils.info(format);
             }
         });
         baseSpinner.setOnItemSelectedListener(new BaseSpinner.OnItemSelectedListener2() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LogUtils.error("选中了: " + position);
-                showToast("选中了: " + position);
+                ToasterUtils.info("选中了: " + position);
             }
 
             @Override
             public void onItemReSelected(AdapterView<?> parent, View view, int position, long id) {
                 LogUtils.error("重复选中了: " + position);
-                showToast("重复选中了: " + position);
+                ToasterUtils.info("重复选中了: " + position);
             }
         });
     }
@@ -94,14 +95,14 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 btn2.setText(btns[pos]);
                 break;
             case R.id.itil_can_not_input:
-                showToast("clicked!");
+                ToasterUtils.info("clicked!");
                 break;
             case R.id.btn_input_enable://测试切换 能/不能输入
                 inPutEnable = !inPutEnable;
                 itilCanNotInput.setInputEnable(inPutEnable);
                 break;
             case R.id.itil_can_not_input2://不能输入, 测试点击事件
-                showToast("被点击了!!!");
+                ToasterUtils.info("被点击了!!!");
                 break;
             default:
                 break;

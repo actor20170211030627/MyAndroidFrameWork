@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.utils.retrofit;
 
-import com.actor.myandroidframework.utils.ConfigUtils;
+import androidx.annotation.NonNull;
+
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.api.DownloadFileApi;
 import com.blankj.utilcode.util.GsonUtils;
@@ -26,13 +27,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitNetwork {
 
-    protected static final String      BASE_URL = ConfigUtils.baseUrl;
+    /**
+     * baseUrl, 需要自己设置
+     */
+    protected static String      baseUrl = "";
     protected static Converter.Factory converterFactory;
     protected static CallAdapter.Factory       callAdapterFactory;
     protected static final Map<String, Object> APIS    = new HashMap<>();
 
     private static DownloadFileApi downloadFileApi;
 
+    /**
+     * 初始化
+     */
+    public static void init(@NonNull String baseUrl) {
+        if (baseUrl != null) RetrofitNetwork.baseUrl = baseUrl;
+    }
 
     protected static OkHttpClient getOkHttpClient() {
         return MyOkHttpUtils.getOkHttpClient();
@@ -80,7 +90,7 @@ public class RetrofitNetwork {
         if (aClass == null) {
             Retrofit.Builder builder = new Retrofit.Builder()
                     .client(getOkHttpClient())
-                    .baseUrl(BASE_URL)
+                    .baseUrl(baseUrl)
                     .addConverterFactory(getConverterFactory());
             if (getCallAdapterFactory() != null) builder.addCallAdapterFactory(getCallAdapterFactory());
             Retrofit retrofit = builder.build();

@@ -27,7 +27,6 @@ import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementA;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
@@ -241,23 +240,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      */
     protected boolean isNoEmpty(Object obj, CharSequence notify) {
         return TextUtils2.isNoEmpty(obj, notify);
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // toast区
-    ///////////////////////////////////////////////////////////////////////////
-    protected void showToast(@StringRes int resId) {
-        ToastUtils.showShort(resId);
-    }
-
-    protected void showToast(Object notify) {
-        ToastUtils.showShort(String.valueOf(notify));
-    }
-
-    //格式化toast
-    protected void showToastFormat(@Nullable String format, @Nullable Object... args) {
-        ToastUtils.showShort(format, args);
     }
 
 

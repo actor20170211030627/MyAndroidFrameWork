@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementA;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SharedElementAdapter;
 import com.actor.sample.databinding.ActivitySharedElementBinding;
@@ -76,7 +77,7 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            showToast(data.getStringExtra(Global.CONTENT));
+            ToasterUtils.info(data.getStringExtra(Global.CONTENT));
         }
     }
 

@@ -25,12 +25,6 @@
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- QQUtils, 在targetSdkVersion>=28(Android 9.0)时, 在Android 9.0的手机上进行QQ登录&分享(<=v3.3.7) 会报错... -->
-        <!-- 写在 AndroidManifest.xml 的 <application>标签内, 和<activity 同级 -->
-<!--        <uses-library-->
-<!--            android:name="org.apache.http.legacy"-->
-<!--            android:required="false" />-->
-
 
 
         <!-- 微信登录等 -->

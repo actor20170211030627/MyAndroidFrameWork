@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.viewpager.ScrollableViewPager;
 import com.actor.sample.databinding.FragmentBlankBinding;
 import com.actor.sample.utils.Global;
@@ -88,6 +89,6 @@ public class BlankFragment extends BaseFragment<FragmentBlankBinding> {
 //    @OnCheckedChanged({R.id.toggle_button})
     public void onCheckedChanged(/*CompoundButton buttonView, */boolean isChecked){
         viewPager.setHorizontalScrollble(isChecked);
-        showToastFormat("里面ViewPager左右滑动 = %b", isChecked);
+        ToasterUtils.infoFormat("里面ViewPager左右滑动 = %b", isChecked);
     }
 }

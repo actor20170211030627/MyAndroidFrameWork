@@ -150,7 +150,7 @@ public class LogUtils {
          *                 2.如果项目中(不是在jar/aar中)有2个同名文件, 点击的时候会弹框自选跳转... <br />
          *                 3.如果文件名固定写成jar/aar中的Xxx.java, 没有点击效果 <br />
          */
-        String pre = TextUtils2.getStringFormat("%s.%s(%s:%d), 输出:", className, methodName, fileName, lineNumber);
+        String pre = TextUtils2.getStringFormat("%s.%s(%s:%d) ", className, methodName, fileName, lineNumber);
         String result = msg + "\n" + Log.getStackTraceString(tr);
         int length = pre.length() + result.length();
         if (tr == null && length <= MAX_LEN) {

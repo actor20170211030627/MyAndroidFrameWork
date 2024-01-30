@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.ToasterUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.qq_wechat.BaseUiListener;
 import com.actor.qq_wechat.QQUtils;
@@ -153,7 +153,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         }
                     });
                 } else {
-                    showToast("您手机尚未安装微信");
+                    ToasterUtils.warning("您手机尚未安装微信");
                 }
                 break;
             case R.id.btn_login_wechat://微信登录
@@ -161,7 +161,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                     WeChatUtils.login("snsapi_userinfo", "test-----微信登录", new WxLoginListener() {
                         @Override
                         public void onLoginSuccess(@NonNull SendAuth.Resp authResp) {
-                            showToast("登录成功!");
+                            ToasterUtils.success("登录成功!");
                             String code = authResp.code;
 
                             //然后把code传给后台服务器, 从服务器返回 accessToken, openId, unionid 等
@@ -175,7 +175,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         }
                     });
                 } else {
-                    showToast("您手机尚未安装微信，请安装后再登录");
+                    ToasterUtils.warning("您手机尚未安装微信，请安装后再登录");
                 }
                 break;
             case R.id.btn_share_text://分享文字
