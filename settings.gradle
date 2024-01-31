@@ -1,3 +1,4 @@
 include ':app', ':library', ':picture_selector', ':map',
-        ':chat_layout', ':emojis', ':qq_wechat', ':umeng'
+        ':chat_layout', ':emojis', ':qq_wechat', ':umeng',
+        ':other_utils'
 include ':tempgen'

@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils;
+package com.actor.other_utils;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
@@ -12,8 +12,11 @@ import java.util.Date;
 
 /**
  * description: 计算生日相关 <br />
- * 其中 LunarCalendar 使用的依赖是: <br />
- * //<a href="https://github.com/Bigkoo/Android-PickerView" target="_blank">Android-PickerView(时间选择器等等等)</a> <br />
+ * 其中使用到了 {@link LunarCalendar}, 需要自己添加依赖:
+ * <pre>
+ *     //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
+ *     implementation 'com.contrarywind:Android-PickerView:4.1.9'
+ * </pre>
  *
  * @author : ldf
  * date       : 2022/12/31/0031 on 22
