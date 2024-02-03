@@ -43,7 +43,7 @@ public class BaseWebChromeClient extends WebChromeClient {
         //LogUtils.errorFormat("网页进度改变, onProgressChanged=%d", newProgress);
     }
 
-    //打印前端的日记
+    //打印前端的日志
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
         int lineNumber = consoleMessage.lineNumber();
@@ -51,7 +51,7 @@ public class BaseWebChromeClient extends WebChromeClient {
         String sourceId = consoleMessage.sourceId();
         //日志级别:ConsoleMessage.MessageLevel.TIP,LOG,WARNING,ERROR,DEBUG;
         ConsoleMessage.MessageLevel messageLevel = consoleMessage.messageLevel();
-        LogUtils.errorFormat("前端日记: lineNumber=%d, message=%s, sourceId=%s, messageLevel=%s",
+        LogUtils.errorFormat("前端日志: lineNumber=%d, message=%s, sourceId=%s, messageLevel=%s",
                 lineNumber, message, sourceId, messageLevel);
         return super.onConsoleMessage(consoleMessage);
     }
