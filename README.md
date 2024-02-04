@@ -34,16 +34,13 @@ api 'com.blankj:utilcodex:1.31.1'
 api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
 <li>//https://github.com/getActivity/XXPermissions 轮子哥权限
-api 'com.github.getActivity:XXPermissions:18.2'
+api 'com.github.getActivity:XXPermissions:18.6'
 </li>
 <li>// 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
 api 'com.github.getActivity:Toaster:12.6'
 </li>
 <li>// Shape 框架：https://github.com/getActivity/ShapeView
 api 'com.github.getActivity:ShapeView:9.0'
-</li>
-<li>//https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
-api 'com.contrarywind:Android-PickerView:4.1.9'
 </li>
 <li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
 api 'com.github.li-xiaojun:XPopup:2.9.19'

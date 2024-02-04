@@ -7,8 +7,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.dialog.ViewBindingDialog;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.databinding.FragmentBaseBottomSheetDialogBinding;
-import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * Description: 测试Dialog
@@ -32,7 +32,7 @@ public class TestDialog extends ViewBindingDialog<FragmentBaseBottomSheetDialogB
                 dismiss()
         );
         viewBinding.btnOk.setOnClickListener(v ->
-                ToastUtils.showShort("u clicked TestDialog")
+                ToasterUtils.success("u clicked TestDialog")
         );
     }
 }

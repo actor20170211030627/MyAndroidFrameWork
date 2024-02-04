@@ -13,6 +13,7 @@ import com.actor.chat_layout.OnListener;
 import com.actor.chat_layout.VoiceRecorderView;
 import com.actor.chat_layout.bean.ChatLayoutItemMore;
 import com.actor.chat_layout.fragment.ChatLayoutMoreFragment;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.adapter.ChatListAdapter;
 import com.actor.sample.databinding.ActivityChatBinding;
@@ -62,7 +63,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
             //更多点击
             @Override
             public void onItemClick(int position, ChatLayoutItemMore itemMore) {
-                showToast(itemMore.itemText);
+                ToasterUtils.info(itemMore.itemText);
             }
         });
         chatLayout.setBottomFragment(getSupportFragmentManager(), moreFragment);
@@ -91,13 +92,13 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
             //点击了"表情"按钮, 你可以不重写这个方法(overrideAble)
             @Override
             public void onIvEmojiClick(ImageView ivEmoji) {
-                showToast("Emoji Click");
+                ToasterUtils.info("Emoji Click");
             }
 
             //点击了"⊕"按钮, 你可以不重写这个方法(overrideAble)
             @Override
             public void onIvPlusClick(ImageView ivPlus) {
-                showToast("Plus Click");
+                ToasterUtils.info("Plus Click");
             }
 
             //没语音权限, 你可以不重写这个方法(no voice record permissions, overrideAble)

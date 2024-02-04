@@ -13,6 +13,8 @@ import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.jpush.JPushUtils;
+import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
+import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.actor.qq_wechat.QQUtils;
 import com.actor.qq_wechat.WeChatUtils;
 import com.actor.sample.utils.Global;
@@ -34,6 +36,10 @@ public class MyApplication extends ActorApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        //配置BaseUrl
+        MyOkHttpUtils.init(Global.BASE_URL_GITHUB);
+        RetrofitNetwork.init(Global.BASE_URL_GITHUB);
 
         /**
          * 数据库使用示例
@@ -100,12 +106,6 @@ public class MyApplication extends ActorApplication {
 //    @Override
 //    protected void configEasyHttp(EasyHttp easyHttp) {
 //    }
-
-    @NonNull
-    @Override
-    protected String getBaseUrl(boolean isDebugMode) {
-        return Global.BASE_URL_GITHUB;
-    }
 
     /**
      * release环境中App崩溃的时候会回调这个方法.

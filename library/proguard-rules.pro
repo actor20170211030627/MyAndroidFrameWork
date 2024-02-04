@@ -106,6 +106,10 @@
 }
 
 #############################################################################
+## https://github.com/getActivity/XXPermissions
+-keep class com.hjq.permissions.** {*;}
+
+#############################################################################
 ## okhttputils
 #okhttputils
 -dontwarn com.zhy.http.**

@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -29,9 +29,9 @@ public class OnRecordAudioInterceptListenerImpl implements OnRecordAudioIntercep
         if (granted) {
             PictureSelectorUtils.recordAudio(fragment, requestCode);
         } else {
-            boolean permanentDenied = XXPermissions.isPermanentDenied(activity, permission);
-            if (permanentDenied) {
-                ToastUtils.showShort("请在设置开启录音权限.");
+            boolean isDoNotAskAgain = XXPermissions.isDoNotAskAgainPermissions(activity, permission);
+            if (isDoNotAskAgain) {
+                ToasterUtils.warning("请在设置开启录音权限.");
                 XXPermissions.startPermissionActivity(fragment, permission);
             } else {
                 XXPermissions.with(fragment).permission(permission).request(new OnPermissionCallback() {
@@ -40,7 +40,7 @@ public class OnRecordAudioInterceptListenerImpl implements OnRecordAudioIntercep
                         if (allGranted) {
                             PictureSelectorUtils.recordAudio(fragment, requestCode);
                         } else {
-                            ToastUtils.showShort("未获取到录音权限.");
+                            ToasterUtils.warning("未获取到录音权限.");
                         }
                     }
                 });

@@ -2,7 +2,7 @@ package com.actor.qq_wechat;
 
 import androidx.annotation.NonNull;
 
-import com.actor.myandroidframework.utils.ToasterUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 

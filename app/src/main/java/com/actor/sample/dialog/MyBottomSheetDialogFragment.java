@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.fragment.BaseBottomSheetDialogFragment;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
-import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * Description: 类的描述
@@ -36,10 +36,10 @@ public class MyBottomSheetDialogFragment extends BaseBottomSheetDialogFragment {
         tvContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showShort("clicked in BaseBottomSheetDialogFragment!");
+                ToasterUtils.info("clicked in BaseBottomSheetDialogFragment!");
             }
         });
-        view.findViewById(R.id.btn_ok).setOnClickListener(v -> ToastUtils.showShort("ok~"));
+        view.findViewById(R.id.btn_ok).setOnClickListener(v -> ToasterUtils.success("ok~"));
         view.findViewById(R.id.btn_dismiss).setOnClickListener(v -> dismiss());
     }
 

@@ -163,6 +163,14 @@
             android:text="WebView" />
 
         <Button
+            android:id="@+id/btn_count_down_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="BaseCountDownTimer测试"
+            android:transitionName="btnTest" />
+
+        <Button
             android:id="@+id/btn_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

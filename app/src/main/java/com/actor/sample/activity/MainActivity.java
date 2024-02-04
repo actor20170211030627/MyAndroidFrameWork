@@ -97,8 +97,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_jpush://极光推送
                 startActivity(new Intent(this, JPushActivity.class), false, null, null, view);
                 break;
-                case R.id.btn_database://数据库(GreenDao)
-                    startActivity(new Intent(this, DatabaseActivity.class), false, null, null, view);
+            case R.id.btn_database://数据库(GreenDao)
+                startActivity(new Intent(this, DatabaseActivity.class), false, null, null, view);
                 break;
             case R.id.btn_switch://切换
                 startActivity(new Intent(this, SwitcherActivity.class), false, null, null, view);
@@ -117,6 +117,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 break;
             case R.id.btn_webview://WebView
                 startActivity(new Intent(this, WebViewActivity.class));
+                break;
+            case R.id.btn_count_down_timer://BaseCountDownTimer测试
+                startActivity(new Intent(this, BaseCountDownTimerActivity.class), false, null, null, view);
                 break;
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(new Intent(this, OtherActivity.class));

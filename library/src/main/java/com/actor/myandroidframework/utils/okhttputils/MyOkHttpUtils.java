@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.okhttputils.lifecycle.MyOkHttpLifecycleUtils;
 import com.blankj.utilcode.util.GsonUtils;
@@ -43,11 +42,23 @@ import okhttp3.WebSocketListener;
  *          1.3.4 添加tag(),cancel功能 <br />
  *          1.3.5 增加同步sync方法 <br />
  *          1.3.6 增加方法 {@link #postFormBody(String, Map, Map, BaseCallback)}
+ *
+ * @deprecated 建议使用轮子哥的 {@link com.hjq.http.EasyHttp}
  */
+@Deprecated
 public class MyOkHttpUtils {
 
-    //Base Url
-    protected static final String BASE_URL = ConfigUtils.baseUrl;
+    /**
+     * baseUrl, 需要自己设置
+     */
+    protected static String baseUrl = "";
+
+    /**
+     * 初始化
+     */
+    public static void init(@NonNull String baseUrl) {
+        if (baseUrl != null) MyOkHttpUtils.baseUrl = baseUrl;
+    }
 
     /**
      * 获取 BASE_URL
@@ -55,9 +66,9 @@ public class MyOkHttpUtils {
      *           如果不是"http/ws"开头, 会在前面加上 BASE_URL
      */
     protected static String getUrl(String url) {
-        if (url == null) return BASE_URL;
+        if (url == null) return baseUrl;
         if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ws://") || url.startsWith("wss://")) return url;
-        return BASE_URL + url;
+        return baseUrl + url;
     }
 
     public static <T> void get(String url, Map<String, Object> params, BaseCallback<T> callback) {

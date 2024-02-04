@@ -7,9 +7,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.activity.BaseBottomActivity;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.FragmentBaseBottomSheetDialogBinding;
-import com.blankj.utilcode.util.ToastUtils;
 
 /**
  * Description: 从底部弹出的Activity
@@ -43,10 +43,10 @@ public class MyBaseBottomActivity extends BaseBottomActivity {
                 onBackPressed();
                 break;
             case R.id.btn_ok:
-                ToastUtils.showShort("ok~");
+                ToasterUtils.success("ok~");
                 break;
             case R.id.tv_content:
-                ToastUtils.showShort("you clicked me!!");
+                ToasterUtils.info("you clicked me!!");
                 break;
             default:
                 break;

@@ -3,6 +3,7 @@ package com.actor.sample.activity;
 import android.os.Bundle;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.BaseRatingBar;
 import com.actor.sample.databinding.ActivityRatingBarBinding;
 
@@ -36,6 +37,6 @@ public class RatingBarActivity extends BaseActivity<ActivityRatingBarBinding> im
         float stepSize = baseRatingBar.getStepSize();
         String format = getStringFormat("step = %f, rating=%f, fromUser=%b", stepSize, rating, fromUser);
         LogUtils.error(format);
-        showToast(format);
+        ToasterUtils.info(format);
     }
 }

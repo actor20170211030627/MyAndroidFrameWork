@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.NineGridView.GetIsVideoAble;
 import com.actor.myandroidframework.widget.NineGridView.NineGridView;
 import com.actor.myandroidframework.widget.NineGridView.OnItemClickListener1;
@@ -41,7 +42,7 @@ public class NineGridViewActivity extends BaseActivity<ActivityNineGridViewBindi
         nineGridView.setOnItemClickListener(new OnItemClickListener1<PicOrVideo>() {
             @Override
             public void onItemClick(NineGridView<PicOrVideo> nineGridView, PicOrVideo item, @Nullable BaseQuickAdapter<PicOrVideo, BaseViewHolder> adapter, @NonNull View view, int position) {
-                showToastFormat("position=%d, isVideo=%b", position, item.isVideo());
+                ToasterUtils.infoFormat("position=%d, isVideo=%b", position, item.isVideo());
             }
         });
     }

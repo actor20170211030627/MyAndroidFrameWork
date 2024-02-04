@@ -10,6 +10,7 @@ import com.actor.map.gaode.GaoDe3DMapUtils;
 import com.actor.map.gaode.GaoDeGeoCoderUtils;
 import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityGaoDeMapBinding;
 import com.actor.sample.info.Object4GaodeMapInfoWindow;
@@ -29,7 +30,6 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
-import com.blankj.utilcode.util.ToastUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -121,13 +121,13 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
                                 String formatAddress = regeocodeAddress.getFormatAddress();
 //                                String cityCode = regeocodeAddress.getCityCode();
 //                                regeocodeAddress.get...
-                                showToast(formatAddress);
+                                ToasterUtils.success(formatAddress);
                             }
 //                            if (regeocodeQuery != null) {
 //                                regeocodeQuery.get...
 //                            }
                         } else {
-                            showToast("没有找到检索结果");
+                            ToasterUtils.warning("没有找到检索结果");
                         }
                     }
                     @Override
@@ -154,11 +154,11 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
                                 for (GeocodeAddress geocodeAddress : geocodeAddresses) {
                                     LatLonPoint latLonPoint = geocodeAddress.getLatLonPoint();
 //                                    geocodeAddress.get...
-                                    showToastFormat("lat=%f, lng=%f", latLonPoint.getLatitude(), latLonPoint.getLongitude());
+                                    ToasterUtils.successFormat("lat=%f, lng=%f", latLonPoint.getLatitude(), latLonPoint.getLongitude());
                                 }
                             }
                         } else {
-                            showToast("没有找到检索结果");
+                            ToasterUtils.warning("没有找到检索结果");
                         }
                     }
                 });
@@ -176,7 +176,7 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
                                 GaoDeLocationUtils.setLocationListener(locationListener);
                                 GaoDeLocationUtils.startLocation();
                             } else {
-                                ToastUtils.showShort("您有权限未同意!");
+                                ToasterUtils.warning("您有权限未同意!");
                                 XXPermissions.startPermissionActivity(activity);
                             }
                         }
@@ -398,7 +398,7 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
                     GaoDe3DMapUtils.hideInfoWindow(infoWindowMarker);//隐藏信息窗
                     break;
                 case R.id.btn:
-                    showToast("clicked btn");
+                    ToasterUtils.info("clicked btn");
                     break;
                 default:
                     break;

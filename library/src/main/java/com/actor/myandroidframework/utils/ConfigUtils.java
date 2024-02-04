@@ -37,9 +37,4 @@ public class ConfigUtils {
      * App 的屏幕宽度, 和屏幕宽度不是一个概念
      */
     public static final int APP_SCREEN_WIDTH = ScreenUtils.getAppScreenWidth();
-
-    /**
-     * baseUrl, 需要自己设置
-     */
-    public static String baseUrl = "";
 }

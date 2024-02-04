@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.activity.ViewPagerActivity;
 import com.actor.sample.databinding.FragmentSharedElementBinding;
@@ -63,7 +64,7 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            showToast(data.getStringExtra(Global.CONTENT));
+            ToasterUtils.info(data.getStringExtra(Global.CONTENT));
         }
     }
 }

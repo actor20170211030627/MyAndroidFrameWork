@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.dialog.BaseDialog;
+import com.actor.myandroidframework.utils.ConfigUtils;
+import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityBottomSheetDialogBinding;
 import com.actor.sample.dialog.BottomFloatEditorDialog;
@@ -58,11 +61,11 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
         .setCancelAble(false);
         //
         bottomDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> bottomDialog.dismiss());
-        bottomDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("yes~"));
+        bottomDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> ToasterUtils.success("yes~"));
         bottomDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
         TextView tvContent1 = bottomDialog.findViewById(R.id.tv_content);
         tvContent1.setText("this is BottomDialog, Click me(点击我试一下)");
-        tvContent1.setOnClickListener(v -> showToast("you clicked me~"));
+        tvContent1.setOnClickListener(v -> ToasterUtils.info("you clicked me~"));
 
 
         /**
@@ -77,12 +80,12 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             }
         };
         baseBottomSheetDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> baseBottomSheetDialog.dismiss());
-        baseBottomSheetDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("ok~~"));
+        baseBottomSheetDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> ToasterUtils.success("ok~~"));
         baseBottomSheetDialog.setPeekHeight(ConvertUtils.dp2px(100));//首次弹出高度, 可不设置
         baseBottomSheetDialog.setDimAmount(0.3F);//设置背景昏暗度
         TextView tvContent2 = baseBottomSheetDialog.findViewById(R.id.tv_content);
         tvContent2.setText("this is BaseBottomSheetDialog, Click me(点击我试一下)");
-        tvContent2.setOnClickListener(v -> showToast("you clicked me~~~~~~"));
+        tvContent2.setOnClickListener(v -> ToasterUtils.info("you clicked me~~~~~~"));
 
 
         /**
@@ -115,9 +118,9 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
                 return R.layout.dialog_base_left;
             }
         }.setGravityAndAnimation(Gravity.START, R.style.LeftAnimationStyle)
-                .setFullScreen(true);
+                .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
+                .setHeightFullScreen(true);
         leftDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> leftDialog.dismiss());
-        leftDialog.findViewById(R.id.view_space).setOnClickListener(v -> leftDialog.dismiss());
 
 
         /**
@@ -128,9 +131,10 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             protected int getLayoutResId() {
                 return R.layout.dialog_base_left;
             }
-        }.setGravityAndAnimation(Gravity.END, null);
+        }.setGravityAndAnimation(Gravity.END, null)
+                .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
+                .setHeight(WindowManager.LayoutParams.MATCH_PARENT);
         rightDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
-        rightDialog.findViewById(R.id.view_space).setOnClickListener(v -> rightDialog.dismiss());
 
 
         /**
@@ -144,7 +148,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
         }.setGravityAndAnimation(Gravity.TOP, null);
         topDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
         topDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
-        topDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> showToast("ok~~"));
+        topDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> ToasterUtils.success("ok~~"));
     }
 
     @Override
