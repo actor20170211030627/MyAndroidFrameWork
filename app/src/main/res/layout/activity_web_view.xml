@@ -1,33 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activity.WebViewActivity">
 
-    <LinearLayout
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.Java调用H5 '原生' 方法"
+        android:textColor="@color/orange_F15022"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fl1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        app:alignContent="space_between"
+        app:flexWrap="wrap"
+        app:layout_constraintTop_toBottomOf="@id/tv1">
 
-        <EditText
-            android:id="@+id/et_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btn_go"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_alert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="Go" />
-    </LinearLayout>
+            android:text="alert()" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="confirm()" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="prompt()" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_console_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="console.log()" />
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2.Java调用H5 '自定义' 方法"
+        android:textColor="@color/orange_F15022"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl1" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:alignContent="space_between"
+        app:flexWrap="wrap"
+        app:layout_constraintTop_toBottomOf="@id/tv2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_set_userinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="setUserInfo(name, age)" />
+    </com.google.android.flexbox.FlexboxLayout>
 
     <com.actor.myandroidframework.widget.webview.BaseWebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl2" />
+</androidx.constraintlayout.widget.ConstraintLayout>

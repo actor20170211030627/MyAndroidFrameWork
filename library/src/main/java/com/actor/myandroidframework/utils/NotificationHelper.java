@@ -33,7 +33,7 @@ public class NotificationHelper {
             // android 8.0引导
             intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
             intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-        } else if (Build.VERSION.SDK_INT >= 21) {
+        } else if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             //android 5.0-7.0
             intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");//Settings.ACTION_APP_NOTIFICATION_SETTINGS
             intent.putExtra("app_package", context.getPackageName());
