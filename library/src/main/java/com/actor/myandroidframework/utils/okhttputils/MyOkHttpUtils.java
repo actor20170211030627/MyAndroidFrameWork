@@ -422,8 +422,7 @@ public class MyOkHttpUtils {
         Request.Builder builder = new Request.Builder()
                 .get()
                 .url(urlAppendParams(getUrl(wsUrl), params))
-                .tag(tag)
-                .url(wsUrl);
+                .tag(tag);
         addHeaders(headers, builder);
         MyOkHttpLifecycleUtils.addObserver(tag);
         return getOkHttpClient().newWebSocket(builder.build(), listener);

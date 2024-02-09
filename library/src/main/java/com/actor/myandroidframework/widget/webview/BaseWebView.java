@@ -9,16 +9,21 @@ import android.webkit.WebBackForwardList;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
+import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.ThreadUtils;
 
 /**
- * Description: WebView常用初始化
- *
- * android:scrollbars="none"    不显示滚动条
+ * Description: WebView常用初始化 <br />
+ * 更多配置: <a href="https://github.com/googlearchive/chromium-webview-samples">chromium-webview-samples - Github</a>
+ * <ul>
+ *     不显示滚动条: <code>android:scrollbars="none"</code>
+ * </ul>
  *
  * Author     : ldf
  * Date       : 2019-8-20 on 10:34
@@ -61,8 +66,8 @@ public class BaseWebView extends WebView {
 
     /**
      * 初始化
-     * @param webViewClient 可传入new BaseWebViewClient(), 或者写个类extends MyWebViewClient然后自定义一些自己的方法
-     * @param webChromeClient 可传入new BaseWebChromeClient(), 或者写个类extends MyWebChromeClient然后自定义一些自己的方法
+     * @param webViewClient 可传入{@link BaseWebViewClient new BaseWebViewClient()}, 或者写个类extends {@link BaseWebViewClient}然后自定义一些自己的方法
+     * @param webChromeClient 可传入{@link BaseWebChromeClient new BaseWebChromeClient()}, 或者写个类extends {@link BaseWebChromeClient}然后自定义一些自己的方法
      */
     public void init(BaseWebViewClient webViewClient, BaseWebChromeClient webChromeClient) {
         //初始化WebSettings
@@ -104,12 +109,38 @@ public class BaseWebView extends WebView {
     }
 
     /**
-     *
+     * 加载网页, 调用方法
      * @param url "网页url" or "本地H5" or "javascript方法", 例:
-     *            https://www.baidu.com/                //url
-     *            file:///android_asset/test.html       //本地h5, 本地路径: src/main/assets/test.html
-         *        javascript:jsMethodName(params...)    //javascript自定义方法, 安卓调h5.jsMethodName方法
-     *            javascript: alert('你好呀h5!')        //javascript方法
+     *            <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *                <tr>
+     *                    <th align="center">传入参数</th>
+     *                    <th align="center">说明</th>
+     *                </tr>
+     *                <tr>
+     *                    <td>https://www.baidu.com/</td>
+     *                    <td>网页url</td>
+     *                </tr>
+     *                <tr>
+     *                    <td>file:///android_asset/test.html</td>
+     *                    <td>本项目h5, 项目路径: src/main/assets/test.html</td>
+     *                </tr>
+     *                <tr>
+     *                    <td>javascript: alert('你好呀h5!')</td>
+     *                    <td>javascript方法</td>
+     *                </tr>
+     *                <tr>
+     *                    <td>javascript:jsMethodName(params...)</td>
+     *                    <td>安卓调h5.jsMethodName自定义方法, 传入字符串, int???</td>
+     *                </tr>
+     *                <tr>
+     *                    <td>javascript:jsMethodName(json)</td>
+     *                    <td>安卓调h5.jsMethodName自定义方法, 传入json对象</td>
+     *                </tr>
+     *                <tr>
+     *                    <td>javascript:(function(b){...})(window)</td>
+     *                    <td>安卓加载自定义js</td>
+     *                </tr>
+     *            </table>
      */
     @Override
     public void loadUrl(String url) {
@@ -127,6 +158,63 @@ public class BaseWebView extends WebView {
                 }
             });
         }
+    }
+
+    /**
+     * 调用h5方法, 并传入参数
+     * @param methodName 要调用的h5方法名称
+     * @param param 参数
+     */
+    public void callH5Method(@NonNull String methodName, String param) {
+        loadUrl(TextUtils2.getStringFormat("javascript:%s(%s)", methodName, param));
+    }
+
+    /**
+     * 调用h5方法, 并传入json
+     * @param methodName 要调用的h5方法名称
+     * @param json 请务必是json
+     */
+    public void callH5MethodByJson(@NonNull String methodName, String json) {
+        loadUrl(TextUtils2.getStringFormat("javascript:%s(%s)", methodName, json));
+    }
+
+    /**
+     * 调用JS方法获, 并取返回值
+     * @param script js方法和参数, 例: "javascript:JSMethod(参数)"
+     * @param resultCallback js的回调
+     */
+    @Override
+    public void evaluateJavascript(String script, @Nullable ValueCallback<String> resultCallback) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            super.evaluateJavascript(script, resultCallback);
+        } else {
+            LogUtils.error("SDK >= Android 4.4 调用evaluateJavascript(...)才有回调!");
+        }
+    }
+
+    /**
+     * 将参数转换成String
+     * "张三", 23  =>
+     */
+    public static String params2String(Object... params) {
+        if (params == null) return null;
+        if (params.length == 0) return "";
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < params.length; i++) {
+            Object param = params[i];
+            if (param instanceof Byte || param instanceof Short
+                    || param instanceof Integer || param instanceof Long
+                    || param instanceof Float || param instanceof Double
+                    || param instanceof Boolean || param instanceof Character
+            ) {
+                str.append(param);
+            } else {
+                //Object, String, null, Others...
+                str.append("'").append(param).append("'");
+            }
+            if (i != params.length - 1) str.append(",");
+        }
+        return str.toString();
     }
 
     /**
@@ -220,11 +308,13 @@ public class BaseWebView extends WebView {
     }
 
     /**
-     * 获取webview所有加载栈
-     * @see WebBackForwardList#getSize() 获取当前加载栈的长度
-     * @see WebBackForwardList#getCurrentItem() 获取webview当前所加载的界面, 可以获得url, title等内容
-     * @see WebBackForwardList#getCurrentIndex() 获取当前加载在加载栈中的位置
-     * @see WebBackForwardList#getItemAtIndex(int) 获取加载栈中第index页面
+     * 获取WebView所有加载栈
+     * <ol>
+     *     <li>{@link WebBackForwardList#getSize()} 获取当前加载栈的长度</li>
+     *     <li>{@link WebBackForwardList#getCurrentItem()} 获取webview当前所加载的界面, 可以获得url, title等内容</li>
+     *     <li>{@link WebBackForwardList#getCurrentIndex()} 获取当前加载在加载栈中的位置</li>
+     *     <li>{@link WebBackForwardList#getItemAtIndex(int)} 获取加载栈中第index页面</li>
+     * </ol>
      */
     @Override
     public WebBackForwardList copyBackForwardList() {

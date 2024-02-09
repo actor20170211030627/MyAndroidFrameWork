@@ -94,7 +94,7 @@ public class BaseWebChromeClient extends WebChromeClient {
     //js 确认/取消对话框
     @Override
     public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-        LogUtils.errorFormat("网页对话框: url=%s, message=%s", url, message);
+        LogUtils.errorFormat("confirm对话框: url=%s, message=%s", url, message);
         return super.onJsConfirm(view, url, message, result);
     }
 
@@ -105,7 +105,7 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-        LogUtils.errorFormat("网页提示: url=%s, message=%s, defaultValue=%s", url, message, defaultValue);
+        LogUtils.errorFormat("prompt输入提示框: url=%s, message=%s, defaultValue=%s", url, message, defaultValue);
         return super.onJsPrompt(view, url, message, defaultValue, result);
     }
 
