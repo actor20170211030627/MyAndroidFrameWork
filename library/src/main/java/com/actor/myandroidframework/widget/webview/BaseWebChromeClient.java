@@ -14,6 +14,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.blankj.utilcode.util.GsonUtils;
 
 /**
  * Description: WebChromeClient主要辅助WebView处理Javascript的对话框、网站图标、网站title、加载进度等
@@ -186,38 +187,49 @@ public class BaseWebChromeClient extends WebChromeClient {
     }
 
     /**
-     * 选择文件
+     * 选择文件: <input type="file" name = "选择文件" />
      */
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-        LogUtils.error("onShowFileChooser: 选择文件");
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        intent.setType("image/*");
-//        Intent chooser = Intent.createChooser(intent, "选择图片");
-//        startActivityForResult(chooser, SELECT_FILE_REQUEST_CODE);
+        if (webView == null || filePathCallback == null) return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
+        LogUtils.error("onShowFileChooser(选择文件), 请你自己重写此方法, 并在重写的方法中书写选择文件的逻辑(可参考下方注释的部分代码!)");
+        if (fileChooserParams == null) {
+            LogUtils.error("fileChooserParams=null");
+        } else {
+            LogUtils.errorFormat("fileChooserParams={'AcceptTypes':%s, 'FilenameHint':%s, 'Title':%s, 'Mode':%d, 'isCaptureEnabled':%b}",
+                    GsonUtils.toJson(fileChooserParams.getAcceptTypes()),
+                    fileChooserParams.getFilenameHint(),
+                    fileChooserParams.getTitle(),
+                    fileChooserParams.getMode(),
+                    fileChooserParams.isCaptureEnabled()
+            );
+        }
 
-//        fileChooserParams.getTitle();
+        /**
+         * 1.请在你的Activity/Fragment中, 重写此方法, 并在重写的方法中书写选择文件的逻辑(可参考下方注释的部分代码!)
+         * ValueCallback<Uri[]> filePathCallback2; //是一个全局变量, 用于选择文件后回调给h5
+         */
+//        filePathCallback2 = filePathCallback;
 //        Intent intent = fileChooserParams.createIntent();
+//        startActivityForResult(intent, REQUEST_CODE_FILE_CHOOSER);//参2: 请求码是你自己定义的一个int常量
 
-        //选择图片
-//        PictureSelectorUtils.create(activity, null)
-//                .selectImage(false)
-//                .setSingleSelect(true)
-//                .setShowCamera(true)
-//                .forResult(new OnResultCallbackListener<LocalMedia>() {
-//                    @Override
-//                    public void onResult(ArrayList<LocalMedia> result) {
-//                        Uri uri = Uri.fromFile(new File(result.get(0).getRealPath()));
-//                        filePathCallback.onReceiveValue(new Uri[]{uri});
-//                    }
-//                    @Override
-//                    public void onCancel() {
-//                    }
-//                });
+        /**
+         * 2.然后在你的Activity/Fragment中, 重写以下类似方法将结果回调给h5
+         */
+//        @Override
+//        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//            if (requestCode == REQUEST_CODE_FILE_CHOOSER) {
+//                Uri[] fileUris = null;
+//                if (resultCode == Activity.RESULT_OK && data != null) {
+//                    //将选择的文件赋值给返回值
+//                    fileUris = ...;
+//                }
+//                //将选择的文件回传给h5
+//                filePathCallback2.onReceiveValue(fileUris);
+//            }
+//        }
 
-//        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
-        return true;
+        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
     }
 
     /**

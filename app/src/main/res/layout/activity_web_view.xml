@@ -1,90 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.WebViewActivity">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1.Java调用H5 '原生' 方法"
-        android:textColor="@color/orange_F15022"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/fl1"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:alignContent="space_between"
-        app:flexWrap="wrap"
-        app:layout_constraintTop_toBottomOf="@id/tv1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_alert"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="alert()" />
+            android:text="1.Java调用H5 '原生' 方法"
+            android:textColor="@color/orange_F15022"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_confirm"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/fl1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alignContent="space_between"
+            app:flexWrap="wrap">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="alert()" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="confirm()" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="prompt()" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_console_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="console.log()" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="confirm()" />
+            android:text="2.Java调用H5 '自定义' 方法"
+            android:textColor="@color/orange_F15022"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_prompt"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/fl2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alignContent="space_between"
+            app:flexWrap="wrap">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入一些基础参数(byte,short,int,long,float,double,boolean,char,null,String)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_array"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入数组对象(array)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入List对象" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入Map对象" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_object"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入Object对象" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="prompt()" />
+            android:text="3.Java调用H5 '自定义' 方法, 并有 '返回值'"
+            android:textColor="@color/orange_F15022"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_console_log"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/fl3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alignContent="space_between"
+            app:flexWrap="wrap">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_basic_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入一些基础参数(byte,short,int,long,float,double,boolean,char,null,String)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_array_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入数组对象(array)" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_list_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入List对象" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_map_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入Map对象" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_set_object_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="传入Object对象" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="console.log()" />
-    </com.google.android.flexbox.FlexboxLayout>
+            android:text="4.H5调用Java方法, 并有 '返回值'"
+            android:textColor="@color/orange_F15022"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2.Java调用H5 '自定义' 方法"
-        android:textColor="@color/orange_F15022"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl1" />
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/fl2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:alignContent="space_between"
-        app:flexWrap="wrap"
-        app:layout_constraintTop_toBottomOf="@id/tv2">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_set_userinfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="setUserInfo(name, age)" />
-    </com.google.android.flexbox.FlexboxLayout>
-
-    <com.actor.myandroidframework.widget.webview.BaseWebView
-        android:id="@+id/web_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl2" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.actor.myandroidframework.widget.webview.BaseWebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

@@ -15,189 +15,142 @@
 
 
 <body>
-<h1>2.Java调用H5自定义方法</h1>
 <ol>
-    <li><button onclick="login()">login('传入json')</button></li>
-    <li><button onclick="login1()">login('传入json的url为空,会回调方法configPageContent()')</button></li>
-    <li><button onclick="getapntype()">getapntype('传入json')</button></li>
-    <li><button onclick="getsystem()">getsystem('传入json')</button></li>
-    <li><button onclick="openview()">openview('传入json')</button></li>
-    <li><button onclick="guide()">guide('传入json')</button></li>
-    <li><button onclick="faceonline()">faceonline('传入json')</button></li>
-    <li><button onclick="finish()">finish()</button></li>
-    <li><button onclick="back()">back()</button></li>
-    <li><button onclick="upload()">upload('选图片并上传,传入json')</button></li>
-    <li><button onclick="upload1()">upload('选视频并上传,传入json')</button></li>
-    <li><button onclick="getuserinfo()">getuserinfo('传入json')</button></li>
-    <li><button onclick="getUserId()">getUserId('传入json')</button></li>
-    <li><button onclick="directGetUserInfo()">directGetUserInfo('传入json')</button></li>
-    <li><button onclick="share()">share('传入json')</button></li>
-    <li><button onclick="shareWX()">shareWX('传入json')</button></li>
-    <li><button onclick="geocoord()">geocoord('传入json')</button></li>
-    <li><button onclick="getLocationInfo()">getLocationInfo()调Java方法,'直接'返回定位信息</button></li>
-    <li><button onclick="externalLinkSingleLogin()">externalLinkSingleLogin('传入json')</button></li>
+    <li><button onclick="callJava_Test()">h5调用Java方法测试()</button></li>
+    <li><button onclick="callJava_param_Test()">h5调用Java方法并传参(传入int, float, double, boolean, null, String')</button></li>
+    <li><button onclick="callJava_param_Return_Test()">h5调用Java方法并传参(传入int, int'), 并有Java返回值</button></li>
+    <li><button onclick="callJava_json_Return_Test()">h5调用Java方法并传json(传入json'), 然后Java返回json</button></li>
+    <li><button onclick="callJava_Callback_Test()">h5调用Java方法, 等待Java有结果后才回调h5方法</button></li>
 </ol>
+<font color="#FF0000" size="16px">5.其它操作</font> <br />
+<input type="file" name = "选择文件" size="135px" /> <br />
+<font color="#FF0000" size="12px">还有一些其它操作没搞...</font>
 
 <!--webView.loadUrl(↓)-->
 <!--javascript:(function(b){console.log("YYNClient initialization begin");var a={queue:[],callback:function(){var d=Array.prototype.slice.call(arguments,0);var c=d.shift();var e=d.shift();this.queue[c].apply(this,d);if(!e){delete this.queue[c]}}};a.directGetUserInfo=a.externalLinkSingleLogin=a.faceonline=a.finish=a.geocoord=a.getLocationInfo=a.getUserId=a.getapntype=a.getsystem=a.getuserinfo=a.guide=a.login=a.openview=a.share=a.shareWX=a.upload=a.uploadVideoFile=function(){var f=Array.prototype.slice.call(arguments,0);if(f.length<1){throw"YYNClient call error, message:miss method name"}var e=[];for(var h=1;h<f.length;h++){var c=f[h];var j=typeof c;e[e.length]=j;if(j=="function"){var d=a.queue.length;a.queue[d]=c;f[h]=d}}var g=JSON.parse(prompt(JSON.stringify({method:f.shift(),types:e,args:f})));if(g.code!=200){throw"YYNClient call error, code:"+g.code+", message:"+g.result}return g.result};Object.getOwnPropertyNames(a).forEach(function(d){var c=a[d];if(typeof c==="function"&&d!=="callback"){a[d]=function(){return c.apply(a,[d].concat(Array.prototype.slice.call(arguments,0)))}}});b.YYNClient=a;console.log("YYNClient initialization end")})(window);-->
 
     <script type="text/javascript">
 
-        <!-- android调js -->
-        function setUserInfo(userName, age) {
-            var json = JSON.stringify({'userName':userName,'age':age});
-            return json
+        <!-- android调js方法, 传入基础数据测试 -->
+        function callH5Method_Basic_Test(aByte, aShort, anInt, aLong, aFloat, aDouble, aBoolean, aChar,
+            aNull, string) {
+            var json = JSON.stringify({'aByte':aByte,'aShort':aShort,'anInt':anInt,'aLong':aLong,
+                                       'aFloat':aFloat, 'aDouble':aDouble, 'aBoolean':aBoolean,
+                                       'aChar':aChar, 'aNull':aNull, 'string':string});
+            console.log("json: " + json);
         }
 
-        <!-- 传入json的url为空,会回调方法configPageContent() -->
-        function login1() {
-            var json = JSON.stringify({'url':null});
-            console.log(json);
-            //window.YYNClient.login(json);//加上window也可以
-            YYNClient.login(json);
+        <!-- 传入数组对象 -->
+        function callH5Method_Array_Object(array) {
+            var json = JSON.stringify(array);
+            console.log('json = ' + json + ', array[0] = ' + array[0]);
         }
 
-        <!--获取当前的网络状态, 没有网络0; WIFI网络1; 4G网络4; 3G网络3; 2G网络2 -->
-        function getapntype() {
-            var json = JSON.stringify({'callback':'onResult'});
-            console.log(json);
-            window.YYNClient.getapntype(json);
+        <!-- 传入List对象 -->
+        function callH5Method_List_Object(list) {
+            var json = JSON.stringify(list);
+            console.log("json = " + json + ", list[0] = " + list[0]);
         }
 
-        <!-- 获取系统类型, mlxc | yyn -->
-        function getsystem() {
-            var json = JSON.stringify({'callback':'onResult'});
-            console.log(json);
-            window.YYNClient.getsystem(json);
+        <!-- 传入Map对象 -->
+        function callH5Method_Map_Object(map) {
+            var json = JSON.stringify(map);
+            console.log("json = " + json + ", map['key0'] = " + map['key0']);
         }
 
-        <!-- 跳转WebViewActivity, 带链接 -->
-        function openview() {
-            var json = JSON.stringify({'ishowtitlebar':'true','titlebarname':'测试标题','url':'https://www.baidu.com'});
-            console.log(json);
-            window.YYNClient.openview(json);
+        <!-- 传入Object对象 -->
+        function callH5Method_Object(bean) {
+            var json = JSON.stringify(bean);
+            console.log("json = " + json + ", bean.code = " + bean.code);
         }
 
-        <!-- 唤起导航 -->
-        function guide() {
-            var json = JSON.stringify({'lat':'29.620486','lon':'106.506687','name':'重庆市渝北区好望角123路'});
-            console.log(json);
-            window.YYNClient.guide(json);
+
+
+
+
+        <!--android调js方法, 传入基础, 并有返回值测试 -->
+        function callH5Method_Basic_Return_Test(aByte, aShort, anInt, aLong, aFloat, aDouble, aBoolean, aChar,
+            aNull, string) {
+            var json = JSON.stringify({'aByte':aByte,'aShort':aShort,'anInt':anInt,'aLong':aLong,
+                                       'aFloat':aFloat, 'aDouble':aDouble, 'aBoolean':aBoolean,
+                                       'aChar':aChar, 'aNull':aNull, 'string':string});
+            return json;
+        }
+        <!-- 传入数组对象, 并有返回值 -->
+        function callH5Method_Array_Object_Return(array) {
+            var json = JSON.stringify(array);
+            console.log('json = ' + json + ', array[0] = ' + array[0]);
+            return array.length;
         }
 
-        <!-- 唤起视频聊天 -->
-        function faceonline() {
-            var json = JSON.stringify({});
-            console.log(json);
-            window.YYNClient.faceonline(json);
+        <!-- 传入List对象, 并有返回值 -->
+        function callH5Method_List_Object_Return(list) {
+            var json = JSON.stringify(list);
+            console.log("json = " + json + ", list[0] = " + list[0]);
+            return list.length;
         }
 
-        <!-- 关闭当前页面 -->
-        function finish() {
-            window.YYNClient.finish();
+        <!-- 传入Map对象, 并有返回值 -->
+        function callH5Method_Map_Object_Return(map) {
+            var json = JSON.stringify(map);
+            console.log("json = " + json + ", map['key0'] = " + map['key0']);
+            return "key1 = " + map['key1'];
         }
 
-        <!-- 返回页面 -->
-        <!-- if (consoleMessage.message().contains("uffback")) { callBack.callback(); }↓ -->
-        <!-- if (webView.canGoBack()) { goBack(); } else { WebViewActivity.super.onBackPressed(); }↓  -->
-
-        <!-- if (customView != null) { hideCustomView(); -->
-        <!-- } else if (webView.canGoBack()) { webView.goBack(); -->
-        <!-- } else { finish(); setResult(RESULT_OK); } -->
-        function back() {
-            console.log("123 uffback dsdfsdf");
+        <!-- 传入Object对象, 并有返回值 -->
+        function callH5Method_Object_Return(bean) {
+            var json = JSON.stringify(bean);
+            console.log("json = " + json + ", bean.code = " + bean.code);
+            return bean.message;
         }
 
-        <!-- 选图片并上传 -->
-        function upload() {
-            var json = JSON.stringify({'type':'1','callback':'onResult'});
-            console.log(json);
-            window.YYNClient.upload(json);
+
+
+
+
+        <!-- h5调用Java方法测试 -->
+        function callJava_Test() {
+            //android123.calledByH5();  //不加上window也可以
+            window.android123.calledByH5();
         }
 
-        <!-- 选视频并上传 -->
-        function upload1() {
-            var json = JSON.stringify({'type':'2','callback':'onResult'});
-            console.log(json);
-            window.YYNClient.upload(json);
+        <!-- h5调用Java方法, 并传参测试 -->
+        function callJava_param_Test() {
+        <!-- aByte, aShort, anInt, aLong, aFloat, aDouble, aBoolean, aChar, aNull, string -->
+            window.android123.calledByH5param(123, Math.PI, Math.E, true, null, "This is String!");
         }
 
-        <!-- 获取用户信息 -->
-        function getuserinfo() {
-            var json = JSON.stringify({'callback':'onResult'});
-            console.log(json);
-            window.YYNClient.getuserinfo(json);
+        <!-- h5调用Java方法, 传参并有Java返回结果 -->
+        function callJava_param_Return_Test() {
+            var result = window.android123.calledByH5paramReturn(2, 3);
+            alert('h5接收到Java计算结果:\n2 + 3 = ' + result);
         }
 
-        <!-- 获取用户信息 -->
-        function getUserId() {
-            var json = JSON.stringify({'callback':'onResult'});
-            console.log(json);
-            window.YYNClient.getUserId(json);
+        <!-- h5调用Java方法, 传json并有Java返回结果 -->
+        function callJava_json_Return_Test() {
+        var json = JSON.stringify({'code':200, 'message':'请求成功!', 'data':null})
+            var result = window.android123.calledByH5JsonReturn(json);
+            alert('h5接收到Java返回Json:\n' + result);
         }
 
-        <!-- 获取用户信息 -->
-        function directGetUserInfo() {
-            var json = JSON.stringify({'callback':'onResult'});
-            console.log(json);
-            window.YYNClient.directGetUserInfo(json);
+        <!-- h5调用Java方法, 等待Java有结果后才回调h5方法 -->
+        function callJava_Callback_Test() {
+            window.android123.calledByH5CallbackToH5UserInfo('onResult');
         }
 
-        <!-- 友盟分享 -->
-        function share() {
-            var json = JSON.stringify({'title':'标题','content':'内容','imgurl':'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png','link':'https://www.baidu.com/'});
-            console.log(json);
-            YYNClient.share(json);
-        }
 
-        <!-- 友盟分享到微信 -->
-        function shareWX() {
-            var json = JSON.stringify({'title':'标题','content':'内容','imgurl':'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png','link':'https://www.baidu.com/'});
-            console.log(json);
-            YYNClient.shareWX(json);
-        }
 
-        <!-- 发送开始定位广播 -->
-        function geocoord() {
-            var json = JSON.stringify({'callback':'onResult'});
-            console.log(json);
-            YYNClient.geocoord(json);
-        }
-
-        <!-- 调Java方法,'直接'返回定位信息 -->
-        function getLocationInfo() {
-            var json = YYNClient.getLocationInfo();//直接返回
-            //var result = JSON.stringify(json);//这儿不用转
-            alert("直接获取定位信息：" + json);
-            console.log("直接获取定位信息：" + json);
-        }
-
-        <!-- 跳转WebViewActivity -->
-        function externalLinkSingleLogin() {
-            var json = JSON.stringify({'androidlink':'https://www.baidu.com','code':'wgy','isshowtitlebar':1,'titlebarname':'code=wgy这是找工作'});
-            console.log(json);
-            YYNClient.externalLinkSingleLogin(json);
-        }
 
 
         <!-- 回调的结果 -->
         function onResult(json) {
-            //var object = JSON.parse(json);
-            var result = JSON.stringify(json);//将json转换成String, 否则会打印[object Object]
-            alert("Js收到消息：" + result);
-            console.log("Js收到消息：" + result);
+            var result = JSON.stringify(json);  //将json转换成String, 否则会打印[object Object]
+            alert("Js收到Java回调消息：\n" + result);
         }
 
-        <!-- login1 方法, 传的url为空, 会回调这个方法 -->
-        function configPageContent() {
-            console.log("login1方法登录成功, 回调了 configPageContent() 方法");
-            alert("login1方法登录成功, 回调了 configPageContent() 方法");
-        }
 
-        <!-- 当app点击返回键时 -->
-        function uffback() {
-            console.log("当app点击返回键时");
-        }
+
+
 
 <!--        javascript:(function(b){-->
 <!--            console.log("YYNClient initialization begin");-->

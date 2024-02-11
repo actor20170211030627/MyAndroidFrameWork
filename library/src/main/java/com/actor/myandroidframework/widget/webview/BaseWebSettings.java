@@ -25,7 +25,7 @@ public class BaseWebSettings {
          */
         //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
         webSettings.setJavaScriptEnabled(true);
-        //支持通过JS打开新窗口
+        //设置是否允许JS自动打开弹窗
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         /**
          * 是否支持打开新窗口, 如果true, 需重写{@link BaseWebChromeClient#onCreateWindow(WebView, boolean, boolean, Message)}}

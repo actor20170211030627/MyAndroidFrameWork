@@ -17,6 +17,7 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.ThreadUtils;
+import com.blankj.utilcode.util.GsonUtils;
 
 /**
  * Description: WebView常用初始化 <br />
@@ -25,6 +26,7 @@ import com.actor.myandroidframework.utils.ThreadUtils;
  *     不显示滚动条: <code>android:scrollbars="none"</code>
  * </ul>
  *
+ * <br />
  * Author     : ldf
  * Date       : 2019-8-20 on 10:34
  *
@@ -82,7 +84,7 @@ public class BaseWebView extends WebView {
         }
 
         //添加js交互
-//        addJavascriptInterface(new Object(), "android");
+//        addJavascriptInterface(object, "android");
 
         //滚动条
 //        setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//View方法
@@ -109,11 +111,11 @@ public class BaseWebView extends WebView {
     }
 
     /**
-     * 加载网页, 调用方法
+     * 加载网页, 调用方法, 加载js方法等
      * @param url "网页url" or "本地H5" or "javascript方法", 例:
      *            <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
      *                <tr>
-     *                    <th align="center">传入参数</th>
+     *                    <th align="center">传参示例</th>
      *                    <th align="center">说明</th>
      *                </tr>
      *                <tr>
@@ -126,19 +128,11 @@ public class BaseWebView extends WebView {
      *                </tr>
      *                <tr>
      *                    <td>javascript: alert('你好呀h5!')</td>
-     *                    <td>javascript方法</td>
-     *                </tr>
-     *                <tr>
-     *                    <td>javascript:jsMethodName(params...)</td>
-     *                    <td>安卓调h5.jsMethodName自定义方法, 传入字符串, int???</td>
-     *                </tr>
-     *                <tr>
-     *                    <td>javascript:jsMethodName(json)</td>
-     *                    <td>安卓调h5.jsMethodName自定义方法, 传入json对象</td>
+     *                    <td>调用js原生方法, 自定义方法等</td>
      *                </tr>
      *                <tr>
      *                    <td>javascript:(function(b){...})(window)</td>
-     *                    <td>安卓加载自定义js</td>
+     *                    <td>安卓加载自定义js方法</td>
      *                </tr>
      *            </table>
      */
@@ -161,21 +155,52 @@ public class BaseWebView extends WebView {
     }
 
     /**
-     * 调用h5方法, 并传入参数
-     * @param methodName 要调用的h5方法名称
-     * @param param 参数
+     * 调用h5方法, 并传入参数 <br />
+     * {@link null 注意:}
+     * <ol>
+     *     <li>确保调用的h5方法没有返回值(return xxx;), 如果这个h5方法有返回值的话, 第2次再使用loadUrl()方式调用这方法h5会报错. (实测, 原因未探究)</li>
+     *     <li>如果你调用的h5方法有返回值, 请调用方法: {@link #callH5Method(String, ValueCallback, Object...)}</li>
+     * </ol>
+     * @param h5MethodName 要调用的h5方法名称
+     * @param params 可变参数(不要直接传数组, ∵传给h5的就是多个参数而不是数组对象)
      */
-    public void callH5Method(@NonNull String methodName, String param) {
-        loadUrl(TextUtils2.getStringFormat("javascript:%s(%s)", methodName, param));
+    @Deprecated
+    public void callH5Method(@NonNull String h5MethodName, Object... params) {
+        String param = params2String(params);
+        loadUrl(TextUtils2.getStringFormat("javascript:%s(%s)", h5MethodName, param));
     }
 
     /**
-     * 调用h5方法, 并传入json
+     * 调用h5方法, 并传入对象json
      * @param methodName 要调用的h5方法名称
-     * @param json 请务必是json
+     * @param json 请务必是json, 可以由数组[], Collection(列表), Map, Object 等通过{@link GsonUtils#toJson(Object)}转换而来
      */
+    @Deprecated
     public void callH5MethodByJson(@NonNull String methodName, String json) {
         loadUrl(TextUtils2.getStringFormat("javascript:%s(%s)", methodName, json));
+    }
+
+    /**
+     * 调用h5方法, 并传入参数 <br />
+     * {@link null 注意: 确保调用的h5方法没有返回值(return xxx;), 否则如果这个h5方法有返回值的话, 第2次再调用这方法h5会报错}
+     * @param h5MethodName 要调用的h5方法名称
+     * @param callback 回调
+     * @param params 参数
+     */
+    public void callH5Method(@NonNull String h5MethodName, @Nullable ValueCallback<String> callback, Object... params) {
+        String param = params2String(params);
+        evaluateJavascript(TextUtils2.getStringFormat("javascript:%s(%s)", h5MethodName, param), callback);
+    }
+
+    /**
+     * 调用h5方法, 并传入参数 <br />
+     * {@link null 注意: 确保调用的h5方法没有返回值(return xxx;), 否则如果这个h5方法有返回值的话, 第2次再调用这方法h5会报错}
+     * @param h5MethodName 要调用的h5方法名称
+     * @param callback 回调
+     * @param json 请务必是json, 可以由数组[], Collection(列表), Map, Object 等通过{@link GsonUtils#toJson(Object)}转换而来
+     */
+    public void callH5MethodByJson(@NonNull String h5MethodName, String json, @Nullable ValueCallback<String> callback) {
+        evaluateJavascript(TextUtils2.getStringFormat("javascript:%s(%s)", h5MethodName, json), callback);
     }
 
     /**
@@ -186,30 +211,49 @@ public class BaseWebView extends WebView {
     @Override
     public void evaluateJavascript(String script, @Nullable ValueCallback<String> resultCallback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            super.evaluateJavascript(script, resultCallback);
+            if (threadId == ThreadUtils.getCurrentThreadId()) {
+                super.evaluateJavascript(script, resultCallback);
+            } else {
+                post(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseWebView.super.evaluateJavascript(script, resultCallback);
+                    }
+                });
+            }
         } else {
             LogUtils.error("SDK >= Android 4.4 调用evaluateJavascript(...)才有回调!");
         }
     }
 
     /**
-     * 将参数转换成String
-     * "张三", 23  =>
+     * 将参数转换成String, 可传入: <br />
+     * byte, short, int, long, float, double, boolean, char, null, String, <br />
+     * {@link char 注意:} 如果传入char类型的参数, 有些低版本手机可能会报错, 例: 传入{@link Character#MAX_VALUE}, Honor 7A(Android 8.0.0) 会报错)
      */
-    public static String params2String(Object... params) {
+    @Nullable
+    protected String params2String(@Nullable Object... params) {
         if (params == null) return null;
         if (params.length == 0) return "";
+        String json = GsonUtils.toJson(params);
+        if (true) {
+            //去掉{}, 返回参数组成的字符串
+            return json.substring(1, json.length() - 1);
+        }
+        //if你发现转换的不对, 可重写此方法
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < params.length; i++) {
             Object param = params[i];
-            if (param instanceof Byte || param instanceof Short
-                    || param instanceof Integer || param instanceof Long
-                    || param instanceof Float || param instanceof Double
-                    || param instanceof Boolean || param instanceof Character
+            if (param == null || param instanceof Byte || param instanceof Short || param instanceof Integer
+                    || param instanceof Long || param instanceof Float || param instanceof Double
+                    || param instanceof Boolean
             ) {
                 str.append(param);
+            } else if (param.getClass().isArray()) {
+//                str.append(Arrays.toString((Object[]) param));  //转换有误, 字符串没""
+                str.append(GsonUtils.toJson(param));
             } else {
-                //Object, String, null, Others...
+                //char(要转成String, 否则传到h5不认识甚至会报错), String, Object, Others...
                 str.append("'").append(param).append("'");
             }
             if (i != params.length - 1) str.append(",");
