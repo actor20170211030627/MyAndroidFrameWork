@@ -60,9 +60,17 @@ android {
     }
 }
 
+afterEvaluate {
+    // 排除 BuildConfig.class 和 R.class
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+    generateReleaseResValues.enabled = false
+    generateDebugResValues.enabled = false
+}
+
 dependencies {
     //基础库
-    implementation project(path: ':library')
+    compileOnly project(path: ':library')
 
     //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等
     compileOnly files('../app/libs/open_sdk_3.5.15.6_r972e71b_lite.jar')

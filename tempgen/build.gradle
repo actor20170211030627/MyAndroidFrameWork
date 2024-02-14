@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        consumerProguardFiles 'proguard-rules.pro'//consumer-rules.pro
+        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -17,7 +17,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+}
 
+afterEvaluate {
+    // 排除 BuildConfig.class 和 R.class
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+    generateReleaseResValues.enabled = false
+    generateDebugResValues.enabled = false
 }
 
 dependencies {

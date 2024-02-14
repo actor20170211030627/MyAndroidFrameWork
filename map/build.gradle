@@ -59,10 +59,17 @@ android {
     }
 }
 
+afterEvaluate {
+    // 排除 BuildConfig.class 和 R.class
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+    generateReleaseResValues.enabled = false
+    generateDebugResValues.enabled = false
+}
+
 dependencies {
     //基础库
-    implementation project(path: ':library')
-
+    compileOnly project(path: ':library')
 
     //百度定位
     compileOnly 'com.baidu.lbsyun:BaiduMapSDK_Location:9.4.0'

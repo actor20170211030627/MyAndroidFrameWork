@@ -44,11 +44,14 @@ public class TextToSpeechUtils {
      */
     public static void init(Context context) {
         if (tts == null) {
-            tts = new TextToSpeech(ConfigUtils.APPLICATION, status -> {
-                if (status != TextToSpeech.SUCCESS) {
-                    LogUtils.error("SpeechListener, 初始化成功!");
-                } else {
-                    LogUtils.error("SpeechListener, 初始化失败!");
+            tts = new TextToSpeech(ConfigUtils.APPLICATION, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status != TextToSpeech.SUCCESS) {
+                        LogUtils.error("SpeechListener, 初始化成功!");
+                    } else {
+                        LogUtils.error("SpeechListener, 初始化失败!");
+                    }
                 }
             }, /*String engine*/ null);
         }

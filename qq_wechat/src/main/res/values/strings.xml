@@ -1,0 +1,4 @@
+<resources>
+    <!--为了打包的时候, 清单文件不报错-->
+    <string name="app_name" />
+</resources>

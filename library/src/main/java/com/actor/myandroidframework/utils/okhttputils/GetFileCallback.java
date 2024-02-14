@@ -60,7 +60,7 @@ public abstract class GetFileCallback extends BaseCallback<File> {
      */
     protected void initPath(@Nullable String downloadPath, @Nullable String fileName) {
         if (TextUtils.isEmpty(downloadPath)) downloadPath = PathUtils.getFilesPathExternalFirst();
-        if (TextUtils.isEmpty(fileName)) fileName = String.valueOf(System.currentTimeMillis());
+        if (TextUtils.isEmpty(fileName)) fileName = getFileNameFromUrl(downloadPath);
         downloadPathForGetFile = downloadPath;
         fileNameForGetFile = fileName;
     }

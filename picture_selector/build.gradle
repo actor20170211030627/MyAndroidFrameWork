@@ -12,7 +12,6 @@ android {
         versionName         rootProject.ext.android.versionName
 
         consumerProguardFiles "consumer-rules.pro"
-        consumerProguardFiles 'proguard-rules.pro'
     }
 
     buildTypes {
@@ -59,11 +58,24 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        // 剔除这个包下的所有文件（不会移除签名信息）
+        exclude 'META-INF/*******'
+    }
+}
+
+afterEvaluate {
+    // 排除 BuildConfig.class 和 R.class
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+    generateReleaseResValues.enabled = false
+    generateDebugResValues.enabled = false
 }
 
 dependencies {
     //基础库
-    implementation project(path: ':library')
+    compileOnly project(path: ':library')
 
     //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频(minSdkVersion 21)
     api 'io.github.lucksiege:pictureselector:v3.10.9'

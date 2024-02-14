@@ -59,9 +59,17 @@ android {
     }
 }
 
+afterEvaluate {
+    // 排除 BuildConfig.class 和 R.class
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+    generateReleaseResValues.enabled = false
+    generateDebugResValues.enabled = false
+}
+
 dependencies {
     //基础库
-    implementation project(path: ':library')
+    compileOnly project(path: ':library')
 
     //友盟基础组件库（所有友盟业务SDK都依赖基础组件库 <br />
     compileOnly  'com.umeng.umsdk:common:9.6.3'  // (必选) <br />

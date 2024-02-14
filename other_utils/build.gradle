@@ -62,7 +62,7 @@ android {
 
 dependencies {
     //基础库
-    implementation project(path: ':library')
+    compileOnly project(path: ':library')
 
     //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
     compileOnly 'com.contrarywind:Android-PickerView:4.1.9'

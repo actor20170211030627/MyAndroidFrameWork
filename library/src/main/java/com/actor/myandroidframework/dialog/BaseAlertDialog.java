@@ -13,6 +13,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.LogUtils;
+
 /**
  * Description: AlertDialog, 示例: <br />
  * 1.builder的方式
@@ -128,6 +130,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
      @Override
      protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         LogUtils.error("onCreate");
          int layoutResId = getLayoutResId();
          if (layoutResId != 0) setContentView(layoutResId);
 //        findViewById();

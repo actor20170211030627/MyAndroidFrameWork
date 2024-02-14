@@ -11,6 +11,7 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -113,6 +114,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtils.error("onCreate");
         if (getBottomSheetBehavior() != null) {
             bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
         }

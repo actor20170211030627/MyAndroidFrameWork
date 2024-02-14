@@ -9,7 +9,7 @@ android {
         versionCode         rootProject.ext.android.versionCode
         versionName         rootProject.ext.android.versionName
 
-        consumerProguardFiles 'proguard-rules.pro'
+        consumerProguardFiles 'consumer-rules.pro'
 
         //增加vector图像支持
         vectorDrawables.useSupportLibrary = true
@@ -57,8 +57,16 @@ android {
     }
 }
 
+afterEvaluate {
+    // 排除 BuildConfig.class 和 R.class
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+    generateReleaseResValues.enabled = false
+    generateDebugResValues.enabled = false
+}
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
     //基础库
     implementation project(path: ':library')
 }
