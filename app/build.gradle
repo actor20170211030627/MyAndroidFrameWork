@@ -24,7 +24,7 @@ android {
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "0cf598cd297e3f86949e40f5", //JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.(下载渠道)
         ]
     }
     //添加so库,与buildTypes { 同级
@@ -79,6 +79,9 @@ dependencies {
     //https://github.com/greenrobot/greenDAO
     implementation 'org.greenrobot:greendao:3.3.0'//数据库
 
+    //https://github.com/greenrobot/EventBus JPush各种操作&收到消息回调后使用EventBus转发
+    implementation 'org.greenrobot:eventbus:3.3.1'
+
     //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
     implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
 
@@ -96,7 +99,7 @@ dependencies {
 
     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
-    implementation 'cn.jiguang.sdk:jpush:5.0.3'    //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+    implementation 'cn.jiguang.sdk:jpush:5.2.2'    //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
 //    implementation 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
 
 
@@ -143,6 +146,8 @@ dependencies {
     implementation project(path: ':map')
 
     implementation project(path: ':qq_wechat')
+
+    implementation project(path: ':jpush')
 
 
 

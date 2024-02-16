@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.actor.jpush">
+
+    <!--注意: 下方的权限, JPush sdk里面全都默认集成了, 无语了家人们..-->
+
+    <!-- JPush自定义权限，用于发送接收广播权限校验（必选）-->
+    <permission
+        android:name="${applicationId}.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
+
+    <!-- 网络权限 （必选）-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 查看网络状态，sdk重连机制等需要使用-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 适配Android 13，应用弹出通知必须权限-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--允许应用获取粗略位置-->
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:node="remove" />
+    <!--允许应用获取精准位置-->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:node="remove" />
+    <!-- Android Q适配 应用后台定位权限 -->
+    <uses-permission
+        android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+        tools:node="remove" />
+
+
+    <!-- 极光推送 -->
+    <application>
+        <!--
+            https://docs.jiguang.cn/jpush/client/Android/android_guide#%E9%85%8D%E7%BD%AE-service
+            配置 Service
+            如果你使用的 JCore 是 2.0.0 及以上的版本，需要额外在 Androidmanifest 中配置一个 Service，以在更多手机平台上获得更稳定的支持，示例如下。（JCore1.x 版本不需要）
+         -->
+        <!-- Since JCore2.0.0 Required SDK核心功能 -->
+        <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
+        <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
+        <service
+            android:name=".PushService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+
+        <!--
+            https://docs.jiguang.cn/jpush/client/Android/android_guide#%E9%85%8D%E7%BD%AE%E5%9B%9E%E8%B0%83-service%EF%BC%88%E6%9B%BF%E6%8D%A2307%E7%9A%84receiver%EF%BC%89
+            配置回调 Service（替换3.0.7的Receiver）
+            从 JPush 5.2.0 开始，需要配置继承 JPushMessageService 的广播，原来如果配了 MyReceiver和JPushMessageReceiver 现在可以弃用。示例如下。
+        -->
+        <!-- Required since 5.2.0 -->
+        <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定义的Service -->
+        <!-- 5.2.0开始所有事件将通过该类回调 -->
+        <!-- 该广播需要继承 JPush 提供的 JPushMessageService 类, 并如下新增一个 Intent-Filter -->
+        <service
+            android:name=".PushMessageService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.SERVICE_MESSAGE" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </service>
+
+
+
+        <!-- 自定义Receiver, 接收被拉起回调 -->
+        <receiver android:name=".MyWakedResultReceiver" />
+    </application>
+</manifest>

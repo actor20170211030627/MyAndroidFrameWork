@@ -12,7 +12,7 @@ import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
-import com.actor.myandroidframework.utils.jpush.JPushUtils;
+import com.actor.jpush.JPushUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.actor.qq_wechat.QQUtils;
@@ -81,8 +81,9 @@ public class MyApplication extends ActorApplication {
 
         //极光推送示例
         JPushUtils.setDebugMode(isAppDebug());//设置调试模式,在 init 接口之前调用
-        JPushUtils.init(this);//初始化
-        JPushUtils.stopPush(this);//停止推送, 防止未登录就接收到消息
+        JPushUtils.setAuth(this, true); //同意隐私政策
+        JPushUtils.init(this, null);    //初始化
+        JPushUtils.stopPush(this);      //停止推送, 防止未登录就接收到消息
         //JPushUtils.setAlias(this, 0, "");//瞎设置一个别名, 作用是接收不到消息(设置""好像没作用? 下次设置更复杂的字符串)
 
 

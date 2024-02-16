@@ -1,4 +1,6 @@
-package com.actor.myandroidframework.utils.jpush;
+package com.actor.jpush;
+
+import androidx.annotation.NonNull;
 
 /**
  * description: 极光推送的Event事件
@@ -8,34 +10,35 @@ package com.actor.myandroidframework.utils.jpush;
  * @version 1.0
  */
 public class JPushEvent<T> {
-    public int code;
+    public String action;
     public boolean boo;
     public T obj;
 
-    public JPushEvent(int code) {
-        this.code = code;
+    public JPushEvent(String action) {
+        this.action = action;
     }
 
-    public JPushEvent(int code, boolean boo) {
-        this.code = code;
+    public JPushEvent(String action, boolean boo) {
+        this.action = action;
         this.boo = boo;
     }
 
-    public JPushEvent(int code, T obj) {
-        this.code = code;
+    public JPushEvent(String action, T obj) {
+        this.action = action;
         this.obj = obj;
     }
 
-    public JPushEvent(int code, boolean boo, T obj) {
-        this.code = code;
+    public JPushEvent(String action, boolean boo, T obj) {
+        this.action = action;
         this.boo = boo;
         this.obj = obj;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "JPushEvent{" +
-                "code=" + code +
+                "action=" + action +
                 ", boo=" + boo +
                 ", obj=" + obj +
                 '}';

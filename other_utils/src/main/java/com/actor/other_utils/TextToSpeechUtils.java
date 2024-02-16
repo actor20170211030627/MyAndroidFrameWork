@@ -16,6 +16,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -25,9 +26,16 @@ import java.util.Set;
  * description: <a href="https://www.jianshu.com/p/6e9cc56f080b">android 语音合成(文字转语音播放)</a> <br />
  *              <a href="https://blog.csdn.net/long375577908/article/details/78437278">TextToSpeech的使用</a> <br />
  *              <a href="https://www.jianshu.com/p/d1767a397c10">文本转语音TTS开发Android11适配方案</a> <br />
- *              <br />
- * Android自带文字转语音支持:TextToSpeech, 但是在6.0之前不支持中文播放 <br />
+ * 需要在清单文件中的&lt;manifest>标签里面添加: <br />
+ * <pre>
+ *     &lt;queries>
+ *         &lt;intent>
+ *             &lt;action android:name="android.intent.action.TTS_SERVICE" /&gt;
+ *         &lt;/intent>
+ *     &lt;/queries>
+ * </pre>
  *
+ *  Android自带文字转语音支持:TextToSpeech, 但是在6.0之前不支持中文播放 <br />
  *  从文本合成语音以立即播放或创建声音文件。 TextToSpeech实例仅在完成初始化后才能用于合成文本。
  *  使用TextToSpeech实例完成后，请调用 {@link #shutdown()} 方法以释放TextToSpeech引擎使用的本机资源。
  * @author : ldf
@@ -411,16 +419,21 @@ public class TextToSpeechUtils {
     /**
      * 使用传入的参数转化给定的文字到文件
      */
-    public static boolean synthesizeToFile(CharSequence text, Bundle params, File file, String utteranceId) {
+    public static boolean synthesizeToFile(CharSequence text, Bundle params, File file, String utteranceId) throws FileNotFoundException {
         if (tts != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 //Android 11.0 = 30
-                return tts.synthesizeToFile(text, params, (ParcelFileDescriptor) null, utteranceId) == TextToSpeech.SUCCESS;
+                //FileNotFoundException
+                ParcelFileDescriptor fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_WRITE);
+                return tts.synthesizeToFile(text, params, fileDescriptor, utteranceId) == TextToSpeech.SUCCESS;
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 //Android 5.0 = 21
                 return tts.synthesizeToFile(text, params, file, utteranceId) == TextToSpeech.SUCCESS;
             } else {
-                return tts.synthesizeToFile(text.toString(), (HashMap<String, String>) null, file.getAbsolutePath()) == TextToSpeech.SUCCESS;
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, String.valueOf(System.currentTimeMillis()));
+                //还有一些其它参数...
+                return tts.synthesizeToFile(text.toString(), hashMap, file.getAbsolutePath()) == TextToSpeech.SUCCESS;
             }
         }
         return false;

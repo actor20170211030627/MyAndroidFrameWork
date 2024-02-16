@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.actor.jpush.JPushEvent;
+import com.actor.jpush.JPushUtils;
+import com.actor.jpush.PushMessageService;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.jpush.JPushEvent;
-import com.actor.myandroidframework.utils.jpush.JPushUtils;
-import com.actor.myandroidframework.utils.jpush.MyJPushMessageReceiver;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityJpushBinding;
 
@@ -57,7 +57,7 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
     public void onMessage(JPushEvent<CustomMessage> event) {
         tvResult.setText("");//clear
         //这儿接收自定义消息, 还有其它的消息类型
-        if (event != null && event.code == MyJPushMessageReceiver.TYPE_MESSAGE) {
+        if (event != null && event.action.equals(PushMessageService.TYPE_MESSAGE)) {
             CustomMessage message = event.obj;
             if (message != null) {
                 tvResult.setText(message.toString());
@@ -72,8 +72,8 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
         if (event == null) return;
         JPushMessage message = event.obj;
         if (message == null) return;
-        switch (event.code) {
-            case MyJPushMessageReceiver.TYPE_ALIAS_OPERATOR_RESULT://alias(别名) 相关的操作
+        switch (event.action) {
+            case PushMessageService.TYPE_ALIAS_OPERATOR_RESULT://alias(别名) 相关的操作
                 int errorCode = message.getErrorCode();
                 //别名设置错误, 常见错误6002: 设置超时  建议重试，一般出现在网络不佳、初始化尚未完成时。
                 if (errorCode != 0) {

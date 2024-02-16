@@ -38,7 +38,7 @@ public class LogUtils {
      */
     public static void verboseFormat(@NonNull String format, @Nullable Object... args) {
         //直接调用, 否则堆栈位置不正确
-        printlnLogInfo(Log.VERBOSE, TextUtils2.getStringFormat(format, args), null, mStackPosition);
+        if (IS_DEBUG_MODE) printlnLogInfo(Log.VERBOSE, TextUtils2.getStringFormat(format, args), null, mStackPosition);
     }
     public static void verbose(@Nullable Object msg) {
         printlnLogInfo(Log.VERBOSE, msg, null, mStackPosition);
@@ -52,7 +52,7 @@ public class LogUtils {
 
 
     public static void debugFormat(@NonNull String format, @Nullable Object... args) {
-        printlnLogInfo(Log.DEBUG, TextUtils2.getStringFormat(format, args), null, mStackPosition);
+        if (IS_DEBUG_MODE) printlnLogInfo(Log.DEBUG, TextUtils2.getStringFormat(format, args), null, mStackPosition);
     }
     public static void debug(@Nullable Object msg) {
         printlnLogInfo(Log.DEBUG, msg, null, mStackPosition);
@@ -66,7 +66,7 @@ public class LogUtils {
 
 
     public static void infoFormat(@NonNull String format, @Nullable Object... args) {
-        printlnLogInfo(Log.INFO, TextUtils2.getStringFormat(format, args), null, mStackPosition);
+        if (IS_DEBUG_MODE) printlnLogInfo(Log.INFO, TextUtils2.getStringFormat(format, args), null, mStackPosition);
     }
     public static void info(@Nullable Object msg) {
         printlnLogInfo(Log.INFO, msg, null, mStackPosition);
@@ -80,7 +80,7 @@ public class LogUtils {
 
 
     public static void warnFormat(@NonNull String format, @Nullable Object... args) {
-        printlnLogInfo(Log.WARN, TextUtils2.getStringFormat(format, args), null, mStackPosition);
+        if (IS_DEBUG_MODE) printlnLogInfo(Log.WARN, TextUtils2.getStringFormat(format, args), null, mStackPosition);
     }
     public static void warn(@Nullable Object msg) {
         printlnLogInfo(Log.WARN, msg, null, mStackPosition);
@@ -94,7 +94,7 @@ public class LogUtils {
 
 
     public static void errorFormat(@NonNull String format, @Nullable Object... args) {
-        printlnLogInfo(Log.ERROR, TextUtils2.getStringFormat(format, args), null, mStackPosition);
+        if (IS_DEBUG_MODE) printlnLogInfo(Log.ERROR, TextUtils2.getStringFormat(format, args), null, mStackPosition);
     }
     public static void error(@Nullable Object msg) {
         printlnLogInfo(Log.ERROR, msg, null, mStackPosition);

@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.jpush;
+package com.actor.jpush;
 
 import cn.jpush.android.service.JCommonService;
 

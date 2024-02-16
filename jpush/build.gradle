@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30    //rootProject.ext.android.compileSdkVersion
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion       19  //rootProject.ext.android.minSdkVersion
-        targetSdkVersion    30  //rootProject.ext.android.targetSdkVersion
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
         versionCode         rootProject.ext.android.versionCode
         versionName         rootProject.ext.android.versionName
 
@@ -16,7 +16,6 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -69,9 +68,14 @@ afterEvaluate {
 }
 
 dependencies {
-    //基础库
-    compileOnly project(path: ':library')
+    api project(path: ':library')
 
-    //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
-    compileOnly 'com.contrarywind:Android-PickerView:4.1.9'
+    //https://github.com/greenrobot/EventBus JPush各种操作&收到消息回调后使用EventBus转发
+    compileOnly 'org.greenrobot:eventbus:3.3.1'
+
+    //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
+    //http://docs.jiguang.cn/jpush/updates/ 最新版本号
+    //https://docs.jiguang.cn/jpush/client/Android/android_guide#配置-mavencentral-支持
+    compileOnly 'cn.jiguang.sdk:jpush:5.2.2'    //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+//    compileOnly 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
 }

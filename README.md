@@ -24,9 +24,6 @@ api 'com.squareup.retrofit2:converter-gson:2.9.0'
 <li>//https://github.com/bumptech/glide
 api 'com.github.bumptech.glide:glide:4.12.0'
 </li>
-<li>//https://github.com/greenrobot/EventBus
-api 'org.greenrobot:eventbus:3.3.1'
-</li>
 <li>//https://github.com/Blankj/AndroidUtilCode 许多工具
 api 'com.blankj:utilcodex:1.31.1'
 </li>
@@ -74,7 +71,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
 <s><a href="library/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java" target="_blank">SQLiteDatabaseUtils</a> (原生数据库)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/jpush/JPushUtils.java" target="_blank">JPushUtils</a> (极光推送)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" target="_blank">MyOkHttpUtils</a> (Okhttp网络请求)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" target="_blank">RetrofitNetwork</a> (retrofit简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" target="_blank">SharedElementUtils</a> (元素共享跳转页面)
@@ -83,7 +79,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java" target="_blank">VideoProcessorUtils</a> (视频压缩)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java" target="_blank">AssetsUtils</a> (Assets读取)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BaseCountDownTimer.java" target="_blank">BaseCountDownTimer</a> (倒计时, 可暂停, 继续, 获取计时时间)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/BirthdayUtils.java" target="_blank">BirthdayUtils</a> (生日: 天数倒数, 农历生日, 年龄)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BRVUtils.java" target="_blank">BRVUtils</a> (BaseRecyclerView框架辅助)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java" target="_blank">LogUtils</a> (Log简单打印)
@@ -172,69 +167,93 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
             <s>implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's latest version'(Gitee在jitpack不能打包,不再维护 Deprecated)</s>
     }
 </pre>
+
 <pre>
-            /**
-             * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
-             * 并可使用: <a href="picture_selector/src/main/java/com/actor/picture_selector/utils/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
-             *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
-             *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
-             *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddVideoAdapter.java" target="_blank">AddVideoAdapter(选择添加视频)</a>
-             */
-            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:picture_selector:github's latest version'
-            // 图片压缩 (按需引入): 如果你选择图片/拍照后, 需要使用压缩图片功能, 需要添加下面这行依赖
-            implementation 'io.github.lucksiege:compress:v3.10.9'
-            // 图片裁剪 (按需引入)
-            implementation 'io.github.lucksiege:ucrop:v3.10.9'
-            // 自定义相机 (按需引入)
-            implementation 'io.github.lucksiege:camerax:v3.10.9'
-</pre>
-<pre>
-            /**
-             * 如果需要聊天, 可添加如下依赖 (按需引入)
-             * 并可使用: <a href="chat_layout/src/main/java/com/actor/chat_layout/VoiceRecorderView.java" target="_blank">VoiceRecorderView</a> (低仿微信录音)
-             *          <a href="chat_layout/src/main/java/com/actor/chat_layout/ChatLayout.java" target="_blank">ChatLayout</a> (聊天框,语言,emoji表情,自定义功能按钮, 效果见上图)
-             */
-            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:chat_layout:github's latest version'
-            //如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入), emoji表情初始化可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>
-            implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github's latest version'
-</pre>
-<pre>
-            /**
-             * 如果需要百度/高德地图, 可添加如下依赖 (按需引入)
-             * 并可使用:
-             * <a href="map/src/main/java/com/actor/map/baidu/BaiduGeoCoderUtils.java" target="_blank">BaiduGeoCoderUtils</a> (百度地理编码)
-             * <a href="map/src/main/java/com/actor/map/baidu/BaiduLocationUtils.java" target="_blank">BaiduLocationUtils</a> (百度地图定位)
-             * <a href="map/src/main/java/com/actor/map/baidu/BaiduMapUtils.java" target="_blank">BaiduMapUtils</a> (百度地图)
-             * <a href="map/src/main/java/com/actor/map/baidu/BaiduUriApiUtils.java" target="_blank">BaiduUriApiUtils</a> (百度地图Uri调起)<b>(注意: 本工具类不用集成百度地图SDK)</b>
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDe3DMapUtils.java" target="_blank">GaoDe3DMapUtils</a> (高德3D地图)
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeGeoCoderUtils.java" target="_blank">GaoDeGeoCoderUtils</a> (高德地理编码)
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeLocationUtils.java" target="_blank">GaoDeLocationUtils</a> (高德地图定位)
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeShapeUtils.java" target="_blank">GaoDeShapeUtils</a> (高德画形状小工具)
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUiSettingUtils.java" target="_blank">GaoDeUiSettingUtils</a> (高德地图UI界面)
-             * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUriApiUtils.java" target="_blank">GaoDeUriApiUtils</a> (高德地图Uri调起)<b>(注意: 本工具类不用集成高德地图SDK)</b>
-             */
-             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:map:github's latest version'
-</pre>
-<pre>
-            /**
-             * 如果需要友盟统计/推送, 可添加如下依赖 (按需引入)
-             * 并可使用:
-             * <a href="umeng/src/main/java/com/actor/umeng/UMConfigureUtils.java" target="_blank">UMConfigureUtils</a> (友盟基础配置)
-             * <a href="umeng/src/main/java/com/actor/umeng/UMAnalyticsUtils.java" target="_blank">UMAnalyticsUtils</a> (友盟统计)
-             * <a href="umeng/src/main/java/com/actor/umeng/UMPushUtils.java" target="_blank">UMPushUtils</a> (友盟推送)
-             */
-             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:umeng:github's latest version'
-</pre>
-<pre>
-            /**
-             * 如果需要MPAndroidChart 图表, 可添加如下依赖(仅简单封装,可供参考) (按需引入)
-             * 并可使用:
-             * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/BarChartUtils.java" target="_blank">BarChartUtils</a> (柱状图)
-             * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/LineChartUtils.java" target="_blank">LineChartUtils</a> (折线图)
-             */
-             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:mp_android_chart:github's latest version'
+/**
+ * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
+ * 并可使用: <a href="picture_selector/src/main/java/com/actor/picture_selector/utils/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
+ *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
+ *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
+ *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddVideoAdapter.java" target="_blank">AddVideoAdapter(选择添加视频)</a>
+ */
+implementation 'com.github.actor20170211030627.MyAndroidFrameWork:picture_selector:github's latest version'
+// 图片压缩 (按需引入): 如果你选择图片/拍照后, 需要使用压缩图片功能, 需要添加下面这行依赖
+implementation 'io.github.lucksiege:compress:v3.10.9'
+// 图片裁剪 (按需引入)
+implementation 'io.github.lucksiege:ucrop:v3.10.9'
+// 自定义相机 (按需引入)
+implementation 'io.github.lucksiege:camerax:v3.10.9'
 </pre>
 
+<pre>
+/**
+ * 如果需要聊天, 可添加如下依赖 (按需引入)
+ * 并可使用: <a href="chat_layout/src/main/java/com/actor/chat_layout/VoiceRecorderView.java" target="_blank">VoiceRecorderView</a> (低仿微信录音)
+ *          <a href="chat_layout/src/main/java/com/actor/chat_layout/ChatLayout.java" target="_blank">ChatLayout</a> (聊天框,语言,emoji表情,自定义功能按钮, 效果见上图)
+ */
+implementation 'com.github.actor20170211030627.MyAndroidFrameWork:chat_layout:github's latest version'
+//如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入), emoji表情初始化可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>
+implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github's latest version'
+</pre>
+
+<pre>
+/**
+ * 如果需要百度/高德地图, 可添加如下依赖 (按需引入)
+ * 并可使用:
+ * <a href="map/src/main/java/com/actor/map/baidu/BaiduGeoCoderUtils.java" target="_blank">BaiduGeoCoderUtils</a> (百度地理编码)
+ * <a href="map/src/main/java/com/actor/map/baidu/BaiduLocationUtils.java" target="_blank">BaiduLocationUtils</a> (百度地图定位)
+ * <a href="map/src/main/java/com/actor/map/baidu/BaiduMapUtils.java" target="_blank">BaiduMapUtils</a> (百度地图)
+ * <a href="map/src/main/java/com/actor/map/baidu/BaiduUriApiUtils.java" target="_blank">BaiduUriApiUtils</a> (百度地图Uri调起)<b>(注意: 本工具类不用集成百度地图SDK)</b>
+ * <a href="map/src/main/java/com/actor/map/gaode/GaoDe3DMapUtils.java" target="_blank">GaoDe3DMapUtils</a> (高德3D地图)
+ * <a href="map/src/main/java/com/actor/map/gaode/GaoDeGeoCoderUtils.java" target="_blank">GaoDeGeoCoderUtils</a> (高德地理编码)
+ * <a href="map/src/main/java/com/actor/map/gaode/GaoDeLocationUtils.java" target="_blank">GaoDeLocationUtils</a> (高德地图定位)
+ * <a href="map/src/main/java/com/actor/map/gaode/GaoDeShapeUtils.java" target="_blank">GaoDeShapeUtils</a> (高德画形状小工具)
+ * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUiSettingUtils.java" target="_blank">GaoDeUiSettingUtils</a> (高德地图UI界面)
+ * <a href="map/src/main/java/com/actor/map/gaode/GaoDeUriApiUtils.java" target="_blank">GaoDeUriApiUtils</a> (高德地图Uri调起)<b>(注意: 本工具类不用集成高德地图SDK)</b>
+ */
+ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:map:github's latest version'
+</pre>
+
+<pre>
+/**
+ * 如果需要极光推送, 可添加如下依赖 (按需引入)
+ * 并可使用:
+ * <a href="jpush/src/main/java/com/actor/jpush/JPushUtils.java" target="_blank">JPushUtils</a> (极光推送)
+ */
+ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:jpush:github's latest version'
+ //https://github.com/greenrobot/EventBus JPush各种操作&收到消息回调后使用EventBus转发
+ implementation 'org.greenrobot:eventbus:3.3.1'
+</pre>
+
+<pre>
+/**
+ * 如果需要友盟统计/推送, 可添加如下依赖 (按需引入)
+ * 并可使用:
+ * <a href="umeng/src/main/java/com/actor/umeng/UMConfigureUtils.java" target="_blank">UMConfigureUtils</a> (友盟基础配置)
+ * <a href="umeng/src/main/java/com/actor/umeng/UMAnalyticsUtils.java" target="_blank">UMAnalyticsUtils</a> (友盟统计)
+ * <a href="umeng/src/main/java/com/actor/umeng/UMPushUtils.java" target="_blank">UMPushUtils</a> (友盟推送)
+ */
+ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:umeng:github's latest version'
+</pre>
+
+<pre>
+/**
+ * 如果需要MPAndroidChart 图表, 可添加如下依赖(仅简单封装,可供参考) (按需引入)
+ * 并可使用:
+ * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/BarChartUtils.java" target="_blank">BarChartUtils</a> (柱状图)
+ * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/LineChartUtils.java" target="_blank">LineChartUtils</a> (折线图)
+ */
+ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:mp_android_chart:github's latest version'
+</pre>
+
+<pre>
+/**
+ * 还有一些其它不常用工具类: (按需引入)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/BirthdayUtils.java" target="_blank">BirthdayUtils</a> (生日: 天数倒数, 农历生日, 年龄)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/TextToSpeechUtils.java" target="_blank">TextToSpeechUtils</a> (Android自带文字转语音支持)
+ */
+ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:other_utils:github's latest version'
+</pre>
 
 
 
