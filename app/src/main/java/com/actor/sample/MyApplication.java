@@ -1,10 +1,8 @@
 package com.actor.sample;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.actor.chat_layout.ChatLayoutKit;
 import com.actor.chat_layout.emoji.DefaultEmojiList;
+import com.actor.jpush.JPushUtils;
 import com.actor.map.baidu.BaiduLocationUtils;
 import com.actor.map.baidu.BaiduMapUtils;
 import com.actor.map.gaode.GaoDe3DMapUtils;
@@ -12,7 +10,6 @@ import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
-import com.actor.jpush.JPushUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.actor.qq_wechat.QQUtils;
@@ -38,7 +35,7 @@ public class MyApplication extends ActorApplication {
         instance = this;
 
         //配置BaseUrl
-        MyOkHttpUtils.init(Global.BASE_URL_GITHUB);
+        MyOkHttpUtils.setBaseUrl(Global.BASE_URL_GITHUB);
         RetrofitNetwork.init(Global.BASE_URL_GITHUB);
 
         /**

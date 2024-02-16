@@ -34,6 +34,20 @@ import okhttp3.WebSocketListener;
 
 /**
  * description: 这是对鸿洋大神okhttputils的简单封装, get/post方式请求数据, 上传单个/多个文件, 下载文件, getBitmap <br />
+ * 1.使用前需要添加依赖
+ * <pre>
+ *     //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
+ *     implementation ('com.zhy:okhttputils:2.6.2') {
+ *         exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
+ *     }
+ * </pre>
+ * 2.如果你要混淆代码, 需要添加以下混淆规则:
+ * <pre>
+ *     #############################################################################
+ *     ## okhttputils
+ *     -dontwarn com.zhy.http.**
+ *     -keep class com.zhy.http.**{*;}
+ * </pre>
  * Author     : ldf <br />
  * date       : 2019/3/13 on 17:37
  *
@@ -54,9 +68,16 @@ public class MyOkHttpUtils {
     protected static String baseUrl = "";
 
     /**
-     * 初始化
+     * 配置张鸿洋的OkHttpUtils
      */
-    public static void init(@NonNull String baseUrl) {
+    public static void setOkHttpClient(@NonNull OkHttpClient okhttpClient) {
+        OkHttpUtils.initClient(okhttpClient);
+    }
+
+    /**
+     * 设置BaseUrl
+     */
+    public static void setBaseUrl(@NonNull String baseUrl) {
         if (baseUrl != null) MyOkHttpUtils.baseUrl = baseUrl;
     }
 

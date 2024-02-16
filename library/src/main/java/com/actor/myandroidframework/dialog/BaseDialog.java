@@ -49,6 +49,8 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
     //Widnow宽度
     protected int windowWidth = WindowManager.LayoutParams.MATCH_PARENT;
     protected int windowHeight = WindowManager.LayoutParams.WRAP_CONTENT;
+    //onCreate的时候, 是否打印这个Dialog的名称
+    protected boolean isPrintNameOnCreate = true;
 
     public BaseDialog(@NonNull Context context) {
         //给dialog设置样式, 去掉标题栏, 宽度全屏
@@ -92,7 +94,7 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.error("onCreate");
+        if (isPrintNameOnCreate) LogUtils.error(this.getClass().getName());
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
         Window window = getWindow();
         if (window != null) {

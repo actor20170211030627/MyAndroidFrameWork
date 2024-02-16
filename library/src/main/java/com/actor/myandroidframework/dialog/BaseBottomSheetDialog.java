@@ -114,7 +114,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.error("onCreate");
+        LogUtils.error(this.getClass().getName());
         if (getBottomSheetBehavior() != null) {
             bottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
         }

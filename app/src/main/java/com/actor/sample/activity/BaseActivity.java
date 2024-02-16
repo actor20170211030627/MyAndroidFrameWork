@@ -4,8 +4,6 @@ import androidx.annotation.LayoutRes;
 import androidx.viewbinding.ViewBinding;
 
 import com.actor.myandroidframework.activity.ViewBindingActivity;
-import com.actor.sample.MyApplication;
-import com.blankj.utilcode.util.CacheDiskUtils;
 
 /**
  * Description: 基类
@@ -17,10 +15,6 @@ public class BaseActivity<VB extends ViewBinding> extends ViewBindingActivity<VB
 
 //    protected FrameLayout  flContent;//主要内容的帧布局
 //    protected LinearLayout llEmpty;  //没数据
-
-    //硬盘缓存
-    protected CacheDiskUtils aCache = MyApplication.instance.aCache;
-
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

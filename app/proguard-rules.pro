@@ -22,3 +22,9 @@
 
 # gson 不混淆Bean类:
  -keep class com.actor.sample.info.** { *; }
+
+
+#############################################################################
+## okhttputils
+-dontwarn com.zhy.http.**
+-keep class com.zhy.http.**{*;}

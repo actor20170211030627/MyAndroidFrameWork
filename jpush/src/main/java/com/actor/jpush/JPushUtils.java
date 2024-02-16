@@ -270,7 +270,9 @@ public class JPushUtils {
      * @param config 如果你在build.gradle中设置了 JPUSH_APPKEY 等, 并且没配置厂商通道的话, config可传null
      */
     public static void init(@NonNull Context context, @Nullable JPushConfig config) {
-        JPushInterface.init(context, config);
+        if (config == null) {
+            JPushInterface.init(context);
+        } else JPushInterface.init(context, config);
     }
 
 

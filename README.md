@@ -12,14 +12,12 @@
 ## 安卓常用组件&框架(懒得每次都搭架子...)
 ### 1.集成框架包括如下列表, 具体见 <a href="library/build.gradle" target="_blank">build.gradle</a>:
 <pre>
-<ol><li>//https://github.com/google/gson converter-gson 已经依赖了Gson2.8.5
-//不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
-//api 'com.google.code.gson:gson:2.8.5'
+<ol><li>//https://github.com/square/okhttp
+api "com.squareup.okhttp3:okhttp:4.9.2"
 </li>
-<li>//https://github.com/square/retrofit
-api 'com.squareup.retrofit2:retrofit:2.9.0'
-//https://github.com/square/retrofit/tree/master/retrofit-converters/gson
-api 'com.squareup.retrofit2:converter-gson:2.9.0'
+<li>//https://github.com/google/gson
+//不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
+api 'com.google.code.gson:gson:2.10.1'
 </li>
 <li>//https://github.com/bumptech/glide
 api 'com.github.bumptech.glide:glide:4.12.0'
@@ -36,18 +34,16 @@ api 'com.github.getActivity:XXPermissions:18.6'
 <li>// 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
 api 'com.github.getActivity:Toaster:12.6'
 </li>
-<li>// Shape 框架：https://github.com/getActivity/ShapeView
+<li>// Shape 框架：https://github.com/getActivity/ShapeView 轮子哥
 api 'com.github.getActivity:ShapeView:9.0'
+</li>
+<li>//https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
+api 'com.github.getActivity:EasyHttp:12.8'
 </li>
 <li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
 api 'com.github.li-xiaojun:XPopup:2.9.19'
-</li>
-<li>//https://github.com/square/okhttp
-api "com.squareup.okhttp3:okhttp:4.9.2"
-</li>
-<li>//https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp
-api 'com.zhy:okhttputils:2.6.2'
-</li></ol></pre>
+</li></ol>
+</pre>
 
 ## 2.一些控件和工具类等
 **2.1.ViewPager的Adapter**
@@ -69,7 +65,6 @@ api 'com.zhy:okhttputils:2.6.2'
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放录音)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
-<s><a href="library/src/main/java/com/actor/myandroidframework/utils/database/SQLiteDatabaseUtils.java" target="_blank">SQLiteDatabaseUtils</a> (原生数据库)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" target="_blank">MyOkHttpUtils</a> (Okhttp网络请求)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" target="_blank">RetrofitNetwork</a> (retrofit简单封装)

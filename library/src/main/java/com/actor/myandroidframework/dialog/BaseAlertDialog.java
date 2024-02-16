@@ -130,7 +130,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
      @Override
      protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         LogUtils.error("onCreate");
+         LogUtils.error(this.getClass().getName());
          int layoutResId = getLayoutResId();
          if (layoutResId != 0) setContentView(layoutResId);
 //        findViewById();

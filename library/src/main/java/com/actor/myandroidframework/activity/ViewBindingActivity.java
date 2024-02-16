@@ -11,16 +11,17 @@ import androidx.viewbinding.ViewBinding;
 import com.actor.myandroidframework.utils.ViewBindingUtils;
 
 /**
- * description: 可以初始化 ViewBinding 的Activity
+ * description: 可以初始化 ViewBinding 的Activity <br />
  * 注意, 如果使用viewBinding, 需要在模块的build.gradle中添加:
- * android {
- *     ...
- *     buildFeatures {
- *       //使用viewBinding
- *       viewBinding = true
+ * <pre>
+ *     android {
+ *         ...
+ *         buildFeatures {
+ *           //使用viewBinding
+ *           viewBinding = true
+ *         }
  *     }
- * }
- *
+ * </pre>
  * @author : ldf
  * date       : 2021/9/2 on 18
  * @version 1.0

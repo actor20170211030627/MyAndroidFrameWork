@@ -82,23 +82,45 @@
      <init>(...);
 }
 
+
+#############################################################################
+## OkHttp3 框架混淆规则
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+
+# okio
+-dontwarn okio.**
+-keep class okio.**{*;}
+
+
 #############################################################################
 ## https://github.com/getActivity/XXPermissions
 -keep class com.hjq.permissions.** {*;}
 
+
 #############################################################################
-## okhttputils
-#okhttputils
--dontwarn com.zhy.http.**
--keep class com.zhy.http.**{*;}
+## Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 
-#okhttp
--dontwarn okhttp3.**
--keep class okhttp3.**{*;}
+# for DexGuard only(fixed: DexGuard 基于 ProGuard, 报错, 先注释掉)
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
-#okio
--dontwarn okio.**
--keep class okio.**{*;}
+
+#############################################################################
+## AndroidUtilCode
+-dontwarn com.blankj.utilcode.**
+
+
+#############################################################################
+## https://github.com/getActivity/Toaster
+-keep class com.hjq.toast.** {*;}
+
 
 #############################################################################
 ## Retrofit
@@ -130,31 +152,6 @@
 # and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
 -if interface * { @retrofit2.http.* <methods>; }
 -keep,allowobfuscation interface <1>
-
-# okhttp
-# 混淆见上方okhttp
-
-#############################################################################
-## Glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
-# for DexGuard only(fixed: DexGuard 基于 ProGuard, 报错, 先注释掉)
-#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-
-
-#############################################################################
-## AndroidUtilCode
--dontwarn com.blankj.utilcode.**
-
-
-#############################################################################
-## https://github.com/getActivity/Toaster
--keep class com.hjq.toast.** {*;}
 
 
 #############################################################################
@@ -189,6 +186,16 @@ public static java.lang.String TABLENAME;
 ## https://github.com/sqlcipher/android-database-sqlcipher greenDao数据库加密
 -keep,includedescriptorclasses class net.sqlcipher.** { *; }
 -keep,includedescriptorclasses interface net.sqlcipher.** { *; }
+
+
+#############################################################################
+# EasyHttp 框架混淆规则
+-keep class com.hjq.http.** {*;}
+# 不混淆实现 OnHttpListener 接口的类
+# 必须要加上此规则，否则会导致泛型解析失败
+-keep public class * implements com.hjq.http.listener.OnHttpListener {
+    *;
+}
 
 
 #############################################################################

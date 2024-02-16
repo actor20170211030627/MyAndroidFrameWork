@@ -19,12 +19,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Description: Retrofit网络请求 <br />
+ * 1.由于本人用不习惯Retrofit, ∴if你要使用的话, 需要自己添加以下依赖: <br />
+ * <pre>
+ *     //https://github.com/square/retrofit
+ *     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+ *     //https://github.com/square/retrofit/tree/master/retrofit-converters/gson (已经依赖了Gson2.8.5)
+ *     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+ * </pre>
  * Author     : ldf <br />
  * Date       : 2019/3/15 on 9:20
- *
- * @version 1.0 <br />
- *          1.1 修改一点点东西
+ * @deprecated 建议使用轮子哥的 {@link com.hjq.http.EasyHttp}
  */
+@Deprecated
 public class RetrofitNetwork {
 
     /**

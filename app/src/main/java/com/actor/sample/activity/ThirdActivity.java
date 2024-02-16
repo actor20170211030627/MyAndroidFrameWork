@@ -137,25 +137,8 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                 break;
 
 
+
             //下方是微信区
-            case R.id.btn_pay_wechat://微信支付
-                if (WeChatUtils.isWXAppInstalled()) {
-                    //使用服务器返回的以下几个参数↓
-                    WeChatUtils.pay("partnerId", "prepayId", "nonceStr", "timeStamp", "sign", new WxPayListener() {
-                        @Override
-                        public void onPaySuccess(@NonNull BaseResp baseResp) {
-                            ToasterUtils.success("支付成功");
-                        }
-                        @Override
-                        public void onPayError(@NonNull BaseResp baseResp) {
-                            //支付失败, 使用默认提示. (也可注释下面这句, 使用自定义提示)
-                            WxPayListener.super.onPayError(baseResp);
-                        }
-                    });
-                } else {
-                    ToasterUtils.warning("您手机尚未安装微信");
-                }
-                break;
             case R.id.btn_login_wechat://微信登录
                 if (WeChatUtils.isWXAppInstalled()) {
                     WeChatUtils.login("snsapi_userinfo", "test-----微信登录", new WxLoginListener() {
@@ -177,6 +160,9 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                 } else {
                     ToasterUtils.warning("您手机尚未安装微信，请安装后再登录");
                 }
+                break;
+            case R.id.btn_login_wechat_qrcode://微信扫码登录
+                ToasterUtils.warning("二维码登录的参数需要从服务器获取, 这儿暂未实现!");
                 break;
             case R.id.btn_share_text://分享文字
                 WeChatUtils.sendReqText("这是分享的文字", SendMessageToWX.Req.WXSceneSession);
@@ -228,6 +214,24 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         "https://music.163.com/song/media/outer/url?id=1646740.mp3",
                         "音乐标题", "音乐描述", coverMusic, SendMessageToWX.Req.WXSceneSession);
                 coverMusic.recycle();
+                break;
+            case R.id.btn_pay_wechat://微信支付
+                if (WeChatUtils.isWXAppInstalled()) {
+                    //使用服务器返回的以下几个参数↓
+                    WeChatUtils.pay("partnerId", "prepayId", "nonceStr", "timeStamp", "sign", new WxPayListener() {
+                        @Override
+                        public void onPaySuccess(@NonNull BaseResp baseResp) {
+                            ToasterUtils.success("支付成功");
+                        }
+                        @Override
+                        public void onPayError(@NonNull BaseResp baseResp) {
+                            //支付失败, 使用默认提示. (也可注释下面这句, 使用自定义提示)
+                            WxPayListener.super.onPayError(baseResp);
+                        }
+                    });
+                } else {
+                    ToasterUtils.warning("您手机尚未安装微信");
+                }
                 break;
             case R.id.btn_pay_offline://打开离线支付
                 WeChatUtils.payOffline();

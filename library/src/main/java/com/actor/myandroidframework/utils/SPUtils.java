@@ -62,8 +62,7 @@ import java.util.Set;
  *         <td>5.如果使用 {@link com.blankj.utilcode.util.CacheDiskUtils#getInstance(File) CacheDiskUtils.getInstance(File)}</td>
  *         <td>同上</td>
  *         <td>
- *             不会丢数据 <br />
- *             (如果想长期存储, file 传 'getFilesDir()'. 已经在 {@link com.actor.myandroidframework.application.ActorApplication ActorApplication}) 中配置, 直接用: {@link com.actor.myandroidframework.application.ActorApplication#aCache ActorApplication.aCache})就行!
+ *             不会丢数据 (如果想长期存储, 可将参数 File 传 'context.getFilesDir()')
  *         </td>
  *     </tr>
  * </table>

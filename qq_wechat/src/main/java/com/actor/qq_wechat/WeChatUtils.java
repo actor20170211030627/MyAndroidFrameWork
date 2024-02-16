@@ -82,8 +82,7 @@ public class WeChatUtils {
 
     /**
      * 应用密钥 AppSecret，在微信开放平台提交应用审核通过后获得(不要放在客户端!!!)
-     * @deprecated Appsecret 是应用接口使用密钥，泄漏后将可能导致应用数据泄漏、
-     * 应用的用户数据泄漏等高风险后果；存储在客户端，极有可能被恶意窃取（如反编译获取Appsecret）；
+     * @deprecated Appsecret 是应用接口使用密钥，泄漏后将可能导致应用数据泄漏、应用的用户数据泄漏等高风险后果；存储在客户端，极有可能被恶意窃取（如反编译获取Appsecret）；
      */
 //    @Deprecated
 //    protected static String appSecret = "wx88888888";
@@ -549,12 +548,11 @@ public class WeChatUtils {
      * 此能力可被应用在多设备登录、智能硬件、电视盒子等场景。
      * @param scope 应用授权作用域，如获取用户个人信息则填写snsapi_userinfo, 多个用逗号隔开
      *              "snsapi_userinfo,snsapi_friend,snsapi_message,snsapi_contact"
-     * @param nonceStr 一个随机的尽量不重复的字符串，用来使得每次的 signature 不同
-     * @param timeStamp 时间戳
-     * @param signature 签名
+     * @param nonceStr 一个随机的尽量不重复的字符串，用来使得每次的 signature 不同 (一般从服务器获取)
+     * @param timeStamp 时间戳 (一般从服务器获取)
+     * @param signature 签名 (一般从服务器获取)
      * @param listener 授权流程的回调接口
      */
-    @Deprecated
     public static boolean loginQr(@NonNull String scope, @NonNull String nonceStr,
                                   @NonNull String timeStamp, @NonNull String signature, @NonNull OAuthListener listener) {
         IDiffDevOAuth diffDevOAuth = DiffDevOAuthFactory.getDiffDevOAuth();

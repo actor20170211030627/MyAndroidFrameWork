@@ -85,15 +85,9 @@ dependencies {
     api rootProject.ext.dependencies.swiperefreshlayout
 
 
-    //https://github.com/google/gson converter-gson 已经依赖了Gson2.8.5
+    //https://github.com/google/gson
     //不混淆解析类: -keep class com.package.xxx.bean.** { *; }
-    //api 'com.google.code.gson:gson:2.8.5'
-
-    //https://github.com/square/retrofit
-    api 'com.squareup.retrofit2:retrofit:2.9.0'
-
-    //https://github.com/square/retrofit/tree/master/retrofit-converters/gson
-    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.google.code.gson:gson:2.10.1'
 
     //https://github.com/bumptech/glide
     api 'com.github.bumptech.glide:glide:4.12.0'
@@ -101,6 +95,12 @@ dependencies {
 
     //https://github.com/Blankj/AndroidUtilCode 许多工具
     api 'com.blankj:utilcodex:1.31.1'
+
+    //https://github.com/square/okhttp
+    api "com.squareup.okhttp3:okhttp:3.12.13"
+
+    //https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
+    api 'com.github.getActivity:EasyHttp:12.8'
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     //TODO 考虑使用: https://github.com/liangjingkanji/BRV
@@ -118,14 +118,6 @@ dependencies {
     //https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
     api 'com.github.li-xiaojun:XPopup:2.9.19'
 
-    //https://github.com/square/okhttp
-    api "com.squareup.okhttp3:okhttp:4.9.2"
-
-    //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
-    //TODO 考虑自己封装一个!
-    api ('com.zhy:okhttputils:2.6.2') {
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
-    }
 
 
     //GreenDao数据库
@@ -141,6 +133,16 @@ dependencies {
     //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
     compileOnly 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
 
+    //https://github.com/square/retrofit 依赖配置:https://github.com/square/retrofit/blob/trunk/gradle/libs.versions.toml
+    compileOnly 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //https://github.com/square/retrofit/tree/master/retrofit-converters/gson (已经依赖了Gson2.8.5)
+    compileOnly 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
+    compileOnly ('com.zhy:okhttputils:2.6.2') {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
+    }
 
     //https://github.com/JessYanCoding/ProgressManager Okhttp/Retofit/Glide下载进度监听
     compileOnly 'me.jessyan:progressmanager:1.5.0'

@@ -130,18 +130,18 @@
         app:flexWrap="wrap">
 
         <Button
-            android:id="@+id/btn_pay_wechat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="支付" />
-
-        <Button
             android:id="@+id/btn_login_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
             android:text="登录" />
+
+        <Button
+            android:id="@+id/btn_login_wechat_qrcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="扫码登录" />
 
         <Button
             android:id="@+id/btn_share_text"
@@ -184,6 +184,13 @@
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
             android:text="分享音乐" />
+
+        <Button
+            android:id="@+id/btn_pay_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="支付" />
 
         <Button
             android:id="@+id/btn_pay_offline"
