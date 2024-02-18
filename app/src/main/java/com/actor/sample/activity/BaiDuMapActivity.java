@@ -190,7 +190,7 @@ public class BaiDuMapActivity extends BaseActivity<ActivityBaiDuMapBinding> {
                                 BaiduLocationUtils.start();
                             } else {
                                 ToasterUtils.warning("您有权限未同意!");
-                                XXPermissions.startPermissionActivity(activity);
+                                XXPermissions.startPermissionActivity(mActivity);
                             }
                         }
                     });

@@ -1,18 +1,16 @@
 package com.actor.myandroidframework.utils.database;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.github.yuweiguocn.library.greendao.MigrationHelper;
 import com.greendao.gen.DaoMaster;
 import com.greendao.gen.DaoSession;
 
 import org.greenrobot.greendao.AbstractDao;
-import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.Property;
+import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -46,7 +44,7 @@ import java.util.List;
  *          * (如果你实在不用这个包名, 那么可以将本Utils拷贝到自己项目, 使用拷贝的Utils也可以!)。
  *          * /
  *         daoPackage 'com.greendao.gen'
- *         targetGenDir 'src/main/java'    //生成数据库文件的目录
+ *         targetGenDir 'src/main/java'    //生成数据库文件的目录(请确保是这个目录, 否则本工具类将无法使用)
  *       }
  *   }
  *   dependencies {
@@ -254,7 +252,7 @@ import java.util.List;
  */
 public class GreenDaoUtils {
 
-    protected static GreenDaoUtils        instalce;
+    protected static GreenDaoUtils        instance;
     protected        DaoMaster.OpenHelper openHelper;
     protected static Database             database;
     protected        DaoMaster            daoMaster;
@@ -265,21 +263,21 @@ public class GreenDaoUtils {
      * @param isDebug 如果是debug模式, 数据库操作会打印日志
      * @param dbName 数据库名称(没有就创建,有就增删改查), 例: my_database.db3
      * @param dbPassword 数据库密码, 如果没有就传null
-     *                   ★1.如果数据库加密了, 需要添加依赖, 见顶部说明!!!
-     *                   ★2.这个依赖可运行在构架: armeabi-v7a, x86, x86_64, and arm64_v8a
-     *                      所以, 要在gradle中的abiFilters中添加相应构架, 否则运行会崩溃.
-     *                   ★3.如果数据库加密了, PC端需要"DB Browser for SQLite"里的'DB Browser for SQLCipher.exe'才能打开加密的数据库:
-     *                      https://github.com/sqlitebrowser/sqlitebrowser
+     *                   <ol>
+     *                       <li>如果数据库加密了, 需要添加依赖, 见顶部说明!!!</li>
+     *                       <li>这个依赖可运行在构架: armeabi-v7a, x86, x86_64, and arm64_v8a, 所以要在gradle中的abiFilters中添加相应构架, 否则运行会崩溃.</li>
+     *                       <li>如果数据库加密了, PC端需要<a href="https://github.com/sqlitebrowser/sqlitebrowser">sqlitebrowser</a>打开加密的数据库.</li>
+     *                   </ol>
      *
-     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
-     *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
+     * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例: <br />
+     *                   ItemEntityDao.class(由'Build -> Make Project'生成), ... <br />
      *                   ★★★注意: 如果只是从 my_database.db, my_database.db3... 等数据库文件读取数据,
      *                             即数据库不用升级, 可不用传这个参数★★★
      */
     @SafeVarargs
     public static void init(@NonNull Context context, boolean isDebug, @NonNull String dbName,
                             @Nullable String dbPassword, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        if (instalce == null) instalce = new GreenDaoUtils(context, isDebug, dbName, dbPassword, daoClasses);
+        if (instance == null) instance = new GreenDaoUtils(context, isDebug, dbName, dbPassword, daoClasses);
     }
 
     /**
@@ -318,60 +316,7 @@ public class GreenDaoUtils {
         QueryBuilder.LOG_VALUES = isDebug;
     }
 
-    /**
-     * Description: 能数据库简单更新升级的OpenHelper
-     * 不能使用默认的: {@link DaoMaster.DevOpenHelper}
-     * @version 1.0
-     */
-    protected static class UpgradeAbleOpenHelper extends DaoMaster.OpenHelper {
 
-        @Nullable
-        protected Class<? extends AbstractDao<?, ?>>[] daoClasses;
-
-        @SafeVarargs
-        protected UpgradeAbleOpenHelper(@NonNull Context context, @NonNull String name, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
-            super(context, name);
-            this.daoClasses = daoClasses;
-        }
-
-        @SafeVarargs
-        protected UpgradeAbleOpenHelper(@NonNull Context context, @NonNull String name, SQLiteDatabase.CursorFactory factory, @Nullable Class<? extends AbstractDao<?, ?>>... daoClasses) {
-            super(context, name, factory);
-            this.daoClasses = daoClasses;
-        }
-
-        @Override
-        public void onUpgrade(Database db, int oldVersion, int newVersion) {
-            //默认会删除数据库, 并且重写创建数据库
-//            Log.i("greenDAO", "Upgrading schema from version " + oldVersion + " to " + newVersion + " by dropping all tables");
-//            dropAllTables(db, true);
-//            onCreate(db);
-
-            //默认super 什么都不做
-//            super.onUpgrade(db, oldVersion, newVersion);
-
-            if (daoClasses != null && daoClasses.length > 0) {
-                /**
-                 * 升级思路：
-                 * 1.创建临时表TMP_,复制原来的数据库到临时表中；
-                 * 2.删除之前的原表；
-                 * 3.创建新表；
-                 * 4.将临时表中的数据复制到新表中，最后将TMP_表删除掉；
-                 */
-                MigrationHelper.migrate(db, new MigrationHelper.ReCreateAllTableListener() {
-                    @Override
-                    public void onCreateAllTables(Database db, boolean ifNotExists) {
-                        DaoMaster.createAllTables(db, ifNotExists);
-                    }
-
-                    @Override
-                    public void onDropAllTables(Database db, boolean ifExists) {
-                        DaoMaster.dropAllTables(db, ifExists);
-                    }
-                }, daoClasses);
-            }
-        }
-    }
 
     ///////////////////////////////////////////////////////////////////////////
     // 静态方法区

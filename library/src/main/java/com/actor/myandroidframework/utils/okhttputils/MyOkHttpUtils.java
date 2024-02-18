@@ -68,17 +68,21 @@ public class MyOkHttpUtils {
     protected static String baseUrl = "";
 
     /**
+     * 设置BaseUrl
+     */
+    public static void setBaseUrl(@NonNull String baseUrl) {
+        if (baseUrl != null) MyOkHttpUtils.baseUrl = baseUrl;
+    }
+
+    /**
      * 配置张鸿洋的OkHttpUtils
      */
     public static void setOkHttpClient(@NonNull OkHttpClient okhttpClient) {
         OkHttpUtils.initClient(okhttpClient);
     }
 
-    /**
-     * 设置BaseUrl
-     */
-    public static void setBaseUrl(@NonNull String baseUrl) {
-        if (baseUrl != null) MyOkHttpUtils.baseUrl = baseUrl;
+    public static OkHttpClient getOkHttpClient() {
+        return OkHttpUtils.getInstance().getOkHttpClient();
     }
 
     /**
@@ -94,10 +98,6 @@ public class MyOkHttpUtils {
 
     public static <T> void get(String url, Map<String, Object> params, BaseCallback<T> callback) {
         get(url, null, params, callback);
-    }
-
-    public static OkHttpClient getOkHttpClient() {
-        return OkHttpUtils.getInstance().getOkHttpClient();
     }
 
     /**

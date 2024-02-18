@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils;
+package com.actor.sample.bean;
 
 /**
  * Description: Eventbus事件实体类 <br />

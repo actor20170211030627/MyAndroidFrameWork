@@ -75,7 +75,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                 });
                 break;
             case R.id.btn_share_img_text://分享图文
-                QQUtils.shareToQQImgTxt(activity, "图文标题", null, "https://www.baidu.com",
+                QQUtils.shareToQQImgTxt(mActivity, "图文标题", null, "https://www.baidu.com",
                         null, "返回1", null, null, new BaseUiListener() {
                     @Override
                     public void doComplete(@Nullable JSONObject response) {
@@ -94,7 +94,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                             public void onResult(ArrayList<LocalMedia> result) {
                                 LocalMedia localMedia = result.get(0);
                                 PictureSelectorUtils.printLocalMedia(localMedia);
-                                QQUtils.shareToQQImg(activity, localMedia.getRealPath(), "点我返回哟哟a", null, null,
+                                QQUtils.shareToQQImg(mActivity, localMedia.getRealPath(), "点我返回哟哟a", null, null,
                                         new BaseUiListener() {
                                             @Override
                                             public void doComplete(@Nullable JSONObject response) {
@@ -113,7 +113,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         });
                 break;
             case R.id.btn_share_img2_qzone://分享图文到QQ空间
-                QQUtils.shareToQzone(activity, "标题呀", null, "https://www.baidu.com", null,
+                QQUtils.shareToQzone(mActivity, "标题呀", null, "https://www.baidu.com", null,
                         new BaseUiListener() {
                             @Override
                             public void doComplete(@Nullable JSONObject response) {

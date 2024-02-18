@@ -48,11 +48,11 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start_activity://点击跳转Activity
-                startActivity(new Intent(activity, ViewPagerActivity.class)
+                startActivity(new Intent(mActivity, ViewPagerActivity.class)
                         .putExtra(ViewPagerActivity.START_POSITION, position), iv);
                 break;
             case R.id.btn_start_activity_for_result://
-                startActivityForResult(new Intent(activity, ViewPagerActivity.class)
+                startActivityForResult(new Intent(mActivity, ViewPagerActivity.class)
                         .putExtra(ViewPagerActivity.START_POSITION, position), 0, iv);
                 break;
             default:

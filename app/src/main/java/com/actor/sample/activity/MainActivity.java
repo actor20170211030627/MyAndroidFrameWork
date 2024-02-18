@@ -43,11 +43,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             switch (position) {
                 case 0:
                     //ViewPager多层嵌套
-                    startActivity(new Intent(activity, ViewPagerAndFragmentActivity.class));
+                    startActivity(new Intent(mActivity, ViewPagerAndFragmentActivity.class));
                     break;
                 case 1:
                     //ViewPager高度自适应
-                    startActivity(new Intent(activity, ViewPagerHeightAutoCaculateActivity.class));
+                    startActivity(new Intent(mActivity, ViewPagerHeightAutoCaculateActivity.class));
                     break;
                 default:
                     break;
@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 startActivity(new Intent(this, IsEmptyActivity.class), false, null, null, view);
                 break;
             case R.id.btn_chat://聊天
-                startActivity(new Intent(activity, ChatActivity.class));
+                startActivity(new Intent(mActivity, ChatActivity.class));
                 break;
             case R.id.btn_third://第三方登录/分享
                 startActivity(new Intent(this, ThirdActivity.class), false, null, null, view);

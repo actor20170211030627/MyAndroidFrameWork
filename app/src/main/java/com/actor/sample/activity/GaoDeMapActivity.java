@@ -177,7 +177,7 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
                                 GaoDeLocationUtils.startLocation();
                             } else {
                                 ToasterUtils.warning("您有权限未同意!");
-                                XXPermissions.startPermissionActivity(activity);
+                                XXPermissions.startPermissionActivity(mActivity);
                             }
                         }
                     });

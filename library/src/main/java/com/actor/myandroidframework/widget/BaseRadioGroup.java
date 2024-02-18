@@ -56,11 +56,11 @@ public class BaseRadioGroup<T> extends RadioGroup {
         int lastCheckedId = NO_ID;
 //        //遍历所有child, 将所有已选中的child设为false
         for (int i = 0; i < childCount; i++) {
-            RadioButton childAt = (RadioButton) getChildAt(i);
-            if (childAt.isChecked()) {
+            RadioButton child = getChildAt(i);
+            if (child != null && child.isChecked()) {
                 //1,2,3...
-                lastCheckedId = childAt.getId();
-                childAt.setChecked(false);
+                lastCheckedId = child.getId();
+                child.setChecked(false);
             }
         }
 //        //如果有默认选中的孩子
@@ -130,13 +130,14 @@ public class BaseRadioGroup<T> extends RadioGroup {
      * @param data 值
      */
     public void setRadioButtonTextAt(@IntRange(from = 0) int position, T data) {
-        RadioButton rb = (RadioButton) getChildAt(position);
+        RadioButton child = getChildAt(position);
+        if (child == null) return;
         if (data instanceof CharSequence) {
-            rb.setText((CharSequence) data);
+            child.setText((CharSequence) data);
         } else if (data instanceof Integer) {//@StringRes int resid
-            rb.setText((Integer) data);
+            child.setText((Integer) data);
         } else {
-            rb.setText(String.valueOf(data));//toString()
+            child.setText(String.valueOf(data));//toString()
         }
     }
 
@@ -144,9 +145,9 @@ public class BaseRadioGroup<T> extends RadioGroup {
      * @param position 设置选中的position
      */
     public void setCheckedPosition(@IntRange(from = 0) int position) {
-        if (position < 0 || position >= getChildCount()) return;
+        RadioButton child = getChildAt(position);
+        if (child == null) return;
         int checkedPosition = getCheckedPosition();
-        RadioButton child = (RadioButton) getChildAt(position);
         child.setChecked(true);
 //        radioGroup.check(R.id.rb_for_irgl);//这种方式不行, 会回调多次
         //重复选中
@@ -161,10 +162,16 @@ public class BaseRadioGroup<T> extends RadioGroup {
     public int getCheckedPosition() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
-            RadioButton child = (RadioButton) getChildAt(i);
-            if (child.isChecked()) return i;
+            RadioButton child = getChildAt(i);
+            if (child != null && child.isChecked()) return i;
         }
         return NO_ID;
+    }
+
+    @Nullable
+    @Override
+    public RadioButton getChildAt(int index) {
+        return (RadioButton) super.getChildAt(index);
     }
 
     /**

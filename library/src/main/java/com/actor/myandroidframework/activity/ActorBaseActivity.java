@@ -30,9 +30,7 @@ import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Description: Activity基类
@@ -44,11 +42,8 @@ import java.util.Map;
  */
 public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkLoadingDialogable {
 
-//    protected CacheDiskUtils aCache = ActorApplication.instance.aCache;
-
     //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
-    protected AppCompatActivity         activity;
-    protected Map<String, Object>       params = new LinkedHashMap<>();
+    protected AppCompatActivity         mActivity;
 
     /** Activity 回调集合 */
     @Nullable protected SparseArray<OnActivityCallback> mActivityCallbacks;
@@ -57,7 +52,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = this;
+        mActivity = this;
         LogUtils.error(getClass().getName());
         //设置屏幕朝向,在setContentView之前
         setRequestedOrientation(getScreenOrientation());
@@ -253,8 +248,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     @Nullable
     public LoadingDialog getNetWorkLoadingDialog() {
-        if (activity == null) return null;
-        if (netWorkLoadingDialog == null) netWorkLoadingDialog = new LoadingDialog(activity);
+        if (mActivity == null) return null;
+        if (netWorkLoadingDialog == null) netWorkLoadingDialog = new LoadingDialog(mActivity);
         netWorkLoadingDialog.setCancelAble(true);
         return netWorkLoadingDialog;
     }
@@ -413,8 +408,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     protected void onDestroy() {
         super.onDestroy();
         dismissNetWorkLoadingDialog();
-        params.clear();
-        params = null;
 //        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
     }
 

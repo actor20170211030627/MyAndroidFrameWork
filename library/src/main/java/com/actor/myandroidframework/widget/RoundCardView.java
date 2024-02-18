@@ -3,6 +3,7 @@ package com.actor.myandroidframework.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -25,7 +26,7 @@ import com.google.android.material.card.MaterialCardView;
  *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
- *         <th>一. {@link androidx.cardview.widget.CardView CardView} 属性</th>
+ *         <th>一. {@link androidx.cardview.widget.CardView} 属性</th>
  *     </tr>
  *     <tr>
  *         <td>{@link androidx.cardview.R.styleable#CardView_cardBackgroundColor cardBackgroundColor}</td>
@@ -85,7 +86,7 @@ import com.google.android.material.card.MaterialCardView;
  *
  *     <tr />
  *     <tr>
- *         <th>二. {@link MaterialCardView MaterialCardView} 属性</th>
+ *         <th>二. {@link MaterialCardView} 属性</th>
  *     </tr>
  *     <tr>
  *         <td>{@link com.google.android.material.R.styleable#MaterialCardView_strokeColor strokeColor}</td>
@@ -101,7 +102,7 @@ import com.google.android.material.card.MaterialCardView;
  *
  *     <tr />
  *     <tr>
- *         <th>三. {@link RoundCardView RoundCardView} 属性</th>
+ *         <th>三. {@link RoundCardView} 属性</th>
  *     </tr>
  *     <tr>
  *         <td>{@link R.styleable#RoundCardView_rcvTopLeftRadius rcvTopLeftRadius}</td>
@@ -129,7 +130,7 @@ import com.google.android.material.card.MaterialCardView;
  */
 public class RoundCardView extends MaterialCardView {
 
-    protected float tlRadiu, trRadiu, brRadiu, blRadiu;
+    protected float tlRadius, trRadius, brRadius, blRadius;
     protected Path path;
     protected Rect rect;
     protected RectF rectF;
@@ -152,20 +153,21 @@ public class RoundCardView extends MaterialCardView {
     protected void init(Context context, AttributeSet attrs) {
         if (attrs != null) {
 //            float radius = getRadius();//8.0
-//            float density = Resources.getSystem().getDisplayMetrics().density;//4.0
 //            int dp = ConvertUtils.px2dp(radius);//2dp
-//            LogUtils.errorFormat("radius = %f, density = %f, dp = %d", radius, density, dp);
+//            LogUtils.errorFormat("radius = %f, dp = %d", radius, dp);
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundCardView);
-            tlRadiu = a.getDimension(R.styleable.RoundCardView_rcvTopLeftRadius, 0);
-            trRadiu = a.getDimension(R.styleable.RoundCardView_rcvTopRightRadius, 0);
-            blRadiu = a.getDimension(R.styleable.RoundCardView_rcvBottomLeftRadius, 0);
-            brRadiu = a.getDimension(R.styleable.RoundCardView_rcvBottomRightRadius, 0);
+            tlRadius = a.getDimension(R.styleable.RoundCardView_rcvTopLeftRadius, 0);
+            trRadius = a.getDimension(R.styleable.RoundCardView_rcvTopRightRadius, 0);
+            blRadius = a.getDimension(R.styleable.RoundCardView_rcvBottomLeftRadius, 0);
+            brRadius = a.getDimension(R.styleable.RoundCardView_rcvBottomRightRadius, 0);
             a.recycle();
             //如果自定义圆角
-            if (tlRadiu != 0 || trRadiu != 0 || brRadiu != 0 || blRadiu != 0) {
+            if (tlRadius > 0 || trRadius > 0 || brRadius > 0 || blRadius > 0) {
                 initPathAndRect();
             }
         }
+        //需要在代码中设置背景色, 用于去除小圆角
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
     /**
@@ -178,16 +180,16 @@ public class RoundCardView extends MaterialCardView {
 
     /**
      * 设置圆角半径
-     * @param tlRadiu ↖
-     * @param trRadiu ↗
-     * @param brRadiu ↘
-     * @param blRadiu ↙
+     * @param tlRadius ↖
+     * @param trRadius ↗
+     * @param brRadius ↘
+     * @param blRadius ↙
      */
-    public void setRadius(float tlRadiu, float trRadiu, float brRadiu, float blRadiu) {
-        this.tlRadiu = tlRadiu;
-        this.trRadiu = trRadiu;
-        this.brRadiu = brRadiu;
-        this.blRadiu = blRadiu;
+    public void setRadius(float tlRadius, float trRadius, float brRadius, float blRadius) {
+        this.tlRadius = tlRadius;
+        this.trRadius = trRadius;
+        this.brRadius = brRadius;
+        this.blRadius = blRadius;
         initPathAndRect();
         invalidate();
     }
@@ -205,8 +207,8 @@ public class RoundCardView extends MaterialCardView {
 //            rect.setEmpty();
             getDrawingRect(rect);
             rectF.set(rect);
-            float[] readius = {tlRadiu, tlRadiu, trRadiu, trRadiu, brRadiu, brRadiu, blRadiu, blRadiu};
-            path.addRoundRect(rectF, readius, Path.Direction.CW);
+            float[] radius8 = {tlRadius, tlRadius, trRadius, trRadius, brRadius, brRadius, blRadius, blRadius};
+            path.addRoundRect(rectF, radius8, Path.Direction.CW);
             canvas.clipPath(path, Region.Op.INTERSECT);
         }
         super.onDraw(canvas);

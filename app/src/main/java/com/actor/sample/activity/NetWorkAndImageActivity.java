@@ -28,6 +28,8 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -44,6 +46,8 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
 
     private boolean alreadyDownload = false;
     private String picPath;
+
+    private Map<String, Object> params = new LinkedHashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -42,11 +42,11 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始接收
-                JPushUtils.resumePush(activity);//恢复推送服务
+                JPushUtils.resumePush(mActivity);//恢复推送服务
 //                JPushUtils.setAlias(activity, 0, "actor");//设置别名, 还有其他推送方式
                 break;
             case R.id.btn_stop://停止接收
-                JPushUtils.stopPush(activity);
+                JPushUtils.stopPush(mActivity);
                 break;
             default:
                 break;
@@ -80,7 +80,7 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
                     LogUtils.error("别名设置成功!");
                 } else {
                     LogUtils.error("别名设置失败!");
-                    JPushUtils.setAlias(activity, 0, "这儿填写需再次设置的别名");//设置别名, 还有其他推送方式
+                    JPushUtils.setAlias(mActivity, 0, "这儿填写需再次设置的别名");//设置别名, 还有其他推送方式
                 }
                 break;
             default:
@@ -90,7 +90,7 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
 
     @Override
     protected void onDestroy() {
-        JPushUtils.stopPush(activity);//停止接收
+        JPushUtils.stopPush(mActivity);//停止接收
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
