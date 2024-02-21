@@ -36,7 +36,7 @@ public class ChatListAdapter extends BaseQuickAdapter<MessageItem, BaseViewHolde
                 if (message != null) {
                     ToasterUtils.info(message);
                 } else {
-                    AudioUtils.getInstance().playRecord(item.audioPath, null);
+                    AudioUtils.getInstance().play(item.audioPath, false, null);
                 }
             }
         });

@@ -39,7 +39,7 @@ public abstract class BaseCallback<T> extends Callback<T> implements okhttp3.Cal
     protected boolean           isParseNetworkResponseIsNull = false;
     //Json解析异常
     protected boolean           isJsonParseException         = false;
-    private   int               requestId;
+    private final int           requestId;
     public    LifecycleOwner    tag;
 
     public BaseCallback(@Nullable LifecycleOwner tag) {

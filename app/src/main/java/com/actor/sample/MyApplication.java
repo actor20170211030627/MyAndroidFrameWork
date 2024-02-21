@@ -12,7 +12,6 @@ import com.actor.map.gaode.GaoDe3DMapUtils;
 import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
@@ -61,8 +60,6 @@ public class MyApplication extends ActorApplication {
          * 也可以不使用 DefaultEmojiList.DEFAULT_EMOJI_LIST 这些emoji, 可以自定义后传入
          */
         ChatLayoutKit.init(DefaultEmojiList.DEFAULT_EMOJI_LIST, "emoji");
-        //初始化聊天语音, 默认最大录音时长2分钟(如果不用语音, 不用初始化)
-        AudioUtils.getInstance().init(null, null);
 
 
 

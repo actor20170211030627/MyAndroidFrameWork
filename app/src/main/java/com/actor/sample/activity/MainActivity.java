@@ -121,6 +121,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_count_down_timer://BaseCountDownTimer测试
                 startActivity(new Intent(this, BaseCountDownTimerActivity.class), false, null, null, view);
                 break;
+            case R.id.btn_audio_media://音频录制&播放,视频播放
+                startActivity(new Intent(this, AudioMediaActivity.class), false, null, null, view);
+                break;
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(new Intent(this, OtherActivity.class));
                 break;

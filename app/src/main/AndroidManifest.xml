@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activity.AudioMediaActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.BaseCountDownTimerActivity"
             android:exported="false" />
         <activity android:name=".activity.ViewPagerHeightAutoCaculateActivity" />
@@ -86,4 +89,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
