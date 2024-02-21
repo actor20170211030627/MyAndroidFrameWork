@@ -40,6 +40,12 @@ api 'com.github.getActivity:ShapeView:9.0'
 <li>//https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
 api 'com.github.getActivity:EasyHttp:12.8'
 </li>
+<li>// 腾讯 MMKV：https://github.com/Tencent/MMKV (EasyHttp缓存需要)
+api ('com.tencent:mmkv-static:1.3.2') {
+    // 避免版本不一致导致的依赖冲突，从而导致编译报错
+    exclude group: 'androidx.annotation', module: 'annotation'
+}
+</li>
 <li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
 api 'com.github.li-xiaojun:XPopup:2.9.19'
 </li></ol>
@@ -63,11 +69,11 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 
 **2.3.Utils工具类**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放录音)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" target="_blank">MyOkHttpUtils</a> (Okhttp网络请求)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" target="_blank">RetrofitNetwork</a> (retrofit简单封装)
+<s><a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" target="_blank">MyOkHttpUtils</a> (Okhttp网络请求, 建议使用EasyHttp)</s>
+<s><a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" target="_blank">RetrofitNetwork</a> (retrofit简单封装, 建议使用EasyHttp)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" target="_blank">SharedElementUtils</a> (元素共享跳转页面)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/QQUtils.java" target="_blank">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java" target="_blank">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
@@ -77,6 +83,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BRVUtils.java" target="_blank">BRVUtils</a> (BaseRecyclerView框架辅助)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java" target="_blank">LogUtils</a> (Log简单打印)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/MMKVUtils.java" target="_blank">MMKVUtils</a> (数据缓存)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java" target="_blank">NotificationHelper</a> (通知栏)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/SPUtils.java" target="_blank">SPUtils</a> (SP工具)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/TextUtils2.java" target="_blank">TextUtils2</a> (获取Text, 判空, getStringFormat, ...)

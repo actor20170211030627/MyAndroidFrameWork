@@ -13,6 +13,7 @@ import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
+import com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.actor.qq_wechat.QQUtils;
@@ -30,19 +31,19 @@ import okhttp3.OkHttpClient;
  */
 public class MyApplication extends ActorApplication {
 
-    public static MyApplication   instance;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
-
         //配置BaseUrl
         MyOkHttpUtils.setBaseUrl(Global.BASE_URL_GITHUB);
         RetrofitNetwork.init(Global.BASE_URL_GITHUB);
 
         //配置张鸿洋的OkHttpUtils
         MyOkHttpUtils.setOkHttpClient(ConfigUtils.okHttpClient);
+
+        //配置轮子哥的EasyHttp
+        EasyHttpUtils.init(isAppDebug(), Global.BASE_URL_GITHUB, ConfigUtils.okHttpClient);
+
 
         /**
          * 数据库使用示例
@@ -104,33 +105,5 @@ public class MyApplication extends ActorApplication {
     @Override
     protected OkHttpClient.Builder configOkHttpClientBuilder(@NonNull OkHttpClient.Builder builder) {
         return null;
-    }
-//    @Override
-//    protected void configEasyHttp(EasyHttp easyHttp) {
-//    }
-
-    /**
-     * release环境中App崩溃的时候会回调这个方法.
-     * 如果是debug环境, 不会抓取bug并且不会回调这个方法
-     * @param e 堆栈信息
-     *
-     * 示例处理:
-     * Intent intent = new Intent(this, LoginActivity.class);
-     * intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-     * PendingIntent restartIntent = PendingIntent.getActivity(this, 0, intent, 0);
-     * //定时器
-     * AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-     * mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent);//1000:1秒钟后重启应用
-     * System.exit(-1);//退出
-     */
-    @Override
-    protected void onUncaughtException(Throwable e) {
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        PendingIntent restartIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//        //定时器
-//        AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent);//1000:1秒钟后重启应用
-        System.exit(-1);//退出
     }
 }
