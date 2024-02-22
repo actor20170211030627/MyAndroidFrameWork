@@ -1,8 +1,8 @@
 package com.actor.myandroidframework.utils.audio;
 
+import android.media.MediaPlayer;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RawRes;
 
 import com.actor.myandroidframework.utils.LogUtils;
 
@@ -17,22 +17,32 @@ import com.actor.myandroidframework.utils.LogUtils;
 public interface MediaPlayerCallback {
 
     /**
-     * 开始播放
+     * 当准备完成后
      */
-    default void onStartPlay() {
-        LogUtils.error("开始播放");
+    default void onPrepared(MediaPlayer mp) {
+        LogUtils.error("准备完成");
     }
 
     /**
      * 播放完成
-     * @param rawId R.raw.xxx
-     * @param audioPath 音频路径
      */
-    void playComplete(@Nullable @RawRes Integer rawId, @Nullable String audioPath);
+    void onCompletion(MediaPlayer mp);
 
     /**
-     * 播放出错
+     * 从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现的错误
      * @param e
      */
-    void playError(@NonNull Exception e);
+    default void onSetData2StartError(@NonNull Exception e) {
+        LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
+    }
+
+    /**
+     * 播放的过程中, 出现的错误
+     * @see MediaPlayer.OnErrorListener#onError(MediaPlayer, int, int)
+     * @return 如果完全自己处理错误, 则返回true. 如果未处理错误，则返回false(会调用 OnCompletionListener)。
+     */
+    default boolean onPlayError(MediaPlayer mp, int what, int extra) {
+        LogUtils.errorFormat("播放的过程中, 出现错误, what=%d, extra=%d", what, extra);
+        return false;
+    }
 }

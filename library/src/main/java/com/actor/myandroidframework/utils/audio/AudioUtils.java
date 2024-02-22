@@ -63,17 +63,32 @@ public class AudioUtils {
 
 
 
-    //是否正在播放中
-//    protected boolean             isPlaying;
     protected MediaPlayer         mMediaPlayer;
+    protected MediaPlayerCallback mPlayerCallback;
+    protected boolean             isAutoPlay;   //是否自动播放
+    //准备完成监听
     protected MediaPlayer.OnPreparedListener mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
-            if (mPlayerCallback != null) mPlayerCallback.onStartPlay();
-            startPlayer(); //开始播放
+            if (mPlayerCallback != null) mPlayerCallback.onPrepared(mp);
+            if (isAutoPlay) startPlayer(); //开始播放
         }
     };
-    protected MediaPlayerCallback mPlayerCallback;
+    //播放错误监听
+    protected MediaPlayer.OnErrorListener mOnErrorListener = new MediaPlayer.OnErrorListener() {
+        @Override
+        public boolean onError(MediaPlayer mp, int what, int extra) {
+            if (mPlayerCallback != null) return mPlayerCallback.onPlayError(mp, what, extra);
+            return false;
+        }
+    };
+    //播放完成监听
+    protected MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            if (mPlayerCallback != null) mPlayerCallback.onCompletion(mp);
+        }
+    };
 
     protected static AudioUtils   instance;
 
@@ -299,34 +314,44 @@ public class AudioUtils {
      * 播放R.raw.xxx 音频
      * @param rawId 资源id
      * @param isLooping 是否循环播放
-     * @param callback 播放回调
+     * @param isAutoPlay 准备完成后, 是否自动播放
+     * @param playerCallback 播放回调
      */
-    public void playRaw(Context context, @RawRes int rawId, boolean isLooping, @Nullable MediaPlayerCallback callback) {
-        mPlayerCallback = callback;
+    public void playRaw(Context context, @RawRes int rawId, boolean isLooping, boolean isAutoPlay,
+                        @Nullable MediaPlayerCallback playerCallback) {
+        mPlayerCallback = playerCallback;
+        this.isAutoPlay = isAutoPlay;
         try {
-            MediaPlayer mediaPlayer = MediaPlayer.create(context, rawId);   //nullable
-            mediaPlayer.setVolume(1, 1);
-            mediaPlayer.setLooping(isLooping);
-            if (callback != null) mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    if (mPlayerCallback != null) mPlayerCallback.playComplete(rawId, null);
-                }
-            });
-            mediaPlayer.start();
-            if (callback != null) callback.onStartPlay();
+            mMediaPlayer = MediaPlayer.create(context, rawId);   //nullable
+            mMediaPlayer.setVolume(1, 1);
+            mMediaPlayer.setLooping(isLooping);
+            //准备完成监听
+            mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
+            //播放出错监听
+            mMediaPlayer.setOnErrorListener(mOnErrorListener);
+            mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+            mMediaPlayer.prepareAsync();
         } catch (NullPointerException | IllegalStateException e) {
             e.printStackTrace();
-            if (callback != null) callback.playError(e);
+            if (playerCallback != null) playerCallback.onSetData2StartError(e);
         }
     }
 
     /**
      * 播放音频
      * @param audioPath 本地/网络音频
+     * @param isLooping 是否循环播放
+     * @param isAutoPlay 准备完成后, 是否自动播放
+     * @param playerCallback 播放监听
      */
-    public void play(@NonNull String audioPath, boolean isLooping, @Nullable MediaPlayerCallback callback) {
-        mPlayerCallback = callback;
+    public void play(@NonNull String audioPath, boolean isLooping, boolean isAutoPlay,
+                     @Nullable MediaPlayerCallback playerCallback) {
+        if (audioPath == null) {
+            if (playerCallback != null) playerCallback.onSetData2StartError(new NullPointerException("uriString"));
+            return;
+        }
+        mPlayerCallback = playerCallback;
+        this.isAutoPlay = isAutoPlay;
         try {
             //如果想同时播放多个, 这儿不判空, 直接new
             if (mMediaPlayer == null) {
@@ -339,22 +364,28 @@ public class AudioUtils {
             //设置数据源, 本地or网上
             mMediaPlayer.setDataSource(audioPath);
             mMediaPlayer.setLooping(isLooping);
+            //准备完成监听
             mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
-//            mMediaPlayer.setOnErrorListener(mOnErrorListener);
+            //播放出错监听
+            mMediaPlayer.setOnErrorListener(mOnErrorListener);
 //            mMediaPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
-            if (callback != null) mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    if (mPlayerCallback != null) mPlayerCallback.playComplete(null, audioPath);
-                }
-            });
+            mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             mMediaPlayer.prepareAsync();    //主线程中异步准备, 准备监听完成后开始播放
 //            mMediaPlayer.prepare();
 //            mMediaPlayer.start();
         } catch (IOException | IllegalArgumentException | SecurityException | IllegalStateException e) {
             e.printStackTrace();
-            if (callback != null) callback.playError(e);
+            if (playerCallback != null) playerCallback.onSetData2StartError(e);
         }
+    }
+
+    /**
+     * 获取'播放'的音频的时长 (要先设置音频)
+     * @return 单位ms
+     */
+    public int getDuration() {
+        if (mMediaPlayer == null) return -1;
+        return mMediaPlayer.getDuration();
     }
 
     /**
@@ -365,6 +396,7 @@ public class AudioUtils {
             if (mMediaPlayer != null) mMediaPlayer.start();
         } catch (IllegalStateException e) {
             e.printStackTrace();
+            if (mPlayerCallback != null) mPlayerCallback.onSetData2StartError(e);
         }
     }
 

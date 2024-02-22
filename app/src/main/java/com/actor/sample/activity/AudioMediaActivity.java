@@ -1,15 +1,15 @@
 package com.actor.sample.activity;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.audio.MediaPlayerCallback;
 import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
-import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityAudioMediaBinding;
@@ -76,21 +76,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_raw:
-                AudioUtils.getInstance().playRaw(this, R.raw.one_kun, false, null);
+                AudioUtils.getInstance().playRaw(this, R.raw.one_kun, false, true, null);
                 break;
             case R.id.btn_start_play:
-                AudioUtils.getInstance().play(MUSIC, false, new MediaPlayerCallback() {
+                AudioUtils.getInstance().play(MUSIC, false, true, new MediaPlayerCallback() {
                     @Override
-                    public void onStartPlay() {
-                        ToasterUtils.warning("开始播放~");
-                    }
-                    @Override
-                    public void playComplete(@Nullable Integer rawId, @Nullable String audioPath) {
+                    public void onCompletion(MediaPlayer mp) {
                         ToasterUtils.success("播放完成!");
-                    }
-                    @Override
-                    public void playError(@NonNull Exception e) {
-                        ToasterUtils.error("播放错误!");
                     }
                 });
                 break;
