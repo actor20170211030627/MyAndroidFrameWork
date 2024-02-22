@@ -153,9 +153,6 @@ dependencies {
     //https://github.com/JessYanCoding/ProgressManager Okhttp/Retofit/Glide下载进度监听
     compileOnly 'me.jessyan:progressmanager:1.5.0'
 
-    //https://github.com/hellokaton/TinyPinyin TinyPinyin核心包，约80KB
-    compileOnly 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'
-
     //https://github.com/yellowcath/VideoProcessor 视频压缩
     compileOnly 'com.github.yellowcath:VideoProcessor:2.4.2'
 }

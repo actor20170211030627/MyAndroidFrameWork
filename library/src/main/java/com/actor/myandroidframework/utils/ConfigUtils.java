@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.utils.okhttputils.log.RequestInterceptor;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
@@ -114,7 +113,7 @@ public class ConfigUtils {
 //            builder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
 
             //改成这个日志拦截器, 打印更全面
-            builder.addInterceptor(new RequestInterceptor());
+//            builder.addInterceptor(new RequestInterceptor());
         } else {
             builder.proxy(Proxy.NO_PROXY);
         }

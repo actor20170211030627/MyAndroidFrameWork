@@ -19,10 +19,13 @@ import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityNetWorkAndImageBinding;
+import com.actor.sample.info.CheckUpdateInfo;
 import com.actor.sample.info.GithubInfo;
 import com.actor.sample.retrofit.api.GithubApi;
 import com.actor.sample.utils.Global;
 import com.bumptech.glide.Glide;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.OnHttpListener;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
@@ -89,6 +92,9 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
             case R.id.btn_get_retrofit://Retrofit方式获取数据
                 getByRetrofit();
                 break;
+            case R.id.btn_get_easy_http://EasyHttp方式获取数据
+                getByEasyHttp();
+                break;
             case R.id.btn_download://下载进度测试
                 downloadApk();
                 break;
@@ -151,6 +157,22 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
             public void onOk(Call<GithubInfo> call, Response<GithubInfo> response, int id, boolean isRefresh) {
                 GithubInfo body = response.body();
                 if (body != null) ToasterUtils.success(body.hub_url);
+            }
+        });
+    }
+
+    private void getByEasyHttp() {
+        EasyHttp.get(this)
+//                .api(Global.CHECK_UPDATE)
+                .api(CheckUpdateInfo.class)
+                .request(new OnHttpListener<CheckUpdateInfo>() {
+            @Override
+            public void onHttpSuccess(CheckUpdateInfo result) {
+                ToasterUtils.successFormat("请求成功, variantName=%s", result.variantName);
+            }
+            @Override
+            public void onHttpFail(Throwable throwable) {
+                ToasterUtils.error("请求失败!");
             }
         });
     }

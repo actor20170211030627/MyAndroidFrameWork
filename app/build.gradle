@@ -104,11 +104,11 @@ dependencies {
 
 
     // 图片压缩 (按需引入): 如果你需要使用压缩图片功能, 需要添加下面这行依赖
-    implementation 'io.github.lucksiege:compress:v3.10.9'
+    implementation 'io.github.lucksiege:compress:v3.11.2'
     // 图片裁剪 (按需引入)
-    implementation 'io.github.lucksiege:ucrop:v3.10.9'
+    implementation 'io.github.lucksiege:ucrop:v3.11.2'
     // 自定义相机 (按需引入)
-//    implementation 'io.github.lucksiege:camerax:v3.10.9'
+//    implementation 'io.github.lucksiege:camerax:v3.11.2'
 
     //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
     implementation ('com.zhy:okhttputils:2.6.2') {
@@ -159,6 +159,8 @@ dependencies {
     implementation project(path: ':qq_wechat')
 
     implementation project(path: ':jpush')
+
+    implementation project(path: ':other_utils')
 
 
 

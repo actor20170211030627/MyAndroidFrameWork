@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget.NineGridView;
+package com.actor.other_utils.widget.NineGridView;
 
 /**
  * Description: 九宫格, 传入的数据必须 implements 这个接口 <br />

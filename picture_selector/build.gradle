@@ -78,14 +78,14 @@ dependencies {
     compileOnly project(path: ':library')
 
     //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频(minSdkVersion 21)
-    api 'io.github.lucksiege:pictureselector:v3.10.9'
+    api 'io.github.lucksiege:pictureselector:v3.11.2'
 
     // 图片压缩 (按需引入)
-    compileOnly 'io.github.lucksiege:compress:v3.10.9'
+    compileOnly 'io.github.lucksiege:compress:v3.11.2'
 
     // 图片裁剪 (按需引入)
-    compileOnly 'io.github.lucksiege:ucrop:v3.10.9'
+    compileOnly 'io.github.lucksiege:ucrop:v3.11.2'
 
     // 自定义相机 (按需引入)
-    compileOnly 'io.github.lucksiege:camerax:v3.10.9'
+    compileOnly 'io.github.lucksiege:camerax:v3.11.2'
 }

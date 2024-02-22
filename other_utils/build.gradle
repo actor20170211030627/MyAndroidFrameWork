@@ -74,4 +74,7 @@ dependencies {
 
     //https://github.com/Bigkoo/Android-PickerView 时间选择器等等等
     compileOnly 'com.contrarywind:Android-PickerView:4.1.9'
+
+    //https://github.com/hellokaton/TinyPinyin TinyPinyin核心包，约80KB
+    compileOnly 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'
 }

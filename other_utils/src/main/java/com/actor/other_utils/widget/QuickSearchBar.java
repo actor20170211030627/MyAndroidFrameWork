@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.other_utils.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -15,6 +16,7 @@ import android.view.View;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -113,6 +115,7 @@ public class QuickSearchBar<T extends QuickSearchBar.PinYinSortAble> extends Vie
         init(context, attrs);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public QuickSearchBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);

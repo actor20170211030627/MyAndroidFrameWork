@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient;
  * date       : 2024/2/16 on 20
  * @version 1.0
  */
-public class EasyHttpUtils {
+public class EasyHttpConfigUtils {
 
     /**
      * 配置轮子哥的EasyHttp, 配置后可通过{@link EasyConfig#getInstance()}重新设置

@@ -21,7 +21,7 @@ import top.zibin.luban.OnRenameListener;
  * 注意: 需要压缩图片, 请添加依赖! <br /> <br />
  *
  * // 图片压缩 (按需引入): 如果你选择图片/拍照后, 需要使用压缩图片功能, 需要添加下面这行依赖 <br />
- * implementation 'io.github.lucksiege:compress:v3.10.9' <br />
+ * implementation 'io.github.lucksiege:compress:v3.11.2' <br />
  * <br />
  * 具体更多的压缩API见: <a href="https://github.com/Curzibn/Luban" target="_blank">https://github.com/Curzibn/Luban</a>
  * <br />

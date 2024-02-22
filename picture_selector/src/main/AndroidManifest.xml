@@ -33,7 +33,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
 
-    <!-- 适配Android R包可见性, Android 11(API 30) 使用相机 -->
+    <!-- Android 11(API 30) 使用相机，需要再AndroidManifest.xm 添加如下代码： -->
     <queries package="${applicationId}">
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE">
@@ -46,4 +46,9 @@
             </action>
         </intent>
     </queries>
+
+    <!-- 如果预览网络视频AndroidManifest.xml添加如下代码 -->
+    <application
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m" />
 </manifest>

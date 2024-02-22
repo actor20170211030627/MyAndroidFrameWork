@@ -13,7 +13,7 @@ import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
-import com.actor.myandroidframework.utils.easyhttp.EasyHttpUtils;
+import com.actor.myandroidframework.utils.easyhttp.EasyHttpConfigUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.actor.qq_wechat.QQUtils;
@@ -42,7 +42,7 @@ public class MyApplication extends ActorApplication {
         MyOkHttpUtils.setOkHttpClient(ConfigUtils.okHttpClient);
 
         //配置轮子哥的EasyHttp
-        EasyHttpUtils.init(isAppDebug(), Global.BASE_URL_GITHUB, ConfigUtils.okHttpClient);
+        EasyHttpConfigUtils.init(isAppDebug(), Global.BASE_URL_GITHUB, ConfigUtils.okHttpClient);
 
 
         /**

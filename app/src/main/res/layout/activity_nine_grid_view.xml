@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.NineGridViewActivity">
 
-    <com.actor.myandroidframework.widget.NineGridView.NineGridView
+    <com.actor.other_utils.widget.NineGridView.NineGridView
         android:id="@+id/nine_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

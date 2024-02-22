@@ -43,13 +43,13 @@ import java.util.List;
  * description: 图片/视频/音频 选择, 拍照, 裁剪, 压缩... <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector的Github</a> <br />
  * <br />
  * // 图片压缩 (按需引入): 如果你需要使用压缩图片功能, 需要添加下面这行依赖 <br />
- *   implementation 'io.github.lucksiege:compress:v3.10.9' <br />
+ *   implementation 'io.github.lucksiege:compress:v3.11.2' <br />
  * <br />
  *   // 图片裁剪 (按需引入) <br />
- *   implementation 'io.github.lucksiege:ucrop:v3.10.9' <br />
+ *   implementation 'io.github.lucksiege:ucrop:v3.11.2' <br />
  * <br />
  *   // 自定义相机 (按需引入) <br />
- *   implementation 'io.github.lucksiege:camerax:v3.10.9' <br />
+ *   implementation 'io.github.lucksiege:camerax:v3.11.2' <br />
  */
 public class PictureSelectorUtils {
 
@@ -64,18 +64,11 @@ public class PictureSelectorUtils {
     //传入已选图片(可同步勾选状态)
     protected List<LocalMedia>            selectionData;
 
-    //这个fragment 是否在<navagation 里面
+    //这个fragment 是否在<navigation 里面
     protected boolean isFragmentInNavigation;
     //调用系统相册/音频的时候, 是否是在Fragment 中调用的
     protected boolean isCallInFragment;
-    /**
-     * @param showCamera 是否显示相机
-     * @param showGif 是否显示Gif图片
-     * @param isCompress 是否压缩图片
-     * @param isCrop 是否裁剪图片
-     * @param singleSelect 是否是单选
-     * @param maxSelect 最多选几张图片(包括 selectionData 里的图片也会计算在内)
-     */
+     //singleSelect 是否是单选
     protected boolean singleSelect;
     protected boolean showCamera;
     protected boolean showGif;
@@ -94,10 +87,20 @@ public class PictureSelectorUtils {
         //do not new this.
     }
 
+    /**
+     * @param init 是否需要初始化
+     */
     protected static PictureSelectorUtils getInstance(boolean init) {
         if (INSTANCE == null) INSTANCE = new PictureSelectorUtils();
-        //初始化
         if (init) {
+            /**
+             * @param showCamera 是否显示相机
+             * @param showGif 是否显示Gif图片
+             * @param isCompress 是否压缩图片
+             * @param isCrop 是否裁剪图片
+             * @param singleSelect 是否是单选
+             * @param maxSelect 最多选几张图片(包括 selectionData 里的图片也会计算在内)
+             */
             INSTANCE.isFragmentInNavigation = false;
             INSTANCE.isCallInFragment = false;
             INSTANCE.showCamera = true;
@@ -129,7 +132,7 @@ public class PictureSelectorUtils {
     }
 
     /**
-     * @param isFragmentInNavigation 这个fragment 是否在<navagation 里面
+     * @param isFragmentInNavigation 这个fragment 是否在<navigation 里面
      * @param selectionData 传入已选文件(可同步勾选状态). 预览的时候, if数据类型对不上, 可传null
      * @return
      */

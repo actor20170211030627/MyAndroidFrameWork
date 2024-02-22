@@ -93,7 +93,6 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 
 **2.4.Widget小控件**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/widget/NineGridView/NineGridView.java" target="_blank">NineGridView</a> (九宫格)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/AutoCaculateHeightViewpager.java" target="_blank">AutoCaculateHeightViewpager</a> (自动计算子类高度的ViewPager)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" target="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java" target="_blank">BaseWebView</a> (WebView简单封装)
@@ -108,7 +107,6 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/ItemRadioGroupLayout.java" target="_blank">ItemRadioGroupLayout</a> (RadioGroup选择)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/ItemSpinnerLayout.java" target="_blank">ItemSpinnerLayout</a> (Spinner选择)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/ItemTextInputLayout.java" target="_blank">ItemTextInputLayout</a> (Text输入)
-<a href="library/src/main/java/com/actor/myandroidframework/widget/QuickSearchBar.java" target="_blank">QuickSearchBar</a> (快速查找条a-z)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RatioLayout.java" target="_blank">RatioLayout</a> (百分比布局, 宽高百分比)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RoundCardView.java" target="_blank">RoundCardView</a> (圆角CardView)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java" target="_blank">StatusBarHeightView</a> (状态栏占高)
@@ -180,11 +178,11 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
  */
 implementation 'com.github.actor20170211030627.MyAndroidFrameWork:picture_selector:github's latest version'
 // 图片压缩 (按需引入): 如果你选择图片/拍照后, 需要使用压缩图片功能, 需要添加下面这行依赖
-implementation 'io.github.lucksiege:compress:v3.10.9'
+implementation 'io.github.lucksiege:compress:v3.11.2'
 // 图片裁剪 (按需引入)
-implementation 'io.github.lucksiege:ucrop:v3.10.9'
+implementation 'io.github.lucksiege:ucrop:v3.11.2'
 // 自定义相机 (按需引入)
-implementation 'io.github.lucksiege:camerax:v3.10.9'
+implementation 'io.github.lucksiege:camerax:v3.11.2'
 </pre>
 
 <pre>
@@ -253,6 +251,8 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github'
  * 还有一些其它不常用工具类: (按需引入)
  * <a href="other_utils/src/main/java/com/actor/other_utils/BirthdayUtils.java" target="_blank">BirthdayUtils</a> (生日: 天数倒数, 农历生日, 年龄)
  * <a href="other_utils/src/main/java/com/actor/other_utils/TextToSpeechUtils.java" target="_blank">TextToSpeechUtils</a> (Android自带文字转语音支持)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/widget/QuickSearchBar.java" target="_blank">QuickSearchBar</a> (快速查找条a-z)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/widget/NineGridView/NineGridView.java" target="_blank">NineGridView</a> (九宫格)
  */
  implementation 'com.github.actor20170211030627.MyAndroidFrameWork:other_utils:github's latest version'
 </pre>
