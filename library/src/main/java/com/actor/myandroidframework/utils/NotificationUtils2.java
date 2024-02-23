@@ -1,10 +1,13 @@
 package com.actor.myandroidframework.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+
+import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.NotificationUtils;
 
@@ -14,7 +17,7 @@ import com.blankj.utilcode.util.NotificationUtils;
  * Date       : 2019/7/18 on 15:40
  * @version 1.0
  */
-public class NotificationHelper {
+public class NotificationUtils2 {
 
     /**
      * Notifications是否可以显示出来
@@ -26,8 +29,9 @@ public class NotificationHelper {
 
     /**
      * 跳转到 APP 的"通知设置界面"
+     * @param requestCode 请求码, 只有context是Activity的时候, 才会使用这个请求码
      */
-    public static void gotoSet(Context context) {
+    public static void go2Set(@NonNull Context context, int requestCode) {
         Intent intent = new Intent();
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             // android 8.0引导
@@ -43,7 +47,11 @@ public class NotificationHelper {
             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.fromParts("package", context.getPackageName(), null));
         }
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(intent, requestCode);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
     }
 }

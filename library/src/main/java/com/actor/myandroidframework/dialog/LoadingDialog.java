@@ -51,6 +51,7 @@ public class LoadingDialog extends BaseDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isPrintNameOnCreate = false;
+        isStatusBarDimmed(false);
         viewBackground = findViewById(R.id.progress_dialog_background_view);
         progressBar = findViewById(R.id.progress_dialog_progress);
         tvMessage = findViewById(R.id.progress_dialog_message);

@@ -286,7 +286,7 @@ public class UMPushUtils {
      * 全屏消息是App首次启动打开进入的页面，以全屏图片的形式展示。
      * @param mainActivityPath 设置全屏消息默认跳转Activity的路径
      */
-    public static void setMainActivityPath(@NonNull Context context, @NonNull Class<Activity> mainActivityPath) {
+    public static void setMainActivityPath(@NonNull Context context, @NonNull Class<? extends Activity> mainActivityPath) {
         InAppMessageManager.getInstance(context).setMainActivityPath(mainActivityPath.getName());
     }
     /**

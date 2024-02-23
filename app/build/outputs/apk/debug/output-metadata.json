@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.actor.sample",
+  "variantName": "debug",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 2023040603,
+      "versionName": "2.1.1.2",
+      "enabled": true,
+      "outputFile": "app-debug.apk"
+    }
+  ]
+}

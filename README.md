@@ -84,7 +84,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java" target="_blank">LogUtils</a> (Log简单打印)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/MMKVUtils.java" target="_blank">MMKVUtils</a> (数据缓存)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/NotificationHelper.java" target="_blank">NotificationHelper</a> (通知栏)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/NotificationUtils2.java" target="_blank">NotificationUtils2</a> (通知栏)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/SPUtils.java" target="_blank">SPUtils</a> (SP工具)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/TextUtils2.java" target="_blank">TextUtils2</a> (获取Text, 判空, getStringFormat, ...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ThreadUtils.java" target="_blank">ThreadUtils</a> (线程判断/切换)
