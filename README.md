@@ -104,9 +104,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseTabLayout.java" target="_blank">BaseTabLayout</a> (更简单使用TabLayout)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseTextSwitcher.java" target="_blank">BaseTextSwitcher</a> (TextView切换)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseViewSwitcher.java" target="_blank">BaseViewSwitcher</a> (View切换)
-<a href="library/src/main/java/com/actor/myandroidframework/widget/ItemRadioGroupLayout.java" target="_blank">ItemRadioGroupLayout</a> (RadioGroup选择)
-<a href="library/src/main/java/com/actor/myandroidframework/widget/ItemSpinnerLayout.java" target="_blank">ItemSpinnerLayout</a> (Spinner选择)
-<a href="library/src/main/java/com/actor/myandroidframework/widget/ItemTextInputLayout.java" target="_blank">ItemTextInputLayout</a> (Text输入)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/DrawableTextView.java" target="_blank">DrawableTextView</a> (支持限定 Drawable 大小的 TextView)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RatioLayout.java" target="_blank">RatioLayout</a> (百分比布局, 宽高百分比)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RoundCardView.java" target="_blank">RoundCardView</a> (圆角CardView)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java" target="_blank">StatusBarHeightView</a> (状态栏占高)
@@ -251,8 +249,11 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github'
  * 还有一些其它不常用工具类: (按需引入)
  * <a href="other_utils/src/main/java/com/actor/other_utils/BirthdayUtils.java" target="_blank">BirthdayUtils</a> (生日: 天数倒数, 农历生日, 年龄)
  * <a href="other_utils/src/main/java/com/actor/other_utils/TextToSpeechUtils.java" target="_blank">TextToSpeechUtils</a> (Android自带文字转语音支持)
- * <a href="other_utils/src/main/java/com/actor/other_utils/widget/QuickSearchBar.java" target="_blank">QuickSearchBar</a> (快速查找条a-z)
  * <a href="other_utils/src/main/java/com/actor/other_utils/widget/NineGridView/NineGridView.java" target="_blank">NineGridView</a> (九宫格)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/widget/ItemRadioGroupLayout.java" target="_blank">ItemRadioGroupLayout</a> (RadioGroup选择)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/widget/ItemSpinnerLayout.java" target="_blank">ItemSpinnerLayout</a> (Spinner选择)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/widget/ItemTextInputLayout.java" target="_blank">ItemTextInputLayout</a> (Text输入)
+ * <a href="other_utils/src/main/java/com/actor/other_utils/widget/QuickSearchBar.java" target="_blank">QuickSearchBar</a> (快速查找条a-z)
  */
  implementation 'com.github.actor20170211030627.MyAndroidFrameWork:other_utils:github's latest version'
 </pre>

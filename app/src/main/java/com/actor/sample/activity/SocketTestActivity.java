@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
-import com.actor.myandroidframework.widget.ItemTextInputLayout;
+import com.actor.other_utils.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SocketMsgAdapter;
 import com.actor.sample.databinding.ActivitySocketTestBinding;

@@ -10,6 +10,11 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -116,6 +121,52 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         super.startActivityForResult(intent, requestCode, options);
         //如果自定义切换动画, 请在子类调用startActivityForResult(intent, requestCode, options);之后, 复制↓这1行并填入动画
         overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
+    }
+
+    /**
+     * 跳转页面, 等待返回数据(Google新用法) <br />
+     * <pre>
+     *     ActivityResultLauncher<Intent> launcher = registerForActivityResult(callback);
+     *     launcher.launch(intent, options);   //参2可选, 跳转页面
+     * </pre>
+     * @param callback 回调
+     */
+    @NonNull
+    public ActivityResultLauncher<Intent> registerForActivityResult(
+            @NonNull ActivityResultCallback<ActivityResult> callback) {
+        return registerForActivityResultImpl(new ActivityResultContracts.StartActivityForResult(), callback);
+    }
+
+    /**
+     * Google新用法 <br />
+     * @param contract 请求类型:
+     *                 <ol>
+     *                     <li>{@link ActivityResultContracts.StartActivityForResult} 跳转页面, 等待返回数据</li>
+     *                     <li>{@link ActivityResultContracts.StartIntentSenderForResult}</li>
+     *                     <li>{@link ActivityResultContracts.RequestMultiplePermissions} 请求多个权限</li>
+     *                     <li>{@link ActivityResultContracts.RequestPermission} 请求权限</li>
+     *                     <li>{@link ActivityResultContracts.TakePicturePreview} 拍照预览</li>
+     *                     <li>{@link ActivityResultContracts.TakePicture} 拍照</li>
+     *                     <li>{@link ActivityResultContracts.TakeVideo} 拍视频</li>
+     *                     <li>{@link ActivityResultContracts.PickContact} 选择联系人</li>
+     *                     <li>{@link ActivityResultContracts.GetContent} 获取特定类型的文件</li>
+     *                     <li>{@link ActivityResultContracts.GetMultipleContents} 获取特定类型的多个文件</li>
+     *                     <li>{@link ActivityResultContracts.OpenDocument} 选择文档</li>
+     *                     <li>{@link ActivityResultContracts.OpenMultipleDocuments} 选择多个文档</li>
+     *                     <li>{@link ActivityResultContracts.OpenDocumentTree} 打开文档文件夹列表</li>
+     *                     <li>{@link ActivityResultContracts.CreateDocument} 创建文档</li>
+     *                     <li>也可以自定义...</li>
+     *                 </ol>
+     * @param callback 回调
+     * @param <I> 输入类型
+     * @param <O> 输出类型
+     */
+    @NonNull
+//    @Override
+    public /*final*/ <I, O> ActivityResultLauncher<I> registerForActivityResultImpl(
+            @NonNull ActivityResultContract<I, O> contract,
+            @NonNull ActivityResultCallback<O> callback) {
+        return super.registerForActivityResult(contract, callback);
     }
 
     /**

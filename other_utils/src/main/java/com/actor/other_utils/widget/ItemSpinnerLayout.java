@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.other_utils.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,7 +19,7 @@ import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
 
-import com.actor.myandroidframework.R;
+import com.actor.other_utils.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -161,7 +161,7 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
         }
     }
     protected void inflate(Context context, @LayoutRes int resource, int containerMinHeight) {
-        View view = View.inflate(context, R.layout.item_spinner_layout, this);
+        View view = inflate(context, R.layout.item_spinner_layout, this);
         llContentForIsl = view.findViewById(R.id.ll_content_for_isl);
         spaceMarginTop = view.findViewById(R.id.space_margin_top_for_isl);
         tvRedStar = view.findViewById(R.id.tv_red_star_for_isl);

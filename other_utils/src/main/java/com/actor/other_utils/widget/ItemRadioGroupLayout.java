@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.other_utils.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,10 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
 
-import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.widget.BaseRadioGroup;
+import com.actor.other_utils.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -85,7 +85,7 @@ import java.util.List;
  * </table>
  * <br />
  *
- * @param <T> 填充RadioButton的数据类型, 见{@link #setDatas(Collection)}, 示例: <pre> {@code
+ * @param <T> 填充RadioButton的数据类型, 见{@link #setDatas(CharSequence[])}, 示例: <pre> {@code
  *      @BindView(R.id.isl_spinner)
  *      ItemRadioGroupLayout<User> islSpinner;//会填充user的toString()返回值
  * } </pre>
@@ -93,7 +93,7 @@ import java.util.List;
 public class ItemRadioGroupLayout<T> extends LinearLayout {
 
     protected TextView                tvRedStar, tvItem;
-    protected BaseRadioGroup<T>       radioGroup;
+    protected BaseRadioGroup<T> radioGroup;
     protected LinearLayout            llContentForIrgl;
     protected Space                   spaceMarginTop;
     //px = dp * density;

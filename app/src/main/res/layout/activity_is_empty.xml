@@ -48,7 +48,7 @@
     itilText: 显示的文字
     ...
     -->
-    <com.actor.myandroidframework.widget.ItemTextInputLayout
+    <com.actor.other_utils.widget.ItemTextInputLayout
         android:id="@+id/itil_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

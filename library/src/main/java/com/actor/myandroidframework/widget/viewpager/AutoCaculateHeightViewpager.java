@@ -16,11 +16,12 @@ import com.google.android.material.tabs.TabLayout;
  * Author     : ldf <br />
  * date       : 2022/3/5 on 16
  * @version 1.0
+ * TODO: 2024/2/29 高度计算不对, 见拍拍拍错题上传时
  */
 public class AutoCaculateHeightViewpager extends ScrollableViewPager {
 
-    protected SparseIntArray hights = new SparseIntArray();
-    protected boolean isShowHightestChild$onlyShowChildHeight = false;
+    protected SparseIntArray heights = new SparseIntArray();
+    protected boolean isShowHighestChild$onlyShowChildHeight = false;
     protected boolean skipTabLayout = true;
     //Viewpager 里是否有TabLayout
     protected boolean hasTabLayout = false;
@@ -42,12 +43,12 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
             public void onPageSelected(int position) {
                 ViewGroup.LayoutParams layoutParams = getLayoutParams();
                 //如果最高页面的高度
-                if (isShowHightestChild$onlyShowChildHeight) {
+                if (isShowHighestChild$onlyShowChildHeight) {
                     int currentHeight = layoutParams.height;
                     //最高child的高度
                     int hightestChild = currentHeight;
-                    for (int i = 0; i < hights.size(); i++) {
-                        int hChild = hights.get(i);
+                    for (int i = 0; i < heights.size(); i++) {
+                        int hChild = heights.get(i);
                         if (hChild > hightestChild) {
                             hightestChild = hChild;
                         }
@@ -60,7 +61,7 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
                     }
                 } else {
                     //如果显示相应页面自己的实际高度
-                    int height = hights.get(position);
+                    int height = heights.get(position);
 //                    LogUtils.errorFormat("position = %d, height = %d", position, height);
                     if (height > 0) {
                         layoutParams.height = height;
@@ -89,15 +90,15 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
                 hightestChild = height;
             }
 //            LogUtils.errorFormat("i = %d, h = %d", i, height);
-            hights.put(hasTabLayout ? i - 1 : i, height);
+            heights.put(hasTabLayout ? i - 1 : i, height);
         }
         //如果是显示最高child的高度
-        if (isShowHightestChild$onlyShowChildHeight) {
+        if (isShowHighestChild$onlyShowChildHeight) {
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(hightestChild, MeasureSpec.EXACTLY);
         } else {
             int currentItem = getCurrentItem();
             if (currentItem == 0) {
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(hights.get(0), MeasureSpec.EXACTLY);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(heights.get(0), MeasureSpec.EXACTLY);
             }
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -110,14 +111,14 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
      *        false: 切换到相应页面时, 显示相应页面自己的实际高度
      */
     public void setShownHeightMode(boolean isShowHightestChild$onlyShowChildHeight) {
-        this.isShowHightestChild$onlyShowChildHeight = isShowHightestChild$onlyShowChildHeight;
+        this.isShowHighestChild$onlyShowChildHeight = isShowHightestChild$onlyShowChildHeight;
     }
 
     /**
      * @return 是否显示几个页面中最高页面的高度
      */
     public boolean getShownHeightMode() {
-        return isShowHightestChild$onlyShowChildHeight;
+        return isShowHighestChild$onlyShowChildHeight;
     }
 
     /**

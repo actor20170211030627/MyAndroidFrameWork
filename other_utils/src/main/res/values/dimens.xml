@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="item_text_input_layout_container_min_height">
+        <!--ItemTextInputLayout 的主container的最小高度, 如果需要自定义, 可在自己项目的dimens.xml中重写设置这个变量-->
+        49dp
+    </dimen>
+
+    <dimen name="item_spinner_layout_container_min_height">
+        <!--ItemSpinnerLayout 的主container的最小高度, 如果需要自定义, 可在自己项目的dimens.xml中重写设置这个变量-->
+        49dp
+    </dimen>
+
+    <dimen name="item_radio_group_layout_container_min_height">
+        <!--ItemRadioGroupLayout 的主container的最小高度, 如果需要自定义, 可在自己项目的dimens.xml中重写设置这个变量-->
+        49dp
+    </dimen>
+</resources>

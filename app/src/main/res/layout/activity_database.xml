@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.actor.myandroidframework.widget.ItemTextInputLayout
+        <com.actor.other_utils.widget.ItemTextInputLayout
             android:id="@+id/itil_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,14 +21,14 @@
             app:itilItemName="Name姓名: "
             app:itilRedStarVisiable="invisible" />
 
-        <com.actor.myandroidframework.widget.ItemRadioGroupLayout
+        <com.actor.other_utils.widget.ItemRadioGroupLayout
             android:id="@+id/irgl_sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:irglBtns="Girl女,Boy男,Unknown未知"
             app:irglItemName="Sex性别: " />
 
-        <com.actor.myandroidframework.widget.ItemTextInputLayout
+        <com.actor.other_utils.widget.ItemTextInputLayout
             android:id="@+id/itil_idcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.actor.myandroidframework.widget.ItemTextInputLayout
+            <com.actor.other_utils.widget.ItemTextInputLayout
                 android:id="@+id/itil_key"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                 app:itilItemName="key: "
                 app:itilRedStarVisiable="invisible" />
 
-            <com.actor.myandroidframework.widget.ItemTextInputLayout
+            <com.actor.other_utils.widget.ItemTextInputLayout
                 android:id="@+id/itil_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

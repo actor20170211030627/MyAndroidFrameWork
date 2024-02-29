@@ -10,9 +10,9 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.BaseRadioGroup;
 import com.actor.myandroidframework.widget.BaseSpinner;
-import com.actor.myandroidframework.widget.ItemRadioGroupLayout;
-import com.actor.myandroidframework.widget.ItemSpinnerLayout;
-import com.actor.myandroidframework.widget.ItemTextInputLayout;
+import com.actor.other_utils.widget.ItemRadioGroupLayout;
+import com.actor.other_utils.widget.ItemSpinnerLayout;
+import com.actor.other_utils.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityCustomViewBinding;
 
