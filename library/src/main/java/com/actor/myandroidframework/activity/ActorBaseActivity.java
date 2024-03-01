@@ -83,8 +83,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        //如果自定义切换动画, 请在子类调用startActivity(intent);之后, 复制↓这1行并填入动画
-        overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
+        overridePendingTransition(getNextEnterAnim(), getPreExitAnim());
     }
 
     /**
@@ -119,8 +118,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Deprecated
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
-        //如果自定义切换动画, 请在子类调用startActivityForResult(intent, requestCode, options);之后, 复制↓这1行并填入动画
-        overridePendingTransition(R.anim.next_enter, R.anim.pre_exit);
+        overridePendingTransition(getNextEnterAnim(), getPreExitAnim());
     }
 
     /**
@@ -197,9 +195,29 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     public void finish() {
         super.finish();
-        //如果自定义切换动画, 请在子类调用finish();之后, 复制↓这1行并填入动画
-        overridePendingTransition(R.anim.pre_enter, R.anim.next_exit);
+        overridePendingTransition(getPreReEnterAnim(), getNextExitAnim());
     }
+
+    /**
+     * 进入下一页面时, 下一页(第2页)进入动画, if自定义切换动画, 请从写此方法
+     */
+    protected int getNextEnterAnim() { return R.anim.next_enter; }
+
+    /**
+     * 进入下一页面时, 当前页(第1页)退出动画, if自定义切换动画, 请从写此方法
+     */
+    protected int getPreExitAnim() { return R.anim.pre_exit; }
+
+    /**
+     * 退出当前页时, 前一页(第1页)重新进入动画, if自定义切换动画, 请从写此方法
+     */
+    protected int getPreReEnterAnim() { return R.anim.pre_enter; }
+
+    /**
+     * 退出当前页时, 当前页(第2页)退出动画, if自定义切换动画, 请从写此方法
+     */
+    protected int getNextExitAnim() { return R.anim.next_exit; }
+
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -238,9 +256,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     }
 
     //"输入内容不能少于30字"示例: getStringRes("输入内容不能少于%1$d字", 30)
-    protected String getStringRes(@StringRes int stringResId, Object... formatArgs) {
-        if (formatArgs == null || formatArgs.length == 0) return getString(stringResId);
-        return getString(stringResId, formatArgs);
+    protected String getStringFormat(@StringRes int stringResId, Object... formatArgs) {
+        return TextUtils2.getStringFormat(stringResId, formatArgs);
     }
 
     //获取格式化后的String, 例: "我的姓名是%s, 我的年龄是%d", "张三", 23

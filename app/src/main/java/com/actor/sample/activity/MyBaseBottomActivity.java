@@ -40,7 +40,7 @@ public class MyBaseBottomActivity extends BaseBottomActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_dismiss:
-                onBackPressed();
+                finish();
                 break;
             case R.id.btn_ok:
                 ToasterUtils.success("ok~");

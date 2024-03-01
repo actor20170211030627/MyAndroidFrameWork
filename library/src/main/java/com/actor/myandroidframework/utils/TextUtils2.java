@@ -10,11 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.actor.myandroidframework.R;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.Utils;
 import com.google.android.material.textfield.TextInputLayout;
 
 /**
@@ -264,15 +266,25 @@ public class TextUtils2 {
     // 其它方法
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * 返回格式化后的String, 示例: ("name = %s, age = %d", "张三", 23) => (name = 张三, age = 23)
-     * 具体格式化方式可参考:
-     * https://gitee.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java
+     * 返回格式化后的String, 具体格式化方式可参考:
+     * <a href="https://gitee.com/actor20170211030627/TestApplication/blob/master/app/src/test/java/com/actor/testapplication/StringFormatTest.java">StringFormatTest.java</a>
+     * @param format 示例: "name = %s, age = %d"
+     * @param args   示例: "张三", 23
      */
-    @NonNull
+    @Nullable
     public static String getStringFormat(@NonNull String format, @Nullable Object... args) {
         //如果args为空, format会报错: MissingFormatArgumentException: Format specifier '%E'
-        if (format == null || args == null || args.length == 0) return getNoNullString(format);
+        if (format == null || args == null || args.length == 0) return format;
         return String.format(format, args);
+    }
+
+    /**
+     * 返回格式化后的String
+     * @param stringResId R.string.xxx
+     */
+    @Nullable
+    public static String getStringFormat(@StringRes int stringResId, @Nullable Object... args) {
+        return getStringFormat(Utils.getApp().getString(stringResId), args);
     }
 
     /**
