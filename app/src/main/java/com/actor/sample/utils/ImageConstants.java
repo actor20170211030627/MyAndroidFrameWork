@@ -1,22 +1,39 @@
 package com.actor.sample.utils;
 
-//from https://github.com/tuacy/TransitionDemo, thanks!
 public class ImageConstants {
 
-	public static final String[] IMAGE_SOURCE
-		= {"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2758693551,420250296&fm=27&gp=0.jpg",
-		   "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3485969589,1166036502&fm=27&gp=0.jpg",
-		   "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2116076894,1152333553&fm=27&gp=0.jpg",
-		   "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=463259274,1530777603&fm=27&gp=0.jpg",
-		   "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3911634277,2620442701&fm=27&gp=0.jpg",
-		   "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1672296186,2845515229&fm=27&gp=0.jpg",
-		   "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2551179471,543908891&fm=27&gp=0.jpg",
-		   "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=491919874,800948467&fm=27&gp=0.jpg",
-		   "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=536470710,399400318&fm=27&gp=0.jpg",
-		   "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3363561030,1979192058&fm=27&gp=0.jpg",
-		   "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1479271258,3140661584&fm=27&gp=0.jpg",
-		   "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2228535626,3039587744&fm=27&gp=0.jpg",
-		   "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=689467765,1293283547&fm=27&gp=0.jpg",
-		   "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3308108337,1322312915&fm=27&gp=0.jpg"};
+    public static final String[] IMAGE_SOURCE = {
+            //百度logo
+            "https://www.baidu.com/img/flexible/logo/pc/result.png",
+
+            //微信开放平台图片
+            "https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon64_wx_logo.png",
+            "https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon64_appwx_logo.png",
+            "https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon48_wx_button.png",
+            "https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon_button3_1.png",
+            "https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon64_wx_logo.png",
+            "https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon_res_download_moments.png",
+            "https://open.weixin.qq.com/zh_CN/htmledition/res/assets/res-design-download/icon_res_download_collect.png",
+            "https://res.wx.qq.com/wxdoc/dist/assets/img/brand.4f7ae7e2.png",
+            "https://res.wx.qq.com/wxdoc/dist/assets/img/function.5fa98903.png",
+            "https://res.wx.qq.com/wxdoc/dist/assets/img/paster.1397f6e7.png",
+            "https://res.wx.qq.com/wxdoc/dist/assets/img/paper.1450448c.png",
+
+            //QQ互联平台图片
+            "https://sola.gtimg.cn/aoi/sola/20210118201807_sNZFi8SENi.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2013/10/01_qq_logo-1-300x144.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2013/10/02_qq_logo_ver-1-200x300.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2013/10/03_qq_symbol-1-250x300.png",
+            "https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Qzone_logo_blue.jpg",
+            "https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Qzone_logo_black.jpg",
+            "https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Qzone_logo_write.jpg",
+            "https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Qzone_logo_icon_wiki.jpg",
+            "https://wiki.connect.qq.com/wp-content/uploads/2021/01/icon_for_ios7-374x1024.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2013/10/bt_92X1201.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2021/01/bt_blue_76X24.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2021/01/bt_white_76X24.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2021/01/bt_blue_24X24.png",
+            "https://wiki.connect.qq.com/wp-content/uploads/2021/01/bt_white_24X24.png"
+    };
 
 }

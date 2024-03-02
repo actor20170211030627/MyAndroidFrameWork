@@ -23,6 +23,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.bean.OnActivityCallback;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
 import com.actor.myandroidframework.service.BaseService;
@@ -101,6 +102,9 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     }
 
 
+    /**
+     * 请务必使用这种回调的方式, 更方便
+     */
     public void startActivityForResult(Intent intent, OnActivityCallback callback) {
         startActivityForResult(intent, null, callback);
     }
@@ -182,6 +186,10 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
                 sharedElementA, sharedElementCallback, sharedElements);
     }
 
+    /**
+     * if这个Activity中有Fragment, 那么不管这个Fragment的 onActivityResult(...)方法是否调用了 super.onActivityResult(...),
+     * 最后都会回调到这儿来.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -476,17 +484,10 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     protected void onDestroy() {
         super.onDestroy();
         dismissNetWorkLoadingDialog();
+        if (mActivityCallbacks != null) {
+            mActivityCallbacks.clear();
+            mActivityCallbacks = null;
+        }
 //        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
-    }
-
-
-    public interface OnActivityCallback {
-
-        /**
-         * 结果回调 from hjq
-         * @param resultCode        结果码
-         * @param data              数据
-         */
-        void onActivityResult(int resultCode, @Nullable Intent data);
     }
 }
