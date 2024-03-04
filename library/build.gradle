@@ -155,6 +155,33 @@ dependencies {
 
     //https://github.com/yellowcath/VideoProcessor 视频压缩
     compileOnly 'com.github.yellowcath:VideoProcessor:2.4.2'
+
+
+
+    /**
+     * TODO: 没注意是哪个库引起的, 当项目添加library依赖后, 会报错(报错其中1个), 以后移除
+     * https://stackoverflow.com/questions/75263047/duplicate-class-in-kotlin-android
+     */
+    constraints {
+        /**
+         * java.util.concurrent.ExecutionException: java.lang.RuntimeException:
+         *     Duplicate class kotlin.internal.jdk7.JDK7PlatformImplementations found in modules
+         *         jetified-kotlin-stdlib-1.8.0.jar (org.jetbrains.kotlin:kotlin-stdlib:1.8.0)
+         *     and jetified-kotlin-stdlib-jdk7-1.5.0.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0)
+         */
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        /**
+         * java.util.concurrent.ExecutionException: java.lang.RuntimeException:
+         *     Duplicate class kotlin.collections.jdk8.CollectionsJDK8Kt found in modules
+         *         jetified-kotlin-stdlib-1.8.0.jar (org.jetbrains.kotlin:kotlin-stdlib:1.8.0)
+         *     and jetified-kotlin-stdlib-jdk8-1.6.0.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0)
+         */
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
 }
 
 configurations.all {
