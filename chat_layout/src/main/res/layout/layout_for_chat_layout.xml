@@ -89,7 +89,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/selector_btn_send_for_chat_layout"
                 android:text="发送"
-                android:textColor="@color/white"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -114,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="bottom"
-            android:background="@color/gray_ebebeb"
+            android:background="#ebebeb"
             app:tabIndicatorHeight="0dp"
             app:tabMode="scrollable" />
     </androidx.viewpager.widget.ViewPager>

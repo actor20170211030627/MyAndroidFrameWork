@@ -3,7 +3,11 @@ package com.actor.myandroidframework.utils.sharedelement;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
+import android.transition.Scene;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,8 +16,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.blankj.utilcode.util.ActivityUtils;
 
 /**
- * description: 元素共享跳转工具类
- * company    :
+ * description: 元素共享跳转工具类, 可参考<a href="https://blog.csdn.net/Gaga246/article/details/126936866" target="_blank">Android Activity共享元素动画分析</a>,
+ *              <a href="https://blog.csdn.net/u013077428/article/details/126484571" target="_blank">android共享元素动画在Android10以上异常的终极解决方案</a>, <br />
+ *              {@link null 注意：}Android5.0才开始支持共享元素动画
+ * <ul>
+ *     <li>
+ *         所谓Activity共享元素动画，就是从ActivityA跳转到ActivityB,
+ *         通过控制某些元素(View)从ActivityA开始帧的位置跳转到ActivityB 结束帧的位置，应用过度动画。
+ *     </li>
+ *     <li>
+ *         其动画核心是使用的 {@link Transition} 记录共享元素的开始帧、结束帧，
+ *         然后使用 {@link TransitionManager} 过度动画管理类调用
+ *         {@link TransitionManager#beginDelayedTransition(ViewGroup)} 方法, 应用过度动画。
+ *     </li>
+ *     <li>
+ *         {@link TransitionManager}有两个比较重要的类{@link Scene}(场景)和{@link Transition}(过渡)
+ *     </li>
+ * </ul>
  *
  * @author : ldf
  * date       : 2021/10/16 on 17

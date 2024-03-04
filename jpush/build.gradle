@@ -68,7 +68,7 @@ afterEvaluate {
 }
 
 dependencies {
-    api project(path: ':library')
+    compileOnly project(path: ':library')
 
     //https://github.com/greenrobot/EventBus JPush各种操作&收到消息回调后使用EventBus转发
     compileOnly 'org.greenrobot:eventbus:3.3.1'

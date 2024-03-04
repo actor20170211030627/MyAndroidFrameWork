@@ -20,8 +20,10 @@ import com.actor.myandroidframework.R;
  * Date       : 2020/3/16 on 16:40
  *
  * @version 1.0
+ *
+ * @see com.blankj.utilcode.util.ServiceUtils
  */
-public abstract class BaseService extends Service {
+public abstract class ActorBaseService extends Service {
 
     /**
      * 是否以 startForegroundService 的方式启动

@@ -67,6 +67,10 @@ afterEvaluate {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation rootProject.ext.dependencies.material
+//    implementation rootProject.ext.dependencies.androidx_recyclerview
+//    implementation rootProject.ext.dependencies.constraint_layout
     //基础库
+//    compileOnly project(path: ':library') //TODO: ratio: 属性在本地编译不通过..
     implementation project(path: ':library')
 }
