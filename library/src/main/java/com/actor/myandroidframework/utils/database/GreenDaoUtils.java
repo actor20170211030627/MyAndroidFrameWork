@@ -284,7 +284,7 @@ public class GreenDaoUtils {
      * 设置greenDAO
      * @param context application
      * @param isDebug 如果是debug模式, 数据库操作会打印日志
-     * @param dbName 数据库名称(没有就创建,有就增删改查), 例: my_database.db3
+     * @param dbName 数据库名称(没有就创建在/data/data/package/databases,有就增删改查), 例: my_database.db3
      *               或读取已有数据库例: my_database.db, my_database.db3...
      *               ★★★注意: 读取已有数据库时, 要保证这个已有数据库在这个目录下: context.getDatabasePath()★★★
      * @param dbPassword 数据库密码, 如果没有就传null

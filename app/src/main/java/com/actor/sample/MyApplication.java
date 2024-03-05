@@ -1,8 +1,5 @@
 package com.actor.sample;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.actor.chat_layout.ChatLayoutKit;
 import com.actor.chat_layout.emoji.DefaultEmojiList;
 import com.actor.jpush.JPushUtils;
@@ -38,11 +35,22 @@ public class MyApplication extends ActorApplication {
         MyOkHttpUtils.setBaseUrl(Global.BASE_URL_GITHUB);
         RetrofitNetwork.init(Global.BASE_URL_GITHUB);
 
+
         //配置张鸿洋的OkHttpUtils
-        MyOkHttpUtils.setOkHttpClient(ConfigUtils.okHttpClient);
+        OkHttpClient.Builder builder = MyOkHttpUtils.initOkHttp(isAppDebug());
+        //然后可以在 builder 中自定义设置, 添加拦截器等
+        //builder.xxx
+        //OkHttp配置完后, 再增加1个日志拦截器, 用于打印非常标准的请求日志
+        OkHttpClient okHttpClient = ConfigUtils.okHttpAddLogInterceptor(builder, isAppDebug());
+        //最后将okHttpClient设置进去
+        MyOkHttpUtils.setOkHttpClient(okHttpClient);
+
 
         //配置轮子哥的EasyHttp
-        EasyHttpConfigUtils.init(isAppDebug(), Global.BASE_URL_GITHUB, ConfigUtils.okHttpClient);
+        OkHttpClient.Builder builder2 = EasyHttpConfigUtils.initOkHttp(isAppDebug());
+        //然后可以在 builder2 中自定义设置, 添加拦截器等
+        //builder2.xxx
+        EasyHttpConfigUtils.init(isAppDebug(), Global.BASE_URL_GITHUB, builder2.build());
 
 
         /**
@@ -54,6 +62,7 @@ public class MyApplication extends ActorApplication {
          *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
          */
         GreenDaoUtils.init(this, isAppDebug(), "test_db.db3", "123456", ItemEntityDao.class/*, ...*/);
+
 
         /**
          * 聊天示例
@@ -101,9 +110,8 @@ public class MyApplication extends ActorApplication {
         WeChatUtils.setAppId("wx88888888");
     }
 
-    @Nullable
     @Override
-    protected OkHttpClient.Builder configOkHttpClientBuilder(@NonNull OkHttpClient.Builder builder) {
-        return null;
+    protected void onUncaughtException(Throwable e) {
+        super.onUncaughtException(e);
     }
 }

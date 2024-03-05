@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.okhttputils.log.RequestInterceptor;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
@@ -14,12 +15,9 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 import com.tencent.mmkv.MMKV;
-import com.zhy.http.okhttp.cookie.CookieJarImpl;
-import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 
 import java.net.Proxy;
 
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 /**
@@ -59,8 +57,6 @@ public class ConfigUtils {
     //硬盘缓存
     public static final CacheDiskUtils aCache = CacheDiskUtils.getInstance(APPLICATION.getFilesDir());
 
-    public static OkHttpClient okHttpClient;
-
 
     /**
      * 配置轮子哥的Log日志
@@ -83,41 +79,20 @@ public class ConfigUtils {
     }
 
     /**
-     * 配置okhttp
-     */
-    public static OkHttpClient.Builder initOkHttp(boolean isDebugMode) {
-        return new OkHttpClient.Builder()
-                //默认10s, 可不设置
-//                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)
-                //默认10s, 可不设置
-//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)
-                //默认10s, 可不设置
-//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)
-//                .addInterceptor(new AddHeaderInterceptor())
-                //拦截器, 401登陆过期重新获取token等...
-//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this))
-                //连接失败重试, 连接失败有可能报错EOFException: \n not found: limit=0 content=…
-                //参考: https://blog.csdn.net/jiangxiayouyu/article/details/121827079
-                .retryOnConnectionFailure(true)
-                .cookieJar(new CookieJarImpl(new PersistentCookieStore(APPLICATION)))
-                //10Mb;
-                .cache(new Cache(APPLICATION.getFilesDir(), 1024*1024*10));
-    }
-
-    /**
      * OkHttp配置完后, 再增加1个日志拦截器, 用于打印非常标准的请求日志
+     * @return 最后添加完拦截器后, 就返回OkHttpClient
      */
-    public static void okHttpAddLogInterceptor(@NonNull OkHttpClient.Builder builder, boolean isDebugMode) {
+    public static OkHttpClient okHttpAddLogInterceptor(@NonNull OkHttpClient.Builder builder, boolean isDebugMode) {
         if (isDebugMode) {
             //最后才添加官方日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
 //            builder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
 
             //改成这个日志拦截器, 打印更全面
-//            builder.addInterceptor(new RequestInterceptor());
+            builder.addInterceptor(new RequestInterceptor());
         } else {
             builder.proxy(Proxy.NO_PROXY);
         }
-        okHttpClient = builder.build();
+        return builder.build();
     }
 
     /**

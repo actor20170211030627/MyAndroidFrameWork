@@ -1,17 +1,46 @@
 package com.actor.myandroidframework.utils.easyhttp;
 
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.hjq.http.EasyConfig;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 /**
  * description: 配置轮子哥的EasyHttp, <a href="https://github.com/getActivity/EasyHttp/blob/master/HelpDoc.md" target="_blank">EasyHttp帮助文档</a> <br />
- *
+ * 使用前先配置:
+ * <ol>
+ *     <li>{@link #initOkHttp(boolean)}: 先初始化 OkHttpClient.Builder</li>
+ *     <li>{@link #init(boolean, String, OkHttpClient)}: 然后传入 OkHttpClient, 初始化EasyHttp</li>
+ *     <li>之后可再调用: {@link EasyConfig#getInstance()} 做额外设置</li>
+ * </ol>
  * @author : ldf
- * date       : 2024/2/16 on 20
- * @version 1.0
+ * @date       : 2024/2/16 on 20
  */
 public class EasyHttpConfigUtils {
+
+    /**
+     * 配置okhttp
+     */
+    public static OkHttpClient.Builder initOkHttp(boolean isDebugMode) {
+        return new OkHttpClient.Builder()
+                //默认10s, 可不设置
+//                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)
+                //默认10s, 可不设置
+//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)
+                //默认10s, 可不设置
+//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)
+//                .addInterceptor(new AddHeaderInterceptor())
+                //拦截器, 401登陆过期重新获取token等...
+//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this))
+                //连接失败重试, 连接失败有可能报错EOFException: \n not found: limit=0 content=…
+                //参考: https://blog.csdn.net/jiangxiayouyu/article/details/121827079
+                .retryOnConnectionFailure(true)
+                //zhy的cookie
+//                .cookieJar(new CookieJarImpl(new PersistentCookieStore(ConfigUtils.APPLICATION)))
+                //10Mb;
+                .cache(new Cache(ConfigUtils.APPLICATION.getFilesDir(), 1024*1024*10));
+    }
 
     /**
      * 配置轮子哥的EasyHttp, 配置后可通过{@link EasyConfig#getInstance()}重新设置

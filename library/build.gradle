@@ -97,7 +97,7 @@ dependencies {
     api 'com.blankj:utilcodex:1.31.1'
 
     //https://github.com/square/okhttp
-    api "com.squareup.okhttp3:okhttp:3.12.13"
+    api "com.squareup.okhttp3:okhttp:4.9.3"
 
     //https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
     api 'com.github.getActivity:EasyHttp:12.8'

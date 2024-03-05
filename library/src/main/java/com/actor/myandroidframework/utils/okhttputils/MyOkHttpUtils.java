@@ -6,12 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.okhttputils.lifecycle.MyOkHttpLifecycleUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
+import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 import com.zhy.http.okhttp.request.RequestCall;
 
 import java.io.File;
@@ -22,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Cache;
 import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -41,21 +44,23 @@ import okhttp3.WebSocketListener;
  *         exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
  *     }
  * </pre>
- * 2.如果你要混淆代码, 需要添加以下混淆规则:
+ * 2.使用前先配置
+ * <ul>
+ *     <li>{@link #setBaseUrl(String)}: 设置baseUrl(也可不设置)</li>
+ *     <li>{@link #initOkHttp(boolean)}: 初始化OkHttp</li>
+ *     <li>{@link ConfigUtils#okHttpAddLogInterceptor(OkHttpClient.Builder, boolean)}: 配置完成后, 才添加日志拦截器</li>
+ *     <li>{@link #setOkHttpClient(OkHttpClient)}: 设置{@link OkHttpUtils}的{@link OkHttpClient}</li>
+ * </ul>
+ * 3.如果你要混淆代码, 需要添加以下混淆规则:
  * <pre>
  *     #############################################################################
  *     ## okhttputils
  *     -dontwarn com.zhy.http.**
  *     -keep class com.zhy.http.**{*;}
  * </pre>
- * Author     : ldf <br />
- * date       : 2019/3/13 on 17:37
  *
- * @version 1.3.2 修复上传中文文件抛异常问题 <br />
- *          1.3.3 传参Map<String, String>修改成Map<String, Object> <br />
- *          1.3.4 添加tag(),cancel功能 <br />
- *          1.3.5 增加同步sync方法 <br />
- *          1.3.6 增加方法 {@link #postFormBody(String, Map, Map, BaseCallback)}
+ * @Author     : ldf
+ * @date       : 2019/3/13 on 17:37
  *
  * @deprecated 建议使用轮子哥的 {@link com.hjq.http.EasyHttp}
  */
@@ -72,6 +77,28 @@ public class MyOkHttpUtils {
      */
     public static void setBaseUrl(@NonNull String baseUrl) {
         if (baseUrl != null) MyOkHttpUtils.baseUrl = baseUrl;
+    }
+
+    /**
+     * 配置okhttp
+     */
+    public static OkHttpClient.Builder initOkHttp(boolean isDebugMode) {
+        return new OkHttpClient.Builder()
+                //默认10s, 可不设置
+//                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)
+                //默认10s, 可不设置
+//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)
+                //默认10s, 可不设置
+//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)
+//                .addInterceptor(new AddHeaderInterceptor())
+                //拦截器, 401登陆过期重新获取token等...
+//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this))
+                //连接失败重试, 连接失败有可能报错EOFException: \n not found: limit=0 content=…
+                //参考: https://blog.csdn.net/jiangxiayouyu/article/details/121827079
+                .retryOnConnectionFailure(true)
+                .cookieJar(new CookieJarImpl(new PersistentCookieStore(ConfigUtils.APPLICATION)))
+                //10Mb;
+                .cache(new Cache(ConfigUtils.APPLICATION.getFilesDir(), 1024*1024*10));
     }
 
     /**
@@ -96,6 +123,11 @@ public class MyOkHttpUtils {
         return baseUrl + url;
     }
 
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 2.下方是请求
+    ///////////////////////////////////////////////////////////////////////////
     public static <T> void get(String url, Map<String, Object> params, BaseCallback<T> callback) {
         get(url, null, params, callback);
     }

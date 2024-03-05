@@ -3,6 +3,7 @@ package com.actor.myandroidframework.utils;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tencent.mmkv.MMKV;
@@ -33,6 +34,8 @@ public class MMKVUtils {
         if (mmkv != null) MMKVUtils.mmkv = mmkv;
     }
 
+
+
     /**
      * 下方是boolean方法区域
      */
@@ -43,6 +46,13 @@ public class MMKVUtils {
     }
 
     /**
+     * @return 获取boolean, 默认返回false
+     */
+    public static boolean getBoolean(String key) {
+        return getMMKV().decodeBool(key);
+    }
+
+    /**
      * @param defaultValue 默认值
      */
     public static boolean getBoolean(String key, boolean defaultValue) {
@@ -50,20 +60,25 @@ public class MMKVUtils {
         return getMMKV().decodeBool(key, defaultValue);
     }
 
+
+
     /**
      * 下方是int方法区域
      */
     public static boolean putInt(String key, int value) {
         return getMMKV().encode(key, value);
     }
-
     /**
-     * 获取int
-     * @return 如果没获取到, 默认返回0
+     * 获取int, 默认返回0
      */
     public static int getInt(String key) {
         return getMMKV().decodeInt(key);
     }
+    public static int getInt(String key, int defaultValue) {
+        return getMMKV().decodeInt(key, defaultValue);
+    }
+
+
 
     /**
      * 下方是long方法区域
@@ -71,10 +86,17 @@ public class MMKVUtils {
     public static boolean putLong(String key, long value) {
         return getMMKV().encode(key, value);
     }
-
+    /**
+     * 获取long, 默认返回0
+     */
     public static long getLong(String key) {
         return getMMKV().decodeLong(key);
     }
+    public static long getLong(String key, long defaultValue) {
+        return getMMKV().decodeLong(key, defaultValue);
+    }
+
+
 
     /**
      * 下方是float方法区域
@@ -82,21 +104,35 @@ public class MMKVUtils {
     public static boolean putFloat(String key, float value) {
         return getMMKV().encode(key, value);
     }
-
+    /**
+     * 获取float, 默认返回0
+     */
     public static float getFloat(String key) {
         return getMMKV().decodeFloat(key);
     }
+    public static float getFloat(String key, float defaultValue) {
+        return getMMKV().decodeFloat(key, defaultValue);
+    }
+
+
 
     /**
      * 下方是double方法区域
      */
-    public static boolean putFloat(String key, double value) {
+    public static boolean putDouble(String key, double value) {
         return getMMKV().encode(key, value);
     }
-
+    /**
+     * 获取double, 默认返回0
+     */
     public static double getDouble(String key) {
         return getMMKV().decodeDouble(key);
     }
+    public static double getDouble(String key, double defaultValue) {
+        return getMMKV().decodeDouble(key, defaultValue);
+    }
+
+
 
     /**
      * 下方是String方法区域
@@ -105,24 +141,28 @@ public class MMKVUtils {
         return getMMKV().encode(key, value);
     }
 
+    @Nullable
     public static String getString(String key) {
         return getMMKV().decodeString(key);
     }
 
-    public static String getStringNoNull(String key) {
-        String value = getString(key);
-        if (value == null) return "";
-        return value;
+    public static String getString(String key, String defaultValue) {
+        return getMMKV().getString(key, defaultValue);
     }
+
+
 
     /**
      * 下方是Set<String>方法区域
      */
-    public static boolean putStringSet(String key, Set<String> value) {
+    public static boolean putStringSet(String key, @Nullable Set<String> value) {
         if (value == null) return false;
         return getMMKV().encode(key, value);
     }
-
+    /**
+     * 获取Set<String>, 默认返回HashSet类型
+     */
+    @Nullable
     public static Set<String> getStringSet(String key) {
         return getMMKV().decodeStringSet(key);
     }
@@ -130,10 +170,11 @@ public class MMKVUtils {
     /**
      * 下方是byte[]方法区域
      */
-    public static boolean putBytes(String key,  byte[] value) {
+    public static boolean putBytes(String key,  @Nullable byte[] value) {
         return getMMKV().encode(key, value);
     }
 
+    @Nullable
     public static byte[] getBytes(String key) {
         return getMMKV().decodeBytes(key);
     }
@@ -141,11 +182,12 @@ public class MMKVUtils {
     /**
      * 下方是Parcelable方法区域
      */
-    public static boolean putParcelable(String key, Parcelable value) {
+    public static boolean putParcelable(String key, @Nullable Parcelable value) {
         if (value == null) return false;
         return getMMKV().encode(key, value);
     }
 
+    @Nullable
     public static <T extends Parcelable> T getParcelable(String key, Class<T> tClass) {
         return getMMKV().decodeParcelable(key, tClass);
     }
@@ -160,6 +202,7 @@ public class MMKVUtils {
     /**
      * 所有key
      */
+    @Nullable
     public static String[] allKeys() {
         return getMMKV().allKeys();
     }
@@ -174,7 +217,7 @@ public class MMKVUtils {
     /**
      * 从 SharedPreferences 导入
      */
-    public static int importFromSharedPreferences(SharedPreferences preferences) {
+    public static int importFromSharedPreferences(@NonNull SharedPreferences preferences) {
         return getMMKV().importFromSharedPreferences(preferences);
     }
 
@@ -188,6 +231,7 @@ public class MMKVUtils {
     /**
      * ?
      */
+    @Nullable
     public static String cryptKey() {
         return getMMKV().cryptKey();
     }

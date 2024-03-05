@@ -73,7 +73,7 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             WxPayListener wxPayListener = WeChatUtils.getWxPayListener();
             if (wxPayListener != null) {
-                if (baseResp.getType() == BaseResp.ErrCode.ERR_OK) {
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
                     wxPayListener.onPaySuccess(baseResp);
                 } else {
                     wxPayListener.onPayError(baseResp);

@@ -23,17 +23,18 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.BarUtils;
 
 /**
- * Description: Dialog基类 <br />
- *      注意: 如果'背景使用的shape' & 'shape下方有圆角' & '下方圆角位置的view有背景色',
- *          有可能会造成 '下方圆角被颜色覆盖' 的问题! 解决方法: <br />
- *          1. shape 加上 padding(bottom) 属性 <br />
- *          2. 下方圆角位置的view 加一个同样圆角的 shape <br />
- *
- * @see Dialog
- * @see android.app.AlertDialog extends Dialog: setIcon, title, message, button x 3, setView, setContentView
- * @see androidx.appcompat.app.AppCompatDialog extends Dialog
- * @see androidx.appcompat.app.AlertDialog extends AppCompatDialog: setIcon, title, message, button x 3, setView, setContentView
- *
+ * Description: Dialog基类, 各Dialog类型:
+ * <ol>
+ *     <li>{@link Dialog}</li>
+ *     <li>{@link android.app.AlertDialog} extends Dialog: setIcon, title, message, button x 3, setView, setContentView</li>
+ *     <li>{@link androidx.appcompat.app.AppCompatDialog} extends Dialog</li>
+ *     <li>{@link androidx.appcompat.app.AlertDialog} extends AppCompatDialog: setIcon, title, message, button x 3, setView, setContentView</li>
+ * </ol>
+ * {@link null 注意:} 如果'背景使用的shape' & 'shape下方有圆角' & '下方圆角位置的view有背景色',
+ *     有可能会造成 '下方圆角被颜色覆盖' 的问题! 解决方法: <br />
+ *     1. shape 加上 padding(bottom) 属性 <br />
+ *     2. 下方圆角位置的view 加一个同样圆角的 shape <br />
+ * <br />
  * @Author     : ldf
  * @Date       : 2020-1-21 on 16:49
  */

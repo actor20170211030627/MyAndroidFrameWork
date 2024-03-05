@@ -13,7 +13,7 @@
 ### 1.集成框架包括如下列表, 具体见 <a href="library/build.gradle" target="_blank">build.gradle</a>:
 <pre>
 <ol><li>//https://github.com/square/okhttp
-api "com.squareup.okhttp3:okhttp:4.9.2"
+api "com.squareup.okhttp3:okhttp:4.9.3"
 </li>
 <li>//https://github.com/google/gson
 //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
@@ -75,10 +75,9 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <s><a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" target="_blank">MyOkHttpUtils</a> (Okhttp网络请求, 建议使用EasyHttp)</s>
 <s><a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" target="_blank">RetrofitNetwork</a> (retrofit简单封装, 建议使用EasyHttp)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" target="_blank">SharedElementUtils</a> (元素共享跳转页面)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/QQUtils.java" target="_blank">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/tencent/WeChatUtils.java" target="_blank">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java" target="_blank">VideoProcessorUtils</a> (视频压缩)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java" target="_blank">AssetsUtils</a> (Assets读取)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/Base64Utils.java" target="_blank">Base64Utils</a> (Base64编解码)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BaseCountDownTimer.java" target="_blank">BaseCountDownTimer</a> (倒计时, 可暂停, 继续, 获取计时时间)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BRVUtils.java" target="_blank">BRVUtils</a> (BaseRecyclerView框架辅助)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
@@ -169,7 +168,7 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
 <pre>
 /**
  * 如果需要图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频, 需要添加以下依赖(使用的是 <a href="https://github.com/LuckSiege/PictureSelector" target="_blank">PictureSelector</a> 框架) (按需引入)
- * 并可使用: <a href="picture_selector/src/main/java/com/actor/picture_selector/utils/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils.java</a>
+ * 并可使用: <a href="picture_selector/src/main/java/com/actor/picture_selector/utils/PictureSelectorUtils.java" target="_blank">PictureSelectorUtils</a>
  *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddAudioAdapter.java" target="_blank">AddAudioAdapter(选择添加音频)</a>
  *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddPicAdapter.java" target="_blank">AddPicAdapter(选择添加图片)</a>
  *          <a href="picture_selector/src/main/java/com/actor/picture_selector/adapter_recyclerview/AddVideoAdapter.java" target="_blank">AddVideoAdapter(选择添加视频)</a>
@@ -196,6 +195,17 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github'
 
 <pre>
 /**
+ * 如果需要极光推送, 可添加如下依赖 (按需引入)
+ * 并可使用:
+ * <a href="jpush/src/main/java/com/actor/jpush/JPushUtils.java" target="_blank">JPushUtils</a> (极光推送)
+ */
+ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:jpush:github's latest version'
+ //https://github.com/greenrobot/EventBus JPush各种操作&收到消息回调后使用EventBus转发
+ implementation 'org.greenrobot:eventbus:3.3.1'
+</pre>
+
+<pre>
+/**
  * 如果需要百度/高德地图, 可添加如下依赖 (按需引入)
  * 并可使用:
  * <a href="map/src/main/java/com/actor/map/baidu/BaiduGeoCoderUtils.java" target="_blank">BaiduGeoCoderUtils</a> (百度地理编码)
@@ -214,13 +224,21 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github'
 
 <pre>
 /**
- * 如果需要极光推送, 可添加如下依赖 (按需引入)
+ * 如果需要MPAndroidChart 图表, 可添加如下依赖(仅简单封装,可供参考) (按需引入)
  * 并可使用:
- * <a href="jpush/src/main/java/com/actor/jpush/JPushUtils.java" target="_blank">JPushUtils</a> (极光推送)
+ * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/BarChartUtils.java" target="_blank">BarChartUtils</a> (柱状图)
+ * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/LineChartUtils.java" target="_blank">LineChartUtils</a> (折线图)
  */
- implementation 'com.github.actor20170211030627.MyAndroidFrameWork:jpush:github's latest version'
- //https://github.com/greenrobot/EventBus JPush各种操作&收到消息回调后使用EventBus转发
- implementation 'org.greenrobot:eventbus:3.3.1'
+ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:mp_android_chart:github's latest version'
+</pre>
+
+<pre>
+/**
+ * 如果需要QQ登录等操作, 微信登录支付等操作, 可添加如下依赖 (按需引入)
+ * 并可使用: <a href="qq_wechat/src/main/java/com/actor/qq_wechat/QQUtils.java" target="_blank">QQUtils</a> (QQ登录, 获取用户信息, 分享图文/图片/音乐/App/文件, 唤起小程序/小游戏...)
+ *          <a href="qq_wechat/src/main/java/com/actor/qq_wechat/WeChatUtils.java" target="_blank">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
+ */
+implementation 'com.github.actor20170211030627.MyAndroidFrameWork:qq_wechat:github's latest version'
 </pre>
 
 <pre>
@@ -232,16 +250,6 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github'
  * <a href="umeng/src/main/java/com/actor/umeng/UMPushUtils.java" target="_blank">UMPushUtils</a> (友盟推送)
  */
  implementation 'com.github.actor20170211030627.MyAndroidFrameWork:umeng:github's latest version'
-</pre>
-
-<pre>
-/**
- * 如果需要MPAndroidChart 图表, 可添加如下依赖(仅简单封装,可供参考) (按需引入)
- * 并可使用:
- * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/BarChartUtils.java" target="_blank">BarChartUtils</a> (柱状图)
- * <a href="mp_android_chart/src/main/java/com/actor/mp_android_chart/LineChartUtils.java" target="_blank">LineChartUtils</a> (折线图)
- */
- implementation 'com.github.actor20170211030627.MyAndroidFrameWork:mp_android_chart:github's latest version'
 </pre>
 
 <pre>
