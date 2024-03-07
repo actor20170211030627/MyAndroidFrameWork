@@ -1,5 +1,6 @@
 include ':app', ':library', ':picture_selector', ':map',
-        ':chat_layout', ':emojis', ':qq_wechat', ':umeng',
-        ':jpush', ':mp_android_chart',
+        ':chat_layout', ':emojis',
+        ':qq_wechat', ':ali_pay',
+        ':umeng', ':jpush', ':mp_android_chart',
         ':other_utils'
 include ':tempgen'

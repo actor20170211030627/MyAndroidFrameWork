@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode         rootProject.ext.android.versionCode
+        versionName         rootProject.ext.android.versionName
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
+    // 打包源码jar
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+    task javadoc(type: Javadoc) {
+        failOnError false
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.compile
+    }
+    // 打包文档jar
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+    // javadoc configuration
+    javadoc {
+        options{
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/7/docs/api"
+//            title javadocName
+        }
+    }
+
+    //Android8, 在android节点内添加
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        // 剔除这个包下的所有文件（不会移除签名信息）
+        exclude 'META-INF/*******'
+    }
+}
+
+afterEvaluate {
+    // 排除 BuildConfig.class 和 R.class
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+    generateReleaseResValues.enabled = false
+    generateDebugResValues.enabled = false
+}
+
+dependencies {
+    compileOnly rootProject.ext.dependencies.appcompat_v7
+//    compileOnly 'com.google.android.material:material:1.5.0'
+
+    //https://github.com/Blankj/AndroidUtilCode 许多工具
+    compileOnly 'com.blankj:utilcodex:1.31.1'
+
+    //https://opendocs.alipay.com/open/02no45 支付宝
+    //compileOnly 'com.alipay.sdk:alipaysdk-android:+@aar' //直接获取最新版
+    compileOnly 'com.alipay.sdk:alipaysdk-android:15.8.17' //指定版本(推荐)
+}

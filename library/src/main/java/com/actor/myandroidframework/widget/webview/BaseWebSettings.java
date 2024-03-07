@@ -2,6 +2,7 @@ package com.actor.myandroidframework.widget.webview;
 
 import android.os.Build;
 import android.os.Message;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -19,7 +20,7 @@ public class BaseWebSettings {
     /**
      * 默认初始化
      */
-    public static void defaultInit(WebSettings webSettings) {
+    public static void defaultInit(WebView webView, WebSettings webSettings) {
         /**
          * 设置js
          */
@@ -85,6 +86,17 @@ public class BaseWebSettings {
          * WebSettings.LOAD_NORMAL
          */
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        /**
+         * Cookie
+         */
+        //设置是否接受Cookie, 默认true
+        CookieManager.getInstance().setAcceptCookie(true);
+        //设置WebView是否允许设置第三方cookie。允许第三方cookie是每个WebView的策略，可以根据不同的WebView实例进行不同的设置。
+        //Android 5.0之前默认允许, 5.0及以后默认不允许
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
+        }
 
         /**
          * 数据库

@@ -158,6 +158,8 @@ dependencies {
 
     implementation project(path: ':qq_wechat')
 
+    implementation project(path: ':ali_pay')
+
     implementation project(path: ':jpush')
 
     implementation project(path: ':other_utils')

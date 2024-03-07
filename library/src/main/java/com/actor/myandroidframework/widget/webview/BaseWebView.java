@@ -73,7 +73,7 @@ public class BaseWebView extends WebView {
      */
     public void init(BaseWebViewClient webViewClient, BaseWebChromeClient webChromeClient) {
         //初始化WebSettings
-        BaseWebSettings.defaultInit(getSettings());
+        BaseWebSettings.defaultInit(this, getSettings());
 
         setWebViewClient(webViewClient);
         setWebChromeClient(webChromeClient);
@@ -86,12 +86,19 @@ public class BaseWebView extends WebView {
         //添加js交互
 //        addJavascriptInterface(object, "android");
 
-        //滚动条
-//        setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);//View方法
+
+        /**
+         * 滚动条
+         */
+//        setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY | View.SCROLLBARS_OUTSIDE_INSET);
         //水平滚动条
         setHorizontalScrollBarEnabled(false);
         //垂直滚动条
         setVerticalScrollBarEnabled(false);
+        //
+//        setHorizontalScrollbarOverlay();
+//        setVerticalScrollbarOverlay();
+
 
         //获取当前URL
 //        getUrl();
