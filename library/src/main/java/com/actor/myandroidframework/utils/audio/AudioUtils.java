@@ -122,7 +122,7 @@ public class AudioUtils {
      * 获取倒计时
      */
     @NonNull
-    public BaseCountDownTimer getCountDownTimer() {
+    protected BaseCountDownTimer getCountDownTimer() {
         if (countDownTimer == null) {
             countDownTimer = new BaseCountDownTimer(maxRecordTimeMs, 80) {
                 @Override

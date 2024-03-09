@@ -92,6 +92,7 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
     protected abstract int getLayoutResId();
 
     //只会创建一次
+    @CallSuper
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -315,12 +316,14 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
         onDismissListener = listener;
     }
 
+    @CallSuper
     @Override
     protected void onStart() {
         super.onStart();
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
     }
 
+    @CallSuper
     @Override
     protected void onStop() {
         super.onStop();
@@ -328,21 +331,25 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
     }
 
     /**
-     * 如果子类重写了本方法, 务必调用super.onShow(dialog); 因为会调生命周期.
+     * 如果子类重写了本方法, 务必调用super.onShow(dialog); 因为会调生命周期. <br />
+     * final: {@link #setOnShowListener(OnShowListener)} 的时候请传入匿名内部类, 不要重写此方法.
+     *        因为子类调用super的时候, 这儿又会调到子类去, 导致递归栈溢出!
      */
-    @CallSuper
+//    @CallSuper
     @Override
-    public void onShow(DialogInterface dialog) {
+    public final void onShow(DialogInterface dialog) {
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
         if (onShowListener != null) onShowListener.onShow(dialog);
     }
 
     /**
-     * 如果子类重写了本方法, 务必调用super.onDismiss(dialog); 因为会调生命周期.
+     * 如果子类重写了本方法, 务必调用super.onDismiss(dialog); 因为会调生命周期. <br />
+     * final: {@link #setOnDismissListener(OnDismissListener)} 的时候请传入匿名内部类, 不要重写此方法.
+     *        因为子类调用super的时候, 这儿又会调到子类去, 导致递归栈溢出!
      */
-    @CallSuper
+//    @CallSuper
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public final void onDismiss(DialogInterface dialog) {
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         if (onDismissListener != null) onDismissListener.onDismiss(dialog);
     }
