@@ -8,14 +8,16 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.other_utils.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.adapter.SocketMsgAdapter;
 import com.actor.sample.databinding.ActivitySocketTestBinding;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.hjq.http.EasyConfig;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
@@ -145,13 +147,18 @@ public class SocketTestActivity extends BaseActivity<ActivitySocketTestBinding> 
                     itilSocket.setInputEnable(false);
                     String socketUrl = getText(itilSocket);
                     if (webSocket == null) {
-                        webSocket = MyOkHttpUtils.getSocket(socketUrl, null, null, this, webSocketListener);
+                        // TODO: 2024/3/12 webSocket功能
+                        Request request = new Request.Builder().url(socketUrl).tag(this).build();
+                        OkHttpClient client = EasyConfig.getInstance().getClient();
+                        webSocket = client.newWebSocket(request, webSocketListener);
                     } else {
                         if (isConnect) {
                             ToasterUtils.success("是已连接状态");
                         } else {
                             //重连
-                            MyOkHttpUtils.socketReConnecton(webSocket, webSocketListener);
+                            Request request = webSocket.request();
+                            OkHttpClient client = EasyConfig.getInstance().getClient();
+                            client.newWebSocket(request, webSocketListener);
                         }
                     }
                 }

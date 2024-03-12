@@ -158,7 +158,8 @@ public class JPushUtils {
      * @return 用户是否同意隐私政策 (没有官方api, 无语)
      */
     public static boolean isAuth() {
-        return cn.jiguang.cg.a.a();
+//        return cn.jiguang.cg.a.a();
+        return cn.jiguang.cn.a.a();
     }
 
 

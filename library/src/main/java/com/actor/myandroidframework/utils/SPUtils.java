@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,10 +58,10 @@ import java.util.Set;
  *         <td>同上</td>
  *     </tr>
  *     <tr>
- *         <td>5.如果使用 {@link com.blankj.utilcode.util.CacheDiskUtils#getInstance(File) CacheDiskUtils.getInstance(File)}</td>
+ *         <td>5.如果使用 {@link MMKVUtils#getMMKV()}</td>
  *         <td>同上</td>
  *         <td>
- *             不会丢数据 (如果想长期存储, 可将参数 File 传 'context.getFilesDir()')
+ *             不会丢数据
  *         </td>
  *     </tr>
  * </table>

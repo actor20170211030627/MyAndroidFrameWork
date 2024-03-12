@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.webkit.MimeTypeMap;
 
@@ -192,6 +193,24 @@ public class FileUtils {
     @Deprecated
     public static String getCachePathExternalFirst() {
         return PathUtils.getCachePathExternalFirst();
+    }
+
+    /**
+     * 从下载url中解析出文件名
+     * @param url 下载url
+     * @return 返回一个不为空的文件名, 例: Xxx.png
+     */
+    @NonNull
+    public static String getFileNameFromUrl(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            //http://www.xxx.com/xxx.0.7.zip?a=b&c=d
+            //http://www.xxx.com/s?a=a & b=b & c=c
+            if (url.contains("?")) url = url.substring(0, url.lastIndexOf("?"));
+            if (url.contains("/")) url = url.substring(url.lastIndexOf("/") + 1);
+        }
+        //如果上方获取的url还是空的
+        if (TextUtils.isEmpty(url)) url = String.valueOf(System.currentTimeMillis());
+        return url;
     }
 
     /**

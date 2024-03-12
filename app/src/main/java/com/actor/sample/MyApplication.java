@@ -8,11 +8,8 @@ import com.actor.map.baidu.BaiduMapUtils;
 import com.actor.map.gaode.GaoDe3DMapUtils;
 import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
-import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.easyhttp.EasyHttpConfigUtils;
-import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
-import com.actor.myandroidframework.utils.retrofit.RetrofitNetwork;
 import com.actor.qq_wechat.QQUtils;
 import com.actor.qq_wechat.WeChatUtils;
 import com.actor.sample.utils.Global;
@@ -31,20 +28,6 @@ public class MyApplication extends ActorApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        //配置BaseUrl
-        MyOkHttpUtils.setBaseUrl(Global.BASE_URL_GITHUB);
-        RetrofitNetwork.init(Global.BASE_URL_GITHUB);
-
-
-        //配置张鸿洋的OkHttpUtils
-        OkHttpClient.Builder builder = MyOkHttpUtils.initOkHttp(isAppDebug());
-        //然后可以在 builder 中自定义设置, 添加拦截器等
-        //builder.xxx
-        //OkHttp配置完后, 再增加1个日志拦截器, 用于打印非常标准的请求日志
-        OkHttpClient okHttpClient = ConfigUtils.okHttpAddLogInterceptor(builder, isAppDebug());
-        //最后将okHttpClient设置进去
-        MyOkHttpUtils.setOkHttpClient(okHttpClient);
-
 
         //配置轮子哥的EasyHttp
         OkHttpClient.Builder builder2 = EasyHttpConfigUtils.initOkHttp(isAppDebug());

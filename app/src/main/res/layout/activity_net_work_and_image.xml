@@ -19,22 +19,11 @@
             tools:src="@mipmap/ic_launcher" />
 
         <Button
-            android:id="@+id/btn_get_okhttp"
+            android:id="@+id/btn_get_easy_http"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="MyOkHttpUtils方式获取数据"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btn_post_body_okhttp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="MyOkHttpUtils方式通过body传递数据"
+            android:text="EasyHttp方式获取数据(推荐)"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -46,17 +35,6 @@
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
             android:text="Retrofit方式获取数据"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btn_get_easy_http"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="EasyHttp方式获取数据"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -74,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="下载进度测试" />
+            android:text="EasyHttp下载进度测试" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onViewClicked"
-                android:text="上传文件(可上传中文名文件)" />
+                android:text="EasyHttp上传文件(可上传中文名文件)" />
         </LinearLayout>
 
         <Button

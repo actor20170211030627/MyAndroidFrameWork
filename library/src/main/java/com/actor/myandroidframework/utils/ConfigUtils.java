@@ -2,23 +2,16 @@ package com.actor.myandroidframework.utils;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.myandroidframework.utils.okhttputils.log.RequestInterceptor;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.CacheDiskUtils;
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 import com.tencent.mmkv.MMKV;
-
-import java.net.Proxy;
-
-import okhttp3.OkHttpClient;
 
 /**
  * Description: 整个项目所需的资源配置 <br />
@@ -54,9 +47,6 @@ public class ConfigUtils {
 
     protected static final String EXCEPTION_FOR_ActorApplication = "EXCEPTION_FOR_ActorApplication";
 
-    //硬盘缓存
-    public static final CacheDiskUtils aCache = CacheDiskUtils.getInstance(APPLICATION.getFilesDir());
-
 
     /**
      * 配置轮子哥的Log日志
@@ -79,23 +69,6 @@ public class ConfigUtils {
     }
 
     /**
-     * OkHttp配置完后, 再增加1个日志拦截器, 用于打印非常标准的请求日志
-     * @return 最后添加完拦截器后, 就返回OkHttpClient
-     */
-    public static OkHttpClient okHttpAddLogInterceptor(@NonNull OkHttpClient.Builder builder, boolean isDebugMode) {
-        if (isDebugMode) {
-            //最后才添加官方日志拦截器, 否则网络请求的Header等不会打印(因为Interceptor是装在List中, 有序的)
-//            builder.addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY));
-
-            //改成这个日志拦截器, 打印更全面
-            builder.addInterceptor(new RequestInterceptor());
-        } else {
-            builder.proxy(Proxy.NO_PROXY);
-        }
-        return builder.build();
-    }
-
-    /**
      * 如果是debug环境, 就不捕获异常, 直接打印在控制台
      * @see #getCrashExceptionInfoAndClear() 获取崩溃信息, 并清空
      * @param onCrashListener app崩溃监听
@@ -107,12 +80,12 @@ public class ConfigUtils {
                 public void onCrash(CrashUtils.CrashInfo crashInfo) {
                     if (crashInfo == null) return;
                     //SPUtils 在发生异常的时候, 存储会回滚. 所以这儿用 CacheDiskUtils
-                    String exception = aCache.getString(EXCEPTION_FOR_ActorApplication);
+                    String exception = MMKVUtils.getString(EXCEPTION_FOR_ActorApplication);
                     if (exception == null) {
-                        aCache.put(EXCEPTION_FOR_ActorApplication, crashInfo.toString());
+                        MMKVUtils.putString(EXCEPTION_FOR_ActorApplication, crashInfo.toString());
                     } else {
                         if (exception.length() > 2 << 16) exception = "";//131 072
-                        aCache.put(EXCEPTION_FOR_ActorApplication, exception.concat("\n\n\n").concat(crashInfo.toString()));
+                        MMKVUtils.putString(EXCEPTION_FOR_ActorApplication, exception.concat("\n\n\n").concat(crashInfo.toString()));
                     }
                     if (onCrashListener != null) onCrashListener.onCrash(crashInfo);
                 }
@@ -124,8 +97,8 @@ public class ConfigUtils {
      * 获取崩溃信息, 并清空信息
      */
     public static String getCrashExceptionInfoAndClear() {
-        String string = aCache.getString(EXCEPTION_FOR_ActorApplication);
-        boolean remove = aCache.remove(EXCEPTION_FOR_ActorApplication);
+        String string = MMKVUtils.getString(EXCEPTION_FOR_ActorApplication);
+        MMKVUtils.remove(EXCEPTION_FOR_ActorApplication);
         return string;
     }
 

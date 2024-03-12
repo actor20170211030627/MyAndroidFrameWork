@@ -5,23 +5,20 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.okhttputils.BaseCallback;
-import com.actor.myandroidframework.utils.okhttputils.GetFileCallback;
-import com.actor.myandroidframework.utils.okhttputils.MyOkHttpUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.info.CheckUpdateInfo;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.OnDownloadListener;
+import com.hjq.http.listener.OnHttpListener;
 
 import java.io.File;
 import java.util.List;
-
-import okhttp3.Call;
 
 /**
  * Description: 检查更新
@@ -41,21 +38,26 @@ public class CheckUpdateUtils {
     //check update检查更新
     @RequiresPermission(value = Manifest.permission.REQUEST_INSTALL_PACKAGES)
     public void check(LifecycleOwner tag) {
-        MyOkHttpUtils.get(Global.CHECK_UPDATE, null, new BaseCallback<CheckUpdateInfo>(tag) {
-            @Override
-            public void onOk(@NonNull CheckUpdateInfo info, int id, boolean isRefresh) {
-                List<CheckUpdateInfo.ElementsBean> elements = info.elements;
-                if (elements != null && !elements.isEmpty()) {
-                    CheckUpdateInfo.ElementsBean elementsBean = elements.get(0);
-                    if (elementsBean != null) {
-                        int versionCode = AppUtils.getAppVersionCode();
-                        if (versionCode < elementsBean.versionCode) {
-                            showDialog(elementsBean.versionName);
+        EasyHttp.get(tag)
+                .api(Global.CHECK_UPDATE)
+                .request(new OnHttpListener<CheckUpdateInfo>() {
+                    @Override
+                    public void onHttpSuccess(CheckUpdateInfo result) {
+                        List<CheckUpdateInfo.ElementsBean> elements = result.elements;
+                        if (elements != null && !elements.isEmpty()) {
+                            CheckUpdateInfo.ElementsBean elementsBean = elements.get(0);
+                            if (elementsBean != null) {
+                                int versionCode = AppUtils.getAppVersionCode();
+                                if (versionCode < elementsBean.versionCode) {
+                                    showDialog(elementsBean.versionName);
+                                }
+                            }
                         }
                     }
-                }
-            }
-        });
+                    @Override
+                    public void onHttpFail(Throwable throwable) {
+                    }
+                });
     }
 
     private void showDialog(String newVersionName) {
@@ -85,27 +87,24 @@ public class CheckUpdateUtils {
         if (topActivity instanceof LifecycleOwner) {
             tag = (LifecycleOwner) topActivity;
         }
-        MyOkHttpUtils.getFile(Global.DOWNLOAD_URL, null, null, new GetFileCallback(tag, null, null) {
-
-            @Override
-            public void inProgress(float progress, long total, int id) {
-                super.inProgress(progress, total, id);
-                LogUtils.errorFormat("下载文件: progress=%f, total=%d, id=%d", progress, total, id);
-                progressDialog.setProgress((int) (progress * 100));
-            }
-
-            @Override
-            public void onOk(@NonNull File info, int id, boolean isRefresh) {
-                progressDialog.dismiss();
-                AppUtils.installApp(info);
-            }
-
-            @Override
-            public void onError(int id, Call call, Exception e) {
-//                super.onError(id, call, e);
-                progressDialog.dismiss();
-                ToasterUtils.error("下载失败, 请到Github下载.");
-            }
-        });
+        EasyHttp.download(tag)
+                .url(Global.DOWNLOAD_URL)
+                .listener(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadProgressChange(File file, int progress) {
+                        LogUtils.errorFormat("下载文件: progress=%d", progress);
+                        progressDialog.setProgress(progress);
+                    }
+                    @Override
+                    public void onDownloadSuccess(File file) {
+                        progressDialog.dismiss();
+                        AppUtils.installApp(file);
+                    }
+                    @Override
+                    public void onDownloadFail(File file, Throwable throwable) {
+                        progressDialog.dismiss();
+                        ToasterUtils.error("下载失败, 请到Github下载.");
+                    }
+                }).start();
     }
 }

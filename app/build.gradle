@@ -110,17 +110,6 @@ dependencies {
     // 自定义相机 (按需引入)
 //    implementation 'io.github.lucksiege:camerax:v3.11.2'
 
-    //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
-    implementation ('com.zhy:okhttputils:2.6.2') {
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
-    }
-
-    //https://github.com/square/retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-
-    //https://github.com/square/retrofit/tree/master/retrofit-converters/gson (已经依赖了Gson2.8.5)
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
 
 
     //https://wiki.connect.qq.com/sdk%E4%B8%8B%E8%BD%BD QQ登录等

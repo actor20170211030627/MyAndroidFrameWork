@@ -45,7 +45,7 @@ public class MyBottomSheetDialogFragment extends BaseBottomSheetDialogFragment {
 
     //request internet请求网络等...
     private void requestInternet() {
-//        MyOkHttpUtils.post(.....) {
+//        OkHttpUtils.post(.....) {
 //              @override
 //                onOk(Response result) {
 //                    tv.setText(result.xxx);

@@ -15,7 +15,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
@@ -27,16 +26,11 @@ import com.actor.myandroidframework.bean.OnActivityCallback;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
 import com.actor.myandroidframework.service.ActorBaseService;
-import com.actor.myandroidframework.utils.BRVUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementA;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
-
-import java.util.List;
 
 /**
  * Description: Activity基类
@@ -336,134 +330,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     public void setRequestCount(int requestCount) {
         requestCountOfShowLoadingDialog  = requestCount;
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // 下拉刷新 & 上拉加载更多 & 空布局
-    ///////////////////////////////////////////////////////////////////////////
-    /**
-     * adapter设置空布局
-     *
-     * @param adapter      不能为空
-     */
-    protected void setEmptyView(BaseQuickAdapter adapter) {
-        BRVUtils.setEmptyView(adapter);
-    }
-    protected void setEmptyView(BaseQuickAdapter adapter, @LayoutRes int layoutId) {
-        BRVUtils.setEmptyView(adapter, layoutId);
-    }
-
-    /**
-     * 设置上拉加载更多 & 空布局, 示例:
-     * <pre> {@code
-     * //写在常量类里面, 比如写在 Global.java 里面.
-     * public static final int SIZE = 10;
-     * public static final String page = "page";
-     * public static final String size = "size";
-     *
-     * //isRefresh: 是否是下拉刷新
-     * private void getList(boolean isRefresh) {
-     *     params.clear();
-     *     params.put(Global.page, getPage(isRefresh, mAdapter, Global.SIZE));
-     *     params.put(Global.size, Global.SIZE);
-     *     MyOkHttpUtils.get(url, params, new BaseCallback<UserBean>(this, isRefresh) {
-     *         @Override
-     *         public void onOk(@NonNull UserBean info, int id, boolean isRefresh) {
-     *             swipeRefreshLayout.setRefreshing(false);
-     *             List<UserBean.Data> datas = info.data;
-     *             //如果是下拉刷新
-     *             if (isRefresh) {
-     *                 mAdapter.setNewData(datas);//设置新数据
-     *             } else if (datas != null) {
-     *                 mAdapter.addData(datas);//增加数据
-     *             }
-     *             //int total = info.totalCount;                 //⑴. total这种方式也可以
-     *             //setLoadMoreState(mAdapter, total);           //⑴
-     *             setLoadMoreState(mAdapter, datas, Global.SIZE);//⑵. 这种也可以
-     *         }
-     *
-     *         @Override
-     *         public void onError(int id, okhttp3.Call call, Exception e) {
-     *             super.onError(id, call, e);
-     *             swipeRefreshLayout.setRefreshing(false);
-     *             //点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
-     *             mAdapter.getLoadMoreModule().loadMoreFail();//加载失败
-     *         }
-     *     });
-     * }
-     *
-     * 1.下拉刷新:
-     * getList(true);
-     *
-     * 2.上拉加载:
-     * getList(false);
-     * } </pre>
-     *
-     * @param adapter      不能为空
-     * @param listener     不能为空
-     */
-    protected void setLoadMore$Empty(BaseQuickAdapter adapter, OnLoadMoreListener listener) {
-        BRVUtils.setLoadMore$Empty(adapter, listener);
-    }
-
-    protected void setLoadMore$Empty(@LayoutRes int emptyLayoutRes, BaseQuickAdapter adapter, OnLoadMoreListener listener) {
-        BRVUtils.setLoadMore$Empty(emptyLayoutRes, adapter, listener);
-    }
-
-    /**
-     * 获取'下拉刷新/上拉加载'列表page, 如果和项目逻辑不符合, 可重写此方法
-     * @param adapter   列表Adapter extends BaseQuickAdapter
-     * @param isRefresh 是否是下拉刷新
-     * @param size      每次加载多少条
-     * @return
-     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
-     *     <tr>
-     *         <th>currentSize</th>
-     *         <th>size</th>
-     *         <th>return</th>
-     *     </tr>
-     *     <tr>
-     *         <td>0</td>
-     *         <td>20</td>
-     *         <td>1</td>
-     *     </tr>
-     *     <tr>
-     *         <td>1-19</td>
-     *         <td>20</td>
-     *         <td>1</td>
-     *     </tr>
-     *     <tr>
-     *         <td>20-39</td>
-     *         <td>20</td>
-     *         <td>2</td>
-     *     </tr>
-     *     <tr>
-     *         <td>40-59</td>
-     *         <td>20</td>
-     *         <td>3</td>
-     *     </tr>
-     * </table>
-     */
-    protected int getPage(@NonNull BaseQuickAdapter adapter, boolean isRefresh, int size) {
-        return BRVUtils.getPage(adapter, isRefresh, size);
-    }
-
-    /**
-     * 设置加载状态
-     * @param list 本次从服务器返回的分页数据
-     * @param size 每次加载多少条
-     */
-    protected void setLoadMoreState(@NonNull BaseQuickAdapter adapter, @Nullable List<?> list, int size) {
-        BRVUtils.setLoadMoreState(adapter, list, size);
-    }
-
-    /**
-     * 设置加载状态
-     * @param total   服务器返回的数据总数(如果后端返回了total的话...)
-     */
-    protected void setLoadMoreState(@NonNull BaseQuickAdapter adapter, int total) {
-        BRVUtils.setLoadMoreState(adapter, total);
     }
 
 

@@ -72,8 +72,6 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
-<s><a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/MyOkHttpUtils.java" target="_blank">MyOkHttpUtils</a> (Okhttp网络请求, 建议使用EasyHttp)</s>
-<s><a href="library/src/main/java/com/actor/myandroidframework/utils/retrofit/RetrofitNetwork.java" target="_blank">RetrofitNetwork</a> (retrofit简单封装, 建议使用EasyHttp)</s>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" target="_blank">SharedElementUtils</a> (元素共享跳转页面)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java" target="_blank">VideoProcessorUtils</a> (视频压缩)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java" target="_blank">AssetsUtils</a> (Assets读取)

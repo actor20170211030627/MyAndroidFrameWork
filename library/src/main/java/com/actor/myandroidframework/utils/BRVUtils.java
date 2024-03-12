@@ -13,24 +13,20 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import java.util.List;
 
 /**
- * description: BaseRecyclerViewAdapterHelper 帮助类
- * company    : https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+ * description: <a href="https://github.com/CymChad/BaseRecyclerViewAdapterHelper">BaseRecyclerViewAdapterHelper</a> 帮助类
  *
  * @author : ldf
- * date       : 2022/7/6 on 08
- * @version 1.0
+ * @date       : 2022/7/6 on 08
  */
 public class BRVUtils {
 
     /**
      * adapter设置空布局
-     *
-     * @param adapter      不能为空
      */
-    public static void setEmptyView(BaseQuickAdapter adapter) {
+    public static void setEmptyView(@NonNull BaseQuickAdapter adapter) {
         setEmptyView(adapter, R.layout.layout_for_empty);
     }
-    public static void setEmptyView(BaseQuickAdapter adapter, @LayoutRes int layoutId) {
+    public static void setEmptyView(@NonNull BaseQuickAdapter adapter, @LayoutRes int layoutId) {
         RecyclerView recyclerView = adapter.getRecyclerViewOrNull();
         if (recyclerView == null) {
             throw new IllegalStateException("需要先recyclerView.setAdapter(adapter), 才能setEmptyView()!");
@@ -39,40 +35,36 @@ public class BRVUtils {
     }
 
     /**
-     * 设置上拉加载更多 & 空布局, 示例:
-     * <pre> {@code
-     * //写在常量类里面, 比如写在 Global.java 里面.
-     * public static final int SIZE = 10;
-     * public static final String page = "page";
-     * public static final String size = "size";
-     *
+     * 设置上拉加载监听, 示例:
+     * <pre>
      * //isRefresh: 是否是下拉刷新
      * private void getList(boolean isRefresh) {
-     *     params.clear();
-     *     params.put(Global.page, getPage(isRefresh, mAdapter, Global.SIZE));
-     *     params.put(Global.size, Global.SIZE);
-     *     MyOkHttpUtils.get(url, params, new BaseCallback<UserBean>(this, isRefresh) {
-     *         @Override
-     *         public void onOk(@NonNull UserBean info, int id, boolean isRefresh) {
+     *     //网络请求:
+     *     page = {@link BRVUtils#getPage(BaseQuickAdapter, boolean, int) BRVUtils.getPage(mAdapter, isRefresh, SIZE)};
+     *     size = SIZE;
+     *     网络请求后回调示例: {
+     *         <code>@</code>Override
+     *         public void onOk(@NonNull UserBean info, boolean isRefresh) {
      *             swipeRefreshLayout.setRefreshing(false);
-     *             List<UserBean.Data> datas = info.data;
+     *             List&lt;UserBean.Data> datas = info.data;
      *             //如果是下拉刷新
      *             if (isRefresh) {
-     *                 mAdapter.setNewData(datas);//设置新数据
+     *                 mAdapter.setList(datas);//设置新数据
      *             } else if (datas != null) {
      *                 mAdapter.addData(datas);//增加数据
      *             }
-     *             //int total = info.totalCount;                 //⑴. total这种方式也可以
-     *             //setLoadMoreState(mAdapter, total);           //⑴
-     *             setLoadMoreState(mAdapter, datas, Global.SIZE);//⑵. 这种也可以
+     *             //{@link null 设置加载状态, ⑴ & ⑵ 这2种方式都可以:}
+     *             //int total = info.totalCount;                   //⑴.服务器返回了total
+     *             //{@link BRVUtils#setLoadMoreState(BaseQuickAdapter, int) BRVUtils.setLoadMoreState(mAdapter, total)};    //⑴
+     *             {@link BRVUtils#setLoadMoreState(BaseQuickAdapter, List, int) BRVUtils.setLoadMoreState(mAdapter, datas, SIZE)};//⑵.这种也可以
      *         }
      *
-     *         @Override
+     *         <code>@</code>Override
      *         public void onError(int id, okhttp3.Call call, Exception e) {
      *             super.onError(id, call, e);
      *             swipeRefreshLayout.setRefreshing(false);
      *             //点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
-     *             mAdapter.getLoadMoreModule().loadMoreFail();//加载失败
+     *             {@link BRVUtils#loadMoreFail(BaseQuickAdapter) BRVUtils.loadMoreFail(BaseQuickAdapter)}; //加载失败
      *         }
      *     });
      * }
@@ -82,21 +74,15 @@ public class BRVUtils {
      *
      * 2.上拉加载:
      * getList(false);
-     * } </pre>
+     * </pre>
      *
      * @param adapter      不能为空
      * @param listener     不能为空
      */
-    public static void setLoadMore$Empty(BaseQuickAdapter adapter, OnLoadMoreListener listener) {
-        setLoadMore$Empty(R.layout.layout_for_empty, adapter, listener);
-    }
-
-    public static void setLoadMore$Empty(@LayoutRes int emptyLayoutRes, BaseQuickAdapter adapter, OnLoadMoreListener listener) {
+    public static void setOnLoadMoreListener(@NonNull BaseQuickAdapter adapter, OnLoadMoreListener listener) {
         if (adapter instanceof LoadMoreModule) {
             //上拉加载更多
             adapter.getLoadMoreModule().setOnLoadMoreListener(listener);
-            //空布局
-            setEmptyView(adapter, emptyLayoutRes);
         } else {
             throw new IllegalStateException("BaseQuickAdapter 需要实现 LoadMoreModule 接口, 才能上拉加载更多!");
         }
@@ -154,8 +140,8 @@ public class BRVUtils {
     }
 
     /**
-     * 设置加载状态
-     * @param list 本次从服务器返回的分页数据
+     * 设置加载状态: 已经没有数据了 or 加载完成
+     * @param list 本次从服务器返回的分页数据(不是全部数据, 是本次请求的数据!)
      * @param size 每次加载多少条
      */
     public static void setLoadMoreState(@NonNull BaseQuickAdapter adapter, @Nullable List<?> list, int size) {
@@ -169,12 +155,19 @@ public class BRVUtils {
     }
 
     /**
-     * 设置加载状态
+     * 设置加载状态: 已经没有数据了 or 加载完成
      * @param total   服务器返回的数据总数(如果后端返回了total的话...)
      */
     public static void setLoadMoreState(@NonNull BaseQuickAdapter adapter, int total) {
         if (adapter.getData().size() < total) {
             adapter.getLoadMoreModule().loadMoreComplete();//加载完成
         } else adapter.getLoadMoreModule().loadMoreEnd();//已经没有数据了
+    }
+
+    /**
+     * 加载失败, 点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
+     */
+    public static void loadMoreFail(@NonNull BaseQuickAdapter adapter) {
+        adapter.getLoadMoreModule().loadMoreFail();
     }
 }

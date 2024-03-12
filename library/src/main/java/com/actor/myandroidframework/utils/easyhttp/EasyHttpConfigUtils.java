@@ -1,9 +1,8 @@
 package com.actor.myandroidframework.utils.easyhttp;
 
-import com.actor.myandroidframework.utils.ConfigUtils;
+import com.actor.myandroidframework.utils.okhttputils.OkHttpConfigUtils;
 import com.hjq.http.EasyConfig;
 
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 /**
@@ -23,23 +22,7 @@ public class EasyHttpConfigUtils {
      * 配置okhttp
      */
     public static OkHttpClient.Builder initOkHttp(boolean isDebugMode) {
-        return new OkHttpClient.Builder()
-                //默认10s, 可不设置
-//                .connectTimeout(30_000L, TimeUnit.MILLISECONDS)
-                //默认10s, 可不设置
-//                .readTimeout(30_000L, TimeUnit.MILLISECONDS)
-                //默认10s, 可不设置
-//                .writeTimeout(30_000L, TimeUnit.MILLISECONDS)
-//                .addInterceptor(new AddHeaderInterceptor())
-                //拦截器, 401登陆过期重新获取token等...
-//                .addInterceptor(new My401Error$RefreshTokenInterceptor(this))
-                //连接失败重试, 连接失败有可能报错EOFException: \n not found: limit=0 content=…
-                //参考: https://blog.csdn.net/jiangxiayouyu/article/details/121827079
-                .retryOnConnectionFailure(true)
-                //zhy的cookie
-//                .cookieJar(new CookieJarImpl(new PersistentCookieStore(ConfigUtils.APPLICATION)))
-                //10Mb;
-                .cache(new Cache(ConfigUtils.APPLICATION.getFilesDir(), 1024*1024*10));
+        return OkHttpConfigUtils.initOkHttp(isDebugMode);
     }
 
     /**

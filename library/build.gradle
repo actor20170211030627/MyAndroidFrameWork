@@ -139,20 +139,6 @@ dependencies {
     //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
     compileOnly 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
 
-    //https://github.com/square/retrofit 依赖配置:https://github.com/square/retrofit/blob/trunk/gradle/libs.versions.toml
-    compileOnly 'com.squareup.retrofit2:retrofit:2.9.0'
-
-    //https://github.com/square/retrofit/tree/master/retrofit-converters/gson (已经依赖了Gson2.8.5)
-    compileOnly 'com.squareup.retrofit2:converter-gson:2.9.0'
-
-    //https://github.com/hongyangAndroid/okhttputils 张鸿洋的okhttp, 55.9KB
-    compileOnly ('com.zhy:okhttputils:2.6.2') {
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp'//3.3.1
-    }
-
-    //https://github.com/JessYanCoding/ProgressManager Okhttp/Retofit/Glide下载进度监听
-    compileOnly 'me.jessyan:progressmanager:1.5.0'
-
     //https://github.com/yellowcath/VideoProcessor 视频压缩
     compileOnly 'com.github.yellowcath:VideoProcessor:2.4.2'
 
