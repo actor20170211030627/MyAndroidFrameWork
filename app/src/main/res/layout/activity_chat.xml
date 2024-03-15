@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:stackFromEnd="true"
-            tools:listitem="@layout/item_chat_contact" />
+            tools:listitem="@layout/item_chat_contact_from_myself" />
 
         <com.actor.chat_layout.VoiceRecorderView
             android:id="@+id/voice_recorder"

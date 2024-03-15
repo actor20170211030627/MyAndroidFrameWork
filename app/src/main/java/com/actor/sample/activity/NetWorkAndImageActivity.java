@@ -36,8 +36,6 @@ import java.util.ArrayList;
 public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImageBinding> {
 
     private ProgressBar progressBar;
-
-    private boolean alreadyDownload = false;
     private String picPath;
 
     @Override
@@ -85,7 +83,10 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
-                                picPath = result.get(0).getRealPath();
+                                LocalMedia localMedia = result.get(0);
+                                PictureSelectorUtils.printLocalMedia(localMedia);
+//                                picPath = localMedia.getRealPath();   //没有sd卡读权限, 不能传这个
+                                picPath = localMedia.getSandboxPath();
                             }
                             @Override
                             public void onCancel() {
@@ -123,33 +124,34 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     }
 
     private void downloadFile() {
-        if (!alreadyDownload) {
-            EasyHttp.download(this)
-                    .url(Global.GRADLE_DOWNLOAD_URL)
-                    .file(new File(PathUtils.getFilesPathExternalFirst(), FileUtils.getFileNameFromUrl(Global.GRADLE_DOWNLOAD_URL)))
-                    .listener(new OnDownloadListener() {
-                        @Override
-                        public void onDownloadProgressChange(File file, int progress) {
+        showNetWorkLoadingDialog();
+        EasyHttp.download(this)
+                .url(Global.GRADLE_DOWNLOAD_URL)
+                .file(new File(PathUtils.getFilesPathExternalFirst(), FileUtils.getFileNameFromUrl(Global.GRADLE_DOWNLOAD_URL)))
+                .listener(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadProgressChange(File file, int progress) {
 //                            LogUtils.error(String.valueOf(progress));
-                            progressBar.setProgress(progress);
-                        }
-                        @Override
-                        public void onDownloadSuccess(File file) {
-                            ToasterUtils.errorFormat("下载完成: %s", file.getAbsolutePath());
-                        }
-                        @Override
-                        public void onDownloadFail(File file, Throwable throwable) {
-                            ToasterUtils.errorFormat("下载错误: %s", throwable.getMessage());
-                        }
-                    }).start();
-            alreadyDownload = true;
-        }
+                        progressBar.setProgress(progress);
+                    }
+                    @Override
+                    public void onDownloadSuccess(File file) {
+                        dismissNetWorkLoadingDialog();
+                        ToasterUtils.successFormat("下载完成: %s", file.getAbsolutePath());
+                    }
+                    @Override
+                    public void onDownloadFail(File file, Throwable throwable) {
+                        dismissNetWorkLoadingDialog();
+                        ToasterUtils.errorFormat("下载错误: %s", throwable.getMessage());
+                    }
+                }).start();
     }
 
     /**
      * 上传单个图片/文件
      */
     protected void uploadFile(@NonNull String filePath) {
+        showNetWorkLoadingDialog();
         EasyHttp.post(this)
                 .api(new EasyHttpUploadFileInfo(filePath))
                 .request(new OnUpdateListener<String>() {
@@ -159,11 +161,13 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                     }
                     @Override
                     public void onUpdateSuccess(String result) {
+                        dismissNetWorkLoadingDialog();
                         ToasterUtils.success(result);
                     }
                     @Override
                     public void onUpdateFail(Throwable throwable) {
-                        ToasterUtils.success(throwable.getMessage());
+                        dismissNetWorkLoadingDialog();
+                        ToasterUtils.error(throwable.getMessage());
                     }
                 });
     }

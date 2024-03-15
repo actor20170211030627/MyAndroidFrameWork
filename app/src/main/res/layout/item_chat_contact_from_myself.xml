@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:gravity="end|center_vertical"
+    android:orientation="horizontal"
+    tools:context=".adapter.ChatListAdapter">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end">
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:shape_radiusInBottomRight="5dp"
+            app:shape_radiusInTopLeft="5dp"
+            app:shape_solidColor="@color/blue_2EABFB"
+            tools:text="Hello World!" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo" />
+</LinearLayout>

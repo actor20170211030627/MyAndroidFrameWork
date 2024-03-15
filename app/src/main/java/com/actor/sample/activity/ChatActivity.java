@@ -45,7 +45,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
         items.clear();
         chatListAdapter = new ChatListAdapter(items);
         for (int i = 0; i < 20; i++) {
-            items.add(new MessageItem("Hello World!    " + i));
+            items.add(new MessageItem(i % 2 == 0, "Hello World!    " + i));
         }
 
         //右下角⊕More
@@ -84,7 +84,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
                 String msg = getText(etMsg);
                 if (!TextUtils.isEmpty(msg)) {
                     etMsg.setText("");
-                    chatListAdapter.addData(new MessageItem(msg));
+                    chatListAdapter.addData(new MessageItem(true, msg));
                     recyclerView.scrollToPosition(chatListAdapter.getItemCount() - 1);
                 }
             }
@@ -111,7 +111,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
             //录音成功, 你可以不重写这个方法(voice record success, overrideAble)
             @Override
             public void onVoiceRecordSuccess(@NonNull String audioPath, long durationMs) {
-                chatListAdapter.addData(new MessageItem(audioPath, durationMs));
+                chatListAdapter.addData(new MessageItem(true, audioPath, durationMs));
                 recyclerView.scrollToPosition(chatListAdapter.getItemCount() - 1);
             }
 

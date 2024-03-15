@@ -11,7 +11,7 @@ import com.actor.myandroidframework.utils.audio.AudioUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.info.MessageItem;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import java.util.List;
@@ -23,10 +23,12 @@ import java.util.List;
  * date       : 2021/5/14 on 18
  * @version 1.0
  */
-public class ChatListAdapter extends BaseQuickAdapter<MessageItem, BaseViewHolder> {
+public class ChatListAdapter extends BaseMultiItemQuickAdapter<MessageItem, BaseViewHolder> {
 
     public ChatListAdapter(@Nullable List<MessageItem> data) {
-        super(R.layout.item_chat_contact, data);
+        super(data);
+        addItemType(0, R.layout.item_chat_contact_from_myself);
+        addItemType(1, R.layout.item_chat_contact_from_others);
         //item点击
         addChildClickViewIds(R.id.tv);
         setOnItemClickListener((adapter, view, position) -> {
@@ -44,6 +46,7 @@ public class ChatListAdapter extends BaseQuickAdapter<MessageItem, BaseViewHolde
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, MessageItem item) {
+        int itemType = item.getItemType();
         TextView tv = helper.getView(R.id.tv);
         String message = item.message;
         if (message != null) {
