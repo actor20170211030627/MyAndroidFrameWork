@@ -61,15 +61,15 @@ public class ScrollableViewPager extends ViewPager {
     /**
      * @return 是否能水平滑动
      */
-    public boolean isHorizontalScrollble() {
+    public boolean isHorizontalScrollable() {
         return scrollable;
     }
 
     /**
      * 设置是否能水平滑动
-     * @param scrollble 是否能左右滑动
+     * @param scrollable 是否能左右滑动
      */
-    public void setHorizontalScrollble(boolean scrollble) {
-        this.scrollable = scrollble;
+    public void setHorizontalScrollable(boolean scrollable) {
+        this.scrollable = scrollable;
     }
 }

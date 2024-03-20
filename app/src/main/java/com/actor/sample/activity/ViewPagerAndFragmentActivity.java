@@ -76,7 +76,7 @@ public class ViewPagerAndFragmentActivity extends BaseActivity<ActivityViewPager
 
 //    @OnCheckedChanged({R.id.toggle_button})
     public void onCheckedChanged(/*CompoundButton buttonView, */boolean isChecked){
-        viewPager.setHorizontalScrollble(isChecked);
+        viewPager.setHorizontalScrollable(isChecked);
         ToasterUtils.infoFormat("外面ViewPager左右滑动 = %b", isChecked);
     }
 }

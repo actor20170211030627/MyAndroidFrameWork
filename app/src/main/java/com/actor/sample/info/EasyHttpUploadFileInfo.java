@@ -37,7 +37,7 @@ public class EasyHttpUploadFileInfo implements IRequestHost, IRequestApi, IReque
      * @param filePath 注意: if有读取sd卡权限, 可传入绝对路径 or 沙盒路径 <br />
      *                 if没有读取sd卡权限, 就不能传入绝对路径, 要传入沙盒路径.
      */
-    public EasyHttpUploadFileInfo(String filePath) {
+    public EasyHttpUploadFileInfo(@NonNull String filePath) {
         this.file = new File(filePath);
     }
 

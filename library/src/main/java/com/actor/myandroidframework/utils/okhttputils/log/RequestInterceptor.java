@@ -2,6 +2,8 @@ package com.actor.myandroidframework.utils.okhttputils.log;
 
 import androidx.annotation.Nullable;
 
+import com.hjq.http.body.WrapperRequestBody;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -9,8 +11,10 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -19,7 +23,7 @@ import okio.Buffer;
 import okio.BufferedSource;
 
 /**
- * copy from:
+ * copy & edit from:
  * https://github.com/JessYanCoding/MVPArt/tree/complete/art/src/main/java/me/jessyan/art/http/log
  */
 
@@ -37,8 +41,20 @@ public class RequestInterceptor implements Interceptor {
 
     /*FormatPrinter*/DefaultFormatPrinter mPrinter;
 
+    //added
+    protected static boolean isContainEasyHttp;
+
     public RequestInterceptor() {
         mPrinter = new DefaultFormatPrinter();
+
+        //added
+        try {
+            Class.forName("com.hjq.http.EasyHttp");
+            isContainEasyHttp = true;
+        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+            isContainEasyHttp = false;
+        }
     }
 
     @Override
@@ -162,13 +178,58 @@ public class RequestInterceptor implements Interceptor {
             RequestBody body = request.newBuilder().build().body();
             if (body == null) return "";
             Buffer requestbuffer = new Buffer();
-            body.writeTo(requestbuffer);
             Charset charset = Charset.forName("UTF-8");
             MediaType contentType = body.contentType();
             if (contentType != null) {
-                charset = contentType.charset(charset);
+                Charset charset2 = contentType.charset(charset);
+                if (charset2 != null) charset = charset2;
             }
-            String json = requestbuffer.readString(charset);
+            String json = "";
+
+            //added, 轮轮哥的包装类
+            if (isContainEasyHttp && body instanceof WrapperRequestBody) {
+                body = ((WrapperRequestBody) body).getRequestBody();
+            }
+            //added: 含文件表单的解析
+            if (body instanceof MultipartBody) {
+                StringBuilder sb = new StringBuilder();
+                List<MultipartBody.Part> parts = ((MultipartBody) body).parts();
+                for (int i = 0; i < parts.size(); i++) {
+                    MultipartBody.Part part = parts.get(i);
+                    Headers headers = part.headers();
+                    if (i > 0) sb.append("\n");
+                    if (headers != null && headers.size() > 0) {
+                        sb.append(headers.value(0));
+                    }
+                    RequestBody body1 = part.body();
+
+                    MediaType mediaType = body1.contentType();  //null or image/jpeg(表单图片打印太长了)
+//                    long contentLength = body1.contentLength();
+//                    boolean duplex = body1.isDuplex();
+//                    boolean oneShot = body1.isOneShot();
+//                    String s = body1.toString();
+                    if (mediaType == null) {
+                        body1.writeTo(requestbuffer);
+                        sb.append(", value=\"");
+                        sb.append(requestbuffer.readString(charset));
+//                        requestbuffer.flush();
+                        sb.append("\"");
+                    }
+                    json = sb.toString();
+                }
+
+
+
+            } else {
+                body.writeTo(requestbuffer);
+//                Charset charset = Charset.forName("UTF-8");
+//                MediaType contentType = body.contentType();
+//                if (contentType != null) {
+//                    charset = contentType.charset(charset);
+//                }
+                /*String */json = requestbuffer.readString(charset);
+            }
+
             if (UrlEncoderUtils.hasUrlEncoded(json)) {
                 try {
                     /**
@@ -199,6 +260,7 @@ public class RequestInterceptor implements Interceptor {
         if (mediaType == null || mediaType.type() == null) return false;
         return isText(mediaType) || isPlain(mediaType)
                 || isJson(mediaType) || isForm(mediaType)
+                || isFormData(mediaType)    //added
                 || isHtml(mediaType) || isXml(mediaType);
     }
 
@@ -227,9 +289,16 @@ public class RequestInterceptor implements Interceptor {
         return mediaType.subtype().toLowerCase().contains("html");
     }
 
+    //edited 纯表单
     public static boolean isForm(MediaType mediaType) {
         if (mediaType == null || mediaType.subtype() == null) return false;
         return mediaType.subtype().toLowerCase().contains("x-www-form-urlencoded");
+    }
+
+    //added 带文件的表单
+    public static boolean isFormData(MediaType mediaType) {
+        if (mediaType == null || mediaType.subtype() == null) return false;
+        return mediaType.subtype().toLowerCase().contains("form-data");
     }
 
     public static String convertCharset(Charset charset) {

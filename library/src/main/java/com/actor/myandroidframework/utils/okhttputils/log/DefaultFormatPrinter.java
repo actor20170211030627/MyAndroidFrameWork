@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.Request;
 
@@ -204,7 +205,20 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
 
     private static String[] getRequest(Request request) {
         String log;
-        String header = request.headers().toString();
+        /**
+         * edited: 会过滤敏感请求头: Authorization, Cookie, Proxy-Authorization, Set-Cookie
+         * 见: {@link okhttp3.internal.Util#isSensitiveHeader(String)}
+         */
+//        String header = request.headers().toString();
+        Headers headers = request.headers();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < headers.size(); i++) {
+            sb.append(headers.name(i));
+            sb.append(": ");
+            sb.append(headers.value(i));
+            sb.append("\n");
+        }
+        String header = sb.toString();
         log = METHOD_TAG + request.method() + DOUBLE_SEPARATOR +
                 (isEmpty(header) ? "" : HEADERS_TAG + LINE_SEPARATOR + dotHeaders(header));
         return log.split(LINE_SEPARATOR);
