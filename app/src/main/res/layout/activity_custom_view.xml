@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".activity.CustomViewActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="1.BaseSpinner"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- android:paddingEnd="15dp":文字和箭头距离 -->
         <com.actor.myandroidframework.widget.BaseSpinner
@@ -21,15 +30,19 @@
             android:entries="@array/please_choose_data"
             android:paddingEnd="15dp"
             android:spinnerMode="dropdown"
-            app:bsResource="@layout/item_textview_textcolor_white" />
+            app:bsResource="@layout/item_textview_textcolor_white"
+            app:layout_constraintTop_toBottomOf="@id/tv1" />
 
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rec_blue_cor5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="3dp">
+            android:paddingStart="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/base_spinner">
 
             <com.actor.myandroidframework.widget.BaseSpinner
                 android:layout_width="wrap_content"
@@ -52,6 +65,80 @@
                 android:src="@drawable/triangle_bottom_gray" />
         </LinearLayout>
 
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="2.StateListImageView"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/ll" />
+
+        <com.actor.myandroidframework.widget.StateListImageView
+            android:id="@+id/iv_sliv"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/location_bridge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv2"
+            app:slivSrcDisabled="@drawable/map_location_icon"
+            app:slivSrcFocused="@drawable/location_repository"
+            app:slivSrcPressed="@drawable/location_camera"
+            app:slivSrcSelected="@drawable/location_person" />
+
+        <Button
+            android:id="@+id/btn_enable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:onClick="onViewClicked"
+            android:text="enable=true"
+            app:layout_constraintBottom_toBottomOf="@id/iv_sliv"
+            app:layout_constraintStart_toEndOf="@id/iv_sliv" />
+
+        <Button
+            android:id="@+id/btn_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="focus=false"
+            app:layout_constraintStart_toEndOf="@id/btn_enable"
+            app:layout_constraintTop_toTopOf="@id/btn_enable" />
+
+        <Button
+            android:id="@+id/btn_pressed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="pressed=false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_sliv" />
+
+        <Button
+            android:id="@+id/btn_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="selected=false"
+            app:layout_constraintStart_toEndOf="@id/btn_pressed"
+            app:layout_constraintTop_toTopOf="@id/btn_pressed" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="3.other模块的其它"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/iv_sliv" />
+
         <com.actor.other_utils.widget.ItemRadioGroupLayout
             android:id="@+id/item_radio_group"
             android:layout_width="match_parent"
@@ -61,8 +148,8 @@
             app:irglCustomLayout="@layout/item_radio_group_layout"
             app:irglGravity="right|center_vertical"
             app:irglItemName="性别: "
-            app:irglMarginTop="20dp"
-            app:irglRedStarVisiable="visible" />
+            app:irglRedStarVisiable="visible"
+            app:layout_constraintTop_toBottomOf="@id/tv3" />
 
         <Button
             android:id="@+id/btn_check"
@@ -70,7 +157,8 @@
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
             android:text="Check position 2"
-            android:transitionName="btnTest" />
+            android:transitionName="btnTest"
+            app:layout_constraintTop_toBottomOf="@id/item_radio_group" />
 
         <com.actor.other_utils.widget.ItemSpinnerLayout
             android:id="@+id/item_spinner"
@@ -80,7 +168,8 @@
             app:islEntries="@array/languages"
             app:islItemName="请选择: "
             app:islMarginTop="20dp"
-            app:islRedStarVisiable="visible" />
+            app:islRedStarVisiable="visible"
+            app:layout_constraintTop_toBottomOf="@id/btn_check" />
 
         <!-- app:itilCustomLayout="@layout/item_text_input_layout" -->
         <com.actor.other_utils.widget.ItemTextInputLayout
@@ -96,7 +185,8 @@
             app:itilItemName="正则输入: "
             app:itilMarginTop="20dp"
             app:itilMaxLength="15"
-            app:itilRedStarVisiable="visible" />
+            app:itilRedStarVisiable="visible"
+            app:layout_constraintTop_toBottomOf="@id/item_spinner" />
 
         <Button
             android:id="@+id/btn2"
@@ -104,7 +194,8 @@
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
             android:text="只能输入数字"
-            android:transitionName="btnTest" />
+            android:transitionName="btnTest"
+            app:layout_constraintTop_toBottomOf="@id/itil1" />
 
         <com.actor.other_utils.widget.ItemTextInputLayout
             android:id="@+id/itil_can_not_input"
@@ -116,14 +207,16 @@
             app:itilImeOptions="actionDone"
             app:itilInputType="text"
             app:itilItemName="不能输入:"
-            app:itilMarginTop="20dp" />
+            app:itilMarginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/btn2" />
 
         <Button
             android:id="@+id/btn_input_enable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="InputEnable切换" />
+            android:text="InputEnable切换"
+            app:layout_constraintTop_toBottomOf="@id/itil_can_not_input" />
 
 
         <com.actor.other_utils.widget.ItemTextInputLayout
@@ -134,6 +227,7 @@
             app:itilHint="测试不能输入的'点击事件'"
             app:itilInputEnable="false"
             app:itilItemName="测试点击:"
-            app:itilMarginTop="20dp" />
-    </LinearLayout>
+            app:itilMarginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_input_enable" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

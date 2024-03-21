@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StateListImageView">
+        <!-- Checked 时候的图片(ImageView没有 setChecked()方法) -->
+<!--        <attr name="slivSrcChecked" format="reference|color" />-->
+
+        <!-- Disable 时候的图片 -->
+        <attr name="slivSrcDisabled" format="reference|color" />
+
+        <!-- Focuse 时候的图片 -->
+        <attr name="slivSrcFocused" format="reference|color" />
+
+        <!-- Pressed 时候的图片 -->
+        <attr name="slivSrcPressed" format="reference|color" />
+
+        <!-- Selected 时候的图片 -->
+        <attr name="slivSrcSelected" format="reference|color" />
+    </declare-styleable>
+</resources>

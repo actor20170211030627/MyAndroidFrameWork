@@ -73,6 +73,30 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
     @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.btn_enable:
+                viewBinding.ivSliv.setEnabled(!viewBinding.ivSliv.isEnabled());
+                viewBinding.btnEnable.setText("enable=" + viewBinding.ivSliv.isEnabled());
+                break;
+            case R.id.btn_focus:
+                boolean focusable = viewBinding.ivSliv.isFocusable();
+                boolean hasFocus = viewBinding.ivSliv.hasFocus();
+                LogUtils.errorFormat("focusable=%b, hasFocus=%b", focusable, hasFocus);
+                if (hasFocus) {
+                    viewBinding.ivSliv.clearFocus();
+                } else {
+                    boolean requestFocus = viewBinding.ivSliv.requestFocus();
+                    LogUtils.errorFormat("requestFocus=%b", requestFocus);
+                }
+                viewBinding.btnFocus.setText("focus=" + viewBinding.ivSliv.hasFocus());
+                break;
+            case R.id.btn_pressed:
+                viewBinding.ivSliv.setPressed(!viewBinding.ivSliv.isPressed());
+                viewBinding.btnPressed.setText("pressed=" + viewBinding.ivSliv.isPressed());
+                break;
+            case R.id.btn_selected:
+                viewBinding.ivSliv.setSelected(!viewBinding.ivSliv.isSelected());
+                viewBinding.btnSelected.setText("selected=" + viewBinding.ivSliv.isSelected());
+                break;
             case R.id.btn_check:
                 int checkedPosition = itemRadioGroup.getCheckedPosition();
                 itemRadioGroup.setCheckedPosition(2);
