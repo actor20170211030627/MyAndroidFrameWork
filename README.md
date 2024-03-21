@@ -71,7 +71,9 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/easyhttp/EasyHttpConfigUtils.java" target="_blank">EasyHttpConfigUtils</a> (EasyHttp基本配置 & 封装的WebSocket)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/OkHttpConfigUtils.java" target="_blank">OkHttpConfigUtils</a> (OkHttp基本配置)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" target="_blank">SharedElementUtils</a> (元素共享跳转页面)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/video/VideoProcessorUtils.java" target="_blank">VideoProcessorUtils</a> (视频压缩)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/AssetsUtils.java" target="_blank">AssetsUtils</a> (Assets读取)
@@ -104,6 +106,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/DrawableTextView.java" target="_blank">DrawableTextView</a> (支持限定 Drawable 大小的 TextView)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RatioLayout.java" target="_blank">RatioLayout</a> (百分比布局, 宽高百分比)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RoundCardView.java" target="_blank">RoundCardView</a> (圆角CardView)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/StateListImageView.java" target="_blank">StateListImageView</a> (设置各种状态时的图片)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java" target="_blank">StatusBarHeightView</a> (状态栏占高)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/SwipeRefreshLayoutCompatViewPager.java" target="_blank">SwipeRefreshLayoutCompatViewPager</a> (SwipeRefreshLayout适配ViewPager里的下拉)
 </pre>
@@ -237,6 +240,14 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github'
  *          <a href="qq_wechat/src/main/java/com/actor/qq_wechat/WeChatUtils.java" target="_blank">WeChatUtils</a> (微信登录, 获取Token, 分享文字/图片/音乐/视频/网页/小程序/文件, 支付, 订阅消息...)
  */
 implementation 'com.github.actor20170211030627.MyAndroidFrameWork:qq_wechat:github's latest version'
+</pre>
+
+<pre>
+/**
+ * 如果需要阿里支付or授权, 可添加如下依赖 (按需引入)
+ * 并可使用: <a href="ali_pay/src/main/java/com/actor/ali_pay/ALiPayUtils.java" target="_blank">ALiPayUtils</a> (支付, 授权)
+ */
+implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github's latest version'
 </pre>
 
 <pre>

@@ -15,6 +15,38 @@ import com.hjq.shape.other.ExtendStateListDrawable;
 /**
  * description: 可以直接在布局文件中, 设置各种状态的ImageView <br />
  * see {@link com.google.android.material.imageview.ShapeableImageView} 可以设置各种形状
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *    <tr>
+ *        <th>№</th>
+ *        <td align="center">属性attrs</td>
+ *        <td align="center">示例exams</td>
+ *        <td align="center">说明docs</td>
+ *    </tr>
+ *    <tr>
+ *        <td>1</td>
+ *        <td>{@link R.styleable#StateListImageView_slivSrcDisabled slivSrcDisabled}</td>
+ *        <td>@drawable/xxx</td>
+ *        <td>{@link #setEnabled(boolean) setEnabled(false)} 的时候显示的图片</td>
+ *    </tr>
+ *    <tr>
+ *        <td>2</td>
+ *        <td>{@link R.styleable#StateListImageView_slivSrcFocused slivSrcFocused}</td>
+ *        <td>@drawable/xxx</td>
+ *        <td>{@link #requestFocus()} 获取焦点的时候显示的图片</td>
+ *    </tr>
+ *    <tr>
+ *        <td>3</td>
+ *        <td>{@link R.styleable#StateListImageView_slivSrcPressed slivSrcPressed}</td>
+ *        <td>@drawable/xxx</td>
+ *        <td>{@link #setPressed(boolean) setPressed(true)} 的时候显示的图片</td>
+ *    </tr>
+ *    <tr>
+ *        <td>4</td>
+ *        <td>{@link R.styleable#StateListImageView_slivSrcSelected slivSrcSelected}</td>
+ *        <td>@drawable/xxx</td>
+ *        <td>{@link #setSelected(boolean) setSelected(true)} 的时候显示的图片</td>
+ *    </tr>
+ * </table>
  *
  * @author : ldf
  * @date       : 2024/3/20 on 17
