@@ -138,11 +138,14 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
 
     /**
      * 设置高度是否全屏, 包括状态栏
+     * @param isFullScreen 高度是否全屏
+     * @param isIncludeStatusBar if高度全屏, 是否包含状态栏
      */
-    public BaseDialog setHeightFullScreen(boolean isFullScreen) {
+    public BaseDialog setHeightFullScreen(boolean isFullScreen, boolean isIncludeStatusBar) {
         Window window = getWindow();
-        if (window == null) return this;
-        BarUtils.setNavBarVisibility(window, !isFullScreen);    //关键代码
+        if (window != null) {
+            BarUtils.setNavBarVisibility(window, !(isFullScreen && isIncludeStatusBar));
+        }
         //高度全屏(if没有↑, 还有状态栏会显示)
         return setHeight(isFullScreen ? WindowManager.LayoutParams.MATCH_PARENT : WindowManager.LayoutParams.WRAP_CONTENT);
     }

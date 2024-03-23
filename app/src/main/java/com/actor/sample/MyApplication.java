@@ -32,9 +32,9 @@ public class MyApplication extends ActorApplication {
 
         //配置轮子哥的EasyHttp
         OkHttpClient.Builder builder = EasyHttpConfigUtils.initOkHttp(isAppDebug());
-        //然后可以在 builder2 中自定义设置, 添加拦截器等
-        //builder2.xxx
-        //原生日志打印不大科学, 使用这个拦截器打印日志
+        //然后可以在 builder 中自定义设置, 添加拦截器等
+        //builder.xxx
+        //EasyHttp的日志打印不大科学, 使用这个拦截器打印日志
         OkHttpConfigUtils.addLogInterceptor(builder, true);
         EasyHttpConfigUtils.init(false, Global.BASE_URL_GITHUB, builder.build());
 

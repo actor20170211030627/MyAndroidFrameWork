@@ -64,7 +64,7 @@ public class BRVUtils {
      *             super.onError(id, call, e);
      *             swipeRefreshLayout.setRefreshing(false);
      *             //点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
-     *             {@link BRVUtils#loadMoreFail(BaseQuickAdapter) BRVUtils.loadMoreFail(BaseQuickAdapter)}; //加载失败
+     *             {@link BRVUtils#setLoadMoreFail(BaseQuickAdapter) BRVUtils.setLoadMoreFail(BaseQuickAdapter)}; //加载失败
      *         }
      *     });
      * }
@@ -167,7 +167,7 @@ public class BRVUtils {
     /**
      * 加载失败, 点击"重试"时, 会调用 '上拉加载更多监听' 里的onLoadMoreRequested();回调方法
      */
-    public static void loadMoreFail(@NonNull BaseQuickAdapter adapter) {
+    public static void setLoadMoreFail(@NonNull BaseQuickAdapter adapter) {
         adapter.getLoadMoreModule().loadMoreFail();
     }
 }

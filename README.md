@@ -139,7 +139,7 @@ Add it in your root build.gradle at the end of repositories:
             //如果发现jitpack的依赖下载不下来, 并报错: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
             //那么这是jitpack网站证书问题, 解决办法:
             //1.AndroidStudio -> Settings -> Build -> Build Tools -> Gradle -> 查看Gradle JDK 目录.
-            //2.下载 <a href="captures/cacerts" target="_blank">cacerts</a> 文件, 替换上方的 JDK目录jre\lib\security\cacerts 文件.(原文件记得自己备份)
+            //2.下载 <a href="captures/cacerts" target="_blank">cacerts</a> 文件, 替换上方的 JDK目录jbr\lib\security\cacerts 文件.(原文件记得自己备份)
             //3.Gradle重新同步一下应该就可以了
         }
     }
