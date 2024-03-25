@@ -39,10 +39,14 @@ import java.util.List;
  * <a href="https://a.amap.com/lbs/static/unzip/Android_Map_Doc/index.html" target="_blank">参考手册</a> <br />
  * <ol>
  *     <li>
- *         添加应用并获取<a href="https://console.amap.com/dev" target="_blank">API Key</a>, <br />
- *         然后快速获取sha1签名, 可去
- *         <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/tree/master/captures"
- *         target="_blank">Gitee 下载一个 "获取debug和release签名的sha1.bat" 文件</a>, 双击运行它, 然后输入发布版(release版)秘钥地址就能获取到sha1签名。
+ *         添加应用并获取<a href="https://console.amap.com/dev" target="_blank">API Key</a>
+ *     </li>
+ *     <li>
+ *         获取sha1签名: 去微信开放平台下载
+ *         <a href="https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html#%E7%AD%BE%E5%90%8D%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7">签名生成工具</a>,
+ *         或者直接下载
+ *         <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/captures/GenSignature.apk">GenSignature.apk</a>
+ *         (都是同一个东西)
  *     </li>
  *     <li>
  *         <a href="https://lbs.amap.com/api/android-sdk/guide/create-project/android-studio-create-project#gradle_sdk"

@@ -43,11 +43,21 @@ import java.io.File;
 
 /**
  * Description: 微信登录&支付&分享等 <br />
- * <a href="https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html#%E7%AD%BE%E5%90%8D%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7">签名生成工具</a> <br />
- * <a href="https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html" target="_blank">分享, 登录Demo</a> <br />
- * {@link null 支付Demo:} 无!(无语) <br />
- * <a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">接入指南</a> <br />
- * <a href="https://open.weixin.qq.com/" target="_blank">应用注册</a> <br />
+ * <ul>
+ *     <li>
+ *         获取sha1签名: 去微信开放平台下载
+ *         <a href="https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html#%E7%AD%BE%E5%90%8D%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7">签名生成工具</a>,
+ *         或者直接下载
+ *         <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/captures/GenSignature.apk">GenSignature.apk</a>
+ *         (都是同一个东西)
+ *     </li>
+ *     <li>
+ *         <a href="https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html" target="_blank">分享, 登录Demo</a>
+ *     </li>
+ *     <li>{@link null 支付Demo:} 无!(无语)</li>
+ *     <li><a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">接入指南</a></li>
+ *     <li><a href="https://open.weixin.qq.com/" target="_blank">应用注册</a></li>
+ * </ul>
  *
  * <ol>
  *     <li>
