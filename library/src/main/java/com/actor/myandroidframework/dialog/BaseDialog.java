@@ -13,12 +13,15 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.action.ActivityAction;
+import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.BarUtils;
 
@@ -38,7 +41,7 @@ import com.blankj.utilcode.util.BarUtils;
  * @Author     : ldf
  * @Date       : 2020-1-21 on 16:49
  */
-public abstract class BaseDialog extends Dialog implements LifecycleOwner,
+public abstract class BaseDialog extends Dialog implements ActivityAction, LifecycleOwner,
         DialogInterface.OnShowListener,
         DialogInterface.OnDismissListener {
 
@@ -172,39 +175,11 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
      *                         <th align="center">动画</th>
      *                         <th align="center">说明</th>
      *             </tr>
-     *             <tr> <td>传 {@link 0 0}</td> <td>使用系统默认Dialog动画</td> </tr>
-     *             <tr> <td>传 {@link null null}</td> <td>使用Gravity对应的动画</td> </tr>
+     *             <tr> <td>{@link AnimAction#ANIM_DEFAULT}</td> <td>使用系统默认Dialog动画</td> </tr>
+     *             <tr> <td>{@link AnimAction#ANIM_EMPTY}</td> <td>没有动画效果</td> </tr>
      *             <tr>
-     *                 <td>{@link R.style#Animation_AppCompat_Dialog R.style.Animation_AppCompat_Dialog}</td>
-     *                 <td>系统默认Dialog动画(默认)</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link R.style#Base_Animation_AppCompat_Dialog R.style.Base_Animation_AppCompat_Dialog}</td>
-     *                 <td>系统Dialog动画</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link android.R.style#Animation_Dialog android.R.style.Animation_Dialog}</td>
-     *                 <td>系统Dialog动画</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link android.R.style#Animation_Toast android.R.style.Animation_Toast}</td>
-     *                 <td>吐司动画</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link R.style#LeftAnimationStyle R.style.LeftAnimationStyle}</td>
-     *                 <td>左边弹出动画</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link R.style#TopAnimationStyle R.style.TopAnimationStyle}</td>
-     *                 <td>顶部弹出动画</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link R.style#RightAnimationStyle R.style.RightAnimationStyle}</td>
-     *                 <td>右边弹出动画</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link R.style#BottomAnimationStyle R.style.BottomAnimationStyle}</td>
-     *                 <td>底部弹出动画</td>
+     *                 <td>{@link AnimAction}</td>
+     *                 <td>更多动画见 AnimAction</td>
      *             </tr>
      *             <tr>
      *                 <td>{@link R.style#YourCustomAnim R.style.YourCustomAnim}</td>
@@ -212,29 +187,11 @@ public abstract class BaseDialog extends Dialog implements LifecycleOwner,
      *             </tr>
      *        </table>
      */
-    public BaseDialog setGravityAndAnimation(int gravity, @Nullable Integer windowAnimations) {
+    public BaseDialog setGravityAndAnimation(int gravity, @StyleRes int windowAnimations) {
         Window window = getWindow();
         if (window == null) return this;
         window.setGravity(gravity);
-        if (windowAnimations == null) {
-            //Gravity.START 里面包含 Gravity.LEFT, 所以不用另外判断Gravity.START
-            if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
-                window.setWindowAnimations(R.style.LeftAnimationStyle);
-            } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
-                window.setWindowAnimations(R.style.TopAnimationStyle);
-            } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
-                window.setWindowAnimations(R.style.RightAnimationStyle);
-            } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
-                window.setWindowAnimations(R.style.BottomAnimationStyle);
-            } else {
-                //其它情况, 默认居中.
-                window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
-            }
-        } else if (windowAnimations == 0) {
-            window.setWindowAnimations(R.style.Animation_AppCompat_Dialog);
-        } else {
-            window.setWindowAnimations(windowAnimations);
-        }
+        window.setWindowAnimations(windowAnimations);
         return this;
     }
 

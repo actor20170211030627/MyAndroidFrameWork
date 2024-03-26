@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.dialog.BaseDialog;
 import com.actor.myandroidframework.utils.ConfigUtils;
@@ -53,7 +54,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             protected int getLayoutResId() {
                 return R.layout.fragment_base_bottom_sheet_dialog;
             }
-        }.setGravityAndAnimation(Gravity.BOTTOM, null)
+        }.setGravityAndAnimation(Gravity.BOTTOM, AnimAction.ANIM_BOTTOM_SLIDE)
         //设置背景昏暗度
         .setDimAmount(0.3f)
         //设置点击穿透
@@ -117,7 +118,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             protected int getLayoutResId() {
                 return R.layout.dialog_base_left;
             }
-        }.setGravityAndAnimation(Gravity.START, R.style.LeftAnimationStyle)
+        }.setGravityAndAnimation(Gravity.START, AnimAction.ANIM_LEFT_SLIDE)
                 .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
                 .setHeightFullScreen(true, true);
         leftDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> leftDialog.dismiss());
@@ -131,7 +132,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             protected int getLayoutResId() {
                 return R.layout.dialog_base_left;
             }
-        }.setGravityAndAnimation(Gravity.END, null)
+        }.setGravityAndAnimation(Gravity.END, AnimAction.ANIM_RIGHT_SLIDE)
                 .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
                 .setHeight(WindowManager.LayoutParams.MATCH_PARENT);
         rightDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
@@ -145,7 +146,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             protected int getLayoutResId() {
                 return R.layout.fragment_base_bottom_sheet_dialog;
             }
-        }.setGravityAndAnimation(Gravity.TOP, null);
+        }.setGravityAndAnimation(Gravity.TOP, AnimAction.ANIM_TOP_SLIDE);
         topDialog.findViewById(R.id.tv_tips).setVisibility(View.INVISIBLE);
         topDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
         topDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> ToasterUtils.success("ok~~"));

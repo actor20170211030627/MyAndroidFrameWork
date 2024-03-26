@@ -7,6 +7,7 @@ import android.view.Gravity;
 
 import androidx.annotation.NonNull;
 
+import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.dialog.ViewBindingDialog;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.databinding.DialogFloatEditorBinding;
@@ -25,7 +26,7 @@ public class BottomFloatEditorDialog extends ViewBindingDialog<DialogFloatEditor
     public BottomFloatEditorDialog(@NonNull Context context, OnResultListener listener) {
         super(context);
         this.listener = listener;
-        setGravityAndAnimation(Gravity.BOTTOM, null);
+        setGravityAndAnimation(Gravity.BOTTOM, AnimAction.ANIM_BOTTOM_SLIDE);
     }
 
     @Override
