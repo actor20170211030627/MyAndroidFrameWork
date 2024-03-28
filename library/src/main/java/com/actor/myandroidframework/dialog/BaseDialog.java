@@ -50,7 +50,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     protected OnShowListener onShowListener;
     protected OnDismissListener onDismissListener;
 
-    //Widnow宽度
+    //Widow宽度
     protected int windowWidth = WindowManager.LayoutParams.MATCH_PARENT;
     protected int windowHeight = WindowManager.LayoutParams.WRAP_CONTENT;
     //onCreate的时候, 是否打印这个Dialog的名称

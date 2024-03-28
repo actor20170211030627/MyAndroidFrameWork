@@ -72,6 +72,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_bottom_sheet://从底部弹出的Dialog & DialogFragment等
                 startActivity(new Intent(this, BottomSheetDialogActivity.class), false, null, null, view);
                 break;
+            case R.id.btn_popup_window://PopupWindow测试
+                startActivity(PopupWindowTestActivity.class);
+                break;
             case R.id.btn_viewpager_about:
                 //ViewPager多层嵌套 & 高度自适应
                 viewPagerDialog.show();
