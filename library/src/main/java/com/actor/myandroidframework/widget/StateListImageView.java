@@ -3,6 +3,7 @@ package com.actor.myandroidframework.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.actor.myandroidframework.R;
-import com.hjq.shape.other.ExtendStateListDrawable;
 
 /**
  * description: 可以直接在布局文件中, 设置各种状态的ImageView <br />
@@ -46,6 +46,12 @@ import com.hjq.shape.other.ExtendStateListDrawable;
  *        <td>@drawable/xxx</td>
  *        <td>{@link #setSelected(boolean) setSelected(true)} 的时候显示的图片</td>
  *    </tr>
+ *    <tr>
+ *        <td>5</td>
+ *        <td>{@link android.R.styleable#ImageView_src android:src}</td>
+ *        <td>@drawable/xxx</td>
+ *        <td>默认显示的图片</td>
+ *    </tr>
  * </table>
  *
  * @author : ldf
@@ -53,7 +59,17 @@ import com.hjq.shape.other.ExtendStateListDrawable;
  */
 public class StateListImageView extends AppCompatImageView {
 
-    protected ExtendStateListDrawable stateListDrawable = new ExtendStateListDrawable();
+    /**
+     * @see com.hjq.shape.other.ExtendStateListDrawable
+     */
+    protected StateListDrawable stateListDrawable = new StateListDrawable();
+
+    protected static final int[] STATE_DEFAULT = new int[]{};
+    protected static final int[] STATE_PRESSED = new int[]{android.R.attr.state_pressed};
+    protected static final int[] STATE_CHECKED = new int[]{android.R.attr.state_checked};
+    protected static final int[] STATE_DISABLED = new int[]{-android.R.attr.state_enabled};
+    protected static final int[] STATE_FOCUSED = new int[]{android.R.attr.state_focused};
+    protected static final int[] STATE_SELECTED = new int[]{android.R.attr.state_selected};
 
     public StateListImageView(@NonNull Context context) {
         super(context);
@@ -82,18 +98,18 @@ public class StateListImageView extends AppCompatImageView {
             a.recycle();
 
             //ImageView没有 setChecked()方法
-//            stateListDrawable.setCheckDrawable(checkedDrawable);
-            stateListDrawable.setDisabledDrawable(disabledDrawable);
+//            stateListDrawable.addState(STATE_CHECKED, checkedDrawable);
+            stateListDrawable.addState(STATE_DISABLED, disabledDrawable);
             //if有焦点图, 设置能获取焦点
             if (focusedDrawable != null) {
                 setFocusable(true);
                 setFocusableInTouchMode(true);
             }
-            stateListDrawable.setFocusedDrawable(focusedDrawable);
-            stateListDrawable.setPressedDrawable(pressedDrawable);
-            stateListDrawable.setSelectDrawable(selectedDrawable);
+            stateListDrawable.addState(STATE_FOCUSED, focusedDrawable);
+            stateListDrawable.addState(STATE_PRESSED, pressedDrawable);
+            stateListDrawable.addState(STATE_SELECTED, selectedDrawable);
         }
-        stateListDrawable.setDefaultDrawable(getDrawable());
+        stateListDrawable.addState(STATE_DEFAULT, getDrawable());
         setImageDrawable(stateListDrawable);
     }
 
@@ -150,7 +166,7 @@ public class StateListImageView extends AppCompatImageView {
     }
 
 
-    public ExtendStateListDrawable getStateListDrawable() {
+    public StateListDrawable getStateListDrawable() {
         return stateListDrawable;
     }
 
