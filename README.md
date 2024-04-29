@@ -109,6 +109,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StateListImageView.java" target="_blank">StateListImageView</a> (设置各种状态时的图片)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java" target="_blank">StatusBarHeightView</a> (状态栏占高)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/SwipeRefreshLayoutCompatViewPager.java" target="_blank">SwipeRefreshLayoutCompatViewPager</a> (SwipeRefreshLayout适配ViewPager里的下拉)
+<a href="library/src/main/java/com/actor/myandroidframework/popupwindow/BasePopupWindow.java" target="_blank">BasePopupWindow</a> (PopupWindow简单整理, 可一用)
 </pre>
 
 ## 3.Screenshot

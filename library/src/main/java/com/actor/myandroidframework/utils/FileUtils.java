@@ -24,7 +24,6 @@ import java.io.File;
  * Company    : ▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ <br />
  * Author     : ldf <br />
  * Date       : 2018/7/29 on 19:12
- * @version 1.0
  * @see PathUtils PathUtils: 更多获取路径的方式
  */
 public class FileUtils {
@@ -54,7 +53,7 @@ public class FileUtils {
     ///////////////////////////////////////////////////////////////////////////
     /**
      * 根据后缀, 返回是否是图片格式
-     * https://baike.baidu.com/item/%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F/381122?fr=aladdin
+     * <a href="https://baike.baidu.com/item/%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F/381122?fr=aladdin">图片格式</a>
      * @see com.blankj.utilcode.util.ImageUtils.ImageType
      *
      * @param fileNameOrPath 文件名/文件路径(都要包含后缀)
@@ -95,19 +94,56 @@ public class FileUtils {
     // 3.获取内部存储路径, 不需要SD卡读写权限
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * 缓存目录, 系统会自动清理这里面的内容
-     * @return /data/data/package/cache
-     *
+     * 缓存目录, 系统会自动清理这里面的内容, 如果没挂载SD卡, 返回"" <br />
+     * 更多获取Internal目录的方法: (卸载后这些文件夹都会删除)
+     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *     <tr>
+     *         <th>№</th>
+     *         <th>Method方法</th>
+     *         <th>Doc说明</th>
+     *     </tr>
+     *     <tr>
+     *         <td>1</td>
+     *         <td>{@link PathUtils#getInternalAppCachePath()}</td>
+     *         <td>/data/data/package/cache, 缓存目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>2</td>
+     *         <td>{@link PathUtils#getInternalAppCodeCacheDir()}</td>
+     *         <td>/data/data/package/code_cache, 为存储缓存的代码而设计的文件系统</td>
+     *     </tr>
+     *     <tr>
+     *         <td>3</td>
+     *         <td>{@link PathUtils#getInternalAppDataPath()}</td>
+     *         <td>/data/data/package, 这个app对应的存储目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>4</td>
+     *         <td>{@link PathUtils#getInternalAppDbPath(String)}</td>
+     *         <td>/data/data/package/databases/name, 数据库</td>
+     *     </tr>
+     *     <tr>
+     *         <td>5</td>
+     *         <td>{@link PathUtils#getInternalAppDbsPath()}</td>
+     *         <td>/data/data/package/databases, 数据库根目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>6</td>
+     *         <td>{@link PathUtils#getInternalAppFilesPath()}</td>
+     *         <td>/data/data/package/files, 文件目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>7</td>
+     *         <td nowrap="nowrap">{@link PathUtils#getInternalAppNoBackupFilesPath()}</td>
+     *         <td>/data/data/package/no_backup, 备份</td>
+     *     </tr>
+     *     <tr>
+     *         <td>8</td>
+     *         <td>{@link PathUtils#getInternalAppSpPath()}</td>
+     *         <td>/data/data/package/shared_prefs, SP目录</td>
+     *     </tr>
+     * </table>
      * @deprecated 使用: {@link PathUtils}
-     * 1.获取Internalmul, 卸载后这些文件夹都会删除
-     * @see PathUtils#getInternalAppCachePath()         /data/data/package/cache, 缓存目录
-     * @see PathUtils#getInternalAppCodeCacheDir()      /data/data/package/code_cache, 为存储缓存的代码而设计的文件系统
-     * @see PathUtils#getInternalAppDataPath()          /data/data/package, 这个app对应的存储目录
-     * @see PathUtils#getInternalAppDbPath(String)      /data/data/package/databases/name, 数据库
-     * @see PathUtils#getInternalAppDbsPath()           /data/data/package/databases, 数据库根目录
-     * @see PathUtils#getInternalAppFilesPath()         /data/data/package/files, 文件目录
-     * @see PathUtils#getInternalAppNoBackupFilesPath() /data/data/package/no_backup, 备份
-     * @see PathUtils#getInternalAppSpPath()            /data/data/package/shared_prefs, SP目录
      */
     @Deprecated
     public static String getInternalAppCachePath() {
@@ -119,25 +155,87 @@ public class FileUtils {
     // 4.获取App对应的外部SD卡路径, 不需要SD卡读写权限
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * App对应的外部SD卡缓存目录
-     * @return /storage/emulated/0/Android/data/package/cache, 如果没挂载SD卡, 返回""
+     * App对应的外部SD卡缓存目录 <br />
+     * 更多获取外部SD卡目录的方法: (卸载后这些文件夹都会删除)
+     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *     <tr>
+     *         <th>№</th>
+     *         <th>Method方法</th>
+     *         <th>Doc说明</th>
+     *     </tr>
+     *     <tr>
+     *         <td>1</td>
+     *         <td>{@link PathUtils#getExternalAppAlarmsPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Alarms, app"提醒铃声"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>2</td>
+     *         <td>{@link PathUtils#getExternalAppCachePath()}</td>
+     *         <td>/data/data/package/cache, "缓存"目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>3</td>
+     *         <td>{@link PathUtils#getExternalAppDataPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package, 这个app对应的存储目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>4</td>
+     *         <td>{@link PathUtils#getExternalAppDcimPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/DCIM, 这个app对应"相机拍摄照片和视频"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>5</td>
+     *         <td>{@link PathUtils#getExternalAppDocumentsPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Documents, 这个app对应"文档"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>6</td>
+     *         <td>{@link PathUtils#getExternalAppDownloadPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Download, 这个app对应"下载"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>7</td>
+     *         <td>{@link PathUtils#getExternalAppFilesPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files, 这个app对应"文件"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>8</td>
+     *         <td>{@link PathUtils#getExternalAppMoviesPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Movies, 这个app对应"电影"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>9</td>
+     *         <td>{@link PathUtils#getExternalAppMusicPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Music, 这个app对应"音频"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>10</td>
+     *         <td nowrap="nowrap">{@link PathUtils#getExternalAppNotificationsPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Notifications, 这个app对应"通知铃声"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>11</td>
+     *         <td>{@link PathUtils#getExternalAppObbPath()}</td>
+     *         <td>/storage/emulated/0/Android/obb/package, 这个app对应"游戏相关数据包"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>12</td>
+     *         <td>{@link PathUtils#getExternalAppPicturesPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Pictures, 这个app对应"图片"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>13</td>
+     *         <td>{@link PathUtils#getExternalAppPodcastsPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Podcasts, 这个app对应"播客"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>14</td>
+     *         <td>{@link PathUtils#getExternalAppRingtonesPath()}</td>
+     *         <td>/storage/emulated/0/Android/data/package/files/Ringtones, 这个app对应"铃声"的标准目录</td>
+     *     </tr>
+     * </table>
      *
      * @deprecated 使用: {@link PathUtils}
-     * 1.卸载后这些文件夹都会删除
-     * @see PathUtils#getExternalAppAlarmsPath()        /storage/emulated/0/Android/data/package/files/Alarms, app"提醒铃声"的标准目录
-     * @see PathUtils#getExternalAppCachePath()         /data/data/package/cache, "缓存"目录
-     * @see PathUtils#getExternalAppDataPath()          /storage/emulated/0/Android/data/package, 这个app对应的存储目录
-     * @see PathUtils#getExternalAppDcimPath()          /storage/emulated/0/Android/data/package/files/DCIM, 这个app对应"相机拍摄照片和视频"的标准目录
-     * @see PathUtils#getExternalAppDocumentsPath()     /storage/emulated/0/Android/data/package/files/Documents, 这个app对应"文档"的标准目录
-     * @see PathUtils#getExternalAppDownloadPath()      /storage/emulated/0/Android/data/package/files/Download, 这个app对应"下载"的标准目录
-     * @see PathUtils#getExternalAppFilesPath()         /storage/emulated/0/Android/data/package/files, 这个app对应"文件"的标准目录
-     * @see PathUtils#getExternalAppMoviesPath()        /storage/emulated/0/Android/data/package/files/Movies, 这个app对应"电影"的标准目录
-     * @see PathUtils#getExternalAppMusicPath()         /storage/emulated/0/Android/data/package/files/Music, 这个app对应"音频"的标准目录
-     * @see PathUtils#getExternalAppNotificationsPath() /storage/emulated/0/Android/data/package/files/Notifications, 这个app对应"通知铃声"的标准目录
-     * @see PathUtils#getExternalAppObbPath()           /storage/emulated/0/Android/obb/package, 这个app对应"游戏相关数据包"的标准目录
-     * @see PathUtils#getExternalAppPicturesPath()      /storage/emulated/0/Android/data/package/files/Pictures, 这个app对应"图片"的标准目录
-     * @see PathUtils#getExternalAppPodcastsPath()      /storage/emulated/0/Android/data/package/files/Podcasts, 这个app对应"播客"的标准目录
-     * @see PathUtils#getExternalAppRingtonesPath()     /storage/emulated/0/Android/data/package/files/Ringtones, 这个app对应"铃声"的标准目录
      */
     @Deprecated
     public static String getExternalAppCachePath() {
@@ -150,27 +248,79 @@ public class FileUtils {
     ///////////////////////////////////////////////////////////////////////////
     /**
      * 获取SD卡"图片"的标准目录, 需要SD卡读写权限
-     * <!--读文件权限-->
-     * <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-     * <!--写文件权限-->
-     * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-     * <!--允许挂载和反挂载文件系统可移动存储-->
-     * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-     *
-     * @return /storage/emulated/0/Pictures
+     * <pre>
+     *     &lt;!--读文件权限-->
+     *     &lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/&gt;
+     *     &lt;!--写文件权限-->
+     *     &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
+     *     &lt;!--允许挂载和反挂载文件系统可移动存储-->
+     *     &lt;uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/&gt;
+     * </pre>
+     * 更多获取外部SD卡目录的方法:
+     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *     <tr>
+     *         <th>№</th>
+     *         <th>Method方法</th>
+     *         <th>Doc说明</th>
+     *     </tr>
+     *     <tr>
+     *         <td>1</td>
+     *         <td>{@link PathUtils#getExternalAlarmsPath()}</td>
+     *         <td>/storage/emulated/0/Alarms, SD卡"提醒铃声"存放的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>2</td>
+     *         <td>{@link PathUtils#getExternalDcimPath()}</td>
+     *         <td>/storage/emulated/0/DCIM, SD卡"相机拍摄照片和视频"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>3</td>
+     *         <td>{@link PathUtils#getExternalDocumentsPath()}</td>
+     *         <td>/storage/emulated/0/Documents, SD卡"文档"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>4</td>
+     *         <td>{@link PathUtils#getExternalDownloadsPath()}</td>
+     *         <td>/storage/emulated/0/Download, SD卡"下载"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>5</td>
+     *         <td>{@link PathUtils#getExternalMoviesPath()}</td>
+     *         <td>/storage/emulated/0/Movies, SD卡"电影"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>6</td>
+     *         <td>{@link PathUtils#getExternalMusicPath()}</td>
+     *         <td>/storage/emulated/0/Music, SD卡"音频"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>7</td>
+     *         <td nowrap="nowrap">{@link PathUtils#getExternalNotificationsPath()}</td>
+     *         <td>/storage/emulated/0/Notifications, SD卡"通知铃声"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>8</td>
+     *         <td>{@link PathUtils#getExternalPicturesPath()}</td>
+     *         <td>/storage/emulated/0/Pictures, SD卡"图片"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>9</td>
+     *         <td>{@link PathUtils#getExternalPodcastsPath()}</td>
+     *         <td>/storage/emulated/0/Podcasts, SD卡"播客"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>10</td>
+     *         <td>{@link PathUtils#getExternalRingtonesPath()}</td>
+     *         <td>/storage/emulated/0/Ringtones, SD卡"铃声"的标准目录</td>
+     *     </tr>
+     *     <tr>
+     *         <td>11</td>
+     *         <td>{@link PathUtils#getExternalStoragePath()}</td>
+     *         <td>/storage/emulated/0, SD卡根目录</td>
+     *     </tr>
+     * </table>
      *
      * @deprecated 使用: {@link PathUtils}
-     * @see PathUtils#getExternalAlarmsPath()        /storage/emulated/0/Alarms, SD卡"提醒铃声"存放的标准目录
-     * @see PathUtils#getExternalDcimPath()          /storage/emulated/0/DCIM, SD卡"相机拍摄照片和视频"的标准目录
-     * @see PathUtils#getExternalDocumentsPath()     /storage/emulated/0/Documents, SD卡"文档"的标准目录
-     * @see PathUtils#getExternalDownloadsPath()     /storage/emulated/0/Download, SD卡"下载"的标准目录
-     * @see PathUtils#getExternalMoviesPath()        /storage/emulated/0/Movies, SD卡"电影"的标准目录
-     * @see PathUtils#getExternalMusicPath()         /storage/emulated/0/Music, SD卡"音频"的标准目录
-     * @see PathUtils#getExternalNotificationsPath() /storage/emulated/0/Notifications, SD卡"通知铃声"的标准目录
-     * @see PathUtils#getExternalPicturesPath()      /storage/emulated/0/Pictures, SD卡"图片"的标准目录
-     * @see PathUtils#getExternalPodcastsPath()      /storage/emulated/0/Podcasts, SD卡"播客"的标准目录
-     * @see PathUtils#getExternalRingtonesPath()     /storage/emulated/0/Ringtones, SD卡"铃声"的标准目录
-     * @see PathUtils#getExternalStoragePath()       /storage/emulated/0, SD卡根目录
      */
     @Deprecated
     public static String getExternalPicturesPath() {
@@ -182,13 +332,44 @@ public class FileUtils {
     // 6.优先获取外部SD卡对应的路径, 不需要SD卡读写权限
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * 优先获取外部SD卡"缓存"的标准目录, 如果没挂载SD卡, 就获取内部"缓存"的标准目录
-     * @return /storage/emulated/0/Android/data/package/cache, /data/data/package/cache
+     * 优先获取外部SD卡"缓存"的标准目录, 如果没挂载SD卡, 就获取内部"缓存"的标准目录 <br />
+     * 更多优先获取外部SD卡目录的方法:
+     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *     <tr>
+     *         <th>№</th>
+     *         <th>Method方法</th>
+     *         <th>Doc说明</th>
+     *     </tr>
+     *     <tr>
+     *         <td>1</td>
+     *         <td nowrap="nowrap">{@link PathUtils#getAppDataPathExternalFirst()}</td>
+     *         <td>
+     *             /storage/emulated/0/Android/data/package <br />
+     *             /data/data/package <br />
+     *             优先获取外部SD卡"app文件存放"的标准目录
+     *         </td>
+     *     </tr>
+     *     <tr>
+     *         <td>2</td>
+     *         <td>{@link PathUtils#getFilesPathExternalFirst()}</td>
+     *         <td>
+     *             /storage/emulated/0/Android/data/package/files <br />
+     *             /data/data/package/files <br />
+     *             优先获取外部SD卡"文件"的标准目录
+     *         </td>
+     *     </tr>
+     *     <tr>
+     *         <td>3</td>
+     *         <td>{@link PathUtils#getCachePathExternalFirst()}</td>
+     *         <td>
+     *             /storage/emulated/0/Android/data/package/cache <br />
+     *             /data/data/package/cache <br />
+     *             优先获取外部SD卡"缓存"的标准目录
+     *         </td>
+     *     </tr>
+     * </table>
      *
      * @deprecated 使用: {@link PathUtils}
-     * @see PathUtils#getAppDataPathExternalFirst() /storage/emulated/0/Android/data/package, /data/data/package, 优先获取外部SD卡"app文件存放"的标准目录
-     * @see PathUtils#getFilesPathExternalFirst()   /storage/emulated/0/Android/data/package/files, /data/data/package/files, 优先获取外部SD卡"文件"的标准目录
-     * @see PathUtils#getCachePathExternalFirst()   /storage/emulated/0/Android/data/package/cache, /data/data/package/cache, 优先获取外部SD卡"缓存"的标准目录
      */
     @Deprecated
     public static String getCachePathExternalFirst() {
