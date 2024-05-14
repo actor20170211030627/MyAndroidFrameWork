@@ -173,7 +173,8 @@ public class StateListImageView extends AppCompatImageView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        stateListDrawable.clearColorFilter();
-        stateListDrawable = null;
+        //在RecyclerView加载过程中, 会频繁调用
+//        stateListDrawable.clearColorFilter();
+//        stateListDrawable = null;
     }
 }

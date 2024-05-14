@@ -47,42 +47,4 @@
             android:text="停止Stop"
             android:transitionName="btn" />
     </LinearLayout>
-
-    <com.actor.myandroidframework.widget.DrawableTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/logo"
-        android:drawablePadding="5dp"
-        android:text="DrawableTextView(支持限定 Drawable 大小的 TextView), 默认" />
-
-    <com.actor.myandroidframework.widget.DrawableTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/logo"
-        android:drawablePadding="5dp"
-        android:text="DrawableTextView, 宽15dp, 高8dp"
-        app:drawableHeight="8dp"
-        app:drawableWidth="15dp" />
-
-    <com.actor.myandroidframework.widget.DrawableTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/logo"
-        android:drawablePadding="5dp"
-        android:text="DrawableTextView, 宽8dp, 高15dp"
-        app:drawableHeight="15dp"
-        app:drawableWidth="8dp" />
-
-    <!--要设置android:clickable="true", 否则按下无效-->
-    <com.actor.myandroidframework.widget.DrawableTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:drawableStart="@drawable/selector_btn_send_for_chat_layout"
-        android:drawablePadding="5dp"
-        android:focusable="true"
-        android:padding="5dp"
-        android:text="DrawableTextView, 宽25dp, 高18dp, 设置selector, 点我!"
-        app:drawableHeight="18dp"
-        app:drawableWidth="25dp" />
 </LinearLayout>

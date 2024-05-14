@@ -167,7 +167,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
         init(context, attrs);
     }
 
-    protected void init(Context context, AttributeSet attrs) {
+    protected void init(Context context, @Nullable AttributeSet attrs) {
         //https://www.cnblogs.com/jooy/p/9165769.html
         //禁止OnItemSelectedListener默认会自动调用一次
 //        setSelection(0);//不写这句也可以

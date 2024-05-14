@@ -94,7 +94,6 @@
             android:id="@+id/btn_enable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:onClick="onViewClicked"
             android:text="enable=true"
             app:layout_constraintBottom_toBottomOf="@id/iv_sliv"
@@ -132,12 +131,70 @@
             android:id="@+id/tv3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="10dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
-            android:text="3.other模块的其它"
+            android:text="3.DrawableTextView(限定 Drawable 大小的 TextView)"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/iv_sliv" />
+            app:layout_constraintTop_toBottomOf="@id/btn_pressed" />
+
+        <com.actor.myandroidframework.widget.DrawableTextView
+            android:id="@+id/dtv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/logo"
+            android:drawablePadding="5dp"
+            android:text="DrawableTextView(支持限定 Drawable 大小的 TextView), 默认"
+            app:layout_constraintTop_toBottomOf="@id/tv3" />
+
+        <com.actor.myandroidframework.widget.DrawableTextView
+            android:id="@+id/dtv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/logo"
+            android:drawablePadding="5dp"
+            android:text="DrawableTextView, 宽15dp, 高8dp"
+            app:drawableHeight="8dp"
+            app:drawableWidth="15dp"
+            app:layout_constraintTop_toBottomOf="@id/dtv1" />
+
+        <com.actor.myandroidframework.widget.DrawableTextView
+            android:id="@+id/dtv3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/logo"
+            android:drawablePadding="5dp"
+            android:text="DrawableTextView, 宽8dp, 高15dp"
+            app:drawableHeight="15dp"
+            app:drawableWidth="8dp"
+            app:layout_constraintTop_toBottomOf="@id/dtv2" />
+
+        <!--要设置android:clickable="true", 否则按下无效-->
+        <com.actor.myandroidframework.widget.DrawableTextView
+            android:id="@+id/dtv4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableStart="@drawable/selector_btn_send_for_chat_layout"
+            android:drawablePadding="5dp"
+            android:focusable="true"
+            android:padding="5dp"
+            android:text="DrawableTextView, 宽25dp, 高18dp, 设置selector, 按我!"
+            app:drawableHeight="18dp"
+            app:drawableWidth="25dp"
+            app:layout_constraintTop_toBottomOf="@id/dtv3" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="4.other模块的其它"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/dtv4" />
 
         <com.actor.other_utils.widget.ItemRadioGroupLayout
             android:id="@+id/item_radio_group"
@@ -149,7 +206,7 @@
             app:irglGravity="right|center_vertical"
             app:irglItemName="性别: "
             app:irglRedStarVisiable="visible"
-            app:layout_constraintTop_toBottomOf="@id/tv3" />
+            app:layout_constraintTop_toBottomOf="@id/tv5" />
 
         <Button
             android:id="@+id/btn_check"
