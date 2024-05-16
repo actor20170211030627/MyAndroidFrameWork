@@ -186,15 +186,79 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="4.RoundCardView"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/dtv4" />
+
+        <com.actor.myandroidframework.widget.RoundCardView
+            android:id="@+id/round_card_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv4"
+            app:rcvBottomLeftRadius="10dp"
+            app:rcvTopRightRadius="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_in_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </com.actor.myandroidframework.widget.RoundCardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_left_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="↖"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/round_card_view" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_right_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="↗"
+            app:layout_constraintStart_toEndOf="@id/btn_left_top"
+            app:layout_constraintTop_toTopOf="@id/btn_left_top" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_right_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="↘"
+            app:layout_constraintStart_toEndOf="@id/btn_right_top"
+            app:layout_constraintTop_toTopOf="@id/btn_left_top" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_left_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="↙"
+            app:layout_constraintStart_toEndOf="@id/btn_right_bottom"
+            app:layout_constraintTop_toTopOf="@id/btn_left_top" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
-            android:text="4.other模块的其它"
+            android:text="5.other模块的其它"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/dtv4" />
+            app:layout_constraintTop_toBottomOf="@id/btn_left_top" />
 
         <com.actor.other_utils.widget.ItemRadioGroupLayout
             android:id="@+id/item_radio_group"

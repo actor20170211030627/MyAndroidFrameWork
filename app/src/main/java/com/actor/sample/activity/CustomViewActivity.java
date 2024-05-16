@@ -15,6 +15,9 @@ import com.actor.other_utils.widget.ItemSpinnerLayout;
 import com.actor.other_utils.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityCustomViewBinding;
+import com.actor.sample.utils.Global;
+import com.blankj.utilcode.util.SizeUtils;
+import com.bumptech.glide.Glide;
 
 /**
  * Description: 主页->自定义View
@@ -30,8 +33,11 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
     private ItemTextInputLayout  itilCanNotInput;
     private Button               btn2;
 
-    private String[] btns         = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
-    private String[] regexs_input = {"[0-9]+", "[a-zA-Z0-9\u4E00-\u9FA5]+", "[a-z]+"};
+    private final String[] btns         = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
+    private final String[] regexs_input = {"[0-9]+", "[a-zA-Z0-9\u4E00-\u9FA5]+", "[a-z]+"};
+
+    private final int dp10 = SizeUtils.dp2px(10f);
+    private final int[] cardViewRadius = {0, dp10, 0, dp10};
     private int      pos          = 0;
     private boolean  inPutEnable  = true;
 
@@ -67,13 +73,16 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 ToasterUtils.info("重复选中了: " + position);
             }
         });
+
+        //加载CardView里的图片
+        Glide.with(this).load(Global.girl).into(viewBinding.ivInCardView);
     }
 
 //    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.itil_can_not_input2})
     @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_enable:
+            case R.id.btn_enable:   //enable的图片
                 viewBinding.ivSliv.setEnabled(!viewBinding.ivSliv.isEnabled());
                 viewBinding.btnEnable.setText("enable=" + viewBinding.ivSliv.isEnabled());
                 break;
@@ -89,7 +98,7 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 }
                 viewBinding.btnFocus.setText("focus=" + viewBinding.ivSliv.hasFocus());
                 break;
-            case R.id.btn_pressed:
+            case R.id.btn_pressed:  //按下时的图片
                 viewBinding.ivSliv.setPressed(!viewBinding.ivSliv.isPressed());
                 viewBinding.btnPressed.setText("pressed=" + viewBinding.ivSliv.isPressed());
                 break;
@@ -112,16 +121,34 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 String itemAtPosition1 = itemSpinner.getItemAtPosition(1);
                 LogUtils.errorFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
                 break;
-            case R.id.btn2:
+
+            case R.id.btn_left_top:     //↖
+                cardViewRadius[0] = dp10 - cardViewRadius[0];
+                viewBinding.roundCardView.setRadius(cardViewRadius[0], cardViewRadius[1], cardViewRadius[2], cardViewRadius[3]);
+                break;
+            case R.id.btn_right_top:     //↗
+                cardViewRadius[1] = dp10 - cardViewRadius[1];
+                viewBinding.roundCardView.setRadius(cardViewRadius[0], cardViewRadius[1], cardViewRadius[2], cardViewRadius[3]);
+                break;
+            case R.id.btn_right_bottom:     //↘
+                cardViewRadius[2] = dp10 - cardViewRadius[2];
+                viewBinding.roundCardView.setRadius(cardViewRadius[0], cardViewRadius[1], cardViewRadius[2], cardViewRadius[3]);
+                break;
+            case R.id.btn_left_bottom:     //↙
+                cardViewRadius[3] = dp10 - cardViewRadius[3];
+                viewBinding.roundCardView.setRadius(cardViewRadius[0], cardViewRadius[1], cardViewRadius[2], cardViewRadius[3]);
+                break;
+
+            case R.id.btn2:             //只能输入数字
                 if (++pos == btns.length) pos = 0;
 //                itil1.setDigits("123456", true);
                 itil1.setDigitsRegex(regexs_input[pos], true);
                 btn2.setText(btns[pos]);
                 break;
-            case R.id.itil_can_not_input:
+            case R.id.itil_can_not_input:   //测试不能输入
                 ToasterUtils.info("clicked!");
                 break;
-            case R.id.btn_input_enable://测试切换 能/不能输入
+            case R.id.btn_input_enable: //测试切换 能/不能输入
                 inPutEnable = !inPutEnable;
                 itilCanNotInput.setInputEnable(inPutEnable);
                 break;

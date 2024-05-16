@@ -10,8 +10,11 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.util.AttributeSet;
 
+import androidx.cardview.widget.CardView;
+
 import com.actor.myandroidframework.R;
 import com.google.android.material.card.MaterialCardView;
+
 
 /**
  * description: 可自定义圆角的CardView, 可参考: <a href="https://blog.csdn.net/jingzz1/article/details/104985448" target="_blank">这儿</a>
@@ -128,7 +131,14 @@ import com.google.android.material.card.MaterialCardView;
  *
  * @version 1.0
  */
-public class RoundCardView extends MaterialCardView {
+
+public class RoundCardView extends CardView {
+/**
+ * if extends MaterialCardView, 有些Theme会报错: <br />
+ *      java.lang.IllegalArgumentException: The style on this component requires your app theme to be Theme.MaterialComponents (or a descendant). <br />
+ * 参考: <a href="https://github.com/material-components/material-components-android/issues/3164">material-components-android #3164</a>
+ */
+//public class RoundCardView extends MaterialCardView {
 
     protected float tlRadius, trRadius, brRadius, blRadius;
     protected Path path;
@@ -151,10 +161,10 @@ public class RoundCardView extends MaterialCardView {
     }
 
     protected void init(Context context, AttributeSet attrs) {
-        if (attrs != null) {
 //            float radius = getRadius();//8.0
 //            int dp = ConvertUtils.px2dp(radius);//2dp
 //            LogUtils.errorFormat("radius = %f, dp = %d", radius, dp);
+        if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundCardView);
             tlRadius = a.getDimension(R.styleable.RoundCardView_rcvTopLeftRadius, 0);
             trRadius = a.getDimension(R.styleable.RoundCardView_rcvTopRightRadius, 0);
@@ -166,8 +176,21 @@ public class RoundCardView extends MaterialCardView {
                 initPathAndRect();
             }
         }
-        //需要在代码中设置背景色, 用于去除小圆角
+        //默认有1个背景: androidx.cardview.widget.RoundRectDrawable
+//        Drawable background = getBackground();
+//        LogUtils.errorFormat("background = %s", background);
+
+        //设置绿色#0f0: ColorStateList{mThemeAttrs=null mChangingConfigurations=0 mStateSpecs=[[]] mColors=[-16711936] mDefaultColor=-16711936}
+//        ColorStateList cardBackgroundColor = getCardBackgroundColor();
+        //if不设置, 默认白色(-1): Color.WHITE
+//        int defaultColor = cardBackgroundColor.getDefaultColor();
+//        LogUtils.errorFormat("cardBackgroundColor = %s", cardBackgroundColor);
+//        LogUtils.errorFormat("defaultColor = %s", defaultColor);
+        /**
+         * 需要在代码中设置背景色, 用于去除小圆角
+         */
         setBackgroundColor(Color.TRANSPARENT);
+//        setBackgroundColor(defaultColor);
     }
 
     /**
