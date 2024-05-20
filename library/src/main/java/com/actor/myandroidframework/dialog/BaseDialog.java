@@ -125,6 +125,8 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
 
     /**
      * 设置宽度
+     * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
+     *                    解决方法: 宽度-1px
      */
     public BaseDialog setWidth(int width) {
         this.windowWidth = width;
@@ -133,6 +135,8 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
 
     /**
      * 设置高度
+     * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
+     *                    解决方法: 宽度-1px
      */
     public BaseDialog setHeight(int height) {
         this.windowHeight = height;
