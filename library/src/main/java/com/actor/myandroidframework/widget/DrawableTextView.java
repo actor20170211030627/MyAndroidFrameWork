@@ -7,9 +7,9 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.actor.myandroidframework.R;
+import com.hjq.shape.view.ShapeTextView;
 
 /**
  *    author : Android 轮子哥
@@ -17,7 +17,7 @@ import com.actor.myandroidframework.R;
  *    time   : 2021/04/18
  *    desc   : 支持限定 Drawable 大小的 TextView
  */
-public final class DrawableTextView extends AppCompatTextView {
+public final class DrawableTextView extends ShapeTextView {
 
     private int mDrawableWidth;
     private int mDrawableHeight;

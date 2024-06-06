@@ -38,7 +38,7 @@ public class StatusBarHeightView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //状态栏高度
-        int statusBarHeight = ConfigUtils.STATUS_BAR_HEIGHT;
+        int statusBarHeight = isInEditMode() ? 45 : ConfigUtils.STATUS_BAR_HEIGHT;
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(statusBarHeight, MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
