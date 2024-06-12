@@ -1,6 +1,7 @@
 package com.actor.myandroidframework.dialog;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,6 +46,6 @@ public class ViewBindingDialog<VB extends ViewBinding> extends BaseDialog {
         } else {
             setContentView(viewBinding.getRoot());
         }
-        return 0;
+        return Resources.ID_NULL;
     }
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.dialog.BaseDialog;
+import com.actor.myandroidframework.fragment.BaseDialogFragment;
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
@@ -17,6 +18,7 @@ import com.actor.sample.databinding.ActivityBottomSheetDialogBinding;
 import com.actor.sample.dialog.BottomFloatEditorDialog;
 import com.actor.sample.dialog.MyBottomSheetDialogFragment;
 import com.actor.sample.dialog.TestDialog;
+import com.actor.sample.fragment.MyDialogFragment;
 import com.blankj.utilcode.util.ConvertUtils;
 
 /**
@@ -27,6 +29,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetDialogBinding> {
 
     private TestDialog                  alertDialog;
+    private BaseDialogFragment          dialogFragment;
     private BaseDialog bottomDialog;
     private BaseBottomSheetDialog       baseBottomSheetDialog;
     private MyBottomSheetDialogFragment bottomSheetDialogFragment;
@@ -44,6 +47,9 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
          * 普通Dialog
          */
         alertDialog = new TestDialog(this);
+
+        //DialogFragment
+        dialogFragment = new MyDialogFragment();
 
 
         /**
@@ -157,6 +163,9 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
         switch (view.getId()) {
             case R.id.btn_test_dialog://普通Dialog
                 alertDialog.show();
+                break;
+            case R.id.btn_dialog_fragment://Dialog样式的Fragment
+                dialogFragment.show(getSupportFragmentManager());
                 break;
             case R.id.btn_bottom_sheet_dialog://从底部弹出, 可上下滑动的Dialog
                 baseBottomSheetDialog.show();

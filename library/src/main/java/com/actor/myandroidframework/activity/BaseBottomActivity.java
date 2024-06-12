@@ -1,5 +1,6 @@
 package com.actor.myandroidframework.activity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -67,6 +68,6 @@ public class BaseBottomActivity extends ActorBaseActivity {
 
     @Override
     protected int getPreReEnterAnim() {
-        return 0;
+        return Resources.ID_NULL;
     }
 }

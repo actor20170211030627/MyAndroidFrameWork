@@ -65,6 +65,8 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseBottomSheetDialog.java" target="_blank">BaseBottomSheetDialog</a> (从底部弹出并停留底部, 可二次滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseDialog.java" target="_blank">BaseDialog</a> (Dialog简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/LoadingDialog.java" target="_blank">LoadingDialog</a> (加载Dialog, 耗时操作时可显示这个Dialog)
+<a href="library/src/main/java/com/actor/myandroidframework/dialog/ViewBindingDialog.java" target="_blank">ViewBindingDialog</a> (可以使用viewBinding)
+<a href="library/src/main/java/com/actor/myandroidframework/fragment/BaseDialogFragment.java" target="_blank">BaseDialogFragment</a> (dialog样式的Fragment)
 </pre>
 
 **2.3.Utils工具类**

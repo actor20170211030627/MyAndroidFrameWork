@@ -3,6 +3,7 @@ package com.actor.myandroidframework.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Window;
@@ -83,7 +84,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     protected void init() {
 //        Window window = getWindow();//获取当前dialog所在的窗口对象
         int layoutResId = getLayoutResId();
-        if (layoutResId != 0) setContentView(layoutResId);
+        if (layoutResId != Resources.ID_NULL) setContentView(layoutResId);
 
 //        findViewById();//子类可以初始化控件
     }

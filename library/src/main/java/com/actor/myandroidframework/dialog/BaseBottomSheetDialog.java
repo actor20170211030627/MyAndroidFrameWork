@@ -48,7 +48,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
     protected      int                  mPeekHeight;//设置首次弹出高度
     protected      int                  mMaxHeight;//最大高度
     protected Window              mWindow;
-    protected BottomSheetBehavior bottomSheetBehavior;//里面有一些方法
+    protected BottomSheetBehavior bottomSheetBehavior;
 
     protected final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
             = new BottomSheetBehavior.BottomSheetCallback() {

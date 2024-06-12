@@ -15,6 +15,13 @@
         android:text="TestDialog" />
 
     <Button
+        android:id="@+id/btn_dialog_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="DialogFragment" />
+
+    <Button
         android:id="@+id/btn_bottom_sheet_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

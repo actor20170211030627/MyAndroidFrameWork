@@ -22,34 +22,38 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 /**
- * Description:从底部弹出的DialogFragment, 能上下拖拽滑动
- *              不要在show()方法之前获取View, 实在要这样的话, 换成其它方案(Dialog)
- *
- * 方法执行顺序
- * show(FragmentManager manager, String tag)
- * onCreate
- * onCreateDialog(Bundle savedInstanceState)
- * onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
- * onViewCreated
- * onStart
- * mDialog.show()
- * onResume
+ * Description:从底部弹出的DialogFragment, 能上下拖拽滑动 <br />
+ *              不要在show()方法之前获取View, 实在要这样的话, 换成其它方案(Dialog) <br />
+ * <br />
+ * 方法执行顺序:
+ * <ol>
+ *     <li>show(FragmentManager manager, String tag)</li>
+ *     <li>onCreate</li>
+ *     <li>onCreateDialog(Bundle savedInstanceState)</li>
+ *     <li>onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)</li>
+ *     <li>onViewCreated</li>
+ *     <li>onStart</li>
+ *     <li>mDialog.show()</li>
+ *     <li>onResume</li>
+ * </ol>
  *
  * 使用方法:
- * 1.写个Fragment继承本类
- * 2.重写getLayoutId方法, 返回布局id
- * 3. 示例
- * FullSheetDialogFragment dialogFragment = new FullSheetDialogFragment();//继承本类
- * dialogFragment.setPeekHeight(100);
- * dialogFragment.setMaxHeight(300);
- * dialogFragment.show(getSupportFragmentManager());
+ * <ol>
+ *     <li>写个Fragment继承本类</li>
+ *     <li>重写getLayoutId方法, 返回布局id</li>
+ *     <li>
+ *         示例:
+ * <pre>
+ *     FullSheetDialogFragment dialogFragment = new FullSheetDialogFragment();//继承本类
+ *     dialogFragment.setPeekHeight(100);
+ *     dialogFragment.setMaxHeight(300);
+ *     dialogFragment.show(getSupportFragmentManager());
+ * </pre>
+ *     </li>
+ * </ol>
  *
- * Author     : ldf
- * Date       : 2019/6/13 on 14:05
- *
- * @version 1.0
- * @version 1.1 增加方法:
- *      @see #dismissAllowingStateLoss()
+ * @Author     : ldf
+ * @Date       : 2019/6/13 on 14:05
  */
 public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
@@ -62,7 +66,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     private int                 mMaxHeight;//最大高度
     private float               dimAmount = -1F;//背景灰度, [0, 1]
     private Window              mWindow;
-    private BottomSheetBehavior bottomSheetBehavior;//<FrameLayout>?//里面有一些方法
+    private BottomSheetBehavior bottomSheetBehavior;
 
     private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
             = new BottomSheetBehavior.BottomSheetCallback() {
@@ -120,12 +124,14 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
         Dialog dialog;
         if (getContext() == null) {
             dialog = super.onCreateDialog(savedInstanceState);
-        } else dialog = new BottomSheetDialog(getContext(), R.style.TransparentBottomSheetStyle);
+        } else {
+            dialog = new BottomSheetDialog(getContext(), R.style.TransparentBottomSheetStyle);
+        }
         return dialog;
     }
 
     /**
-     * 设置布局, 每次show()都会调用...
+     * 设置布局, 每次show()都会调用.
      */
     @Nullable
     @Override
@@ -134,7 +140,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     /**
-     * 子类在这个方法中初始化, 每次show()都会调用...
+     * 子类在这个方法中初始化, 每次show()都会调用.
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -143,15 +149,16 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 
     /**
      * 设置布局Id, 可以适配根部局是ConstraintLayout的情况
-     */
-    public abstract @LayoutRes
-    int getLayoutId();
+     */@LayoutRes
+    public abstract int getLayoutId();
 
     @Override
     public void onStart() {
         super.onStart();
         BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
+        if (dialog == null) return;
         mWindow = dialog.getWindow();
+        if (mWindow == null) return;
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//设置软键盘不自动弹出
         View bottomSheet = mWindow.findViewById(com.google.android.material.R.id.design_bottom_sheet);
         if (bottomSheet != null) {
@@ -192,13 +199,13 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
      * @param fragmentManager 如果在Activity中, 传入:getSupportFragmentManager()
      *                        如果是Fragment中, 传入:getChildFragmentManager()
      */
-    public void show(FragmentManager fragmentManager) {
+    public void show(@NonNull FragmentManager fragmentManager) {
         show(fragmentManager, getClass().getName());
     }
 
     //第2个参数tag的作用: fragmentManager.findFragmentByTag(tag); 恢复的时候会调用
     @Override
-    public void show(FragmentManager manager, String tag) {
+    public void show(@NonNull FragmentManager manager, @Nullable String tag) {
 //        boolean added = isAdded();
 //        boolean cancelable = isCancelable();
 //        boolean detached = isDetached();
@@ -208,6 +215,9 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //        boolean resumed = isResumed();
 //        boolean stateSaved = isStateSaved();
 //        boolean visible = isVisible();
+//        LogUtils.errorFormat("added=%b, cancelable=%b, detached=%b, hidden=%b,  inLayout=%b,  removing=%b,  resumed=%b,  stateSaved=%b,  visible=%b",
+//                added, cancelable, detached, hidden, inLayout, removing, resumed, stateSaved, visible
+//        );
         //要判断一下, 否则快速调用会报错: isAdded
         if (!isAdded()/* && manager.findFragmentByTag(tag) == null*/) {
             super.show(manager, tag);
@@ -239,7 +249,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //    }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
     }
 
