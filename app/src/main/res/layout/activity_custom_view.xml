@@ -17,7 +17,6 @@
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
             android:text="1.BaseSpinner"
-            android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- android:paddingEnd="15dp":文字和箭头距离 -->
@@ -70,11 +69,10 @@
             android:id="@+id/tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
             android:text="2.StateListImageView"
-            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/ll" />
 
         <com.actor.myandroidframework.widget.StateListImageView
@@ -131,11 +129,10 @@
             android:id="@+id/tv3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
             android:text="3.DrawableTextView(限定 Drawable 大小的 TextView)"
-            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/btn_pressed" />
 
         <com.actor.myandroidframework.widget.DrawableTextView
@@ -189,11 +186,10 @@
             android:id="@+id/tv4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
             android:text="4.RoundCardView"
-            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/dtv4" />
 
         <com.actor.myandroidframework.widget.RoundCardView
@@ -253,11 +249,10 @@
             android:id="@+id/tv5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
             android:text="5.other模块的其它"
-            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/btn_left_top" />
 
         <com.actor.other_utils.widget.ItemRadioGroupLayout

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--斜线View-->
+    <declare-styleable name="LineView">
+        <!--线颜色-->
+        <attr name="lvLineColor" format="color" />
+
+        <!--渐变开始颜色-->
+        <attr name="lvGradientStartColor" format="color" />
+
+        <!--渐变中心颜色-->
+        <attr name="lvGradientCenterColor" format="color" />
+
+        <!--渐变结束颜色-->
+        <attr name="lvGradientEndColor" format="color" />
+
+        <!--线宽-->
+        <attr name="lvLineWidth" format="dimension" />
+
+        <!--虚线线段的长度-->
+        <attr name="lvDashWidth" format="dimension" />
+        <!--虚线间隔长度-->
+        <attr name="lvDashGap" format="dimension" />
+
+        <!--对角线方向-->
+        <attr name="lvOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+            <enum name="topLeft2BottomRight" value="2" />
+            <enum name="bottomLeft2TopRight" value="3" />
+            <!--自由旋转-->
+            <enum name="freeRotate" value="4" />
+        </attr>
+
+        <!-- if对角线方向=自由旋转, 则对角线旋转角度 -->
+        <attr name="lvAngle" format="float" />
+    </declare-styleable>
+</resources>

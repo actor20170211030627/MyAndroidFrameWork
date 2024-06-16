@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activity.LineViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.PopupWindowTestActivity"
             android:exported="false" />
         <activity

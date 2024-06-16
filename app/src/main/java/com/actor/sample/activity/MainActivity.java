@@ -55,11 +55,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         });
     }
 
-//    @OnClick({R.id.btn_internet, R.id.btn_shared_element, R.id.btn_bottom_sheet,
-//            R.id.btn_viewpager_fragment, R.id.btn_select_file, R.id.btn_is_empty, R.id.btn_third,
-//            R.id.btn_baidu, R.id.btn_gaode, R.id.btn_jpush, R.id.btn_database, R.id.btn_switch, R.id.btn_custom_view,
-//            R.id.btn_custom_ratingbar, R.id.btn_nine_grid_view, R.id.btn_quick_search_bar, R.id.btn_webview,
-//            R.id.btn_other})
     @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -111,6 +106,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 break;
             case R.id.btn_custom_ratingbar://自定义RatingBar
                 startActivity(new Intent(this, RatingBarActivity.class), false, null, null, view);
+                break;
+            case R.id.btn_custom_line_view://线条LineView
+                startActivity(new Intent(this, LineViewActivity.class), false, null, null, view);
                 break;
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(new Intent(this, NineGridViewActivity.class));

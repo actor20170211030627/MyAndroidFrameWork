@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    tools:context=".activity.LineViewActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--水平, 红线-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            app:lvLineColor="@color/red" />
+
+        <!--水平, 红线, 虚线-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            app:lvDashGap="1dp"
+            app:lvDashWidth="3dp"
+            app:lvLineColor="@color/red" />
+
+        <!--水平, 渐变-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            app:lvGradientCenterColor="@color/green_0CBB24"
+            app:lvGradientEndColor="@color/blue_2A6ED2"
+            app:lvGradientStartColor="@color/red" />
+
+        <!--水平, 虚线, 渐变-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="3dp"
+            app:lvDashGap="1dp"
+            app:lvDashWidth="3dp"
+            app:lvGradientCenterColor="@color/green_0CBB24"
+            app:lvGradientEndColor="@color/blue_2A6ED2"
+            app:lvGradientStartColor="@color/red" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <!--垂直, 红线-->
+            <com.actor.myandroidframework.widget.LineView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                app:lvLineColor="@color/red"
+                app:lvOrientation="vertical" />
+
+            <!--垂直, 红线, 虚线-->
+            <com.actor.myandroidframework.widget.LineView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                app:lvDashGap="1dp"
+                app:lvDashWidth="3dp"
+                app:lvLineColor="@color/red"
+                app:lvOrientation="vertical" />
+
+            <!--垂直, 渐变-->
+            <com.actor.myandroidframework.widget.LineView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                app:lvGradientCenterColor="@color/green_0CBB24"
+                app:lvGradientEndColor="@color/blue_2A6ED2"
+                app:lvGradientStartColor="@color/red"
+                app:lvOrientation="vertical" />
+
+            <!--垂直, 虚线, 渐变-->
+            <com.actor.myandroidframework.widget.LineView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                app:lvDashGap="1dp"
+                app:lvDashWidth="3dp"
+                app:lvGradientCenterColor="@color/green_0CBB24"
+                app:lvGradientEndColor="@color/blue_2A6ED2"
+                app:lvGradientStartColor="@color/red"
+                app:lvOrientation="vertical" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <!--↘, 红线-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:lvLineColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="topLeft2BottomRight" />
+
+        <!--↘, 红线, 虚线-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/white"
+            app:lvDashGap="1dp"
+            app:lvDashWidth="3dp"
+            app:lvLineColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="topLeft2BottomRight" />
+
+        <!--↘, 渐变-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/white"
+            app:lvGradientCenterColor="@color/green_0CBB24"
+            app:lvGradientEndColor="@color/blue_2A6ED2"
+            app:lvGradientStartColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="topLeft2BottomRight" />
+
+        <!--↘, 虚线, 渐变-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/white"
+            app:lvDashGap="1dp"
+            app:lvDashWidth="3dp"
+            app:lvGradientCenterColor="@color/green_0CBB24"
+            app:lvGradientEndColor="@color/blue_2A6ED2"
+            app:lvGradientStartColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="topLeft2BottomRight" />
+
+
+        <!--↗, 红线-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:lvLineColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="bottomLeft2TopRight" />
+
+        <!--↗, 红线, 虚线-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/white"
+            app:lvDashGap="1dp"
+            app:lvDashWidth="3dp"
+            app:lvLineColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="bottomLeft2TopRight" />
+
+        <!--↗, 渐变-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/white"
+            app:lvGradientCenterColor="@color/green_0CBB24"
+            app:lvGradientEndColor="@color/blue_2A6ED2"
+            app:lvGradientStartColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="bottomLeft2TopRight" />
+
+        <!--↗, 虚线, 渐变-->
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/white"
+            app:lvDashGap="1dp"
+            app:lvDashWidth="3dp"
+            app:lvGradientCenterColor="@color/green_0CBB24"
+            app:lvGradientEndColor="@color/blue_2A6ED2"
+            app:lvGradientStartColor="@color/red"
+            app:lvLineWidth="2dp"
+            app:lvOrientation="bottomLeft2TopRight" />
+
+
+        <!--自定义-->
+        <com.actor.myandroidframework.widget.LineView
+            android:id="@+id/lv_custom"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:lvAngle="5"
+            app:lvLineColor="@color/red"
+            app:lvLineWidth="5dp"
+            app:lvOrientation="freeRotate" />
+
+        <!--线宽-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/sb_line_width"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="180"
+                android:min="1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_line_width"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线宽(dp)确定" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--虚线-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="虚线长度(dp)" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="虚线间隔(dp)" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/sb_dash_width"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="10"
+                    android:min="0" />
+
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/sb_dash_gap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="5"
+                    android:min="0" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_dash_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确定" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--方向-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_orientation_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="水平→" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_orientation_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="垂直↓" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_orientation_top_left_2_bottom_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="↘" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_orientation_bottom_left_2_top_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="↗" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--渐变-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_color_solid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="纯色" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_color_gradient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="颜色渐变" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--自由角度-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/sb_angle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="180"
+                android:min="-180" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_angle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="角度确定" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>
