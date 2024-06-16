@@ -321,6 +321,7 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
      * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean)}
      * 解决方法: 使用{@link #dismissAllowingStateLoss()}方法
      */
+    @Deprecated
     @Override
     public void dismiss() {
         if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
@@ -329,7 +330,11 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
 
     @Override
     public void dismissAllowingStateLoss() {
-        if (getFragmentManager() != null) super.dismissAllowingStateLoss();
+        try {
+            if (getFragmentManager() != null) super.dismissAllowingStateLoss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
