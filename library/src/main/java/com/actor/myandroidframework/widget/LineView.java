@@ -23,10 +23,10 @@ import com.actor.myandroidframework.R;
  * <ul>
  *     <li>
  *         if是在
- *         {@link androidx.constraintlayout.widget.ConstraintLayout ConstraintLayout}中的
  *         {@link androidx.recyclerview.widget.RecyclerView RecyclerView}
- *         中的Item列表布局中, 使用本控件{@link  LineView}, <br />
- *          一定要确保Item布局中{@link  LineView &lt;com.actor.myandroidframework.widget.LineView} <br />
+ *         中的Item列表布局中使用本控件{@link  LineView}, 而Item布局又是
+ *         {@link androidx.constraintlayout.widget.ConstraintLayout ConstraintLayout}的话, <br />
+ *         一定要确保Item布局中{@link  LineView &lt;com.actor.myandroidframework.widget.LineView} <br />
  *          的<b>android:layout_height{@link null ≠}"match_parent"</b>, 否则获取到的高度{@link #getHeight()}=0, <br />
  *          就会造成绘制不出来的情况...
  *     </li>
