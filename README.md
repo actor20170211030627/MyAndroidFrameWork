@@ -125,7 +125,8 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <img src="captures/chat_layout.gif" width=33%></img>
 
 ## 4.Sample
-<s><a href="app/build/outputs/apk/debug/app-debug.apk" target="_blank">download apk</a> 请自行下载项目运行</s>
+<a href="https://github.com/actor20170211030627/MyAndroidFrameWork/releases" target="_blank">download apk</a> or scan qrcode: <br />
+<img src="captures/qrcode_download_apk.png" width=33%></img>
 
 ## 5.minSdkVersion [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
     如果您项目的minSdkVersion小于21, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
