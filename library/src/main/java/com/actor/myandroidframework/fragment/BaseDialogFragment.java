@@ -82,6 +82,7 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     //Dialog弹起后, 状态栏是否变暗
     protected boolean isStatusBarDimmed = true;
     protected boolean isClickThrough = false;
+    protected DialogInterface.OnDismissListener dismissListener;
 
     /**
      * @param fragmentManager 如果在Activity中, 传入:getSupportFragmentManager()
@@ -337,9 +338,17 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
         }
     }
 
+    /**
+     * 消失监听
+     */
+    public void setOnDismissListener(@Nullable DialogInterface.OnDismissListener listener) {
+        this.dismissListener = listener;
+    }
+
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
+        if (dismissListener != null) dismissListener.onDismiss(dialog);
     }
 
 

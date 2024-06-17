@@ -67,6 +67,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     private float               dimAmount = -1F;//背景灰度, [0, 1]
     private Window              mWindow;
     private BottomSheetBehavior bottomSheetBehavior;
+    protected DialogInterface.OnDismissListener dismissListener;
 
     private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
             = new BottomSheetBehavior.BottomSheetCallback() {
@@ -253,9 +254,17 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 //    }
 
+    /**
+     * 消失监听
+     */
+    public void setOnDismissListener(@Nullable DialogInterface.OnDismissListener listener) {
+        this.dismissListener = listener;
+    }
+
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
+        if (dismissListener != null) dismissListener.onDismiss(dialog);
     }
 
     //调用dismiss();后会回调
