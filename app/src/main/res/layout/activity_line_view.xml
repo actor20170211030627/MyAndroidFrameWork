@@ -57,8 +57,23 @@
 
             <!--垂直, 红线-->
             <com.actor.myandroidframework.widget.LineView
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                app:lvLineColor="@color/red"
+                app:lvOrientation="vertical" />
+
+            <com.actor.myandroidframework.widget.LineView
                 android:layout_width="5dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                app:lvLineColor="@color/red"
+                app:lvOrientation="vertical" />
+
+            <com.actor.myandroidframework.widget.LineView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
                 app:lvLineColor="@color/red"
                 app:lvOrientation="vertical" />
 

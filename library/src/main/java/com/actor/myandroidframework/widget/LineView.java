@@ -18,7 +18,19 @@ import androidx.annotation.Nullable;
 import com.actor.myandroidframework.R;
 
 /**
- * description: 线条View: 渐变, 实线, 虚线, 斜线, 自定义角度线等
+ * description: 线条View: 渐变, 实线, 虚线, 斜线, 自定义角度线等 <br />
+ * {@link null 注意:}
+ * <ul>
+ *     <li>
+ *         if是在
+ *         {@link androidx.constraintlayout.widget.ConstraintLayout ConstraintLayout}中的
+ *         {@link androidx.recyclerview.widget.RecyclerView RecyclerView}
+ *         中的Item列表布局中, 使用本控件{@link  LineView}, <br />
+ *          一定要确保Item布局中{@link  LineView &lt;com.actor.myandroidframework.widget.LineView} <br />
+ *          的<b>android:layout_height{@link null ≠}"match_parent"</b>, 否则获取到的高度{@link #getHeight()}=0, <br />
+ *          就会造成绘制不出来的情况...
+ *     </li>
+ * </ul>
  *
  * @author : ldf
  * @date   : 2024/6/4 on 11
@@ -59,7 +71,7 @@ public class LineView extends View {
     }
 
     protected void init(Context context, @Nullable AttributeSet attrs) {
-        //关闭硬件加速
+        //关闭硬件加速: android:layerType="software"
 //        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         if (attrs != null) {
             TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.LineView);
