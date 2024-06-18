@@ -2,6 +2,7 @@ package com.actor.myandroidframework.utils.audio;
 
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.text.TextUtils;
@@ -319,10 +320,28 @@ public class AudioUtils {
      */
     public void playRaw(Context context, @RawRes int rawId, boolean isLooping, boolean isAutoPlay,
                         @Nullable MediaPlayerCallback playerCallback) {
+        playRaw(context, rawId, isLooping, isAutoPlay, true, playerCallback);
+    }
+    /**
+     * 播放R.raw.xxx 音频
+     * @param rawId 资源id
+     * @param isLooping 是否循环播放
+     * @param isAutoPlay 准备完成后, 是否自动播放
+     * @param playerCallback 播放回调
+     * @param isNewMediaPlayer 是否使用新的MediaPlayer, 而不是已存在的那个.(如果想同时播放多个, 传true)
+     */
+    public void playRaw(Context context, @RawRes int rawId, boolean isLooping, boolean isAutoPlay,
+                        boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
         mPlayerCallback = playerCallback;
         this.isAutoPlay = isAutoPlay;
+        if (!isNewMediaPlayer && mMediaPlayer != null) {
+            mMediaPlayer.reset();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
         try {
             mMediaPlayer = MediaPlayer.create(context, rawId);   //nullable
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setVolume(1, 1);
             mMediaPlayer.setLooping(isLooping);
             //准备完成监听
@@ -330,7 +349,11 @@ public class AudioUtils {
             //播放出错监听
             mMediaPlayer.setOnErrorListener(mOnErrorListener);
             mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
-            mMediaPlayer.prepareAsync();
+            //播放本地的时候, prepare 会报错: prepareAsync called in state 8, mPlayer(0x7e0c7f62c0)
+//            mMediaPlayer.prepareAsync();
+//            mMediaPlayer.prepare();
+            //
+            mOnPreparedListener.onPrepared(mMediaPlayer);
         } catch (NullPointerException | IllegalStateException e) {
             e.printStackTrace();
             if (playerCallback != null) playerCallback.onSetData2StartError(e);
@@ -346,15 +369,26 @@ public class AudioUtils {
      */
     public void play(@NonNull String audioPath, boolean isLooping, boolean isAutoPlay,
                      @Nullable MediaPlayerCallback playerCallback) {
-        if (audioPath == null) {
+        play(audioPath, isLooping, isAutoPlay, false, playerCallback);
+    }
+    /**
+     * 播放音频
+     * @param audioPath 本地/网络音频
+     * @param isLooping 是否循环播放
+     * @param isAutoPlay 准备完成后, 是否自动播放
+     * @param playerCallback 播放监听
+     * @param isNewMediaPlayer 是否使用新的MediaPlayer, 而不是已存在的那个.(如果想同时播放多个, 传true)
+     */
+    public void play(@NonNull String audioPath, boolean isLooping, boolean isAutoPlay,
+                     boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
+        if (TextUtils.isEmpty(audioPath)) {
             if (playerCallback != null) playerCallback.onSetData2StartError(new NullPointerException("uriString"));
             return;
         }
         mPlayerCallback = playerCallback;
         this.isAutoPlay = isAutoPlay;
         try {
-            //如果想同时播放多个, 这儿不判空, 直接new
-            if (mMediaPlayer == null) {
+            if (isNewMediaPlayer || mMediaPlayer == null) {
                 mMediaPlayer = new MediaPlayer();
 //                AudioAttributes attrs = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
 //                mMediaPlayer.setAudioAttributes(attrs);

@@ -26,7 +26,7 @@ import com.hjq.shape.view.ShapeTextView;
  *      <s>android:singleLine="true"</s>
  * </pre>
  *
- * @Author     : 李大发
+ * @Author     : ldf
  * @Date       : 2017/1/12 on 20:10
  * @version 1.0
  */
