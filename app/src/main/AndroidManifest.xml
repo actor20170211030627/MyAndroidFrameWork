@@ -2,15 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.actor.sample">
-
     <!-- 安装/更新App -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
-
-    <!--
-    1.resizeableActivity: 支持分屏(<application 或 <activity 设置)
-    2.usesCleartextTraffic: Android P(9.0)的默认所有Http的请求都被阻止, 并且这个属性的默认值从true改变为false
-    -->
     <application
         android:name=".MyApplication"
         android:icon="@drawable/logo"
@@ -20,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".activity.ScaleViewActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.LineViewActivity"
             android:exported="false" />
@@ -65,21 +62,14 @@
         <activity
             android:name=".activity.MyBaseBottomActivity"
             android:theme="@style/BaseBottomActivity" />
-        <activity android:name=".activity.DatabaseActivity" />
-
-        <!-- 百度定位设置AK，在Application标签中加入 -->
+        <activity android:name=".activity.DatabaseActivity" /> <!-- 百度定位设置AK，在Application标签中加入 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX" /><!-- value:开发者申请的AK -->
-
+            android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX" /> <!-- value:开发者申请的AK -->
         <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="4dd161c2444279b04c5014f51912fcff" />
-
-
-
-        <!-- QQ登录 -->
+            android:value="4dd161c2444279b04c5014f51912fcff" /> <!-- QQ登录 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
