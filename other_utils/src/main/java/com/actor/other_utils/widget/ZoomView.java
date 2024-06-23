@@ -6,10 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 /**
  * description: <a href="https://www.jianshu.com/p/0e7ea6687375">Android手势缩放view - 简书.mhtml</a>,
@@ -31,18 +36,23 @@ import android.widget.FrameLayout;
  */
 public class ZoomView extends FrameLayout {
 
-    private static final String TAG = "ZoomView";
+    protected static final String TAG = "ZoomView";
 
-    public ZoomView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public ZoomView(@NonNull Context context) {
+        super(context);
     }
 
-    public ZoomView(Context context, AttributeSet attrs) {
+    public ZoomView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ZoomView(final Context context) {
-        super(context);
+    public ZoomView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public ZoomView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     /**
@@ -58,39 +68,39 @@ public class ZoomView extends FrameLayout {
     }
 
     // zooming
-    float zoom = 1.0f;
-    float maxZoom = 2.0f;
-    float smoothZoom = 1.0f;
-    float zoomX, zoomY;
-    float smoothZoomX, smoothZoomY;
-    private boolean scrolling; // NOPMD by karooolek on 29.06.11 11:45
+    protected float zoom = 1.0f;
+    protected float maxZoom = 2.0f;
+    protected float smoothZoom = 1.0f;
+    protected float zoomX, zoomY;
+    protected float smoothZoomX, smoothZoomY;
+    protected boolean scrolling; // NOPMD by karooolek on 29.06.11 11:45
 
     // minimap variables
-    private boolean showMinimap = false;
-    private int miniMapColor = Color.WHITE;
-    private int miniMapHeight = -1;
-    private String miniMapCaption;
-    private float miniMapCaptionSize = 10.0f;
-    private int miniMapCaptionColor = Color.WHITE;
+    protected boolean showMinimap = false;
+    protected int miniMapColor = Color.WHITE;
+    protected int miniMapHeight = -1;
+    protected String miniMapCaption;
+    protected float miniMapCaptionSize = 10.0f;
+    protected int miniMapCaptionColor = Color.WHITE;
 
     // touching variables
-    private long lastTapTime;
-    private float touchStartX, touchStartY;
-    private float touchLastX, touchLastY;
-    private float startd;
-    private boolean pinching;
-    private float lastd;
-    private float lastdx1, lastdy1;
-    private float lastdx2, lastdy2;
+    protected long lastTapTime;
+    protected float touchStartX, touchStartY;
+    protected float touchLastX, touchLastY;
+    protected float startd;
+    protected boolean pinching;
+    protected float lastd;
+    protected float lastdx1, lastdy1;
+    protected float lastdx2, lastdy2;
 
     // drawing
-    private final Matrix m = new Matrix();
-    private final Paint p = new Paint();
+    protected final Matrix m = new Matrix();
+    protected final Paint p = new Paint();
 
     // listener
-    ZoomViewListener listener;
+    protected ZoomViewListener listener;
 
-    private Bitmap ch;
+    protected Bitmap ch;
 
     public float getZoom() {
         return zoom;
@@ -209,7 +219,7 @@ public class ZoomView extends FrameLayout {
         return true;
     }
 
-    private void processSingleTouchEvent(final MotionEvent ev) {
+    protected void processSingleTouchEvent(final MotionEvent ev) {
 
         final float x = ev.getX();
         final float y = ev.getY();
@@ -226,7 +236,7 @@ public class ZoomView extends FrameLayout {
         }
     }
 
-    private void processSingleTouchOnMinimap(final MotionEvent ev) {
+    protected void processSingleTouchOnMinimap(final MotionEvent ev) {
         final float x = ev.getX();
         final float y = ev.getY();
 
@@ -237,7 +247,7 @@ public class ZoomView extends FrameLayout {
         smoothZoomTo(smoothZoom, zx, zy);
     }
 
-    private void processSingleTouchOutsideMinimap(final MotionEvent ev) {
+    protected void processSingleTouchOutsideMinimap(final MotionEvent ev) {
         final float x = ev.getX();
         final float y = ev.getY();
         float lx = x - touchStartX;
@@ -312,7 +322,7 @@ public class ZoomView extends FrameLayout {
         super.dispatchTouchEvent(ev);
     }
 
-    private void processDoubleTouchEvent(final MotionEvent ev) {
+    protected void processDoubleTouchEvent(final MotionEvent ev) {
         final float x1 = ev.getX(0);
         final float dx1 = x1 - lastdx1;
         lastdx1 = x1;
@@ -360,15 +370,15 @@ public class ZoomView extends FrameLayout {
         super.dispatchTouchEvent(ev);
     }
 
-    private float clamp(final float min, final float value, final float max) {
+    protected float clamp(final float min, final float value, final float max) {
         return Math.max(min, Math.min(value, max));
     }
 
-    private float lerp(final float a, final float b, final float k) {
+    protected float lerp(final float a, final float b, final float k) {
         return a + (b - a) * k;
     }
 
-    private float bias(final float a, final float b, final float k) {
+    protected float bias(final float a, final float b, final float k) {
         return Math.abs(b - a) >= k ? a + k * Math.signum(b - a) : b;
     }
 
