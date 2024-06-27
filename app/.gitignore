@@ -2,8 +2,9 @@
 /build/generated
 /build/intermediates
 /build/reports
-/build/tmp
-/build/outputs/logs
-/build/outputs/mapping
 /build/outputs/apk/androidTest
 /build/outputs/apk/debug/*.apk
+/build/outputs/logs
+/build/outputs/mapping
+/build/tmp
+/release
