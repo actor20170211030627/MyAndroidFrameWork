@@ -70,7 +70,9 @@ import java.util.Set;
  * 上方数据丢失应该是数据回滚(.bak)造成的结果
  * @version 1.0 <br />
  *          1.1 fix bug
+ * @deprecated 感觉 {@link MMKVUtils} 更好用.
  */
+@Deprecated
 public class SPUtils {
 
     //这个名字有问题, 见上方第 2 条

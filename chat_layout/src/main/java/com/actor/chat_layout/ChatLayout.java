@@ -43,9 +43,9 @@ import com.actor.chat_layout.bean.Emoji;
 import com.actor.chat_layout.emoji.FaceManager;
 import com.actor.chat_layout.fragment.ChatLayoutEmojiFragment;
 import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
-import com.actor.myandroidframework.utils.SPUtils;
-import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
+import com.actor.myandroidframework.utils.MMKVUtils;
 import com.actor.myandroidframework.utils.audio.AudioUtils;
+import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.android.material.tabs.TabLayout;
 
@@ -245,7 +245,7 @@ public class ChatLayout extends LinearLayout {
             @Override
             public void onSoftInputChanged(int height) {
                 if (height > 0) {
-                    SPUtils.putInt(KEYBOARD_HEIGHT, height);
+                    MMKVUtils.putInt(KEYBOARD_HEIGHT, height);
                     etMsg.requestFocus();
                     setViewPagerHeight(height);
                 }
@@ -290,7 +290,7 @@ public class ChatLayout extends LinearLayout {
 
         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        int keyboardHeight = SPUtils.getInt(KEYBOARD_HEIGHT, 831);
+        int keyboardHeight = MMKVUtils.getInt(KEYBOARD_HEIGHT, 831);
         setViewPagerHeight(keyboardHeight);
         viewPager.setVisibility(GONE);
         if (voiceRecorderView != null) voiceRecorderView.setVisibility(GONE);

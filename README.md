@@ -86,7 +86,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java" target="_blank">LogUtils</a> (Log简单打印)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/MMKVUtils.java" target="_blank">MMKVUtils</a> (数据缓存)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/NotificationUtils2.java" target="_blank">NotificationUtils2</a> (通知栏)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/SPUtils.java" target="_blank">SPUtils</a> (SP工具)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/SPUtils.java" target="_blank"><s>SPUtils</s></a> (<s>SP工具</s>, 建议使用<code>MMKVUtils</code>)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/TextUtils2.java" target="_blank">TextUtils2</a> (获取Text, 判空, getStringFormat, ...)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ThreadUtils.java" target="_blank">ThreadUtils</a> (线程判断/切换)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ToasterUtils.java" target="_blank">ToasterUtils</a> (吐司工具类-轮子哥)
@@ -285,8 +285,16 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
 
 
 ## 7.<code>AndroidManifest.xml</code>合并清单文件报错
-    1.如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found. //分区存储
-      需要将 compileSdkVersion 升级到 29
+<pre>
+<ol>
+<li>如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found.
+报错原因: Google不希望app可以随意操作沙箱(一般是"/data/data/packageName")以外的存储文件，compileSdk29以后如果需要操作非沙箱路径，必须配置"android:requestLegacyExternalStorage="true"属性才行
+解决办法(3选1):
+  1.将 compileSdkVersion 升级到 29
+  2.删除"android:requestLegacyExternalStorage="true"这个设置
+  3.如果是第三方库配置的该属性，那么在主项目的AndroidManifest.xml的application增加以下配置"tools:remove="android:requestLegacyExternalStorage"</li>
+</ol>
+</pre>
 
 ## 8.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:
 <pre>

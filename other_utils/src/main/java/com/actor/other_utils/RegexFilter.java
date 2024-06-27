@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils;
+package com.actor.other_utils;
 
 import android.text.InputFilter;
 import android.text.Spannable;

@@ -29,7 +29,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
 import com.actor.other_utils.R;
-import com.actor.myandroidframework.utils.RegexFilter;
+import com.actor.other_utils.RegexFilter;
 import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
