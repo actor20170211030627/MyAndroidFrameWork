@@ -71,8 +71,8 @@ public class LineView extends View {
     }
 
     protected void init(Context context, @Nullable AttributeSet attrs) {
-        //关闭硬件加速: android:layerType="software"
-//        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        //关闭硬件加速(低版本手机(Honor 7A[Android 8.0])需要设置, 否则只能画实线, 虚线画不出来): android:layerType="software"
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         if (attrs != null) {
             TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.LineView);
             //线颜色
@@ -149,7 +149,8 @@ public class LineView extends View {
             }
         }
         if (lineWidth == ViewGroup.LayoutParams.MATCH_PARENT) {
-            mPaint.setStrokeWidth(Integer.MAX_VALUE);
+            //线度再大的话, 在低版本手机(Honor 7A[Android 8.0])就画不出来横线&竖线, 原因是什么??
+            mPaint.setStrokeWidth(1_073_741_791);//1073741791 = 0x3FFFFFDF
         } else {
             mPaint.setStrokeWidth(lineWidth);
         }
