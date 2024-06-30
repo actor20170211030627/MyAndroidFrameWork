@@ -127,8 +127,8 @@ public class LineView extends View {
                 canvas.drawLine(0f, 0f, width, height, mPaint);
                 break;
             case BOTTOMLEFT_2_TOPRIGHT: //↗
-                setLinearGradient(width, 0f, 0f, height);
-                canvas.drawLine(width, 0f, 0f, height, mPaint);
+                setLinearGradient(0f, height, width, 0f);
+                canvas.drawLine(0f, height, width, 0f, mPaint);
                 break;
             case FREE_ROTATE:   //🕛
                 canvas.rotate(lineAngle, width / 2f, height / 2f);
@@ -163,8 +163,8 @@ public class LineView extends View {
                 linearGradient = new LinearGradient(startX, startY, endX, endY, startColor, endColor, Shader.TileMode.CLAMP);
             } else {
                 int[] colors = new int[] {startColor, centerColor, endColor};
-                float[] position = {0f, 0.5f, 1.0f};
-                linearGradient = new LinearGradient(startX, startY, endX, endY, colors, position, Shader.TileMode.CLAMP);
+                float[] positions = {0f, 0.5f, 1.0f};
+                linearGradient = new LinearGradient(startX, startY, endX, endY, colors, positions, Shader.TileMode.CLAMP);
             }
             mPaint.setShader(linearGradient);
         }
