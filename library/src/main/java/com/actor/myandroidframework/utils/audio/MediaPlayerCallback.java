@@ -30,10 +30,12 @@ public interface MediaPlayerCallback {
 
     /**
      * 从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现的错误
-     * @param e
+     * @param e 错误信息
+     * @return 如果完全自己处理错误, 则返回true. 如果未处理错误，则返回false(会调用 OnCompletionListener)。
      */
-    default void onSetData2StartError(@NonNull Exception e) {
+    default boolean onSetData2StartError(@NonNull Exception e) {
         LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
+        return false;
     }
 
     /**

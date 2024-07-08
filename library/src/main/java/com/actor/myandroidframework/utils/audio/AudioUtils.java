@@ -356,7 +356,10 @@ public class AudioUtils {
             mOnPreparedListener.onPrepared(mMediaPlayer);
         } catch (NullPointerException | IllegalStateException e) {
             e.printStackTrace();
-            if (playerCallback != null) playerCallback.onSetData2StartError(e);
+            if (playerCallback != null) {
+                boolean isDealBySelf = playerCallback.onSetData2StartError(e);
+                if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
+            }
         }
     }
 
@@ -382,7 +385,10 @@ public class AudioUtils {
     public void play(@NonNull String audioPath, boolean isLooping, boolean isAutoPlay,
                      boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
         if (TextUtils.isEmpty(audioPath)) {
-            if (playerCallback != null) playerCallback.onSetData2StartError(new NullPointerException("uriString"));
+            if (playerCallback != null) {
+                boolean isDealBySelf = playerCallback.onSetData2StartError(new NullPointerException("audioPath is Empty!"));
+                if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
+            }
             return;
         }
         mPlayerCallback = playerCallback;
@@ -409,7 +415,10 @@ public class AudioUtils {
 //            mMediaPlayer.start();
         } catch (IOException | IllegalArgumentException | SecurityException | IllegalStateException e) {
             e.printStackTrace();
-            if (playerCallback != null) playerCallback.onSetData2StartError(e);
+            if (playerCallback != null) {
+                boolean isDealBySelf = playerCallback.onSetData2StartError(e);
+                if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
+            }
         }
     }
 
@@ -430,7 +439,10 @@ public class AudioUtils {
             if (mMediaPlayer != null) mMediaPlayer.start();
         } catch (IllegalStateException e) {
             e.printStackTrace();
-            if (mPlayerCallback != null) mPlayerCallback.onSetData2StartError(e);
+            if (mPlayerCallback != null) {
+                boolean isDealBySelf = mPlayerCallback.onSetData2StartError(e);
+                if (!isDealBySelf) mPlayerCallback.onCompletion(mMediaPlayer);
+            }
         }
     }
 

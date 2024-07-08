@@ -150,14 +150,6 @@
             android:transitionName="btn" />
 
         <Button
-            android:id="@+id/btn_view_scale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onViewClicked"
-            android:text="View缩放"
-            android:transitionName="btn" />
-
-        <Button
             android:id="@+id/btn_custom_line_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

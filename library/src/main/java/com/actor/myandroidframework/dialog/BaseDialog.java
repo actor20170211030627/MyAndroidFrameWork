@@ -48,6 +48,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
 
     //增加生命周期
     protected final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
+    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
     protected OnShowListener onShowListener;
     protected OnDismissListener onDismissListener;
 
@@ -251,6 +252,17 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
             window.clearFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
         }
         return this;
+    }
+
+    @Override
+    public void dismiss() {
+        try {
+            super.dismiss();
+            isDismissError = false;
+        } catch (Exception e) {
+            isDismissError = true;
+            e.printStackTrace();
+        }
     }
 
     //每次show的时候都会调用

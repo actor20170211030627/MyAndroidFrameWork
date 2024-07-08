@@ -48,6 +48,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
     protected      int                  mPeekHeight;//设置首次弹出高度
     protected      int                  mMaxHeight;//最大高度
     protected Window              mWindow;
+    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
     protected BottomSheetBehavior bottomSheetBehavior;
 
     protected final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback
@@ -190,6 +191,17 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
             bottomSheetBehavior = BottomSheetBehavior.from(view);
         }
         return bottomSheetBehavior;
+    }
+
+    @Override
+    public void dismiss() {
+        try {
+            super.dismiss();
+            isDismissError = false;
+        } catch (Exception e) {
+            isDismissError = true;
+            e.printStackTrace();
+        }
     }
 
     //调用dismiss();后会回调

@@ -94,6 +94,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 public abstract class BaseAlertDialog extends AlertDialog {
 
     protected Window window;
+    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
 
     public BaseAlertDialog(@NonNull Context context) {
         super(context);
@@ -220,5 +221,16 @@ public abstract class BaseAlertDialog extends AlertDialog {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void dismiss() {
+        try {
+            super.dismiss();
+            isDismissError = false;
+        } catch (Exception e) {
+            isDismissError = true;
+            e.printStackTrace();
+        }
     }
 }

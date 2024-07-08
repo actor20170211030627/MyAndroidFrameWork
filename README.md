@@ -277,7 +277,6 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
  * <a href="other_utils/src/main/java/com/actor/other_utils/widget/ItemSpinnerLayout.java" target="_blank">ItemSpinnerLayout</a> (Spinner选择)
  * <a href="other_utils/src/main/java/com/actor/other_utils/widget/ItemTextInputLayout.java" target="_blank">ItemTextInputLayout</a> (Text输入)
  * <a href="other_utils/src/main/java/com/actor/other_utils/widget/QuickSearchBar.java" target="_blank">QuickSearchBar</a> (快速查找条a-z)
- * <a href="other_utils/src/main/java/com/actor/other_utils/widget/ZoomView.java" target="_blank">ZoomView</a> (缩放, 平移View)
  */
  implementation 'com.github.actor20170211030627.MyAndroidFrameWork:other_utils:github's latest version'
 </pre>

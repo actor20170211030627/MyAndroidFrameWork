@@ -82,6 +82,7 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     //Dialog弹起后, 状态栏是否变暗
     protected boolean isStatusBarDimmed = true;
     protected boolean isClickThrough = false;
+    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
     protected DialogInterface.OnDismissListener dismissListener;
 
     /**
@@ -317,7 +318,7 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
 
 
     /**
-     * 1.跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错:
+     * @deprecated 跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错:
      * java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
      * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean)}
      * 解决方法: 使用{@link #dismissAllowingStateLoss()}方法
@@ -325,15 +326,23 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     @Deprecated
     @Override
     public void dismiss() {
-        if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
-//        bottomSheetBehavior.setHideable(true);
+        try {
+            if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
+//            bottomSheetBehavior.setHideable(true);
+            isDismissError = false;
+        } catch (Exception e) {
+            isDismissError = true;
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void dismissAllowingStateLoss() {
         try {
             if (getFragmentManager() != null) super.dismissAllowingStateLoss();
+            isDismissError = false;
         } catch (Exception e) {
+            isDismissError = true;
             e.printStackTrace();
         }
     }

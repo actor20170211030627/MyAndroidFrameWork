@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.fragment.app.Fragment;
 
+import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.video.VideoProcessorUtils;
 import com.luck.picture.lib.animators.AnimationType;
 import com.luck.picture.lib.basic.PictureSelectionCameraModel;
@@ -760,7 +761,7 @@ public class PictureSelectorUtils {
             //对目标应用临时授权该Uri所代表的文件
             intentRecord.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
-        if (intentRecord.resolveActivity(fragment.requireActivity().getPackageManager()) != null) {
+        if (intentRecord.resolveActivity(ConfigUtils.APPLICATION.getPackageManager()) != null) {
             fragment.startActivityForResult(intentRecord, requestCode);
         } else {
             ToastUtils.showToast(fragment.getContext(), "系统没有录音组件");

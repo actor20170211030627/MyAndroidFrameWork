@@ -66,6 +66,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     private int                 mMaxHeight;//最大高度
     private float               dimAmount = -1F;//背景灰度, [0, 1]
     private Window              mWindow;
+    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
     private BottomSheetBehavior bottomSheetBehavior;
     protected DialogInterface.OnDismissListener dismissListener;
 
@@ -226,7 +227,7 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     /**
-     * 1.跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错: <br />
+     * @deprecated 跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错: <br />
      * java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
      * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean)} <br />
      * 解决方法: 使用{@link #dismissAllowingStateLoss()}方法
@@ -234,15 +235,23 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     @Deprecated
     @Override
     public void dismiss() {
-        if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
-//        bottomSheetBehavior.setHideable(true);
+        try {
+            if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
+//            bottomSheetBehavior.setHideable(true);
+            isDismissError = false;
+        } catch (Exception e) {
+            isDismissError = true;
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void dismissAllowingStateLoss() {
         try {
             if (getFragmentManager() != null) super.dismissAllowingStateLoss();
+            isDismissError = false;
         } catch (Exception e) {
+            isDismissError = true;
             e.printStackTrace();
         }
     }
@@ -268,20 +277,20 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     //调用dismiss();后会回调
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
     //调用dismiss();后会回调
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     //调用dismiss();后会回调
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 }
