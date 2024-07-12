@@ -25,6 +25,7 @@ import com.actor.myandroidframework.action.ActivityAction;
 import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 
 /**
  * Description: Dialog基类, 各Dialog类型:
@@ -133,6 +134,25 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     public BaseDialog setWidth(int width) {
         this.windowWidth = width;
         return this;
+    }
+
+    /**
+     * 设置宽度百分比
+     * @param widthPercent 宽度百分比
+     * @deprecated 使用 {@link #setWidthPercent(float, int)}
+     */
+    @Deprecated
+    public BaseDialog setWidthPercent(@FloatRange(from = 0f, to = 1f, fromInclusive = false) float widthPercent) {
+        return setWidth((int) (ScreenUtils.getAppScreenWidth() * widthPercent));
+    }
+
+    /**
+     * 设置宽度百分比
+     * @param widthPercent 宽度百分比
+     * @param maxWidth 最大宽度(像素px) (∵有些lj平板竖屏的时候, 获取的宽度实际是高度, 导致Dialog超宽..., 所以建议设置最大宽度)
+     */
+    public BaseDialog setWidthPercent(@FloatRange(from = 0f, to = 1f, fromInclusive = false) float widthPercent, int maxWidth) {
+        return setWidth(Math.min((int) (ScreenUtils.getAppScreenWidth() * widthPercent), maxWidth));
     }
 
     /**
