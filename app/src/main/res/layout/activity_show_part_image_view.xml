@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ShowPartImageViewActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.iv宽&amp;高 &lt; 实际图片宽高"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv00"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv0" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv01"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv00"
+            app:layout_constraintTop_toBottomOf="@id/tv0"
+            app:spivShowGravity="bottom" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv02"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv01"
+            app:layout_constraintTop_toBottomOf="@id/tv0"
+            app:spivShowGravity="left" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv03"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv02"
+            app:layout_constraintTop_toBottomOf="@id/tv0"
+            app:spivShowGravity="right" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv04"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv00" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv05"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv04"
+            app:layout_constraintTop_toTopOf="@id/spiv04"
+            app:spivShowGravity="bottom" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv06"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv05"
+            app:layout_constraintTop_toTopOf="@id/spiv04"
+            app:spivShowGravity="left" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv07"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv06"
+            app:layout_constraintTop_toTopOf="@id/spiv04"
+            app:spivShowGravity="right" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.iv宽 or 高 > 实际图片宽高"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv04" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv20"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv2"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv21"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv20"
+            app:layout_constraintTop_toBottomOf="@id/tv2"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true"
+            app:spivShowGravity="bottom" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv22"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="@id/spiv20"
+            app:layout_constraintTop_toBottomOf="@id/spiv20"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true"
+            app:spivShowGravity="left" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv23"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv22"
+            app:layout_constraintTop_toTopOf="@id/spiv22"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true"
+            app:spivShowGravity="right" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv24"
+            android:layout_width="50dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv22"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv25"
+            android:layout_width="50dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv24"
+            app:layout_constraintTop_toTopOf="@id/spiv24"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true"
+            app:spivShowGravity="bottom" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv26"
+            android:layout_width="50dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv25"
+            app:layout_constraintTop_toTopOf="@id/spiv24"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true"
+            app:spivShowGravity="left" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv27"
+            android:layout_width="50dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv26"
+            app:layout_constraintTop_toTopOf="@id/spiv24"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true"
+            app:spivShowGravity="right" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3.iv宽 &amp; 高 > 实际图片宽高"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv24" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv30"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintTop_toBottomOf="@id/tv3" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv31"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintTop_toBottomOf="@id/spiv30"
+            app:spivShowGravity="bottom" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv32"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintTop_toBottomOf="@id/spiv31"
+            app:spivShowGravity="left" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv33"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintTop_toBottomOf="@id/spiv32"
+            app:spivShowGravity="right" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv34"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv33" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv35"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv34"
+            app:layout_constraintTop_toTopOf="@id/spiv34"
+            app:spivShowGravity="bottom" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv36"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv34"
+            app:spivShowGravity="left" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv37"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv36"
+            app:layout_constraintTop_toTopOf="@id/spiv36"
+            app:spivShowGravity="right" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4.代码动态设置"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv36" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv40"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintEnd_toStartOf="@id/btn_top_or_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv4" />
+
+        <Button
+            android:id="@+id/btn_top_or_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="top/bottom"
+            app:layout_constraintBottom_toBottomOf="@id/spiv40"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv41"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv40"
+            app:spivShowGravity="left" />
+
+        <Button
+            android:id="@+id/btn_left_or_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="left/right"
+            app:layout_constraintBottom_toBottomOf="@id/spiv41"
+            app:layout_constraintStart_toEndOf="@id/spiv41" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv42"
+            android:layout_width="50dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spiv41"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true" />
+
+        <com.actor.others.widget.ShowPartImageView
+            android:id="@+id/spiv43"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:background="@color/red"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toEndOf="@id/spiv42"
+            app:layout_constraintTop_toTopOf="@id/spiv42"
+            app:spivIsAlignGravityWhenIv2WidthOrIv2Height="true"
+            app:spivShowGravity="left" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_align_gravaty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="图片内容是否靠右/靠底"
+            app:layout_constraintStart_toStartOf="@id/spiv43"
+            app:layout_constraintTop_toBottomOf="@id/spiv43" />
+
+        <Button
+            android:id="@+id/btn_switch_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="换图"
+            app:layout_constraintStart_toStartOf="@id/switch_align_gravaty"
+            app:layout_constraintTop_toBottomOf="@id/switch_align_gravaty" />
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@id/spiv42" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -158,6 +158,13 @@
             android:transitionName="btn" />
 
         <Button
+            android:id="@+id/btn_part_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="ShowPartImageView" />
+
+        <Button
             android:id="@+id/btn_nine_grid_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

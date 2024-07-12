@@ -110,6 +110,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_custom_line_view://线条LineView
                 startActivity(new Intent(this, LineViewActivity.class), false, null, null, view);
                 break;
+            case R.id.btn_part_image_view://ShowPartImageView
+                startActivity(new Intent(this, ShowPartImageViewActivity.class));
+                break;
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(new Intent(this, NineGridViewActivity.class));
                 break;

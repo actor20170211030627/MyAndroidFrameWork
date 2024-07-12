@@ -1,4 +1,4 @@
-package com.actor.other_utils;
+package com.actor.others.utils;
 
 import android.content.Context;
 import android.media.AudioAttributes;

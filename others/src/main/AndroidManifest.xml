@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.actor.other_utils">
+    package="com.actor.others">
 
     <queries>
         <!-- https://developer.android.google.cn/reference/android/speech/tts/TextToSpeech?hl=zh_CN -->

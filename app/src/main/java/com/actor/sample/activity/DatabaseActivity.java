@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.database.GreenDaoUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
-import com.actor.other_utils.widget.ItemRadioGroupLayout;
-import com.actor.other_utils.widget.ItemTextInputLayout;
+import com.actor.others.widget.ItemRadioGroupLayout;
+import com.actor.others.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.adapter.DatabaseAdapter;
 import com.actor.sample.database.ItemEntity;

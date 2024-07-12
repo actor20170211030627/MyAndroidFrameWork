@@ -1,4 +1,4 @@
-package com.actor.other_utils.widget;
+package com.actor.others.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

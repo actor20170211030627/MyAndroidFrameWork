@@ -37,7 +37,7 @@
     app:qsbTextColorPressed="@color/colorAccent"//默认按下时字体颜色colorAccent
     app:qsbTextSize="10sp"                      //字体大小, 默认10sp
     -->
-    <com.actor.other_utils.widget.QuickSearchBar
+    <com.actor.others.widget.QuickSearchBar
         android:id="@+id/quicksearchbar"
         android:layout_width="30dp"
         android:layout_height="0dp"

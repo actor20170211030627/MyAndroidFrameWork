@@ -151,7 +151,7 @@ dependencies {
 
     implementation project(path: ':jpush')
 
-    implementation project(path: ':other_utils')
+    implementation project(path: ':others')
 
 
 

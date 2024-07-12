@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
-import com.actor.other_utils.widget.NineGridView.GetIsVideoAble;
-import com.actor.other_utils.widget.NineGridView.NineGridView;
-import com.actor.other_utils.widget.NineGridView.OnItemClickListener1;
+import com.actor.others.widget.NineGridView.GetIsVideoAble;
+import com.actor.others.widget.NineGridView.NineGridView;
+import com.actor.others.widget.NineGridView.OnItemClickListener1;
 import com.actor.sample.databinding.ActivityNineGridViewBinding;
 import com.actor.sample.utils.Global;
 import com.chad.library.adapter.base.BaseQuickAdapter;

@@ -1,6 +1,6 @@
 package com.actor.sample.bean;
 
-import com.actor.other_utils.widget.QuickSearchBar;
+import com.actor.others.widget.QuickSearchBar;
 
 /**
  * description: 主页->快速查找条->Item

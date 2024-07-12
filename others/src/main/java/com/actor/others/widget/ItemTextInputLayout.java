@@ -1,4 +1,4 @@
-package com.actor.other_utils.widget;
+package com.actor.others.widget;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -28,8 +28,8 @@ import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
-import com.actor.other_utils.R;
-import com.actor.other_utils.RegexFilter;
+import com.actor.others.R;
+import com.actor.others.RegexFilter;
 import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
@@ -122,7 +122,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
  *     <tr>
  *         <td>{@link R.styleable#ItemTextInputLayout_itilCustomLayout itilCustomLayout}</td>
  *         <td>R.layout.xxx</td>
- *         <td>16.自定义布局, 注意必须有默认控件的类型和id, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/other_utils/src/main/res/layout/item_text_input_layout.xml" target="_blank">item_text_input_layout.xml</a></td>
+ *         <td>16.自定义布局, 注意必须有默认控件的类型和id, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/others/src/main/res/layout/item_text_input_layout.xml" target="_blank">item_text_input_layout.xml</a></td>
  *     </tr>
  * </table>
  *

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.SocketTestActivity">
 
-    <com.actor.other_utils.widget.ItemTextInputLayout
+    <com.actor.others.widget.ItemTextInputLayout
         android:id="@+id/itil_socket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
-import com.actor.other_utils.widget.ItemTextInputLayout;
+import com.actor.others.widget.ItemTextInputLayout;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityIsEmptyBinding;
 import com.google.android.material.textfield.TextInputLayout;

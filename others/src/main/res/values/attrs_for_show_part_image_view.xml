@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShowPartImageView">
+        <!--显示图片的哪部分-->
+        <attr name="spivShowGravity" format="enum">
+            <!--顶部-->
+            <enum name="top" value="0" />
+            <enum name="bottom" value="1" />
+            <enum name="left" value="2" />
+            <enum name="right" value="3" />
+        </attr>
+
+        <!--
+        当图片太宽的时候, Gravity=right 时, 图片显示内容是否和图片的'右侧'对齐
+        当图片太高的时候, Gravity=bottom 时, 图片显示内容是否和图片的'底部'对齐
+     -->
+        <attr name="spivIsAlignGravityWhenIv2WidthOrIv2Height" format="boolean" />
+    </declare-styleable>
+</resources>

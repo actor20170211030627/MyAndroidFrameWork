@@ -1,4 +1,4 @@
-package com.actor.other_utils.widget.NineGridView;
+package com.actor.others.widget.NineGridView;
 
 import android.view.View;
 

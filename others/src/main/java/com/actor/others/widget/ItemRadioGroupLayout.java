@@ -1,4 +1,4 @@
-package com.actor.other_utils.widget;
+package com.actor.others.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,7 +19,7 @@ import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
 
 import com.actor.myandroidframework.widget.BaseRadioGroup;
-import com.actor.other_utils.R;
+import com.actor.others.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
