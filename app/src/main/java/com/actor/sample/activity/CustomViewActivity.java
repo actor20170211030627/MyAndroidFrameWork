@@ -66,7 +66,6 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 LogUtils.error("选中了: " + position);
                 ToasterUtils.info("选中了: " + position);
             }
-
             @Override
             public void onItemReSelected(AdapterView<?> parent, View view, int position, long id) {
                 LogUtils.error("重复选中了: " + position);
@@ -78,7 +77,6 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
         Glide.with(this).load(Global.girl).into(viewBinding.ivInCardView);
     }
 
-//    @OnClick({R.id.btn_check, R.id.btn2, R.id.itil_can_not_input, R.id.btn_input_enable, R.id.itil_can_not_input2})
     @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {

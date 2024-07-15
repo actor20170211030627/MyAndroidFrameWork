@@ -16,6 +16,20 @@ import com.hjq.shape.view.ShapeTextView;
  *    github : https://github.com/getActivity/AndroidProject
  *    time   : 2021/04/18
  *    desc   : 支持限定 Drawable 大小的 TextView
+ * <br /> <br />
+ * 示例使用:
+ * <pre>
+ *  &lt;com.actor.myandroidframework.widget.DrawableTextView
+ *      android:layout_width="wrap_content"
+ *      android:layout_height="wrap_content"
+ *      android:text="测试"
+ *      android:textColor="@color/white"
+ *      android:textSize="15sp"
+ *      android:drawablePadding="5dp"
+ *      android:drawableStart="@drawable/xxx"
+ *      app:drawableWidth="25dp"
+ *      app:drawableHeight="23dp"
+ *      app:shape_solidColor="@color/blue" /&gt;    //背景色
  */
 public final class DrawableTextView extends ShapeTextView {
 

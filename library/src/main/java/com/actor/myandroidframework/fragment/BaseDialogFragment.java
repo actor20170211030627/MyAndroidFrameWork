@@ -241,7 +241,7 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
 
 
     /**
-     * 设置宽度
+     * 设置宽度 <br />
      * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
      *                    解决方法: 宽度-1px
      */
@@ -270,7 +270,7 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     }
 
     /**
-     * 设置高度
+     * 设置高度 <br />
      * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
      *                    解决方法: 宽度-1px
      */

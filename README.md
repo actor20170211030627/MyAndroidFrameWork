@@ -67,6 +67,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/LoadingDialog.java" target="_blank">LoadingDialog</a> (加载Dialog, 耗时操作时可显示这个Dialog)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/ViewBindingDialog.java" target="_blank">ViewBindingDialog</a> (可以使用viewBinding)
 <a href="library/src/main/java/com/actor/myandroidframework/fragment/BaseDialogFragment.java" target="_blank">BaseDialogFragment</a> (dialog样式的Fragment)
+<a href="library/src/main/java/com/actor/myandroidframework/popupwindow/BasePopupWindow.java" target="_blank">BasePopupWindow</a> (PopupWindow简单整理, 可一用)
 </pre>
 
 **2.3.Utils工具类**
@@ -113,7 +114,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StateListImageView.java" target="_blank">StateListImageView</a> (设置各种状态时的图片)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/StatusBarHeightView.java" target="_blank">StatusBarHeightView</a> (状态栏占高)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/SwipeRefreshLayoutCompatViewPager.java" target="_blank">SwipeRefreshLayoutCompatViewPager</a> (SwipeRefreshLayout适配ViewPager里的下拉)
-<a href="library/src/main/java/com/actor/myandroidframework/popupwindow/BasePopupWindow.java" target="_blank">BasePopupWindow</a> (PopupWindow简单整理, 可一用)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/VerticalScrollableTextView.java" target="_blank">VerticalScrollableTextView</a> (可垂直滑动的TextView)
 </pre>
 
 ## 3.Screenshot

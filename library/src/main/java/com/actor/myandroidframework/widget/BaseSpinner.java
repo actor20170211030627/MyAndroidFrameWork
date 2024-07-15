@@ -250,7 +250,8 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     }
 
     /**
-     * item选中监听(增加重复选中的监听)
+     * item选中监听(增加重复选中的监听) <br />
+     * {@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)} 第1次设置数据后, 会自动回调!
      */
 //    @Override
     public void setOnItemSelectedListener(@Nullable OnItemSelectedListener2 listener) {

@@ -158,6 +158,14 @@
             android:transitionName="btn" />
 
         <Button
+            android:id="@+id/btn_scrollable_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="可滚动TextView"
+            android:transitionName="btn" />
+
+        <Button
             android:id="@+id/btn_part_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
