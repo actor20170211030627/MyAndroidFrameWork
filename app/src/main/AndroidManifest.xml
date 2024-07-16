@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activity.MatchParentImageViewTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ScrollableTextViewActivity"
             android:exported="false" />
         <activity
