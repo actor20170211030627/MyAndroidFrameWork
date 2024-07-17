@@ -20,8 +20,8 @@ import androidx.annotation.RequiresApi;
  *
  * <br/>
  * 示例使用: <br/>
- *  &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" targt="_blank">activity_chat.xml</a> <br/>
- *  &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" targt="_blank">ChatActivity.java</a> <br/>
+ *  &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" target="_blank">activity_chat.xml</a> <br/>
+ *  &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" target="_blank">ChatActivity.java</a> <br/>
  *
  * @version 1.0
  */

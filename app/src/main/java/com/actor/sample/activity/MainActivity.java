@@ -116,9 +116,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_part_image_view://ShowPartImageView
                 startActivity(new Intent(this, ShowPartImageViewActivity.class));
                 break;
-            case R.id.btn_match_parent_image_view://MatchParentImageView
-                startActivity(new Intent(this, MatchParentImageViewTestActivity.class));
-                break;
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(new Intent(this, NineGridViewActivity.class));
                 break;

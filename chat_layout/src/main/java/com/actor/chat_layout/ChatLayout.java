@@ -74,8 +74,8 @@ import com.google.android.material.tabs.TabLayout;
  *     <li>2.如果需要使用emoji表情, 需要在Application中初始化: ChatLayoutKit.init();</li>
  *     <li>3.如果需要使用语音功能, 请使用: {@link AudioUtils}</li>
  *     <li>4.示例使用见: <br/>
- *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" targt="_blank">activity_chat.xml</a> <br/>
- *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" targt="_blank">ChatActivity.java</a>
+ *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" target="_blank">activity_chat.xml</a> <br/>
+ *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" target="_blank">ChatActivity.java</a>
  *     </li>
  * </ul>
  *

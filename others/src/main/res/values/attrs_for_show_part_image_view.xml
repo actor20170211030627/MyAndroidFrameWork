@@ -11,8 +11,8 @@
         </attr>
 
         <!--
-        当图片太宽的时候, Gravity=right 时, 图片显示内容是否和图片的'右侧'对齐
-        当图片太高的时候, Gravity=bottom 时, 图片显示内容是否和图片的'底部'对齐
+        当图片太宽的时候, Gravity=right 时, 图片drawable是否和ImageView的'右侧'对齐
+        当图片太高的时候, Gravity=bottom 时, 图片drawable是否和ImageView的'底部'对齐
      -->
         <attr name="spivIsAlignGravityWhenIv2WidthOrIv2Height" format="boolean" />
     </declare-styleable>

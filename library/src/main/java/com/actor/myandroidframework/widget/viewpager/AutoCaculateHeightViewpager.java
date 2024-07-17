@@ -46,18 +46,18 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
                 if (isShowHighestChild$onlyShowChildHeight) {
                     int currentHeight = layoutParams.height;
                     //最高child的高度
-                    int hightestChild = currentHeight;
+                    int highestChild = currentHeight;
                     for (int i = 0; i < heights.size(); i++) {
                         int hChild = heights.get(i);
-                        if (hChild > hightestChild) {
-                            hightestChild = hChild;
+                        if (hChild > highestChild) {
+                            highestChild = hChild;
                         }
                     }
                     //如果现在不是最高高度
-                    if (hightestChild != currentHeight) {
-                        layoutParams.height = hightestChild;
+                    if (highestChild != currentHeight) {
+                        layoutParams.height = highestChild;
                         setLayoutParams(layoutParams);
-//                        LogUtils.errorFormat("设置最高高度, position = %d, currentHeight = %d, hightestChild = %d", position, currentHeight, hightestChild);
+//                        LogUtils.errorFormat("设置最高高度, position = %d, currentHeight = %d, highestChild = %d", position, currentHeight, highestChild);
                     }
                 } else {
                     //如果显示相应页面自己的实际高度
@@ -76,7 +76,7 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //最高child的高度
-        int hightestChild = 0;
+        int highestChild = 0;
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
 //            LogUtils.error(child);
@@ -86,15 +86,15 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
             }
             child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             int height = child.getMeasuredHeight();
-            if (height > hightestChild) {
-                hightestChild = height;
+            if (height > highestChild) {
+                highestChild = height;
             }
 //            LogUtils.errorFormat("i = %d, h = %d", i, height);
             heights.put(hasTabLayout ? i - 1 : i, height);
         }
         //如果是显示最高child的高度
         if (isShowHighestChild$onlyShowChildHeight) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(hightestChild, MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(highestChild, MeasureSpec.EXACTLY);
         } else {
             int currentItem = getCurrentItem();
             if (currentItem == 0) {
@@ -106,12 +106,12 @@ public class AutoCaculateHeightViewpager extends ScrollableViewPager {
 
     /**
      * 设置高度显示模式
-     * @param isShowHightestChild$onlyShowChildHeight 是否显示最高child的高度: <br />
+     * @param isShowHighestChild$onlyShowChildHeight 是否显示最高child的高度: <br />
      *        true:  统一显示几个页面中最高页面的高度(矮的页面由于实际没有这么高, 底部会留空白) <br />
      *        false: 切换到相应页面时, 显示相应页面自己的实际高度
      */
-    public void setShownHeightMode(boolean isShowHightestChild$onlyShowChildHeight) {
-        this.isShowHighestChild$onlyShowChildHeight = isShowHightestChild$onlyShowChildHeight;
+    public void setShownHeightMode(boolean isShowHighestChild$onlyShowChildHeight) {
+        this.isShowHighestChild$onlyShowChildHeight = isShowHighestChild$onlyShowChildHeight;
     }
 
     /**

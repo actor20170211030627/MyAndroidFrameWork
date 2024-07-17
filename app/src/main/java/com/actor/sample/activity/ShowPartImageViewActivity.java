@@ -45,7 +45,6 @@ public class ShowPartImageViewActivity extends BaseActivity<ActivityShowPartImag
             viewBinding.spiv43.setIsAlignGravityWhenIv2WidthOrIv2Height(isChecked);
         });
         //换图
-        // TODO: 2024/7/12 换图后, 顶部有些图片在Honor 7A(Android 8.0.0)上显示错乱, 为何?
         viewBinding.btnSwitchImg.setOnClickListener(v -> {
             v.setSelected(!v.isSelected());
             if (v.isSelected()) {
