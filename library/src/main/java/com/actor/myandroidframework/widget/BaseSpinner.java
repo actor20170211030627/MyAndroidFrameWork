@@ -20,109 +20,125 @@ import java.util.List;
 
 /**
  * Description: Spinner功能增加 <br />
- * Author     : ldf <br />
- * Date       : 2019/10/20 on 16:21 <br />
  *
  * <br />
+ * 一. {@link AppCompatSpinner AppCompatSpinner} 属性
  * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
  *     <tr>
+ *         <th align="center">№</th>
  *         <th align="center">属性attrs</th>
  *         <th align="center">示例exams</th>
  *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
- *         <th>一. {@link AppCompatSpinner AppCompatSpinner} 属性</th>
- *     </tr>
- *     <tr>
+ *         <td>1</td>
  *         <td>{@link androidx.appcompat.R.styleable#Spinner_android_entries entries}</td>
  *         <td>@array/languages</td>
- *         <td>1.绑定数据源, 写在values/arrays.xml</td>
+ *         <td>绑定数据源, 写在values/arrays.xml</td>
  *     </tr>
  *     <tr>
+ *         <td>2</td>
  *         <td>{@link android.R.attr#spinnerMode spinnerMode}</td>
  *         <td>dropdown|dialog</td>
- *         <td>2.菜单显示方式:下拉菜单or弹出框(默认弹出框, 在android2.3上没有这个属性)</td>
+ *         <td>菜单显示方式:下拉菜单or弹出框(默认弹出框, 在android2.3上没有这个属性)</td>
  *     </tr>
  *     <tr>
+ *         <td>3</td>
  *         <td>{@link android.R.attr#dropDownVerticalOffset dropDownVerticalOffset}</td>
  *         <td>25.5dp</td>
- *         <td>3.spinnerMode=”dropdown”时，下拉的项目选择窗口在垂直方向相对于Spinner窗口的偏移量</td>
+ *         <td>spinnerMode=”dropdown”时，下拉的项目选择窗口在垂直方向相对于Spinner窗口的偏移量</td>
  *     </tr>
  *     <tr>
+ *         <td>4</td>
  *         <td>{@link android.R.attr#prompt prompt}</td>
  *         <td>@string/please_choose_sex</td>
- *         <td>4.Dialog标题, 在Dialog模式下才有效, 不能直接写汉字在这里</td>
+ *         <td>Dialog标题, 在Dialog模式下才有效, 不能直接写汉字在这里</td>
  *     </tr>
  *     <tr>
+ *         <td>5</td>
  *         <td>{@link android.R.attr#popupBackground popupBackground}</td>
  *         <td>@drawable/xxx | @color/xxx</td>
- *         <td>5.在spinner=”dropdown”时，使用这个属性来设置下拉列表的背景</td>
+ *         <td>在spinner=”dropdown”时，使用这个属性来设置下拉列表的背景</td>
  *     </tr>
  *     <tr>
+ *         <td>6</td>
  *         <td>{@link android.R.attr#gravity gravity}</td>
  *         <td>left|top</td>
- *         <td>6.对齐方式, 默认Gravity.CENTER, 只适用于 TextView 及其子类</td>
+ *         <td>对齐方式, 默认Gravity.CENTER, 只适用于 TextView 及其子类</td>
  *     </tr>
  *     <tr>
+ *         <td>7</td>
  *         <td>{@link android.R.attr#textAlignment textAlignment}</td>
  *         <td>center|textStart|textEnd|viewStart|viewEnd</td>
- *         <td>7.对齐方式, API 17 以后才启用</td>
+ *         <td>对齐方式, API 17 以后才启用</td>
  *     </tr>
  *     <tr>
+ *         <td>8</td>
  *         <td>{@link android.R.attr#backgroundTint backgroundTint}</td>
  *         <td>@color/xxx</td>
- *         <td>8.可间接设置箭头颜色, 至少api14(android 4.0)</td>
+ *         <td>可间接设置箭头颜色, 至少api14(android 4.0)</td>
  *     </tr>
  *     <tr>
+ *         <td>9</td>
  *         <td>{@link android.R.attr#dropDownWidth dropDownWidth}</td>
  *         <td>50dp</td>
- *         <td>9.在spinnerMode=”dropdown”时，设定下拉框的宽度(一般可不用设置)</td>
+ *         <td>在spinnerMode=”dropdown”时，设定下拉框的宽度(一般可不用设置)</td>
  *     </tr>
  *     <tr>
+ *         <td>10</td>
  *         <td nowrap="nowrap">{@link android.R.attr#dropDownHorizontalOffset dropDownHorizontalOffset}</td>
  *         <td>1.5dp</td>
- *         <td>10.spinnerMode=”dropdown”时，下拉的项目选择窗口在水平方向相对于Spinner窗口的偏移量(一般可不用设置)</td>
+ *         <td>spinnerMode=”dropdown”时，下拉的项目选择窗口在水平方向相对于Spinner窗口的偏移量(一般可不用设置)</td>
  *     </tr>
  *     <tr>
+ *         <td>11</td>
  *         <td>{@link android.R.attr#dropDownSelector dropDownSelector}</td>
  *         <td nowrap="nowrap">@drawable/xxx</td>
- *         <td>11.选中/未选中的selector(一般可不用设置)</td>
+ *         <td>下拉列表选中/未选中的selector(一般可不用设置, 且设置了可能没作用, 见: <a href="https://stackoverflow.com/questions/14737811/spinner-does-not-apply-dropdownselector-attribute" target="_blank">Stack Overflow</a>)</td>
  *     </tr>
  *     <tr>
+ *         <td>12</td>
  *         <td>{@link android.R.attr#background background}</td>
  *         <td>@color/shape_drop_down_normal</td>
  *         <td>
- *             12.设置背景颜色, 带箭头, 可参考: <br />
+ *             设置背景颜色, 带箭头, 可参考: <br />
  *             1.<a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/drawable/shape_drop_down_normal.xml" target="_blank">shape_drop_down_normal.xml</a>//背景颜色, 背景颜色渐变等, 包括箭头, 边距, 边框 <br />
  *             2.{@code @color/white} //设置纯色背景, 设置后看不见箭头 <br />
  *             3.{@code @null} //去掉背景包括箭头
  *         </td>
  *     </tr>
+ * </table>
  *
- *     <tr/>
+ * 二. {@link BaseSpinner BaseSpinner} 自定义属性
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
  *     <tr>
- *         <th>二. {@link BaseSpinner BaseSpinner} 自定义属性</th>
+ *         <th align="center">№</th>
+ *         <th align="center">属性attrs</th>
+ *         <th align="center">示例exams</th>
+ *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
+ *         <td>1</td>
  *         <td>{@link R.styleable#BaseSpinner_bsEntriesString bsEntriesString}</td>
- *         <td>@string/names</td>
- *         <td>1.spinner的填充内容, 用','分隔开(如果已经设置了'entries', 不用再设置这个)</td>
+ *         <td nowrap="nowrap">@string/names</td>
+ *         <td>spinner的填充内容, 用','分隔开(如果已经设置了'entries', 不用再设置这个)</td>
  *     </tr>
  *     <tr>
+ *         <td>2</td>
  *         <td>{@link R.styleable#BaseSpinner_bsResource bsResource}</td>
  *         <td>@layout/xxx</td>
- *         <td>2.spinner填充的布局(根部局是一个TextView), 默认: {@link android.R.layout#simple_spinner_item}, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_textview_textcolor_white.xml" target="_blank">item_textview_textcolor_white.xml</a></td>
+ *         <td>spinner填充的布局(根部局是一个TextView), 默认: {@link android.R.layout#simple_spinner_item}, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_textview_textcolor_white.xml" target="_blank">item_textview_textcolor_white.xml</a></td>
  *     </tr>
  *     <tr>
- *         <td>{@link R.styleable#BaseSpinner_bsDropDownViewResource bsDropDownViewResource}</td>
+ *         <td>3</td>
+ *         <td nowrap="nowrap">{@link R.styleable#BaseSpinner_bsDropDownViewResource bsDropDownViewResource}</td>
  *         <td>@layout/xxx</td>
- *         <td>3.下拉列表item布局(根部局是一个TextView), 默认: {@link androidx.appcompat.R.layout#support_simple_spinner_dropdown_item}, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_textview_textcolor_red.xml" target="_blank">item_textview_textcolor_red.xml</a></td>
+ *         <td>下拉列表item布局(根部局是一个TextView), 默认: {@link androidx.appcompat.R.layout#support_simple_spinner_dropdown_item}, 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_textview_textcolor_red.xml" target="_blank">item_textview_textcolor_red.xml</a></td>
  *     </tr>
  * </table>
  *
- * <br />
- * @version 1.0 增加重复选中的监听 <br />
- *          1.0.1 禁止OnItemSelectedListener默认会自动调用一次的问题: {@link #init(Context, AttributeSet)} <br />
+ * @author     : ldf
+ * @date       : 2019/10/20 on 16:21
  *
  * @param <T> 填充Item的数据类型, 见{@link #setDatas(Collection)}, 示例:<pre> {@code
  * private BaseSpinner<User> spinner;

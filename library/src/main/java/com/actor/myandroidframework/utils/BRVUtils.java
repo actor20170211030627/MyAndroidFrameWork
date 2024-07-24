@@ -127,16 +127,25 @@ public class BRVUtils {
     }
 
     /**
-     * 因为有些分页请求的数据, 不一定会填充到RecyclerView, 所以不会有adapter参数
-     * @param items 数据列表
+     * ∵有些分页请求的数据, 不一定会填充到RecyclerView, 所以不会有adapter参数
+     * @param items 所有数据列表
      * @param isRefresh 是否是下拉刷新
      * @param size      每次加载多少条
      */
     public static int getPage(@NonNull List items, boolean isRefresh, int size) {
+        return getPage(items.size(), isRefresh, size);
+    }
+
+    /**
+     * ∵要填充到RecyclerView的数据, 不一定来着同一个接口, 所以直接用Adapter的List不正确
+     * @param itemCount item所有数量
+     * @param isRefresh 是否是下拉刷新
+     * @param size      每次加载多少条
+     */
+    public static int getPage(int itemCount, boolean isRefresh, int size) {
         if (isRefresh) return 1;
-        int currentSize = items.size(); //目前列表数据条数
-        if (currentSize < size) return 1;
-        return currentSize / size + 1;
+        if (itemCount < size) return 1;
+        return itemCount / size + 1;
     }
 
     /**
@@ -144,9 +153,20 @@ public class BRVUtils {
      * @param list 本次从服务器返回的分页数据(不是全部数据, 是本次请求的数据!)
      * @param size 每次加载多少条
      */
-    public static void setLoadMoreState(@NonNull BaseQuickAdapter adapter, @Nullable List<?> list, int size) {
+    public static void setLoadMoreStateBySize(@NonNull BaseQuickAdapter adapter, @Nullable List<?> list, int size) {
         //"list = null"     or     "list为空"     or     "list < size"(比如一次获取20条, 但是只返回15条, 说明服务器没有更多数据了)
-        boolean isLoadMoreEnd = list == null || list.size() < size;
+        setLoadMoreStateBySize(adapter, list == null ? 0 : list.size(), size);
+    }
+
+    /**
+     * 设置加载状态: 已经没有数据了 or 加载完成
+     * @param listSize 本次从服务器返回的分页数据条数(不是全部数据, 是本次请求的数据!) <br />
+     *                 ∵要填充到RecyclerView的数据, 不一定来着同一个接口, 所以直接用Adapter的List不正确
+     * @param size 每次加载多少条
+     */
+    public static void setLoadMoreStateBySize(@NonNull BaseQuickAdapter adapter, int listSize, int size) {
+        //listSize < size (比如一次获取20条, 但是只返回15条, 说明服务器没有更多数据了)
+        boolean isLoadMoreEnd = listSize < size;
         if (isLoadMoreEnd) {
             adapter.getLoadMoreModule().loadMoreEnd();//已经没有数据了
         } else {
@@ -158,8 +178,18 @@ public class BRVUtils {
      * 设置加载状态: 已经没有数据了 or 加载完成
      * @param total   服务器返回的数据总数(如果后端返回了total的话...)
      */
-    public static void setLoadMoreState(@NonNull BaseQuickAdapter adapter, int total) {
-        if (adapter.getData().size() < total) {
+    public static void setLoadMoreStateByTotal(@NonNull BaseQuickAdapter adapter, int total) {
+        setLoadMoreStateByTotal(adapter, adapter.getData().size(), total);
+    }
+
+    /**
+     * 设置加载状态: 已经没有数据了 or 加载完成 <br />
+     * ∵要填充到RecyclerView的数据, 不一定来着同一个接口, 所以直接用Adapter的List不正确
+     * @param currentItemCount 需要判断是否还有更多数据的, 和↓下方同一接口返回的List的当前总数量
+     * @param total            服务器返回的数据总数(如果后端返回了total的话...)
+     */
+    public static void setLoadMoreStateByTotal(@NonNull BaseQuickAdapter adapter, int currentItemCount, int total) {
+        if (currentItemCount < total) {
             adapter.getLoadMoreModule().loadMoreComplete();//加载完成
         } else adapter.getLoadMoreModule().loadMoreEnd();//已经没有数据了
     }

@@ -62,6 +62,8 @@ android {
     packagingOptions {
         // 剔除这个包下的所有文件（不会移除签名信息）
         exclude 'META-INF/*******'
+        exclude '**/R.class'
+        exclude '**/R$.class'
     }
 }
 
