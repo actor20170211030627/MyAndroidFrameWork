@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "properties": [],
-      "versionCode": 2024072401,
-      "versionName": "2.1.8",
+      "versionCode": 2024072501,
+      "versionName": "2.1.8.2",
       "enabled": true,
       "outputFile": "app-debug.apk"
     }
