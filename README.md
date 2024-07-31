@@ -72,7 +72,8 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 
 **2.3.Utils工具类**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/utils/audio/AudioUtils.java" target="_blank">AudioUtils</a> (录音/播放音频)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaPlayerUtils.java" target="_blank">MediaPlayerUtils</a> (播放音频)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaRecorderUtils.java" target="_blank">MediaRecorderUtils</a> (录音)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/easyhttp/EasyHttpConfigUtils.java" target="_blank">EasyHttpConfigUtils</a> (EasyHttp基本配置 & 封装的WebSocket)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)

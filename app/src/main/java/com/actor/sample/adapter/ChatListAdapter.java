@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.actor.chat_layout.emoji.FaceManager;
 import com.actor.myandroidframework.utils.TextUtils2;
-import com.actor.myandroidframework.utils.audio.AudioUtils;
+import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.info.MessageItem;
@@ -38,7 +38,7 @@ public class ChatListAdapter extends BaseMultiItemQuickAdapter<MessageItem, Base
                 if (message != null) {
                     ToasterUtils.info(message);
                 } else {
-                    AudioUtils.getInstance().play(item.audioPath, false, true, null);
+                    MediaPlayerUtils.getInstance().play(item.audioPath, false, true, false, null);
                 }
             }
         });

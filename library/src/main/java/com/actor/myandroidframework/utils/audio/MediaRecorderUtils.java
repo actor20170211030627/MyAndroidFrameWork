@@ -1,16 +1,11 @@
 package com.actor.myandroidframework.utils.audio;
 
-
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.text.TextUtils;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RawRes;
 
 import com.actor.myandroidframework.utils.BaseCountDownTimer;
 import com.actor.myandroidframework.utils.LogUtils;
@@ -22,7 +17,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * description: 音频录制, 播放 <br />
+ * description: 音频录制工具类
  * <a href="https://blog.csdn.net/weixin_44008788/article/details/122260697">Android 多媒体框架之音频录制 MediaRecorder 和 AudioRecorder_android mediarecorder-CSDN博客</a> <br />
  * <a href="https://cloud.tencent.com/document/product/269/3794">一天接入 SDK-即时通信 IM-文档中心-腾讯云</a> <br />
  * <a href="https://github.com/tencentyun/TIMSDK">TencentCloud_TIMSDK - Github</a> <br />
@@ -35,21 +30,19 @@ import java.util.Date;
  * 缺点：无法实现实时处理音频，输出的音频格式少。 <br />
  * MediaRecorder 录制的音频文件是经过压缩后的，需要设置编码器，并且录制的音频文件可以用系统自带的播放器播放。MediaRecorder属于系统API高度封装，所以可扩展性和可用性都比较局限，支持的格式过少并且无法实时处理音频数据，使用场景如语音消息录制等，值得一提的是MediaRecorder通常和视频录制一起使用。 <br />
  *
- * <ol>
+ * <ul>
  *     <li>
  *         如果需要录音, 需要在清单文件中添加权限: <br />
  *         <code>&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt; <br /></code>
  *     </li>
- *     <li>
- *         就可以使用了
- *     </li>
- * </ol>
- * 3.开始录音等 <br />
+ * </ul>
  *
- * author     : ldf
- * date       : 2019/5/30 on 17:43
+ * @author : ldf
+ * @date   : 2024/7/30 on 14
  */
-public class AudioUtils {
+public class MediaRecorderUtils {
+
+    protected static MediaRecorderUtils instance;
 
     //是否正在录制中
     protected boolean               isRecording;
@@ -58,52 +51,15 @@ public class AudioUtils {
     protected String                recordDir       = PathUtils.getInternalAppFilesPath();
     protected int                   maxRecordTimeMs = 2 * 60 * 1000;    //最大录音时长, 默认2分钟
     protected String                recordAudioPath;                    //录音文件具体地址
-    protected MediaRecorder         mMediaRecorder;
+    protected MediaRecorder mMediaRecorder;
     protected MediaRecorderCallback mRecorderCallback;
-    protected BaseCountDownTimer    countDownTimer;
+    protected BaseCountDownTimer countDownTimer;
 
-
-
-    protected MediaPlayer         mMediaPlayer;
-    protected MediaPlayerCallback mPlayerCallback;
-    protected boolean             isAutoPlay;   //是否自动播放
-    //准备完成监听
-    protected MediaPlayer.OnPreparedListener mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
-        @Override
-        public void onPrepared(MediaPlayer mp) {
-            if (mPlayerCallback != null) mPlayerCallback.onPrepared(mp);
-            if (isAutoPlay) startPlayer(); //开始播放
-        }
-    };
-    //播放错误监听
-    protected MediaPlayer.OnErrorListener mOnErrorListener = new MediaPlayer.OnErrorListener() {
-        @Override
-        public boolean onError(MediaPlayer mp, int what, int extra) {
-            if (mPlayerCallback != null) return mPlayerCallback.onPlayError(mp, what, extra);
-            return false;
-        }
-    };
-    //播放完成监听
-    protected MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            if (mPlayerCallback != null) mPlayerCallback.onCompletion(mp);
-        }
-    };
-
-    protected static AudioUtils   instance;
-
-
-    public static AudioUtils getInstance() {
-        if (instance == null) instance = new AudioUtils();
+    public static MediaRecorderUtils getInstance() {
+        if (instance == null) instance = new MediaRecorderUtils();
         return instance;
     }
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // 下方是录制
-    ///////////////////////////////////////////////////////////////////////////
     /**
      * 设置录制的语音存储目录(有默认值, 可以不设置)
      */
@@ -304,188 +260,5 @@ public class AudioUtils {
     public long getRecordDuration() {
         if (countDownTimer == null) return 0;
         return countDownTimer.getTimingDuration();
-    }
-
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // 下方是播放
-    ///////////////////////////////////////////////////////////////////////////
-    /**
-     * 播放R.raw.xxx 音频
-     * @param rawId 资源id
-     * @param isLooping 是否循环播放
-     * @param isAutoPlay 准备完成后, 是否自动播放
-     * @param playerCallback 播放回调
-     */
-    public void playRaw(Context context, @RawRes int rawId, boolean isLooping, boolean isAutoPlay,
-                        @Nullable MediaPlayerCallback playerCallback) {
-        playRaw(context, rawId, isLooping, isAutoPlay, true, playerCallback);
-    }
-    /**
-     * 播放R.raw.xxx 音频
-     * @param rawId 资源id
-     * @param isLooping 是否循环播放
-     * @param isAutoPlay 准备完成后, 是否自动播放
-     * @param playerCallback 播放回调
-     * @param isNewMediaPlayer 是否使用新的MediaPlayer, 而不是已存在的那个.(如果想同时播放多个, 传true)
-     */
-    public void playRaw(Context context, @RawRes int rawId, boolean isLooping, boolean isAutoPlay,
-                        boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
-        mPlayerCallback = playerCallback;
-        this.isAutoPlay = isAutoPlay;
-        if (!isNewMediaPlayer && mMediaPlayer != null) {
-            mMediaPlayer.reset();
-            mMediaPlayer.release();
-            mMediaPlayer = null;
-        }
-        try {
-            mMediaPlayer = MediaPlayer.create(context, rawId);   //nullable
-            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mMediaPlayer.setVolume(1, 1);
-            mMediaPlayer.setLooping(isLooping);
-            //准备完成监听
-            mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
-            //播放出错监听
-            mMediaPlayer.setOnErrorListener(mOnErrorListener);
-            mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
-            //播放本地的时候, prepare 会报错: prepareAsync called in state 8, mPlayer(0x7e0c7f62c0)
-//            mMediaPlayer.prepareAsync();
-//            mMediaPlayer.prepare();
-            //
-            mOnPreparedListener.onPrepared(mMediaPlayer);
-        } catch (NullPointerException | IllegalStateException e) {
-            e.printStackTrace();
-            if (playerCallback != null) {
-                boolean isDealBySelf = playerCallback.onSetData2StartError(e);
-                if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
-            }
-        }
-    }
-
-    /**
-     * 播放音频
-     * @param audioPath 本地/网络音频
-     * @param isLooping 是否循环播放
-     * @param isAutoPlay 准备完成后, 是否自动播放
-     * @param playerCallback 播放监听
-     */
-    public void play(@NonNull String audioPath, boolean isLooping, boolean isAutoPlay,
-                     @Nullable MediaPlayerCallback playerCallback) {
-        play(audioPath, isLooping, isAutoPlay, false, playerCallback);
-    }
-    /**
-     * 播放音频
-     * @param audioPath 本地/网络音频
-     * @param isLooping 是否循环播放
-     * @param isAutoPlay 准备完成后, 是否自动播放
-     * @param playerCallback 播放监听
-     * @param isNewMediaPlayer 是否使用新的MediaPlayer, 而不是已存在的那个.(如果想同时播放多个, 传true)
-     */
-    public void play(@NonNull String audioPath, boolean isLooping, boolean isAutoPlay,
-                     boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
-        if (TextUtils.isEmpty(audioPath)) {
-            if (playerCallback != null) {
-                boolean isDealBySelf = playerCallback.onSetData2StartError(new NullPointerException("audioPath is Empty!"));
-                if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
-            }
-            return;
-        }
-        mPlayerCallback = playerCallback;
-        this.isAutoPlay = isAutoPlay;
-        try {
-            if (isNewMediaPlayer || mMediaPlayer == null) {
-                mMediaPlayer = new MediaPlayer();
-//                AudioAttributes attrs = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
-//                mMediaPlayer.setAudioAttributes(attrs);
-            } else mMediaPlayer.reset();
-//            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-//            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            //设置数据源, 本地or网上
-            mMediaPlayer.setDataSource(audioPath);
-            mMediaPlayer.setLooping(isLooping);
-            //准备完成监听
-            mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
-            //播放出错监听
-            mMediaPlayer.setOnErrorListener(mOnErrorListener);
-//            mMediaPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
-            mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
-            mMediaPlayer.prepareAsync();    //主线程中异步准备, 准备监听完成后开始播放
-//            mMediaPlayer.prepare();
-//            mMediaPlayer.start();
-        } catch (IOException | IllegalArgumentException | SecurityException | IllegalStateException e) {
-            e.printStackTrace();
-            if (playerCallback != null) {
-                boolean isDealBySelf = playerCallback.onSetData2StartError(e);
-                if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
-            }
-        }
-    }
-
-    /**
-     * 获取'播放'的音频的时长 (要先设置音频)
-     * @return 单位ms
-     */
-    public int getDuration() {
-        if (mMediaPlayer == null) return -1;
-        return mMediaPlayer.getDuration();
-    }
-
-    /**
-     * 开始播放音频
-     */
-    public void startPlayer() {
-        try {
-            if (mMediaPlayer != null) mMediaPlayer.start();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            if (mPlayerCallback != null) {
-                boolean isDealBySelf = mPlayerCallback.onSetData2StartError(e);
-                if (!isDealBySelf) mPlayerCallback.onCompletion(mMediaPlayer);
-            }
-        }
-    }
-
-    /**
-     * 暂停播放音频 <br />
-     * 继续播放的话调用 {@link #startPlayer()}
-     */
-    public void pausePlayer() {
-        try {
-            if (mMediaPlayer != null) mMediaPlayer.pause();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 停止播放音频
-     */
-    public void stopPlayer() {
-        try {
-            //开始 or 暂停 后, 可以停止
-            if (mMediaPlayer != null) mMediaPlayer.stop();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @return 是否正在播放
-     */
-    public boolean isPlaying() {
-        return mMediaPlayer != null && mMediaPlayer.isPlaying();
-    }
-
-    /**
-     * 释放播放器资源
-     */
-    public void releaseMediaPlayer() {
-        mPlayerCallback = null;
-        stopPlayer();
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release();
-            mMediaPlayer = null;
-        }
     }
 }

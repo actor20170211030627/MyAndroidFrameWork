@@ -44,8 +44,9 @@ import com.actor.chat_layout.emoji.FaceManager;
 import com.actor.chat_layout.fragment.ChatLayoutEmojiFragment;
 import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.utils.MMKVUtils;
-import com.actor.myandroidframework.utils.audio.AudioUtils;
+import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
+import com.actor.myandroidframework.utils.audio.MediaRecorderUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.android.material.tabs.TabLayout;
 
@@ -72,7 +73,7 @@ import com.google.android.material.tabs.TabLayout;
  *         &emsp; implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:emojis:gitee's latest version' <br/>
  *     </li>
  *     <li>2.如果需要使用emoji表情, 需要在Application中初始化: ChatLayoutKit.init();</li>
- *     <li>3.如果需要使用语音功能, 请使用: {@link AudioUtils}</li>
+ *     <li>3.如果需要使用语音功能, 请使用: {@link MediaPlayerUtils}</li>
  *     <li>4.示例使用见: <br/>
  *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" target="_blank">activity_chat.xml</a> <br/>
  *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" target="_blank">ChatActivity.java</a>
@@ -458,7 +459,7 @@ public class ChatLayout extends LinearLayout {
                                     ispressedDown = true;
                                     startRecordY = event.getY();
                                     voiceRecorderView.startRecording();
-                                    AudioUtils.getInstance().startRecordAmr(new MediaRecorderCallback() {
+                                    MediaRecorderUtils.getInstance().startRecordAmr(new MediaRecorderCallback() {
 
                                         @Override
                                         public void recordComplete(String audioPath, long durationMs) {
@@ -486,7 +487,7 @@ public class ChatLayout extends LinearLayout {
                                             }
                                             voiceRecorderView.stopRecording(View.INVISIBLE);
                                             //语音路径
-                                            String recordAudioPath = AudioUtils.getInstance().getRecordAudioPath();
+                                            String recordAudioPath = MediaRecorderUtils.getInstance().getRecordAudioPath();
                                             if (!TextUtils.isEmpty(recordAudioPath))
                                                 onListener.onVoiceRecordSuccess(recordAudioPath, durationMs);
                                         }
@@ -529,7 +530,7 @@ public class ChatLayout extends LinearLayout {
 //                                    } else {
 //                                        audioRecordIsCancel = false;
 //                                    }
-                                    AudioUtils.getInstance().stopRecord(audioRecordIsCancel);
+                                    MediaRecorderUtils.getInstance().stopRecord(audioRecordIsCancel);
                                     break;
                             }
                         }
@@ -854,8 +855,9 @@ public class ChatLayout extends LinearLayout {
     @Override
     protected void onDetachedFromWindow() {
         KeyboardUtils.unregisterSoftInputChangedListener(((Activity) getContext()).getWindow());
-        AudioUtils.getInstance().stopRecord(true);
-        AudioUtils.getInstance().stopPlayer();
+        MediaRecorderUtils.getInstance().stopRecord(true);
+        //请用户自己根据需要调用释放资源
+//        MediaPlayerUtils.getInstance().stopPlayer(audioSessionId);
         super.onDetachedFromWindow();
     }
 }
