@@ -9,7 +9,6 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
@@ -75,6 +74,7 @@ public class PictureSelectorUtils {
     protected boolean showGif;
     protected boolean isCompress;
     protected boolean isCrop;
+    protected boolean isShowOriginal;   //开启原图☑选项
     //最多现在多少个
     protected int            maxSelect;
     //音视频, 最大时长 & 最小时长,单位秒
@@ -109,6 +109,7 @@ public class PictureSelectorUtils {
             INSTANCE.singleSelect = false;
             INSTANCE.isCompress = false;
             INSTANCE.isCrop = false;
+            INSTANCE.isShowOriginal = true;
             INSTANCE.maxSelect = 9;
             INSTANCE.maxSecond = 0;
             INSTANCE.minSecond = 0;
@@ -125,11 +126,11 @@ public class PictureSelectorUtils {
     /**
      * @param selectionData 传入已选文件(可同步勾选状态). 预览的时候, if数据类型对不上, 可传null
      */
-    public static Builder create(@NonNull Activity activity, @Nullable List<LocalMedia> selectionData) {
+    public static SelectCommonBuilder create(@NonNull Activity activity, @Nullable List<LocalMedia> selectionData) {
         PictureSelectorUtils utils = getInstance(true);
         utils.selectionData = selectionData;
         utils.isCallInFragment = false;
-        return new Builder(PictureSelector.create(activity));
+        return new SelectCommonBuilder(PictureSelector.create(activity));
     }
 
     /**
@@ -137,185 +138,12 @@ public class PictureSelectorUtils {
      * @param selectionData 传入已选文件(可同步勾选状态). 预览的时候, if数据类型对不上, 可传null
      * @return
      */
-    public static Builder create(@NonNull Fragment fragment, boolean isFragmentInNavigation, @Nullable List<LocalMedia> selectionData) {
+    public static SelectCommonBuilder create(@NonNull Fragment fragment, boolean isFragmentInNavigation, @Nullable List<LocalMedia> selectionData) {
         PictureSelectorUtils utils = getInstance(true);
         utils.selectionData = selectionData;
         utils.isFragmentInNavigation = isFragmentInNavigation;
         utils.isCallInFragment = true;
-        return new Builder(PictureSelector.create(fragment));
-    }
-
-    public static class Builder {
-
-//        protected static Builder getInstance() {
-//
-//        }
-
-        protected PictureSelector selector;
-        protected Builder(PictureSelector selector) {
-            this.selector = selector;
-        }
-
-        /**
-         * 选择图片
-         * @param isCompress 图片是否压缩 <br />
-         * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
-         * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
-         */
-        public PictureSelectorUtils selectImage(boolean isCompress) {
-            PictureSelectorUtils utils = getInstance(false);
-            utils.isCompress = isCompress;
-            return selections(SelectMimeType.ofImage());
-        }
-
-        /**
-         * 选择视频
-         */
-        public PictureSelectorUtils selectVideo() {
-            return selections(SelectMimeType.ofVideo());
-        }
-
-        /**
-         * 选择图片&视频
-         * @param isCompress 图片是否压缩 <br />
-         * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
-         * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
-         */
-        public PictureSelectorUtils selectImage$Video(boolean isCompress) {
-            PictureSelectorUtils utils = getInstance(false);
-            utils.isCompress = isCompress;
-            return selections(SelectMimeType.ofAll());
-        }
-
-        /**
-         * 选择音频. 不再维护音频相关功能，但可以继续使用但会有机型兼容性问题
-         */
-        public PictureSelectorUtils selectAudio() {
-            return selections(SelectMimeType.ofAudio());
-        }
-
-        protected PictureSelectorUtils selections(int chooseMode) {
-            PictureSelectorUtils utils = getInstance(false);
-            utils.selectionModel = selector.openGallery(chooseMode);
-            return utils;
-        }
-
-        /**
-         * 拍照
-         * @param isCompress 图片是否压缩 <br />
-         * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
-         * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
-         */
-        public PictureSelectorUtils takePhoto(boolean isCompress) {
-            PictureSelectorUtils utils = getInstance(false);
-            utils.isCompress = isCompress;
-            utils.selectionCameraModel = selector.openCamera(SelectMimeType.ofImage());
-            return utils;
-        }
-
-        /**
-         * 录视频
-         */
-        public PictureSelectorUtils recordVideo() {
-            PictureSelectorUtils utils = getInstance(false);
-            utils.selectionCameraModel = selector.openCamera(SelectMimeType.ofVideo());
-            return utils;
-        }
-
-        /**
-         * 录音频
-         */
-        public PictureSelectorUtils recordAudio() {
-            PictureSelectorUtils utils = getInstance(false);
-            utils.selectionCameraModel = selector.openCamera(SelectMimeType.ofAudio());
-            return utils;
-        }
-
-        /**
-         * 选择系统图库/视频/音频 (系统图库有些api不支持)
-         * @param selectMimeType 选择文件类型: {@link SelectMimeType#ofAll()},
-         * {@link SelectMimeType#ofImage()}, {@link SelectMimeType#ofVideo()}, {@link SelectMimeType#ofAudio()}
-         */
-        public PictureSelectorUtils selectSystemFile(int selectMimeType) {
-            PictureSelectorUtils utils = getInstance(false);
-            utils.selectionSystemModel = selector.openSystemGallery(selectMimeType);
-            return utils;
-        }
-
-        /**
-         * 预览图片/视频/音频
-         */
-        public PreviewConfiger openPreview() {
-            PictureSelectorUtils utils = getInstance(false);
-            return new PreviewConfiger(selector.openPreview(), utils.selectionData);
-        }
-    }
-
-    /**
-     * 图片/视频/音频 是否单选
-     */
-    public PictureSelectorUtils setSingleSelect(boolean singleSelect) {
-        this.singleSelect = singleSelect;
-        return this;
-    }
-
-    /**
-     * 选择 图片/视频/音频 是否显示相机/录制音频图标
-     */
-    public PictureSelectorUtils setShowCamera(boolean showCamera) {
-        this.showCamera = showCamera;
-        return this;
-    }
-
-    /**
-     * 选择 图片 是否显示Gif
-     */
-    public PictureSelectorUtils setShowGif(boolean showGif) {
-        this.showGif = showGif;
-        return this;
-    }
-
-    /**
-     * 是否裁剪图片
-     */
-    public PictureSelectorUtils setCrop(boolean crop) {
-        isCrop = crop;
-        return this;
-    }
-
-    /**
-     * 设置多选的时候, 图片/视频 最多选择多少个
-     */
-    public PictureSelectorUtils setMaxSelect(@IntRange(from = 2) int maxSelect) {
-        this.maxSelect = maxSelect;
-        return this;
-    }
-
-    /**
-     * 设置: "选择or录制 视频/音频" 的时长
-     * @param maxSecond 最大时长,单位秒. 不做限制可传0
-     * @param minSecond 最小时长,单位秒. 不做限制可传0
-     */
-    public PictureSelectorUtils setAudioVideoSecond(int maxSecond, int minSecond) {
-        this.maxSecond = maxSecond;
-        this.minSecond = minSecond;
-        return this;
-    }
-
-    /**
-     * 设置裁剪, if 不设置, 会使用默认的 {@link CropFileEngineImpl}
-     */
-    public PictureSelectorUtils setCropFileEngine(@Nullable CropFileEngine cropFileEngine) {
-        this.cropFileEngine = cropFileEngine;
-        return this;
-    }
-
-    /**
-     * 跳过裁剪图片的类型, 默认不裁剪Gif&Webp, 这2种都可能是动图.
-     */
-    public PictureSelectorUtils setSkipCropMimeTypes(@Nullable String... skipCropMimeTypes) {
-        this.skipCropMimeTypes = skipCropMimeTypes;
-        return this;
+        return new SelectCommonBuilder(PictureSelector.create(fragment));
     }
 
     public void forResult(@NonNull OnResultCallbackListener<LocalMedia> listener) {
@@ -416,27 +244,27 @@ public class PictureSelectorUtils {
             selectionModel = this.selectionModel;
         }
         selectionModel
-//                .build()                      //返回选择图片的fragment
+//                .build()                          //返回选择图片的fragment
 //                .buildLaunch(int containerViewId, OnResultCallbackListener<LocalMedia> call) //选择图片的fragment的container
                 .isAutomaticTitleRecyclerTop(false) //图片列表超过一屏连续点击顶部标题栏快速回滚至顶部, 默认true
-                .isAutoVideoPlay(false)         //预览的时候, 是否自动播放音视频
-                .isBmp(true)                    //默认true, 是否打开.bmp
-                .isCameraAroundState(false)     //设置相机方向
-                .isCameraForegroundService(false)//拍照开启一个前台服务用于增强保活部分机型
-                .isCameraRotateImage(true)      //相机图像旋转，自动校正
+                .isAutoVideoPlay(false)             //预览的时候, 是否自动播放音视频
+                .isBmp(true)                        //默认true, 是否打开.bmp
+                .isCameraAroundState(false)         //设置相机方向
+                .isCameraForegroundService(false)   //拍照开启一个前台服务用于增强保活部分机型
+                .isCameraRotateImage(true)          //相机图像旋转，自动校正
                 .isDisplayCamera(showCamera)
-                .isDirectReturnSingle(false)    //单选模式时, 点击图片/视频后, 是否不预览,直接返回
-                .isDisplayTimeAxis(false)       //是否显示时间轴, 默认true (滑动的时候, 会在title下方显示1秒)
-                .isEmptyResultReturn(false)     //没数据是否能回调
-                .isFastSlidingSelect(true)      //快速滑动多选
-                .isGif(showGif)                 //是否显示gif, 默认false
-                .isMaxSelectEnabledMask(false)  //当达到最大选择数时，列表是否启用遮罩效果
-                .isOriginalControl(true)        //开启原图☑选项
-                .isOnlyObtainSandboxDir(false)  //查询指定目录
-                .isOpenClickSound(false)        //是否打开点击声音
-                .isPageStrategy(false)          //是否是分页查询战略
-                .isQuickCapture(false)          //使用系统摄像头录制后，是否支持使用系统播放器立即播放视频
-                .isSelectZoomAnim(false)        //选择资产时需要缩放动画
+                .isDirectReturnSingle(false)        //单选模式时, 点击图片/视频后, 是否不预览,直接返回
+                .isDisplayTimeAxis(false)           //是否显示时间轴, 默认true (滑动的时候, 会在title下方显示1秒)
+                .isEmptyResultReturn(false)         //没数据是否能回调
+                .isFastSlidingSelect(true)          //快速滑动多选
+                .isGif(showGif)                     //是否显示gif, 默认false
+                .isMaxSelectEnabledMask(false)      //当达到最大选择数时，列表是否启用遮罩效果
+                .isOriginalControl(isShowOriginal)  //开启原图☑选项
+                .isOnlyObtainSandboxDir(false)      //查询指定目录
+                .isOpenClickSound(false)            //是否打开点击声音
+                .isPageStrategy(false)              //是否是分页查询战略
+                .isQuickCapture(false)              //使用系统摄像头录制后，是否支持使用系统播放器立即播放视频
+                .isSelectZoomAnim(false)            //选择资产时需要缩放动画
 //                .isSyncCover(!SdkVersionUtils.isQ()) //同步选择目录文件夹的封面
                 .isWebp(true)
                 .isWithSelectVideoImage(false)  //同1次选择, 是否能选择图片&视频
@@ -579,7 +407,7 @@ public class PictureSelectorUtils {
                 .isCameraAroundState(false)         //设置相机方向
                 .isCameraForegroundService(false)   //拍照开启一个前台服务用于增强保活部分机型
                 .isCameraRotateImage(true)          //相机图像旋转，自动校正
-                .isOriginalControl(true)            //开启原图☑选项
+                .isOriginalControl(isShowOriginal)  //开启原图☑选项 (在这儿设置无用)
                 .isQuickCapture(false)              //使用系统摄像头录制后，是否支持使用系统播放器立即播放视频
                 .isOriginalSkipCompress(!isCompress)//是否跳过压缩
 
@@ -679,7 +507,7 @@ public class PictureSelectorUtils {
             systemModel = this.selectionSystemModel;
         }
         systemModel
-                .isOriginalControl(true)            //开启原图☑选项
+                .isOriginalControl(isShowOriginal)  //开启原图☑选项 (在这儿设置无用)
                 .isOriginalSkipCompress(!isCompress)
 
 //                .setAddBitmapWatermarkListener()  //添加水印
@@ -837,11 +665,16 @@ public class PictureSelectorUtils {
     /**
      * @return 图片/视频查看引擎
      */
-    protected static ImageEngine getImageEngine() {
+    public static ImageEngine getImageEngine() {
         if (imageEngine == null) {
             imageEngine = new ImageEngineImpl();
         }
         return imageEngine;
+    }
+    public static void setImageEngine(ImageEngine imageEngineI) {
+        if (imageEngineI != null) {
+            imageEngine = imageEngineI;
+        }
     }
 
     /**

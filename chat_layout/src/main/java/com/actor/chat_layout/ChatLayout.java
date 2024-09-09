@@ -201,6 +201,7 @@ public class ChatLayout extends LinearLayout {
 
     protected void init(Context context, @Nullable AttributeSet attrs) {
         imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //                                  if 你需要自定义View, 可将↓ 的布局抄一个, 然后修改布局(id不要改, 否则找不到!)
         View inflate = View.inflate(context, R.layout.layout_for_chat_layout, this);
         //左侧"语音"
         ivVoice = inflate.findViewById(R.id.iv_voice_for_chat_layout);
@@ -448,10 +449,6 @@ public class ChatLayout extends LinearLayout {
                     if (ivVoiceVisiable == VISIBLE && voiceRecorderView != null) {
                         if (!checkStoragePermisson(Manifest.permission.RECORD_AUDIO)) {
                             onListener.onNoPermission(Manifest.permission.RECORD_AUDIO);
-                        } else if (!checkStoragePermisson(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            onListener.onNoPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                        } else if (!checkStoragePermisson(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                            onListener.onNoPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
                         } else {
                             switch (event.getAction()) {
                                 case MotionEvent.ACTION_DOWN:

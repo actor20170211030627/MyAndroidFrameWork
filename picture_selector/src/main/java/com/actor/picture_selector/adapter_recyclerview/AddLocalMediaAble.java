@@ -17,7 +17,7 @@ import java.util.Map;
  * 选择图片示例使用: <br />
  * <pre> {@code
  * //UploadFileInfo: 这是你自己项目上传文件后返回的json解析的实体类.
- * private AddPicAdapter<UploadFileInfo> picAdapter = new AddPicAdapter<>(9, AddPicAdapter.TYPE_SELECT_PHOTO);
+ * private AddPicAdapter<UploadFileInfo> picAdapter = new AddPicAdapter<>(9, 1);
  * //是否已经选择了图片
  * boolean picSelected = picAdapter.hasFileSelected();
  * //如果选择了图片, 就可以上传图片
@@ -58,7 +58,7 @@ public interface AddLocalMediaAble<UploadInfo> {
     public static final LocalMedia EXTRA_LAST_MEDIA = new LocalMedia();
 
     /**
-     * 已经选择的文件
+     * 已经选择的有效文件
      */
     public abstract List<LocalMedia> getSelectFiles();
 

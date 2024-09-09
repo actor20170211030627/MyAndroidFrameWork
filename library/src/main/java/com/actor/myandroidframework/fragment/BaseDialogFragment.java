@@ -29,6 +29,7 @@ import androidx.fragment.app.FragmentManager;
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.bean.OnActivityCallback;
+import com.actor.myandroidframework.dialog.OnActionErrorListener;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 
@@ -83,7 +84,8 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     //Dialog弹起后, 状态栏是否变暗
     protected boolean isStatusBarDimmed = true;
     protected boolean isClickThrough = false;
-    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
+    protected OnActionErrorListener onShowErrorListener;  //show()的时候, 出错回调
+    protected OnActionErrorListener onDismissErrorListener;  //dismiss()的时候, 出错回调
     protected DialogInterface.OnDismissListener dismissListener;
 
     /**
@@ -109,9 +111,17 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
 //        LogUtils.errorFormat("added=%b, cancelable=%b, detached=%b, hidden=%b,  inLayout=%b,  removing=%b,  resumed=%b,  stateSaved=%b,  visible=%b",
 //                added, cancelable, detached, hidden, inLayout, removing, resumed, stateSaved, visible
 //        );
-        //要判断一下, 否则快速调用会报错: isAdded
-        if (!isAdded()/* && manager.findFragmentByTag(tag) == null*/) {
-            super.show(manager, tag);
+        try {
+            //要判断一下, 否则快速调用会报错: isAdded
+            if (!isAdded()/* && manager.findFragmentByTag(tag) == null*/) {
+                super.show(manager, tag);
+            }
+        } catch (Exception e) {
+            if (onShowErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onShowErrorListener.onActionError(e);
+            }
         }
     }
 
@@ -336,11 +346,24 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
         this.isClickThrough = isClickThrough;
     }
 
+    /**
+     * show()的时候报错监听
+     */
+    public void setOnShowErrorListener(OnActionErrorListener onShowErrorListener) {
+        this.onShowErrorListener = onShowErrorListener;
+    }
+
+    /**
+     * dismiss()的时候报错监听
+     */
+    public void setOnDismissErrorListener(OnActionErrorListener onDismissErrorListener) {
+        this.onDismissErrorListener = onDismissErrorListener;
+    }
 
     /**
      * @deprecated 跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错:
      * java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-     * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean)}
+     * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean, boolean)}
      * 解决方法: 使用{@link #dismissAllowingStateLoss()}方法
      */
     @Deprecated
@@ -349,10 +372,12 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
         try {
             if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
 //            bottomSheetBehavior.setHideable(true);
-            isDismissError = false;
         } catch (Exception e) {
-            isDismissError = true;
-            e.printStackTrace();
+            if (onDismissErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onDismissErrorListener.onActionError(e);
+            }
         }
     }
 
@@ -360,10 +385,12 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     public void dismissAllowingStateLoss() {
         try {
             if (getFragmentManager() != null) super.dismissAllowingStateLoss();
-            isDismissError = false;
         } catch (Exception e) {
-            isDismissError = true;
-            e.printStackTrace();
+            if (onDismissErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onDismissErrorListener.onActionError(e);
+            }
         }
     }
 

@@ -39,43 +39,49 @@ import java.util.Map;
  */
 public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, BaseViewHolder> implements AddLocalMediaAble<UploadInfo> {
 
-    public static final int TYPE_TAKE_PHOTO        = 0;//拍照
-    public static final int TYPE_SELECT_PHOTO      = 1;//选择图片
-    public static final int TYPE_TAKE_SELECT_PHOTO = 2;//拍照&选择图片
-    @IntDef({TYPE_TAKE_PHOTO, TYPE_SELECT_PHOTO, TYPE_TAKE_SELECT_PHOTO})
-    @Retention(RetentionPolicy.SOURCE)
-    @Target({ElementType.FIELD, ElementType.PARAMETER})
-    @interface SelectType {
-    }
-
     private       int              maxFiles;//最多选择多少个
-    @SelectType
-    private final int              selectType;//选择类型
+    private       boolean          isShowCamera = true;//是否显示相机
+    private       boolean          isShowOriginal = true;//是否开启原图☑选项
+    private       int              selectType;//选择类型: 0 拍照, 1 选择图片
     @DrawableRes
     private final int              lastItemPic;//最后一个Item显示的图片
     @DrawableRes
     private final int              deletePic;//删除按钮图片
-    private final List<LocalMedia>                      localMedias = new ArrayList<>();
+    private final List<LocalMedia> localMedias = new ArrayList<>();
     //item点击
     private final AddLocalMediaAble.OnItemClickListener itemClickListener;
 
-    public AddPicAdapter(int maxFile, @SelectType int type) {
+    private final OnResultCallbackListener<LocalMedia> onResultCallbackListener = new OnResultCallbackListener<LocalMedia>() {
+        @Override
+        public void onResult(ArrayList<LocalMedia> result) {
+            //result和localMedias不是同一个对象
+            localMedias.clear();
+            localMedias.addAll(result);
+            result.add(EXTRA_LAST_MEDIA);
+            setList(result);
+        }
+        @Override
+        public void onCancel() {
+        }
+    };
+
+    public AddPicAdapter(int maxFile, int type) {
         this(maxFile, type, null);
     }
 
-    public AddPicAdapter(int maxFile, @SelectType int type, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
+    public AddPicAdapter(int maxFile, int type, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
         this(maxFile, type, LAYOUT_RES_ID, R.drawable.camera_gray_for_file_select, DRAWABLE_DELETE_ICON, listener);
     }
 
     /**
      * @param maxFile 最多选择多少张图片
-     * @param type 选择类型, 例: AddPicAdapter.TYPE_SELECT_PHOTO
+     * @param type 选择类型: 0 拍照, 1 选择图片
      * @param layoutResId 自定义Item布局
      * @param lastItemPic 最后一个Item显示的图片
      * @param deletePic 删除按钮图片
      * @param listener item点击监听
      */
-    public AddPicAdapter(int maxFile, @SelectType int type, @LayoutRes int layoutResId,
+    public AddPicAdapter(int maxFile, int type, @LayoutRes int layoutResId,
                          @DrawableRes int lastItemPic, @DrawableRes int deletePic,
                          @Nullable AddLocalMediaAble.OnItemClickListener listener) {
         super(layoutResId);
@@ -90,7 +96,7 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
 
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                 int id = view.getId();
                 if (itemClickListener != null) {
                     boolean b = itemClickListener.onItemClick((ImageView) view, id == R.id.iv_delete_for_file_select, position);
@@ -110,64 +116,23 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                                 return;
                             }
                             switch (selectType) {
-                                case TYPE_TAKE_PHOTO://拍照
+                                case 0://拍照
                                     PictureSelectorUtils.create(topActivity, localMedias)
                                             .takePhoto(true)
-                                            .setMaxSelect(maxFiles)
-                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
-                                        @Override
-                                        public void onResult(ArrayList<LocalMedia> result) {
-                                            //result和localMedias不是同一个对象
-                                            localMedias.clear();
-                                            localMedias.addAll(result);
-                                            result.add(EXTRA_LAST_MEDIA);
-                                            setNewData(result);
-                                        }
-                                        @Override
-                                        public void onCancel() {
-                                        }
-                                    });
+                                            .forResult(onResultCallbackListener);
                                     break;
-                                case TYPE_SELECT_PHOTO://选择图片
+                                case 1://选择图片
                                     PictureSelectorUtils.create(topActivity, localMedias)
                                             .selectImage(true)
                                             .setMaxSelect(maxFiles)
-                                            .setShowCamera(false)
-                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
-                                        @Override
-                                        public void onResult(ArrayList<LocalMedia> result) {
-                                            localMedias.clear();
-                                            localMedias.addAll(result);
-                                            result.add(EXTRA_LAST_MEDIA);
-                                            setNewData(result);
-                                        }
-                                        @Override
-                                        public void onCancel() {
-                                        }
-                                    });
-                                    break;
-                                case TYPE_TAKE_SELECT_PHOTO://拍照&选择图片
-                                    PictureSelectorUtils.create(topActivity, localMedias)
-                                            .selectImage(true)
-                                            .setMaxSelect(maxFiles)
-                                            .setShowCamera(true)
-                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
-                                        @Override
-                                        public void onResult(ArrayList<LocalMedia> result) {
-                                            localMedias.clear();
-                                            localMedias.addAll(result);
-                                            result.add(EXTRA_LAST_MEDIA);
-                                            setNewData(result);
-                                        }
-                                        @Override
-                                        public void onCancel() {
-                                        }
-                                    });
+                                            .setShowCamera(isShowCamera)
+                                            .setIsShowOriginal(isShowOriginal)
+                                            .build()
+                                            .forResult(onResultCallbackListener);
                                     break;
                                 default:
                                     break;
                             }
-
                         }
                     } else {//预览
                         Activity topActivity = ActivityUtils.getTopActivity();
@@ -176,7 +141,7 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                         }
                     }
                 } else if (id == R.id.iv_delete_for_file_select) {//删除
-                    remove(position);
+                    removeAt(position);
                     localMedias.remove(position);
                 }
             }
@@ -199,6 +164,20 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
     }
 
     /**
+     * 选择类型: 0 拍照, 1 选择图片
+     */
+    public void setSelectType(int selectType) {
+        this.selectType = selectType;
+    }
+
+    /**
+     * 选择图片的时候, 是否显示相机
+     */
+    public void setIsShowCamera(boolean isShowCamera) {
+        this.isShowCamera = isShowCamera;
+    }
+
+    /**
      * @param maxFile 设置最多选择多少个文件
      */
     public void setMaxFiles(int maxFile) {
@@ -206,7 +185,14 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
     }
 
     /**
-     * 获取已选择的文件
+     * 是否开启原图☑选项
+     */
+    public void setIsShowOriginal(boolean isShowOriginal) {
+        this.isShowOriginal = isShowOriginal;
+    }
+
+    /**
+     * 获取已选择的有效文件
      */
     @Override
     public List<LocalMedia> getSelectFiles() {

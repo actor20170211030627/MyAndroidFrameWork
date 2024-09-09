@@ -39,18 +39,9 @@ import java.util.Map;
  */
 public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, BaseViewHolder> implements AddLocalMediaAble<UploadInfo> {
 
-    public static final int TYPE_RECORD_AUDIO        = 0;//录制音频
-    public static final int TYPE_SELECT_AUDIO        = 1;//选择音频
-    public static final int TYPE_RECORD_SELECT_AUDIO = 2;//录制音频&选择音频
-    @IntDef({TYPE_RECORD_AUDIO, TYPE_SELECT_AUDIO, TYPE_RECORD_SELECT_AUDIO})
-    @Retention(RetentionPolicy.SOURCE)
-    @Target({ElementType.FIELD, ElementType.PARAMETER})
-    @interface SelectType {
-    }
-
     private       int              maxFiles;//最多选择多少个
-    @SelectType
-    private final int              selectType;//选择类型
+    private       boolean          isShowCamera = true;//选择音频的时候, 是否显示录音按钮
+    private       int              selectType;//选择类型: 0 录制音频, 1 选择音频
     @DrawableRes
     private final int              lastItemPic;//最后一个Item显示的图片
     @DrawableRes
@@ -61,25 +52,39 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
     //item点击
     private final AddLocalMediaAble.OnItemClickListener itemClickListener;
 
-    public AddAudioAdapter(int maxFile, @SelectType int type) {
+    private final OnResultCallbackListener<LocalMedia> onResultCallbackListener = new OnResultCallbackListener<LocalMedia>() {
+        @Override
+        public void onResult(ArrayList<LocalMedia> result) {
+            //result和localMedias不是同一个对象
+            localMedias.clear();
+            localMedias.addAll(result);
+            result.add(EXTRA_LAST_MEDIA);
+            setList(result);
+        }
+        @Override
+        public void onCancel() {
+        }
+    };
+
+    public AddAudioAdapter(int maxFile, int type) {
         this(maxFile, type, null);
     }
 
-    public AddAudioAdapter(int maxFile, @SelectType int type, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
+    public AddAudioAdapter(int maxFile, int type, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
         this(maxFile, type, LAYOUT_RES_ID, R.drawable.audio_gray_for_file_select, R.drawable.headset_gray_for_file_select,
                 DRAWABLE_DELETE_ICON, listener);
     }
 
     /**
      * @param maxFile 最多选择多少个音频
-     * @param type 选择类型, 例: AddAudioAdapter.TYPE_SELECT_AUDIO
+     * @param type 选择类型: 0 录制音频, 1 选择音频
      * @param layoutResId 自定义Item布局
      * @param lastItemPic 最后一个Item显示的图片
      * @param normalItemPic 已选择音频Item显示的图片
      * @param deletePic 删除按钮图片
      * @param listener item点击监听
      */
-    public AddAudioAdapter(int maxFile, @SelectType int type, @LayoutRes int layoutResId,
+    public AddAudioAdapter(int maxFile, int type, @LayoutRes int layoutResId,
                            @DrawableRes int lastItemPic, @DrawableRes int normalItemPic,
                            @DrawableRes int deletePic, @Nullable AddLocalMediaAble.OnItemClickListener listener) {
         super(layoutResId);
@@ -95,7 +100,7 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
 
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                 int id = view.getId();
                 if (itemClickListener != null) {
                     boolean b = itemClickListener.onItemClick((ImageView) view, id == R.id.iv_delete_for_file_select, position);
@@ -115,7 +120,7 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                 return;
                             }
                             switch (selectType) {
-                                case TYPE_RECORD_AUDIO://录制音频
+                                case 0://录制音频
                                     /**
                                      * 调用系统录音, 需要添加权限:
                                      * <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -123,55 +128,15 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                                      */
                                     PictureSelectorUtils.create(topActivity, localMedias)
                                             .recordAudio()
-                                            .setMaxSelect(maxFiles)
-                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
-                                        @Override
-                                        public void onResult(ArrayList<LocalMedia> result) {
-                                            localMedias.clear();
-                                            localMedias.addAll(result);
-                                            result.add(EXTRA_LAST_MEDIA);
-                                            setNewData(result);
-                                        }
-                                        @Override
-                                        public void onCancel() {
-                                        }
-                                    });
+                                            .forResult(onResultCallbackListener);
                                     break;
-                                case TYPE_SELECT_AUDIO://选择音频
+                                case 1://选择音频
                                     PictureSelectorUtils.create(topActivity, localMedias)
                                             .selectAudio()
                                             .setMaxSelect(maxFiles)
-                                            .setShowCamera(false)
-                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
-                                        @Override
-                                        public void onResult(ArrayList<LocalMedia> result) {
-                                            localMedias.clear();
-                                            localMedias.addAll(result);
-                                            result.add(EXTRA_LAST_MEDIA);
-                                            setNewData(result);
-                                        }
-                                        @Override
-                                        public void onCancel() {
-                                        }
-                                    });
-                                    break;
-                                case TYPE_RECORD_SELECT_AUDIO://录制音频&选择音频
-                                    PictureSelectorUtils.create(topActivity, localMedias)
-                                            .selectAudio()
-                                            .setMaxSelect(maxFiles)
-                                            .setShowCamera(true)
-                                            .forResult(new OnResultCallbackListener<LocalMedia>() {
-                                        @Override
-                                        public void onResult(ArrayList<LocalMedia> result) {
-                                            localMedias.clear();
-                                            localMedias.addAll(result);
-                                            result.add(EXTRA_LAST_MEDIA);
-                                            setNewData(result);
-                                        }
-                                        @Override
-                                        public void onCancel() {
-                                        }
-                                    });
+                                            .setShowCamera(isShowCamera)
+                                            .build()
+                                            .forResult(onResultCallbackListener);
                                     break;
                                 default:
                                     break;
@@ -184,7 +149,7 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                         }
                     }
                 } else if (id == R.id.iv_delete_for_file_select) {//删除
-                    remove(position);
+                    removeAt(position);
                     localMedias.remove(position);
                 }
             }
@@ -207,6 +172,20 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
     }
 
     /**
+     * 选择类型: 0 录制音频, 1 选择音频
+     */
+    public void setSelectType(int selectType) {
+        this.selectType = selectType;
+    }
+
+    /**
+     * 选择音频的时候, 是否显示录音按钮
+     */
+    public void setIsShowCamera(boolean isShowCamera) {
+        this.isShowCamera = isShowCamera;
+    }
+
+    /**
      * @param maxFile 设置最多选择多少个文件
      */
     public void setMaxFiles(int maxFile) {
@@ -214,7 +193,7 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
     }
 
     /**
-     * 获取已选择的文件
+     * 获取已选择的有效文件
      */
     @Override
     public List<LocalMedia> getSelectFiles() {

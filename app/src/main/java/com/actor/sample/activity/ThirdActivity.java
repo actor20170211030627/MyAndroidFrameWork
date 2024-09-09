@@ -89,6 +89,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         .selectImage(false)
                         .setSingleSelect(true)
                         .setShowCamera(true)
+                        .build()
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
@@ -168,7 +169,10 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                 WeChatUtils.sendReqText("这是分享的文字", SendMessageToWX.Req.WXSceneSession);
                 break;
             case R.id.btn_share_image://分享图片
-                PictureSelectorUtils.create(this, null).selectImage(false)
+                PictureSelectorUtils.create(this, null)
+                        .selectImage(false)
+                        .setSingleSelect(true)
+                        .build()
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {

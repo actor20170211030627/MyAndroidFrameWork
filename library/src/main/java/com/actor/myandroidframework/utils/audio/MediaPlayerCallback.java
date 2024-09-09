@@ -16,9 +16,11 @@ import com.actor.myandroidframework.utils.LogUtils;
  * @version 1.0
  */
 public abstract class MediaPlayerCallback implements
-        MediaPlayer.OnPreparedListener,
-        MediaPlayer.OnErrorListener,
-        MediaPlayer.OnCompletionListener {
+        MediaPlayer.OnPreparedListener,         //准备完成监听
+        MediaPlayer.OnErrorListener,            //错误监听
+        MediaPlayer.OnCompletionListener,       //播放完成监听
+        MediaPlayer.OnBufferingUpdateListener   //缓冲进度监听
+{
     public boolean isAutoPlay = false;  //是否自动播放
     public MediaPlayer mp;              //播放器
 
@@ -27,7 +29,7 @@ public abstract class MediaPlayerCallback implements
      */
     @CallSuper
     public void onPrepared(MediaPlayer mp) {
-        if (isAutoPlay && mp != null) MediaPlayerUtils.getInstance().startPlayer(mp.getAudioSessionId());
+        if (isAutoPlay && mp != null) MediaPlayerUtils.getInstance().start(mp.getAudioSessionId());
         LogUtils.error("准备完成");
     }
 
@@ -37,8 +39,14 @@ public abstract class MediaPlayerCallback implements
      * @return 如果完全自己处理错误, 则返回true. 如果未处理错误，则返回false(会调用 OnCompletionListener)。
      */
     public boolean onSetData2StartError(@NonNull Exception e) {
+        e.printStackTrace();
         LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
         return false;
+    }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+//        LogUtils.errorFormat("缓冲: AudioSessionId=%d, percent=%d", mp.getAudioSessionId(), percent);
     }
 
     /**
@@ -48,7 +56,7 @@ public abstract class MediaPlayerCallback implements
 //    @CallSuper
     public boolean onError(MediaPlayer mp, int what, int extra) {
         LogUtils.errorFormat("播放的过程中, 出现错误, what=%d, extra=%d", what, extra);
-        if (mp != null) MediaPlayerUtils.getInstance().releaseMediaPlayer(mp.getAudioSessionId());
+        if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         return false;
     }
 

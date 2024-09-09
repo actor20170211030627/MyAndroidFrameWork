@@ -7,10 +7,10 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 
 import com.actor.myandroidframework.R;
 import com.hjq.shape.other.ExtendStateListDrawable;
+import com.hjq.shape.view.ShapeImageView;
 
 /**
  * description: 可以直接在布局文件中, 设置各种状态的ImageView <br />
@@ -57,7 +57,7 @@ import com.hjq.shape.other.ExtendStateListDrawable;
  * @author : ldf
  * @date       : 2024/3/20 on 17
  */
-public class StateListImageView extends AppCompatImageView {
+public class StateListImageView extends ShapeImageView {
 
     protected ExtendStateListDrawable stateListDrawable = new ExtendStateListDrawable();
 

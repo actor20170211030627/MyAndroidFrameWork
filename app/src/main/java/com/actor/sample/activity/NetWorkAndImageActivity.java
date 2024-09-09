@@ -80,6 +80,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                         .selectImage(false)
                         .setSingleSelect(true)
                         .setShowCamera(true)
+                        .build()
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {

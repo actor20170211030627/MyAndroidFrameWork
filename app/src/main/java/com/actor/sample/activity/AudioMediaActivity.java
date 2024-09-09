@@ -81,10 +81,10 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_raw:
-                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, false, true, null);
+                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
                 break;
             case R.id.btn_start_play:
-                MediaPlayerUtils.getInstance().play(MUSIC, false, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().play(MUSIC, new MediaPlayerCallback() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         super.onPrepared(mp);
@@ -98,13 +98,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_pause_play:
-                MediaPlayerUtils.getInstance().pausePlayer(audioSessionIdMusic);
+                MediaPlayerUtils.getInstance().pause(audioSessionIdMusic);
                 break;
             case R.id.btn_continue_play:
-                MediaPlayerUtils.getInstance().startPlayer(audioSessionIdMusic);
+                MediaPlayerUtils.getInstance().start(audioSessionIdMusic);
                 break;
             case R.id.btn_stop_play:
-                MediaPlayerUtils.getInstance().stopPlayer(audioSessionIdMusic);
+                MediaPlayerUtils.getInstance().stop(audioSessionIdMusic);
                 break;
             default:
                 break;
@@ -116,6 +116,6 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         super.onDestroy();
         //释放资源
         MediaRecorderUtils.getInstance().releaseMediaRecorder();
-        MediaPlayerUtils.getInstance().releaseAllMediaPlayer();
+        MediaPlayerUtils.getInstance().releaseAll();
     }
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.webkit.MimeTypeMap;
@@ -402,11 +401,12 @@ public class FileUtils {
     public static void shareFile(@NonNull Context context, @NonNull String filePath) {
         File file = new File(filePath);
         if (!file.exists()) return;
-        Uri fileUri = UriUtils.file2Uri(file);
+//        Uri fileUri = UriUtils.file2Uri(file);
 
 //        String mimeType = getMimeType(filePath);
 //        mimeType = "*/*";
-        Intent shareIntent = IntentUtils.getShareImageIntent(fileUri);
+//        Intent shareIntent = IntentUtils.getShareImageIntent(fileUri);
+        Intent shareIntent = IntentUtils.getShareImageIntent(filePath);
 //        shareIntent.setType(mimeType);
 //        if (mimeType != null) {
 //            LogUtils.errorFormat("mimeType = %s", mimeType);
@@ -414,10 +414,11 @@ public class FileUtils {
 //            shareIntent.setDataAndType(data, mimeType);
 //        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //对目标应用临时授权该Uri所代表的文件
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            //对目标应用临时授权该Uri所代表的文件
+//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        }
+
 //        context.grantUriPermission("dest package", fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         context.startActivity(Intent.createChooser(shareIntent , "请选择需要分享的应用程序")

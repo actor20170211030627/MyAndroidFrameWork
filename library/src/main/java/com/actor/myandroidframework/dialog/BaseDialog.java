@@ -49,7 +49,8 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
 
     //增加生命周期
     protected final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
-    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
+    protected OnActionErrorListener onShowErrorListener;  //show()的时候, 出错回调
+    protected OnActionErrorListener onDismissErrorListener;  //dismiss()的时候, 出错回调
     protected OnShowListener onShowListener;
     protected OnDismissListener onDismissListener;
 
@@ -274,14 +275,45 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
         return this;
     }
 
+    /**
+     * show()的时候报错监听
+     */
+    public BaseDialog setOnShowErrorListener(OnActionErrorListener onShowErrorListener) {
+        this.onShowErrorListener = onShowErrorListener;
+        return this;
+    }
+
+    /**
+     * dismiss()的时候报错监听
+     */
+    public BaseDialog setOnDismissErrorListener(OnActionErrorListener onDismissErrorListener) {
+        this.onDismissErrorListener = onDismissErrorListener;
+        return this;
+    }
+
+    @Override
+    public void show() {
+        try {
+            super.show();
+        } catch (Exception e) {
+            if (onShowErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onShowErrorListener.onActionError(e);
+            }
+        }
+    }
+
     @Override
     public void dismiss() {
         try {
             super.dismiss();
-            isDismissError = false;
         } catch (Exception e) {
-            isDismissError = true;
-            e.printStackTrace();
+            if (onDismissErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onDismissErrorListener.onActionError(e);
+            }
         }
     }
 

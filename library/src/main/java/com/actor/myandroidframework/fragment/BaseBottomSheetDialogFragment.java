@@ -17,6 +17,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.dialog.OnActionErrorListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -66,7 +67,8 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     private int                 mMaxHeight;//最大高度
     private float               dimAmount = -1F;//背景灰度, [0, 1]
     private Window              mWindow;
-    public boolean isDismissError = false;  //dismiss的时候, 是否出错了
+    protected OnActionErrorListener onShowErrorListener;  //show()的时候, 出错回调
+    protected OnActionErrorListener onDismissErrorListener;  //dismiss()的时候, 出错回调
     private BottomSheetBehavior bottomSheetBehavior;
     protected DialogInterface.OnDismissListener dismissListener;
 
@@ -198,6 +200,20 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     }
 
     /**
+     * show()的时候报错监听
+     */
+    public void setOnShowErrorListener(OnActionErrorListener onShowErrorListener) {
+        this.onShowErrorListener = onShowErrorListener;
+    }
+
+    /**
+     * dismiss()的时候报错监听
+     */
+    public void setOnDismissErrorListener(OnActionErrorListener onDismissErrorListener) {
+        this.onDismissErrorListener = onDismissErrorListener;
+    }
+
+    /**
      * @param fragmentManager 如果在Activity中, 传入:getSupportFragmentManager()
      *                        如果是Fragment中, 传入:getChildFragmentManager()
      */
@@ -220,16 +236,24 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
 //        LogUtils.errorFormat("added=%b, cancelable=%b, detached=%b, hidden=%b,  inLayout=%b,  removing=%b,  resumed=%b,  stateSaved=%b,  visible=%b",
 //                added, cancelable, detached, hidden, inLayout, removing, resumed, stateSaved, visible
 //        );
-        //要判断一下, 否则快速调用会报错: isAdded
-        if (!isAdded()/* && manager.findFragmentByTag(tag) == null*/) {
-            super.show(manager, tag);
+        try {
+            //要判断一下, 否则快速调用会报错: isAdded
+            if (!isAdded()/* && manager.findFragmentByTag(tag) == null*/) {
+                super.show(manager, tag);
+            }
+        } catch (Exception e) {
+            if (onShowErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onShowErrorListener.onActionError(e);
+            }
         }
     }
 
     /**
      * @deprecated 跳转页面后再返回, 在'Activity/Fragment中'调用dismiss()方法有时候会报错: <br />
      * java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-     * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean)} <br />
+     * {@link androidx.fragment.app.DialogFragment#dismissInternal(boolean, boolean)} <br />
      * 解决方法: 使用{@link #dismissAllowingStateLoss()}方法
      */
     @Deprecated
@@ -238,10 +262,12 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
         try {
             if (getFragmentManager() != null) super.dismiss();//如果子类不是在可视的状态下调用, 也会报错
 //            bottomSheetBehavior.setHideable(true);
-            isDismissError = false;
         } catch (Exception e) {
-            isDismissError = true;
-            e.printStackTrace();
+            if (onDismissErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onDismissErrorListener.onActionError(e);
+            }
         }
     }
 
@@ -249,10 +275,12 @@ public abstract class BaseBottomSheetDialogFragment extends BottomSheetDialogFra
     public void dismissAllowingStateLoss() {
         try {
             if (getFragmentManager() != null) super.dismissAllowingStateLoss();
-            isDismissError = false;
         } catch (Exception e) {
-            isDismissError = true;
-            e.printStackTrace();
+            if (onDismissErrorListener == null) {
+                e.printStackTrace();
+            } else {
+                onDismissErrorListener.onActionError(e);
+            }
         }
     }
 

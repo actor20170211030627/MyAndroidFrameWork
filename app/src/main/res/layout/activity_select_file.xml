@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="选择图片(最多9张)" />
+            android:text="选择图片" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view21"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="选择视频(最多9个)" />
+            android:text="选择视频" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view22"
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="选择音频(最多9个)" />
+            android:text="选择音频" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view23"
@@ -66,5 +66,44 @@
             app:spanCount="5"
             tools:itemCount="3"
             tools:listitem="@layout/item_for_file_select" />
+
+        <com.actor.others.widget.ItemTextInputLayout
+            android:id="@+id/itil_max_files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:itilDigits="@string/digits_phone"
+            app:itilImeOptions="actionDone"
+            app:itilInputType="phone"
+            app:itilItemName="最多选择文件: "
+            app:itilMaxLength="2"
+            app:itilText="9" />
+
+        <com.actor.others.widget.ItemSpinnerLayout
+            android:id="@+id/isl_select_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:islEntriesString="0:拍照/拍视频/录音,1:选择照片/视频/录音"
+            app:islItemName="选择类型: " />
+
+        <com.actor.others.widget.ItemSpinnerLayout
+            android:id="@+id/isl_is_show_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:islEntriesString="0:否,1:是"
+            app:islItemName="选择文件是否显示拍照按钮:" />
+
+        <com.actor.others.widget.ItemSpinnerLayout
+            android:id="@+id/isl_is_show_original"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:islEntriesString="0:否,1:是"
+            app:islItemName="选择文件是否显示'原图':" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

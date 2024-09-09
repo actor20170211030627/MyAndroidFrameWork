@@ -86,7 +86,7 @@ public class CropFileEngineImpl implements CropFileEngine {
      * @param ratioY 裁剪比例
      */
     public CropFileEngineImpl setRatio(@FloatRange(from = 0, fromInclusive = false) float ratioX,
-                                       @FloatRange(to = 0, toInclusive = false) float ratioY) {
+                                       @FloatRange(to = Integer.MAX_VALUE, toInclusive = false) float ratioY) {
         this.ratioX = ratioX;
         this.ratioY = ratioY;
         return this;

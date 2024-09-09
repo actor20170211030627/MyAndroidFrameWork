@@ -53,10 +53,10 @@ public class BRVUtils {
      *             } else if (datas != null) {
      *                 mAdapter.addData(datas);//增加数据
      *             }
-     *             //{@link null 设置加载状态, ⑴ & ⑵ 这2种方式都可以:}
-     *             //int total = info.totalCount;                   //⑴.服务器返回了total
-     *             //{@link BRVUtils#setLoadMoreState(BaseQuickAdapter, int) BRVUtils.setLoadMoreState(mAdapter, total)};    //⑴
-     *             {@link BRVUtils#setLoadMoreState(BaseQuickAdapter, List, int) BRVUtils.setLoadMoreState(mAdapter, datas, SIZE)};//⑵.这种也可以
+     *             //{@link null 设置加载状态, ⑴ & ⑵ 这2种方式都可以, 推荐⑴:}
+     *             //int total = info.totalCount;                   //⑴.if服务器返回了total
+     *             //{@link BRVUtils#setLoadMoreStateByTotal(BaseQuickAdapter, int) BRVUtils.setLoadMoreStateByTotal(mAdapter, total)};    //⑴
+     *             {@link BRVUtils#setLoadMoreStateBySize(BaseQuickAdapter, List, int) BRVUtils.setLoadMoreStateBySize(mAdapter, datas, SIZE)};//⑵.这种也可以
      *         }
      *
      *         <code>@</code>Override

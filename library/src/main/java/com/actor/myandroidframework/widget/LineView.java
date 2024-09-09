@@ -19,6 +19,70 @@ import com.actor.myandroidframework.R;
 
 /**
  * description: 线条View: 渐变, 实线, 虚线, 斜线, 自定义角度线等 <br />
+ * 属性说明:
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th align="center">№</th>
+ *         <th align="center">属性attrs</th>
+ *         <th align="center">示例exams</th>
+ *         <th align="center">说明docs</th>
+ *     </tr>
+ *    <tr>
+ *        <td>1</td>
+ *        <td>{@link R.styleable#LineView_lvDashGap lvDashGap}</td>
+ *        <td>2dp</td>
+ *        <td>虚线间隔长度: ▓▓ ▓▓</td>
+ *    </tr>
+ *    <tr>
+ *        <td>2</td>
+ *        <td>{@link R.styleable#LineView_lvDashWidth lvDashWidth}</td>
+ *        <td>3dp</td>
+ *        <td>虚线线段的长度</td>
+ *    </tr>
+ *    <tr>
+ *        <td>3</td>
+ *        <td nowrap="nowrap">{@link R.styleable#LineView_lvGradientCenterColor lvGradientCenterColor}</td>
+ *        <td nowrap="nowrap">@color/green_0CBB24</td>
+ *        <td>渐变中心颜色(可不设置)</td>
+ *    </tr>
+ *    <tr>
+ *        <td>4</td>
+ *        <td>{@link R.styleable#LineView_lvGradientEndColor lvGradientEndColor}</td>
+ *        <td>@color/blue_2A6ED2</td>
+ *        <td>渐变结束颜色(可不设置)</td>
+ *    </tr>
+ *    <tr>
+ *        <td>5</td>
+ *        <td>{@link R.styleable#LineView_lvGradientStartColor lvGradientStartColor}</td>
+ *        <td>@color/red</td>
+ *        <td>渐变开始颜色(可不设置)</td>
+ *    </tr>
+ *    <tr>
+ *        <td>6</td>
+ *        <td>{@link R.styleable#LineView_lvLineColor lvLineColor}</td>
+ *        <td>@color/red</td>
+ *        <td>线颜色(if线是渐变的,可不设置这属性)</td>
+ *    </tr>
+ *    <tr>
+ *        <td>7</td>
+ *        <td>{@link R.styleable#LineView_lvLineWidth lvLineWidth}</td>
+ *        <td>2dp</td>
+ *        <td>线宽(可不设置)(默认=LineView的宽/高)</td>
+ *    </tr>
+ *    <tr>
+ *        <td>8</td>
+ *        <td>{@link R.styleable#LineView_lvOrientation lvOrientation}</td>
+ *        <td>horizontal</td>
+ *        <td>线方向: horizontal,vertical,topLeft2BottomRight,bottomLeft2TopRight,freeRotate(自由旋转)</td>
+ *    </tr>
+ *    <tr>
+ *        <td>9</td>
+ *        <td>{@link R.styleable#LineView_lvAngle lvAngle}</td>
+ *        <td>35</td>
+ *        <td>线旋转角度 (lvOrientation=freeRotate 才生效)</td>
+ *    </tr>
+ * </table>
+ *
  * {@link null 注意:}
  * <ul>
  *     <li>
