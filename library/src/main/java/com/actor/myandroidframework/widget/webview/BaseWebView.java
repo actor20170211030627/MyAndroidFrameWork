@@ -71,7 +71,7 @@ public class BaseWebView extends WebView {
      * @param webViewClient 可传入{@link BaseWebViewClient new BaseWebViewClient()}, 或者写个类extends {@link BaseWebViewClient}然后自定义一些自己的方法
      * @param webChromeClient 可传入{@link BaseWebChromeClient new BaseWebChromeClient()}, 或者写个类extends {@link BaseWebChromeClient}然后自定义一些自己的方法
      */
-    public void init(BaseWebViewClient webViewClient, BaseWebChromeClient webChromeClient) {
+    public void init(BaseWebViewClient webViewClient, @Nullable BaseWebChromeClient webChromeClient) {
         //初始化WebSettings
         BaseWebSettings.defaultInit(this, getSettings());
 
@@ -407,6 +407,19 @@ public class BaseWebView extends WebView {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    /**
+     * 停止加载
+     */
+    @Override
+    public void stopLoading() {
+        super.stopLoading();
+    }
+
+    @Override
+    public void removeAllViews() {
+        super.removeAllViews();
     }
 
     /**

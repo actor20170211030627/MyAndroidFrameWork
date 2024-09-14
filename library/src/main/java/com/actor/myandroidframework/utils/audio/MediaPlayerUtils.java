@@ -20,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * description: 播放音频
+ * description: 播放音频 <br />
+ * if创建很多个MediaPlayer, 会报错: onError: what=1, extra=-19
  *
  * @author     : ldf
  * @date       : 2019/5/30 on 17:43

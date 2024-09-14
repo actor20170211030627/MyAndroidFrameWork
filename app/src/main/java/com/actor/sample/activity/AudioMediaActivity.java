@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
@@ -48,7 +49,9 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         switch (view.getId()) {
             case R.id.btn_permission:
                 boolean isGranted = XXPermissions.isGranted(this, Permission.RECORD_AUDIO);
-                if (!isGranted) {
+                if (isGranted) {
+                    ToasterUtils.success("请求权限成功!");
+                } else {
                     XXPermissions.with(this).permission(Permission.RECORD_AUDIO).request(new OnPermissionCallback() {
                         @Override
                         public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
@@ -81,7 +84,24 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_raw:
-                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
+//                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
+                MediaPlayerUtils.getInstance().playRaw(R.raw.right, new MediaPlayerCallback() {
+                    @Override
+                    public boolean onSetData2StartError(@NonNull Exception e) {
+                        super.onSetData2StartError(e);
+                        return true;
+                    }
+                    @Override
+                    public void onCompletion(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                        view.callOnClick();
+                    }
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                        super.onError(mp, what, extra);
+                        return true;
+                    }
+                });
                 break;
             case R.id.btn_start_play:
                 MediaPlayerUtils.getInstance().play(MUSIC, new MediaPlayerCallback() {

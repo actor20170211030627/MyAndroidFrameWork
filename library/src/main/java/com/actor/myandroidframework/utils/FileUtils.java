@@ -1,6 +1,5 @@
 package com.actor.myandroidframework.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,8 +7,10 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.webkit.MimeTypeMap;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RawRes;
 
 import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.PathUtils;
@@ -394,36 +395,37 @@ public class FileUtils {
     }
 
     /**
+     * 分享图文 <br />
+     * {@link 注意:} 这种方式分享到微信/qq, 有可能会提示"获取资源失败", 那是lj微信/qq自己的锅! 因为分享到微信收藏就可以(微信v8.0.49实测)
+     * @param content 文本
+     * @param resId R.drawable.xxx, R.mipmap.xxx, R.raw.xxx
+     */
+    public static void shareTextImage(@NonNull Context context, @Nullable String content, @DrawableRes @RawRes int resId) {
+        Uri res2Uri = UriUtils.res2Uri(String.valueOf(resId));
+        Intent shareIntent = IntentUtils.getShareTextImageIntent(content, res2Uri);
+
+        //在我的荣耀手机 honor v30(HarmonyOS 4.2.0, Android 12.0, api31)上提示: 没有应用可执行此操作。
+//        context.startActivity(Intent.createChooser(shareIntent , "请选择需要分享的应用程序")
+//                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
+//        );
+        context.startActivity(shareIntent);
+    }
+
+    /**
      * <a href="https://developer.android.google.cn/training/secure-file-sharing?hl=zh-cn">分享文件 _ Android 开发者</a> <br />
      * 分享文件, 调用系统分享
-     * @param filePath 文件路径
+     * @param filePath 本地文件路径
      */
-    public static void shareFile(@NonNull Context context, @NonNull String filePath) {
+    public static void shareTextImage(@NonNull Context context, @Nullable String content, @NonNull String filePath) {
         File file = new File(filePath);
         if (!file.exists()) return;
-//        Uri fileUri = UriUtils.file2Uri(file);
+        Intent shareIntent = IntentUtils.getShareTextImageIntent(content, filePath);
 
-//        String mimeType = getMimeType(filePath);
-//        mimeType = "*/*";
-//        Intent shareIntent = IntentUtils.getShareImageIntent(fileUri);
-        Intent shareIntent = IntentUtils.getShareImageIntent(filePath);
-//        shareIntent.setType(mimeType);
-//        if (mimeType != null) {
-//            LogUtils.errorFormat("mimeType = %s", mimeType);
-//            Uri data = shareIntent.getData();
-//            shareIntent.setDataAndType(data, mimeType);
-//        }
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            //对目标应用临时授权该Uri所代表的文件
-//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        }
-
-//        context.grantUriPermission("dest package", fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        context.startActivity(Intent.createChooser(shareIntent , "请选择需要分享的应用程序")
-                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
-        );
+        //在我的荣耀手机 honor v30(HarmonyOS 4.2.0, Android 12.0, api31)上提示: 没有应用可执行此操作。
+//        context.startActivity(Intent.createChooser(shareIntent , "请选择需要分享的应用程序")
+//                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
+//        );
+        context.startActivity(shareIntent);
     }
 
     /**
