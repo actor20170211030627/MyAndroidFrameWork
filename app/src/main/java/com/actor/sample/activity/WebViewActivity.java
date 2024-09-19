@@ -1,9 +1,15 @@
 package com.actor.sample.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.webview.BaseWebChromeClient;
@@ -51,6 +57,10 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
     private final Map<String, Object> map = new LinkedHashMap<>();
     private final BaseInfo<Item> object = new BaseInfo<>();
 
+    //选择文件回调
+    private ValueCallback<Uri[]> filePathCallback2;
+    private final int REQUEST_CODE_FILE_CHOOSER = 111;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +75,16 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
         object.data = new Item("item0");
         object.data.setLetter("Letter1");
 
-        viewBinding.webView.init(new BaseWebViewClient(), new BaseWebChromeClient());
+        viewBinding.webView.init(new BaseWebViewClient(), new BaseWebChromeClient() {
+            //选择文件
+            @Override
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+                filePathCallback2 = filePathCallback;
+                Intent intent = fileChooserParams.createIntent();
+                startActivityForResult(intent, REQUEST_CODE_FILE_CHOOSER);
+                return true;
+            }
+        });
         viewBinding.webView.addJavascriptInterface(this, "android123");
         viewBinding.webView.loadUrl("file:///android_asset/html_call_java_call_html.html");
     }
@@ -75,16 +94,16 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_alert:
-                viewBinding.webView.evaluateJavascript("javascript:alert('你好Alert!')", valueCallback);
+                viewBinding.webView.alert("你好Alert!", valueCallback);
                 break;
             case R.id.btn_confirm:
-                viewBinding.webView.evaluateJavascript("javascript:confirm('你好Confirm!')", valueCallback);
+                viewBinding.webView.confirm("你好Confirm!", valueCallback);
                 break;
             case R.id.btn_prompt:
-                viewBinding.webView.evaluateJavascript("javascript:prompt('请输入口令:')", valueCallback);
+                viewBinding.webView.prompt("请输入口令:", "1234567", valueCallback);
                 break;
             case R.id.btn_console_log:
-                viewBinding.webView.loadUrl("javascript:console.log('H5打印日志!')");
+                viewBinding.webView.consoleLog("H5打印日志!");
                 break;
             case R.id.btn_set_basic:    //调用h5方法, 传入一些基础参数
                 viewBinding.webView.callH5Method("callH5Method_Basic_Test",
@@ -129,6 +148,12 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
                 viewBinding.webView.callH5MethodByJson("callH5Method_Object_Return",
                         GsonUtils.toJson(object), valueCallback);
                 break;
+
+
+
+            case R.id.btn_play_web_video:    //播放网页视频
+                WebVideoActivity.start(this);
+                break;
             default:
                 break;
         }
@@ -172,5 +197,15 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
         userInfo.setLetter("1234546789@qq.com");
         //然后回调h5方法
         viewBinding.webView.callH5MethodByJson(callbackMethodName, GsonUtils.toJson(userInfo), null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_FILE_CHOOSER) {
+            Uri[] uris = WebChromeClient.FileChooserParams.parseResult(resultCode, data);
+            filePathCallback2.onReceiveValue(uris);
+            filePathCallback2 = null;
+        }
     }
 }

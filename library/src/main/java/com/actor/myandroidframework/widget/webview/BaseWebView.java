@@ -122,22 +122,27 @@ public class BaseWebView extends WebView {
      * @param url "网页url" or "本地H5" or "javascript方法", 例:
      *            <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
      *                <tr>
+     *                    <th>№</th>
      *                    <th align="center">传参示例</th>
-     *                    <th align="center">说明</th>
+     *                    <th>说明</th>
      *                </tr>
      *                <tr>
+     *                    <td>1</td>
      *                    <td>https://www.baidu.com/</td>
      *                    <td>网页url</td>
      *                </tr>
      *                <tr>
+     *                    <td>2</td>
      *                    <td>file:///android_asset/test.html</td>
      *                    <td>本项目h5, 项目路径: src/main/assets/test.html</td>
      *                </tr>
      *                <tr>
+     *                    <td>3</td>
      *                    <td>javascript: alert('你好呀h5!')</td>
      *                    <td>调用js原生方法, 自定义方法等</td>
      *                </tr>
      *                <tr>
+     *                    <td>4</td>
      *                    <td>javascript:(function(b){...})(window)</td>
      *                    <td>安卓加载自定义js方法</td>
      *                </tr>
@@ -196,7 +201,7 @@ public class BaseWebView extends WebView {
      */
     public void callH5Method(@NonNull String h5MethodName, @Nullable ValueCallback<String> callback, Object... params) {
         String param = params2String(params);
-        evaluateJavascript(TextUtils2.getStringFormat("javascript:%s(%s)", h5MethodName, param), callback);
+        evaluateJavascript(TextUtils2.getStringFormat("%s(%s)", h5MethodName, param), callback);
     }
 
     /**
@@ -207,12 +212,16 @@ public class BaseWebView extends WebView {
      * @param json 请务必是json, 可以由数组[], Collection(列表), Map, Object 等通过{@link GsonUtils#toJson(Object)}转换而来
      */
     public void callH5MethodByJson(@NonNull String h5MethodName, String json, @Nullable ValueCallback<String> callback) {
-        evaluateJavascript(TextUtils2.getStringFormat("javascript:%s(%s)", h5MethodName, json), callback);
+        evaluateJavascript(TextUtils2.getStringFormat("%s(%s)", h5MethodName, json), callback);
     }
 
     /**
      * 调用JS方法获, 并取返回值
-     * @param script js方法和参数, 例: "javascript:JSMethod(参数)"
+     * @param script js方法和参数, 例:
+     *               <ul>
+     *                  <li>"javascript:JSMethod(参数)"</li>
+     *                  <li>"JSMethod(参数)" (可去掉前面的 <s>javascript:</s> )</li>
+     *               </ul>
      * @param resultCallback js的回调
      */
     @Override
@@ -231,6 +240,39 @@ public class BaseWebView extends WebView {
         } else {
             LogUtils.error("SDK >= Android 4.4 调用evaluateJavascript(...)才有回调!");
         }
+    }
+
+    /**
+     * 调用h5的 console.log()方法, 在h5打印日志 <br />
+     * 更多console 用法可参考: <a href="https://blog.csdn.net/weixin_53791978/article/details/131320847">【console】console用法大全：_console.log-CSDN博客</a>
+     */
+    public void consoleLog(@Nullable String message) {
+//        callH5Method("console.log", message); //这个方法也阔以
+        callH5Method("console.log", (ValueCallback<String>) null, message);
+    }
+
+    /**
+     * 调用h5的 alert()方法, 在h5弹出"提示消息" 和 "确认"按钮的警告框
+     */
+    public void alert(@Nullable String message, @Nullable ValueCallback<String> valueCallback) {
+        callH5Method("alert", valueCallback, message);
+    }
+
+    /**
+     * 调用h5的 confirm()方法, 在h5弹出一个含有"指定消息" 和 "确认" 和 "取消"按钮的确认框
+     */
+    public void confirm(@Nullable String message, @Nullable ValueCallback<String> valueCallback) {
+        callH5Method("confirm", valueCallback, message);
+    }
+
+    /**
+     * 调用h5的 prompt()方法, 在h5弹出一个显示"提示用户进行输入"的对话框和"确认" 和 "取消"按钮
+     * @param inputTips 输入提示, 例: "请输入口令:"
+     * @param content 显示默认文本
+     */
+    public void prompt(@Nullable String inputTips, @Nullable String content, @Nullable ValueCallback<String> valueCallback) {
+        if (content == null) content = "";  //否则格式化后会显示 "null"
+        callH5Method("prompt", valueCallback, inputTips, content);
     }
 
     /**
@@ -267,6 +309,8 @@ public class BaseWebView extends WebView {
         }
         return str.toString();
     }
+
+
 
     /**
      * 重新加载

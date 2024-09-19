@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
+import android.view.KeyEvent;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -206,5 +207,29 @@ public class BaseWebViewClient extends WebViewClient {
             LogUtils.errorFormat("收到错误, onReceivedError, error: ErrorCode=%d, Description=%s",
                     error.getErrorCode(), error.getDescription());
         }
+    }
+
+    /**
+     * 拦截浏览器中的按键事件
+     * @param view The WebView that is initiating the callback.
+     * @param event The key event.
+     * @return 若返回 true，则拦截按键事件. 若返回 false，则由 WebView 处理该事件
+     */
+    @Override
+    public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
+        LogUtils.errorFormat("shouldOverrideKeyEvent: event=%s", event);
+        return super.shouldOverrideKeyEvent(view, event);
+    }
+
+    /**
+     * 当页面的缩放比例发生变化时会回调此方法
+     * @param view The WebView that is initiating the callback.
+     * @param oldScale The old scale factor
+     * @param newScale The new scale factor
+     */
+    @Override
+    public void onScaleChanged(WebView view, float oldScale, float newScale) {
+        super.onScaleChanged(view, oldScale, newScale);
+        LogUtils.errorFormat("onScaleChanged: oldScale=%f, newScale=%f", oldScale, newScale);
     }
 }

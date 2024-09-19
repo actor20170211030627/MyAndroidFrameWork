@@ -21,7 +21,8 @@ public class LogUtils {
     protected static final String        LEFT_BORDER    = "│ ";
     protected static final String        BOTTOM_CORNER  = "└";
     protected static final String        SIDE_DIVIDER   = "────────────────────────────────────────────────────────";
-    protected static final int           MAX_LEN        = 1100;// fit for Chinese character
+//    protected static final int           MAX_LEN        = 1100;// fit for Chinese character
+    protected static final int           MAX_LEN        = 500;// 经实测, 1100感觉太长了
     protected static       int           mStackPosition = 4;
 
     /**

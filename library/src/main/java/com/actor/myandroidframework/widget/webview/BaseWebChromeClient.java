@@ -44,6 +44,16 @@ public class BaseWebChromeClient extends WebChromeClient {
         //LogUtils.errorFormat("网页进度改变, onProgressChanged=%d", newProgress);
     }
 
+    /**
+     * 在 Js 加载之前会调用此方法
+     * @return
+     */
+    @Override
+    public boolean onJsBeforeUnload(WebView view, String url, String message, JsResult result) {
+        LogUtils.errorFormat("onJsBeforeUnload: url=%s, message=%s, result=%s", url, message, result);
+        return super.onJsBeforeUnload(view, url, message, result);
+    }
+
     //打印前端的日志
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
@@ -59,9 +69,13 @@ public class BaseWebChromeClient extends WebChromeClient {
     @Override
     public void onConsoleMessage(String message, int lineNumber, String sourceID) {
         super.onConsoleMessage(message, lineNumber, sourceID);
+        LogUtils.errorFormat("前端日志: lineNumber=%d, message=%s, sourceId=%s", lineNumber, message, sourceID);
     }
 
-    //js的alert弹窗
+    /**
+     * 在 Js 代码中弹出 Alert 窗口时会调用此方法
+     * @return
+     */
     @Override
     public boolean onJsAlert(WebView webView, String url, String message, JsResult result) {
         LogUtils.errorFormat("alert弹窗: url=%s, message=%s", url, message);
@@ -92,7 +106,10 @@ public class BaseWebChromeClient extends WebChromeClient {
         return false;
     }
 
-    //js 确认/取消对话框
+    /**
+     * 在 Js 代码中弹出 Confirm 窗口时会调用此方法
+     * @return
+     */
     @Override
     public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
         LogUtils.errorFormat("confirm对话框: url=%s, message=%s", url, message);
@@ -100,9 +117,9 @@ public class BaseWebChromeClient extends WebChromeClient {
     }
 
     /**
-     * js 的提示, 可提示用户进行输入的对话框
-     * @param message 有长度限制, 不同手机限制长度不一致
-     * @param defaultValue ?
+     * 在 Js 代码中弹出 Prompt 窗口时会调用此方法, 输入对话框
+     * @param message 输入提示, 有长度限制, 不同手机限制长度不一致
+     * @param defaultValue 输入框中的默认值
      */
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
@@ -123,13 +140,15 @@ public class BaseWebChromeClient extends WebChromeClient {
     }
 
     /**
-     * WebView中播放视频，一种方案是使用 onShowCustomView 回调的方式，另一种方案就是 JS 绑定回调的方式
+     * WebView中播放视频，一种方案是使用 onShowCustomView 回调的方式，另一种方案就是 JS 绑定回调的方式. <br />
+     * {@link 注意:} if WebView 初始化了 WebChromeClient, 那么播放视频的时候要重写并实现本方法的功能, 否则当web视频点击全屏的时候, 会停止播放. <br />
+     * <a href="https://player.bilibili.com/player.html?isOutside=true&aid=1756207625&bvid=BV164421U781&cid=1613225408&p=1">b站网页视频url示例</a>
      * @param view 在全屏模式时显示的View
      * @param callback
      */
     @Override
     public void onShowCustomView(View view, WebChromeClient.CustomViewCallback callback) {
-        LogUtils.error("onShowCustomView: 可用于播放视频");
+        LogUtils.errorFormat("onShowCustomView, 可用于全屏播放视频(请实现本方法, 否则视频可能会停止播放!!!): view=%s", view);
 //        fullScreen();
 //        webView.setVisibility(View.GONE);
 //        videoContainer.setVisibility(View.VISIBLE);
@@ -137,6 +156,13 @@ public class BaseWebChromeClient extends WebChromeClient {
 //        videoContainer.addView(view);
 //        mCallBack = callback;
         super.onShowCustomView(view, callback);
+    }
+
+    @Deprecated
+    @Override
+    public void onShowCustomView(View view, int requestedOrientation, CustomViewCallback callback) {
+        super.onShowCustomView(view, requestedOrientation, callback);
+        LogUtils.errorFormat("onShowCustomView, 可用于播放视频(请实现本方法, 否则视频可能会停止播放!!!): view=%s, requestedOrientation=%d", view, requestedOrientation);
     }
 
     /**
@@ -187,12 +213,12 @@ public class BaseWebChromeClient extends WebChromeClient {
     }
 
     /**
-     * 选择文件: <input type="file" name = "选择文件" />
+     * 选择文件: &lt;input type="file" name ="选择文件" size="35px" />
      */
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
         if (webView == null || filePathCallback == null) return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
-        LogUtils.error("onShowFileChooser(选择文件), 请你自己重写此方法, 并在重写的方法中书写选择文件的逻辑(可参考下方注释的部分代码!)");
+        LogUtils.error("onShowFileChooser(选择文件), 请你自己重写此方法, 并在重写的方法中书写选择文件的逻辑(可参考下方注释的代码!)");
         if (fileChooserParams == null) {
             LogUtils.error("fileChooserParams=null");
         } else {
@@ -204,33 +230,32 @@ public class BaseWebChromeClient extends WebChromeClient {
                     fileChooserParams.isCaptureEnabled()
             );
         }
-
         /**
          * 1.请在你的Activity/Fragment中, 重写此方法, 并在重写的方法中书写选择文件的逻辑(可参考下方注释的部分代码!)
-         * ValueCallback<Uri[]> filePathCallback2; //是一个全局变量, 用于选择文件后回调给h5
-         */
-//        filePathCallback2 = filePathCallback;
-//        Intent intent = fileChooserParams.createIntent();
-//        startActivityForResult(intent, REQUEST_CODE_FILE_CHOOSER);//参2: 请求码是你自己定义的一个int常量
-
-        /**
+         * private ValueCallback<Uri[]> filePathCallback2;                //全局变量, 用于选择文件后回调给h5
+         * private final int REQUEST_CODE_FILE_CHOOSER = 123;             //全局变量, requestCode 示例
+         *
+         * @Override
+         * public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+         *     filePathCallback2 = filePathCallback;
+         *     Intent intent = fileChooserParams.createIntent();
+         *     startActivityForResult(intent, REQUEST_CODE_FILE_CHOOSER);
+         *     return true;                                               //请务必返回true, 否则回传结果给h5的时候会报错: java.lang.IllegalStateException: Duplicate showFileChooser result
+         * }
+         *
          * 2.然后在你的Activity/Fragment中, 重写以下类似方法将结果回调给h5
+         * @Override
+         * protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+         *     if (requestCode == REQUEST_CODE_FILE_CHOOSER) {
+         *         Uri[] uris = WebChromeClient.FileChooserParams.parseResult(resultCode, data);
+         *         filePathCallback2.onReceiveValue(uris);                //将选择的文件回传给h5
+         *         filePathCallback2 = null;
+         *     }
+         * }
          */
-//        @Override
-//        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//            if (requestCode == REQUEST_CODE_FILE_CHOOSER) {
-//                Uri[] fileUris = null;
-//                if (resultCode == Activity.RESULT_OK && data != null) {
-//                    //将选择的文件赋值给返回值
-//                    fileUris = ...;
-//                }
-//                //将选择的文件回传给h5
-//                filePathCallback2.onReceiveValue(fileUris);
-//            }
-//        }
-
         return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
     }
+
 
     /**
      * 如果设置{@link WebSettings#supportMultipleWindows()} = true, 支持打开新窗口.
@@ -238,6 +263,29 @@ public class BaseWebChromeClient extends WebChromeClient {
      */
     @Override
     public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+        LogUtils.errorFormat("onCreateWindow: isDialog=%b, isUserGesture=%b, resultMsg=%s",
+                isDialog, isUserGesture, resultMsg);
         return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
+    }
+
+    /**
+     * 和 {@link #onCreateWindow(WebView, boolean, boolean, Message)} 方法对应的，关闭 Window
+     * @param window The WebView that needs to be closed.
+     */
+    @Override
+    public void onCloseWindow(WebView window) {
+        LogUtils.error("onCloseWindow");
+        super.onCloseWindow(window);
+    }
+
+
+    /**
+     * 当 WebView 获取焦点时会调用此方法
+     * @param view The WebView that needs to be focused.
+     */
+    @Override
+    public void onRequestFocus(WebView view) {
+        LogUtils.error("onRequestFocus");
+        super.onRequestFocus(view);
     }
 }
