@@ -16,11 +16,13 @@ import com.blankj.utilcode.util.PathUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * description: 播放音频 <br />
+ * description: 播放音频, 复用MediaPlayer播放完后默认不重置, 新的MediaPlayer播放完后要重置! <br />
  * if创建很多个MediaPlayer, 会报错: onError: what=1, extra=-19
  *
  * @author     : ldf
@@ -30,13 +32,6 @@ public class MediaPlayerUtils {
 
     protected MediaPlayer         mMediaPlayer;
     protected int                 DEFAULT_AUDIO_SESSION_ID = 0;  //默认播放id
-    //默认回调
-    protected MediaPlayerCallback DEFAULT_MEDIA_PLAYER_CALLBACK = new MediaPlayerCallback() {
-        @Override
-        public void onCompletion(@Nullable MediaPlayer mp) {
-            if (mp != null) release(mp.getAudioSessionId());
-        }
-    };
     protected Map<Integer, MediaPlayerCallback> playerMap = new HashMap<>(5);
 
     protected static MediaPlayerUtils instance;
@@ -71,8 +66,13 @@ public class MediaPlayerUtils {
                 mMediaPlayer.setVolume(1, 1);
                 mMediaPlayer.setLooping(isLooping);
 
-                if (playerCallback == null) playerCallback = DEFAULT_MEDIA_PLAYER_CALLBACK;
+                if (playerCallback == null) playerCallback = new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                    }
+                };
                 playerCallback.isAutoPlay = isAutoPlay;
+                playerCallback.isNewMediaPlayer = isNewMediaPlayer;
                 playerCallback.mp = mMediaPlayer;
 
                 int audioSessionId = mMediaPlayer.getAudioSessionId();
@@ -93,7 +93,7 @@ public class MediaPlayerUtils {
 //                mMediaPlayer.prepare();
             } catch (NullPointerException | IllegalStateException e) {
                 if (playerCallback != null) {
-                    boolean isDealBySelf = playerCallback.onSetData2StartError(e);
+                    boolean isDealBySelf = playerCallback.onSetData2StartError(mMediaPlayer, e);
                     if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
                 }
             }
@@ -127,7 +127,7 @@ public class MediaPlayerUtils {
                      boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
         if (TextUtils.isEmpty(audioPath)) {
             if (playerCallback != null) {
-                boolean isDealBySelf = playerCallback.onSetData2StartError(new IllegalStateException("audioPath is Empty!"));
+                boolean isDealBySelf = playerCallback.onSetData2StartError(null, new IllegalStateException("audioPath is Empty!"));
                 if (!isDealBySelf) {
                     playerCallback.onCompletion(null);
                 }
@@ -156,8 +156,13 @@ public class MediaPlayerUtils {
             mMediaPlayer.setDataSource(audioPath);
             mMediaPlayer.setLooping(isLooping);
 
-            if (playerCallback == null) playerCallback = DEFAULT_MEDIA_PLAYER_CALLBACK;
+            if (playerCallback == null) playerCallback = new MediaPlayerCallback() {
+                @Override
+                public void onCompletion2(@Nullable MediaPlayer mp) {
+                }
+            };
             playerCallback.isAutoPlay = isAutoPlay;
+            playerCallback.isNewMediaPlayer = isNewMediaPlayer;
             playerCallback.mp = mMediaPlayer;
 
             int audioSessionId = mMediaPlayer.getAudioSessionId();
@@ -174,7 +179,7 @@ public class MediaPlayerUtils {
 //            mMediaPlayer.start();
         } catch (IOException | IllegalArgumentException | SecurityException | IllegalStateException e) {
             if (playerCallback != null) {
-                boolean isDealBySelf = playerCallback.onSetData2StartError(e);
+                boolean isDealBySelf = playerCallback.onSetData2StartError(mMediaPlayer, e);
                 if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
             }
         }
@@ -223,7 +228,7 @@ public class MediaPlayerUtils {
             if (mediaPlayer != null) mediaPlayer.start();
         } catch (IllegalStateException e) {
             if (playerCallback != null) {
-                boolean isDealBySelf = playerCallback.onSetData2StartError(e);
+                boolean isDealBySelf = playerCallback.onSetData2StartError(mediaPlayer, e);
                 if (!isDealBySelf) playerCallback.onCompletion(playerCallback.mp);
             }
         }
@@ -323,7 +328,9 @@ public class MediaPlayerUtils {
      * 释放所有播放器资源
      */
     public void releaseAll() {
-        for (Integer audioSessionId : playerMap.keySet()) {
+        //不使用 playerMap.keySet()来遍历, 否则调用 release() 方法的时候, 并发修改异常: java.util.ConcurrentModificationException
+        List<Integer> clone = new ArrayList<>(playerMap.keySet());
+        for (Integer audioSessionId : clone) {
             release(audioSessionId);
         }
     }

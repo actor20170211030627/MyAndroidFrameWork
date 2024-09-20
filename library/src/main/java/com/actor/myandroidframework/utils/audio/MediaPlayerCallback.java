@@ -21,26 +21,32 @@ public abstract class MediaPlayerCallback implements
         MediaPlayer.OnCompletionListener,       //播放完成监听
         MediaPlayer.OnBufferingUpdateListener   //缓冲进度监听
 {
-    public boolean isAutoPlay = false;  //是否自动播放
-    public MediaPlayer mp;              //播放器
+    boolean isAutoPlay = false;         //是否自动播放
+    boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
+    MediaPlayer mp;                     //播放器
 
     /**
      * 当准备完成后
      */
     @CallSuper
     public void onPrepared(MediaPlayer mp) {
-        if (isAutoPlay && mp != null) MediaPlayerUtils.getInstance().start(mp.getAudioSessionId());
-        LogUtils.error("准备完成");
+        if (mp != null) {
+            int audioSessionId = mp.getAudioSessionId();
+            LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
+            if (isAutoPlay) MediaPlayerUtils.getInstance().start(audioSessionId);
+        }
     }
 
     /**
      * 从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现的错误
      * @param e 错误信息
-     * @return 如果完全自己处理错误, 则返回true. 如果未处理错误，则返回false(会调用 OnCompletionListener)。
+     * @return 如果自己处理错误, 则返回true. 否则返回false(会调用 {@link #onCompletion(MediaPlayer)})。
      */
-    public boolean onSetData2StartError(@NonNull Exception e) {
+    @CallSuper
+    public boolean onSetData2StartError(@Nullable MediaPlayer mp, @NonNull Exception e) {
         e.printStackTrace();
         LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
+        if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         return false;
     }
 
@@ -51,9 +57,9 @@ public abstract class MediaPlayerCallback implements
 
     /**
      * 播放的过程中, 出现的错误
-     * @return 如果完全自己处理错误, 则返回true. 如果未处理错误，则返回false(会调用 OnCompletionListener)。
+     * @return 如果自己处理错误, 则返回true. 否则返回false(会调用 {@link #onCompletion(MediaPlayer))。
      */
-//    @CallSuper
+    @CallSuper
     public boolean onError(MediaPlayer mp, int what, int extra) {
         LogUtils.errorFormat("播放的过程中, 出现错误, what=%d, extra=%d", what, extra);
         if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
@@ -63,5 +69,14 @@ public abstract class MediaPlayerCallback implements
     /**
      * 播放完成
      */
-    public abstract void onCompletion(@Nullable MediaPlayer mp);
+    @CallSuper
+    public void onCompletion(@Nullable MediaPlayer mp) {
+        if (isNewMediaPlayer && mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
+        onCompletion2(mp);
+    }
+
+    /**
+     * 播放完成
+     */
+    public abstract void onCompletion2(@Nullable MediaPlayer mp);
 }

@@ -84,24 +84,27 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_raw:
-//                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
-                MediaPlayerUtils.getInstance().playRaw(R.raw.right, new MediaPlayerCallback() {
-                    @Override
-                    public boolean onSetData2StartError(@NonNull Exception e) {
-                        super.onSetData2StartError(e);
-                        return true;
-                    }
-                    @Override
-                    public void onCompletion(@Nullable MediaPlayer mp) {
-                        LogUtils.error("onCompletion");
-                        view.callOnClick();
-                    }
-                    @Override
-                    public boolean onError(MediaPlayer mp, int what, int extra) {
-                        super.onError(mp, what, extra);
-                        return true;
-                    }
-                });
+                if (true) {
+                    MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
+                } else {
+                    MediaPlayerUtils.getInstance().playRaw(R.raw.right, new MediaPlayerCallback() {
+                        @Override
+                        public boolean onSetData2StartError(@Nullable MediaPlayer mp, @NonNull Exception e) {
+                            super.onSetData2StartError(mp, e);
+                            return true;
+                        }
+                        @Override
+                        public void onCompletion2(@Nullable MediaPlayer mp) {
+                            LogUtils.error("onCompletion");
+                            view.callOnClick();
+                        }
+                        @Override
+                        public boolean onError(MediaPlayer mp, int what, int extra) {
+                            super.onError(mp, what, extra);
+                            return true;
+                        }
+                    });
+                }
                 break;
             case R.id.btn_start_play:
                 MediaPlayerUtils.getInstance().play(MUSIC, new MediaPlayerCallback() {
@@ -110,9 +113,9 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                         super.onPrepared(mp);
                         audioSessionIdMusic = mp.getAudioSessionId();
                     }
-
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        super.onCompletion(mp);
                         ToasterUtils.success("播放完成!");
                     }
                 });
