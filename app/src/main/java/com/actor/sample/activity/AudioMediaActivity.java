@@ -85,9 +85,9 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
             case R.id.btn_start_play_raw:
                 if (true) {
-                    MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
+                    MediaPlayerUtils.playRaw(R.raw.one_kun, null);
                 } else {
-                    MediaPlayerUtils.getInstance().playRaw(R.raw.right, new MediaPlayerCallback() {
+                    MediaPlayerUtils.playRaw(R.raw.right, new MediaPlayerCallback() {
                         @Override
                         public boolean onSetData2StartError(@Nullable MediaPlayer mp, @NonNull Exception e) {
                             super.onSetData2StartError(mp, e);
@@ -107,7 +107,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 }
                 break;
             case R.id.btn_start_play:
-                MediaPlayerUtils.getInstance().play(MUSIC, new MediaPlayerCallback() {
+                MediaPlayerUtils.play(MUSIC, new MediaPlayerCallback() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         super.onPrepared(mp);
@@ -121,13 +121,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_pause_play:
-                MediaPlayerUtils.getInstance().pause(audioSessionIdMusic);
+                MediaPlayerUtils.pause(audioSessionIdMusic);
                 break;
             case R.id.btn_continue_play:
-                MediaPlayerUtils.getInstance().start(audioSessionIdMusic);
+                MediaPlayerUtils.start(audioSessionIdMusic);
                 break;
             case R.id.btn_stop_play:
-                MediaPlayerUtils.getInstance().stop(audioSessionIdMusic);
+                MediaPlayerUtils.stop(audioSessionIdMusic);
                 break;
             default:
                 break;
@@ -139,6 +139,6 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         super.onDestroy();
         //释放资源
         MediaRecorderUtils.getInstance().releaseMediaRecorder();
-        MediaPlayerUtils.getInstance().releaseAll();
+        MediaPlayerUtils.releaseAll();
     }
 }
