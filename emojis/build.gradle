@@ -65,5 +65,5 @@ afterEvaluate {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: "libs", include: ["*.jar", '*.aar'])
 }

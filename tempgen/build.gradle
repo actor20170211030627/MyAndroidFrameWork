@@ -28,7 +28,7 @@ afterEvaluate {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])
 
     //https://github.com/greenrobot/greenDAO 数据库
     compileOnly rootProject.ext.dependencies.greendao

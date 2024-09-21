@@ -67,7 +67,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])
     implementation rootProject.ext.dependencies.appcompat_v7
     implementation rootProject.ext.dependencies.constraint_layout
     implementation rootProject.ext.dependencies.material
