@@ -81,7 +81,7 @@ import com.blankj.utilcode.util.ImageUtils;
  *     </tr>
  * </table>
  *
- * TODO 还需参考系统控件 {@link RatingBar}
+ * TODO: 还需参考系统控件 {@link RatingBar}
  */
 public class BaseRatingBar extends View {
 

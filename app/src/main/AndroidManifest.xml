@@ -32,7 +32,6 @@
         <activity
             android:name=".activity.BaseCountDownTimerActivity"
             android:exported="false" />
-        <activity android:name=".activity.ViewPagerHeightAutoCaculateActivity" />
         <activity android:name=".activity.SocketTestActivity" />
         <activity
             android:name=".activity.WebVideoActivity"

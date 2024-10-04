@@ -74,7 +74,6 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaPlayerUtils.java" target="_blank">MediaPlayerUtils</a> (播放音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaRecorderUtils.java" target="_blank">MediaRecorderUtils</a> (录音)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/database/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/easyhttp/EasyHttpConfigUtils.java" target="_blank">EasyHttpConfigUtils</a> (EasyHttp基本配置 & 封装的WebSocket)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/OkHttpConfigUtils.java" target="_blank">OkHttpConfigUtils</a> (OkHttp基本配置)
@@ -96,7 +95,6 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 
 **2.4.Widget小控件**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/AutoCaculateHeightViewpager.java" target="_blank">AutoCaculateHeightViewpager</a> (自动计算子类高度的ViewPager)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" target="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java" target="_blank">BaseWebView</a> (WebView简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java" target="_blank">BaseItemDecoration</a> (RecyclerView的Item间隔)
@@ -200,6 +198,14 @@ implementation 'io.github.lucksiege:camerax:v3.11.2'
 implementation 'com.github.actor20170211030627.MyAndroidFrameWork:chat_layout:github's latest version'
 //如果聊天时需要表情, 可添加如下依赖(也可以不添加, 自己自定义表情并传入) (按需引入), emoji表情初始化可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>
 implementation 'com.github.actor20170211030627.MyAndroidFrameWork:emojis:github's latest version'
+</pre>
+
+<pre>
+/**
+ * 如果需要数据库, 可添加如下依赖 (按需引入)
+ * 并可使用: <a href="database/src/main/java/com/actor/database/greendao/GreenDaoUtils.java" target="_blank">GreenDaoUtils</a> (GreenDao数据库)
+ */
+implementation 'com.github.actor20170211030627.MyAndroidFrameWork:database:github's latest version'
 </pre>
 
 <pre>

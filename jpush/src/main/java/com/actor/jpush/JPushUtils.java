@@ -155,11 +155,19 @@ public class JPushUtils {
     }
 
     /**
-     * @return 用户是否同意隐私政策 (没有官方api, 无语)
+     * 用户是否同意隐私政策 (没有官方api) <br />
+     * 上方{@link #setAuth(Context, boolean)}后, 会走:
+     * <ol>
+     *     <li>{@link JCollectionAuth#setAuth(Context, boolean)}</li>
+     *     <li>{@link cn.jiguang.api.JCoreManager#onEvent(Context, String, int, String, android.os.Bundle, Object...)}, (参3=96, 参6=auth)</li>
+     *     <li>{@link cn.jiguang.api.JCoreManager#onEvent(Context, String, int, boolean, String, android.os.Bundle, Object...)}, (参3=96, 参4=false, 参7=auth)</li>
+     * </ol>
      */
-    public static boolean isAuth() {
+    protected static boolean isAuth() {
 //        return cn.jiguang.cg.a.a();
-        return cn.jiguang.cn.a.a();
+//        return cn.jiguang.cn.a.a();
+//        return cn.jiguang.cp.a.b();
+        return false;   //↑ 经常变动, 不可靠. 如果要判断是否已经同意, 应该自己sp存储!
     }
 
 

@@ -11,8 +11,6 @@ import com.actor.sample.utils.CheckUpdateUtils;
 import com.actor.sample.utils.Global;
 import com.blankj.utilcode.util.AppUtils;
 import com.bumptech.glide.Glide;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.impl.CenterListPopupView;
 
 /**
  * Description: 主页
@@ -20,8 +18,6 @@ import com.lxj.xpopup.impl.CenterListPopupView;
  * Date       : 2019-9-6 on 14:22
  */
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
-
-    private CenterListPopupView viewPagerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +34,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
         //检查更新
         new CheckUpdateUtils().check(this);
-        viewPagerDialog = new XPopup.Builder(this).asCenterList("选择查看哪种?",
-                new String[]{"1.ViewPager多层嵌套", "2.ViewPager高度自适应"}, (position, text) -> {
-            switch (position) {
-                case 0:
-                    //ViewPager多层嵌套
-                    startActivity(new Intent(mActivity, ViewPagerAndFragmentActivity.class));
-                    break;
-                case 1:
-                    //ViewPager高度自适应
-                    startActivity(new Intent(mActivity, ViewPagerHeightAutoCaculateActivity.class));
-                    break;
-                default:
-                    break;
-            }
-        });
     }
 
     @Override
@@ -70,9 +51,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_popup_window://PopupWindow测试
                 startActivity(PopupWindowTestActivity.class);
                 break;
-            case R.id.btn_viewpager_about:
-                //ViewPager多层嵌套 & 高度自适应
-                viewPagerDialog.show();
+            case R.id.btn_viewpager_about://ViewPager多层嵌套
+                startActivity(new Intent(mActivity, ViewPagerAndFragmentActivity.class));
                 break;
             case R.id.btn_select_file://文件选择
                 startActivity(new Intent(this, SelectFileActivity.class), false, null, null, view);

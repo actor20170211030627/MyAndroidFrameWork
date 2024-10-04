@@ -1,0 +1,78 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode         rootProject.ext.android.versionCode
+        versionName         rootProject.ext.android.versionName
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
+    // 打包源码jar
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
+    task javadoc(type: Javadoc) {
+        failOnError false
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.compile
+    }
+    // 打包文档jar
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+    // javadoc configuration
+    javadoc {
+        options{
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/7/docs/api"
+//            title javadocName
+        }
+    }
+
+    //Android8, 在android节点内添加
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        // 剔除这个包下的所有文件（不会移除签名信息）
+        exclude 'META-INF/*******'
+    }
+}
+
+dependencies {
+    //https://github.com/greenrobot/greenDAO 数据库
+    compileOnly rootProject.ext.dependencies.greendao
+
+    //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
+    compileOnly 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
+
+    //GreenDao数据库
+    compileOnly project(path: ':tempgen')
+}

@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.database;
+package com.actor.database.greendao;
 
 import android.content.Context;
 
@@ -273,6 +273,7 @@ public class GreenDaoUtils {
      *                   ItemEntityDao.class(由'Build -> Make Project'生成), ... <br />
      *                   ★★★注意: 如果只是从 my_database.db, my_database.db3... 等数据库文件读取数据,
      *                             即数据库不用升级, 可不用传这个参数★★★
+     * TODO: 多数据库支持!
      */
     @SafeVarargs
     public static void init(@NonNull Context context, boolean isDebug, @NonNull String dbName,

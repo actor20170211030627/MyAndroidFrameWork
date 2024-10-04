@@ -137,6 +137,9 @@ dependencies {
     //图片(裁剪,压缩,自定义相机)、视频、音频的选择和预览, 拍照/拍视频/录音频
     implementation project(path: ':picture_selector')
 
+    //数据库
+    implementation project(path: ':database')
+
     //聊天控件 & 按住说话 & 可加入emoji表情
     implementation project(path: ':chat_layout')
 

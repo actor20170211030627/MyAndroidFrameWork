@@ -37,7 +37,7 @@ import com.google.android.material.tabs.TabLayout;
  * @author : ldf
  * date       : 2020/7/13 on 15:15
  * @version 1.0
- * TODO 动态设置item等
+ * TODO: 动态设置item等
  */
 public class BaseTabLayout extends TabLayout {
 

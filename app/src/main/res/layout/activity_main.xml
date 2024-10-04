@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="ViewPager多层嵌套 &amp; 高度自适应"
+            android:text="ViewPager多层嵌套"
             android:transitionName="btn" />
 
         <Button

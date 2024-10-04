@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.actor.myandroidframework.utils.database.GreenDaoUtils;
+import com.actor.database.greendao.GreenDaoUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.others.widget.ItemRadioGroupLayout;
 import com.actor.others.widget.ItemTextInputLayout;

@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.utils.database;
+package com.actor.database.greendao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

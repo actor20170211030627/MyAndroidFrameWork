@@ -109,7 +109,7 @@ dependencies {
     }
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-    //TODO 考虑使用: https://github.com/liangjingkanji/BRV
+    //TODO: 考虑使用: https://github.com/liangjingkanji/BRV
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 
     //https://github.com/getActivity/XXPermissions 轮子哥权限(Android 10需要适配分区存储特性)
@@ -143,18 +143,9 @@ dependencies {
 
 
 
-    //GreenDao数据库
-    compileOnly project(path: ':tempgen')
-
     //https://github.com/google/flexbox-layout
 //    compileOnly 'com.google.android:flexbox:1.0.0'
     compileOnly 'com.google.android.flexbox:flexbox:3.0.0'
-
-    //https://github.com/greenrobot/greenDAO 数据库
-    compileOnly rootProject.ext.dependencies.greendao
-
-    //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
-    compileOnly 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
 
     //https://github.com/yellowcath/VideoProcessor 视频压缩
     compileOnly 'com.github.yellowcath:VideoProcessor:2.4.2'

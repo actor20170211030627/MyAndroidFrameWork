@@ -26,8 +26,8 @@ import java.util.Map;
  *         添加依赖 <br />
  *         <code>
  *             //https://opendocs.alipay.com/open/02no45 支付宝 <br />
- *             //implementation 'com.alipay.sdk:alipaysdk-android:+@aar' //直接获取最新版 <br />
- *             implementation 'com.alipay.sdk:alipaysdk-android:15.8.17' //指定版本(推荐)
+ *             //implementation 'com.alipay.sdk:alipaysdk-android:+@aar' //直接集成最新版 <br />
+ *             implementation 'com.alipay.sdk:alipaysdk-android:15.8.17' //指定版本(推荐), <a href="https://central.sonatype.com/artifact/com.alipay.sdk/alipaysdk-android/overview" target="_blank">版本列表</a>
  *         </code>
  *     </li>
  *     <li>权限已经添加, if调用{@link #payInterceptorWithUrl(Activity, String, boolean, H5PayCallback)}需要再额外添加2个权限.</li>
