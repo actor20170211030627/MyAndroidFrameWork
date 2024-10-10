@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -33,7 +32,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +47,7 @@ import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
 import com.actor.myandroidframework.utils.audio.MediaRecorderUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.android.material.tabs.TabLayout;
+import com.hjq.permissions.XXPermissions;
 
 /**
  * description: 聊天控件, 低仿微信聊天界面按钮点击事件, 封装几个按钮及事件, 包含: <br/>
@@ -447,7 +446,7 @@ public class ChatLayout extends LinearLayout {
                     onListener.onTvPressSpeakTouch(tvPressSpeak, event);
                     //如果语音按钮显示 && 按下录音View不为空
                     if (ivVoiceVisiable == VISIBLE && voiceRecorderView != null) {
-                        if (!checkStoragePermisson(Manifest.permission.RECORD_AUDIO)) {
+                        if (!hasPermission(Manifest.permission.RECORD_AUDIO)) {
                             onListener.onNoPermission(Manifest.permission.RECORD_AUDIO);
                         } else {
                             switch (event.getAction()) {
@@ -527,6 +526,14 @@ public class ChatLayout extends LinearLayout {
 //                                    } else {
 //                                        audioRecordIsCancel = false;
 //                                    }
+                                    MediaRecorderUtils.getInstance().stopRecord(audioRecordIsCancel);
+                                    break;
+                                case MotionEvent.ACTION_CANCEL:
+                                    /**
+                                     * Xiaomi Redmi Note 4 (Android 6.0, Api 23),
+                                     * 会将 ACTION_UP 识别成 ACTION_CANCEL, 大无语...
+                                     */
+                                    ispressedDown = false;
                                     MediaRecorderUtils.getInstance().stopRecord(audioRecordIsCancel);
                                     break;
                             }
@@ -622,12 +629,8 @@ public class ChatLayout extends LinearLayout {
     }
 
     //检查权限, 返回是否有权限
-    public boolean checkStoragePermisson(String permisson) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int permission = ActivityCompat.checkSelfPermission(getContext(), permisson);
-            return PackageManager.PERMISSION_GRANTED == permission;
-        }
-        return true;
+    public boolean hasPermission(String permission) {
+        return XXPermissions.isGranted(getContext(), permission);
     }
     //显示没有权限的对话框, 跳转设置界面
     public void showPermissionDialog() {

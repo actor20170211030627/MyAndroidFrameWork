@@ -89,7 +89,20 @@ public class RequestInterceptor implements Interceptor {
         }
 
         final List<String> segmentList = request.url().encodedPathSegments();
-        final String header = originalResponse.headers().toString();
+        /**
+         * edited: 会过滤敏感请求头: Authorization, Cookie, Proxy-Authorization, Set-Cookie
+         * 见: {@link okhttp3.internal.Util#isSensitiveHeader(String)}
+         */
+//        final String header = originalResponse.headers().toString();
+        final Headers headers = originalResponse.headers();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < headers.size(); i++) {
+            sb.append(headers.name(i));
+            sb.append(": ");
+            sb.append(headers.value(i));
+            sb.append("\n");
+        }
+        String header = sb.toString();
         final int code = originalResponse.code();
         final boolean isSuccessful = originalResponse.isSuccessful();
         final String message = originalResponse.message();

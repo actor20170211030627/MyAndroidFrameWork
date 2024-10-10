@@ -39,7 +39,7 @@ public class CheckUpdateUtils {
     @RequiresPermission(value = Manifest.permission.REQUEST_INSTALL_PACKAGES)
     public void check(LifecycleOwner tag) {
         EasyHttp.get(tag)
-                .api(Global.CHECK_UPDATE)
+                .api(CheckUpdateInfo.class)
                 .request(new OnHttpListener<CheckUpdateInfo>() {
                     @Override
                     public void onHttpSuccess(CheckUpdateInfo result) {
