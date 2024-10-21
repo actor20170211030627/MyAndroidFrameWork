@@ -83,6 +83,8 @@ public class MediaPlayerUtils {
                 //播放出错监听
                 mMediaPlayer.setOnErrorListener(playerCallback);
                 mMediaPlayer.setOnBufferingUpdateListener(playerCallback);
+                //调用seekTo()完成后监听
+                mMediaPlayer.setOnSeekCompleteListener(playerCallback);
                 mMediaPlayer.setOnCompletionListener(playerCallback);
 
                 /**
@@ -173,6 +175,8 @@ public class MediaPlayerUtils {
             //播放出错监听
             mediaPlayer.setOnErrorListener(playerCallback);
             mediaPlayer.setOnBufferingUpdateListener(playerCallback);
+            //调用seekTo()完成后监听
+            mMediaPlayer.setOnSeekCompleteListener(playerCallback);
             mediaPlayer.setOnCompletionListener(playerCallback);
             mediaPlayer.prepareAsync();    //主线程中异步准备, 准备监听完成后开始播放
 //            mMediaPlayer.prepare();
@@ -196,6 +200,17 @@ public class MediaPlayerUtils {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
         if (playerCallback == null || playerCallback.mp == null) return -1;
         return playerCallback.mp.getCurrentPosition();
+    }
+
+    /**
+     * 设置'播放'进度
+     * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
+     * @param msec 从开始搜寻到的位移，以毫秒为单位。if(msec)<0，将使用时间位置零。if(msec) > 持续时间，将使用持续时间。
+     */
+    public void seekTo(int audioSessionId, int msec) {
+        MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
+        if (playerCallback == null || playerCallback.mp == null) return;
+        playerCallback.mp.seekTo(msec);
     }
 
     /**

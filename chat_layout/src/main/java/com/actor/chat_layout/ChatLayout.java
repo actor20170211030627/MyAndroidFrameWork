@@ -241,17 +241,20 @@ public class ChatLayout extends LinearLayout {
             //背景
             if (background != null) btnSend.setBackground(background);
         }
-        //监听布局变化
-        KeyboardUtils.registerSoftInputChangedListener((Activity) context, new KeyboardUtils.OnSoftInputChangedListener() {
-            @Override
-            public void onSoftInputChanged(int height) {
-                if (height > 0) {
-                    MMKVUtils.putInt(KEYBOARD_HEIGHT, height);
-                    etMsg.requestFocus();
-                    setViewPagerHeight(height);
+
+        if (!isInEditMode()) {
+            //监听布局变化
+            KeyboardUtils.registerSoftInputChangedListener((Activity) context, new KeyboardUtils.OnSoftInputChangedListener() {
+                @Override
+                public void onSoftInputChanged(int height) {
+                    if (height > 0) {
+                        MMKVUtils.putInt(KEYBOARD_HEIGHT, height);
+                        etMsg.requestFocus();
+                        setViewPagerHeight(height);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -393,6 +396,7 @@ public class ChatLayout extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        if(isInEditMode()) return;
 
         //语音按钮
         ivVoice.setOnClickListener(new OnClickListener() {
@@ -623,9 +627,6 @@ public class ChatLayout extends LinearLayout {
                 onEmoji$PlusClicked(false);
             }
         });
-
-        if(!isInEditMode()){//造成错误的代码段
-        }
     }
 
     //检查权限, 返回是否有权限
@@ -854,10 +855,12 @@ public class ChatLayout extends LinearLayout {
 
     @Override
     protected void onDetachedFromWindow() {
-        KeyboardUtils.unregisterSoftInputChangedListener(((Activity) getContext()).getWindow());
-        MediaRecorderUtils.getInstance().stopRecord(true);
-        //请用户自己根据需要调用释放资源
-//        MediaPlayerUtils.stop(audioSessionId);
+        if (!isInEditMode()) {
+            KeyboardUtils.unregisterSoftInputChangedListener(((Activity) getContext()).getWindow());
+            MediaRecorderUtils.getInstance().stopRecord(true);
+            //请用户自己根据需要调用释放资源
+//            MediaPlayerUtils.stop(audioSessionId);
+        }
         super.onDetachedFromWindow();
     }
 }

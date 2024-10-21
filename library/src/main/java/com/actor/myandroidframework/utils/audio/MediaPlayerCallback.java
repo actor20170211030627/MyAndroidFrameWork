@@ -19,7 +19,8 @@ public abstract class MediaPlayerCallback implements
         MediaPlayer.OnPreparedListener,         //准备完成监听
         MediaPlayer.OnErrorListener,            //错误监听
         MediaPlayer.OnCompletionListener,       //播放完成监听
-        MediaPlayer.OnBufferingUpdateListener   //缓冲进度监听
+        MediaPlayer.OnBufferingUpdateListener,  //缓冲进度监听
+        MediaPlayer.OnSeekCompleteListener      //调用seekTo()完成后监听
 {
     boolean isAutoPlay = false;         //是否自动播放
     boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
@@ -53,6 +54,11 @@ public abstract class MediaPlayerCallback implements
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
 //        LogUtils.errorFormat("缓冲: AudioSessionId=%d, percent=%d", mp.getAudioSessionId(), percent);
+    }
+
+    @Override
+    public void onSeekComplete(MediaPlayer mp) {
+        if (mp != null) LogUtils.errorFormat("seekTo()完成: AudioSessionId=%d", mp.getAudioSessionId());
     }
 
     /**
