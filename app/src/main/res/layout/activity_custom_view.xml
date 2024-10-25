@@ -132,7 +132,7 @@
             android:layout_marginTop="30dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
-            android:text="3.DrawableTextView(限定 Drawable 大小的 TextView)"
+            android:text="3.DrawableTextView(限定Drawable宽高, 播放/停止动画 的TextView)"
             app:layout_constraintTop_toBottomOf="@id/btn_pressed" />
 
         <com.actor.myandroidframework.widget.DrawableTextView
@@ -141,16 +141,17 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/logo"
             android:drawablePadding="5dp"
-            android:text="DrawableTextView(支持限定 Drawable 大小的 TextView), 默认"
+            android:text="DrawableTextView(限定Drawable宽高, 播放/停止动画 的TextView), 默认"
             app:layout_constraintTop_toBottomOf="@id/tv3" />
 
         <com.actor.myandroidframework.widget.DrawableTextView
             android:id="@+id/dtv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/logo"
+            android:drawableStart="@drawable/frame_anim_audio_playing"
             android:drawablePadding="5dp"
-            android:text="DrawableTextView, 宽15dp, 高8dp"
+            android:onClick="onViewClicked"
+            android:text="DrawableTextView, 宽15dp, 高8dp, 点我!"
             app:drawableHeight="8dp"
             app:drawableWidth="15dp"
             app:layout_constraintTop_toBottomOf="@id/dtv1" />
@@ -159,9 +160,10 @@
             android:id="@+id/dtv3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/logo"
+            android:drawableStart="@drawable/frame_anim_audio_playing"
             android:drawablePadding="5dp"
-            android:text="DrawableTextView, 宽8dp, 高15dp"
+            android:onClick="onViewClicked"
+            android:text="DrawableTextView, 宽8dp, 高15dp, 点我!"
             app:drawableHeight="15dp"
             app:drawableWidth="8dp"
             app:layout_constraintTop_toBottomOf="@id/dtv2" />

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 支持限定 Drawable 大小的 TextView -->
+    <!-- 限定Drawable宽高, 播放/停止动画 的TextView -->
     <declare-styleable name="DrawableTextView">
         <!-- Drawable 宽度 -->
         <attr name="drawableWidth" format="dimension" />
         <!-- Drawable 高度 -->
         <attr name="drawableHeight" format="dimension" />
+        <!-- 调用stopPlayAnim()后, 是否将<animation-list 动画重置到第1帧, 默认true -->
+        <attr name="drawableIsReset2Frame0AfterAnimStop" format="boolean" />
     </declare-styleable>
 </resources>

@@ -1,12 +1,17 @@
 package com.actor.sample.activity;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import androidx.annotation.Nullable;
+
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.audio.MediaPlayerCallback;
+import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.BaseRadioGroup;
 import com.actor.myandroidframework.widget.BaseSpinner;
@@ -104,20 +109,24 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 viewBinding.ivSliv.setSelected(!viewBinding.ivSliv.isSelected());
                 viewBinding.btnSelected.setText("selected=" + viewBinding.ivSliv.isSelected());
                 break;
-            case R.id.btn_check:
-                int checkedPosition = itemRadioGroup.getCheckedPosition();
-                itemRadioGroup.setCheckedPosition(2);
-                LogUtils.errorFormat("ItemRadioGroupLayout: checkedPosition=%s", checkedPosition);
-                itemRadioGroup.setDatas(new String[]{"11111", "2", "33"});
-                itemRadioGroup.addRadioButton("45");
 
-                String selectedItem = baseSpinner.getSelectedItem();
-                String itemAtPosition = baseSpinner.getItemAtPosition(1);
-                LogUtils.errorFormat("BaseSpinner: selectedItem=%s, itemAtPosition=%s", selectedItem, itemAtPosition);
-
-                String selectedItem1 = itemSpinner.getSelectedItem();
-                String itemAtPosition1 = itemSpinner.getItemAtPosition(1);
-                LogUtils.errorFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
+            case R.id.dtv2: //DrawableTextView 播放动画
+                MediaPlayerUtils.playRaw(R.raw.one_kun, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        viewBinding.dtv2.stopPlayAnim();
+                    }
+                });
+                viewBinding.dtv2.startPlayAnim();
+                break;
+            case R.id.dtv3:
+                MediaPlayerUtils.playRaw(R.raw.one_kun, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        viewBinding.dtv3.stopPlayAnim();
+                    }
+                });
+                viewBinding.dtv3.startPlayAnim();
                 break;
 
             case R.id.btn_left_top:     //↖
@@ -135,6 +144,22 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
             case R.id.btn_left_bottom:     //↙
                 cardViewRadius[3] = dp10 - cardViewRadius[3];
                 viewBinding.roundCardView.setRadius(cardViewRadius[0], cardViewRadius[1], cardViewRadius[2], cardViewRadius[3]);
+                break;
+
+            case R.id.btn_check:
+                int checkedPosition = itemRadioGroup.getCheckedPosition();
+                itemRadioGroup.setCheckedPosition(2);
+                LogUtils.errorFormat("ItemRadioGroupLayout: checkedPosition=%s", checkedPosition);
+                itemRadioGroup.setDatas(new String[]{"11111", "2", "33"});
+                itemRadioGroup.addRadioButton("45");
+
+                String selectedItem = baseSpinner.getSelectedItem();
+                String itemAtPosition = baseSpinner.getItemAtPosition(1);
+                LogUtils.errorFormat("BaseSpinner: selectedItem=%s, itemAtPosition=%s", selectedItem, itemAtPosition);
+
+                String selectedItem1 = itemSpinner.getSelectedItem();
+                String itemAtPosition1 = itemSpinner.getItemAtPosition(1);
+                LogUtils.errorFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
                 break;
 
             case R.id.btn2:             //只能输入数字

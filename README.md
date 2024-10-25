@@ -97,6 +97,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" target="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java" target="_blank">BaseWebView</a> (WebView简单封装)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/AnimationDrawableImageView.java" target="_blank">AnimationDrawableImageView</a> (播放/停止动画的ImageView)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java" target="_blank">BaseItemDecoration</a> (RecyclerView的Item间隔)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRadioGroup.java" target="_blank">BaseRadioGroup</a> (RadioGroup简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRatingBar.java" target="_blank">BaseRatingBar</a> (RatingBar星星选择)
@@ -105,7 +106,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseTabLayout.java" target="_blank">BaseTabLayout</a> (更简单使用TabLayout)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseTextSwitcher.java" target="_blank">BaseTextSwitcher</a> (TextView切换)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseViewSwitcher.java" target="_blank">BaseViewSwitcher</a> (View切换)
-<a href="library/src/main/java/com/actor/myandroidframework/widget/DrawableTextView.java" target="_blank">DrawableTextView</a> (支持限定 Drawable 大小的 TextView)
+<a href="library/src/main/java/com/actor/myandroidframework/widget/DrawableTextView.java" target="_blank">DrawableTextView</a> (限定Drawable宽高, 播放/停止动画 的TextView)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/LineView.java" target="_blank">LineView</a> (实线, 虚线, 渐变, 角度)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/MarqueeTextView.java" target="_blank">MarqueeTextView</a> (跑马灯)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/RatioLayout.java" target="_blank">RatioLayout</a> (百分比布局, 宽高百分比)
