@@ -21,6 +21,7 @@ import java.util.Date;
  * <a href="https://blog.csdn.net/weixin_44008788/article/details/122260697">Android 多媒体框架之音频录制 MediaRecorder 和 AudioRecorder_android mediarecorder-CSDN博客</a> <br />
  * <a href="https://cloud.tencent.com/document/product/269/3794">一天接入 SDK-即时通信 IM-文档中心-腾讯云</a> <br />
  * <a href="https://github.com/tencentyun/TIMSDK">TencentCloud_TIMSDK - Github</a> <br />
+ * <a href="https://github.com/android/media-samples">media-samples - Google - Github</a> <br />
  * <br />
  * Android 多媒体框架针对音频录制提供了两种方法：MediaRecorder和AudioRecord。 <br />
  * AudioRecord和MediaRecorder两种都可以录制音频，MediaRecorder已实现大量的封装，操作起来更加简单，而AudioRecord使用起来更加灵活，能实现更多的功能。 <br />
@@ -36,6 +37,8 @@ import java.util.Date;
  *         <code>&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt; <br /></code>
  *     </li>
  * </ul>
+ *
+ * @see android.media.AudioRecord
  *
  * @author : ldf
  * @date   : 2024/7/30 on 14
@@ -111,11 +114,19 @@ public class MediaRecorderUtils {
     }
 
     /**
-     * 录制.m4a格式音频
+     * 录制.m4a格式音频 (实际打开看是.mp4文件[ftypmp42], 而真正的.m4a文件格式是[ftypM4A], 文件信息详见格式工厂->工具集)
      * @param callback 录制回调
      */
     public void startRecordM4a(@Nullable MediaRecorderCallback callback) {
         startRecord(MediaRecorder.AudioSource.MIC, MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.AudioEncoder.AAC, ".m4a", callback);
+    }
+
+    /**
+     * 录制.aac格式音频
+     * @param callback 录制回调
+     */
+    public void startRecordAac(@Nullable MediaRecorderCallback callback) {
+        startRecord(MediaRecorder.AudioSource.MIC, MediaRecorder.OutputFormat.AAC_ADTS, MediaRecorder.AudioEncoder.AAC, ".aac", callback);
     }
 
     /**
@@ -138,10 +149,10 @@ public class MediaRecorderUtils {
      *                     <ol>
      *                         <li>{@link MediaRecorder.OutputFormat#DEFAULT}: 默认输出格式</li>
      *                         <li>{@link MediaRecorder.OutputFormat#THREE_GPP}: 3GP 文件格式(.3gp也是一种视频格式，H263视频/ARM音频编码)</li>
-     *                         <li>{@link MediaRecorder.OutputFormat#MPEG_4}: MPEG-4 文件格式(3gp也是一种视频格式)</li>
+     *                         <li>{@link MediaRecorder.OutputFormat#MPEG_4}: MPEG-4 文件格式(.m4a 音频)</li>
      *                         <li>{@link MediaRecorder.OutputFormat#RAW_AMR}: 只支持音频且音频编码要求为AMR_NB</li>
-     *                         <li>{@link MediaRecorder.OutputFormat#AMR_NB}: AMR-NB 文件格式</li>
-     *                         <li>{@link MediaRecorder.OutputFormat#AMR_WB}: AMR-WB 文件格式</li>
+     *                         <li>{@link MediaRecorder.OutputFormat#AMR_NB}: AMR-NB(Narrowband) 文件格式</li>
+     *                         <li>{@link MediaRecorder.OutputFormat#AMR_WB}: AMR-WB(Wideband) 文件格式</li>
      *                         <li>{@link MediaRecorder.OutputFormat#AAC_ADTS}: AAC ADTS 文件格式</li>
      *                         <li>{@link MediaRecorder.OutputFormat#MPEG_2_TS}: </li>
      *                         <li>{@link MediaRecorder.OutputFormat#WEBM}: WebM 文件格式</li>
@@ -152,11 +163,11 @@ public class MediaRecorderUtils {
      *                         <li>{@link MediaRecorder.AudioEncoder#DEFAULT}: 默认音频编码器(声音的（波形）的采样?)</li>
      *                         <li>{@link MediaRecorder.AudioEncoder#AMR_NB}: AMR-NB 音频编码器</li>
      *                         <li>{@link MediaRecorder.AudioEncoder#AMR_WB}: AMR-WB 音频编码器</li>
-     *                         <li>{@link MediaRecorder.AudioEncoder#AAC}: AAC 音频编码器</li>
-     *                         <li>{@link MediaRecorder.AudioEncoder#HE_AAC}: 高效 AAC（HE-AAC）音频编码器</li>
-     *                         <li>{@link MediaRecorder.AudioEncoder#AAC_ELD}: AAC ELD 音频编码器</li>
-     *                         <li>{@link MediaRecorder.AudioEncoder#VORBIS}: </li>
-     *                         <li>{@link MediaRecorder.AudioEncoder#OPUS}: </li>
+     *                         <li>{@link MediaRecorder.AudioEncoder#AAC}: AAC(AAC Low Complexity audio codec) 音频编码器</li>
+     *                         <li>{@link MediaRecorder.AudioEncoder#HE_AAC}: 高效 AAC（HE-AAC）(High Efficiency audio codec) 音频编码器</li>
+     *                         <li>{@link MediaRecorder.AudioEncoder#AAC_ELD}: AAC ELD(Enhanced Low Delay audio codec) 音频编码器</li>
+     *                         <li>{@link MediaRecorder.AudioEncoder#VORBIS}: Ogg Vorbis audio codec </li>
+     *                         <li>{@link MediaRecorder.AudioEncoder#OPUS}: Opus audio codec </li>
      *                     </ol>
      * @param suffix 音频后缀, 例: .amr, .3gp, .m4a
      * @param callback 录制回调
@@ -181,6 +192,12 @@ public class MediaRecorderUtils {
             mMediaRecorder.setOutputFormat(outputFormat);
             //设置音频编码
             mMediaRecorder.setAudioEncoder(audioEncoder);
+            //设置音频比特率为96Kbps
+//            mMediaRecorder.setAudioEncodingBitRate(96000);
+            //设置音频采样率为44100Hz
+//            mMediaRecorder.setAudioSamplingRate(44100);
+            //1: 设置声道数为单声道, 2: 立体声效果
+//            mMediaRecorder.setAudioChannels(1);
             //年月日时分秒毫秒
             String fileName = TimeUtils.date2String(new Date(), "yyyyMMddHHmmssSSS");
             recordAudioPath = new File(recordDir, fileName + suffix).getAbsolutePath();

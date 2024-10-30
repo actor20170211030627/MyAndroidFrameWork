@@ -33,6 +33,7 @@ import com.hjq.shape.view.ShapeTextView;
  *      app:drawableIsReset2Frame0AfterAnimStop="true"  //调用stopPlayAnim()后, 是否重置到第1帧, 默认true
  *      app:shape_solidColor="@color/blue" /&gt;    //背景色等...
  *
+ * TODO: 2024/10/25 RecyclerView 中使用动画, 会出问题
  * {@link 注意:} if在RecyclerView 中使用动画, 会出问题, 动画停不下来! 原因还未知. 请在RecyclerView中使用 {@link AnimationDrawableImageView}
  */
 public final class DrawableTextView extends ShapeTextView {
