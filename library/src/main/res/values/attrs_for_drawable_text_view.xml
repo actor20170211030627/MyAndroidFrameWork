@@ -2,11 +2,32 @@
 <resources>
     <!-- 限定Drawable宽高, 播放/停止动画 的TextView -->
     <declare-styleable name="DrawableTextView">
-        <!-- Drawable 宽度 -->
-        <attr name="drawableWidth" format="dimension" />
-        <!-- Drawable 高度 -->
-        <attr name="drawableHeight" format="dimension" />
+        <!-- 四周Drawable 宽度(默认图片宽度) -->
+        <attr name="dtvWidth" format="dimension" />
+        <!-- 四周Drawable 高度(默认图片高度) -->
+        <attr name="dtvHeight" format="dimension" />
+
+        <!-- 左侧Drawable 宽度 -->
+        <attr name="dtvStartWidth" format="dimension" />
+        <!-- 左侧Drawable 高度 -->
+        <attr name="dtvStartHeight" format="dimension" />
+
+        <!-- 顶部Drawable 宽度 -->
+        <attr name="dtvTopWidth" format="dimension" />
+        <!-- 顶部Drawable 高度 -->
+        <attr name="dtvTopHeight" format="dimension" />
+
+        <!-- 右侧Drawable 宽度 -->
+        <attr name="dtvEndWidth" format="dimension" />
+        <!-- 右侧Drawable 高度 -->
+        <attr name="dtvEndHeight" format="dimension" />
+
+        <!-- 底部Drawable 宽度 -->
+        <attr name="dtvBottomWidth" format="dimension" />
+        <!-- 底部Drawable 高度 -->
+        <attr name="dtvBottomHeight" format="dimension" />
+
         <!-- 调用stopPlayAnim()后, 是否将<animation-list 动画重置到第1帧, 默认true -->
-        <attr name="drawableIsReset2Frame0AfterAnimStop" format="boolean" />
+        <attr name="dtvIsReset2Frame0AfterAnimStop" format="boolean" />
     </declare-styleable>
 </resources>

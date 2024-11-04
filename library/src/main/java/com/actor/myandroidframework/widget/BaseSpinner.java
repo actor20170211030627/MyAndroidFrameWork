@@ -256,6 +256,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     }
 
     /**
+     * final: 不要重写这个方法.
      * @deprecated 重复选中时不会回调, 用这个↓
      * @see #setOnItemSelectedListener(OnItemSelectedListener2)
      */

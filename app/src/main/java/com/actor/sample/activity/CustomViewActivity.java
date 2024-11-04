@@ -2,6 +2,7 @@ package com.actor.sample.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -110,6 +111,16 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 viewBinding.btnSelected.setText("selected=" + viewBinding.ivSliv.isSelected());
                 break;
 
+            case R.id.dtv1: //DrawableTextView 动态改变宽高
+                view.setSelected(!view.isSelected());
+                if (view.isSelected()) {
+                    viewBinding.dtv1.setDrawableSize(Gravity.START, dp10 * 5, dp10 * 8);
+                    viewBinding.dtv1.setDrawableSize(Gravity.END, dp10 * 8, dp10 * 5);
+                } else {
+                    viewBinding.dtv1.setDrawableSize(Gravity.START, dp10 * 8, dp10 * 5);
+                    viewBinding.dtv1.setDrawableSize(Gravity.END, dp10 * 5, dp10 * 8);
+                }
+                break;
             case R.id.dtv2: //DrawableTextView 播放动画
                 MediaPlayerUtils.playRaw(R.raw.one_kun, new MediaPlayerCallback() {
                     @Override

@@ -5,7 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.ViewGroup;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -26,23 +29,40 @@ import com.hjq.shape.view.ShapeTextView;
  *      android:text="测试"
  *      android:textColor="@color/white"
  *      android:textSize="15sp"
+ *      ...
  *      android:drawablePadding="5dp"
  *      android:drawableStart="@drawable/xxx"   //可以是一个&lt;animation-list 播放动画
- *      app:drawableWidth="25dp"                        //drawable 宽度
- *      app:drawableHeight="23dp"                       //drawable 高度
+ *      ...
+ *      app:dtvWidth="25dp"                     //四周Drawable 宽度(默认图片宽度)
+ *      app:dtvHeight="23dp"                    //四周Drawable 高度(默认图片高度)
+ *      app:dtvStartWidth="25dp"                //← 左侧Drawable 宽度
+ *      app:dtvStartHeight="23dp"               //← 左侧Drawable 高度
+ *      app:dtvTopWidth="25dp"                  //↑
+ *      app:dtvTopHeight="23dp"                 //
+ *      app:dtvEndWidth="25dp"                  //→
+ *      app:dtvEndHeight="23dp"                 //
+ *      app:dtvBottomWidth="25dp"               //↓
+ *      app:dtvBottomHeight="23dp"              //
  *      app:drawableIsReset2Frame0AfterAnimStop="true"  //调用stopPlayAnim()后, 是否重置到第1帧, 默认true
+ *      ...
  *      app:shape_solidColor="@color/blue" /&gt;    //背景色等...
  *
  * TODO: 2024/10/25 RecyclerView 中使用动画, 会出问题
- * {@link 注意:} if在RecyclerView 中使用动画, 会出问题, 动画停不下来! 原因还未知. 请在RecyclerView中使用 {@link AnimationDrawableImageView}
+ * {@link 注意:} if在RecyclerView 中使用动画, 动画可能会出问题, 停不下来等! 原因还未知. 请在RecyclerView中使用 {@link AnimationDrawableImageView}
  */
-public final class DrawableTextView extends ShapeTextView {
+public class DrawableTextView extends ShapeTextView {
 
     //stop()后, 动画是否要重置到第1帧
     protected boolean isReset2Frame0AfterStop = true;
 
-    private int mDrawableWidth;
-    private int mDrawableHeight;
+    protected int wrapContent = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+//    protected int mDrawableWidth;
+//    protected int mDrawableHeight;
+    protected int mDrawableStartWidth, mDrawableStartHeight;
+    protected int mDrawableTopWidth, mDrawableTopHeight;
+    protected int mDrawableEndWidth, mDrawableEndHeight;
+    protected int mDrawableBottomWidth, mDrawableBottomHeight;
 
     public DrawableTextView(@NonNull Context context) {
         this(context, null);
@@ -56,44 +76,88 @@ public final class DrawableTextView extends ShapeTextView {
         super(context, attrs, defStyleAttr);
 
         final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DrawableTextView);
-        mDrawableWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableWidth, 0);
-        mDrawableHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableHeight, 0);
-        isReset2Frame0AfterStop = array.getBoolean(R.styleable.DrawableTextView_drawableIsReset2Frame0AfterAnimStop, isReset2Frame0AfterStop);
+        //all
+        int mDrawableWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvWidth, wrapContent);
+        int mDrawableHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvHeight, wrapContent);
+        //←
+        mDrawableStartWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvStartWidth, mDrawableWidth);
+        mDrawableStartHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvStartHeight, mDrawableHeight);
+        //↑
+        mDrawableTopWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvTopWidth, mDrawableWidth);
+        mDrawableTopHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvTopHeight, mDrawableHeight);
+        //→
+        mDrawableEndWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvEndWidth, mDrawableWidth);
+        mDrawableEndHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvEndHeight, mDrawableHeight);
+        //↓
+        mDrawableBottomWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvBottomWidth, mDrawableWidth);
+        mDrawableBottomHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvBottomHeight, mDrawableHeight);
+        //if播放Animation动画, 播放完成后是否重置到第0帧
+        isReset2Frame0AfterStop = array.getBoolean(R.styleable.DrawableTextView_dtvIsReset2Frame0AfterAnimStop, isReset2Frame0AfterStop);
         array.recycle();
 
         refreshDrawablesSize();
     }
 
     /**
-     * 限定 Drawable 大小
+     * 限定四周 Drawable 大小
      */
-    public void setDrawableSize(int width, int height) {
-        mDrawableWidth = width;
-        mDrawableHeight = height;
-        if (!isAttachedToWindow()) {
-            return;
+    public void setDrawableSizeAll(@IntRange(from = 0) int width, @IntRange(from = 0) int height) {
+        mDrawableStartWidth = mDrawableTopWidth= mDrawableEndWidth = mDrawableBottomWidth = width;
+        mDrawableStartHeight = mDrawableTopHeight = mDrawableEndHeight = mDrawableBottomHeight = height;
+        refreshDrawablesSize();
+    }
+
+    /**
+     * 限定 Drawable 大小
+     * @param gravity 位置: Gravity.START 等...
+     */
+    public void setDrawableSize(int gravity, @IntRange(from = 0) int width, @IntRange(from = 0) int height) {
+        if (gravity == Gravity.START || gravity == Gravity.LEFT) {
+            mDrawableStartWidth = width;
+            mDrawableStartHeight = height;
+        } else if (gravity == Gravity.TOP) {
+            mDrawableTopWidth = width;
+            mDrawableTopHeight = height;
+        } else if (gravity == Gravity.END || gravity == Gravity.RIGHT) {
+            mDrawableEndWidth = width;
+            mDrawableEndHeight = height;
+        } else {
+            mDrawableBottomWidth = width;
+            mDrawableBottomHeight = height;
         }
         refreshDrawablesSize();
     }
 
     /**
      * 限定 Drawable 宽度
+     * @param gravity 位置: Gravity.START 等...
      */
-    public void setDrawableWidth(int width) {
-        mDrawableWidth = width;
-        if (!isAttachedToWindow()) {
-            return;
+    public void setDrawableWidth(int gravity, @IntRange(from = 0) int width) {
+        if (gravity == Gravity.START || gravity == Gravity.LEFT) {
+            mDrawableStartWidth = width;
+        } else if (gravity == Gravity.TOP) {
+            mDrawableTopWidth = width;
+        } else if (gravity == Gravity.END || gravity == Gravity.RIGHT) {
+            mDrawableEndWidth = width;
+        } else {
+            mDrawableBottomWidth = width;
         }
         refreshDrawablesSize();
     }
 
     /**
      * 限定 Drawable 高度
+     * @param gravity 位置: Gravity.START 等...
      */
-    public void setDrawableHeight(int height) {
-        mDrawableHeight = height;
-        if (!isAttachedToWindow()) {
-            return;
+    public void setDrawableHeight(int gravity, @IntRange(from = 0) int height) {
+        if (gravity == Gravity.START || gravity == Gravity.LEFT) {
+            mDrawableStartHeight = height;
+        } else if (gravity == Gravity.TOP) {
+            mDrawableTopHeight = height;
+        } else if (gravity == Gravity.END || gravity == Gravity.RIGHT) {
+            mDrawableEndHeight = height;
+        } else {
+            mDrawableBottomHeight = height;
         }
         refreshDrawablesSize();
     }
@@ -101,54 +165,60 @@ public final class DrawableTextView extends ShapeTextView {
     @Override
     public void setCompoundDrawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
         super.setCompoundDrawables(left, top, right, bottom);
-        if (!isAttachedToWindow()) {
-            return;
-        }
         refreshDrawablesSize();
     }
 
     @Override
     public void setCompoundDrawablesRelative(@Nullable Drawable start, @Nullable Drawable top, @Nullable Drawable end, @Nullable Drawable bottom) {
         super.setCompoundDrawablesRelative(start, top, end, bottom);
-        if (!isAttachedToWindow()) {
-            return;
-        }
         refreshDrawablesSize();
     }
 
     /**
      * 刷新 Drawable 列表大小
      */
-    private void refreshDrawablesSize() {
-        if (mDrawableWidth == 0 || mDrawableHeight == 0) {
-            return;
-        }
+    protected void refreshDrawablesSize() {
+//        if (!isAttachedToWindow()) {
+//            LogUtils.errorFormat("refreshDrawablesSize(): isAttachedToWindow() = false");
+//            return;
+//        }
         Drawable[] compoundDrawables = getCompoundDrawables();
         if (compoundDrawables[0] != null || compoundDrawables[1] != null || compoundDrawables[2] != null || compoundDrawables[3] != null) {
-            super.setCompoundDrawables(limitDrawableSize(compoundDrawables[0]),
-                    limitDrawableSize(compoundDrawables[1]),
-                    limitDrawableSize(compoundDrawables[2]),
-                    limitDrawableSize(compoundDrawables[3]));
+            super.setCompoundDrawables(limitDrawableSize(0, compoundDrawables[0]),
+                    limitDrawableSize(1, compoundDrawables[1]),
+                    limitDrawableSize(2, compoundDrawables[2]),
+                    limitDrawableSize(3, compoundDrawables[3]));
             return;
         }
         compoundDrawables = getCompoundDrawablesRelative();
-        super.setCompoundDrawablesRelative(limitDrawableSize(compoundDrawables[0]),
-                limitDrawableSize(compoundDrawables[1]),
-                limitDrawableSize(compoundDrawables[2]),
-                limitDrawableSize(compoundDrawables[3]));
+        super.setCompoundDrawablesRelative(limitDrawableSize(0, compoundDrawables[0]),
+                limitDrawableSize(1, compoundDrawables[1]),
+                limitDrawableSize(2, compoundDrawables[2]),
+                limitDrawableSize(3, compoundDrawables[3]));
     }
 
     /**
      * 重新限定 Drawable 宽高
      */
-    private Drawable limitDrawableSize(Drawable drawable) {
-        if (drawable == null) {
-            return null;
+    protected Drawable limitDrawableSize(int position, Drawable drawable) {
+        if (drawable == null) return null;
+        int width, height;
+        if (position == 0) {
+            width = mDrawableStartWidth;
+            height = mDrawableStartHeight;
+        } else if (position == 1) {
+            width = mDrawableTopWidth;
+            height = mDrawableTopHeight;
+        } else if (position == 2) {
+            width = mDrawableEndWidth;
+            height = mDrawableEndHeight;
+        } else {
+            width = mDrawableBottomWidth;
+            height = mDrawableBottomHeight;
         }
-        if (mDrawableWidth == 0 || mDrawableHeight == 0) {
-            return drawable;
-        }
-        drawable.setBounds(0, 0, mDrawableWidth, mDrawableHeight);
+        if (width == wrapContent) width = drawable.getIntrinsicWidth();
+        if (height == wrapContent) height = drawable.getIntrinsicHeight();
+        drawable.setBounds(0, 0, width, height);
         return drawable;
     }
 
