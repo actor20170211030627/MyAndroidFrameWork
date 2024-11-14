@@ -225,15 +225,22 @@ public class RoundCardView extends CardView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         if (path != null && rect != null && rectF != null) {
             path.reset();
 //            rect.setEmpty();
             getDrawingRect(rect);
             rectF.set(rect);
             float[] radius8 = {tlRadius, tlRadius, trRadius, trRadius, brRadius, brRadius, blRadius, blRadius};
+            //在路径中添加一个圆角矩形
             path.addRoundRect(rectF, radius8, Path.Direction.CW);
+            //使用路径对画布进行裁剪
             canvas.clipPath(path, Region.Op.INTERSECT);
         }
-        super.onDraw(canvas);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
     }
 }

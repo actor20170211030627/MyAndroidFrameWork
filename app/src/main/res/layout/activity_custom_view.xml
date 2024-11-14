@@ -209,7 +209,8 @@
                 android:id="@+id/iv_in_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
         </com.actor.myandroidframework.widget.RoundCardView>
 
         <androidx.appcompat.widget.AppCompatButton

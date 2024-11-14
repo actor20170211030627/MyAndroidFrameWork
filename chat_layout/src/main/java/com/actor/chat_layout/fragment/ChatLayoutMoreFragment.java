@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,7 +43,7 @@ public class ChatLayoutMoreFragment extends ActorBaseFragment {
      * @param itemDecorationPx item间距, 单位px, 比如: 50
      * @param items 填充到 recyclerview 中的数据
      */
-    public static ChatLayoutMoreFragment newInstance(int spanCount, int itemDecorationPx, ArrayList<ChatLayoutItemMore> items) {
+    public static ChatLayoutMoreFragment newInstance(int spanCount, @Px int itemDecorationPx, ArrayList<ChatLayoutItemMore> items) {
         ChatLayoutMoreFragment fragment = new ChatLayoutMoreFragment();
         Bundle args = new Bundle();
         args.putInt(SPAN_COUNT, spanCount);

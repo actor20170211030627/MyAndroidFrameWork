@@ -11,6 +11,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdate;
@@ -309,7 +310,7 @@ public class GaoDe3DMapUtils {
      * @param height marker高度, 单位px, 例: 90
      * @return 高德Marker
      */
-    public static MarkerOptions getMarkerOptions(@DrawableRes int resId, int width, int height) {
+    public static MarkerOptions getMarkerOptions(@DrawableRes int resId, @Px int width, @Px int height) {
         Bitmap bitmap = ImageUtils.getBitmap(resId);
         Bitmap scale = ImageUtils.scale(bitmap, width, height, true);
         BitmapDescriptor bitmapDesc = BitmapDescriptorFactory.fromBitmap(scale);

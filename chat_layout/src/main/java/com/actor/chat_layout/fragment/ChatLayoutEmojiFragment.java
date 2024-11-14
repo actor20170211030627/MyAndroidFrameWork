@@ -41,7 +41,7 @@ public class ChatLayoutEmojiFragment extends ActorBaseFragment implements View.O
      * @param itemDecorationPx 表情之间间隔
      * @param items 表情列表
      */
-    public static ChatLayoutEmojiFragment newInstance(/*int spanCount, int itemDecorationPx, ArrayList<ItemMore> items*/) {
+    public static ChatLayoutEmojiFragment newInstance(/*int spanCount, @Px int itemDecorationPx, ArrayList<ItemMore> items*/) {
         ChatLayoutEmojiFragment fragment = new ChatLayoutEmojiFragment();
 //        Bundle args = new Bundle();
 //        args.putInt(SPAN_COUNT, spanCount);

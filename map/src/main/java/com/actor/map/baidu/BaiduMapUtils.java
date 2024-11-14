@@ -10,6 +10,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
@@ -192,7 +193,7 @@ public class BaiduMapUtils {
      *                   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp; 吐槽: Marker隐藏后, 绑定的InfoWindow不会跟着隐藏. <br />
      *                   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp; 建议: 不要设置InfoWindow, {@link #showInfoWindow(BaiduMap, InfoWindow, boolean)}的参3可以设置其它InfoWindow是否隐藏. <br />
      */
-    public static MarkerOptions getMarkerOptions(@DrawableRes int resId, int width, int height
+    public static MarkerOptions getMarkerOptions(@DrawableRes int resId, @Px int width, @Px int height
                                                  //, @Nullable InfoWindow infoWindow
     ) {
         Bitmap bitmap = ImageUtils.getBitmap(resId);

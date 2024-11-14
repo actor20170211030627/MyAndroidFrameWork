@@ -24,7 +24,20 @@ public abstract class MediaPlayerCallback implements
 {
     boolean isAutoPlay = false;         //是否自动播放
     boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
+    Object tagMPC;            //标记本次播放, 例如可以传入RecyclerView中Item的position, 播放完成拿到tag做相应操作
     MediaPlayer mp;                     //播放器
+
+    public MediaPlayerCallback() {
+    }
+
+    public MediaPlayerCallback(Object tag) {
+        this.tagMPC = tag;
+    }
+
+    @Nullable
+    public <T extends Object> T getPlayerTag() {
+        return (T) tagMPC;
+    }
 
     /**
      * 当准备完成后

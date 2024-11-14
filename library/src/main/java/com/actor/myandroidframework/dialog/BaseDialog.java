@@ -14,6 +14,7 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 import androidx.annotation.StyleRes;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.Lifecycle;
@@ -132,7 +133,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
      * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
      *                    解决方法: 宽度-1px
      */
-    public BaseDialog setWidth(int width) {
+    public BaseDialog setWidth(@Px int width) {
         this.windowWidth = width;
         return this;
     }
@@ -152,7 +153,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
      * @param widthPercent 宽度百分比
      * @param maxWidth 最大宽度(像素px) (∵有些lj平板竖屏的时候, 获取的宽度实际是高度, 导致Dialog超宽..., 所以建议设置最大宽度)
      */
-    public BaseDialog setWidthPercent(@FloatRange(from = 0f, to = 1f, fromInclusive = false) float widthPercent, int maxWidth) {
+    public BaseDialog setWidthPercent(@FloatRange(from = 0f, to = 1f, fromInclusive = false) float widthPercent, @Px int maxWidth) {
         return setWidth(Math.min((int) (ScreenUtils.getAppScreenWidth() * widthPercent), maxWidth));
     }
 
@@ -161,7 +162,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
      * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
      *                    解决方法: 宽度-1px
      */
-    public BaseDialog setHeight(int height) {
+    public BaseDialog setHeight(@Px int height) {
         this.windowHeight = height;
         return this;
     }
