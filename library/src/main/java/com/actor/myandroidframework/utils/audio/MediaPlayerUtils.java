@@ -59,12 +59,12 @@ public class MediaPlayerUtils {
     public static void playRaw(@RawRes int rawId, boolean isLooping, boolean isAutoPlay,
                         boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
         if (isNewMediaPlayer) {
-            MediaPlayer mMediaPlayer = null;
+            MediaPlayer mediaPlayer = null;
             try {
-                mMediaPlayer = MediaPlayer.create(ConfigUtils.APPLICATION, rawId);   //nullable
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mMediaPlayer.setVolume(1, 1);
-                mMediaPlayer.setLooping(isLooping);
+                mediaPlayer = MediaPlayer.create(ConfigUtils.APPLICATION, rawId);   //nullable
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mediaPlayer.setVolume(1, 1);
+                mediaPlayer.setLooping(isLooping);
 
                 if (playerCallback == null) playerCallback = new MediaPlayerCallback() {
                     @Override
@@ -73,30 +73,30 @@ public class MediaPlayerUtils {
                 };
                 playerCallback.isAutoPlay = isAutoPlay;
                 playerCallback.isNewMediaPlayer = isNewMediaPlayer;
-                playerCallback.mp = mMediaPlayer;
+                playerCallback.mp = mediaPlayer;
 
-                int audioSessionId = mMediaPlayer.getAudioSessionId();
+                int audioSessionId = mediaPlayer.getAudioSessionId();
                 playerMap.put(audioSessionId, playerCallback);
 
                 //准备完成监听
-                mMediaPlayer.setOnPreparedListener(playerCallback);
+                mediaPlayer.setOnPreparedListener(playerCallback);
                 //播放出错监听
-                mMediaPlayer.setOnErrorListener(playerCallback);
-                mMediaPlayer.setOnBufferingUpdateListener(playerCallback);
+                mediaPlayer.setOnErrorListener(playerCallback);
+                mediaPlayer.setOnBufferingUpdateListener(playerCallback);
                 //调用seekTo()完成后监听
-                mMediaPlayer.setOnSeekCompleteListener(playerCallback);
-                mMediaPlayer.setOnCompletionListener(playerCallback);
+                mediaPlayer.setOnSeekCompleteListener(playerCallback);
+                mediaPlayer.setOnCompletionListener(playerCallback);
 
                 /**
                  * 播放本地的时候, .prepare() 会报错: prepareAsync called in state 8, mPlayer(0x7e0c7f62c0)
                  * 会自动准备完毕
                  */
-//                mMediaPlayer.prepareAsync();
-//                mMediaPlayer.prepare();
+//                mediaPlayer.prepareAsync();
+//                mediaPlayer.prepare();
             } catch (NullPointerException | IllegalStateException e) {
                 if (playerCallback != null) {
-                    boolean isDealBySelf = playerCallback.onSetData2StartError(mMediaPlayer, e);
-                    if (!isDealBySelf) playerCallback.onCompletion(mMediaPlayer);
+                    boolean isDealBySelf = playerCallback.onSetData2StartError(mediaPlayer, e);
+                    if (!isDealBySelf) playerCallback.onCompletion(mediaPlayer);
                 }
             }
         } else {
@@ -150,9 +150,9 @@ public class MediaPlayerUtils {
                 mediaPlayer = mMediaPlayer;
             }
 //            AudioAttributes attrs = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
-//            mMediaPlayer.setAudioAttributes(attrs);
-//            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-//            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//            mediaPlayer.setAudioAttributes(attrs);
+//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
             //设置数据源, 本地or网上
             mediaPlayer.setDataSource(audioPath);
@@ -176,11 +176,11 @@ public class MediaPlayerUtils {
             mediaPlayer.setOnErrorListener(playerCallback);
             mediaPlayer.setOnBufferingUpdateListener(playerCallback);
             //调用seekTo()完成后监听
-            mMediaPlayer.setOnSeekCompleteListener(playerCallback);
+            mediaPlayer.setOnSeekCompleteListener(playerCallback);
             mediaPlayer.setOnCompletionListener(playerCallback);
             mediaPlayer.prepareAsync();    //主线程中异步准备, 准备监听完成后开始播放
-//            mMediaPlayer.prepare();
-//            mMediaPlayer.start();
+//            mediaPlayer.prepare();
+//            mediaPlayer.start();
         } catch (IOException | IllegalArgumentException | SecurityException | IllegalStateException e) {
             if (playerCallback != null) {
                 boolean isDealBySelf = playerCallback.onSetData2StartError(mediaPlayer, e);

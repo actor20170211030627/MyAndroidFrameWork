@@ -2,17 +2,20 @@ package com.actor.sample.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.audio.MediaPlayerCallback;
+import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
 import com.actor.myandroidframework.utils.audio.MediaRecorderUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
+import com.actor.others.utils.tts.TextToSpeechUtils;
+import com.actor.others.utils.tts.UtteranceProgressListenerImpl;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityAudioMediaBinding;
 import com.hjq.permissions.OnPermissionCallback;
@@ -29,6 +32,8 @@ import java.util.List;
  */
 public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> {
 
+    private String audioPath;
+
     //刘明湘-漂洋过海来看你(抖音版ProgHouse)（阿祥 remix）
     private final String MUSIC = "https://player.yinyueke.net/api/index.php?server=netease&type=url&id=1351664561";
     //下方播放有点问题, 无语
@@ -42,6 +47,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         super.onCreate(savedInstanceState);
         setTitle("Audio & Media");
         MediaRecorderUtils.getInstance().setMaxRecordTimeMs(10 * 1000);
+        TextToSpeechUtils.init(this, null, null);
     }
 
     @Override
@@ -60,11 +66,12 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                     });
                 }
                 break;
-            case R.id.btn_start_record:
+            case R.id.btn_start_record: //开始录音
                 MediaRecorderUtils.getInstance().startRecordM4a(new MediaRecorderCallback() {
                     @Override
                     public void recordComplete(String audioPath, long durationMs) {
                         ToasterUtils.successFormat("录制完成, audioPath=%s, durationMs=%d", audioPath, durationMs);
+                        AudioMediaActivity.this.audioPath = audioPath;
                     }
                     @Override
                     public void recordCancel(String audioPath, long durationMs) {
@@ -76,10 +83,20 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                     }
                 });
                 break;
-            case R.id.btn_stop_record:
+            case R.id.btn_stop_record:  //停止录音
                 MediaRecorderUtils.getInstance().stopRecord(false);
                 String recordAudioPath = MediaRecorderUtils.getInstance().getRecordAudioPath();
                 LogUtils.errorFormat("录制文件, recordAudioPath=%s", recordAudioPath);
+                break;
+            case R.id.btn_play_record:  //播放录音
+                if (!TextUtils.isEmpty(audioPath)) {
+                    MediaPlayerUtils.play(audioPath, true, new MediaPlayerCallback() {
+                        @Override
+                        public void onCompletion2(@Nullable MediaPlayer mp) {
+                            LogUtils.errorFormat("播放完成: audioPath=%s", audioPath);
+                        }
+                    });
+                }
                 break;
 
 
@@ -129,6 +146,20 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
             case R.id.btn_stop_play:
                 MediaPlayerUtils.stop(audioSessionIdMusic);
                 break;
+
+
+            case R.id.btn_tts_play: //系统Tts播放输入的内容
+                CharSequence content = viewBinding.etContent.getText();
+                TextToSpeechUtils.speak(content, new UtteranceProgressListenerImpl() {
+                    @Override
+                    public void onDone2(String utteranceId) {
+                        ToasterUtils.success("播放完成!");
+                    }
+                });
+                break;
+            case R.id.btn_tts_stop: //停止Tts
+                TextToSpeechUtils.stop();
+                break;
             default:
                 break;
         }
@@ -140,5 +171,6 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         //释放资源
         MediaRecorderUtils.getInstance().releaseMediaRecorder();
         MediaPlayerUtils.releaseAll();
+        TextToSpeechUtils.shutdown();
     }
 }

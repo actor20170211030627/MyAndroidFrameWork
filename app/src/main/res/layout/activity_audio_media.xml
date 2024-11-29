@@ -20,7 +20,6 @@
         android:id="@+id/btn_start_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:onClick="onViewClicked"
         android:text="开始录音"
         android:transitionName="btnTest"
@@ -38,6 +37,16 @@
         app:layout_constraintTop_toTopOf="@id/btn_start_record" />
 
     <Button
+        android:id="@+id/btn_play_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="播放录音"
+        android:transitionName="btnTest"
+        app:layout_constraintStart_toEndOf="@id/btn_stop_record"
+        app:layout_constraintTop_toTopOf="@id/btn_start_record" />
+
+    <Button
         android:id="@+id/btn_start_play_raw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,43 +57,92 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_start_record" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_start_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/grey_CCC"
+        android:gravity="center"
         android:onClick="onViewClicked"
-        android:text="开始播放"
+        android:padding="5dp"
+        android:text="开始播放http"
+        android:textColor="@color/white"
         android:transitionName="btnTest"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_pause_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@color/grey_CCC"
+        android:gravity="center"
         android:onClick="onViewClicked"
-        android:text="暂停播放"
+        android:padding="5dp"
+        android:text="暂停播放http"
+        android:textColor="@color/white"
         android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_start_play"
         app:layout_constraintTop_toTopOf="@id/btn_start_play" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_continue_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@color/grey_CCC"
+        android:gravity="center"
         android:onClick="onViewClicked"
-        android:text="继续播放"
+        android:padding="5dp"
+        android:text="继续播放http"
+        android:textColor="@color/white"
         android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_pause_play"
         app:layout_constraintTop_toTopOf="@id/btn_start_play" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_stop_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@color/grey_CCC"
+        android:gravity="center"
         android:onClick="onViewClicked"
-        android:text="停止播放"
+        android:padding="5dp"
+        android:text="停止播放http"
+        android:textColor="@color/white"
         android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_continue_play"
         app:layout_constraintTop_toTopOf="@id/btn_start_play" />
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="请输入要读取的内容"
+        android:text="I have an eraser.\n我有块橡皮。"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_play" />
+
+    <Button
+        android:id="@+id/btn_tts_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="系统Tts播放输入的内容"
+        android:transitionName="btnTest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_content" />
+
+    <Button
+        android:id="@+id/btn_tts_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="停止Tts"
+        android:transitionName="btnTest"
+        app:layout_constraintStart_toEndOf="@id/btn_tts_play"
+        app:layout_constraintTop_toTopOf="@id/btn_tts_play" />
 </androidx.constraintlayout.widget.ConstraintLayout>
