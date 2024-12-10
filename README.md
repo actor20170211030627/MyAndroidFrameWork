@@ -29,13 +29,13 @@ api 'com.blankj:utilcodex:1.31.1'
 api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
 <li>//https://github.com/getActivity/XXPermissions 轮子哥权限
-api 'com.github.getActivity:XXPermissions:18.6'
+api 'com.github.getActivity:XXPermissions:20.0'
 </li>
 <li>// 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
 api 'com.github.getActivity:Toaster:12.6'
 </li>
 <li>// Shape 框架：https://github.com/getActivity/ShapeView 轮子哥
-api 'com.github.getActivity:ShapeView:9.0'
+api 'com.github.getActivity:ShapeView:9.2'
 </li>
 <li>//https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
 api 'com.github.getActivity:EasyHttp:12.8'
@@ -47,7 +47,7 @@ api ('com.tencent:mmkv-static:1.3.2') {
 }
 </li>
 <li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
-api 'com.github.li-xiaojun:XPopup:2.9.19'
+api 'com.github.li-xiaojun:XPopup:2.10.0'
 </li></ol>
 </pre>
 
@@ -84,6 +84,7 @@ api 'com.github.li-xiaojun:XPopup:2.9.19'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BaseCountDownTimer.java" target="_blank">BaseCountDownTimer</a> (倒计时, 可暂停, 继续, 获取计时时间)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BRVUtils.java" target="_blank">BRVUtils</a> (BaseRecyclerView框架辅助)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/FontUtils.java" target="_blank">FontUtils</a> (字体)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java" target="_blank">LogUtils</a> (Log简单打印)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/MMKVUtils.java" target="_blank">MMKVUtils</a> (数据缓存)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/NotificationUtils2.java" target="_blank">NotificationUtils2</a> (通知栏)

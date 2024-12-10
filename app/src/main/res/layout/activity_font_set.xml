@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.FontSetActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="012lmn,|$%LMN阿波吃-(系统默认字体)"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:text="1.阿里妈妈方圆体VF"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv111"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/a_limama_fang_yuan_ti_vf_thin"
+            android:text="012lmn,|$%LMN阿波吃-(仅fontFamily)"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/a_limama_fang_yuan_ti_vf_thin"
+            android:fontFeatureSettings="smcp=1"
+            android:fontVariationSettings="'wdth' 500"
+            android:text="012lmn,|$%LMN阿波吃-(textFontWeight=1000)"
+            android:textColor="@color/black"
+            android:textFontWeight="1000"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvbbb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/a_limama_fang_yuan_ti_vf_thin"
+            android:text="012lmn,|$%LMN阿波吃-(bold)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/a_limama_fang_yuan_ti_vf_thin"
+            android:text="012lmn,|$%LMN阿波吃-(italic)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="italic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/a_limama_fang_yuan_ti_vf_thin"
+            android:text="012lmn,|$%LMN阿波吃-(italic|bold)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="italic|bold" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:text="2.FontAwesome字体"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_awesome"
+            android:text="012lmn,|$%LMN阿波吃-(仅fontFamily)"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_awesome"
+            android:fontFeatureSettings="smcp=1"
+            android:fontVariationSettings="'wdth' 500"
+            android:text="012lmn,|$%LMN阿波吃-(textFontWeight=1000)"
+            android:textColor="@color/black"
+            android:textFontWeight="1000"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_awesome"
+            android:text="012lmn,|$%LMN阿波吃-(bold)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_awesome"
+            android:text="012lmn,|$%LMN阿波吃-(italic)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="italic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_awesome"
+            android:text="012lmn,|$%LMN阿波吃-(italic|bold)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="italic|bold" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:text="3.Sofia字体"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sofia"
+            android:text="012lmn,|$%LMN阿波吃-(仅fontFamily)"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/sofia"
+            android:fontFeatureSettings="smcp=1"
+            android:fontVariationSettings="'wdth' 500"
+            android:maxLines="1"
+            android:text="012lmn,|$%LMN阿波吃-(textFontWeight=1000)"
+            android:textColor="@color/black"
+            android:textFontWeight="1000"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sofia"
+            android:text="012lmn,|$%LMN阿波吃-(bold)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sofia"
+            android:text="012lmn,|$%LMN阿波吃-(italic)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="italic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sofia"
+            android:text="012lmn,|$%LMN阿波吃-(italic|bold)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="italic|bold" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:text="4.动态修改"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="012lmn,|$%LMN阿波吃-(点↙修改)"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_EEE"
+            app:flexWrap="wrap"
+            app:justifyContent="space_between">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_font_from"
+                android:layout_width="wrap_content"
+                android:textOff="assets"
+                android:textOn="resource"
+                android:text="字体获取自:"
+                android:checked="true"
+                app:showText="true"
+                app:switchPadding="5dp"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_font_alimama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="AlimamaFangYuanTiVF字体" />
+
+            <Button
+                android:id="@+id/btn_font_awesome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="FontAwesome字体" />
+
+            <Button
+                android:id="@+id/btn_font_sofia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="Sofia字体" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:justifyContent="space_between">
+
+            <Button
+                android:id="@+id/btn_set_typeface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="tv.setTypeface" />
+
+            <Button
+                android:id="@+id/btn_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="tv.setTypeface(t, BOLD)加粗" />
+
+            <Button
+                android:id="@+id/btn_italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="tv.setTypeface(t, ITALIC)斜体" />
+
+            <Button
+                android:id="@+id/btn_bold_italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="tv.setTypeface(t, BOLD_ITALIC)粗&amp;斜" />
+
+
+            <Button
+                android:id="@+id/btn_bold_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="bold=true" />
+
+            <Button
+                android:id="@+id/btn_italic_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="italic=true" />
+
+            <Button
+                android:id="@+id/btn_bold_italic_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="bold=true&amp;italic=true" />
+
+
+            <Button
+                android:id="@+id/btn_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="weight=1000" />
+
+            <Button
+                android:id="@+id/btn_italic2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="italic=1" />
+
+            <Button
+                android:id="@+id/btn_weight_italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="weight=1000&amp;italic=1" />
+
+            <Button
+                android:id="@+id/btn_set_default_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="setDefaultFont" />
+        </com.google.android.flexbox.FlexboxLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>

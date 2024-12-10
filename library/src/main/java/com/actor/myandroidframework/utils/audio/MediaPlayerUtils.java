@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RawRes;
 
@@ -32,7 +33,7 @@ public class MediaPlayerUtils {
 
     protected static MediaPlayer         mMediaPlayer;
     protected static int                 DEFAULT_AUDIO_SESSION_ID = 0;  //默认播放id
-    protected static Map<Integer, MediaPlayerCallback> playerMap = new HashMap<>(5);
+    protected static final Map<Integer, MediaPlayerCallback> playerMap = new HashMap<>(5);
 
 //    protected static MediaPlayerUtils instance;
 //
@@ -41,6 +42,14 @@ public class MediaPlayerUtils {
 //        if (instance == null) instance = new MediaPlayerUtils();
 //        return instance;
 //    }
+
+    /**
+     * 获取所有播放器
+     */
+    @NonNull
+    public Map<Integer, MediaPlayerCallback> getAllPlayers() {
+        return playerMap;
+    }
 
     public static void playRaw(@RawRes int rawId, @Nullable MediaPlayerCallback playerCallback) {
         playRaw(rawId, true, playerCallback);

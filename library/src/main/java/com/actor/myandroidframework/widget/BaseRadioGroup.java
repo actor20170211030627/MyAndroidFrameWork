@@ -2,6 +2,7 @@ package com.actor.myandroidframework.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -53,7 +54,7 @@ public class BaseRadioGroup<T> extends RadioGroup {
          */
         int childCount = getChildCount();
 //        //最后一个选中的孩子的id(系统默认选中最后一个)
-        int lastCheckedId = NO_ID;
+        int lastCheckedId = View.NO_ID;
 //        //遍历所有child, 将所有已选中的child设为false
         for (int i = 0; i < childCount; i++) {
             RadioButton child = getChildAt(i);
@@ -64,7 +65,7 @@ public class BaseRadioGroup<T> extends RadioGroup {
             }
         }
 //        //如果有默认选中的孩子
-        if (lastCheckedId != NO_ID) {
+        if (lastCheckedId != View.NO_ID) {
             clearCheck();
             check(lastCheckedId);
         }
@@ -157,7 +158,7 @@ public class BaseRadioGroup<T> extends RadioGroup {
     }
 
     /**
-     * @return 获取已选中的position, 如果没有, 返回NO_ID
+     * @return 获取已选中的position, 如果没有, 返回-1
      */
     public int getCheckedPosition() {
         int childCount = getChildCount();
@@ -165,7 +166,7 @@ public class BaseRadioGroup<T> extends RadioGroup {
             RadioButton child = getChildAt(i);
             if (child != null && child.isChecked()) return i;
         }
-        return NO_ID;
+        return View.NO_ID;
     }
 
     @Nullable

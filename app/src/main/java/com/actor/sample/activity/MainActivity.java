@@ -93,6 +93,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_scrollable_text_view://可滚动TextView
                 startActivity(new Intent(this, ScrollableTextViewActivity.class), false, null, null, view);
                 break;
+            case R.id.btn_font:         //Font字体设置
+                startActivity(new Intent(this, FontSetActivity.class));
+                break;
             case R.id.btn_part_image_view://ShowPartImageView
                 startActivity(new Intent(this, ShowPartImageViewActivity.class));
                 break;
