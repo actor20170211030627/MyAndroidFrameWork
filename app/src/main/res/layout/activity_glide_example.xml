@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.actor.sample.activity.GlideExampleActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="3"
+            tools:listitem="@layout/item_glide_example" />
+
+        <ImageView
+            android:id="@+id/iv_treasure_box0"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/icon_treasure_box_opened"
+            app:layout_constraintEnd_toEndOf="@id/stv_play0"
+            app:layout_constraintStart_toStartOf="@id/stv_play0"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view" />
+
+        <ImageView
+            android:id="@+id/iv_treasure_box1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/icon_treasure_box_opened"
+            app:layout_constraintEnd_toEndOf="@id/stv_play1"
+            app:layout_constraintStart_toStartOf="@id/stv_play1"
+            app:layout_constraintTop_toTopOf="@id/iv_treasure_box0" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/stv_play0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="ImageViewTarget播放2次"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_treasure_box0"
+            app:shape_radius="5dp"
+            app:shape_solidColor="@color/red_trans_CC99" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/stv_play1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:text="RequestListener播放2次"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/stv_play0"
+            app:layout_constraintTop_toTopOf="@id/stv_play0"
+            app:shape_radius="5dp"
+            app:shape_solidColor="@color/red_trans_CC99" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stv_play0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

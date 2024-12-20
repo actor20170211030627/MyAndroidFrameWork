@@ -68,7 +68,7 @@ public class FontUtils {
     public static final int WEIGHT_THIN = 100;          //细
     public static final int WEIGHT_EXTRA_LIGHT = 200;   //
     public static final int WEIGHT_LIGHT = 300;         //
-    public static final int WEIGHT_NORMAL = 400;        //常规
+    public static final int WEIGHT_NORMAL = 400;        //正常
     public static final int WEIGHT_MEDIUM = 500;        //中等
     public static final int WEIGHT_SEMI_BOLD = 600;     //半粗
     public static final int WEIGHT_BOLD = 700;          //粗

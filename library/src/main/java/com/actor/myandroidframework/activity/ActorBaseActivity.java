@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
@@ -54,14 +53,13 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         super.onCreate(savedInstanceState);
         mActivity = this;
         LogUtils.error(getClass().getName());
-        //设置屏幕朝向,在setContentView之前
-        setRequestedOrientation(getScreenOrientation());
-    }
-    /**
-     * 屏幕方向, 可重写此方法. 如果不设置时的默认值: SCREEN_ORIENTATION_UNSPECIFIED(未指定)
-     */
-    protected int getScreenOrientation() {
-        return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;    //竖屏
+        /**
+         * 不要在这儿设置屏幕朝向
+         * if清单文件没设置方向, 而这儿代码设置了竖屏, 但是用户打开了'自动旋转'且拿着的设备是横屏,
+         * 就会造成屏幕从横屏->竖屏, 页面重新创建, 但是一些参数并不会重新初始化, 就会出现bug.
+         * 应该在清单文件中设置屏幕朝向!
+         */
+//        setRequestedOrientation(getScreenOrientation());
     }
 
 

@@ -75,6 +75,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaPlayerUtils.java" target="_blank">MediaPlayerUtils</a> (播放音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaRecorderUtils.java" target="_blank">MediaRecorderUtils</a> (录音)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/easyhttp/EasyHttpConfigUtils.java" target="_blank">EasyHttpConfigUtils</a> (EasyHttp基本配置 & 封装的WebSocket)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/glide/GlideUtils.java" target="_blank">GlideUtils</a> (Glide加载图片常用方法)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/gson/IntJsonDeserializer.java" target="_blank">IntJsonDeserializer</a> (解决Gson""转换成int报错)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/okhttputils/OkHttpConfigUtils.java" target="_blank">OkHttpConfigUtils</a> (OkHttp基本配置)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/sharedelement/SharedElementUtils.java" target="_blank">SharedElementUtils</a> (元素共享跳转页面)

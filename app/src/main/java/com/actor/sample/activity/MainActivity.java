@@ -48,6 +48,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_bottom_sheet://从底部弹出的Dialog & DialogFragment等
                 startActivity(new Intent(this, BottomSheetDialogActivity.class), false, null, null, view);
                 break;
+            case R.id.btn_glide:        //Glide使用
+                startActivity(new Intent(this, GlideExampleActivity.class));
+                break;
             case R.id.btn_popup_window://PopupWindow测试
                 startActivity(PopupWindowTestActivity.class);
                 break;

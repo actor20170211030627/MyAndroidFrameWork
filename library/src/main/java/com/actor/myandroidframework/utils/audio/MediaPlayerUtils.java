@@ -154,6 +154,11 @@ public class MediaPlayerUtils {
                     mMediaPlayer = new MediaPlayer();
                     DEFAULT_AUDIO_SESSION_ID = mMediaPlayer.getAudioSessionId();
                 } else {
+                    //复用播放器, if还在播放, 先回调播放完成.
+                    if (mMediaPlayer.isPlaying()) {
+                        MediaPlayerCallback mpc = playerMap.get(mMediaPlayer.getAudioSessionId());
+                        if (mpc != null) mpc.onCompletion(mMediaPlayer);
+                    }
                     mMediaPlayer.reset();
                 }
                 mediaPlayer = mMediaPlayer;
