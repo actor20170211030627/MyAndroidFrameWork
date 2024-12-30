@@ -56,8 +56,8 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         /**
          * 不要在这儿设置屏幕朝向
          * if清单文件没设置方向, 而这儿代码设置了竖屏, 但是用户打开了'自动旋转'且拿着的设备是横屏,
-         * 就会造成屏幕从横屏->竖屏, 页面重新创建, 但是一些参数并不会重新初始化, 就会出现bug.
-         * 应该在清单文件中设置屏幕朝向!
+         * 就会造成屏幕从横屏->竖屏, 页面重新创建, 就有可能会出现bug.
+         * 应该自己在清单文件中设置屏幕朝向!
          */
 //        setRequestedOrientation(getScreenOrientation());
     }

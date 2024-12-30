@@ -66,12 +66,26 @@
             app:shape_solidColor="@color/red_trans_CC99" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_test"
-            android:layout_width="wrap_content"
+            android:id="@+id/iv_circle_test"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:src="@drawable/logo"
+            android:adjustViewBounds="true"
+            android:background="@color/blue_5ECCFD"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stv_play0" />
+            app:layout_constraintTop_toBottomOf="@id/stv_play0"
+            tools:src="@drawable/logo" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_round_test"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="10dp"
+            android:adjustViewBounds="true"
+            android:background="@color/blue_5ECCFD"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toEndOf="@id/iv_circle_test"
+            app:layout_constraintTop_toTopOf="@id/iv_circle_test"
+            tools:src="@drawable/logo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

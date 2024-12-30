@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner;
 import com.actor.myandroidframework.utils.FileUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
+import com.actor.myandroidframework.utils.glide.GlideUtils;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.sample.R;
 import com.actor.sample.utils.Global;
@@ -86,7 +87,7 @@ public class GlideExampleAdapter extends BaseQuickAdapter<String, BaseViewHolder
                 Glide.with(iv).load(Global.BAIDU_LOGO).into(iv);
                 break;
             case 1://assets
-                Glide.with(iv).load("file:///android_asset/logo.png").into(iv);
+                GlideUtils.loadAsset(iv, "logo.png");
                 break;
             case 2://Resources
                 Glide.with(iv).load(R.mipmap.ic_launcher).into(iv);
@@ -113,7 +114,7 @@ public class GlideExampleAdapter extends BaseQuickAdapter<String, BaseViewHolder
                 }
                 break;
             case 4://Uri
-                Glide.with(iv).load(Uri.parse(Global.BAIDU_LOGO)).into(iv);
+                GlideUtils.loadUri(iv, null, Uri.parse(Global.BAIDU_LOGO));
                 break;
             case 5://byte[]字节数组
                 Context context2 = getContext();
@@ -141,7 +142,7 @@ public class GlideExampleAdapter extends BaseQuickAdapter<String, BaseViewHolder
                 Glide.with(iv).load(TextUtils2.getStringFormat("android.resource://%s/raw/%s", getContext().getPackageName(), "logo")).into(iv);
                 break;
             case 7://raw
-                Glide.with(iv).load(TextUtils2.getStringFormat("android.resource://%s/raw/%d", getContext().getPackageName(), R.raw.logo)).into(iv);
+                GlideUtils.loadRaw(iv, R.raw.logo);
                 break;
             case 8://ContentProvider
                 //DownloadManagerUtils 查询下载: content://downloads/my_downloads/xxx

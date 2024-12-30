@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 
+import com.actor.myandroidframework.utils.glide.GlideUtils;
 import com.actor.myandroidframework.utils.glide.MyImageViewTarget;
 import com.actor.myandroidframework.utils.glide.MyRequestListener;
 import com.actor.myandroidframework.widget.BaseItemDecoration;
@@ -91,6 +92,14 @@ public class GlideExampleActivity extends BaseActivity<ActivityGlideExampleBindi
                 viewBinding.ivTreasureBox0.setImageResource(R.drawable.icon_treasure_box_opened);
             }
         });
+
+
+        //圆形图片
+        GlideUtils.loadCircleCrop(viewBinding.ivCircleTest, R.drawable.logo);
+        //圆角图片
+        GlideUtils.loadRoundedCorners(viewBinding.ivRoundTest, null, Global.BAIDU_LOGO, 30);
+
+
         viewBinding.stvPlay0.setOnClickListener(v -> {
             Glide.with(this).asGif()
                     .skipMemoryCache(true) //防止Gif重复播放时, 会先显示最后1帧的图片
@@ -99,12 +108,14 @@ public class GlideExampleActivity extends BaseActivity<ActivityGlideExampleBindi
                     .into(imageViewTarget);
         });
         viewBinding.stvPlay1.setOnClickListener(v -> {
-            Glide.with(this).asGif()
-                    .skipMemoryCache(true) //防止Gif重复播放时, 会先显示最后1帧的图片
-                    .placeholder(R.drawable.icon_treasure_box_closed) //第1帧的静态图片, 防止Gif重播时, 会闪动一下(可选)
-                    .load(R.drawable.gif_treasure_box_right)
-                    .listener(requestListener)
-                    .into(viewBinding.ivTreasureBox1);
+//            Glide.with(this).asGif()
+//                    .skipMemoryCache(true) //防止Gif重复播放时, 会先显示最后1帧的图片
+//                    .placeholder(R.drawable.icon_treasure_box_closed) //第1帧的静态图片, 防止Gif重播时, 会闪动一下(可选)
+//                    .load(R.drawable.gif_treasure_box_right)
+//                    .listener(requestListener)
+//                    .into(viewBinding.ivTreasureBox1);
+            GlideUtils.loadGifLoop(viewBinding.ivTreasureBox1, R.drawable.icon_treasure_box_closed,
+                    R.drawable.gif_treasure_box_right, requestListener);
         });
 
 
@@ -149,7 +160,7 @@ public class GlideExampleActivity extends BaseActivity<ActivityGlideExampleBindi
         RequestManager requestManager = Glide.with(this);
 //                .addDefaultRequestListener(RequestListener)
 //                .applyDefaultRequestOptions(RequestOptions)
-        Glide.with(this).clear(viewBinding.ivTest/*Target*/);//取消加载
+        Glide.with(this).clear(viewBinding.ivCircleTest/*Target*/);//取消加载
         RequestBuilder<File> download = Glide.with(this).download(Global.BAIDU_LOGO);//Object model
         RequestBuilder<File> downloadOnly = Glide.with(this).downloadOnly();
         boolean paused = Glide.with(this).isPaused();
