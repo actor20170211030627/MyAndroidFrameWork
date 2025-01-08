@@ -18,6 +18,8 @@ import com.actor.others.utils.tts.TextToSpeechUtils;
 import com.actor.others.utils.tts.UtteranceProgressListenerImpl;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityAudioMediaBinding;
+import com.blankj.utilcode.util.PathUtils;
+import com.blankj.utilcode.util.ResourceUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -40,6 +42,11 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 //    private final String MUSIC = "https://picture.halzwl.cn/picture/error/b24ecce9d181423dbc24eaf234181b61lmx-pyghlkn.mp3";
 //    private final String MUSIC = "http://qxbzlgx.mtwlkj.net/lmx-pyghlkn.mp3";
 
+    //本地声音
+    private String pathWrong = PathUtils.getInternalAppFilesPath() + "/wrong.mp3";
+    //网络
+    private String netStudent = "https://qc.zhizunnet.cn/words/enAudio/936.mp3";
+
     private int audioSessionIdMusic = -1;
 
     @Override
@@ -48,6 +55,9 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         setTitle("Audio & Media");
         MediaRecorderUtils.getInstance().setMaxRecordTimeMs(10 * 1000);
         TextToSpeechUtils.init(this, null, null);
+
+        //
+        ResourceUtils.copyFileFromRaw(R.raw.wrong, pathWrong);
     }
 
     @Override
@@ -90,7 +100,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 break;
             case R.id.btn_play_record:  //播放录音
                 if (!TextUtils.isEmpty(audioPath)) {
-                    MediaPlayerUtils.play(audioPath, true, new MediaPlayerCallback() {
+                    MediaPlayerUtils.getInstance().play(audioPath, true, new MediaPlayerCallback() {
                         @Override
                         public void onCompletion2(@Nullable MediaPlayer mp) {
                             LogUtils.errorFormat("播放完成: audioPath=%s", audioPath);
@@ -100,31 +110,90 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 break;
 
 
-            case R.id.btn_start_play_raw:
-                if (true) {
-                    MediaPlayerUtils.playRaw(R.raw.one_kun, null);
-                } else {
-                    MediaPlayerUtils.playRaw(R.raw.right, new MediaPlayerCallback() {
-                        @Override
-                        public boolean onSetData2StartError(@Nullable MediaPlayer mp, @NonNull Exception e) {
-                            super.onSetData2StartError(mp, e);
-                            return true;
-                        }
-                        @Override
-                        public void onCompletion2(@Nullable MediaPlayer mp) {
-                            LogUtils.error("onCompletion");
-                            view.callOnClick();
-                        }
-                        @Override
-                        public boolean onError(MediaPlayer mp, int what, int extra) {
-                            super.onError(mp, what, extra);
-                            return true;
-                        }
-                    });
-                }
+            case R.id.btn_start_play_raw0:  //不复用MP播放
+                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
                 break;
+            case R.id.btn_start_play_raw1:  //复用MP播放
+                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, false, null);
+                break;
+            case R.id.btn_start_play_raw2:  //不复用MP循环播放
+                MediaPlayerUtils.getInstance().playRaw(R.raw.right, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                        view.callOnClick();
+                    }
+                });
+                break;
+            case R.id.btn_start_play_raw3:  //复用MP循环播放
+                MediaPlayerUtils.getInstance().playRaw(R.raw.right, false, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                        view.callOnClick();
+                    }
+                });
+                break;
+
+
+            case R.id.btn_start_play_local0:  //不复用MP播放'本地'
+                MediaPlayerUtils.getInstance().play(pathWrong, true, null);
+                break;
+            case R.id.btn_start_play_local1:  //复用MP播放'本地'
+                MediaPlayerUtils.getInstance().play(pathWrong, null);
+                break;
+            case R.id.btn_start_play_local2:  //不复用MP循环播放'本地'
+                MediaPlayerUtils.getInstance().play(pathWrong, true, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                        view.callOnClick();
+                    }
+                });
+                break;
+            case R.id.btn_start_play_local3:  //复用MP循环播放'本地'
+                MediaPlayerUtils.getInstance().play(pathWrong, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                        view.callOnClick();
+                    }
+                });
+                break;
+
+
+            case R.id.btn_start_play_net0:  //不复用MP播放'网络'
+                MediaPlayerUtils.getInstance().play(netStudent, true, null);
+                break;
+            case R.id.btn_start_play_net1:  //复用MP播放'网络'
+                MediaPlayerUtils.getInstance().play(netStudent, null);
+                break;
+            case R.id.btn_start_play_net2:  //不复用MP循环播放'网络'
+                MediaPlayerUtils.getInstance().play(netStudent, true, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                        view.callOnClick();
+                    }
+                });
+                break;
+            case R.id.btn_start_play_net3:  //复用MP循环播放'网络'
+                MediaPlayerUtils.getInstance().play(netStudent, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                        view.callOnClick();
+                    }
+                });
+                break;
+
+            case R.id.btn_release_all:      //停止播放全部MP
+                MediaPlayerUtils.getInstance().stopAll();
+                break;
+
+
             case R.id.btn_start_play:
-                MediaPlayerUtils.play(MUSIC, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().play(MUSIC, new MediaPlayerCallback() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         super.onPrepared(mp);
@@ -138,13 +207,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_pause_play:
-                MediaPlayerUtils.pause(audioSessionIdMusic);
+                MediaPlayerUtils.getInstance().pause(audioSessionIdMusic);
                 break;
             case R.id.btn_continue_play:
-                MediaPlayerUtils.start(audioSessionIdMusic);
+                MediaPlayerUtils.getInstance().start(audioSessionIdMusic);
                 break;
             case R.id.btn_stop_play:
-                MediaPlayerUtils.stop(audioSessionIdMusic);
+                MediaPlayerUtils.getInstance().stop(audioSessionIdMusic);
                 break;
 
 
@@ -170,7 +239,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         super.onDestroy();
         //释放资源
         MediaRecorderUtils.getInstance().releaseMediaRecorder();
-        MediaPlayerUtils.releaseAll();
+        MediaPlayerUtils.getInstance().releaseAll();
         TextToSpeechUtils.shutdown();
     }
 }

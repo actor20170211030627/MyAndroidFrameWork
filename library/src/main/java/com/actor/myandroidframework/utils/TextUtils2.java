@@ -312,6 +312,28 @@ public class TextUtils2 {
     }
 
     /**
+     * 返回包含由分隔符连接的字符串。
+     * @param delimiter 分隔符
+     * @param objs 数组
+     * @return
+     */
+    public static String join(/*@NonNull*/ CharSequence delimiter, /*@NonNull*/ Object[] ... objs) {
+        if (objs == null) return "";
+        return TextUtils.join(delimiter, objs);
+    }
+
+    /**
+     * 返回包含由分隔符连接的字符串。
+     * @param delimiter 分隔符
+     * @param list List, Set...
+     * @return
+     */
+    public static <T> String join(/*@NonNull*/ CharSequence delimiter, /*@NonNull*/ Iterable<T> list) {
+        if (list == null) return "";
+        return TextUtils.join(delimiter, list);
+    }
+
+    /**
      * 多个字符串连接
      * @return
      */

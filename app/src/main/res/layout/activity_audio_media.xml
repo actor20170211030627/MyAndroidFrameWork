@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:onClick="onViewClicked"
         android:text="开始录音"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_permission" />
 
@@ -32,7 +31,6 @@
         android:layout_height="wrap_content"
         android:onClick="onViewClicked"
         android:text="停止录音"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_start_record"
         app:layout_constraintTop_toTopOf="@id/btn_start_record" />
 
@@ -42,34 +40,169 @@
         android:layout_height="wrap_content"
         android:onClick="onViewClicked"
         android:text="播放录音"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_stop_record"
         app:layout_constraintTop_toTopOf="@id/btn_start_record" />
 
-    <Button
-        android:id="@+id/btn_start_play_raw"
-        android:layout_width="wrap_content"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llc"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:onClick="onViewClicked"
-        android:text="开始播放R.raw.xxx"
-        android:transitionName="btnTest"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_start_record" />
+        android:orientation="vertical"
+        app:flexWrap="wrap"
+        app:justifyContent="space_between"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_record">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red_trans_CC99"
+            android:text="MP: 指的是MediaPlayer"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start_play_raw0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="不复用MP播放R.raw.one_kun" />
+
+            <Button
+                android:id="@+id/btn_start_play_raw1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="复用MP播放R.raw.one_kun" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start_play_raw2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="不复用MP循环播放R.raw.right" />
+
+            <Button
+                android:id="@+id/btn_start_play_raw3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="复用MP循环播放R.raw.right" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start_play_local0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="不复用MP播放'本地'" />
+
+            <Button
+                android:id="@+id/btn_start_play_local1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="复用MP播放'本地'" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start_play_local2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="不复用MP循环播放'本地'" />
+
+            <Button
+                android:id="@+id/btn_start_play_local3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="复用MP循环播放'本地'" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start_play_net0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="不复用MP播放'网络'" />
+
+            <Button
+                android:id="@+id/btn_start_play_net1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="复用MP播放'网络'" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start_play_net2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="不复用MP循环播放'网络'" />
+
+            <Button
+                android:id="@+id/btn_start_play_net3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onViewClicked"
+                android:text="复用MP循环播放'网络'" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <Button
+            android:id="@+id/btn_release_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="停止播放全部MP" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_start_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@color/grey_CCC"
         android:gravity="center"
         android:onClick="onViewClicked"
         android:padding="5dp"
-        android:text="开始播放http"
+        android:text="开始播放http音乐"
         android:textColor="@color/white"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw" />
+        app:layout_constraintTop_toBottomOf="@id/llc" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_pause_play"
@@ -80,9 +213,8 @@
         android:gravity="center"
         android:onClick="onViewClicked"
         android:padding="5dp"
-        android:text="暂停播放http"
+        android:text="暂停播放音乐"
         android:textColor="@color/white"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_start_play"
         app:layout_constraintTop_toTopOf="@id/btn_start_play" />
 
@@ -95,9 +227,8 @@
         android:gravity="center"
         android:onClick="onViewClicked"
         android:padding="5dp"
-        android:text="继续播放http"
+        android:text="继续播放音乐"
         android:textColor="@color/white"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_pause_play"
         app:layout_constraintTop_toTopOf="@id/btn_start_play" />
 
@@ -110,9 +241,8 @@
         android:gravity="center"
         android:onClick="onViewClicked"
         android:padding="5dp"
-        android:text="停止播放http"
+        android:text="停止播放音乐"
         android:textColor="@color/white"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_continue_play"
         app:layout_constraintTop_toTopOf="@id/btn_start_play" />
 
@@ -121,7 +251,7 @@
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:hint="请输入要读取的内容"
         android:text="I have an eraser.\n我有块橡皮。"
         app:layout_constraintTop_toBottomOf="@id/btn_start_play" />
@@ -132,7 +262,6 @@
         android:layout_height="wrap_content"
         android:onClick="onViewClicked"
         android:text="系统Tts播放输入的内容"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_content" />
 
@@ -142,7 +271,6 @@
         android:layout_height="wrap_content"
         android:onClick="onViewClicked"
         android:text="停止Tts"
-        android:transitionName="btnTest"
         app:layout_constraintStart_toEndOf="@id/btn_tts_play"
         app:layout_constraintTop_toTopOf="@id/btn_tts_play" />
 </androidx.constraintlayout.widget.ConstraintLayout>

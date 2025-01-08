@@ -47,7 +47,7 @@ public abstract class MediaPlayerCallback implements
         if (mp != null) {
             int audioSessionId = mp.getAudioSessionId();
             LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
-            if (isAutoPlay) MediaPlayerUtils.start(audioSessionId);
+            if (isAutoPlay) MediaPlayerUtils.getInstance().start(audioSessionId);
         }
     }
 
@@ -60,7 +60,7 @@ public abstract class MediaPlayerCallback implements
     public boolean onSetData2StartError(@Nullable MediaPlayer mp, @NonNull Exception e) {
         e.printStackTrace();
         LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
-        if (mp != null) MediaPlayerUtils.release(mp.getAudioSessionId());
+        if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         return false;
     }
 
@@ -81,7 +81,7 @@ public abstract class MediaPlayerCallback implements
     @CallSuper
     public boolean onError(MediaPlayer mp, int what, int extra) {
         LogUtils.errorFormat("播放的过程中, 出现错误, what=%d, extra=%d", what, extra);
-        if (mp != null) MediaPlayerUtils.release(mp.getAudioSessionId());
+        if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         return false;
     }
 
@@ -90,7 +90,7 @@ public abstract class MediaPlayerCallback implements
      */
     @CallSuper
     public void onCompletion(@Nullable MediaPlayer mp) {
-        if (isNewMediaPlayer && mp != null) MediaPlayerUtils.release(mp.getAudioSessionId());
+        if (isNewMediaPlayer && mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         onCompletion2(mp);
     }
 

@@ -859,7 +859,7 @@ public class ChatLayout extends LinearLayout {
             KeyboardUtils.unregisterSoftInputChangedListener(((Activity) getContext()).getWindow());
             MediaRecorderUtils.getInstance().stopRecord(true);
             //请用户自己根据需要调用释放资源
-//            MediaPlayerUtils.stop(audioSessionId);
+//            MediaPlayerUtils.getInstance().stop(audioSessionId);
         }
         super.onDetachedFromWindow();
     }

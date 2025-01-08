@@ -122,7 +122,7 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 }
                 break;
             case R.id.dtv2: //DrawableTextView 播放动画
-                MediaPlayerUtils.playRaw(R.raw.one_kun, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         viewBinding.dtv2.stopPlayAnim();
@@ -131,7 +131,7 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 viewBinding.dtv2.startPlayAnim();
                 break;
             case R.id.dtv3:
-                MediaPlayerUtils.playRaw(R.raw.one_kun, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         viewBinding.dtv3.stopPlayAnim();
