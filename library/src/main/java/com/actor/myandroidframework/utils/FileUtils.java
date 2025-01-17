@@ -1,8 +1,10 @@
 package com.actor.myandroidframework.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.webkit.MimeTypeMap;
@@ -426,6 +428,33 @@ public class FileUtils {
 //                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
 //        );
         context.startActivity(shareIntent);
+    }
+
+    /**
+     * 分享文件, 调用系统分享
+     * @param file 本地文件
+     * @param title 分享标题, 例: 请选择需要分享的应用程序
+     */
+    public static void shareFile(@NonNull Context context, @Nullable File file, @Nullable String title) {
+        if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return;
+        Uri fileUri = UriUtils.file2Uri(file);
+        //if mimeType=font/ttf, 不能分享到微信, ∵微信的接受类型没有这个. 其它App同理.
+        String mimeType = FileUtils.getMimeType(file.getAbsolutePath());
+        if (TextUtils.isEmpty(mimeType)) mimeType = "*/*";
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.setType(mimeType);
+        intent = Intent.createChooser(intent, title);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        context.startActivity(intent);
     }
 
     /**

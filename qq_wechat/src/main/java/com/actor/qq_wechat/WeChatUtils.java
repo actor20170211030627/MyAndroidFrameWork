@@ -1,5 +1,6 @@
 package com.actor.qq_wechat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,8 +15,10 @@ import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.FileUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.ImageUtils;
-import com.blankj.utilcode.util.IntentUtils;
+import com.blankj.utilcode.util.UriUtils;
+import com.tencent.mm.opensdk.channel.MMessageActV2;
 import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.diffdev.DiffDevOAuthFactory;
 import com.tencent.mm.opensdk.diffdev.IDiffDevOAuth;
 import com.tencent.mm.opensdk.diffdev.OAuthListener;
@@ -26,6 +29,7 @@ import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat;
 import com.tencent.mm.opensdk.modelmsg.GetMessageFromWX;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXFileObject;
 import com.tencent.mm.opensdk.modelmsg.WXGameVideoFileObject;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -425,30 +429,88 @@ public class WeChatUtils {
     }
 
     /**
+     * <a href="https://developers.weixin.qq.com/community/develop/doc/000e66c8074c78d4976bcd6a65e400">分享文件</a>
+     * @param file 要分享的文件
+     * @param title 分享到微信后显示的标题, 可传入: file.getName()
+     * @param scene 见↑
+     */
+    public static boolean sendReqFile(@Nullable File file, @Nullable String title, int scene) {
+        if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return false;
+
+        ///data/user/0/com.package.name/no_backup/fonts/xxx.zip, Android 11 及以上系统的手机需要使用FileProvider 方式分享
+//        String absolutePath = file.getAbsolutePath();
+        ///data/user/0/com.package.name/no_backup/fonts/xxx.zip, 分享需要FileProvider
+//        String path = file.getPath();
+        ///data/data/com.package.name/no_backup/fonts/xxx.zip, 分享需要FileProvider
+//        String canonicalPath = file.getCanonicalPath();
+
+        Uri fileUri = UriUtils.file2Uri(file);
+        //content://com.package.name.utilcode.fileprovider/root-path/data/data/com.package.name/no_backup/fonts/xxx.zip
+        String string = fileUri.toString();
+        ///root-path/data/data/com.package.name/no_backup/fonts/xxx.zip, 分享需要FileProvider
+//        String uriPath = fileUri.getPath();
+
+        //对目标应用临时授权该Uri所代表的文件, 否则分享过去的文件大小为0kb
+        ConfigUtils.APPLICATION.grantUriPermission(ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        WXFileObject fileObj = new WXFileObject();
+        /**
+         * fileData 只能很小的文件才可以, 否则报错:                                                                       //↓ 传入的文件大小
+         * JavaBinder               com.package.name              E  !!! FAILED BINDER TRANSACTION !!!  (parcel size = 7414424)
+         * {@link com.tencent.mm.opensdk.channel.MMessageActV2#sendUsingPendingIntent(Context, Intent)}: ↓
+         * MicroMsg.SDK.MMessageAct com.package.name              E  sendUsingPendingIntent fail, ex = android.os.TransactionTooLargeException: data parcel size 7414424 bytes
+         * JavaBinder               com.package.name              E  !!! FAILED BINDER TRANSACTION !!!  (parcel size = 7414452)
+         * {@link com.tencent.mm.opensdk.channel.MMessageActV2#send(Context, MMessageActV2.Args)}: ↓
+         * MicroMsg.SDK.MMessageAct com.package.name              E  send fail, ex = Failure from system
+         */
+//        fileObj.fileData = FileIOUtils.readFile2BytesByStream(file);
+        fileObj.setFilePath(string);
+        fileObj.setContentLengthLimit(Integer.MAX_VALUE);
+
+        //使用媒体消息分享
+        WXMediaMessage msg = new WXMediaMessage(fileObj);
+        msg.title = title;
+        msg.description = null;     //在分享界面没有看见这个描述
+        //发送请求
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        //创建唯一标识
+        req.transaction = "file: " + file.getName();
+        req.message = msg;
+        req.scene = scene;
+        return getIWXAPI().sendReq(req);
+    }
+
+    /**
      * 分享文件到微信: <a href="https://developers.weixin.qq.com/community/develop/doc/0004886026c1a8402d2a040ee5b401">OpenSDK支持FileProvider方式分享文件到微信</a> <br />
-     * 另外一种弹框分享: {@link FileUtils#shareFile(Context, String) FileUtils.shareFile(Context, String)} <br />
-     * {@link null 注意: 现在好像分享不了了, 提示"获取资源失败", 有知道解决方法的请给俺发邮件or提issue}
-     * @param filePath 文件路径
+     * 另外一种弹框分享: {@link FileUtils#shareTextImage(Context, String, String)}
+     * @param file 要分享的文件
      * @return 是否跳转到微信分享界面
      */
-    public static boolean shareFile2Wechat(@NonNull Context context, @NonNull String filePath) {
-        File file = new File(filePath);
-        if (!file.exists()) return false;
-        String mimeType = FileUtils.getMimeType(filePath);
-        Intent sendIntent = IntentUtils.getShareImageIntent(file);
-//        sendIntent.setType("*/*");
-        if (mimeType != null) {
-            LogUtils.errorFormat("mimeType = %s", mimeType);
-            Uri data = sendIntent.getData();
-//            sendIntent.setType(mimeType);
-            sendIntent.setDataAndType(data, mimeType);
+    public static boolean sendReqFileByIntent(@NonNull Context context, @Nullable File file) {
+        if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return false;
+        Uri fileUri = UriUtils.file2Uri(file);
+        //对目标应用临时授权该Uri所代表的文件, ↓可选
+        context.grantUriPermission(ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        String mimeType = FileUtils.getMimeType(file.getAbsolutePath());
+        if (TextUtils.isEmpty(mimeType)) mimeType = "application/*";
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, file.getName()); //这参数没啥用, 不会在微信那边显示.
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.setType(mimeType);
+        intent.setClassName(ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME, "com.tencent.mm.ui.tools.ShareImgUI");
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        sendIntent.setClassName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            //对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
         try {
-            context.startActivity(sendIntent);
+            context.startActivity(intent);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error("分享文件到微信失败:", e);
             return false;
         }
     }
