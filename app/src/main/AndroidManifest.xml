@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.GlideExampleActivity"
+        <activity
+            android:name=".activity.GlideExampleActivity"
             android:exported="false" />
         <activity
             android:name=".activity.FontSetActivity"

@@ -186,6 +186,13 @@
             android:text="分享音乐" />
 
         <Button
+            android:id="@+id/btn_share_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="分享文件" />
+
+        <Button
             android:id="@+id/btn_pay_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

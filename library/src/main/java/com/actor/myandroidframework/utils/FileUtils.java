@@ -397,36 +397,30 @@ public class FileUtils {
     }
 
     /**
-     * 分享图文 <br />
-     * {@link 注意:} 这种方式分享到微信/qq, 有可能会提示"获取资源失败", 那是lj微信/qq自己的锅! 因为分享到微信收藏就可以(微信v8.0.49实测)
-     * @param content 文本
+     * 分享图文
+     * @param content 文本内容
      * @param resId R.drawable.xxx, R.mipmap.xxx, R.raw.xxx
      */
     public static void shareTextImage(@NonNull Context context, @Nullable String content, @DrawableRes @RawRes int resId) {
         Uri res2Uri = UriUtils.res2Uri(String.valueOf(resId));
-        Intent shareIntent = IntentUtils.getShareTextImageIntent(content, res2Uri);
-
-        //在我的荣耀手机 honor v30(HarmonyOS 4.2.0, Android 12.0, api31)上提示: 没有应用可执行此操作。
-//        context.startActivity(Intent.createChooser(shareIntent , "请选择需要分享的应用程序")
-//                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
-//        );
+        //这种方式分享, QQ接收不到并提示: "图片不存在!"...
+//        Intent shareIntent = IntentUtils.getShareTextImageIntent(content, res2Uri);
+        // /data/user/0/com.actor.sample/cache/1737354890556
+        File file = UriUtils.uri2File(res2Uri);
+        Intent shareIntent = IntentUtils.getShareTextImageIntent(content, file);
         context.startActivity(shareIntent);
     }
 
     /**
      * <a href="https://developer.android.google.cn/training/secure-file-sharing?hl=zh-cn">分享文件 _ Android 开发者</a> <br />
-     * 分享文件, 调用系统分享
-     * @param filePath 本地文件路径
+     * 分享图文, 调用系统分享
+     * @param content 文本内容
+     * @param filePath 本地文件路径, if传null, 有的应用不支持'仅接收文本内容', 那是那个应用的问题!
      */
-    public static void shareTextImage(@NonNull Context context, @Nullable String content, @NonNull String filePath) {
-        File file = new File(filePath);
-        if (!file.exists()) return;
+    public static void shareTextImage(@NonNull Context context, @Nullable String content, @Nullable String filePath) {
+        boolean isFile = com.blankj.utilcode.util.FileUtils.isFile(filePath);
+        if (TextUtils.isEmpty(content) && !isFile) return;
         Intent shareIntent = IntentUtils.getShareTextImageIntent(content, filePath);
-
-        //在我的荣耀手机 honor v30(HarmonyOS 4.2.0, Android 12.0, api31)上提示: 没有应用可执行此操作。
-//        context.startActivity(Intent.createChooser(shareIntent , "请选择需要分享的应用程序")
-//                .addFlags((context instanceof Activity) ? 0 : Intent.FLAG_ACTIVITY_NEW_TASK)
-//        );
         context.startActivity(shareIntent);
     }
 

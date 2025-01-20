@@ -457,10 +457,10 @@ public class WeChatUtils {
         /**
          * fileData 只能很小的文件才可以, 否则报错:                                                                       //↓ 传入的文件大小
          * JavaBinder               com.package.name              E  !!! FAILED BINDER TRANSACTION !!!  (parcel size = 7414424)
-         * {@link com.tencent.mm.opensdk.channel.MMessageActV2#sendUsingPendingIntent(Context, Intent)}: ↓
+         * {@link MMessageActV2#sendUsingPendingIntent(Context, Intent)}: ↓
          * MicroMsg.SDK.MMessageAct com.package.name              E  sendUsingPendingIntent fail, ex = android.os.TransactionTooLargeException: data parcel size 7414424 bytes
          * JavaBinder               com.package.name              E  !!! FAILED BINDER TRANSACTION !!!  (parcel size = 7414452)
-         * {@link com.tencent.mm.opensdk.channel.MMessageActV2#send(Context, MMessageActV2.Args)}: ↓
+         * {@link MMessageActV2#send(Context, MMessageActV2.Args)}: ↓
          * MicroMsg.SDK.MMessageAct com.package.name              E  send fail, ex = Failure from system
          */
 //        fileObj.fileData = FileIOUtils.readFile2BytesByStream(file);
@@ -482,15 +482,18 @@ public class WeChatUtils {
 
     /**
      * 分享文件到微信: <a href="https://developers.weixin.qq.com/community/develop/doc/0004886026c1a8402d2a040ee5b401">OpenSDK支持FileProvider方式分享文件到微信</a> <br />
-     * 另外一种弹框分享: {@link FileUtils#shareTextImage(Context, String, String)}
+     * 另外一种弹框分享: {@link FileUtils#shareFile(Context, File, String)}
      * @param file 要分享的文件
      * @return 是否跳转到微信分享界面
      */
     public static boolean sendReqFileByIntent(@NonNull Context context, @Nullable File file) {
         if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return false;
         Uri fileUri = UriUtils.file2Uri(file);
-        //对目标应用临时授权该Uri所代表的文件, ↓可选
-        context.grantUriPermission(ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        /**
+         * 对目标应用临时授权该Uri所代表的文件, 这句代码可选
+         * 不写{@link ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME}而是写"com.tencent.mm"是因为这是Intent分享, 可以不依赖微信sdk
+         */
+        context.grantUriPermission("com.tencent.mm", fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
         String mimeType = FileUtils.getMimeType(file.getAbsolutePath());
         if (TextUtils.isEmpty(mimeType)) mimeType = "application/*";
 
@@ -498,7 +501,7 @@ public class WeChatUtils {
         intent.putExtra(Intent.EXTRA_TEXT, file.getName()); //这参数没啥用, 不会在微信那边显示.
         intent.putExtra(Intent.EXTRA_STREAM, fileUri);
         intent.setType(mimeType);
-        intent.setClassName(ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME, "com.tencent.mm.ui.tools.ShareImgUI");
+        intent.setClassName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
         if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }

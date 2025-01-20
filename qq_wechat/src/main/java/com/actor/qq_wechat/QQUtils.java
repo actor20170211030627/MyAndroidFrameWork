@@ -13,9 +13,10 @@ import androidx.annotation.AnimRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.FileUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.IntentUtils;
+import com.blankj.utilcode.util.UriUtils;
 import com.blankj.utilcode.util.Utils;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.AuthAgent;
@@ -32,6 +33,7 @@ import com.tencent.tauth.UiError;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -610,20 +612,37 @@ public class QQUtils {
 
     /**
      * 分享文件到QQ, 调用系统Intent分享
-     * @param filePath 文件路径
+     * @param file 文件
      * @return 是否跳转到QQ分享界面
      */
-    public static boolean shareToQQFile(Context context, String filePath) {
-        Intent sendIntent = IntentUtils.getShareImageIntent(filePath);
-        sendIntent.setType("*/*");
-        //这是正式版还是极速版?
-        sendIntent.setClassName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
+    public static boolean shareToQQFileByIntent(Context context, @Nullable File file) {
+        if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return false;
+        Uri fileUri = UriUtils.file2Uri(file);
+        /**
+         * 对目标应用临时授权该Uri所代表的文件, 这句代码可选
+         * 不写{@link com.tencent.connect.common.Constants.PACKAGE_QQ}而是写"com.tencent.mobileqq"是因为这是Intent分享, 可以不依赖QQ的sdk
+         */
+        context.grantUriPermission("com.tencent.mobileqq", fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        String mimeType = FileUtils.getMimeType(file.getAbsolutePath());
+        if (TextUtils.isEmpty(mimeType)) mimeType = "application/*";
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, file.getName()); //这参数没啥用, 不会在微信那边显示.
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.setType(mimeType);
+        intent.setClassName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            //对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
         try {
-            context.startActivity(sendIntent);
+            context.startActivity(intent);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-//            ToastUtils.showShort("未安装QQ");
+            LogUtils.error("分享文件到QQ失败:", e);
             return false;
         }
     }

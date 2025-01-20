@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.AssetsUtils;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
@@ -21,6 +22,7 @@ import com.actor.qq_wechat.WxPayListener;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityThirdBinding;
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -31,6 +33,7 @@ import com.tencent.tauth.Tencent;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -218,6 +221,13 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         "https://music.163.com/song/media/outer/url?id=1646740.mp3",
                         "音乐标题", "音乐描述", coverMusic, SendMessageToWX.Req.WXSceneSession);
                 coverMusic.recycle();
+                break;
+            case R.id.btn_share_file://分享文件到微信
+                String path = PathUtils.getInternalAppNoBackupFilesPath();
+                String filePath = AssetsUtils.copyFile2Dir(false, "fonts/AlimamaFangYuanTiVF-Thin.ttf", path);
+                LogUtils.errorFormat("filePath=%b", filePath);
+                File file = new File(filePath);
+                WeChatUtils.sendReqFile(file, file.getName(), SendMessageToWX.Req.WXSceneSession);
                 break;
             case R.id.btn_pay_wechat://微信支付
                 if (WeChatUtils.isWXAppInstalled()) {

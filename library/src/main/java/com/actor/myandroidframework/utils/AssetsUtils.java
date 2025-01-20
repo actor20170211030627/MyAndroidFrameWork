@@ -2,6 +2,7 @@ package com.actor.myandroidframework.utils;
 
 import android.app.Application;
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,16 +27,20 @@ public class AssetsUtils {
 
     /**
      * 拷贝文件到File目录: /data/data/package/files
+     * @return 文件路径 or null
      */
-    public static boolean copyFile2InternalFilesDir(boolean isCover, @NonNull String assetPath) {
+    @Nullable
+    public static String copyFile2InternalFilesDir(boolean isCover, @NonNull String assetPath) {
         return copyFile2Dir(isCover, assetPath, PathUtils.getInternalAppFilesPath());
     }
 
     /**
      * 拷贝文件到数据库目录: /data/data/package/databases
      * @param dbNames 数据库名称, 例: address.db, users.db3 等...
+     * @return 文件路径 or null
      */
-    public static boolean copyFile2InternalDbsDir(boolean isCover, @NonNull String dbNames) {
+    @Nullable
+    public static String copyFile2InternalDbsDir(boolean isCover, @NonNull String dbNames) {
         return copyFile2Dir(isCover, dbNames, PathUtils.getInternalAppDbsPath());
     }
 
@@ -44,16 +49,16 @@ public class AssetsUtils {
      * @param isCover 当本地已经存在相同文件的时候,是否覆盖
      * @param assetPath 文件在assets目录下的路径, 示例: xxx.txt(assets/xxx.txt) 或 test/xxx.txt(assets/test/xxx.txt)
      * @param distPath 目的地路径, 例: CONTEXT.getFilesDir().getAbsolutePath()
+     * @return 文件路径 or null
      */
-    public static boolean copyFile2Dir(boolean isCover, @NonNull String assetPath, String distPath) {
-        if (assetPath == null) return false;
+    @Nullable
+    public static String copyFile2Dir(boolean isCover, @NonNull String assetPath, String distPath) {
+        if (TextUtils.isEmpty(assetPath)) return null;
         File file = new File(distPath, assetPath);
-        if (file.exists()) {
-            if (!isCover) {
-                return true;
-            }
-        }
-        return ResourceUtils.copyFileFromAssets(assetPath, file.getAbsolutePath());
+        if (file.exists() && !isCover) return file.getAbsolutePath();
+        boolean isSuccess = ResourceUtils.copyFileFromAssets(assetPath, file.getAbsolutePath());
+        if (isSuccess) return file.getAbsolutePath();
+        return null;
     }
 
     /**
