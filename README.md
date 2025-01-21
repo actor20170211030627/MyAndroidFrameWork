@@ -35,10 +35,10 @@ api 'com.github.getActivity:XXPermissions:20.0'
 api 'com.github.getActivity:Toaster:12.6'
 </li>
 <li>// Shape 框架：https://github.com/getActivity/ShapeView 轮子哥
-api 'com.github.getActivity:ShapeView:9.2'
+api 'com.github.getActivity:ShapeView:9.3'
 </li>
 <li>//https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
-api 'com.github.getActivity:EasyHttp:12.8'
+api 'com.github.getActivity:EasyHttp:13.0'
 </li>
 <li>// 腾讯 MMKV：https://github.com/Tencent/MMKV (EasyHttp缓存需要)
 api ('com.tencent:mmkv-static:1.3.2') {
@@ -166,9 +166,6 @@ Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](ht
     }
 
     dependencies {
-            //需要在自己项目中集成constraint包, 版本version>=1.1.3
-            implementation 'androidx.constraintlayout:constraintlayout:version xxx'
-
             //https://github.com/actor20170211030627/MyAndroidFrameWork (基类依赖,这个必须添加)
             implementation 'com.github.actor20170211030627.MyAndroidFrameWork:library:github's latest version'
             <s>implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:library:gitee's latest version'(Gitee在jitpack不能打包,不再维护 Deprecated)</s>

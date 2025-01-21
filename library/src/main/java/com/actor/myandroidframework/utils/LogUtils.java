@@ -114,14 +114,14 @@ public class LogUtils {
         if (!IS_DEBUG_MODE) return;
         if (level < Log.VERBOSE || level > Log.ASSERT) level = Log.ERROR;
         synchronized (TAG) {
-            print2Console(level, TOP_CORNER + SIDE_DIVIDER + "\n");
+            print2Console(level, TOP_CORNER + SIDE_DIVIDER + LINE_SEP);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
             int pos = Math.min(stackTraceElements.length - 1, mStackPosition - 1);
             print2Console(level, LEFT_BORDER + stackTraceElements[pos] + " 打印堆栈信息:");
             for (StackTraceElement stackTraceElement : stackTraceElements) {
-                print2Console(level, LEFT_BORDER + "\tat " + stackTraceElement + "\n");
+                print2Console(level, LEFT_BORDER + "\tat " + stackTraceElement + LINE_SEP);
             }
-            print2Console(level, BOTTOM_CORNER + SIDE_DIVIDER + "\n");
+            print2Console(level, BOTTOM_CORNER + SIDE_DIVIDER + LINE_SEP);
         }
     }
 
@@ -152,21 +152,21 @@ public class LogUtils {
          *                 3.如果文件名固定写成jar/aar中的Xxx.java, 没有点击效果 <br />
          */
         String pre = TextUtils2.getStringFormat("%s.%s(%s:%d) ", className, methodName, fileName, lineNumber);
-        String result = msg + "\n" + Log.getStackTraceString(tr);
+        String result = msg + LINE_SEP + Log.getStackTraceString(tr);
         int length = pre.length() + result.length();
         if (tr == null && length <= MAX_LEN) {
             printSubMsg(level, pre + result);
         } else {
             synchronized (TAG) {
-                pre = pre + "\n" + result;
+                pre = pre + LINE_SEP + result;
                 int index = 0, lineCount = ++ length / MAX_LEN;
-                print2Console(level, TOP_CORNER + SIDE_DIVIDER + "\n");
+                print2Console(level, TOP_CORNER + SIDE_DIVIDER + LINE_SEP);
                 for (int i = 0; i < lineCount; i++, index += MAX_LEN) {
                     String msgMaxLen = pre.substring(index, index + MAX_LEN);
                     printSubMsg(level, msgMaxLen);
                 }
                 if (index != length) printSubMsg(level, pre.substring(index, length));
-                print2Console(level, BOTTOM_CORNER + SIDE_DIVIDER + "\n");
+                print2Console(level, BOTTOM_CORNER + SIDE_DIVIDER + LINE_SEP);
             }
         }
     }

@@ -130,6 +130,9 @@
 -keep public class * implements com.hjq.http.listener.OnHttpListener {
     *;
 }
+-keep class * extends com.hjq.http.model.ResponseClass {
+    *;
+}
 
 
 #############################################################################
