@@ -22,9 +22,7 @@ public class SelectCommonBuilder {
 
     /**
      * 选择图片
-     * @param isCompress 图片是否压缩 <br />
-     * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
-     * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
+     * @param isCompress 图片是否压缩
      */
     public SelectImageBuilder selectImage(boolean isCompress) {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
@@ -34,7 +32,9 @@ public class SelectCommonBuilder {
     }
 
     /**
-     * 选择视频
+     * 选择视频 <br />
+     * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
+     * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
      */
     public SelectVideoBuilder selectVideo() {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
@@ -67,16 +67,14 @@ public class SelectCommonBuilder {
 
     /**
      * 拍照
-     * @param isCompress 图片是否压缩 <br />
-     * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
-     * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
+     * @param isCompress 图片是否压缩
      */
-    public PictureSelectorUtils takePhoto(boolean isCompress) {
+    public TakePhotoBuilder takePhoto(boolean isCompress) {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
         utils.isCompress = isCompress;
         utils.selectionCameraModel = selector.openCamera(SelectMimeType.ofImage());
         utils.isShowOriginal = false;   //默认不 开启原图☑选项 (拍照, 在这儿设置其实无用)
-        return utils;
+        return new TakePhotoBuilder();
     }
 
     /**

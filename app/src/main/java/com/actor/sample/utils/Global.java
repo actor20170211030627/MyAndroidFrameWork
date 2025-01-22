@@ -1,5 +1,6 @@
 package com.actor.sample.utils;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.SizeUtils;
 
 /**
@@ -24,12 +25,12 @@ public class Global {
             "app" +
             "/build/outputs/apk/debug/output-metadata.json";
 
-    public static final String DOWNLOAD_URL = "https://raw.githubusercontent.com/" +
+    //https://github.com/actor20170211030627/MyAndroidFrameWork/releases/download/2.1.9/app-debug.apk
+    public static final String DOWNLOAD_URL = "https://github.com/" +
             "actor20170211030627/" +
             "MyAndroidFrameWork" +
-            "/master/" +
-            "app" +
-            "/build/outputs/apk/debug/" +
+            "/releases/download/" +
+            AppUtils.getAppVersionName() +  //2.1.9
             "app" +
             "-debug.apk";
 

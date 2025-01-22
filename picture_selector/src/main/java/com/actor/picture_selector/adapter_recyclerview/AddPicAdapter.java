@@ -119,6 +119,8 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                                 case 0://拍照
                                     PictureSelectorUtils.create(topActivity, localMedias)
                                             .takePhoto(true)
+                                            .setCrop(false)
+                                            .build()
                                             .forResult(onResultCallbackListener);
                                     break;
                                 case 1://选择图片
