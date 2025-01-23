@@ -51,7 +51,7 @@ public class TextToSpeechUtils {
 
     /**
      * 调用这个方法初始化
-     * @param engine 引擎, 见: {@link #getEngines()}
+     * @param engine 引擎, 见: {@link #getEngines()}, 可传null
      * @param listener 初始化监听, 可传null
      */
     public static void init(@NonNull Context context, @Nullable String engine, @Nullable TextToSpeech.OnInitListener listener) {

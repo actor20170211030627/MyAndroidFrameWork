@@ -12,9 +12,10 @@
 ## 安卓常用组件&框架(懒得每次都搭架子...)
 ### 1.集成框架包括如下列表, 具体见 <a href="library/build.gradle" target="_blank">build.gradle</a>:
 <pre>
-<ol><li>//https://github.com/square/okhttp
-api "com.squareup.okhttp3:okhttp:4.9.3"
-</li>
+<ol><li>api "com.google.android.material:material:1.5.0"</li>
+<li>api "androidx.appcompat:appcompat:1.4.1"</li>
+<li>api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"</li>
+<li>api "androidx.constraintlayout:constraintlayout:2.1.4"</li>
 <li>//https://github.com/google/gson
 //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
 api 'com.google.code.gson:gson:2.10.1'
@@ -25,26 +26,26 @@ api 'com.github.bumptech.glide:glide:4.12.0'
 <li>//https://github.com/Blankj/AndroidUtilCode 许多工具
 api 'com.blankj:utilcodex:1.31.1'
 </li>
-<li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
-api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
+<li>// 腾讯 MMKV：https://github.com/Tencent/MMKV (EasyHttp缓存需要)
+api 'com.tencent:mmkv-static:1.3.2'
 </li>
-<li>//https://github.com/getActivity/XXPermissions 轮子哥权限
-api 'com.github.getActivity:XXPermissions:20.0'
-</li>
-<li>// 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
-api 'com.github.getActivity:Toaster:12.6'
-</li>
-<li>// Shape 框架：https://github.com/getActivity/ShapeView 轮子哥
-api 'com.github.getActivity:ShapeView:9.3'
+<li>//https://github.com/square/okhttp
+api "com.squareup.okhttp3:okhttp:4.9.3"
 </li>
 <li>//https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
 api 'com.github.getActivity:EasyHttp:13.0'
 </li>
-<li>// 腾讯 MMKV：https://github.com/Tencent/MMKV (EasyHttp缓存需要)
-api ('com.tencent:mmkv-static:1.3.2') {
-    // 避免版本不一致导致的依赖冲突，从而导致编译报错
-    exclude group: 'androidx.annotation', module: 'annotation'
-}
+<li>https://github.com/getActivity/ShapeView 轮子哥Shape 框架
+api 'com.github.getActivity:ShapeView:9.3'
+</li>
+<li>//https://github.com/getActivity/XXPermissions 轮子哥权限
+api 'com.github.getActivity:XXPermissions:20.0'
+</li>
+<li>//https://github.com/getActivity/Toaster  轮子哥吐司
+api 'com.github.getActivity:Toaster:12.6'
+</li>
+<li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
 </li>
 <li>//https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
 api 'com.github.li-xiaojun:XPopup:2.10.0'
