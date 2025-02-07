@@ -4,9 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
 import androidx.annotation.CallSuper;
@@ -168,17 +172,64 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     }
 
     /**
-     * 设置高度是否全屏, 包括状态栏
-     * @param isFullScreen 高度是否全屏
-     * @param isIncludeStatusBar if高度全屏, 是否包含状态栏
+     * 设置状态栏透明(Dialog能绘制进状态栏) & 隐藏导航栏
      */
-    public BaseDialog setHeightFullScreen(boolean isFullScreen, boolean isIncludeStatusBar) {
+    public BaseDialog setStatusBarTransparent() {
         Window window = getWindow();
-        if (window != null) {
-            BarUtils.setNavBarVisibility(window, !(isFullScreen && isIncludeStatusBar));
-        }
-        //高度全屏(if没有↑, 还有状态栏会显示)
-        return setHeight(isFullScreen ? WindowManager.LayoutParams.MATCH_PARENT : WindowManager.LayoutParams.WRAP_CONTENT);
+        if (window == null) return this;
+        //TODO: 下面这句代码实际效果使状态栏透明, 而不是彻底隐藏状态栏...
+        BarUtils.setStatusBarVisibility(window, false);
+        //隐藏导航栏
+        BarUtils.setNavBarVisibility(window, false);
+
+        /**
+         * 设置后, Dialog能绘制进状态栏了, 但是状态栏是透明的, 实际上还是存在能够看见的
+         */
+//        //允许绘制系统状态栏背景
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        //将状态栏设为透明，避免遮挡内容
+//        window.setStatusBarColor(Color.TRANSPARENT);
+//        // 允许内容延伸到状态栏区域（API 21+）
+//        View decorView = window.getDecorView();
+//        //                                                                  允许内容布局延伸到状态栏下方
+//        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//        //Android11, API 30+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//          //禁用系统窗口适配，确保内容全屏
+//          window.setDecorFitsSystemWindows(false);
+//        }
+        return this;
+    }
+
+    /**
+     * 隐藏状态栏 & 导航栏
+     */
+    public BaseDialog setStatusBarAndNavigationHide() {
+        Window window = getWindow();
+        if (window == null) return this;
+            // 隐藏状态栏和导航栏的关键标志
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //允许内容布局延伸到状态栏下方
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY; // 沉浸式模式
+            View decorView = window.getDecorView();
+//            int systemUiVisibility = decorView.getSystemUiVisibility(); //0
+//            LogUtils.errorFormat("systemUiVisibility=%d", systemUiVisibility);
+            decorView.setSystemUiVisibility(uiOptions);
+
+            // 适配 Android 11+ 的弹窗行为（Android11, API 30+）
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                //禁用系统窗口适配，确保内容全屏
+                window.setDecorFitsSystemWindows(false);
+                WindowInsetsController controller = decorView.getWindowInsetsController();
+                if (controller != null) {
+                    controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+                    controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                }
+            }
+        return this;
     }
 
     /**

@@ -101,20 +101,27 @@ dependencies {
     api 'com.google.code.gson:gson:2.10.1'
 
     //https://github.com/bumptech/glide
-    api 'com.github.bumptech.glide:glide:4.12.0'
+    //https://github.com/bumptech/glide/blob/master/library/build.gradle
+    //https://github.com/bumptech/glide/blob/master/settings.gradle     //具体版本号
+    api ('com.github.bumptech.glide:glide:4.12.0') {
+        exclude group: 'androidx.fragment', module: 'fragment'  //1.3.6
+        exclude group: 'androidx.vectordrawable', module: 'vectordrawable-animated' //1.1.0, appcompat里面有
+    }
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     //https://github.com/Blankj/AndroidUtilCode 许多工具
     api ('com.blankj:utilcodex:1.31.1') {
+        //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/build.gradle   依赖
         //https://github.com/Blankj/AndroidUtilCode/blob/master/buildSrc/src/main/groovy/Config.groovy
-        exclude group: 'com.google.code.gson', module: 'gson' //2.8.5
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-android-extensions-runtime' //1.6.10
+        exclude group: 'androidx.appcompat', module: 'appcompat'    //1.4.1
+        exclude group: 'com.google.code.gson', module: 'gson'       //2.8.5
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-android-extensions-runtime'  //1.3.72
     }
 
-    // 腾讯 MMKV：https://github.com/Tencent/MMKV (EasyHttp缓存需要)
+    //https://github.com/Tencent/MMKV 腾讯 MMKV  (EasyHttp缓存需要)
+    //https://github.com/Tencent/MMKV/blob/master/Android/MMKV/mmkv/build.gradle
     api ('com.tencent:mmkv-static:1.3.2') {
-        // 避免版本不一致导致的依赖冲突，从而导致编译报错
-        exclude group: 'androidx.annotation', module: 'annotation'
+        exclude group: 'androidx.annotation', module: 'annotation'  //1.6.0
     }
 
     //https://github.com/square/okhttp
@@ -128,6 +135,7 @@ dependencies {
     //https://github.com/getActivity/ShapeView 轮子哥Shape 框架
     api ('com.github.getActivity:ShapeView:9.3') {
         //https://github.com/getActivity/ShapeView/blob/master/library/build.gradle
+        exclude group: 'androidx.appcompat', module: 'appcompat'                //1.4.1
         exclude group: 'com.google.android.material', module: 'material'        //1.0.0
         exclude group: 'androidx.constraintlayout', module: 'constraintlayout'  //1.1.3
     }
@@ -151,13 +159,13 @@ dependencies {
         exclude group: 'com.github.bumptech.glide', module: 'glide'     //4.12.0
         exclude group: 'com.github.li-xiaojun', module: 'EasyAdapter'   //1.2.8
     }
+    //XPopup 依赖了 EasyAdapter
     api ('com.github.li-xiaojun:EasyAdapter:1.2.8') {
+        //https://github.com/junixapp/EasyAdapter/blob/master/easy-adapter/build.gradle
         exclude group: 'androidx.appcompat', module: 'appcompat'        //1.1.0
         exclude group: 'androidx.recyclerview', module: 'recyclerview'  //1.1.0
         /**
-         * XPopup 依赖了 EasyAdapter: https://github.com/junixapp/XPopup/blob/master/library/build.gradle
-         * EasyAdapter依赖了以下: https://github.com/junixapp/EasyAdapter/blob/master/easy-adapter/build.gradle
-         * 导致编译报错:
+         * 编译报错:
          * java.util.concurrent.ExecutionException: java.lang.RuntimeException:
          *     Duplicate class kotlin.internal.jdk7.JDK7PlatformImplementations found in modules
          *         jetified-kotlin-stdlib-1.8.0.jar (org.jetbrains.kotlin:kotlin-stdlib:1.8.0)

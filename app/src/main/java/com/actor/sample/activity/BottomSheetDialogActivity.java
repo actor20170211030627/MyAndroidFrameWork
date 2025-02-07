@@ -126,7 +126,10 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             }
         }.setGravityAndAnimation(Gravity.START, AnimAction.ANIM_LEFT_SLIDE)
                 .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
-                .setHeightFullScreen(true, true);
+                .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
+                .setStatusBarTransparent()
+//                .setStatusBarAndNavigationHide()
+        ;
         leftDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> leftDialog.dismiss());
 
 
