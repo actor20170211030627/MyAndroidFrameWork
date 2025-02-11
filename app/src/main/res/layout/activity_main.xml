@@ -133,6 +133,13 @@
             android:transitionName="btn" />
 
         <Button
+            android:id="@+id/btn_wheel_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="WheelView测试" />
+
+        <Button
             android:id="@+id/btn_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

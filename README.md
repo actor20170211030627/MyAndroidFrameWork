@@ -53,14 +53,19 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 </pre>
 
 ## 2.一些控件和工具类等
-**2.1.ViewPager的Adapter**
+**2.1.RecyclerView的Adapter**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentPagerAdapter.java" target="_blank">BaseFragmentPagerAdapter</a>
-<a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentStatePagerAdapter.java" target="_blank">BaseFragmentStatePagerAdapter</a>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_recyclerview/WheelViewAdapter.java" target="_blank">WheelViewAdapter</a> (WheelView滚动效果的Adapter)
+</pre>
+
+**2.2.ViewPager的Adapter**
+<pre>
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentPagerAdapter.java" target="_blank">BaseFragmentPagerAdapter</a> (管理Fragment)
+<a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentStatePagerAdapter.java" target="_blank">BaseFragmentStatePagerAdapter</a> (管理Fragment)
 <a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BasePagerAdapter.java" target="_blank">BasePagerAdapter</a>
 </pre>
 
-**2.2.Dialog(继承对应Dialog并自定义界面, 不用再关注style等. )**
+**2.3.Dialog(继承对应Dialog并自定义界面, 不用再关注style等. )**
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseAlertDialog.java" target="_blank">BaseAlertDialog</a> (AlertDialog简单说明)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseBottomSheetDialog.java" target="_blank">BaseBottomSheetDialog</a> (从底部弹出并停留底部, 可二次滑动)
@@ -71,7 +76,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 <a href="library/src/main/java/com/actor/myandroidframework/popupwindow/BasePopupWindow.java" target="_blank">BasePopupWindow</a> (PopupWindow简单整理, 可一用)
 </pre>
 
-**2.3.Utils工具类**
+**2.4.Utils工具类**
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaPlayerUtils.java" target="_blank">MediaPlayerUtils</a> (播放音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaRecorderUtils.java" target="_blank">MediaRecorderUtils</a> (录音)
@@ -96,7 +101,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/ToasterUtils.java" target="_blank">ToasterUtils</a> (吐司工具类-轮子哥)
 </pre>
 
-**2.4.Widget小控件**
+**2.5.Widget小控件**
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" target="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java" target="_blank">BaseWebView</a> (WebView简单封装)

@@ -128,7 +128,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
                 .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
                 .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
                 .setStatusBarTransparent()
-//                .setStatusBarAndNavigationHide()
+//                .setStatusBarAndNavigationBarHide()
         ;
         leftDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> leftDialog.dismiss());
 

@@ -204,7 +204,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     /**
      * 隐藏状态栏 & 导航栏
      */
-    public BaseDialog setStatusBarAndNavigationHide() {
+    public BaseDialog setStatusBarAndNavigationBarHide() {
         Window window = getWindow();
         if (window == null) return this;
             // 隐藏状态栏和导航栏的关键标志

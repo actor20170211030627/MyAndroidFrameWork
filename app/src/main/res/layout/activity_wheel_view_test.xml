@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    tools:context=".activity.WheelViewTestActivity">
+
+    <!-- android:layout_height="145dp"   //高度不满3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view0"
+        android:layout_width="0dp"
+        android:layout_height="145dp"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view" />
+
+    <!-- android:layout_height="145dp"   //高度不满3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view1"
+        android:layout_width="0dp"
+        android:layout_height="145dp"
+        android:background="@color/green_14B9C8"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recycler_view0"
+        app:layout_constraintWidth_percent="0.5"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view" />
+
+    <!-- android:layout_height="160dp"   //高度超过3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view2"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/blue_2A6ED2"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view0"
+        app:layout_constraintWidth_percent="0.5"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view" />
+
+    <!-- android:layout_height="160dp"   //高度超过3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view3"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:background="@color/yellow_EC9946"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recycler_view2"
+        app:layout_constraintWidth_percent="0.5"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view" />
+
+
+    <!-- 封面&画线 示例 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="#aaeeeeee"
+        android:text="封面示例"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@id/recycler_view0"
+        app:layout_constraintStart_toStartOf="@id/recycler_view0"
+        app:layout_constraintTop_toTopOf="@id/recycler_view0" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="#aaeeeeee"
+        android:text="封面示例"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/recycler_view0"
+        app:layout_constraintEnd_toEndOf="@id/recycler_view0"
+        app:layout_constraintStart_toStartOf="@id/recycler_view0" />
+
+    <!-- 1/3=0.33333333333333333333333333333333 -->
+    <com.actor.myandroidframework.widget.LineView
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/recycler_view0"
+        app:layout_constraintEnd_toEndOf="@id/recycler_view0"
+        app:layout_constraintStart_toStartOf="@id/recycler_view0"
+        app:layout_constraintTop_toTopOf="@id/recycler_view0"
+        app:layout_constraintVertical_bias="0.33333333333333333333333333333333"
+        app:lvGradientEndColor="@color/blue_2A6ED2"
+        app:lvGradientStartColor="@color/red" />
+
+    <!-- 2/3=0.66666666666666666666666666666667 -->
+    <com.actor.myandroidframework.widget.LineView
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/recycler_view0"
+        app:layout_constraintEnd_toEndOf="@id/recycler_view0"
+        app:layout_constraintStart_toStartOf="@id/recycler_view0"
+        app:layout_constraintTop_toTopOf="@id/recycler_view0"
+        app:layout_constraintVertical_bias="0.66666666666666666666666666666667"
+        app:lvGradientEndColor="@color/yellow_EC9946"
+        app:lvGradientStartColor="@color/green_14B9C8" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_get_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="getItem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view2" />
+</androidx.constraintlayout.widget.ConstraintLayout>
