@@ -7,6 +7,17 @@
     android:background="@color/gray_background"
     tools:context=".activity.WheelViewTestActivity">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_trans_CC99"
+        android:text="1.垂直滚动, RV高度 &lt; 3个item高度"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <!-- android:layout_height="145dp"   //高度不满3个 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view0"
@@ -15,10 +26,10 @@
         android:padding="1px"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv0"
         app:layout_constraintWidth_percent="0.5"
         tools:itemCount="3"
-        tools:listitem="@layout/item_wheel_view" />
+        tools:listitem="@layout/item_wheel_view_vertical" />
 
     <!-- android:layout_height="145dp"   //高度不满3个 -->
     <androidx.recyclerview.widget.RecyclerView
@@ -32,22 +43,33 @@
         app:layout_constraintTop_toTopOf="@id/recycler_view0"
         app:layout_constraintWidth_percent="0.5"
         tools:itemCount="3"
-        tools:listitem="@layout/item_wheel_view" />
+        tools:listitem="@layout/item_wheel_view_vertical" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/red_trans_CC99"
+        android:text="2.垂直滚动, RV高度 &gt; 3个item高度"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view0" />
 
     <!-- android:layout_height="160dp"   //高度超过3个 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view2"
         android:layout_width="0dp"
         android:layout_height="160dp"
-        android:layout_marginTop="10dp"
         android:background="@color/blue_2A6ED2"
         android:padding="1px"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view0"
+        app:layout_constraintTop_toBottomOf="@id/tv1"
         app:layout_constraintWidth_percent="0.5"
         tools:itemCount="3"
-        tools:listitem="@layout/item_wheel_view" />
+        tools:listitem="@layout/item_wheel_view_vertical" />
 
     <!-- android:layout_height="160dp"   //高度超过3个 -->
     <androidx.recyclerview.widget.RecyclerView
@@ -61,7 +83,7 @@
         app:layout_constraintTop_toTopOf="@id/recycler_view2"
         app:layout_constraintWidth_percent="0.5"
         tools:itemCount="3"
-        tools:listitem="@layout/item_wheel_view" />
+        tools:listitem="@layout/item_wheel_view_vertical" />
 
 
     <!-- 封面&画线 示例 -->
@@ -110,11 +132,92 @@
         app:lvGradientStartColor="@color/green_14B9C8" />
 
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/red_trans_CC99"
+        android:text="3.水平滚动, RV宽度 &lt; 3个item宽度"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view2" />
+
+    <!-- android:layout_width="175dp"   //宽度不满3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view4"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:background="@color/red_D90000"
+        android:orientation="horizontal"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv2"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view_horizontal" />
+
+    <!-- android:layout_width="175dp"   //宽度不满3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view5"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:background="@color/green_14B9C8"
+        android:orientation="horizontal"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recycler_view4"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view_horizontal" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/red_trans_CC99"
+        android:text="4.水平滚动, RV宽度 &gt; 3个item宽度"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view4" />
+
+    <!-- android:layout_height="190dp"   //宽度超过3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view6"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_2A6ED2"
+        android:orientation="horizontal"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv3"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view_horizontal" />
+
+    <!-- android:layout_height="190dp"   //宽度超过3个 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view7"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/yellow_EC9946"
+        android:orientation="horizontal"
+        android:padding="1px"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view6"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_wheel_view_horizontal" />
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_get_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="getItem"
+        android:text="getItem内容"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view2" />
+        app:layout_constraintTop_toBottomOf="@id/recycler_view7" />
 </androidx.constraintlayout.widget.ConstraintLayout>
