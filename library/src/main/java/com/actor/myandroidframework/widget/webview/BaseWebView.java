@@ -194,7 +194,6 @@ public class BaseWebView extends WebView {
 
     /**
      * 调用h5方法, 并传入参数 <br />
-     * {@link null 注意: 确保调用的h5方法没有返回值(return xxx;), 否则如果这个h5方法有返回值的话, 第2次再调用这方法h5会报错}
      * @param h5MethodName 要调用的h5方法名称
      * @param callback 回调
      * @param params 参数
@@ -206,7 +205,6 @@ public class BaseWebView extends WebView {
 
     /**
      * 调用h5方法, 并传入参数 <br />
-     * {@link null 注意: 确保调用的h5方法没有返回值(return xxx;), 否则如果这个h5方法有返回值的话, 第2次再调用这方法h5会报错}
      * @param h5MethodName 要调用的h5方法名称
      * @param callback 回调
      * @param json 请务必是json, 可以由数组[], Collection(列表), Map, Object 等通过{@link GsonUtils#toJson(Object)}转换而来

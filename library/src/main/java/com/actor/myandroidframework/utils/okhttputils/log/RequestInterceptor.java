@@ -200,8 +200,10 @@ public class RequestInterceptor implements Interceptor {
             String json = "";
 
             //added, 轮轮哥的包装类
-            if (isContainEasyHttp && body instanceof WrapperRequestBody) {
-                body = ((WrapperRequestBody) body).getRequestBody();
+            if (isContainEasyHttp) {
+                if (body instanceof WrapperRequestBody) {
+                    body = ((WrapperRequestBody) body).getRequestBody();
+                }
             }
             //added: 含文件表单的解析
             if (body instanceof MultipartBody) {
@@ -216,23 +218,39 @@ public class RequestInterceptor implements Interceptor {
                     }
                     RequestBody body1 = part.body();
 
-                    MediaType mediaType = body1.contentType();  //null or image/jpeg(表单图片打印太长了)
+                    /**
+                     * null                     : 未设置
+                     * text/plain               : type = text, subtype = plain
+                     * text/plain; charset=utf-8: 纯文本。它是Content-Type的默认值。在浏览器中，这种类型的内容将直接显示在页面上，不会被解析为HTML。
+                     * text/html                : 包含HTML标签的文本。在浏览器中，这种类型的内容将被解析为HTML，并且显示为网页。
+                     * image/jpeg, image/png    : 图片格式, (表单图片打印太长了)
+                     * audio/mpeg               : MP3格式的音频
+                     * video/mp4                : mp4视频
+                     * application/json         : json数据
+                     * application/xml          : xml数据
+                     * application/x-www-form-urlencoded: 表单数据(不含文件)
+                     * application/octet-stream : 二进制流
+                     * application/x-msgpack    :
+                     * multipart/form-data      : 表单数据, 可包含文件
+                     */
+                    MediaType mediaType = body1.contentType();
+//                    LogUtils.errorFormat("mediaType=%s", mediaType);
 //                    long contentLength = body1.contentLength();
 //                    boolean duplex = body1.isDuplex();
 //                    boolean oneShot = body1.isOneShot();
 //                    String s = body1.toString();
-                    if (mediaType == null) {
+                    if (mediaType == null || isText(mediaType)
+                            || isJson(mediaType) || isXml(mediaType)
+//                            || isForm(mediaType)
+                    ) {
                         body1.writeTo(requestbuffer);
                         sb.append(", value=\"");
                         sb.append(requestbuffer.readString(charset));
 //                        requestbuffer.flush();
                         sb.append("\"");
                     }
-                    json = sb.toString();
                 }
-
-
-
+                json = sb.toString();
             } else {
                 body.writeTo(requestbuffer);
 //                Charset charset = Charset.forName("UTF-8");
