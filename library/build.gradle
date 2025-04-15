@@ -110,18 +110,17 @@ dependencies {
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     //https://github.com/Blankj/AndroidUtilCode 许多工具
+    //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/build.gradle   依赖
+    //https://github.com/Blankj/AndroidUtilCode/blob/master/buildSrc/src/main/groovy/Config.groovy
     api ('com.blankj:utilcodex:1.31.1') {
-        //https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/build.gradle   依赖
-        //https://github.com/Blankj/AndroidUtilCode/blob/master/buildSrc/src/main/groovy/Config.groovy
-        exclude group: 'androidx.appcompat', module: 'appcompat'    //1.4.1
-        exclude group: 'com.google.code.gson', module: 'gson'       //2.8.5
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-android-extensions-runtime'  //1.3.72
+        // 以非传递性方式引入依赖，即仅引入该依赖本身，而不会引入其依赖的其他库。
+        transitive = false
     }
 
     //https://github.com/Tencent/MMKV 腾讯 MMKV  (EasyHttp缓存需要)
     //https://github.com/Tencent/MMKV/blob/master/Android/MMKV/mmkv/build.gradle
     api ('com.tencent:mmkv-static:1.3.2') {
-        exclude group: 'androidx.annotation', module: 'annotation'  //1.6.0
+        transitive = false
     }
 
     //https://github.com/square/okhttp
@@ -129,7 +128,7 @@ dependencies {
 
     //https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
     api ('com.github.getActivity:EasyHttp:13.0') {
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp' //3.12.13
+        transitive = false
     }
 
     //https://github.com/getActivity/ShapeView 轮子哥Shape 框架

@@ -213,11 +213,40 @@
         tools:listitem="@layout/item_wheel_view_horizontal" />
 
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_current_pos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:digits="@string/digits_phone"
+        android:hint="currentPos"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view7" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/sc_smooth_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="平滑滚动"
+        app:layout_constraintStart_toEndOf="@id/et_current_pos"
+        app:layout_constraintBottom_toBottomOf="@id/et_current_pos" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_set_current_pos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="setCurrentPosition"
+        app:layout_constraintStart_toEndOf="@id/sc_smooth_scroll"
+        app:layout_constraintTop_toTopOf="@id/et_current_pos" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_get_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="getItem内容"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view7" />
+        app:layout_constraintTop_toBottomOf="@id/et_current_pos" />
 </androidx.constraintlayout.widget.ConstraintLayout>

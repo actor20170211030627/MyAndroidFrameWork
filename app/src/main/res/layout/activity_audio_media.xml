@@ -246,6 +246,26 @@
         app:layout_constraintStart_toEndOf="@id/btn_continue_play"
         app:layout_constraintTop_toTopOf="@id/btn_start_play" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="播放速度系数:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_play" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seek_bar_speed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="6491"
+        android:min="10"
+        android:progress="1000"
+        app:layout_constraintBottom_toBottomOf="@id/tv2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv2"
+        app:layout_constraintTop_toTopOf="@id/tv2" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/et_content"
@@ -254,7 +274,7 @@
         android:layout_marginTop="15dp"
         android:hint="请输入要读取的内容"
         android:text="I have an eraser.\n我有块橡皮。"
-        app:layout_constraintTop_toBottomOf="@id/btn_start_play" />
+        app:layout_constraintTop_toBottomOf="@id/tv2" />
 
     <Button
         android:id="@+id/btn_tts_play"

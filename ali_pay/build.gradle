@@ -79,7 +79,9 @@ dependencies {
     compileOnly rootProject.ext.dependencies.appcompat
 
     //https://github.com/Blankj/AndroidUtilCode 许多工具
-    compileOnly 'com.blankj:utilcodex:1.31.1'
+    compileOnly ('com.blankj:utilcodex:1.31.1') {
+        transitive = false
+    }
 
     //https://opendocs.alipay.com/open/02no45 支付宝
     //compileOnly 'com.alipay.sdk:alipaysdk-android:+@aar' //直接获取最新版

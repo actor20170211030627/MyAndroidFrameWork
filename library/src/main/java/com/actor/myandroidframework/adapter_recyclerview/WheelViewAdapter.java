@@ -204,25 +204,15 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
             selectedPos = -1;
             return;
         }
-        //if不是无限循环, 就添加几个空白item
-        int addCount = showItemCount / 2;
-        if (isInfinityLoop) {
-            selectedPos = 0;
-            RecyclerView recyclerView = getRecyclerViewOrNull();
-            if (recyclerView != null) {
-                selectedPos = getDefItemCount() / 2;
-                while (selectedPos % list.size() != 0) {
-                    selectedPos --;
-                }
-                recyclerView.scrollToPosition(selectedPos - addCount);
-            }
-        } else {
+        if (!isInfinityLoop) {
+            //if不是无限循环, 就添加几个空白item
+            int addCount = showItemCount / 2;
             for (int i = 0; i < addCount; i++) {
                 addData(0, (T) null);
                 addData((T) null);
             }
-            selectedPos = addCount;
         }
+        setCurrentPosition(0, false);
     }
 
     /**
@@ -232,6 +222,45 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
         this.loggable = loggable;
     }
 
+    /**
+     * 设置当前的position
+     * @param currentPosition 当前的position: [0, data.size - 1]
+     * @param isSmoothScroll 是否平滑滑动
+     */
+    public void setCurrentPosition(int currentPosition, boolean isSmoothScroll) {
+        int size = getData().size();
+        if (currentPosition < 0 || currentPosition > size - 1) return;
+        int addCount = showItemCount / 2;
+        if (isInfinityLoop) {
+            selectedPos = 0;
+            RecyclerView recyclerView = getRecyclerViewOrNull();
+            if (recyclerView != null) {
+                selectedPos = getDefItemCount() / 2;
+                while (selectedPos % size != currentPosition) {
+                    selectedPos --;
+                }
+                if (isSmoothScroll) {
+                    recyclerView.smoothScrollToPosition(selectedPos - addCount);
+                } else {
+                    recyclerView.scrollToPosition(selectedPos - addCount);
+                }
+            }
+        } else {
+            selectedPos = currentPosition + addCount;
+            RecyclerView recyclerView = getRecyclerViewOrNull();
+            if (recyclerView != null) {
+                if (isSmoothScroll) {
+                    recyclerView.smoothScrollToPosition(currentPosition);
+                } else {
+                    recyclerView.scrollToPosition(currentPosition);
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取当前选中item
+     */
     @Nullable
     public T getSelectedItem() {
         return getItemOrNull(selectedPos);
@@ -243,7 +272,7 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
     // 重写以下1/2个方法
     ///////////////////////////////////////////////////////////////////////////
     @Override
-    protected abstract void convert(@NonNull BaseViewHolder holder, @Nullable T t);
+    protected abstract void convert(@NonNull BaseViewHolder holder, @Nullable T item);
 
     /**
      * RecyclerView滑动的时候, item选中位置 {@link #selectedPos} 会改变. if 你的item有选中&未选中状态, 请重写此方法做局部更新!

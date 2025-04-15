@@ -133,6 +133,13 @@
             android:transitionName="btn" />
 
         <Button
+            android:id="@+id/btn_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="RecyclerView测试" />
+
+        <Button
             android:id="@+id/btn_wheel_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -227,7 +234,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="音频录制&amp;播放"
+            android:text="Media 音频录制&amp;播放"
             android:transitionName="btnTest" />
 
         <Button

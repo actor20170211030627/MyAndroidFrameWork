@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,6 +59,24 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
         //
         ResourceUtils.copyFileFromRaw(R.raw.wrong, pathWrong);
+
+        //播放速度系数
+        viewBinding.seekBarSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    float speed = progress / 1000f;
+                    boolean isSuccess = MediaPlayerUtils.getInstance().setPlaySpeed(audioSessionIdMusic, speed);
+                    LogUtils.errorFormat("speed = %f, isSuccess = %b", speed, isSuccess);
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
     @Override
@@ -201,7 +220,6 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                     }
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
-                        super.onCompletion(mp);
                         ToasterUtils.success("播放完成!");
                     }
                 });

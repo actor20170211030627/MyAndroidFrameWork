@@ -224,7 +224,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
 
     /**
      * 设置选中项
-     * @param position 第几个item
+     * @param position 第几个item, if重复选中, 会回调 {@link OnItemSelectedListener2#onItemReSelected(AdapterView, View, int, long)}
      */
     @Override
     public void setSelection(int position) {
@@ -240,7 +240,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
 
     /**
      * 设置选中项
-     * @param position 第几个item
+     * @param position 第几个item, if重复选中, 会回调 {@link OnItemSelectedListener2#onItemReSelected(AdapterView, View, int, long)}
      * @param animate 是否展示动画
      */
     @Override
@@ -268,7 +268,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
 
     /**
      * item选中监听(增加重复选中的监听) <br />
-     * {@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)} 第1次设置数据后, 会自动回调!
+     * 第1次设置数据后, 会自动回调{@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)}
      */
 //    @Override
     public void setOnItemSelectedListener(@Nullable OnItemSelectedListener2 listener) {
@@ -278,7 +278,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     public interface OnItemSelectedListener2 extends OnItemSelectedListener {
 
         //再次选择了同一个item
-        default void onItemReSelected(AdapterView<?> parent, View view, int position, long id){
+        default void onItemReSelected(AdapterView<?> parent, View view, int position, long id, boolean fromUser) {
         }
 
         //Adapter为空的时候就会调用到这个方法
@@ -314,10 +314,13 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     }
 
     /**
-     * 设置数据, 填充Spinner
-     * @param <T> 如果数据类型 "T" 不是CharSequence或String,
-     *            重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容
-     * 注意: 每次填充的T数据类型应该一致
+     * 设置数据, 填充Spinner <br />
+     * T: 如果数据类型 "T" 不是CharSequence或String, 重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容 <br />
+     * {@link 注意:}
+     * <ol>
+     *     <li>每次填充的T数据类型应该一致</li>
+     *     <li>第1次设置数据后, 会<b>自动回调</b> {@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)}</li>
+     * </ol>
      */
     public void setDatas(Collection<T> datas) {
         if (datas != null) {

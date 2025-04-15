@@ -60,17 +60,27 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         int position = parent.getChildAdapterPosition(view); // item position
-        if (layoutManager instanceof GridLayoutManager) {//网格布局,不能先判断LinearLayoutManager
+
+        //网格布局,不能先判断LinearLayoutManager
+        if (layoutManager instanceof GridLayoutManager) {
             GridLayoutManager glm = (GridLayoutManager) layoutManager;
             int orientation = glm.getOrientation();
-            int spanCount = glm.getSpanCount();//一共多少行/列
-            if (orientation == OrientationHelper.HORIZONTAL) {//水平方向(Grid左右滑动)
+            int spanCount = glm.getSpanCount();     //一共多少行/列
+            int spanSize = glm.getSpanSizeLookup().getSpanSize(position);
+            if (spanSize > 0) {
+                spanCount = spanCount / spanSize;   //每行item数量
+            }
+            //水平方向(Grid左右滑动)
+            if (orientation == OrientationHelper.HORIZONTAL) {
                 int row = position % spanCount; // item在第几行,从0开始
                 float min = verticalSpacing / spanCount;//最小基数(有可能除出来=0, 所以这儿用float)
                 outRect.left = position < spanCount ? 0 : (int) horizontalSpacing;//第一列的都没有left
                 outRect.top = (int) (row * min);
                 outRect.bottom = (int) (min * (spanCount - row - 1));
-            } else if (orientation == OrientationHelper.VERTICAL) {//垂直方向(Grid上下滑动,默认)
+                return;
+            }
+            //垂直方向(Grid上下滑动,默认)
+            if (orientation == OrientationHelper.VERTICAL) {
                 int column = position % spanCount; // item在第几列,从0开始
                 float min = horizontalSpacing / spanCount;//最小基数
 //                outRect.left = column * horizontalSpacing / spanCount; // column * ((1f / spanCount) * spacing)
@@ -79,7 +89,11 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
                 outRect.right = (int) (min * (spanCount - column - 1));
                 outRect.top = position < spanCount ? 0 : (int) verticalSpacing;//第一行的都没有top
             }
-        } else if (layoutManager instanceof LinearLayoutManager) {//线性布局
+            return;
+        }
+
+        //线性布局
+        if (layoutManager instanceof LinearLayoutManager) {
             LinearLayoutManager llm = (LinearLayoutManager) layoutManager;
             int orientation = llm.getOrientation();
             if (orientation == OrientationHelper.HORIZONTAL) {//水平方向(List水平滑动)
@@ -87,17 +101,25 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
             } else if (orientation == OrientationHelper.VERTICAL) {//垂直方向(List上下滑动,默认)
                 outRect.top = position == 0 ? 0 : (int) verticalSpacing;
             }
-        } else if (layoutManager instanceof StaggeredGridLayoutManager) {//瀑布流
+            return;
+        }
+
+        //瀑布流
+        if (layoutManager instanceof StaggeredGridLayoutManager) {
             StaggeredGridLayoutManager sglm = (StaggeredGridLayoutManager) layoutManager;
             int orientation = sglm.getOrientation();
             int spanCount = sglm.getSpanCount();
-            if (orientation == OrientationHelper.HORIZONTAL) {//水平方向(Grid左右滑动)
+            //水平方向(Grid左右滑动)
+            if (orientation == OrientationHelper.HORIZONTAL) {
                 int row = position % spanCount; // item在第几行,从0开始
                 float min = verticalSpacing / spanCount;//最小基数
                 outRect.left = position < spanCount ? 0 : (int) horizontalSpacing;//第一列的都没有left
                 outRect.top = (int) (row * min);
                 outRect.bottom = (int) (min * (spanCount - row - 1));
-            } else if (orientation == OrientationHelper.VERTICAL) {//垂直方向(Grid上下滑动,默认)
+                return;
+            }
+            //垂直方向(Grid上下滑动,默认)
+            if (orientation == OrientationHelper.VERTICAL) {
                 int column = position % spanCount; // item在第几列,从0开始
                 float min = horizontalSpacing / spanCount;//最小基数
                 outRect.left = (int) (column * min);
@@ -106,7 +128,10 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 //                outRect.left = column * horizontalSpacing / spanCount; // column * ((1f / spanCount) * spacing)
 //                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
             }
-        } else if (layoutManager instanceof FlexboxLayoutManager) {
+            return;
+        }
+
+        if (hasFlexboxLayoutManager() && layoutManager instanceof FlexboxLayoutManager) {
             /**
              * if你使用了这个FlexboxLayoutManager, 你需要添加依赖:
              * //https://github.com/google/flexbox-layout
@@ -163,8 +188,19 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
                     outRect.top = position == 0 ? 0 : (int) verticalSpacing;
                 }
             }
-        } else {
-            LogUtils.errorFormat("%s 还未适配间隙的设定!", layoutManager);
+            return;
+        }
+
+        LogUtils.errorFormat("%s 还未适配间隙的设定!", layoutManager);
+    }
+
+    protected boolean hasFlexboxLayoutManager() {
+        try {
+            Class.forName("com.google.android.flexbox.FlexboxLayoutManager");
+            return true;
+        } catch (ClassNotFoundException e) {
+            LogUtils.error("没有FlexboxLayoutManager:", e);
+            return false;
         }
     }
 }

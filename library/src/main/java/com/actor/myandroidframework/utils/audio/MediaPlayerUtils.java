@@ -5,13 +5,17 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
+import android.os.Build;
 import android.text.TextUtils;
 
+import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RawRes;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
+import com.actor.myandroidframework.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -171,7 +175,7 @@ public class MediaPlayerUtils {
     /**
      * 公用设置&播放
      */
-    protected void commonSetAndPlay(MediaPlayer mediaPlayer, boolean isNeedPrepare,
+    protected void commonSetAndPlay(@NonNull MediaPlayer mediaPlayer, boolean isNeedPrepare,
                                     boolean isLooping, boolean isAutoPlay, boolean isNewMediaPlayer,
                                     @Nullable MediaPlayerCallback playerCallback) {
 //        AudioAttributes attrs = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
@@ -257,7 +261,9 @@ public class MediaPlayerUtils {
 
     /**
      * 开始播放音频
+     * @deprecated 建议使用 {@link #start(int)}
      */
+    @Deprecated
     public void start(@Nullable MediaPlayer mediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
         try {
             if (mediaPlayer != null) mediaPlayer.start();
@@ -283,7 +289,9 @@ public class MediaPlayerUtils {
     /**
      * 暂停播放音频 <br />
      * 继续播放的话调用 {@link #start(int)}, 或者 {@link #start(MediaPlayer, MediaPlayerCallback)}
+     * @deprecated 建议使用 {@link #pause(int)}
      */
+    @Deprecated
     public void pause(@Nullable MediaPlayer mediaPlayer) {
         try {
             if (mediaPlayer != null) mediaPlayer.pause();
@@ -303,7 +311,9 @@ public class MediaPlayerUtils {
 
     /**
      * 停止播放音频
+     * @deprecated 建议使用 {@link #stop(int)}
      */
+    @Deprecated
     public void stop(@Nullable MediaPlayer mediaPlayer) {
         try {
             //开始 or 暂停 后, 可以停止
@@ -329,6 +339,41 @@ public class MediaPlayerUtils {
     public boolean isPlaying(int audioSessionId) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
         return playerCallback != null && playerCallback.mp != null && playerCallback.mp.isPlaying();
+    }
+
+    /**
+     * 设置速度系数, 若需更大范围&更好兼容性，推荐使用 Google 的 <a href="https://github.com/google/ExoPlayer" target="_blank">ExoPlayer</a>
+     * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
+     * @param playSpeed 速度系数, 一般[0.5f~2.0f], 经Vivo X27 测试的允许范围[0.01~6.491], 超过就会设置失败.
+     */
+    public boolean setPlaySpeed(int audioSessionId, @FloatRange(from = 0.f) float playSpeed) {
+        MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
+        if (playerCallback == null) return false;
+        return setPlaySpeed(playerCallback.mp, playSpeed);
+    }
+
+    /**
+     * 设置速度系数
+     * @param playSpeed 速度系数, 一般[0.5f~2.0f], 经Vivo X27 测试的允许范围[0.01~6.491], 超过就会设置失败.
+     * @deprecated 建议使用 {@link #setPlaySpeed(int, float)}
+     */
+    @Deprecated
+    public boolean setPlaySpeed(@Nullable MediaPlayer mp, @FloatRange(from = 0.f) float playSpeed) {
+        if (mp == null) return false;
+        //Android 6.0(API 23)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                PlaybackParams playbackParams = mp.getPlaybackParams();
+                playbackParams.setSpeed(playSpeed);
+                mp.setPlaybackParams(playbackParams);
+                return true;
+            } catch (IllegalStateException | IllegalArgumentException e) {
+                //IllegalStateException:    if the internal player engine has not been initialized or has been released.
+                //IllegalArgumentException: if params is not supported. (速度系数不在设置范围)
+                LogUtils.error("设置速度系数出错:", e);
+            }
+        }
+        return false;
     }
 
     /**

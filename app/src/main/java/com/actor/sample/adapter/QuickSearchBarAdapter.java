@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class QuickSearchBarAdapter extends BaseQuickAdapter<Item, BaseViewHolder> {
 
-    public QuickSearchBarAdapter(@Nullable List<Item> data) {
-        super(R.layout.item_select_dealer, data);
+    public QuickSearchBarAdapter() {
+        super(R.layout.item_select_dealer);
     }
 
     @Override
