@@ -24,7 +24,6 @@ ext {
             //                        rootProject.ext.dependencies.material or rootProject.ext.dependencies["material"]
             "material"              : 'com.google.android.material:material:1.5.0',
             "appcompat"             : 'androidx.appcompat:appcompat:1.4.1',
-            "swiperefreshlayout"    : 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0',
             "cardview_v7"           : "androidx.cardview:cardview:${version.androidSupportSdkVersion}",
             "legacy_support_v4"     : 'androidx.legacy:legacy-support-v4:1.0.0',
             "annotations"           : 'androidx.annotation:annotation:1.2.0',
@@ -32,7 +31,6 @@ ext {
             "androidx_viewpager"    : 'androidx.viewpager:viewpager:1.0.0',
             "androidx_core"         : 'androidx.core:core:1.6.0',
             "androidx_fragment"     : 'androidx.fragment:fragment:1.4.1',
-            "constraint_layout"     : 'androidx.constraintlayout:constraintlayout:2.1.4',
 
 
             //tools

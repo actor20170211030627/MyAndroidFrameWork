@@ -90,10 +90,10 @@ dependencies {
     }
 
     //https://developer.android.google.cn/jetpack/androidx/releases/swiperefreshlayout?hl=zh-cn 下拉刷新
-    api rootProject.ext.dependencies.swiperefreshlayout
+    api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     //https://github.com/androidx/constraintlayout 约束布局
-    api rootProject.ext.dependencies.constraint_layout
+    api 'androidx.constraintlayout:constraintlayout:2.1.4'
 
 
     //https://github.com/google/gson

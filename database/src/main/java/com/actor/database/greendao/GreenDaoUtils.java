@@ -96,9 +96,12 @@ import java.util.List;
  *         <td>不相等</td>
  *     </tr>
  *     <tr>
- *         <td>{@link Property#like(String)}</td>
+ *         <td>{@link Property#like(String) Property#like(String value)}</td>
  *         <td>{@link WhereCondition}</td>
- *         <td>模糊查询, string要用夹在%key%中间, 例: Properties.FirstName.like("%doris%"), 查询FristName包含doris的人</td>
+ *         <td>
+ *             模糊查询, value要夹在2个%中间, 例: Properties.FirstName.like("%李%"), 查询FirstName包含李的人 <br />
+ *             {@link 注意:} value查询前应该先判空, value不能=null, 否则崩溃
+ *         </td>
  *     </tr>
  *     <tr>
  *         <td>{@link Property#gt(Object)}</td>

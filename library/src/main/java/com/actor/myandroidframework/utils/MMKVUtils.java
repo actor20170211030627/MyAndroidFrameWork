@@ -22,27 +22,81 @@ public class MMKVUtils {
     //腾讯键值缓存
     protected static MMKV mmkv;
 
+    /**
+     * 初始化 (使用者可不用调用)
+     * @return 存储目录: String rootDir = getFilesDir().getAbsolutePath() + "/mmkv";
+     */
+    public static String initialize() {
+        return MMKV.initialize(ConfigUtils.APPLICATION);
+    }
+
     public static MMKV getMMKV() {
-        if (mmkv == null) mmkv = MMKV.defaultMMKV();
+        if (mmkv == null) {
+            if (MMKV.getRootDir() == null) initialize();
+            mmkv = MMKV.defaultMMKV();
+        }
         return mmkv;
     }
 
     /**
-     * 自定义 MMKV
+     * 自定义 MMKV (要先{@link #initialize()} 初始化)
+     * @param mmkv 例:
+     * <ol>
+     *     <li>{@link MMKV#mmkvWithID(String) MMKV.mmkvWithID(String mmapID)}</li>
+     *     <li>{@link MMKV#mmkvWithID(String, int) MMKV.mmkvWithID(String mmapID, int mode)}</li>
+     *     <li>{@link MMKV#mmkvWithID(String, int, String) MMKV.mmkvWithID(String mmapID, int mode, @Nullable String cryptKey)}</li>
+     *     <li>{@link MMKV#mmkvWithID(String, int, long) MMKV.mmkvWithID(String mmapID, int mode, long expectedCapacity)}</li>
+     *     <li>{@link MMKV#mmkvWithID(String, int, String, String) MMKV.mmkvWithID(String mmapID, int mode, @Nullable String cryptKey, String rootPath)}</li>
+     *     <li>{@link MMKV#mmkvWithID(String, int, String, String, long) MMKV.mmkvWithID(String mmapID, int mode, @Nullable String cryptKey, String rootPath, long expectedCapacity)}</li>
+     *     <li>{@link MMKV#mmkvWithID(String, String) MMKV.mmkvWithID(String mmapID, String rootPath)}</li>
+     *     <li>{@link MMKV#mmkvWithID(String, String, long) MMKV.mmkvWithID(String mmapID, String rootPath, long expectedCapacity)}</li>
+     *     <li>
+     *         参数说明:
+     *         <ul>
+     *             <li>mmapID: 根据给定的ID获取MMKV实例。可以使用不同的ID创建多个MMKV实例，每个实例都有独立的数据存储。</li>
+     *             <li>mode: {@link MMKV#SINGLE_PROCESS_MODE}: 单进程模式. {@link MMKV#MULTI_PROCESS_MODE}: 多进程模式.</li>
+     *             <li>cryptKey: if你要加密存储, 就设置加密的key</li>
+     *             <li>expectedCapacity: 预期容量</li>
+     *             <li>rootPath: </li>
+     *         </ul>
+     *     </li>
+     * </ol>
      */
-    public static void setMMKV(MMKV mmkv) {
-        if (mmkv != null) MMKVUtils.mmkv = mmkv;
+    public static void setMMKV(@Nullable MMKV mmkv) {
+        MMKVUtils.mmkv = mmkv;
+    }
+
+
+    /**
+     * 重设秘钥
+     * @param cryptKey 新的秘钥, if cryptKey = null, 相当于改成明文存储
+     */
+    public static boolean reKey(@NonNull MMKV mmkv, @Nullable String cryptKey) {
+        return mmkv.reKey(cryptKey);
+    }
+
+    /**
+     * 返回加密的秘钥
+     */
+    @Nullable
+    public static String cryptKey(@NonNull MMKV mmkv) {
+        return mmkv.cryptKey();
     }
 
 
 
-    /**
-     * 下方是boolean方法区域
-     */
+    ///////////////////////////////////////////////////////////////////////////
+    /// put & get
+    ///////////////////////////////////////////////////////////////////////////
     public static boolean putBoolean(String key, boolean value) {
-//        SharedPreferences.Editor editor = getMMKV().putBoolean(key, value);//一样的
-//        return editor.commit();
-        return getMMKV().encode(key, value);
+        return putBoolean(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put boolean
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putBoolean(String key, boolean value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
 
     /**
@@ -62,11 +116,15 @@ public class MMKVUtils {
 
 
 
-    /**
-     * 下方是int方法区域
-     */
     public static boolean putInt(String key, int value) {
-        return getMMKV().encode(key, value);
+        return putInt(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put int
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putInt(String key, int value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
     /**
      * 获取int, 默认返回0
@@ -80,11 +138,15 @@ public class MMKVUtils {
 
 
 
-    /**
-     * 下方是long方法区域
-     */
     public static boolean putLong(String key, long value) {
-        return getMMKV().encode(key, value);
+        return putLong(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put long
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putLong(String key, long value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
     /**
      * 获取long, 默认返回0
@@ -98,11 +160,15 @@ public class MMKVUtils {
 
 
 
-    /**
-     * 下方是float方法区域
-     */
     public static boolean putFloat(String key, float value) {
-        return getMMKV().encode(key, value);
+        return putFloat(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put float
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putFloat(String key, float value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
     /**
      * 获取float, 默认返回0
@@ -116,11 +182,15 @@ public class MMKVUtils {
 
 
 
-    /**
-     * 下方是double方法区域
-     */
     public static boolean putDouble(String key, double value) {
-        return getMMKV().encode(key, value);
+        return putDouble(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put double
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putDouble(String key, double value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
     /**
      * 获取double, 默认返回0
@@ -134,11 +204,15 @@ public class MMKVUtils {
 
 
 
-    /**
-     * 下方是String方法区域
-     */
     public static boolean putString(String key, @Nullable String value) {
-        return getMMKV().encode(key, value);
+        return putString(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put String
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putString(String key, @Nullable String value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
 
     @Nullable
@@ -152,12 +226,15 @@ public class MMKVUtils {
 
 
 
-    /**
-     * 下方是Set<String>方法区域
-     */
     public static boolean putStringSet(String key, @Nullable Set<String> value) {
-        if (value == null) return false;
-        return getMMKV().encode(key, value);
+        return putStringSet(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put Set<String>
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putStringSet(String key, @Nullable Set<String> value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
     /**
      * 获取Set<String>, 默认返回HashSet类型
@@ -167,11 +244,15 @@ public class MMKVUtils {
         return getMMKV().decodeStringSet(key);
     }
 
-    /**
-     * 下方是byte[]方法区域
-     */
     public static boolean putBytes(String key,  @Nullable byte[] value) {
-        return getMMKV().encode(key, value);
+        return putBytes(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put byte[]
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putBytes(String key,  @Nullable byte[] value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
 
     @Nullable
@@ -179,12 +260,15 @@ public class MMKVUtils {
         return getMMKV().decodeBytes(key);
     }
 
-    /**
-     * 下方是Parcelable方法区域
-     */
     public static boolean putParcelable(String key, @Nullable Parcelable value) {
-        if (value == null) return false;
-        return getMMKV().encode(key, value);
+        return putParcelable(key, value, MMKV.ExpireNever);
+    }
+    /**
+     * put Parcelable
+     * @param expireDurationInSecond 过期时间, 单位秒
+     */
+    public static boolean putParcelable(String key, @Nullable Parcelable value, int expireDurationInSecond) {
+        return getMMKV().encode(key, value, expireDurationInSecond);
     }
 
     @Nullable
@@ -192,10 +276,12 @@ public class MMKVUtils {
         return getMMKV().decodeParcelable(key, tClass);
     }
 
+
+
     /**
      * 移除某个键所对应的值
      */
-    public static void remove(String key) {
+    public static void remove(@NonNull String key) {
         getMMKV().removeValueForKey(key);
     }
 
@@ -208,9 +294,9 @@ public class MMKVUtils {
     }
 
     /**
-     * 移除所有
+     * 清除所有
      */
-    public static void removeAll() {
+    public static void clearAll() {
         getMMKV().clearAll();
     }
 
@@ -222,17 +308,60 @@ public class MMKVUtils {
     }
 
     /**
-     * ?
+     * 备份数据到某个目录
+     * @param mmapID 根据给定的ID获取MMKV实例。可以使用不同的ID创建多个MMKV实例，每个实例都有独立的数据存储。
+     * @param dstDir 备份到哪个目录, 例: getFilesDir().getAbsolutePath() + "/mmkv_backup";
      */
-    public static long count() {
-        return getMMKV().count();
+    public static boolean backup(@NonNull String mmapID, @NonNull String dstDir) {
+        return MMKV.backupOneToDirectory(mmapID, dstDir, null);
+    }
+
+    /**
+     * 恢复某个目录的数据到指定目录
+     * @param mmapID 根据给定的ID获取MMKV实例。可以使用不同的ID创建多个MMKV实例，每个实例都有独立的数据存储。
+     * @param srcDir 数据所在目录, 例: getFilesDir().getAbsolutePath() + "/mmkv_backup";
+     * @param restorePath 需要恢复到哪个目录, 例: getFilesDir().getAbsolutePath() + "/mmkv";
+     */
+    public static boolean restore(@NonNull String mmapID, @NonNull String srcDir, @Nullable String restorePath) {
+        return MMKV.restoreOneMMKVFromDirectory(mmapID, srcDir, restorePath);
+    }
+
+    /**
+     * 备份所有数据到某个目录
+     * @param dstDir 备份到哪个目录, 例: getFilesDir().getAbsolutePath() + "/mmkv_backup";
+     * @return ??
+     */
+    public static long backupAll(@NonNull String dstDir) {
+        return MMKV.backupAllToDirectory(dstDir);
+    }
+
+    /**
+     * 恢复某个目录的所有数据
+     * @param srcDir 数据所在目录, 例: getFilesDir().getAbsolutePath() + "/mmkv_backup";
+     * @return ??
+     */
+    public static long restoreAll(@NonNull String srcDir) {
+        return MMKV.restoreAllFromDirectory(srcDir);
+    }
+
+    /**
+     * 全局过期. 给整个文件设定统一的过期间隔。可自定义
+     * @param expireDurationInSecond 过期时间, 单位秒
+     * @see MMKV#ExpireNever 0                          永不过期
+     * @see MMKV#ExpireInMinute 60                      1分钟
+     * @see MMKV#ExpireInHour 60 * 60                   1分钟
+     * @see MMKV#ExpireInDay 24 * 60 * 60               1天
+     * @see MMKV#ExpireInMonth 30 * 24 * 60 * 60        1个月
+     * @see MMKV#ExpireInYear 24 * 30 * 24 * 60 * 60    1年
+     */
+    public static boolean enableAutoKeyExpire(int expireDurationInSecond) {
+        return getMMKV().enableAutoKeyExpire(expireDurationInSecond);
     }
 
     /**
      * ?
      */
-    @Nullable
-    public static String cryptKey() {
-        return getMMKV().cryptKey();
+    public static long count() {
+        return getMMKV().count();
     }
 }

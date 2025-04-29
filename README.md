@@ -15,6 +15,7 @@
 <ol><li>api "com.google.android.material:material:1.5.0"</li>
 <li>api "androidx.appcompat:appcompat:1.4.1"</li>
 <li>api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"</li>
+<li>api "androidx.constraintlayout:constraintlayout:2.1.4"</li>
 <li>//https://github.com/google/gson
 //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
 api 'com.google.code.gson:gson:2.10.1'

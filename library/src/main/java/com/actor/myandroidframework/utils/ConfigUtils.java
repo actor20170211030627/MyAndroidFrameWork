@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
-import com.tencent.mmkv.MMKV;
 
 /**
  * Description: 整个项目所需的资源配置 <br />
@@ -63,9 +62,6 @@ public class ConfigUtils {
 
         //配置轮子哥吐司
         ToasterUtils.init(application);
-
-        //初始化MMKV
-        String rootDir = MMKV.initialize(ConfigUtils.APPLICATION);
     }
 
     /**
