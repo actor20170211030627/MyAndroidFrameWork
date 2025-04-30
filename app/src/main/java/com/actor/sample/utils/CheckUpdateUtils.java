@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -40,12 +41,12 @@ public class CheckUpdateUtils {
     public void check(LifecycleOwner tag) {
         EasyHttp.get(tag)
                 .api(CheckUpdateInfo.class)
-                .request(new OnHttpListener<CheckUpdateInfo>() {
+                .request(new OnHttpListener<CheckUpdateInfo.CheckUpdateBean>() {
                     @Override
-                    public void onHttpSuccess(CheckUpdateInfo result) {
-                        List<CheckUpdateInfo.ElementsBean> elements = result.elements;
+                    public void onHttpSuccess(@NonNull CheckUpdateInfo.CheckUpdateBean result) {
+                        List<CheckUpdateInfo.CheckUpdateBean.ElementsBean> elements = result.elements;
                         if (elements != null && !elements.isEmpty()) {
-                            CheckUpdateInfo.ElementsBean elementsBean = elements.get(0);
+                            CheckUpdateInfo.CheckUpdateBean.ElementsBean elementsBean = elements.get(0);
                             if (elementsBean != null) {
                                 int versionCode = AppUtils.getAppVersionCode();
                                 if (versionCode < elementsBean.versionCode) {
@@ -55,7 +56,7 @@ public class CheckUpdateUtils {
                         }
                     }
                     @Override
-                    public void onHttpFail(Throwable throwable) {
+                    public void onHttpFail(@NonNull Throwable throwable) {
                     }
                 });
     }

@@ -7,7 +7,8 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:selectableItemBackground"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="4dp"
+    tools:context=".adapter.SharedElementAdapter">
 
     <ImageView
         android:id="@+id/iv"

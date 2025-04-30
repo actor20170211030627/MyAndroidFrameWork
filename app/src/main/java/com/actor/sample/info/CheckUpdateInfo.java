@@ -32,48 +32,53 @@ public class CheckUpdateInfo implements IRequestHost, IRequestApi {
 
 
 
-    /**
-     * version : 1
-     * artifactType : {"type":"APK","kind":"Directory"}
-     * applicationId : com.actor.sample
-     * variantName : debug
-     * elements : [{"type":"SINGLE","filters":[],"properties":[],"versionCode":2021021101,"versionName":"2.0.1","enabled":true,"outputFile":"app-debug.apk"}]
-     */
-
-    @HttpIgnore //不加入到请求中
-    public int version;
-    public ArtifactTypeBean   artifactType;
-    public String             applicationId;
-    public String             variantName;
-    public List<ElementsBean> elements;
-
-    public static class ArtifactTypeBean {
+    ///////////////////////////////////////////////////////////////////////////
+    // 下方是返回类型
+    ///////////////////////////////////////////////////////////////////////////
+    public static class CheckUpdateBean {
         /**
-         * type : APK
-         * kind : Directory
+         * version : 1
+         * artifactType : {"type":"APK","kind":"Directory"}
+         * applicationId : com.actor.sample
+         * variantName : debug
+         * elements : [{"type":"SINGLE","filters":[],"properties":[],"versionCode":2021021101,"versionName":"2.0.1","enabled":true,"outputFile":"app-debug.apk"}]
          */
 
-        public String type;
-        public String kind;
-    }
+        @HttpIgnore //不加入到请求中
+        public int                version;
+        public ArtifactTypeBean   artifactType;
+        public String             applicationId;
+        public String             variantName;
+        public List<ElementsBean> elements;
 
-    public static class ElementsBean {
-        /**
-         * type : SINGLE
-         * filters : []
-         * properties : []
-         * versionCode : 2021021101
-         * versionName : 2.0.1
-         * enabled : true
-         * outputFile : app-debug.apk
-         */
+        public static class ArtifactTypeBean {
+            /**
+             * type : APK
+             * kind : Directory
+             */
 
-        public String type;
-        public List<?> filters;
-        public List<?> properties;
-        public int     versionCode;
-        public String  versionName;
-        public boolean enabled;
-        public String  outputFile;
+            public String type;
+            public String kind;
+        }
+
+        public static class ElementsBean {
+            /**
+             * type : SINGLE
+             * filters : []
+             * properties : []
+             * versionCode : 2021021101
+             * versionName : 2.0.1
+             * enabled : true
+             * outputFile : app-debug.apk
+             */
+
+            public String type;
+            public List<?> filters;
+            public List<?> properties;
+            public int     versionCode;
+            public String  versionName;
+            public boolean enabled;
+            public String  outputFile;
+        }
     }
 }

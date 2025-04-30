@@ -11,12 +11,12 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/red"
         android:padding="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/switch_orientation"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="3"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_select_dealer" />
+        tools:listitem="@layout/item_recycler_view_test_vertical" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_orientation"
@@ -45,10 +45,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.actor.myandroidframework.widget.BaseSpinner
-        android:id="@+id/bs_span_size"
+        android:id="@+id/bs_span_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:bsEntriesString="点击设置SpanSize,1,2,3,4,5"
+        app:bsEntriesString="点击设置SpanCount,1,2,3,4,5,6"
         app:layout_constraintBottom_toBottomOf="@id/btn_grid_layout_manager"
         app:layout_constraintStart_toEndOf="@id/btn_grid_layout_manager"
         app:layout_constraintTop_toTopOf="@id/btn_grid_layout_manager" />
@@ -60,6 +60,15 @@
         android:text="StaggeredGridLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/btn_flexbox_layout_manager"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.actor.myandroidframework.widget.BaseSpinner
+        android:id="@+id/bs_span_count2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bsEntriesString="设置SpanCount,1,2,3,4,5,6"
+        app:layout_constraintBottom_toBottomOf="@id/btn_staggered_grid_layout_manager"
+        app:layout_constraintStart_toEndOf="@id/btn_staggered_grid_layout_manager"
+        app:layout_constraintTop_toTopOf="@id/btn_staggered_grid_layout_manager" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_flexbox_layout_manager"

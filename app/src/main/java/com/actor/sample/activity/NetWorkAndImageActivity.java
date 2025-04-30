@@ -112,13 +112,13 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
         EasyHttp.get(this)
 //                .api(Global.CHECK_UPDATE)
                 .api(CheckUpdateInfo.class)
-                .request(new OnHttpListener<CheckUpdateInfo>() {
+                .request(new OnHttpListener<CheckUpdateInfo.CheckUpdateBean>() {
             @Override
-            public void onHttpSuccess(CheckUpdateInfo result) {
+            public void onHttpSuccess(@NonNull CheckUpdateInfo.CheckUpdateBean result) {
                 ToasterUtils.successFormat("请求成功, variantName=%s", result.variantName);
             }
             @Override
-            public void onHttpFail(Throwable throwable) {
+            public void onHttpFail(@NonNull Throwable throwable) {
                 ToasterUtils.error("请求失败!");
             }
         });

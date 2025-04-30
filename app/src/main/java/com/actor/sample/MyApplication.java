@@ -2,13 +2,13 @@ package com.actor.sample;
 
 import com.actor.chat_layout.ChatLayoutKit;
 import com.actor.chat_layout.emoji.DefaultEmojiList;
+import com.actor.database.greendao.GreenDaoUtils;
 import com.actor.jpush.JPushUtils;
 import com.actor.map.baidu.BaiduLocationUtils;
 import com.actor.map.baidu.BaiduMapUtils;
 import com.actor.map.gaode.GaoDe3DMapUtils;
 import com.actor.map.gaode.GaoDeLocationUtils;
 import com.actor.myandroidframework.application.ActorApplication;
-import com.actor.database.greendao.GreenDaoUtils;
 import com.actor.myandroidframework.utils.easyhttp.EasyHttpConfigUtils;
 import com.actor.myandroidframework.utils.okhttputils.OkHttpConfigUtils;
 import com.actor.qq_wechat.QQUtils;

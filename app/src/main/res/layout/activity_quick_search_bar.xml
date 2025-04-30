@@ -13,7 +13,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_select_dealer" />
+        tools:listitem="@layout/item_quick_search_bar" />
 
     <TextView
         android:id="@+id/rtv_tips"
