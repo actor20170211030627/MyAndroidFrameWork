@@ -292,9 +292,15 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
         /**
          * 垂直排布, 水平方向滑动
-         * TODO: 2025/4/30 这种"垂直排布, 水平方向滑动"方式显示有问题, 原因未知!
+         * TODO: 这种"垂直排布, 水平方向滑动"方式, if item比较多能够水平滑动, 就会显示有问题, 原因未知!
          */
         if (flexDirection == FlexDirection.COLUMN || flexDirection == FlexDirection.COLUMN_REVERSE) {
+            //下方注释的是测试代码! item比较多能够水平滑动, 显示就会错乱
+//            if (true) {
+//                if (position == 11) outRect.set(5, 10, 15, 20);
+//                return;
+//            }
+
             outRect.left = itemLinePps == 0 ? 0 : (int) horizontalSpacing;
             if (itemLinePps > 0) {
                 //上一行的信息(不是position所在行)

@@ -7,11 +7,13 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +42,7 @@ import java.util.List;
  *         <td>2</td>
  *         <td>{@link android.R.attr#spinnerMode spinnerMode}</td>
  *         <td>dropdown|dialog</td>
- *         <td>菜单显示方式:下拉菜单or弹出框(默认弹出框, 在android2.3上没有这个属性)</td>
+ *         <td>菜单显示方式:下拉菜单or弹出框(默认dropdown, 在android2.3上没有这个属性)</td>
  *     </tr>
  *     <tr>
  *         <td>3</td>
@@ -137,6 +139,11 @@ import java.util.List;
  *     </tr>
  * </table>
  *
+ * 三. 主要修复的问题
+ * <ol>
+ *     <li>填充数据后, 会自动回调 onItemSelected()方法的问题.</li>
+ * </ol>
+ *
  * @author     : ldf
  * @date       : 2019/10/20 on 16:21
  *
@@ -149,9 +156,42 @@ import java.util.List;
 public class BaseSpinner<T> extends AppCompatSpinner {
 
     protected int prePosition = Integer.MIN_VALUE;
-    protected ArrayAdapter<T> arrayAdapter;
-    protected int spinnerRes;
-    protected int ddvr;
+    //spinner布局
+    protected int spinnerRes = android.R.layout.simple_spinner_item;
+    //下拉item布局
+    protected int ddvr = androidx.appcompat.R.layout.support_simple_spinner_dropdown_item;
+    /**
+     * 为什么有这个默认Listener?
+     * 因为{@link #setDatas(Collection)}设置数据后, 会自动回调{@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)}, 无语...
+     */
+    protected OnItemSelectedListener2 defaultSelectedListener = new OnItemSelectedListener2() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (isJustSetData) {
+                isJustSetData = false;
+                return;
+            }
+            if (onItemSelectedListener2 != null) onItemSelectedListener2.onItemSelected(parent, view, position, id);
+        }
+        @Override
+        public void onItemReSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (isJustSetData) {
+                isJustSetData = false;
+                return;
+            }
+            if (onItemSelectedListener2 != null) onItemSelectedListener2.onItemReSelected(parent, view, position, id);
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            if (isJustSetData) {
+                isJustSetData = false;
+                return;
+            }
+            if (onItemSelectedListener2 != null) onItemSelectedListener2.onNothingSelected(parent);
+        }
+    };
+    protected OnItemSelectedListener2 onItemSelectedListener2;
+    protected boolean                 isJustSetData = false;
 
     public BaseSpinner(Context context) {
         super(context);
@@ -184,15 +224,6 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     }
 
     protected void init(Context context, @Nullable AttributeSet attrs) {
-        //https://www.cnblogs.com/jooy/p/9165769.html
-        //禁止OnItemSelectedListener默认会自动调用一次
-//        setSelection(0);//不写这句也可以
-        setSelection(0, true);
-
-        //spinner布局
-        spinnerRes = android.R.layout.simple_spinner_item;
-        //下拉item布局
-        ddvr = androidx.appcompat.R.layout.support_simple_spinner_dropdown_item;
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseSpinner);
             spinnerRes = a.getResourceId(R.styleable.BaseSpinner_bsResource, spinnerRes);
@@ -202,24 +233,29 @@ public class BaseSpinner<T> extends AppCompatSpinner {
             a.recycle();
 
             /**
-             * 如果设置了R.styleable.Spinner_android_entries属性,
+             * 如果设置了{@link R.styleable.Spinner_android_entries}属性,
              * @see AppCompatSpinner(Context, AttributeSet, int, int, Resources.Theme)
              * 会设置ArrayAdapter, 并且使用系统固定的layout布局, 会导致自定义属性失效
              */
-            ArrayAdapter<T> adapter = (ArrayAdapter<T>) getAdapter();
-            if (adapter != null) {
+            SpinnerAdapter adapter = getAdapter();
+            if (adapter instanceof ArrayAdapter) {
                 List<T> list = new ArrayList<>();
                 for (int i = 0; i < adapter.getCount(); i++) {
-                    list.add(adapter.getItem(i));
+                    list.add((T) adapter.getItem(i));
                 }
                 //是Arrays.asList();返回的List, 没有重写clear()方法, 不能调用clear()方法, 否则报错
 //                adapter.clear();
+                setArrayAdapter();
                 setDatas(list);
-            } else if (items != null && !items.isEmpty()) {
-                String[] split = items.split(",");
-                setDatas(split);
+            } else {
+                setArrayAdapter();
+                if (items != null && !items.isEmpty()) {
+                    String[] split = items.split(",");
+                    setDatas((T[]) split);
+                }
             }
         }
+        super.setOnItemSelectedListener(defaultSelectedListener);
     }
 
     /**
@@ -267,18 +303,18 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     }
 
     /**
-     * item选中监听(增加重复选中的监听) <br />
-     * 第1次设置数据后, 会自动回调{@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)}
+     * item选中监听(增加重复选中的监听)
      */
 //    @Override
     public void setOnItemSelectedListener(@Nullable OnItemSelectedListener2 listener) {
-        super.setOnItemSelectedListener(listener);
+//        super.setOnItemSelectedListener(defaultSelectedListener);
+        this.onItemSelectedListener2 = listener;
     }
 
     public interface OnItemSelectedListener2 extends OnItemSelectedListener {
 
         //再次选择了同一个item
-        default void onItemReSelected(AdapterView<?> parent, View view, int position, long id, boolean fromUser) {
+        default void onItemReSelected(AdapterView<?> parent, View view, int position, long id/*, boolean fromUser*/) {
         }
 
         //Adapter为空的时候就会调用到这个方法
@@ -304,30 +340,36 @@ public class BaseSpinner<T> extends AppCompatSpinner {
      * 设置数据, 填充Spinner
      * @param datas 传入CharSequence[] 或 String[]
      */
-    public void setDatas(CharSequence[] datas) {
-        if (datas != null) {
-            //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
-            List<CharSequence> list = new ArrayList<>();
-            Collections.addAll(list, datas);
-            setDatas((Collection<T>) list);
+    public void setDatas(@Nullable T[] datas) {
+        if (datas == null || datas.length == 0) {
+            setDatas((Collection<T>) null);
+            return;
         }
+        //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
+        List<T> list = new ArrayList<>();
+        Collections.addAll(list, datas);
+        setDatas(list);
     }
 
     /**
      * 设置数据, 填充Spinner <br />
-     * T: 如果数据类型 "T" 不是CharSequence或String, 重写数据类型的toString()方法即可, 列表item填充的时候会调用toString()的内容 <br />
-     * {@link 注意:}
-     * <ol>
-     *     <li>每次填充的T数据类型应该一致</li>
-     *     <li>第1次设置数据后, 会<b>自动回调</b> {@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)}</li>
-     * </ol>
+     * T: 如果数据类型 "T" 不是CharSequence或String, 重写数据类型'T'的toString()方法即可, 列表item填充的时候会调用toString()的内容 <br />
+     * {@link 注意:} 每次填充的T数据类型应该一致
      */
-    public void setDatas(Collection<T> datas) {
-        if (datas != null) {
-            //如果不是ArrayAdapter, 需要你自己处理.
-            getArrayAdapter().clear();
-            getArrayAdapter().addAll(datas);
-            if (prePosition == Integer.MIN_VALUE) prePosition = 0;
+    public void setDatas(@Nullable Collection<T> datas) {
+        SpinnerAdapter adapter = getAdapter();
+        //如果不是ArrayAdapter, 那就是你自定义了Adapter, 需要你自己处理.
+        if (adapter instanceof ArrayAdapter) {
+            ArrayAdapter<T> adapterI = (ArrayAdapter<T>) adapter;
+            adapterI.clear();
+            prePosition = Integer.MIN_VALUE;
+            if (datas != null && !datas.isEmpty()) {
+                isJustSetData = true;
+                adapterI.addAll(datas);
+                prePosition = 0;
+            }
+        } else {
+            LogUtils.errorFormat("adapter = %s, 不是ArrayAdapter, 设置数据后需要你自己处理!", adapter);
         }
     }
 
@@ -358,14 +400,23 @@ public class BaseSpinner<T> extends AppCompatSpinner {
         return null;
     }
 
-    public ArrayAdapter<T> getArrayAdapter() {
+    /**
+     * 设置默认的Adapter成ArrayAdapter
+     */
+    public void setArrayAdapter() {
         //不能使用getAdapter()这个方法, 因为如果设置了android:entries, 返回的ArrayList是Arrays的内部类, 没重写add等方法
 //        SpinnerAdapter adapter = getAdapter();
-        if (arrayAdapter == null) {
-            arrayAdapter = new ArrayAdapter<>(getContext(), spinnerRes);
-            arrayAdapter.setDropDownViewResource(ddvr);
-            setAdapter(arrayAdapter);
-        }
-        return arrayAdapter;
+        ArrayAdapter<T> arrayAdapter = new ArrayAdapter<>(getContext(), spinnerRes);
+        arrayAdapter.setDropDownViewResource(ddvr);
+        setAdapter(arrayAdapter);
+    }
+
+    /**
+     * 设置Adapter, 可自定义
+     * @param adapter
+     */
+    @Override
+    public void setAdapter(SpinnerAdapter adapter) {
+        super.setAdapter(adapter);
     }
 }
