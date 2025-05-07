@@ -3,11 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:layout_marginTop="1px"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="horizontal"
     tools:context=".adapter.MyWheelViewTestAdapter">
+    <!--
+    注意:
+      宽度可以设置成 match_parent/wrap_content,
+      高度不能设置成wrap_content, 否则RecyclerView显示会出问题, 甚至崩溃
+    -->
 
     <ImageView
         android:id="@+id/iv"

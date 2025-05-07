@@ -5,8 +5,6 @@ import android.view.View;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.LogUtils;
@@ -14,6 +12,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.dingmouren.layoutmanagergroup.picker.PickerLayoutManager;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,9 +21,17 @@ import java.util.List;
  * description: 可以滚动选择的Adapter, 仿 WheelView <br />
  * {@link 注意:}
  * <ol>
- *     <li>∵item高度可能不一致, ∴需要自己根据item的高度在xml中设置RecyclerView的高度!</li>
- *     <li>请继承本类, 然后重写 {@link #convert(BaseViewHolder, Object)} 方法和 {@link #convert(BaseViewHolder, Object, List)}方法[可选], 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/adapter/MyWheelViewTestAdapter.java" target="_blank">MyWheelViewTestAdapter.java</li>
- *     <li>先 {@link RecyclerView#setAdapter(RecyclerView.Adapter) RecyclerView.setAdapter(WheelViewAdapter)} 之后, 再调用 {@link #setList(Collection)} 方法.</li>
+ *     <li>添加依赖: <br />
+ *         //https://github.com/DingMouRen/LayoutManagerGroup RecyclerView的Item自动居中效果 <br />
+ *         implementation 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
+ *     </li>
+ *     <li>
+ *         RecyclerView布局可参考 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_wheel_view_test.xml" target="_blank">activity_wheel_view_test.xml</a> <br />
+ *         垂直滚动item布局可参考 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_wheel_view_vertical.xml" target="_blank">item_wheel_view_vertical.xml</a> <br />
+ *         水平滚动item布局可参考 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_wheel_view_horizontal.xml" target="_blank">item_wheel_view_horizontal.xml</a>
+ *     </li>
+ *     <li>继承本类, 然后重写 {@link #convert(BaseViewHolder, Object)} 方法和 {@link #convert(BaseViewHolder, Object, List)}方法[可选], 可参考: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/adapter/MyWheelViewTestAdapter.java" target="_blank">MyWheelViewTestAdapter.java</li>
+ *     <li>先 {@link RecyclerView#setAdapter(RecyclerView.Adapter) recyclerView.setAdapter(WheelViewAdapter)} 之后, 再调用 {@link WheelViewAdapter#setList(Collection) wheelViewAdapter.setList(Collection)} 方法, 可参考 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/WheelViewTestActivity.java" target="_blank">WheelViewTestActivity.java</a></li>
  *     <li>关于item封面, item之间的横线等问题, 可参考 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_wheel_view_test.xml" target="_blank">activity_wheel_view_test.xml</a> 自己画.</li>
  * </ol>
  *
@@ -34,8 +41,6 @@ import java.util.List;
  */
 public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
 
-    //显示几个item
-    protected int showItemCount = 3;
     //当前选中item的真实position
     protected int selectedPos = -1;
     //是否无限滚动
@@ -43,17 +48,18 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
     //是否可打印日志
     protected boolean loggable = false;
     //item点击是否自动滚动到中间
-    protected boolean itemClickScroll2Center = true;
+    protected boolean              itemClickScroll2Center = true;
+    protected PickerLayoutManager2 pickerLayoutManager2;
 
     /**
      * @param layoutResId item布局
-     * @param showItemCount 显示的几个item
      * @param isInfinityLoop 是否无限循环
      * @param itemClickScroll2Center item点击是否自动滚动到中间
      */
-    public WheelViewAdapter(@LayoutRes int layoutResId, int showItemCount, boolean isInfinityLoop, boolean itemClickScroll2Center) {
+    public WheelViewAdapter(@NonNull PickerLayoutManager2 pickerLayoutManager2, @LayoutRes int layoutResId,
+                            boolean isInfinityLoop, boolean itemClickScroll2Center) {
         super(layoutResId);
-        this.showItemCount = showItemCount;
+        this.pickerLayoutManager2 = pickerLayoutManager2;
         this.isInfinityLoop = isInfinityLoop;
         this.itemClickScroll2Center = itemClickScroll2Center;
         //if 点击item滚动到最中间
@@ -62,17 +68,10 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                     if (position == selectedPos) return;
-                    if (position == 0 || position == getItemCount() - 1) return;
+                    if (position < 0 || position >= getDefItemCount()) return;
                     RecyclerView recyclerView = getRecyclerViewOrNull();
                     if (recyclerView == null) return;
-                    if (loggable) {
-                        LogUtils.errorFormat("clickPosition=%d, showItemCount=%d", position, showItemCount);
-                    }
-                    if (position > selectedPos) {
-                        recyclerView.smoothScrollToPosition(Math.min(position + showItemCount / 2, getItemCount() - 1));
-                    } else {
-                        recyclerView.smoothScrollToPosition(Math.max(position - showItemCount / 2, 0));
-                    }
+                    recyclerView.smoothScrollToPosition(position);
                 }
             });
         }
@@ -81,71 +80,16 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        //必须 LinearLayoutManager 才行哦
-        if (!(layoutManager instanceof LinearLayoutManager)) {
-            layoutManager = new LinearLayoutManager(recyclerView.getContext());
-            recyclerView.setLayoutManager(layoutManager);
-        }
-        //设置中间停靠
-        new LinearSnapHelper().attachToRecyclerView(recyclerView);
-        // 添加滑动监听
-        LinearLayoutManager lm = (LinearLayoutManager) layoutManager;
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.setLayoutManager(pickerLayoutManager2);
+        pickerLayoutManager2.setOnSelectedViewListener(new PickerLayoutManager.OnSelectedViewListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                //可见item的个数
-                int childCount = lm.getChildCount();
+            public void onSelectedView(View view, int position) {
                 if (loggable) {
-                    LogUtils.errorFormat("childCount=%d", childCount);
+                    LogUtils.errorFormat("view=%s, position=%d, selectedPos=%d", view, position, selectedPos);
                 }
-
-                //第1个可见item的pos
-                int firstVisibleItemPosition = lm.findFirstVisibleItemPosition();
-                int lastVisibleItemPosition = lm.findLastVisibleItemPosition();
-                if (loggable) {
-                    LogUtils.errorFormat("firstVisibleItemPosition=%d, lastVisibleItemPosition=%d", firstVisibleItemPosition, lastVisibleItemPosition);
-                }
-
-                //第1个完全可见item的pos
-                int firstCompletelyVisibleItemPosition = lm.findFirstCompletelyVisibleItemPosition();
-
-                int selectedPos2 = 0;
-
-                //if RecyclerView 的高度比 showItemCount 个item的个数高一些, 当滑动到最底部的时候, childCount - showItemCount = 1
-                if (firstVisibleItemPosition != firstCompletelyVisibleItemPosition) {
-                    //中间item的pos
-                    selectedPos2 = firstVisibleItemPosition + childCount / 2;
-                    if (loggable) {
-                        LogUtils.errorFormat("childCount=%d, selectedPos=%d", childCount, selectedPos2);
-                    }
-                } else {
-                    //可见item的Diff
-                    int visibleItemDiff = lastVisibleItemPosition - firstVisibleItemPosition;
-                    selectedPos2 = firstVisibleItemPosition + visibleItemDiff / 2;
-                    if (loggable) {
-                        LogUtils.errorFormat("visibleItemCount=%d, selectedPos=%d", visibleItemDiff + 1, selectedPos2);
-                    }
-                }
-
-
-
-                if (loggable) {
-                    int lastCompletelyVisibleItemPosition = lm.findLastCompletelyVisibleItemPosition();
-                    LogUtils.errorFormat("firstCompletelyVisibleItemPosition=%d, lastCompletelyVisibleItemPosition=%d", firstCompletelyVisibleItemPosition, lastCompletelyVisibleItemPosition);
-
-                    //完全可见item的Diff
-                    int completelyVisibleItemDiff = lastCompletelyVisibleItemPosition - firstCompletelyVisibleItemPosition;
-                    //中间item的pos
-                    int selectedPos3 = firstCompletelyVisibleItemPosition + completelyVisibleItemDiff / 2;
-                    LogUtils.errorFormat("completelyVisibleItemCount=%d, selectedPos=%d", completelyVisibleItemDiff + 1, selectedPos3);
-                }
-
-
-                if (selectedPos2 != selectedPos) {
+                if (position != selectedPos) {
                     int oldPos = selectedPos;
-                    selectedPos = selectedPos2;
+                    selectedPos = position;
                     //快速滑动的时候更新item可能报错:
                     //java.lang.IllegalStateException: Cannot call this method while RecyclerView is computing a layout or scrolling androidx.recyclerview.widget.RecyclerView...
                     try {
@@ -204,13 +148,15 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
             selectedPos = -1;
             return;
         }
-        if (!isInfinityLoop) {
-            //if不是无限循环, 就添加几个空白item
-            int addCount = showItemCount / 2;
-            for (int i = 0; i < addCount; i++) {
-                addData(0, (T) null);
-                addData((T) null);
+        //先计算位置, 然后再滚动位置
+        if (isInfinityLoop) {
+            selectedPos = getDefItemCount() / 2;
+            int size = list.size();
+            while (selectedPos % size != 0) {
+                selectedPos --;
             }
+        } else {
+            selectedPos = 0;
         }
         setCurrentPosition(0, false);
     }
@@ -228,25 +174,29 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
      * @param isSmoothScroll 是否平滑滑动
      */
     public void setCurrentPosition(int currentPosition, boolean isSmoothScroll) {
+        if (loggable) {
+            LogUtils.errorFormat("currentPosition=%d, isSmoothScroll=%b", currentPosition, isSmoothScroll);
+        }
         int size = getData().size();
         if (currentPosition < 0 || currentPosition > size - 1) return;
-        int addCount = showItemCount / 2;
         if (isInfinityLoop) {
-            selectedPos = 0;
+            int selectedPos = 0;
             RecyclerView recyclerView = getRecyclerViewOrNull();
             if (recyclerView != null) {
                 selectedPos = getDefItemCount() / 2;
                 while (selectedPos % size != currentPosition) {
                     selectedPos --;
                 }
+                if (loggable) {
+                    LogUtils.errorFormat("selectedPos=%d", selectedPos);
+                }
                 if (isSmoothScroll) {
-                    recyclerView.smoothScrollToPosition(selectedPos - addCount);
+                    recyclerView.smoothScrollToPosition(selectedPos);
                 } else {
-                    recyclerView.scrollToPosition(selectedPos - addCount);
+                    recyclerView.scrollToPosition(selectedPos);
                 }
             }
         } else {
-            selectedPos = currentPosition + addCount;
             RecyclerView recyclerView = getRecyclerViewOrNull();
             if (recyclerView != null) {
                 if (isSmoothScroll) {
@@ -272,7 +222,7 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
     // 重写以下1/2个方法
     ///////////////////////////////////////////////////////////////////////////
     @Override
-    protected abstract void convert(@NonNull BaseViewHolder holder, @Nullable T item);
+    protected abstract void convert(@NonNull BaseViewHolder holder, T item);
 
     /**
      * RecyclerView滑动的时候, item选中位置 {@link #selectedPos} 会改变. if 你的item有选中&未选中状态, 请重写此方法做局部更新!
@@ -281,7 +231,7 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
      * @param payloads payloads.get(0) = true/false, 这个item是否是选中状态
      */
     @Override
-    protected void convert(@NonNull BaseViewHolder holder, @Nullable T item, @NonNull List<?> payloads) {
+    protected void convert(@NonNull BaseViewHolder holder, T item, @NonNull List<?> payloads) {
         super.convert(holder, item, payloads);
         if (loggable) {
             LogUtils.errorFormat("holder=%s, item=%s, payloads=%s", holder, item, GsonUtils.toJson(payloads));

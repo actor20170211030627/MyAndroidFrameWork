@@ -212,6 +212,9 @@ dependencies {
 
     //https://github.com/yellowcath/VideoProcessor 视频压缩
     compileOnly 'com.github.yellowcath:VideoProcessor:2.4.2'
+
+    //https://github.com/DingMouRen/LayoutManagerGroup RecyclerView的Item自动居中效果
+    compileOnly 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
 }
 
 //configurations.all {
