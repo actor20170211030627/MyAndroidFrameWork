@@ -111,9 +111,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_nine_grid_view://九宫格
                 startActivity(NineGridViewActivity.class);
                 break;
-            case R.id.btn_quick_search_bar://快速查找条
-                startActivity(QuickSearchBarActivity.class);
-                break;
             case R.id.btn_webview://WebView
                 startActivity(WebViewActivity.class);
                 break;

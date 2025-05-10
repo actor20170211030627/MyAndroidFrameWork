@@ -29,7 +29,6 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
-import com.blankj.utilcode.util.ActivityUtils;
 
 /**
  * Description: Activity基类

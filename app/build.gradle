@@ -89,9 +89,6 @@ dependencies {
     //https://github.com/DingMouRen/LayoutManagerGroup RecyclerView的Item自动居中效果
     implementation 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
 
-    //https://github.com/hellokaton/TinyPinyin
-    implementation 'io.github.biezhi:TinyPinyin:2.0.3.RELEASE'//TinyPinyin核心包，约80KB
-
 
 
     //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能

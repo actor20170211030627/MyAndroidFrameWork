@@ -110,7 +110,22 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
 
         viewBinding.tv1.setText(getStringFormat("position[0~%d]:", ImageConstants.IMAGE_SOURCE.length - 1));
 
-        exitSharedElementCallback.setLogPageTag("Fragment A");
+
+        BaseSharedElementCallback enterSharedElementCallback = new BaseSharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                super.onMapSharedElements(names, sharedElements);
+            }
+        };
+        enterSharedElementCallback.setLogPageTag("Fragment A Enter");
+        //Fragment中设置, 不会回调!
+        setEnterSharedElementCallback(enterSharedElementCallback);
+
+
+        exitSharedElementCallback.setLogPageTag("Fragment A Exit");
+        //Fragment中设置, 不会回调!
+//        setExitSharedElementCallback(exitSharedElementCallback);
+
 
         Glide.with(this)
                 .load(ImageConstants.IMAGE_SOURCE[position2ViewPager])

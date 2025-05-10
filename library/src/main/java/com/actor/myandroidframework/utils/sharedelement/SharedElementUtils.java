@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -245,11 +247,38 @@ public class SharedElementUtils {
     }
 
 
-
-    public static void startActivity(FragmentActivity activity, Intent intent, View... sharedElements) {
+    /**
+     * 共享元素跳转
+     * @param sharedElements 共享元素, 务必先设置transitionName
+     */
+    public static void startActivity(FragmentActivity activity, Intent intent, @Nullable View... sharedElements) {
         //需要重置ExitSharedElementCallback, 否则如果已经设置了的话, 会造成bug
-        activity.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
+        activity.setExitSharedElementCallback((BaseSharedElementCallback) null);
         ActivityUtils.startActivity(activity, intent, sharedElements);
+    }
+
+    /**
+     * 共享元素跳转
+     * @param sharedElements 共享元素, 务必先设置transitionName
+     */
+    public static void startActivity(@NonNull Fragment fragment, Intent intent, @Nullable View... sharedElements) {
+        FragmentActivity activity = fragment.getActivity();
+        if (activity != null) {
+//            fragment.setExitSharedElementCallback((BaseSharedElementCallback) null);
+            //需要重置ExitSharedElementCallback, 否则如果已经设置了的话, 会造成bug
+            activity.setExitSharedElementCallback((BaseSharedElementCallback) null);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && activity != null && sharedElements != null && sharedElements.length > 0) {
+            @SuppressWarnings("unchecked")
+            Pair<View, String>[] pairs = new Pair[sharedElements.length];
+            for (int i = 0; i < sharedElements.length; i++) {
+                pairs[i] = Pair.create(sharedElements[i], sharedElements[i].getTransitionName());
+            }
+            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs).toBundle();
+            fragment.startActivity(intent, bundle);
+        } else {
+            fragment.startActivity(intent);
+        }
     }
 
 
@@ -306,10 +335,10 @@ public class SharedElementUtils {
     public static void startActivityForResult(@NonNull Fragment fragment,
                                               @NonNull Intent intent, int requestCode,
                                               @Nullable BaseSharedElementCallback exitSharedElementCallback) {
+        //设置在fragment里面不会回调...
+//        fragment.setExitSharedElementCallback(exitSharedElementCallback);
         FragmentActivity activity = fragment.getActivity();
         if (activity != null) {
-            //设置在fragment里面不会回调...
-//            fragment.setExitSharedElementCallback(exitSharedElementCallback);
             activity.setExitSharedElementCallback(exitSharedElementCallback);
         } else {
             LogUtils.errorFormat("%s.getActivity() = null!!!", fragment);
@@ -328,11 +357,11 @@ public class SharedElementUtils {
      * 共享元素方式跳转
      * @param intent 跳转B页面的Intent
      * @param requestCode 请求码
-     * @param sharedElements 共享元素
+     * @param sharedElements 共享元素, 务必先设置transitionName
      */
     public static void startActivityForResult(@NonNull AppCompatActivity activity, @NonNull Intent intent,
                                               int requestCode, @Nullable View... sharedElements) {
-        activity.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
+        activity.setExitSharedElementCallback((BaseSharedElementCallback) null);
         ActivityUtils.startActivityForResult(activity, intent, requestCode, sharedElements);
     }
 
@@ -340,8 +369,8 @@ public class SharedElementUtils {
                                               int requestCode, View... sharedElements) {
         FragmentActivity activity = fragment.getActivity();
         if (activity != null) {
-//            fragment.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
-            activity.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
+//            fragment.setExitSharedElementCallback((BaseSharedElementCallback) null);
+            activity.setExitSharedElementCallback((BaseSharedElementCallback) null);
         } else {
             LogUtils.errorFormat("%s.getActivity() = null!!!", fragment);
         }

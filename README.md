@@ -128,7 +128,6 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 ## 3.Screenshot
 <img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=33%></img>
 <img src="captures/BaseBottomSheetDialogFragment.gif" width=33%></img>
-<img src="captures/QuickSearchBar.gif" width=33%></img> <br/>
 <img src="captures/BaseRatingBar.gif" width=33%></img>
 <img src="captures/chatlayout.png" width=33%></img>
 <img src="captures/chat_layout.gif" width=33%></img>
@@ -290,7 +289,6 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
  * <a href="others/src/main/java/com/actor/others/widget/ItemRadioGroupLayout.java" target="_blank">ItemRadioGroupLayout</a> (RadioGroup选择)
  * <a href="others/src/main/java/com/actor/others/widget/ItemSpinnerLayout.java" target="_blank">ItemSpinnerLayout</a> (Spinner选择)
  * <a href="others/src/main/java/com/actor/others/widget/ItemTextInputLayout.java" target="_blank">ItemTextInputLayout</a> (Text输入)
- * <a href="others/src/main/java/com/actor/others/widget/QuickSearchBar.java" target="_blank">QuickSearchBar</a> (快速查找条a-z)
  * <a href="others/src/main/java/com/actor/others/widget/ShowPartImageView.java" target="_blank">ShowPartImageView</a> (仅显示图片指定部分的内容)
  */
  implementation 'com.github.actor20170211030627.MyAndroidFrameWork:others:github's latest version'
