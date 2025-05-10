@@ -205,7 +205,7 @@ public class GlideUtils {
     public static void loadGifLoop(@NonNull ImageView iv,
                                    @Nullable @DrawableRes Integer placeholder,
                                    @RawRes @DrawableRes   int resourceId,
-                                   @Nullable              MyRequestListener requestListener) {
+                                   @Nullable GifRequestListener requestListener) {
         RequestBuilder<GifDrawable> requestBuilder = Glide.with(iv).asGif()
                 //防止Gif重复播放时, 会先显示最后1帧的图片
                 .skipMemoryCache(true);
@@ -225,7 +225,7 @@ public class GlideUtils {
     public static void loadGifLoop(@NonNull ImageView iv,
                                    @Nullable @DrawableRes Integer placeholder,
                                    @Nullable              String string,
-                                   @Nullable              MyRequestListener requestListener) {
+                                   @Nullable GifRequestListener requestListener) {
         loadGifLoop(iv, placeholder, null, string, requestListener);
     }
 
@@ -240,7 +240,7 @@ public class GlideUtils {
                                    @Nullable @DrawableRes Integer placeholder,
                                    @Nullable @DrawableRes Integer error,
                                    @Nullable String string,
-                                   @Nullable MyRequestListener requestListener) {
+                                   @Nullable GifRequestListener requestListener) {
         RequestBuilder<GifDrawable> requestBuilder = Glide.with(iv).asGif()
                 //防止Gif重复播放时, 会先显示最后1帧的图片
                 .skipMemoryCache(true);

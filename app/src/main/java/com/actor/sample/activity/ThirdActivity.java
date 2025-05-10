@@ -92,7 +92,6 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                         .selectImage(false)
                         .setSingleSelect(true)
                         .setShowCamera(true)
-                        .build()
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
@@ -175,7 +174,6 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
                 PictureSelectorUtils.create(this, null)
                         .selectImage(false)
                         .setSingleSelect(true)
-                        .build()
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {

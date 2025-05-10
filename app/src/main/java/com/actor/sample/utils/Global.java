@@ -53,4 +53,23 @@ public class Global {
     public static final String CONTENT = "CONTENT";
     public static final String ID = "ID";
     public static final String POSITION = "POSITION";
+    public static final String START_POSITION = "START_POSITION";
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 临时变量
+    ///////////////////////////////////////////////////////////////////////////
+    public static int fragmentPosition = -1;
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 静态方法区
+    ///////////////////////////////////////////////////////////////////////////
+    public static String getListTransitionName(int position, boolean isChangeTransition) {
+        if (isChangeTransition) return "shared_image_list_" + position;
+        return "shared_image_list_";
+    }
+
 }

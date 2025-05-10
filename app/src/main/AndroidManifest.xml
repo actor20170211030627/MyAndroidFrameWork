@@ -15,6 +15,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activity.SharedElement2Activity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SharedElementRecyclerViewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.RecyclerViewTestActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -57,7 +65,11 @@
         <activity android:name=".activity.GaoDeMapActivity" />
         <activity android:name=".activity.ThirdActivity" />
         <activity android:name=".activity.ViewPagerActivity" />
-        <activity android:name=".activity.SharedElementActivity" />
+        <activity
+            android:name=".activity.SharedElementActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.QuickSearchBarActivity" />
         <activity android:name=".activity.OtherActivity" />
         <activity android:name=".activity.IsEmptyActivity" />

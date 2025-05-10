@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.DetailFragment">
+    tools:context=".fragment.ViewPagerDetailFragment">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="150dp">
 
         <View
             android:id="@+id/view_background"
@@ -17,22 +17,19 @@
 
         <ImageView
             android:id="@+id/iv"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentBottom="true"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitXY"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom"
+            android:adjustViewBounds="true"
             tools:src="@mipmap/ic_launcher" />
-
-    </RelativeLayout>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
+        android:padding="5dp"
         android:textColor="@android:color/black"
-        android:textSize="32sp"
-        tools:text="app" />
+        android:textSize="18sp"
+        tools:text="ViewPager, position = 0(请左右滑动)" />
 </LinearLayout>

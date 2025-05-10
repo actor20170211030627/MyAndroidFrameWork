@@ -1,9 +1,13 @@
 package com.actor.picture_selector.utils;
 
 import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.engine.CropFileEngine;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 /**
  * description: 选择图片
@@ -43,7 +47,7 @@ public class SelectImageBuilder {
     }
 
     /**
-     * 选择 图片 是否显示Gif
+     * 选择图片 是否显示Gif
      */
     public SelectImageBuilder setShowGif(boolean showGif) {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
@@ -71,6 +75,7 @@ public class SelectImageBuilder {
 
     /**
      * 跳过裁剪图片的类型, 默认不裁剪Gif&Webp, 这2种都可能是动图.
+     * @param skipCropMimeTypes {@link PictureMimeType#ofGIF()}, {@link PictureMimeType#ofWEBP()}
      */
     public SelectImageBuilder setSkipCropMimeTypes(@Nullable String... skipCropMimeTypes) {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
@@ -87,7 +92,11 @@ public class SelectImageBuilder {
         return this;
     }
 
-    public PictureSelectorUtils build() {
-        return PictureSelectorUtils.getInstance(false);
+    /**
+     * 跳转选择
+     * @param listener 回调
+     */
+    public void forResult(@NonNull OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectorUtils.getInstance(false).forResult(listener);
     }
 }

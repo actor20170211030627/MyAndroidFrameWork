@@ -18,10 +18,10 @@ import com.bumptech.glide.request.transition.Transition;
  *
  * 示例使用:
  * <pre>
- * private MyImageViewTarget imageViewTarget;
+ * private GifImageViewTarget imageViewTarget;
  *
  * //初始化
- * imageViewTarget = new MyImageViewTarget(imageView, 2, new Animatable2Compat.AnimationCallback() {
+ * imageViewTarget = new GifImageViewTarget(imageView, 2, new Animatable2Compat.AnimationCallback() {
  *     <b>@Override</b>
  *     public void onAnimationEnd(Drawable drawable) {
  *         super.onAnimationEnd(drawable);
@@ -42,44 +42,48 @@ import com.bumptech.glide.request.transition.Transition;
  * @date       : 2019/6/24 on 21:05
  * @version 1.0
  */
-public class MyImageViewTarget extends ImageViewTarget<GifDrawable> {
+public class GifImageViewTarget extends ImageViewTarget<GifDrawable> {
 
     protected final int                                 loopCount;
     @Nullable
     protected final Animatable2Compat.AnimationCallback animationCallback;
+    Object requestTag;
 
     /**
      * @param imageView 图片
      * @param loopCount 循环次数
      */
-    public MyImageViewTarget(ImageView imageView, @IntRange(from = 1) int loopCount, @Nullable Animatable2Compat.AnimationCallback animationCallback) {
+    public GifImageViewTarget(ImageView imageView, @IntRange(from = 1) int loopCount, @Nullable Animatable2Compat.AnimationCallback animationCallback) {
         super(imageView);
         this.loopCount = loopCount;
         this.animationCallback = animationCallback;
     }
 
-    //当前方法表示图片资源加载完成
+    //图片资源加载完成
     @Override
     public void onResourceReady(@NonNull GifDrawable resource, @Nullable Transition<? super GifDrawable> transition) {
         ImageView imageView = getView();
 //        imageView.setWillNotDraw(false);    //设置图片
         resource.setLoopCount(loopCount);   //循环播放次数
         imageView.setImageDrawable(resource);
-        resource.registerAnimationCallback(animationCallback);
+        if (animationCallback != null) resource.registerAnimationCallback(animationCallback);
         resource.start();
     }
 
+    //图片开始加载时的处理，例如显示一个加载中的动画
     @Override
     public void onLoadStarted(@Nullable Drawable placeholder) {//开始加载图片
         super.onLoadStarted(placeholder);
     }
 
+    //图片加载失败时的处理
     @Override
     public void onLoadFailed(@Nullable Drawable errorDrawable) {
         super.onLoadFailed(errorDrawable);
         LogUtils.errorFormat("gif加载失败, errorDrawable=%s", errorDrawable);
     }
 
+    //清除时的处理，例如在取消加载时调用
     @Override
     public void onLoadCleared(@Nullable Drawable placeholder) {
         super.onLoadCleared(placeholder);
@@ -108,5 +112,19 @@ public class MyImageViewTarget extends ImageViewTarget<GifDrawable> {
     @Override
     public void onDestroy() {//Activity/Fragment 中的onDestroy
         super.onDestroy();
+    }
+
+    /**
+     * 设置tag
+     * @param requestTag 可以标记一个tag, 比如position
+     */
+    public GifImageViewTarget setRequestTag(Object requestTag) {
+        this.requestTag = requestTag;
+        return this;
+    }
+
+    @Nullable
+    public <T extends Object> T getRequestTag() {
+        return (T) requestTag;
     }
 }

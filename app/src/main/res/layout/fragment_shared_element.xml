@@ -1,34 +1,72 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/red_trans_CC99"
-    android:orientation="vertical"
     tools:context=".fragment.SharedElementFragment">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tv0"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:padding="5dp"
-        android:text="这是一个Fragment(this is Fragment)" />
+        android:text="这是一个粉色背景的Fragment(this is Fragment)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:scaleType="fitXY"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv0"
         tools:src="@mipmap/ic_launcher" />
 
     <Button
         android:id="@+id/btn_start_activity"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="fragment.startActivity()" />
+        android:text="3.Fragment→Activity"
+        app:layout_constraintStart_toEndOf="@id/et_position"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/et_position"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_position"
+        tools:text="position[0~25]:" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:digits="@string/digits_phone"
+        android:hint="position"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@id/tv1"
+        app:layout_constraintTop_toTopOf="@id/btn_activity_2_activity_recycler_view" />
+
+    <Button
+        android:id="@+id/btn_activity_2_activity_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4.Fragment→activity.RecyclerView"
+        app:layout_constraintStart_toEndOf="@id/et_position"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_activity" />
 
     <Button
         android:id="@+id/btn_start_activity_for_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="fragment.startActivityForResult()" />
-</LinearLayout>
+        android:text="5.fragment.startActivityForResult()"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_activity_2_activity_recycler_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>

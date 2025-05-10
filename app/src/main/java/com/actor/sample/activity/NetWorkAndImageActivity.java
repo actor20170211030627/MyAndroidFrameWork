@@ -1,14 +1,15 @@
 package com.actor.sample.activity;
 
-import android.content.Intent;
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.FileUtils;
+import com.actor.myandroidframework.utils.glide.DrawableRequestListener;
+import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.picture_selector.utils.PictureSelectorUtils;
 import com.actor.sample.R;
@@ -18,6 +19,9 @@ import com.actor.sample.info.EasyHttpUploadFileInfo;
 import com.actor.sample.utils.Global;
 import com.blankj.utilcode.util.PathUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.target.Target;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.OnDownloadListener;
 import com.hjq.http.listener.OnHttpListener;
@@ -35,32 +39,46 @@ import java.util.ArrayList;
  */
 public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImageBinding> {
 
-    private ProgressBar progressBar;
-    private String picPath;
+    private       String                  picPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressBar = viewBinding.progressBar;
+        setTitle("主页->网络&图片");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            postponeEnterTransition();
+        //清除目标 Activity 或 Fragment 的进入&退出过渡动画。
+        if (false) {
+            SharedElementUtils.cleanTransitionInDestinationActivity(getWindow());
         }
 
-        setTitle("主页->网络&图片");
+        /**
+         * 推迟 Activity 或者 Fragment 的进入过渡动画。
+         */
+        SharedElementUtils.postponeEnterTransition(this);
+
         Glide.with(this).load(Global.girl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .circleCrop()
+                .listener(new DrawableRequestListener() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        /**
+                         * 启动之前被推迟的进入过渡动画。
+                         */
+                        SharedElementUtils.startPostponedEnterTransition(mActivity);
+                        return super.onLoadFailed(e, model, target, isFirstResource);
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        /**
+                         * 启动之前被推迟的进入过渡动画。
+                         */
+                        SharedElementUtils.startPostponedEnterTransition(mActivity);
+                        return super.onResourceReady(resource, model, target, dataSource, isFirstResource);
+                    }
+                })
                 .into(viewBinding.iv);
-        viewBinding.iv.post(new Runnable() {
-            @Override
-            public void run() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    startPostponedEnterTransition();
-                }
-            }
-        });
     }
 
     @Override
@@ -80,7 +98,6 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                         .selectImage(false)
                         .setSingleSelect(true)
                         .setShowCamera(true)
-                        .build()
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
@@ -101,7 +118,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 break;
             case R.id.btn_socket_example:
                 //okhttp的Socket示例
-                startActivity(new Intent(this, SocketTestActivity.class));
+                startActivity(SocketTestActivity.class);
                 break;
             default:
                 break;
@@ -131,17 +148,17 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 .file(new File(PathUtils.getFilesPathExternalFirst(), FileUtils.getFileNameFromUrl(Global.GRADLE_DOWNLOAD_URL)))
                 .listener(new OnDownloadListener() {
                     @Override
-                    public void onDownloadProgressChange(File file, int progress) {
+                    public void onDownloadProgressChange(@NonNull File file, int progress) {
 //                            LogUtils.error(String.valueOf(progress));
-                        progressBar.setProgress(progress);
+                        viewBinding.progressBar.setProgress(progress);
                     }
                     @Override
-                    public void onDownloadSuccess(File file) {
+                    public void onDownloadSuccess(@NonNull File file) {
                         dismissNetWorkLoadingDialog();
                         ToasterUtils.successFormat("下载完成: %s", file.getAbsolutePath());
                     }
                     @Override
-                    public void onDownloadFail(File file, Throwable throwable) {
+                    public void onDownloadFail(@NonNull File file, @NonNull Throwable throwable) {
                         dismissNetWorkLoadingDialog();
                         ToasterUtils.errorFormat("下载错误: %s", throwable.getMessage());
                     }
@@ -158,15 +175,15 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 .request(new OnUpdateListener<String>() {
                     @Override
                     public void onUpdateProgressChange(int progress) {
-                        progressBar.setProgress(progress);
+                        viewBinding.progressBar.setProgress(progress);
                     }
                     @Override
-                    public void onUpdateSuccess(String result) {
+                    public void onUpdateSuccess(@NonNull String result) {
                         dismissNetWorkLoadingDialog();
                         ToasterUtils.success(result);
                     }
                     @Override
-                    public void onUpdateFail(Throwable throwable) {
+                    public void onUpdateFail(@NonNull Throwable throwable) {
                         dismissNetWorkLoadingDialog();
                         ToasterUtils.error(throwable.getMessage());
                     }

@@ -40,91 +40,91 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
-                startActivity(new Intent(this, NetWorkAndImageActivity.class), false, null, null, viewBinding.iv);
+                startActivity(new Intent(this, NetWorkAndImageActivity.class), viewBinding.iv);
                 break;
             case R.id.btn_shared_element://元素共享跳转
-                startActivity(new Intent(this, SharedElementActivity.class), false, null, null, view);
+                startActivity(new Intent(this, SharedElementActivity.class), view);
                 break;
             case R.id.btn_bottom_sheet://从底部弹出的Dialog & DialogFragment等
-                startActivity(new Intent(this, BottomSheetDialogActivity.class), false, null, null, view);
+                startActivity(new Intent(this, BottomSheetDialogActivity.class), view);
                 break;
             case R.id.btn_glide:        //Glide使用
-                startActivity(new Intent(this, GlideExampleActivity.class));
+                startActivity(GlideExampleActivity.class);
                 break;
             case R.id.btn_popup_window://PopupWindow测试
                 startActivity(PopupWindowTestActivity.class);
                 break;
             case R.id.btn_viewpager_about://ViewPager多层嵌套
-                startActivity(new Intent(mActivity, ViewPagerAndFragmentActivity.class));
+                startActivity(ViewPagerAndFragmentActivity.class);
                 break;
             case R.id.btn_select_file://文件选择
-                startActivity(new Intent(this, SelectFileActivity.class), false, null, null, view);
+                startActivity(new Intent(this, SelectFileActivity.class), view);
                 break;
             case R.id.btn_is_empty://判空
-                startActivity(new Intent(this, IsEmptyActivity.class), false, null, null, view);
+                startActivity(new Intent(this, IsEmptyActivity.class), view);
                 break;
             case R.id.btn_chat://聊天
-                startActivity(new Intent(mActivity, ChatActivity.class));
+                startActivity(ChatActivity.class);
                 break;
             case R.id.btn_third://第三方登录/分享
-                startActivity(new Intent(this, ThirdActivity.class), false, null, null, view);
+                startActivity(new Intent(this, ThirdActivity.class), view);
                 break;
             case R.id.btn_baidu://百度定位/地图
-                startActivity(new Intent(this, BaiDuMapActivity.class), false, null, null, view);
+                startActivity(new Intent(this, BaiDuMapActivity.class), view);
                 break;
             case R.id.btn_gaode://高德定位/地图
-                startActivity(new Intent(this, GaoDeMapActivity.class), false, null, null, view);
+                startActivity(new Intent(this, GaoDeMapActivity.class), view);
                 break;
             case R.id.btn_jpush://极光推送
-                startActivity(new Intent(this, JPushActivity.class), false, null, null, view);
+                startActivity(new Intent(this, JPushActivity.class), view);
                 break;
             case R.id.btn_database://数据库(GreenDao)
-                startActivity(new Intent(this, DatabaseActivity.class), false, null, null, view);
+                startActivity(new Intent(this, DatabaseActivity.class), view);
                 break;
             case R.id.btn_recycler_view:  //RecyclerView测试
-                startActivity(new Intent(this, RecyclerViewTestActivity.class));
+                startActivity(RecyclerViewTestActivity.class);
                 break;
             case R.id.btn_wheel_view:  //WheelView测试
-                startActivity(new Intent(this, WheelViewTestActivity.class));
+                startActivity(WheelViewTestActivity.class);
                 break;
             case R.id.btn_switch://切换
-                startActivity(new Intent(this, SwitcherActivity.class), false, null, null, view);
+                startActivity(new Intent(this, SwitcherActivity.class), view);
                 break;
             case R.id.btn_custom_view://自定义View
-                startActivity(new Intent(this, CustomViewActivity.class), false, null, null, view);
+                startActivity(new Intent(this, CustomViewActivity.class), view);
                 break;
             case R.id.btn_custom_ratingbar://自定义RatingBar
-                startActivity(new Intent(this, RatingBarActivity.class), false, null, null, view);
+                startActivity(new Intent(this, RatingBarActivity.class), view);
                 break;
             case R.id.btn_custom_line_view://线条LineView
-                startActivity(new Intent(this, LineViewActivity.class), false, null, null, view);
+                startActivity(new Intent(this, LineViewActivity.class), view);
                 break;
             case R.id.btn_scrollable_text_view://可滚动TextView
-                startActivity(new Intent(this, ScrollableTextViewActivity.class), false, null, null, view);
+                startActivity(new Intent(this, ScrollableTextViewActivity.class), view);
                 break;
             case R.id.btn_font:         //Font字体设置
-                startActivity(new Intent(this, FontSetActivity.class));
+                startActivity(FontSetActivity.class);
                 break;
             case R.id.btn_part_image_view://ShowPartImageView
-                startActivity(new Intent(this, ShowPartImageViewActivity.class));
+                startActivity(ShowPartImageViewActivity.class);
                 break;
             case R.id.btn_nine_grid_view://九宫格
-                startActivity(new Intent(this, NineGridViewActivity.class));
+                startActivity(NineGridViewActivity.class);
                 break;
             case R.id.btn_quick_search_bar://快速查找条
-                startActivity(new Intent(this, QuickSearchBarActivity.class));
+                startActivity(QuickSearchBarActivity.class);
                 break;
             case R.id.btn_webview://WebView
-                startActivity(new Intent(this, WebViewActivity.class));
+                startActivity(WebViewActivity.class);
                 break;
             case R.id.btn_count_down_timer://BaseCountDownTimer测试
-                startActivity(new Intent(this, BaseCountDownTimerActivity.class), false, null, null, view);
+                startActivity(new Intent(this, BaseCountDownTimerActivity.class), view);
                 break;
             case R.id.btn_audio_media://音频录制&播放,视频播放
-                startActivity(new Intent(this, AudioMediaActivity.class), false, null, null, view);
+                startActivity(new Intent(this, AudioMediaActivity.class), view);
                 break;
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
-                startActivity(new Intent(this, OtherActivity.class));
+                startActivity(OtherActivity.class);
                 break;
             default:
                 break;

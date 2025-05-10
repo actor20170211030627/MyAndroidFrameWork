@@ -1,6 +1,10 @@
 package com.actor.picture_selector.utils;
 
 import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 /**
  * description: 描述
@@ -60,7 +64,11 @@ public class SelectVideoBuilder {
         return this;
     }
 
-    public PictureSelectorUtils build() {
-        return PictureSelectorUtils.getInstance(false);
+    /**
+     * 跳转选择
+     * @param listener 回调
+     */
+    public void forResult(@NonNull OnResultCallbackListener<LocalMedia> listener) {
+        PictureSelectorUtils.getInstance(false).forResult(listener);
     }
 }

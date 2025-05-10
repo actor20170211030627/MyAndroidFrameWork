@@ -28,8 +28,8 @@ import com.actor.myandroidframework.service.ActorBaseService;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
-import com.actor.myandroidframework.utils.sharedelement.SharedElementA;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
+import com.blankj.utilcode.util.ActivityUtils;
 
 /**
  * Description: Activity基类
@@ -66,9 +66,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     ///////////////////////////////////////////////////////////////////////////
     // 界面跳转
     ///////////////////////////////////////////////////////////////////////////
-    /**
-     * 跳转 Activity 简化版, from hjq
-     */
     public void startActivity(Class<? extends Activity> clazz) {
         startActivity(new Intent(this, clazz));
     }
@@ -79,32 +76,24 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         overridePendingTransition(getNextEnterAnim(), getPreExitAnim());
     }
 
+    @Override
+    @Deprecated
+    public void startActivity(Intent intent, @Nullable Bundle options) {
+        super.startActivity(intent, options);
+    }
+
     /**
      * 共享元素方式跳转
-     * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.
-     * @param sharedElementA 如果A界面需要更新position, 需要 implements SharedElementA
-     * @param sharedElementCallback 共享元素跳转回调
      * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
      */
-    public void startActivity(Intent intent, boolean isNeedUpdatePosition,
-                              @Nullable SharedElementA sharedElementA,
-                              @Nullable BaseSharedElementCallback sharedElementCallback,
-                              @NonNull View... sharedElements) {
-        SharedElementUtils.startActivity(this, intent, isNeedUpdatePosition, sharedElementA, sharedElementCallback, sharedElements);
+    public void startActivity(Intent intent, @NonNull View... sharedElements) {
+        SharedElementUtils.startActivity(this, intent, sharedElements);
     }
 
 
-    /**
-     * 请务必使用这种回调的方式, 更方便
-     */
-    public void startActivityForResult(Intent intent, OnActivityCallback callback) {
-        startActivityForResult(intent, null, callback);
-    }
-    public void startActivityForResult(Intent intent, @Nullable Bundle options, OnActivityCallback callback) {
-        if (mActivityCallbacks == null) mActivityCallbacks = new SparseArray<>(1);
-        mActivityCallbacks.put(++requestCodeCounter4BaseActivity, callback);
-        startActivityForResult(intent, requestCodeCounter4BaseActivity, options);
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    // startActivityForResult()
+    ///////////////////////////////////////////////////////////////////////////
     @Override
     @Deprecated
     public void startActivityForResult(Intent intent, int requestCode) {
@@ -115,6 +104,41 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
         overridePendingTransition(getNextEnterAnim(), getPreExitAnim());
+    }
+
+    /**
+     * 请务必使用这种回调的方式, 更方便
+     * @param callback 下一页返回的值回调
+     */
+    public void startActivityForResult(Intent intent, OnActivityCallback callback) {
+        if (mActivityCallbacks == null) mActivityCallbacks = new SparseArray<>(1);
+        mActivityCallbacks.put(++requestCodeCounter4BaseActivity, callback);
+        startActivityForResult(intent, requestCodeCounter4BaseActivity);
+    }
+
+    /**
+     * 共享元素方式跳转
+     * @param intent 跳转B页面的Intent
+     * @param callback 下一页返回的值回调
+     * @param exitSharedElementCallback 共享元素跳转回调
+     */
+    public void startActivityForResult(Intent intent, OnActivityCallback callback,
+                                       @NonNull BaseSharedElementCallback exitSharedElementCallback) {
+        if (mActivityCallbacks == null) mActivityCallbacks = new SparseArray<>(1);
+        mActivityCallbacks.put(++requestCodeCounter4BaseActivity, callback);
+        SharedElementUtils.startActivityForResult(this, intent, requestCodeCounter4BaseActivity, exitSharedElementCallback);
+    }
+
+    /**
+     * 共享元素方式跳转
+     * @param intent 跳转B页面的Intent
+     * @param callback 下一页返回的值回调
+     * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
+     */
+    public void startActivityForResult(Intent intent, OnActivityCallback callback, @Nullable View... sharedElements) {
+        if (mActivityCallbacks == null) mActivityCallbacks = new SparseArray<>(1);
+        mActivityCallbacks.put(++requestCodeCounter4BaseActivity, callback);
+        SharedElementUtils.startActivityForResult(this, intent, requestCodeCounter4BaseActivity, sharedElements);
     }
 
     /**
@@ -161,21 +185,6 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
             @NonNull ActivityResultContract<I, O> contract,
             @NonNull ActivityResultCallback<O> callback) {
         return super.registerForActivityResult(contract, callback);
-    }
-
-    /**
-     * 共享元素方式跳转
-     * @param isNeedUpdatePosition A界面跳转B界面再返回后, 是否需要更新A界面的position.
-     * @param sharedElementA 如果A界面需要更新position, 需要 {@link SharedElementA implements SharedElementA}
-     * @param sharedElementCallback 共享元素跳转回调
-     * @param sharedElements 共享元素, 需要在xml或者java文件中设置TransitionName
-     */
-    public void startActivityForResult(Intent intent, int requestCode, boolean isNeedUpdatePosition,
-                                       @Nullable SharedElementA sharedElementA,
-                                       @Nullable BaseSharedElementCallback sharedElementCallback,
-                                       @NonNull View... sharedElements) {
-        SharedElementUtils.startActivityForResult(this, intent, requestCode, isNeedUpdatePosition,
-                sharedElementA, sharedElementCallback, sharedElements);
     }
 
     /**
@@ -307,7 +316,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // 显示加载Diaong
+    // 显示加载Dialog
     ///////////////////////////////////////////////////////////////////////////
     private LoadingDialog netWorkLoadingDialog;
     //网络请求次数.(一个页面有可能有很多个请求)

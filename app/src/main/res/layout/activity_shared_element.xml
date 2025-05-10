@@ -6,29 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".activity.SharedElementActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv0"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            android:transitionName="iv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo" />
+
+        <Button
+            android:id="@+id/btn_activity_2_activity"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="1.Fragment -> Activity" />
+            android:text="1.Activity→Activity"
+            android:transitionName="btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/et_position"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_position"
+            tools:text="position[0~25]:" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:digits="@string/digits_phone"
+            android:hint="position"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:text="0"
+            app:layout_constraintStart_toEndOf="@id/tv0"
+            app:layout_constraintTop_toBottomOf="@id/btn_activity_2_activity" />
+
+        <Button
+            android:id="@+id/btn_activity_2_activity_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.Activity→activity.RecyclerView"
+            app:layout_constraintStart_toEndOf="@id/et_position"
+            app:layout_constraintTop_toTopOf="@id/et_position" />
 
         <fragment
             android:id="@+id/fragment"
             android:name="com.actor.sample.fragment.SharedElementFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btn_activity_2_activity_recycler_view" />
 
         <TextView
+            android:id="@+id/tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:padding="10dp"
-            android:text="2.RecyclerView &lt;=> ViewPager" />
+            android:text="6.RecyclerView &lt;=> ViewPager"
+            app:layout_constraintTop_toBottomOf="@id/fragment" />
 
         <!--android:nestedScrollingEnabled="false"-->
         <androidx.recyclerview.widget.RecyclerView
@@ -37,7 +82,8 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
+            app:layout_constraintTop_toBottomOf="@id/tv2"
+            app:spanCount="3"
             tools:listitem="@layout/item_shared_element" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,19 +1,31 @@
 package com.actor.myandroidframework.utils.sharedelement;
 
 import android.app.Activity;
+import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Space;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.ActivityUtils;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * description: 元素共享跳转工具类, 可参考<a href="https://blog.csdn.net/Gaga246/article/details/126936866" target="_blank">Android Activity共享元素动画分析</a>,
@@ -33,156 +45,336 @@ import com.blankj.utilcode.util.ActivityUtils;
  *         {@link TransitionManager}有两个比较重要的类{@link Scene}(场景)和{@link Transition}(过渡)
  *     </li>
  * </ul>
+ * <br />
+ *
+ * {@link null 一、页面A 跳转 页面B, 然后再返回的流程:}
+ * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+ *     <tr>
+ *         <th nowrap="nowrap">页面名</th>
+ *         <th align="center">方法</th>
+ *         <th>说明</th>
+ *     </tr>
+ *     <tr>
+ *         <td>A页面</td>
+ *         <td>{@link Activity#setExitSharedElementCallback(SharedElementCallback) setExitSharedElementCallback(SharedElementCallback)}</td>
+ *         <td>A跳B前的回调, 需要填充共享元素({@link null 如果你A界面的共享元素view&transitionName一直不变, 可不用写这个监听})</td>
+ *     </tr>
+ *     <tr>
+ *         <td>B页面</td>
+ *         <td>{@link Activity#onCreate(Bundle) onCreate(Bundle)}</td>
+ *         <td>进入B页面并走了onCreate()方法</td>
+ *     </tr>
+ *     <tr>
+ *         <td>B页面</td>
+ *         <td nowrap="nowrap">{@link Activity#setEnterSharedElementCallback(SharedElementCallback) setEnterSharedElementCallback(SharedElementCallback)}</td>
+ *         <td>在B页面, 需要填充共享元素({@link null 如果你B界面的共享元素view&transitionName一直不变, 可不用写这个监听})</td>
+ *     </tr>
+ *     <tr>
+ *         <td>B页面</td>
+ *         <td>{@link Activity#onBackPressed() onBackPressed()}</td>
+ *         <td>在B页面按了返回({@link null if共享元素view或transitionName发生了改变, 可将改变信息返回给上一页})</td>
+ *     </tr>
+ *     <tr>
+ *         <td>B页面</td>
+ *         <td>{@link Activity#setEnterSharedElementCallback(SharedElementCallback) setEnterSharedElementCallback(SharedElementCallback)}</td>
+ *         <td>在B页面, 需要填充"返回的"共享元素({@link null 如果你B界面的共享元素view&transitionName一直不变, 可不用写这个监听})</td>
+ *     </tr>
+ *     <tr>
+ *         <td>A页面</td>
+ *         <td>{@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)}</td>
+ *         <td>返回A页面后, 先回调这个方法. 你可以从这儿获取第2页面返回的数据({@link null if页面B的transitionName发生了改变, 导致A页面元素需要更新, 可从这儿获取改变的信息})</td>
+ *     </tr>
+ *     <tr>
+ *         <td>A页面</td>
+ *         <td>{@link Activity#setExitSharedElementCallback(SharedElementCallback) setExitSharedElementCallback(SharedElementCallback)}</td>
+ *         <td>B返回A后的回调, 需要填充共享元素({@link null 如果你A界面的共享元素view&transitionName一直不变, 可不用写这个监听})</td>
+ *     </tr>
+ *     <tr>
+ *         <td>A页面</td>
+ *         <td>{@link Activity#onActivityResult(int, int, Intent) onActivityResult(int, int, Intent)}</td>
+ *         <td>再走A页面的这个方法(可从这儿接受从B返回的其它信息)</td>
+ *     </tr>
+ * </table>
  *
  * @author : ldf
  * date       : 2021/10/16 on 17
  * @version 1.0
  */
-// TODO: 2022/6/15 动画流程可能有问题 
 public class SharedElementUtils {
 
     /**
-     * 获取共享元素跳转回调, 一般在 onCreate(Bundle) 方法中调用
-     * @param sharedElementAble Activity 需要实现这个接口
-     * @return 共享元素跳转回调
+     * 在目标Activity中，清除目标 Activity 或 Fragment 的进入&退出过渡动画。<br />
+     * 默认有1个渐变动画, 清除后感觉体验不好. <br />
+     * 可以在 onCreate 方法调用的setContentView()方法之后调用本方法.
      */
-    public static BaseSharedElementCallback getSharedElementCallback(AppCompatActivity activity,
-                                                                     @NonNull SharedElementAble sharedElementAble) {
-        //如果A界面跳B界面是元素共享方式, 且返回A界面时要更新A界面的共享元素位置
-        if (activity.getIntent().getBooleanExtra(BaseSharedElementCallback.EXTRA_IS_NEED_UPDATE_POSITION, false)) {
-            activity.postponeEnterTransition();//延时动画
-            BaseSharedElementCallback sharedElementCallback = new BaseSharedElementCallback(false, new BaseSharedElementCallback.OnSharedElementPositionChangedListener() {
-                @Override
-                public View onSharedElementPositionChanged(int oldPosition, int currentPosition) {
-                    return sharedElementAble.sharedElementPositionChanged(oldPosition, currentPosition);
-                }
-            });
-            activity.setEnterSharedElementCallback(sharedElementCallback);
-            return sharedElementCallback;
-        }
-        return null;
+    public static void cleanTransitionInDestinationActivity(Window window) {
+        if (window == null) return;
+        //清除当前 Activity 或 Fragment 的进入过渡动画。传入 null 时，意味着取消默认的进入过渡动画效果，这样在 Activity 或 Fragment 启动时不会有预设的进入动画。
+        window.setEnterTransition((Transition) null);
+        //清除当前 Activity 或 Fragment 的退出过渡动画。传入 null 会取消默认的退出动画效果，在 Activity 或 Fragment 关闭时不会有预设的退出动画。
+        window.setExitTransition((Transition) null);
+
+        //不要清除共享动画, 本来就在用, 清除了看起来卡顿!
+//        window.setSharedElementEnterTransition((Transition) null);
+//        window.setSharedElementExitTransition((Transition) null);
+    }
+
+
+    /**
+     * 设置共享元素动画进入时的Transition
+     * @param transition 过渡动画, 例:
+     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *     <tr>
+     *         <th>类型</th>
+     *         <th align="center">说明</th>
+     *     </tr>
+     *     <tr>
+     *         <td nowrap="nowrap">{@link android.transition.ChangeImageTransform ChangeImageTransform}</td>
+     *         <td>
+     *             处理图片尺寸和缩放类型（ScaleType）变化 的过渡动画类。它的作用是通过动画平滑地过渡两个界面中共享的 ImageView 的以下属性变化：<br />
+     *             <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *                 <tr>
+     *                     <th>处理的变化</th>
+     *                     <th>动画效果</th>
+     *                 </tr>
+     *                 <tr>
+     *                     <td>ScaleType 改变（如 centerCrop ↔ fitCenter）</td>
+     *                     <td>平滑过渡不同的裁剪/缩放模式</td>
+     *                 </tr>
+     *                 <tr>
+     *                     <td>ImageView 的矩阵变换（缩放、平移、旋转）</td>
+     *                     <td>动画过渡图片的矩阵变换状态</td>
+     *                 </tr>
+     *                 <tr>
+     *                     <td>ImageView 的尺寸变化（如宽高调整）</td>
+     *                     <td>	配合 ChangeBounds 实现完整动画</td>
+     *                 </tr>
+     *             </table>
+     *         </td>
+     *     </tr>
+     *     <tr>
+     *         <td>{@link android.transition.ChangeBounds ChangeBounds}</td>
+     *         <td>视图的布局位置或大小发生改变时</td>
+     *     </tr>
+     *     <tr>
+     *         <td>{@link android.transition.ChangeClipBounds ChangeClipBounds}</td>
+     *         <td>视图的裁剪区域发生改变时（如圆形头像变为方形）</td>
+     *     </tr>
+     *     <tr>
+     *         <td>{@link android.transition.ChangeTransform ChangeTransform}</td>
+     *         <td>视图发生了平移、旋转或非矩阵缩放变换时</td>
+     *     </tr>
+     *     <tr>
+     *         <td>{@link android.transition.ChangeScroll ChangeScroll}</td>
+     *         <td>视图的滚动状态发生改变时</td>
+     *     </tr>
+     *     <tr>
+     *         <td>{@link android.transition.TransitionSet TransitionSet}</td>
+     *         <td>需要同时处理位置、尺寸、裁剪等多种变化</td>
+     *     </tr>
+     * </table>
+     */
+    public static void setSharedElementEnterTransition(Window window, @Nullable Transition transition) {
+        if (window == null) return;
+        window.setSharedElementEnterTransition(transition);
+    }
+
+    public static void setSharedElementReturnTransition(Window window, @Nullable Transition transition) {
+        if (window == null) return;
+        window.setSharedElementReturnTransition(transition);
     }
 
     /**
-     * 共享元素方式跳转, 示例:
-     * https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java
-     *
-     * @param intent 跳转页面的intent
-     * @param isNeedUpdatePosition <pre>
-     *          A界面跳转B界面再返回后, 是否需要更新A界面的position. <br />
-     *          例: A界面: RecyclerView <--> B界面: ViewPager, 返回后更新A界面共享元素position <br />
-     *          如果true, A界面需要重写2个方法: <br />
-     *              {@link SharedElementA#sharedElementPositionChanged(int, int)} <br />
-     *              {@link SharedElementA#onSharedElementBacked(int, int)} <br />
-     *          如果true, B界面需要重写方法: <br />
-     *              {@link SharedElementA#sharedElementPositionChanged(int, int)} <br />
-     *              {@link AppCompatActivity#onBackPressed()}//在super.onBackPressed();前调用 <br />
-     *              {@link AppCompatActivity#startPostponedEnterTransition()}//共享元素准备完后(图片加载完后), 开始延时共享动画 <br />
-     *                  //fragment中: getActivity().startPostponedEnterTransition();//开始延时共享动画
-     * </pre>
-     *
-     * @param sharedElementAble 如果A界面需要更新position, A界面 implements SharedElementA
-     * @param sharedElementCallback 共享元素跳转回调
-     * @param sharedElements 共享元素, 需要在xml或者java代码中设置TransitionName
+     * 推迟 Activity 的进入过渡动画。
+     * 在默认情况下，当一个 Activity 或者 Fragment 启动时，进入过渡动画会立即开始。
+     * 不过，要是你需要在过渡动画开始前完成某些异步操作（像加载图片、数据等），就可以调用 postponeEnterTransition() 来推迟动画的启动，直到你准备好。
+     * 使用场景：在需要进行一些耗时操作，并且希望在操作完成后再开始过渡动画时使用。
+     * 例如，当你要从网络加载一张图片作为共享元素，在图片加载完成之前不想让过渡动画开始，这时就可以调用该方法。
      */
-    public static void startActivity(AppCompatActivity activity,
-                                     @NonNull Intent intent,
-                                     boolean isNeedUpdatePosition,
-                                     @Nullable SharedElementA sharedElementAble,
-                                     @Nullable BaseSharedElementCallback sharedElementCallback,
-                                     @NonNull View... sharedElements) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && sharedElements.length > 0) {
-            if (isNeedUpdatePosition && sharedElementAble != null) {
-                intent.putExtra(BaseSharedElementCallback.EXTRA_IS_NEED_UPDATE_POSITION, true);
-                if (sharedElementCallback == null) {
-                    sharedElementCallback = new BaseSharedElementCallback(true, new BaseSharedElementCallback.OnSharedElementPositionChangedListener() {
-                        @Override
-                        public View onSharedElementPositionChanged(int oldPosition, int currentPosition) {
-                            return sharedElementAble.sharedElementPositionChanged(oldPosition, currentPosition);
-                        }
-                    });
-                }
-                //设置A界面跳转到B界面的元素共享动画回调, 用于A界面position更新
-                activity.setExitSharedElementCallback(sharedElementCallback);
-            }
+    public static void postponeEnterTransition(Activity activity) {
+        if (activity == null) return;
+        ActivityCompat.postponeEnterTransition(activity);
+    }
+
+    /**
+     * 推迟Fragment的进入过渡动画。
+     */
+    public static void postponeEnterTransition(Fragment fragment) {
+        if (fragment == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fragment.postponeEnterTransition();
         }
-//      //单个共享元素方式跳转
-//        ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+    }
+
+    /**
+     * 推迟 Fragment 的进入过渡动画。如果传入(2, TimeUnit.SECONDS); 表示将 fragment 的进入过渡动画推迟 2 秒。
+     * 在这 2 秒内，过渡动画不会启动，直到 2 秒后或者手动调用 {@link #startPostponedEnterTransition(Fragment)}方法来启动过渡动画。
+     * @param duration 推迟过渡动画的具体时长。它指定了从调用本方法开始，到过渡动画可以被启动的这段时间间隔。
+     * @param timeUnit 时间单位的枚举类。该参数用于指定 duration 的时间单位，例如毫秒、秒、分钟等。例: <br />
+     *                 {@link TimeUnit#MILLISECONDS}(毫秒), {@link TimeUnit#SECONDS}(秒)
+     *        <br /> <br />
+     */
+    public static void postponeEnterTransition(Fragment fragment, long duration, @NonNull TimeUnit timeUnit) {
+        if (fragment == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fragment.postponeEnterTransition(duration, timeUnit);
+        }
+    }
+
+
+
+    /**
+     * 启动之前被推迟的进入过渡动画。
+     * 当你调用 postponeEnterTransition() 推迟了过渡动画之后，在完成必要的操作（如数据加载、视图初始化等）后，就可以调用 startPostponedEnterTransition() 来开始过渡动画。
+     */
+    public static void startPostponedEnterTransition(Activity activity) {
+        if (activity == null) return;
+        ActivityCompat.startPostponedEnterTransition(activity);
+    }
+
+    /**
+     * 启动之前被推迟的进入过渡动画。<br />
+     * {@link 注意:}
+     * if是在Activity中暂停的动画, 就要调用{@link #startPostponedEnterTransition(Activity)} 方法继续, 而不是调用本方法!
+     */
+    public static void startPostponedEnterTransition(Fragment fragment) {
+        if (fragment == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fragment.startPostponedEnterTransition();
+        }
+    }
+
+
+
+    public static void startActivity(FragmentActivity activity, Intent intent, View... sharedElements) {
+        //需要重置ExitSharedElementCallback, 否则如果已经设置了的话, 会造成bug
+        activity.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
         ActivityUtils.startActivity(activity, intent, sharedElements);
     }
 
+
+
     /**
-     * 共享元素方式跳转, 其余参数见↑方法
+     * 共享元素方式跳转, {@link 注意:}
+     * <ol>
+     *     <li>if你元素共享跳转前后2个页面的共享元素views & 共享元素名称都不改变, 建议调用更简单的{@link #startActivityForResult(AppCompatActivity, Intent, int, View...)}方法.</li>
+     *     <li>
+     *         调用这个方法需要在页面A重写{@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)} 用于获取你自己返回的元素改变信息,
+     *         示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/SharedElementActivity.java" target="_blank">SharedElementActivity.java</a>
+     *     </li>
+     * </ol>
+     * @param intent 跳转B页面的Intent
      * @param requestCode 请求码
+     * @param exitSharedElementCallback 共享元素跳转回调
      */
-    public static void startActivityForResult(AppCompatActivity activity,
-                                              @NonNull Intent intent,
-                                              int requestCode,
-                                              boolean isNeedUpdatePosition,
-                                              @Nullable SharedElementA sharedElementAble,
-                                              @Nullable BaseSharedElementCallback sharedElementCallback,
-                                              @NonNull View... sharedElements) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && sharedElements.length > 0) {
-            if (isNeedUpdatePosition && sharedElementAble != null) {
-                intent.putExtra(BaseSharedElementCallback.EXTRA_IS_NEED_UPDATE_POSITION, true);
-                if (sharedElementCallback == null) {
-                    sharedElementCallback = new BaseSharedElementCallback(true, new BaseSharedElementCallback.OnSharedElementPositionChangedListener() {
-                        @Override
-                        public View onSharedElementPositionChanged(int oldPosition, int currentPosition) {
-                            return sharedElementAble.sharedElementPositionChanged(oldPosition, currentPosition);
-                        }
-                    });
-                }
-                //设置A界面跳转到B界面的元素共享动画回调, 用于A界面position更新
-                activity.setExitSharedElementCallback(sharedElementCallback);
-            }
+    public static void startActivityForResult(@NonNull AppCompatActivity activity,
+                                              @NonNull Intent intent, int requestCode,
+                                              @Nullable BaseSharedElementCallback exitSharedElementCallback) {
+        activity.setExitSharedElementCallback(exitSharedElementCallback);
+        if (exitSharedElementCallback == null) {
+            ActivityUtils.startActivityForResult(activity, intent, requestCode);
+        } else {
+            //必须传个view, 否则不能触发 exitSharedElementCallback 里的方法
+            Space sharedElement = new Space(activity);
+            sharedElement.setTransitionName("");
+            ActivityUtils.startActivityForResult(activity, intent, requestCode, sharedElement);
         }
-//      //单个共享元素方式跳转
-//        ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+    }
+
+    /**
+     * 元素共享跳转, {@link 注意:}
+     * <ol>
+     *     <li>
+     *         跳转返回后, 会先走当前fragment对应的Activity的 {@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)} 方法,
+     *         然后再走Activity的 {@link Activity#onActivityResult(int, int, Intent) onActivityResult(int, int, Intent)} 方法,
+     *         Fragment的 {@link Fragment#onActivityResult(int, int, Intent) onActivityResult(int, int, Intent)} 方法,
+     *         以及Fragment的 {@link Fragment#onResume() onResume()} 方法!
+     *     </li>
+     *     <li>
+     *         所以: 如果你要尽快更改返回后Fragment的UI内容的话(比如更新元素共享图片),
+     *         请在返回前在公共地方写入更新的变量, 然后再在Fragment中读取变量,
+     *         并在{@link BaseSharedElementCallback}的
+     *         {@link BaseSharedElementCallback#onMapSharedElements(List, Map) onMapSharedElements(List, Map)} or
+     *         {@link BaseSharedElementCallback#onSharedElementsArrived(List, List, androidx.core.app.SharedElementCallback.OnSharedElementsReadyListener) onSharedElementsArrived(List, List, OnSharedElementsReadyListener)(建议这里面)}
+     *         中更新Fragment里的UI, 示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/fragment/SharedElementFragment.java" target="_blank">SharedElementFragment.java</a>
+     *     </li>
+     *     <li>if返回Fragment后, 不急着更新UI的话, 可直接在 {@link com.actor.myandroidframework.bean.OnActivityCallback OnActivityCallback callback} 这个回调中再更新UI.</li>
+     * </ol>
+     * @param requestCode 请求码
+     * @param exitSharedElementCallback 跳转前后回调, 回来后需要你自己在<code>callback</code>中获取元素改变信息
+     */
+    public static void startActivityForResult(@NonNull Fragment fragment,
+                                              @NonNull Intent intent, int requestCode,
+                                              @Nullable BaseSharedElementCallback exitSharedElementCallback) {
+        FragmentActivity activity = fragment.getActivity();
+        if (activity != null) {
+            //设置在fragment里面不会回调...
+//            fragment.setExitSharedElementCallback(exitSharedElementCallback);
+            activity.setExitSharedElementCallback(exitSharedElementCallback);
+        } else {
+            LogUtils.errorFormat("%s.getActivity() = null!!!", fragment);
+        }
+        if (exitSharedElementCallback == null) {
+            ActivityUtils.startActivityForResult(fragment, intent, requestCode);
+        } else {
+            //必须传个view, 否则不能触发 exitSharedElementCallback 里的方法
+            Space sharedElement = new Space(fragment.getContext());
+            sharedElement.setTransitionName("");
+            ActivityUtils.startActivityForResult(fragment, intent, requestCode, sharedElement);
+        }
+    }
+
+    /**
+     * 共享元素方式跳转
+     * @param intent 跳转B页面的Intent
+     * @param requestCode 请求码
+     * @param sharedElements 共享元素
+     */
+    public static void startActivityForResult(@NonNull AppCompatActivity activity, @NonNull Intent intent,
+                                              int requestCode, @Nullable View... sharedElements) {
+        activity.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
         ActivityUtils.startActivityForResult(activity, intent, requestCode, sharedElements);
     }
 
-    /**
-     * B界面返回A界面, A界面重写 onActivityReenter 方法
-     *
-     * @param data B界面setResult(RESULT_OK, data);返回的值, 即使A界面startActivity, 只要B界面setResult有值, 都能收到
-     */
-    public static void onActivityReenter(@NonNull SharedElementA sharedElementAble,
-                                         @Nullable BaseSharedElementCallback sharedElementCallback,
-                                         Intent data) {
-        if (data == null) return;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            int oldPosition = data.getIntExtra(BaseSharedElementCallback.EXTRA_START_POSITION, 0);
-            int currentPosition = data.getIntExtra(BaseSharedElementCallback.EXTRA_CURRENT_POSITION, 0);
-            if (sharedElementCallback != null) {
-                sharedElementCallback.set(true, oldPosition, currentPosition);
-            }
-            if (oldPosition != currentPosition) {
-                sharedElementAble.onSharedElementBacked(oldPosition, currentPosition);
-            }
+    public static void startActivityForResult(@NonNull Fragment fragment, @NonNull Intent intent,
+                                              int requestCode, View... sharedElements) {
+        FragmentActivity activity = fragment.getActivity();
+        if (activity != null) {
+//            fragment.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
+            activity.setExitSharedElementCallback((androidx.core.app.SharedElementCallback) null);
+        } else {
+            LogUtils.errorFormat("%s.getActivity() = null!!!", fragment);
         }
+        ActivityUtils.startActivityForResult(fragment, intent, requestCode, sharedElements);
     }
 
+
+
     /**
-     * 共享元素跳转, B界面返回A界面时, B界面 super.onBackPressed();之前调用这个方法
-     *
-     * @param sharedElementCallback 共享元素跳转回调
-     * @param intent          用于返回A界面值的intent
-     * @param oldPosition     从A界面跳过来时的position
-     * @param currentPosition B界面现在的position, 用于A界面元素共享动画跳转到这个位置
+     * 共享元素退出第2个Activity, 回到前1个Activity, 第2个Activity代码示例:
+     * <pre>
+     * <code>@</code>Override
+     * public void onBackPressed() {
+     *     //{@link null super.onBackPressed(); //注意: 不要再写这句, 否则返回可能看不到元素共享效果}
+     *     Intent intent = new Intent().putExtra("position", position);
+     *     SharedElementUtils.finishAfterTransition(this, enterSharedElementCallback, RESULT_OK, intent);
+     * }
+     * </pre>
+     * @param activity 要退出的Activity
+     * @param enterSharedElementCallback 要退出Activity的共享元素组装
+     * @param resultCode 返回码: {@link Activity#RESULT_OK}, {@link Activity#RESULT_CANCELED}, {@link Activity#RESULT_FIRST_USER} 等
+     * @param resultIntent if第2个Activity要返会数据回上一个Activity, 就传入intent, 否则传null
      */
-    public static void onBackPressedSharedElement(AppCompatActivity activity,
-                                                  @Nullable BaseSharedElementCallback sharedElementCallback,
-                                                  @Nullable Intent intent, int oldPosition, int currentPosition) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (sharedElementCallback != null) {
-                sharedElementCallback.set(true, oldPosition, currentPosition);
-                if (intent != null) {
-                    intent.putExtra(BaseSharedElementCallback.EXTRA_START_POSITION, oldPosition);
-                    intent.putExtra(BaseSharedElementCallback.EXTRA_CURRENT_POSITION, currentPosition);
-                }
-            }
-        }
-        activity.setResult(Activity.RESULT_OK, intent);
+    public static void finishAfterTransition(@NonNull FragmentActivity activity,
+                                             @Nullable BaseSharedElementCallback enterSharedElementCallback,
+                                             int resultCode, @Nullable Intent resultIntent) {
+        activity.setEnterSharedElementCallback(enterSharedElementCallback);
+        //不管intent是否=null, 都会在上1个Activity回调 onActivityResult()
+        activity.setResult(resultCode, resultIntent);
+        /**
+         * 触发返回动画
+         * @see androidx.fragment.app.FragmentActivity#supportFinishAfterTransition()
+         */
+        ActivityCompat.finishAfterTransition(activity);
     }
 }

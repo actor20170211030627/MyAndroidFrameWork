@@ -32,6 +32,9 @@ public class PreviewConfiger {
 
     //预览缩放效果模式(共享元素动画)
     protected ViewGroup list$recy;
+    protected boolean isPreviewFullScreenMode = true;
+    protected boolean isAutoVideoPlay = true;
+    protected boolean isHidePreviewDownload = true;
 
     /**
      * @param selectionDatas 预览集合, if这儿传null, 那你需要在其它地方传入数据.
@@ -56,6 +59,33 @@ public class PreviewConfiger {
         } else {
             this.list$recy = null;
         }
+        return this;
+    }
+
+    /**
+     * 全屏预览(点击的时候)(仅对图片有效), 默认true
+     * @param isPreviewFullScreenMode 预览的时候是否全屏
+     */
+    public PreviewConfiger setIsPreviewFullScreenMode(boolean isPreviewFullScreenMode) {
+        this.isPreviewFullScreenMode = isPreviewFullScreenMode;
+        return this;
+    }
+
+    /**
+     * 自动播放视频(点击视频预览的时候才自动播放, 预览左右滑到时不会自动部分), 默认true
+     * @param isAutoVideoPlay 是否自动播放
+     */
+    public PreviewConfiger setIsAutoVideoPlay(boolean isAutoVideoPlay) {
+        this.isAutoVideoPlay = isAutoVideoPlay;
+        return this;
+    }
+
+    /**
+     * 是否隐藏"下载"按钮, 默认true
+     * @param isHidePreviewDownload 是否隐藏"下载"按钮
+     */
+    public PreviewConfiger setIsHidePreviewDownload(boolean isHidePreviewDownload) {
+        this.isHidePreviewDownload = isHidePreviewDownload;
         return this;
     }
 
@@ -102,9 +132,9 @@ public class PreviewConfiger {
             selectionPreviewModel = this.selectionPreviewModel;
         }
         selectionPreviewModel
-                .isPreviewFullScreenMode(true)  //全屏预览(点击的时候)(仅对图片有效)
-                .isAutoVideoPlay(true)          //自动播放视频(点击视频预览的时候才自动播放, 预览左右滑到时不会自动部分)
-                .isHidePreviewDownload(true)    //是否隐藏"下载"按钮
+                .isPreviewFullScreenMode(isPreviewFullScreenMode)   //全屏预览(点击的时候)(仅对图片有效)
+                .isAutoVideoPlay(isAutoVideoPlay)                   //自动播放视频(点击视频预览的时候才自动播放, 预览左右滑到时不会自动部分)
+                .isHidePreviewDownload(isHidePreviewDownload)       //是否隐藏"下载"按钮
         ;
         //预览缩放效果模式(共享元素动画)
         if (list$recy != null) {

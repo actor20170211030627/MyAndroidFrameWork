@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.IntDef;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,10 +20,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -120,7 +115,6 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                                     PictureSelectorUtils.create(topActivity, localMedias)
                                             .takePhoto(true)
                                             .setCrop(false)
-                                            .build()
                                             .forResult(onResultCallbackListener);
                                     break;
                                 case 1://选择图片
@@ -129,7 +123,6 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                                             .setMaxSelect(maxFiles)
                                             .setShowCamera(isShowCamera)
                                             .setIsShowOriginal(isShowOriginal)
-                                            .build()
                                             .forResult(onResultCallbackListener);
                                     break;
                                 default:
@@ -139,7 +132,10 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                     } else {//预览
                         Activity topActivity = ActivityUtils.getTopActivity();
                         if (topActivity != null && !topActivity.isDestroyed()) {
-                            PictureSelectorUtils.create(topActivity, localMedias).openPreview().preview(position, false);
+                            PictureSelectorUtils.create(topActivity, localMedias)
+                                    .openPreview()
+                                    .setPreviewZoomEffect(getRecyclerViewOrNull())
+                                    .preview(position, false);
                         }
                     }
                 } else if (id == R.id.iv_delete_for_file_select) {//删除

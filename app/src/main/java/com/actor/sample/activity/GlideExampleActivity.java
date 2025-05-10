@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 
 import com.actor.myandroidframework.utils.glide.GlideUtils;
-import com.actor.myandroidframework.utils.glide.MyImageViewTarget;
-import com.actor.myandroidframework.utils.glide.MyRequestListener;
+import com.actor.myandroidframework.utils.glide.GifImageViewTarget;
+import com.actor.myandroidframework.utils.glide.GifRequestListener;
 import com.actor.myandroidframework.widget.BaseItemDecoration;
 import com.actor.sample.R;
 import com.actor.sample.adapter.GlideExampleAdapter;
@@ -64,8 +64,8 @@ public class GlideExampleActivity extends BaseActivity<ActivityGlideExampleBindi
     private              int            dp3;
     private              RequestOptions requestOptions;
 
-    private MyImageViewTarget imageViewTarget;
-    private final MyRequestListener requestListener = new MyRequestListener(2, new Animatable2Compat.AnimationCallback() {
+    private       GifImageViewTarget imageViewTarget;
+    private final GifRequestListener requestListener = new GifRequestListener(2, new Animatable2Compat.AnimationCallback() {
         @Override
         public void onAnimationEnd(Drawable drawable) {
             super.onAnimationEnd(drawable);
@@ -85,7 +85,7 @@ public class GlideExampleActivity extends BaseActivity<ActivityGlideExampleBindi
 
 
         //Glide播放次数初始化
-        imageViewTarget = new MyImageViewTarget(viewBinding.ivTreasureBox0, 2, new Animatable2Compat.AnimationCallback() {
+        imageViewTarget = new GifImageViewTarget(viewBinding.ivTreasureBox0, 2, new Animatable2Compat.AnimationCallback() {
             @Override
             public void onAnimationEnd(Drawable drawable) {
                 super.onAnimationEnd(drawable);

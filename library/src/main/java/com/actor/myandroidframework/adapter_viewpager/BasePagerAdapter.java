@@ -49,10 +49,16 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     }
 
     /**
-     * 初始化Item, 子类实现, 例:
+     * 实例化Item or 从自己的List中获取Item <br />
+     * 子类实现, 例:
+     * <pre>
      *      ImageView iv = new ImageView(container.getContext());
      *      container.addView(iv);
      *      return iv;
+     * </pre>
+     * @param container 包裹item的容器, 例: ViewPager
+     * @param position 第几个Item
+     * @return
      */
     @NonNull
     @Override

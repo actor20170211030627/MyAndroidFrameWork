@@ -3,18 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:clickable="true"
-    android:focusable="true"
+    android:layout_margin="5dp"
     android:foreground="?android:selectableItemBackground"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="5dp"
     tools:context=".adapter.SharedElementAdapter">
 
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="fitXY"
+        android:layout_height="120dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/star_full" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        tools:text="item 0" />
 </androidx.cardview.widget.CardView>
 

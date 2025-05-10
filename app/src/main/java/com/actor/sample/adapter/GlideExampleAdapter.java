@@ -56,7 +56,6 @@ public class GlideExampleAdapter extends BaseQuickAdapter<String, BaseViewHolder
                         .selectImage(false)
                         .setSingleSelect(true)
                         .setShowCamera(false)
-                        .build()
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {

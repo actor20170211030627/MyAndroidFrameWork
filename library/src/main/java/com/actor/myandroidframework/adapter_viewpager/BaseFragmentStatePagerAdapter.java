@@ -88,7 +88,12 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
         return fragmentSizeForAdapter;
     }
 
-    //实例化
+    /**
+     * 实例化 or 从FragmentManager中获取
+     * @param container 包裹item的容器, 例: ViewPager
+     * @param position 第几个Fragment
+     * @return Fragment
+     */
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {

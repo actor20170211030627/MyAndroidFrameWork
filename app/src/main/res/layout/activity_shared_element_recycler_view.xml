@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SharedElementRecyclerViewActivity">
+    <!--
+    为啥根布局用NestedScrollView?
+    因为要保证RecyclerView每个item都加载出来,
+    否则分享元素动画的position比较大的话, item没有显示在屏幕上, RecyclerView就不会加载,
+    然后就走不了 SharedElementAdapter position对应item 的 convert()方法,
+    然后就走不了继续动画的代码, 效果就是页面卡住!
+    -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:listitem="@layout/item_shared_element" />
+</FrameLayout>
