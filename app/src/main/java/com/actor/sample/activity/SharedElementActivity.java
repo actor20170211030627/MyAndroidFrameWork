@@ -1,6 +1,5 @@
 package com.actor.sample.activity;
 
-import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,7 +31,7 @@ import java.util.Map;
 public class SharedElementActivity extends BaseActivity<ActivitySharedElementBinding> {
 
     //跳转下一页面的时候回调
-    private final BaseSharedElementCallback exitSharedElementCallback = new BaseSharedElementCallback() {
+    private final BaseSharedElementCallback exitSharedElementCallback             = new BaseSharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
             super.onMapSharedElements(names, sharedElements);
@@ -44,6 +43,18 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
                 names.add(transitionName);
                 sharedElements.put(transitionName, viewBinding.iv0);
                 LogUtils.errorFormat("names=%s", GsonUtils.toJson(names));
+
+                LogUtils.errorFormat("positionRecyclerView = %d, isClickGo2RecyclerViewPositionChanged = %b", positionRecyclerView, isClickGo2RecyclerViewPositionChanged);
+                //if已经从下一页返回新的position
+                if (isClickGo2RecyclerViewPositionChanged) {
+                    isClickGo2RecyclerViewPositionChanged = false;
+                    Glide.with(mActivity)
+                            .load(ImageConstants.IMAGE_SOURCE[positionRecyclerView])
+                            .dontAnimate()
+//                            .placeholder(R.drawable.logo)
+                            .error(R.drawable.logo)
+                            .into(viewBinding.iv0);
+                }
                 return;
             }
             if (isClickFromRecyclerView) {
@@ -57,11 +68,29 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
                 LogUtils.errorFormat("names=%s", GsonUtils.toJson(names));
             }
         }
-    };
+        @Override
+        public void onSharedElementsArrived(List<String> sharedElementNames, List<View> sharedElements, OnSharedElementsReadyListener listener) {
+            super.onSharedElementsArrived(sharedElementNames, sharedElements, listener);
+//            LogUtils.errorFormat("positionRecyclerView = %d, isClickGo2RecyclerViewPositionChanged = %b", positionRecyclerView, isClickGo2RecyclerViewPositionChanged);
+            //也有在这儿重新加载图片
+            if (isClickGo2RecyclerView) {
+//                //if已经从下一页返回新的position
+//                if (isClickGo2RecyclerViewPosition) {
+//                    Glide.with(mActivity)
+//                            .load(ImageConstants.IMAGE_SOURCE[positionRecyclerView])
+//                            .dontAnimate()
+////                            .placeholder(R.drawable.logo)
+//                            .error(R.drawable.logo)
+//                            .into(viewBinding.iv0);
+//                }
+            }
+        }
+    }.setLogPageTag("页面SharedElementActivity Exit");
     private final SharedElementAdapter      myAdapter               = new SharedElementAdapter(-1);
     private       int                       positionRecyclerView    = 0;
     private       boolean                   isClickGo2RecyclerView  = false;
-    private       boolean                   isClickFromRecyclerView = false;
+    private       boolean                   isClickFromRecyclerView               = false;
+    private       boolean                   isClickGo2RecyclerViewPositionChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +122,6 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
                                 public void onActivityResult(int resultCode, @Nullable Intent data) {
                                     isClickGo2RecyclerView = false;
                                     if (resultCode == RESULT_OK && data != null) {
-                                        Glide.with(mActivity)
-                                                .load(ImageConstants.IMAGE_SOURCE[positionRecyclerView])
-                                                .dontAnimate()
-//                                                .placeholder(R.drawable.logo)
-                                                .error(R.drawable.logo)
-                                                .into(viewBinding.iv0);
                                         ToasterUtils.info(data.getStringExtra(Global.CONTENT));
                                     }
                                 }
@@ -133,15 +156,12 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
         viewBinding.tv0.setText(getStringFormat("position[0~%d]:", ImageConstants.IMAGE_SOURCE.length - 1));
 
         //进入页面的时候会回调
-        setEnterSharedElementCallback(new SharedElementCallback() {
+        setEnterSharedElementCallback(new BaseSharedElementCallback() {
             @Override
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
                 super.onMapSharedElements(names, sharedElements);
-                LogUtils.errorFormat("names=%s, sharedElements.size=%d", GsonUtils.toJson(names), sharedElements.size());
             }
-        });
-
-        exitSharedElementCallback.setLogPageTag("页面A");
+        }.setLogPageTag("页面SharedElementActivity Enter"));
 
         myAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             isClickFromRecyclerView = true;
@@ -172,6 +192,11 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
         LogUtils.errorFormat("position=%d", position);
         if (position != positionRecyclerView) {
             positionRecyclerView = position;
+
+            //if点击跳转RecyclerView
+            if (isClickGo2RecyclerView) {
+                isClickGo2RecyclerViewPositionChanged = true;
+            }
 
             //if要更新RecyclerView
             if (isClickFromRecyclerView) {

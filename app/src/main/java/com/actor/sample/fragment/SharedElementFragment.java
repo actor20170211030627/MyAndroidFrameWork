@@ -3,10 +3,8 @@ package com.actor.sample.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -15,8 +13,8 @@ import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.bean.OnActivityCallback;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.utils.glide.DrawableRequestListener;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
+import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.activity.SharedElement2Activity;
@@ -27,9 +25,6 @@ import com.actor.sample.utils.Global;
 import com.actor.sample.utils.ImageConstants;
 import com.blankj.utilcode.util.GsonUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 import java.util.Map;
@@ -45,60 +40,73 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
             super.onMapSharedElements(names, sharedElements);
-            LogUtils.errorFormat("names = %s, sharedElements.size = %d", GsonUtils.toJson(names), sharedElements.size());
             names.clear();
             sharedElements.clear();
-            LogUtils.errorFormat("Global.fragmentPosition = %d", Global.fragmentPosition);
-            position2ViewPager = Global.fragmentPosition >= 0 ? Global.fragmentPosition : position2ViewPager;
+
+            //获取activity返回的数据                         true: 重置数据
+            Object obj = SharedElementUtils.getInstantExtra(true);
+            int newPosition = -1;
+            if (obj instanceof Integer) {
+                newPosition = (int) obj;
+                position2ViewPager = newPosition;
+            } else {
+                LogUtils.errorFormat("obj = %s not instanceof Integer", obj);
+            }
+            LogUtils.errorFormat("newPosition = %d, position2ViewPager = %d", newPosition, position2ViewPager);
+
             String transitionName = Global.getListTransitionName(position2ViewPager, true);
             names.add(transitionName);
             sharedElements.put(transitionName, viewBinding.iv);
             LogUtils.errorFormat("names = %s", GsonUtils.toJson(names));
 
             //if是从后面页面返回, 就重新加载图片
-            if (Global.fragmentPosition >= 0) {
-                //也可以在这儿重新加载图片
-//                Glide.with(mFragment)
-//                        .load(ImageConstants.IMAGE_SOURCE[position2ViewPager])
-//                        .into(viewBinding.iv);
+            if (newPosition >= 0) {
+                Glide.with(mFragment)
+                        .load(ImageConstants.IMAGE_SOURCE[position2ViewPager])
+                        .error(R.drawable.logo)
+                        .dontAnimate()
+                        .into(viewBinding.iv);
             }
         }
         @Override
         public void onSharedElementsArrived(List<String> sharedElementNames, List<View> sharedElements, OnSharedElementsReadyListener listener) {
-            LogUtils.errorFormat("Global.fragmentPosition = %d", Global.fragmentPosition);
-            //if是从后面页面返回, 就重新加载图片
-            if (Global.fragmentPosition >= 0) {
-                //打印日志
-                if (!TextUtils.isEmpty(pageTag)) {
-                    LogUtils.errorFormat("pageTag = %s", pageTag);
-                    LogUtils.errorFormat("sharedElementNames = %s, sharedElements.size = %d, listener = %s", GsonUtils.toJson(sharedElementNames), sharedElements.size(), listener);
-                }
+            //继续元素共享动画
+            super.onSharedElementsArrived(sharedElementNames, sharedElements, listener);
 
-                //重新加载返回后的新图片
-                Glide.with(mFragment)
-                        .load(ImageConstants.IMAGE_SOURCE[position2ViewPager])
-                        .error(R.drawable.logo)
-                        .listener(new DrawableRequestListener() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable @org.jetbrains.annotations.Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                //加载完成后再进行元素共享动画
-                                listener.onSharedElementsReady();
-                                return super.onLoadFailed(e, model, target, isFirstResource);
-                            }
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                //加载完成后再进行元素共享动画
-                                listener.onSharedElementsReady();
-                                return super.onResourceReady(resource, model, target, dataSource, isFirstResource);
-                            }
-                        })
-                        .into(viewBinding.iv);
-            } else {
-                //继续元素共享动画
-                super.onSharedElementsArrived(sharedElementNames, sharedElements, listener);
-            }
+            //也可以在这儿重新加载图片
+            //获取数据                                      true: 重置数据
+//            Object obj = SharedElementUtils.getInstantExtra(true);
+//            int newPosition = -1;
+//            if (obj instanceof Integer) {
+//                newPosition = (int) obj;
+//                LogUtils.errorFormat("newPosition = %d", newPosition);
+//            }
+//            if (newPosition < 0) return;
+//            //重新加载返回后的新图片
+//            Glide.with(mFragment)
+//                    .load(ImageConstants.IMAGE_SOURCE[position2ViewPager])
+//                    .error(R.drawable.logo)
+//                    .dontAnimate()
+//                    //添加listener然后再继续动画, 经实测, 有时候会卡顿!
+////                    .listener(new DrawableRequestListener() {
+////                        @Override
+////                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+////                            LogUtils.error("onSharedElementsReady()");
+////                            //加载完成后再进行元素共享动画
+////                            listener.onSharedElementsReady();
+////                            return super.onLoadFailed(e, model, target, isFirstResource);
+////                        }
+////                        @Override
+////                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+////                            LogUtils.error("onSharedElementsReady()");
+////                            //加载完成后再进行元素共享动画
+////                            listener.onSharedElementsReady();
+////                            return super.onResourceReady(resource, model, target, dataSource, isFirstResource);
+////                        }
+////                    })
+//                    .into(viewBinding.iv);
         }
-    };
+    }.setLogPageTag("Fragment A Exit");
     private int                       position2ViewPager = 0;//ImageConstants中第几张图片
 
     @Override
@@ -116,13 +124,11 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
                 super.onMapSharedElements(names, sharedElements);
             }
-        };
-        enterSharedElementCallback.setLogPageTag("Fragment A Enter");
+        }.setLogPageTag("Fragment A Enter");
         //Fragment中设置, 不会回调!
         setEnterSharedElementCallback(enterSharedElementCallback);
 
 
-        exitSharedElementCallback.setLogPageTag("Fragment A Exit");
         //Fragment中设置, 不会回调!
 //        setExitSharedElementCallback(exitSharedElementCallback);
 
@@ -130,13 +136,6 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
         Glide.with(this)
                 .load(ImageConstants.IMAGE_SOURCE[position2ViewPager])
                 .into(viewBinding.iv);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //重置
-        Global.fragmentPosition = -1;
     }
 
     @Override

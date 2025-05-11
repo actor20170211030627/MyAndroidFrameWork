@@ -132,7 +132,7 @@ dependencies {
     }
 
     //https://github.com/getActivity/ShapeView 轮子哥Shape 框架
-    api ('com.github.getActivity:ShapeView:9.3') {
+    api ('com.github.getActivity:ShapeView:9.6') {
         //https://github.com/getActivity/ShapeView/blob/master/library/build.gradle
         exclude group: 'androidx.appcompat', module: 'appcompat'                //1.4.1
         exclude group: 'com.google.android.material', module: 'material'        //1.0.0
@@ -140,10 +140,10 @@ dependencies {
     }
 
     //https://github.com/getActivity/XXPermissions 轮子哥权限(Android 10需要适配分区存储特性)
-    api 'com.github.getActivity:XXPermissions:20.0'
+    api 'com.github.getActivity:XXPermissions:21.3'
 
     // 吐司框架：https://github.com/getActivity/Toaster  轮子哥吐司
-    api 'com.github.getActivity:Toaster:12.6'
+    api 'com.github.getActivity:Toaster:12.8'
 
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     //TODO: 考虑使用: https://github.com/liangjingkanji/BRV

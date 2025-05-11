@@ -41,7 +41,7 @@ public class SharedElementRecyclerViewActivity extends BaseActivity<ActivityShar
             sharedElements.put(transitionName, iv);
             LogUtils.errorFormat("names=%s, sharedElements.size=%d", names, sharedElements.size());
         }
-    };
+    }.setLogPageTag("页面B");
     public static final String   IS_CHANGE_TRANSITION = "IS_CHANGE_TRANSITION";
     private SharedElementAdapter myAdapter;
     private       int            startPosition;
@@ -62,8 +62,6 @@ public class SharedElementRecyclerViewActivity extends BaseActivity<ActivityShar
         isChangeTransition = intent.getBooleanExtra(IS_CHANGE_TRANSITION, isChangeTransition);
         //
         SharedElementUtils.postponeEnterTransition(this);
-
-        enterSharedElementCallback.setLogPageTag("页面B");
 
         myAdapter = new SharedElementAdapter(startPosition);
         if (isChangeTransition) {
@@ -86,7 +84,7 @@ public class SharedElementRecyclerViewActivity extends BaseActivity<ActivityShar
             Intent intent = new Intent()
                     .putExtra(Global.POSITION, startPosition)
                     .putExtra(Global.CONTENT, "result ok!");
-            SharedElementUtils.finishAfterTransition(mActivity, enterSharedElementCallback, RESULT_OK, intent);
+            SharedElementUtils.finishAfterTransition(mActivity, enterSharedElementCallback, RESULT_OK, intent, startPosition);
         } else {
             super.onBackPressed();
         }

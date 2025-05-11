@@ -68,7 +68,7 @@ android {
 
 dependencies {
     //https://github.com/greenrobot/greenDAO 数据库
-    compileOnly rootProject.ext.dependencies.greendao
+    compileOnly 'org.greenrobot:greendao:3.3.0'
 
     //https://github.com/yuweiguocn/GreenDaoUpgradeHelper greenDAO数据库升级
     compileOnly 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'

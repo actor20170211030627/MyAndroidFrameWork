@@ -36,13 +36,13 @@ api "com.squareup.okhttp3:okhttp:4.9.3"
 api 'com.github.getActivity:EasyHttp:13.0'
 </li>
 <li>https://github.com/getActivity/ShapeView 轮子哥Shape 框架
-api 'com.github.getActivity:ShapeView:9.3'
+api 'com.github.getActivity:ShapeView:9.6'
 </li>
 <li>//https://github.com/getActivity/XXPermissions 轮子哥权限
-api 'com.github.getActivity:XXPermissions:20.0'
+api 'com.github.getActivity:XXPermissions:21.3'
 </li>
 <li>//https://github.com/getActivity/Toaster  轮子哥吐司
-api 'com.github.getActivity:Toaster:12.6'
+api 'com.github.getActivity:Toaster:12.8'
 </li>
 <li>//https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
@@ -285,7 +285,6 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
  * 还有一些其它不常用工具类: (按需引入)
  * <a href="others/src/main/java/com/actor/others/utils/BirthdayUtils.java" target="_blank">BirthdayUtils</a> (生日: 天数倒数, 农历生日, 年龄)
  * <a href="others/src/main/java/com/actor/others/utils/TextToSpeechUtils.java" target="_blank">TextToSpeechUtils</a> (Android自带文字转语音支持)
- * <a href="others/src/main/java/com/actor/others/widget/NineGridView/NineGridView.java" target="_blank">NineGridView</a> (九宫格)
  * <a href="others/src/main/java/com/actor/others/widget/ItemRadioGroupLayout.java" target="_blank">ItemRadioGroupLayout</a> (RadioGroup选择)
  * <a href="others/src/main/java/com/actor/others/widget/ItemSpinnerLayout.java" target="_blank">ItemSpinnerLayout</a> (Spinner选择)
  * <a href="others/src/main/java/com/actor/others/widget/ItemTextInputLayout.java" target="_blank">ItemTextInputLayout</a> (Text输入)

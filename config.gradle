@@ -9,8 +9,8 @@ ext {
             compileSdkVersion       : 31,//rootProject.ext.android.compileSdkVersion or rootProject.ext.android["compileSdkVersion"]
             minSdkVersion           : 21,
             targetSdkVersion        : 29,
-            versionCode             : 2025012101,//2020年xx月xx日xx(版本)
-            versionName             : "2.1.9"
+            versionCode             : 2025051101,//2020年xx月xx日xx(版本)
+            versionName             : "2.2.0"
     ]
 
     version = [
@@ -47,8 +47,5 @@ ext {
 
             "canary-debug"          : "com.squareup.leakcanary:leakcanary-android:${version["canarySdkVersion"]}",
             "canary-release"        : "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}",
-
-            //Others
-            "greendao"              : 'org.greenrobot:greendao:3.3.0',
     ]
 }

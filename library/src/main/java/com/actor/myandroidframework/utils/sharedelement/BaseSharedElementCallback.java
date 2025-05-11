@@ -185,8 +185,9 @@ public abstract class BaseSharedElementCallback extends SharedElementCallback {
      * 可用于标记是哪一个页面. if传null, 就不再打印日志
      * @param pageTag 例: 页面A, 页面B, null
      */
-    public void setLogPageTag(@Nullable String pageTag) {
+    public BaseSharedElementCallback setLogPageTag(@Nullable String pageTag) {
         this.pageTag = pageTag;
+        return this;
     }
 
     /**

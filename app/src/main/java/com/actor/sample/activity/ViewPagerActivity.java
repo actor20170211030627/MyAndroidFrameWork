@@ -43,7 +43,7 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
             sharedElements.put(transitionName, iv);
             LogUtils.errorFormat("names = %s", GsonUtils.toJson(names));
         }
-    };
+    }.setLogPageTag("页面B");
     private ShareElementViewPagerAdapter myAdapter;
     private boolean isChangeTransition = true;
 
@@ -60,8 +60,6 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
 
         //推迟 Activity 的进入过渡动画
         SharedElementUtils.postponeEnterTransition(this);
-
-        enterSharedElementCallback.setLogPageTag("页面B");
 
 //        setEnterSharedElementCallback(enterSharedElementCallbacks);
 
@@ -88,10 +86,9 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
         if (isChangeTransition) {
 //        super.onBackPressed();
             int currentItem = viewBinding.viewPager.getCurrentItem();
-            Global.fragmentPosition = currentItem;
             Intent intent = new Intent().putExtra(Global.CONTENT, "result ok!")
                     .putExtra(Global.POSITION, currentItem);
-            SharedElementUtils.finishAfterTransition(this, enterSharedElementCallback, RESULT_OK, intent);
+            SharedElementUtils.finishAfterTransition(this, enterSharedElementCallback, RESULT_OK, intent, currentItem);
         } else {
             //也可以直接返回
             int currentItem = viewBinding.viewPager.getCurrentItem();

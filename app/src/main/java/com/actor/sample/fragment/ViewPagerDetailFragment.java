@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 import com.actor.sample.databinding.FragmentViewPagerDetailBinding;
 import com.actor.sample.utils.Global;
@@ -17,6 +18,9 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * description: ViewPager详情页
@@ -51,6 +55,24 @@ public class ViewPagerDetailFragment extends BaseFragment<FragmentViewPagerDetai
             startPosition = getArguments().getInt(ARG_PARAM2);
             isChangeTransition = getArguments().getBoolean(ARG_PARAM3);
         }
+
+        BaseSharedElementCallback enterSharedElementCallback = new BaseSharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                super.onMapSharedElements(names, sharedElements);
+            }
+        }.setLogPageTag("Fragment B Enter");
+        //Fragment中设置, 不会回调!
+        setEnterSharedElementCallback(enterSharedElementCallback);
+
+        BaseSharedElementCallback exitSharedElementCallback = new BaseSharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                super.onMapSharedElements(names, sharedElements);
+            }
+        }.setLogPageTag("Fragment B Enter");
+        //Fragment中设置, 不会回调!
+        setExitSharedElementCallback(exitSharedElementCallback);
     }
 
     @Override

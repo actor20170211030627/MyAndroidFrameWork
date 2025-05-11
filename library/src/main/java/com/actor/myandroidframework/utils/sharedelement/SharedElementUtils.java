@@ -104,6 +104,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class SharedElementUtils {
 
+    //额外数据
+    protected static Object instantExtra;
+
     /**
      * 在目标Activity中，清除目标 Activity 或 Fragment 的进入&退出过渡动画。<br />
      * 默认有1个渐变动画, 清除后感觉体验不好. <br />
@@ -314,20 +317,19 @@ public class SharedElementUtils {
      * 元素共享跳转, {@link 注意:}
      * <ol>
      *     <li>
-     *         跳转返回后, 会先走当前fragment对应的Activity的 {@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)} 方法,
+     *         fragment跳转activity再返回后, 会先走当前fragment对应的Activity的 {@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)} 方法,
      *         然后再走Activity的 {@link Activity#onActivityResult(int, int, Intent) onActivityResult(int, int, Intent)} 方法,
-     *         Fragment的 {@link Fragment#onActivityResult(int, int, Intent) onActivityResult(int, int, Intent)} 方法,
-     *         以及Fragment的 {@link Fragment#onResume() onResume()} 方法!
+     *         fragment的 {@link Fragment#onActivityResult(int, int, Intent) onActivityResult(int, int, Intent)} 方法,
+     *         以及fragment的 {@link Fragment#onResume() onResume()} 方法!
      *     </li>
      *     <li>
-     *         所以: 如果你要尽快更改返回后Fragment的UI内容的话(比如更新元素共享图片),
-     *         请在返回前在公共地方写入更新的变量, 然后再在Fragment中读取变量,
-     *         并在{@link BaseSharedElementCallback}的
-     *         {@link BaseSharedElementCallback#onMapSharedElements(List, Map) onMapSharedElements(List, Map)} or
-     *         {@link BaseSharedElementCallback#onSharedElementsArrived(List, List, androidx.core.app.SharedElementCallback.OnSharedElementsReadyListener) onSharedElementsArrived(List, List, OnSharedElementsReadyListener)(建议这里面)}
-     *         中更新Fragment里的UI, 示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/fragment/SharedElementFragment.java" target="_blank">SharedElementFragment.java</a>
+     *         所以: 如果你要在activity返回fragment的{@link 共享动画执行完成前}获取数据并更新fragment的UI的话(比如更新元素共享图片),
+     *         请在fragment的
+     *         {@link BaseSharedElementCallback#onMapSharedElements(List, Map) exitSharedElementCallback.onMapSharedElements(List, Map)} <br />
+     *         或 {@link BaseSharedElementCallback#onSharedElementsArrived(List, List, androidx.core.app.SharedElementCallback.OnSharedElementsReadyListener) exitSharedElementCallback.onSharedElementsArrived(List, List, OnSharedElementsReadyListener)} <br />
+     *         中调用{@link #getInstantExtra() SharedElementUtils.getInstantExtra()}获取并判断数据, 然后更新Fragment里的UI, 示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/fragment/SharedElementFragment.java" target="_blank">SharedElementFragment.java</a>
      *     </li>
-     *     <li>if返回Fragment后, 不急着更新UI的话, 可直接在 {@link com.actor.myandroidframework.bean.OnActivityCallback OnActivityCallback callback} 这个回调中再更新UI.</li>
+     *     <li>if不是必须在activity返回fragment的{@link 共享动画执行完成前}更新fragment的UI的话, 可直接在 {@link com.actor.myandroidframework.bean.OnActivityCallback OnActivityCallback callback} 这个回调中获取数据再更新UI.</li>
      * </ol>
      * @param requestCode 请求码
      * @param exitSharedElementCallback 跳转前后回调, 回来后需要你自己在<code>callback</code>中获取元素改变信息
@@ -335,7 +337,7 @@ public class SharedElementUtils {
     public static void startActivityForResult(@NonNull Fragment fragment,
                                               @NonNull Intent intent, int requestCode,
                                               @Nullable BaseSharedElementCallback exitSharedElementCallback) {
-        //设置在fragment里面不会回调...
+        //设置在fragment里面不会回调, 难道是我设置的不对??
 //        fragment.setExitSharedElementCallback(exitSharedElementCallback);
         FragmentActivity activity = fragment.getActivity();
         if (activity != null) {
@@ -365,6 +367,12 @@ public class SharedElementUtils {
         ActivityUtils.startActivityForResult(activity, intent, requestCode, sharedElements);
     }
 
+    /**
+     * 共享元素方式跳转
+     * @param intent 跳转B页面的Intent
+     * @param requestCode 请求码
+     * @param sharedElements 共享元素, 务必先设置transitionName
+     */
     public static void startActivityForResult(@NonNull Fragment fragment, @NonNull Intent intent,
                                               int requestCode, View... sharedElements) {
         FragmentActivity activity = fragment.getActivity();
@@ -393,17 +401,77 @@ public class SharedElementUtils {
      * @param enterSharedElementCallback 要退出Activity的共享元素组装
      * @param resultCode 返回码: {@link Activity#RESULT_OK}, {@link Activity#RESULT_CANCELED}, {@link Activity#RESULT_FIRST_USER} 等
      * @param resultIntent if第2个Activity要返会数据回上一个Activity, 就传入intent, 否则传null
+     * @param instantExtra 暂存数据, if你是从<b>fragment</b>跳到这边来, 才{@link 可能}传这个数据:
+     *                     <ol>
+     *                         <li>if你从Fragment跳到activity这边来,
+     *                         且现在退出activity返回fragment后有数据需要在{@link 元素共享动画执行完成前}响应到Fragment(比如要在元素共享动画完成前更新Fragment中的元素共享图片),
+     *                         由于返回后Fragment没有activity类似的{@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)}方法可以在元素共享动画执行完成前就能获取到返回数据,
+     *                         所以就需要传入这个参数. <br />
+     *                         然后你再在fragment的{@link BaseSharedElementCallback#onMapSharedElements(List, Map) exitSharedElementCallback.onMapSharedElements(List, Map)} <br />
+     *                         或 {@link BaseSharedElementCallback#onSharedElementsArrived(List, List, androidx.core.app.SharedElementCallback.OnSharedElementsReadyListener) exitSharedElementCallback.onSharedElementsArrived(List, List, OnSharedElementsReadyListener)} <br />
+     *                         中调用 {@link #getInstantExtra() SharedElementUtils.getInstantExtra()} 方法获取并判断数据, 在动画执行完成前更新数据.
+     *                         </li>
+     *                         <li>if你从activity返回fragment后, fragment那边不需要在元素共享动画执行前更新数据, 这个参数传null</li>
+     *                     </ol>
+     *
      */
     public static void finishAfterTransition(@NonNull FragmentActivity activity,
                                              @Nullable BaseSharedElementCallback enterSharedElementCallback,
-                                             int resultCode, @Nullable Intent resultIntent) {
+                                             int resultCode, @Nullable Intent resultIntent,
+                                             @Nullable Object instantExtra) {
         activity.setEnterSharedElementCallback(enterSharedElementCallback);
         //不管intent是否=null, 都会在上1个Activity回调 onActivityResult()
         activity.setResult(resultCode, resultIntent);
+        setInstantExtra(instantExtra);
         /**
          * 触发返回动画
          * @see androidx.fragment.app.FragmentActivity#supportFinishAfterTransition()
          */
         ActivityCompat.finishAfterTransition(activity);
+    }
+
+    /**
+     * 获取瞬时数据
+     * @param resetValue 获取数据后, 是否重置数据
+     */
+    @Nullable
+    public static Object getInstantExtra(boolean resetValue) {
+        Object instantExtra = SharedElementUtils.instantExtra;
+        if (resetValue) SharedElementUtils.instantExtra = null;
+        return instantExtra;
+    }
+
+    /**
+     * 获取瞬时数据
+     * @param resetValue 获取数据后, 是否重置数据
+     * @param defaultValue 默认值. if没有没有值就返回默认值
+     */
+    @Nullable
+    protected static <T> T getInstantExtra(boolean resetValue, @Nullable T defaultValue) {
+        Object instantExtra = SharedElementUtils.instantExtra;
+        if (resetValue) SharedElementUtils.instantExtra = null;
+        if (instantExtra == null) return defaultValue;
+
+        // TODO: 转换还是崩溃ClassCastException
+        try {
+            T result = (T) instantExtra;
+            return result;
+        }
+        catch (ClassCastException e) {
+            LogUtils.error("瞬时数据转换失败:", e);
+            return defaultValue;
+        }
+//        catch (Error e) {
+//            LogUtils.error("瞬时数据转换失败:", e);
+//            return defaultValue;
+//        }
+//        catch (Throwable e) {
+//            LogUtils.error("瞬时数据转换失败:", e);
+//            return defaultValue;
+//        }
+    }
+
+    protected static void setInstantExtra(@Nullable Object instantExtra) {
+        SharedElementUtils.instantExtra = instantExtra;
     }
 }

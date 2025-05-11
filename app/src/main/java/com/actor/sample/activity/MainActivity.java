@@ -108,9 +108,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_part_image_view://ShowPartImageView
                 startActivity(ShowPartImageViewActivity.class);
                 break;
-            case R.id.btn_nine_grid_view://九宫格
-                startActivity(NineGridViewActivity.class);
-                break;
             case R.id.btn_webview://WebView
                 startActivity(WebViewActivity.class);
                 break;
