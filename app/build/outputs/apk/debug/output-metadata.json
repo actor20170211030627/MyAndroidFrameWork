@@ -1,19 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "artifactType": {
     "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "com.actor.sample",
-  "variantName": "debug",
+  "variantName": "processDebugResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "properties": [],
-      "versionCode": 2025012101,
-      "versionName": "2.1.9",
-      "enabled": true,
+      "versionCode": 2025051103,
+      "versionName": "2.2.0.2",
       "outputFile": "app-debug.apk"
     }
   ]

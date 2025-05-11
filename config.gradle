@@ -9,8 +9,8 @@ ext {
             compileSdkVersion       : 31,//rootProject.ext.android.compileSdkVersion or rootProject.ext.android["compileSdkVersion"]
             minSdkVersion           : 21,
             targetSdkVersion        : 29,
-            versionCode             : 2025051101,//2020年xx月xx日xx(版本)
-            versionName             : "2.2.0"
+            versionCode             : 2025051103,//2020年xx月xx日xx(版本)
+            versionName             : "2.2.0.2"
     ]
 
     version = [

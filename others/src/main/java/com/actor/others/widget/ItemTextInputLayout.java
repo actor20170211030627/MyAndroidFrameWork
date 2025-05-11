@@ -277,13 +277,13 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             //RedStart
             tvRedStar = new TextView(context);
             tvRedStar.setText("* ");
-            tvRedStar.setTextColor(context.getResources().getColor(R.color.red_D90000));
+            tvRedStar.setTextColor(context.getResources().getColor(com.actor.myandroidframework.R.color.red_D90000));
             tvRedStar.setTextSize(20);
             llContentForItil.addView(tvRedStar);
             //TextView(Item)
             tvItem = new TextView(context);
             tvItem.setMinWidth(dp2px(90));
-            tvItem.setTextColor(getResources().getColor(R.color.gray_666));
+            tvItem.setTextColor(getResources().getColor(com.actor.myandroidframework.R.color.gray_666));
             tvItem.setTextSize(15);
             llContentForItil.addView(tvItem);
             //EditText
@@ -291,7 +291,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             et1.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1F));
             et1.setBackground(null);
             et1.setMinHeight(dp2px(40));
-            et1.setTextColor(getResources().getColor(R.color.gray_999));
+            et1.setTextColor(getResources().getColor(com.actor.myandroidframework.R.color.gray_999));
             et1.setTextSize(15);
             llContentForItil.addView(et1);
             //IvArrow

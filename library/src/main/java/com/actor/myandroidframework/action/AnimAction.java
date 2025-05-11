@@ -18,10 +18,10 @@ public interface AnimAction {
 
 
     /** Dialog的(默认)系统动画 */
-    int ANIM_DIALOG = R.style.Animation_AppCompat_Dialog;
+//    int ANIM_DIALOG = R.style.Animation_AppCompat_Dialog;
 
     /** 系统Dialog动画 */
-    int ANIM_DIALOG2 = R.style.Base_Animation_AppCompat_Dialog;
+//    int ANIM_DIALOG2 = R.style.Base_Animation_AppCompat_Dialog;
 
     /** 系统Dialog动画 */
     int ANIM_DIALOG3 = android.R.style.Animation_Dialog;

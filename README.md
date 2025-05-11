@@ -133,7 +133,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 <img src="captures/chat_layout.gif" width=33%></img>
 
 ## 4.Sample
-<a href="https://github.com/actor20170211030627/MyAndroidFrameWork/releases" target="_blank">download apk</a> or scan qrcode: <br />
+<a href="https://github.com/actor20170211030627/MyAndroidFrameWork/releases/latest/download/app-debug.apk" target="_blank">download apk</a> or scan qrcode: <br />
 <img src="captures/qrcode_download_apk.png" width=33%></img>
 
 ## 5.minSdkVersion [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)

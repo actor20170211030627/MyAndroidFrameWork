@@ -1,4 +1,6 @@
 <resources>
+    <!--为了打包的时候, BaseService不报错-->
+    <string name="app_name" />
     <!--手机-->
     <string name="digits_phone">0123456789</string>
     <!--数字-->
