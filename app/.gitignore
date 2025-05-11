@@ -9,4 +9,5 @@
 /build/outputs/sdk-dependencies
 /build/reports
 /build/tmp
+/debug
 /release

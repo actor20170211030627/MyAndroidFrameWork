@@ -6,6 +6,8 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.actor.myandroidframework.utils.ConfigUtils;
+
 /**
  * description: WebView默认设置
  *
@@ -67,9 +69,10 @@ public class BaseWebSettings {
         webSettings.setDomStorageEnabled(false);//设置缓存,没数据也可加载
 
         //compileSdkVersion 31有以下3个设置, compileSdkVersion 33 没有以下3个设置
-//        webSettings.setAppCacheEnabled(true);//页面,图片,脚本,css,js...
-//        webSettings.setAppCachePath(ConfigUtils.APPLICATION.getCacheDir().getAbsolutePath());//设置缓存目录
+        webSettings.setAppCacheEnabled(true);//页面,图片,脚本,css,js...
+        webSettings.setAppCachePath(ConfigUtils.APPLICATION.getCacheDir().getAbsolutePath());//设置缓存目录
 //        webSettings.setAppCacheMaxSize(Long.MAX_VALUE);//过时,自动管理
+
 
         /*
          * 设置缓存的模式
