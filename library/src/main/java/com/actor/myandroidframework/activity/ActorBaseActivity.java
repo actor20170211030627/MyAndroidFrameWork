@@ -325,8 +325,10 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Nullable
     public LoadingDialog getNetWorkLoadingDialog() {
         if (mActivity == null) return null;
-        if (netWorkLoadingDialog == null) netWorkLoadingDialog = new LoadingDialog(mActivity);
-        netWorkLoadingDialog.setCancelAble(true);
+        if (netWorkLoadingDialog == null) {
+            netWorkLoadingDialog = new LoadingDialog(mActivity);
+            netWorkLoadingDialog.setCancelAble(true);
+        }
         return netWorkLoadingDialog;
     }
     @Override

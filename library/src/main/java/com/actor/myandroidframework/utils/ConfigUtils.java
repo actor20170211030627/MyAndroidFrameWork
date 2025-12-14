@@ -6,10 +6,8 @@ import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 
 /**
@@ -33,16 +31,6 @@ public class ConfigUtils {
      * 因此在AndroidMainifest.xml中最好不设置android:debuggable属性置，而是由打包方式来决定其值.
      */
     public static final boolean IS_APP_DEBUG = AppUtils.isAppDebug();
-
-    /**
-     * 状态栏高度
-     */
-    public static final int STATUS_BAR_HEIGHT = BarUtils.getStatusBarHeight();
-
-    /**
-     * App 的屏幕宽度, 和屏幕宽度不是一个概念
-     */
-    public static final int APP_SCREEN_WIDTH = ScreenUtils.getAppScreenWidth();
 
     protected static final String EXCEPTION_FOR_ActorApplication = "EXCEPTION_FOR_ActorApplication";
 

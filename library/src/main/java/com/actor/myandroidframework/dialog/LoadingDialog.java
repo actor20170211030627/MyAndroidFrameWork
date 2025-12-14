@@ -1,7 +1,6 @@
 package com.actor.myandroidframework.dialog;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.RectF;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -17,7 +17,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.actor.myandroidframework.R;
-import com.actor.myandroidframework.utils.ConfigUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 
 /**
  * Description: 加载Dialog, 根布局使用 ConstraintLayout 有问题, 有时候只显示灰色背景
@@ -27,16 +27,16 @@ import com.actor.myandroidframework.utils.ConfigUtils;
  */
 public class LoadingDialog extends BaseDialog {
 
-    private View        viewBackground;
-    private ProgressBar progressBar;
-    private TextView    tvMessage;
+    protected View        ratioLayout;
+    protected ProgressBar progressBar;
+    protected TextView    tvMessage;
 
     //背景View的宽高, 宽度百分比: 102/497=0.2052313883299799
-    private int bgViewWidth  = (int) (ConfigUtils.APP_SCREEN_WIDTH * 0.2052313883299799F);
-    private int bgViewHeight = bgViewWidth;
-    private int cornerRadius = 15;//圆角
-    private Integer color = Color.parseColor("#b1000000");
-    private CharSequence message;
+    protected int bgViewWidth  = (int) (Math.min(ScreenUtils.getAppScreenWidth(), ScreenUtils.getAppScreenHeight()) * 0.2052313883299799F);
+    protected int bgViewHeight = 0;
+    protected int cornerRadius = 15;//圆角
+    protected Integer color = 0xb1000000;
+    protected CharSequence message;
 
     public LoadingDialog(@NonNull Context context) {
         super(context);
@@ -49,15 +49,16 @@ public class LoadingDialog extends BaseDialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        windowWidth = WindowManager.LayoutParams.WRAP_CONTENT;
         super.onCreate(savedInstanceState);
         isPrintNameOnCreate = false;
         isStatusBarDimmed(false);
-        viewBackground = findViewById(R.id.progress_dialog_background_view);
-        progressBar = findViewById(R.id.progress_dialog_progress);
-        tvMessage = findViewById(R.id.progress_dialog_message);
+        ratioLayout = findViewById(R.id.ratio_layout_loading_dialog);
+        progressBar = findViewById(R.id.progress_bar_loading_dialog);
+        tvMessage = findViewById(R.id.tv_loading_dialog);
         setCornerRadius(cornerRadius, color);
         setMessage(message);
-        setViewBgWH(bgViewWidth, bgViewHeight);
+        if (bgViewHeight > 0) setViewBgWH(bgViewWidth, bgViewHeight);
     }
 
     /**
@@ -69,7 +70,7 @@ public class LoadingDialog extends BaseDialog {
         this.cornerRadius = cornerRadius;
         if (color != null) this.color = bgColor;
 
-        if (viewBackground != null) {
+        if (ratioLayout != null) {
             //外部矩形弧度
             float[] outerR = new float[] {cornerRadius, cornerRadius, cornerRadius, cornerRadius,
                     cornerRadius, cornerRadius, cornerRadius, cornerRadius};
@@ -78,7 +79,7 @@ public class LoadingDialog extends BaseDialog {
             RectShape shape = new RoundRectShape(outerR, inset, outerR);
             ShapeDrawable drawable = new ShapeDrawable(shape);
             drawable.getPaint().setColor(color);
-            viewBackground.setBackground(drawable);
+            ratioLayout.setBackground(drawable);
         }
         return this;
     }
@@ -109,11 +110,11 @@ public class LoadingDialog extends BaseDialog {
     public LoadingDialog setViewBgWH(int viewBgWidth, int viewBgHeight) {
         this.bgViewWidth = viewBgWidth;
         this.bgViewHeight = viewBgHeight;
-        if (viewBackground != null) {
-            ViewGroup.LayoutParams layoutParams = viewBackground.getLayoutParams();
+        if (ratioLayout != null) {
+            ViewGroup.LayoutParams layoutParams = ratioLayout.getLayoutParams();
             layoutParams.width = bgViewWidth;
             layoutParams.height = bgViewHeight;
-            viewBackground.setLayoutParams(layoutParams);
+            ratioLayout.setLayoutParams(layoutParams);
         }
         return this;
     }

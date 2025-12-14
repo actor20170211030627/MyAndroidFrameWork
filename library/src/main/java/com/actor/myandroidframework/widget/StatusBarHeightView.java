@@ -8,7 +8,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.actor.myandroidframework.utils.ConfigUtils;
+import com.blankj.utilcode.util.BarUtils;
 
 /**
  * Description: 状态栏高度, 用于占高 <br />
@@ -37,8 +37,8 @@ public class StatusBarHeightView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //状态栏高度
-        int statusBarHeight = isInEditMode() ? 45 : ConfigUtils.STATUS_BAR_HEIGHT;
+        //状态栏高度                                怕旋转屏幕后状态栏高度会变, 乺每次获取
+        int statusBarHeight = isInEditMode() ? 45 : BarUtils.getStatusBarHeight();
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(statusBarHeight, MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

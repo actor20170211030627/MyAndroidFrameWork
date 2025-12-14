@@ -59,6 +59,8 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     protected OnShowListener onShowListener;
     protected OnDismissListener onDismissListener;
 
+    //按返回键的时候, 是否让Dialog cancel
+    protected boolean mCancelableOnBackPressed = true;
     //Widow宽度
     protected int windowWidth = WindowManager.LayoutParams.MATCH_PARENT;
     protected int windowHeight = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -233,14 +235,99 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     }
 
     /**
-     * 设置点击返回键 & 外部, 是否能取消dialog
-     * //如果 setCancelable = true, setCanceledOnTouchOutside = true/false, 设置都有效
-     * //如果 setCancelable = false, setCanceledOnTouchOutside = true, 点击 '返回'&'外部' 都能取消!!!
+     * <ul>
+     *     <li>{@link #setCancelable(boolean)}: '点击Dialog外部' or '按返回键' 是否让Dialog cancel</li>
+     *     <li>{@link #setCanceledOnTouchOutside(boolean)}: '点击Dialog外部' 是否让Dialog cancel</li>
+     * </ul>
+     * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *     <tr>
+     *          <th>№</th>
+     *          <th>先设置这个方法</th>
+     *          <th>再设置这个方法</th>
+     *          <th align="center" nowrap="nowrap">按返回键<br />是否能dismiss</th>
+     *          <th>点击Dialog外部是否能dismiss</th>
+     *     </tr>
+     *     <tr>
+     *         <td>1</td>
+     *         <td>setCancelable(<b>true</b>);</td>
+     *         <td>setCanceledOnTouchOutside(<b>true</b>);</td>
+     *         <td align="center">✔</td>
+     *         <td>✔</td>
+     *     </tr>
+     *     <tr>
+     *         <td>2</td>
+     *         <td>setCancelable(<b>true</b>);</td>
+     *         <td nowrap="nowrap">setCanceledOnTouchOutside(<b>false</b>);</td>
+     *         <td align="center">✔</td>
+     *         <td>✘</td>
+     *     </tr>
+     *     <tr>
+     *         <td>3</td>
+     *         <td nowrap="nowrap">setCancelable(<b>false</b>);</td>
+     *         <td>setCanceledOnTouchOutside(<b>true</b>);</td>
+     *         <td align="center">{@link null <b>✔</b>}</td>
+     *         <td>✔</td>
+     *     </tr>
+     *     <tr>
+     *         <td>4</td>
+     *         <td>setCancelable(<b>false</b>);</td>
+     *         <td>setCanceledOnTouchOutside(<b>false</b>);</td>
+     *         <td align="center">✘</td>
+     *         <td>✘</td>
+     *     </tr>
+     *     <tr></tr>
+     *     <tr>
+     *         <td>5</td>
+     *         <td>setCanceledOnTouchOutside(<b>true</b>);</td>
+     *         <td>setCancelable(<b>true</b>);</td>
+     *         <td align="center">✔</td>
+     *         <td>✔</td>
+     *     </tr>
+     *     <tr>
+     *         <td>6</td>
+     *         <td>setCanceledOnTouchOutside(<b>true</b>);</td>
+     *         <td>setCancelable(<b>false</b>);</td>
+     *         <td align="center">✘</td>
+     *         <td>{@link null <b>✘</b>}</td>
+     *     </tr>
+     *     <tr>
+     *         <td>7</td>
+     *         <td nowrap="nowrap">setCanceledOnTouchOutside(<b>false</b>);</td>
+     *         <td nowrap="nowrap">setCancelable(<b>true</b>);</td>
+     *         <td align="center">✔</td>
+     *         <td>✘</td>
+     *     </tr>
+     *     <tr>
+     *         <td>8</td>
+     *         <td>setCanceledOnTouchOutside(<b>false</b>);</td>
+     *         <td>setCancelable(<b>false</b>);</td>
+     *         <td align="center">✘</td>
+     *         <td>✘</td>
+     *     </tr>
+     * </table>
      */
     public BaseDialog setCancelAble(boolean cancelAble) {
-        setCancelable(cancelAble);              //点击返回键 是否能取消
-        setCanceledOnTouchOutside(cancelAble);  //点击外部 是否能取消
+//        setCancelable(cancelAble);
+//        setCanceledOnTouchOutside(cancelAble);
+        setCancelAble(cancelAble, cancelAble);
         return this;
+    }
+
+    public BaseDialog setCancelAble(boolean cancelableOnBackPressed, boolean cancelableOnTouchOutside) {
+        this.mCancelableOnBackPressed = cancelableOnBackPressed;
+//        setCancelable(cancelAble);
+        setCanceledOnTouchOutside(cancelableOnTouchOutside);
+        return this;
+    }
+
+    /**
+     * 设置 '点击Dialog外部' or '按返回键' 是否让Dialog cancel
+     * @deprecated 不要直接调用这个方法, 应该去调用{@link #setCancelAble(boolean)} or {@link #setCancelAble(boolean, boolean)}
+     */
+    @Deprecated
+    @Override
+    public void setCancelable(boolean flag) {
+        super.setCancelable(flag);
     }
 
     /**
@@ -250,20 +337,26 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
      *        &emsp;&emsp; {@link GravityCompat#START}, {@link GravityCompat#END}
      * @param windowAnimations Dialog显示/隐藏 的动画: <br />
      *        <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
-     *             <tr>
-     *                         <th align="center">动画</th>
-     *                         <th align="center">说明</th>
-     *             </tr>
-     *             <tr> <td>{@link AnimAction#ANIM_DEFAULT}</td> <td>使用系统默认Dialog动画</td> </tr>
-     *             <tr> <td>{@link AnimAction#ANIM_EMPTY}</td> <td>没有动画效果</td> </tr>
-     *             <tr>
-     *                 <td>{@link AnimAction}</td>
-     *                 <td>更多动画见 AnimAction</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link R.style#YourCustomAnim R.style.YourCustomAnim}</td>
-     *                 <td>也阔以自定义动画</td>
-     *             </tr>
+     *            <tr>
+     *                <th align="center">动画</th>
+     *                <th align="center">说明</th>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link AnimAction#ANIM_DEFAULT}</td>
+     *                <td>使用系统默认Dialog动画</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link AnimAction#ANIM_EMPTY}</td>
+     *                <td>没有动画效果</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link AnimAction}</td>
+     *                <td>更多动画见 AnimAction</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link R.style#YourCustomAnim R.style.YourCustomAnim}</td>
+     *                <td>也阔以自定义动画</td>
+     *            </tr>
      *        </table>
      */
     public BaseDialog setGravityAndAnimation(int gravity, @StyleRes int windowAnimations) {
@@ -302,7 +395,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     }
 
     /**
-     * 点击弹窗外部时, 是否将点击事件透传到弹窗下，默认是false
+     * 点击弹窗外部时, 是否将点击事件透传到Dialog的Window后面，默认是false
      */
     public BaseDialog isClickThrough(boolean isClickThrough) {
         Window window = getWindow();
@@ -433,6 +526,11 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     public final void onDismiss(DialogInterface dialog) {
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         if (onDismissListener != null) onDismissListener.onDismiss(dialog);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mCancelableOnBackPressed) super.onBackPressed();
     }
 
     @NonNull

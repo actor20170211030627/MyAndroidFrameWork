@@ -2,30 +2,30 @@
 <com.actor.myandroidframework.widget.RatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/progress_dialog_background_view"
+    android:id="@+id/ratio_layout_loading_dialog"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
     app:ratio="1"
     tools:background="#b1000000"
     tools:context=".dialog.LoadingDialog">
     <!-- 根布局使用 ConstraintLayout 有问题, 有时候只显示灰色背景 -->
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
 
         <ProgressBar
-            android:id="@+id/progress_dialog_progress"
+            android:id="@+id/progress_bar_loading_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminateDrawable="@anim/anim_for_loading_dialog" />
 
         <TextView
-            android:id="@+id/progress_dialog_message"
+            android:id="@+id/tv_loading_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"

@@ -23,6 +23,7 @@ import com.actor.myandroidframework.utils.LogUtils;
  *         .setTitle(title)         //不设置就没有
  *         .setMessage(message)     //不设置就没有
  *         .setCancelable(boolean)  //点击返回键 & 外部, 是否能取消dialog
+ *         .setCanceledOnTouchOutside(boolean) //外部点击是否能取消dialog
  *         .setIcon(R.drawable.xxx/Drawable)
  *         .setCustomTitle(view)
  *         .setView(R.layout.xxx/View)
@@ -94,6 +95,8 @@ import com.actor.myandroidframework.utils.LogUtils;
 public abstract class BaseAlertDialog extends AlertDialog {
 
     protected Window window;
+    //按返回键的时候, 是否让Dialog cancel
+    protected boolean mCancelableOnBackPressed = true;
     public boolean isDismissError = false;  //dismiss的时候, 是否出错了
 
     public BaseAlertDialog(@NonNull Context context) {
@@ -165,7 +168,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
      * 父类Dialog的方法，在父类Dialog方法中，是调用了Window.setContentView(), 对应整个对话框窗口的view.
      */
     @Override
-    public void setContentView(View view) {
+    public void setContentView(@NonNull View view) {
         super.setContentView(view);
     }
     @Override
@@ -173,7 +176,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
         super.setContentView(layoutResID);
     }
     @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
+    public void setContentView(@NonNull View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
     }
 
@@ -190,14 +193,30 @@ public abstract class BaseAlertDialog extends AlertDialog {
     }
 
     /**
-     * 设置点击返回键 & 外部, 是否能取消dialog
-     * //如果 setCancelable = true, setCanceledOnTouchOutside = true/false, 设置都有效
-     * //如果 setCancelable = false, setCanceledOnTouchOutside = true, 点击 '返回'&'外部' 都能取消!!!
+     * 详细注释见: {@link BaseDialog#setCancelAble(boolean)}
      */
     public BaseAlertDialog setCancelAble(boolean cancelAble) {
-        setCancelable(cancelAble);
-        setCanceledOnTouchOutside(cancelAble);//外部点击是否能取消
+//        setCancelable(cancelAble);
+//        setCanceledOnTouchOutside(cancelAble);
+        setCancelAble(cancelAble, cancelAble);
         return this;
+    }
+
+    public BaseAlertDialog setCancelAble(boolean cancelableOnBackPressed, boolean cancelableOnTouchOutside) {
+        this.mCancelableOnBackPressed = cancelableOnBackPressed;
+//        setCancelable(cancelAble);
+        setCanceledOnTouchOutside(cancelableOnTouchOutside);
+        return this;
+    }
+
+    /**
+     * 设置 '点击Dialog外部' or '按返回键' 是否让Dialog cancel
+     * @deprecated 不要直接调用这个方法, 应该去调用{@link #setCancelAble(boolean)} or {@link #setCancelAble(boolean, boolean)}
+     */
+    @Deprecated
+    @Override
+    public void setCancelable(boolean flag) {
+        super.setCancelable(flag);
     }
 
     /**
@@ -211,11 +230,15 @@ public abstract class BaseAlertDialog extends AlertDialog {
     /**
      * 设置Dialog位置
      * @param gravity {@link android.view.Gravity}
-     * @return
      */
     public BaseAlertDialog setGravity(int gravity) {
         if (window != null) window.setGravity(gravity);
         return this;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mCancelableOnBackPressed) super.onBackPressed();
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.FloatRange;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
@@ -29,6 +30,7 @@ import androidx.fragment.app.FragmentManager;
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.bean.OnActivityCallback;
+import com.actor.myandroidframework.dialog.BaseDialog;
 import com.actor.myandroidframework.dialog.OnActionErrorListener;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -75,6 +77,9 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     //请求码                                         9999防止和Activity的巧合
     private   int requestCodeCounter4BaseFragment = 9999;
 
+    //按返回键的时候, 是否让Dialog cancel
+    protected boolean mCancelableOnBackPressed = true;
+    protected boolean mCancelableOnTouchOutside = true;
     //Widow宽度
     protected int windowWidth = WindowManager.LayoutParams.MATCH_PARENT;
     protected int windowHeight = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -151,25 +156,36 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     }
 
     //可返回自定义Dialog
+    @MainThread
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        /**
-         * 高度全屏 要素1: 这个 DialogFragment 所依附的 Activity的ActionBar要确保false: <item name="windowActionBar">false</item>, 否则顶部高度全屏不了
-         * 下方注释的代码设置了都无用
-         */
+        Dialog dialog;
+        if (true) {
+            dialog = new BaseDialog(requireContext(), getTheme()) {
+                @Override
+                protected int getLayoutResId() {
+                    return 0;
+                }
+            }.setCancelAble(mCancelableOnBackPressed, mCancelableOnTouchOutside);
+        } else {
+            /**
+             * 高度全屏 要素1: 这个 DialogFragment 所依附的 Activity的ActionBar要确保false: <item name="windowActionBar">false</item>, 否则顶部高度全屏不了
+             * 下方注释的代码设置了都无用
+             */
 //        if (mActivity instanceof AppCompatActivity) {
 //            ((AppCompatActivity) mActivity).getSupportActionBar().hide();
 //        }
 //        mActivity.setActionBar(null);
 //        mActivity.getActionBar().hide();
 
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog = super.onCreateDialog(savedInstanceState);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 //        dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
 //        dialog.requestWindowFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
 //        dialog.getActionBar().setDisplayShowTitleEnabled(false);
+        }
         return dialog;
     }
 
@@ -288,6 +304,33 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
         this.windowHeight = height;
     }
 
+    /**
+     * 详细注释见: {@link BaseDialog#setCancelAble(boolean)}
+     */
+    public BaseDialogFragment setCancelAble(boolean cancelAble) {
+        setCancelAble(cancelAble, cancelAble);
+        return this;
+    }
+
+    public BaseDialogFragment setCancelAble(boolean cancelableOnBackPressed, boolean cancelableOnTouchOutside) {
+        this.mCancelableOnBackPressed = cancelableOnBackPressed;
+        this.mCancelableOnTouchOutside = cancelableOnTouchOutside;
+//        setCancelable(cancelAble);
+        Dialog dialog = getDialog();
+        if (dialog == null) return this;
+        if (dialog instanceof BaseDialog) {
+            ((BaseDialog) dialog).setCancelAble(cancelableOnBackPressed, cancelableOnTouchOutside);
+        } else {
+            dialog.setCanceledOnTouchOutside(cancelableOnTouchOutside);
+        }
+        return this;
+    }
+
+    /**
+     * 设置 '点击Dialog外部' or '按返回键' 是否让Dialog cancel
+     * @deprecated 不要直接调用这个方法, 应该去调用{@link #setCancelAble(boolean)} or {@link #setCancelAble(boolean, boolean)}
+     */
+    @Deprecated
     @Override
     public void setCancelable(boolean cancelable) {
         super.setCancelable(cancelable);
@@ -300,20 +343,20 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
      *        &emsp;&emsp; {@link GravityCompat#START}, {@link GravityCompat#END}
      * @param windowAnimations Dialog显示/隐藏 的动画: <br />
      *        <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
-     *             <tr>
-     *                         <th align="center">动画</th>
-     *                         <th align="center">说明</th>
-     *             </tr>
-     *             <tr> <td>{@link AnimAction#ANIM_DEFAULT}</td> <td>使用系统默认Dialog动画</td> </tr>
-     *             <tr> <td>{@link AnimAction#ANIM_EMPTY}</td> <td>没有动画效果</td> </tr>
-     *             <tr>
-     *                 <td>{@link AnimAction}</td>
-     *                 <td>更多动画见 AnimAction</td>
-     *             </tr>
-     *             <tr>
-     *                 <td>{@link R.style#YourCustomAnim R.style.YourCustomAnim}</td>
-     *                 <td>也阔以自定义动画</td>
-     *             </tr>
+     *            <tr>
+     *                <th align="center">动画</th>
+     *                <th align="center">说明</th>
+     *            </tr>
+     *            <tr> <td>{@link AnimAction#ANIM_DEFAULT}</td> <td>使用系统默认Dialog动画</td> </tr>
+     *            <tr> <td>{@link AnimAction#ANIM_EMPTY}</td> <td>没有动画效果</td> </tr>
+     *            <tr>
+     *                <td>{@link AnimAction}</td>
+     *                <td>更多动画见 AnimAction</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link R.style#YourCustomAnim R.style.YourCustomAnim}</td>
+     *                <td>也阔以自定义动画</td>
+     *            </tr>
      *        </table>
      */
     public void setGravityAndAnimation(int gravity, @StyleRes int windowAnimations) {
@@ -340,7 +383,7 @@ public class BaseDialogFragment extends AppCompatDialogFragment {
     }
 
     /**
-     * 点击弹窗外部时, 是否将点击事件透传到弹窗下，默认是false
+     * 点击弹窗外部时, 是否将点击事件透传到Dialog的Window后面，默认是false
      */
     public void isClickThrough(boolean isClickThrough) {
         this.isClickThrough = isClickThrough;

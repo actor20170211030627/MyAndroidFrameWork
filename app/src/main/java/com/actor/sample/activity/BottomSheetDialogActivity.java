@@ -11,7 +11,6 @@ import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.dialog.BaseDialog;
 import com.actor.myandroidframework.fragment.BaseDialogFragment;
-import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityBottomSheetDialogBinding;
@@ -20,6 +19,7 @@ import com.actor.sample.dialog.MyBottomSheetDialogFragment;
 import com.actor.sample.dialog.TestDialog;
 import com.actor.sample.fragment.MyDialogFragment;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 
 /**
  * Description: 主页->BottomSheetDialog
@@ -49,7 +49,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
         alertDialog = new TestDialog(this);
 
         //DialogFragment
-        dialogFragment = new MyDialogFragment();
+        dialogFragment = new MyDialogFragment().setCancelAble(true);
 
 
         /**
@@ -125,7 +125,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
                 return R.layout.dialog_base_left;
             }
         }.setGravityAndAnimation(Gravity.START, AnimAction.ANIM_LEFT_SLIDE)
-                .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
+                .setWidth(ScreenUtils.getAppScreenWidth() / 3 * 2)
                 .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
                 .setStatusBarTransparent()
 //                .setStatusBarAndNavigationBarHide()
@@ -142,7 +142,7 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
                 return R.layout.dialog_base_left;
             }
         }.setGravityAndAnimation(Gravity.END, AnimAction.ANIM_RIGHT_SLIDE)
-                .setWidth(ConfigUtils.APP_SCREEN_WIDTH / 3 * 2)
+                .setWidth(ScreenUtils.getAppScreenWidth() / 3 * 2)
                 .setHeight(WindowManager.LayoutParams.MATCH_PARENT);
         rightDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> rightDialog.dismiss());
 
