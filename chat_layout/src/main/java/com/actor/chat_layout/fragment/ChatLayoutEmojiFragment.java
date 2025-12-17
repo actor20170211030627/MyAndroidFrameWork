@@ -14,7 +14,7 @@ import com.actor.chat_layout.adapter.ChatLayoutEmojiAdapter;
 import com.actor.chat_layout.bean.Emoji;
 import com.actor.chat_layout.emoji.FaceManager;
 import com.actor.myandroidframework.fragment.ActorBaseFragment;
-import com.actor.myandroidframework.widget.BaseItemDecoration;
+import com.actor.myandroidframework.recyclerview.BaseItemDecoration;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;

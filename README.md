@@ -53,9 +53,10 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 </pre>
 
 ## 2.一些控件和工具类等
-**2.1.RecyclerView的Adapter**
+**2.1.RecyclerView**
 <pre>
-<a href="library/src/main/java/com/actor/myandroidframework/adapter_recyclerview/WheelViewAdapter.java" target="_blank">WheelViewAdapter</a> (WheelView滚动效果的Adapter)
+<a href="library/src/main/java/com/actor/myandroidframework/recyclerview/BaseItemDecoration.java" target="_blank">BaseItemDecoration</a> (RecyclerView的Item间隔)
+<a href="library/src/main/java/com/actor/myandroidframework/recyclerview/WheelViewAdapter.java" target="_blank">WheelViewAdapter</a> (WheelView滚动效果的Adapter)
 </pre>
 
 **2.2.ViewPager的Adapter**
@@ -106,7 +107,6 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" target="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java" target="_blank">BaseWebView</a> (WebView简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/AnimationDrawableImageView.java" target="_blank">AnimationDrawableImageView</a> (播放/停止动画的ImageView)
-<a href="library/src/main/java/com/actor/myandroidframework/widget/BaseItemDecoration.java" target="_blank">BaseItemDecoration</a> (RecyclerView的Item间隔)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRadioGroup.java" target="_blank">BaseRadioGroup</a> (RadioGroup简单封装)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseRatingBar.java" target="_blank">BaseRatingBar</a> (RatingBar星星选择)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/BaseSlidingDrawer.java" target="_blank">BaseSlidingDrawer</a> (抽屉, 从底部或左侧拉出/收回)

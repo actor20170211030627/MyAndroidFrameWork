@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.DialogTestActivity">
+
+    <Button
+        android:id="@+id/btn_test_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="TestDialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_dialog_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="DialogFragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_test_dialog" />
+
+    <Button
+        android:id="@+id/btn_bottom_sheet_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="BottomSheetDialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_dialog_fragment" />
+
+    <Button
+        android:id="@+id/btn_bottom_sheet_dialog_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="BottomSheetDialogFragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_bottom_sheet_dialog" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="onViewClicked"
+        android:text="请输入内容↓"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_bottom_sheet_dialog_fragment" />
+
+    <Button
+        android:id="@+id/btn_float_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="BottomFloatEditorDialog(就是BaseDialog)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+    <Button
+        android:id="@+id/btn_top_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="TopDialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_float_edit" />
+
+    <!--左侧弹出-->
+    <Button
+        android:id="@+id/btn_left_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="LeftDialog"
+        app:layout_constraintEnd_toStartOf="@id/btn_bottom_dialog"
+        app:layout_constraintTop_toBottomOf="@id/btn_top_dialog" />
+
+    <!--右侧弹出-->
+    <Button
+        android:id="@+id/btn_right_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="RightDialog"
+        app:layout_constraintStart_toEndOf="@id/btn_bottom_dialog"
+        app:layout_constraintTop_toTopOf="@id/btn_left_dialog" />
+
+    <Button
+        android:id="@+id/btn_bottom_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="BottomDialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_left_dialog" />
+
+    <Button
+        android:id="@+id/btn_show_loading_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="showLoadingDialog"
+        app:layout_constraintEnd_toStartOf="@id/btn_dismiss_loading_dialog"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_bottom_dialog" />
+
+    <Button
+        android:id="@+id/btn_dismiss_loading_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onViewClicked"
+        android:text="showLoadingDialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_show_loading_dialog"
+        app:layout_constraintTop_toBottomOf="@id/btn_bottom_dialog" />
+
+    <Button
+        android:id="@+id/btn_bottom_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="onViewClicked"
+        android:text="BaseBottomActivity"
+        android:transitionName="btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_show_loading_dialog" />
+</androidx.constraintlayout.widget.ConstraintLayout>

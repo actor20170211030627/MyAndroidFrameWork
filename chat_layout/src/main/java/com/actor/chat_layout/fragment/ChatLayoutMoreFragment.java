@@ -15,7 +15,7 @@ import com.actor.chat_layout.R;
 import com.actor.chat_layout.adapter.ChatLayoutMoreAdapter;
 import com.actor.chat_layout.bean.ChatLayoutItemMore;
 import com.actor.myandroidframework.fragment.ActorBaseFragment;
-import com.actor.myandroidframework.widget.BaseItemDecoration;
+import com.actor.myandroidframework.recyclerview.BaseItemDecoration;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;

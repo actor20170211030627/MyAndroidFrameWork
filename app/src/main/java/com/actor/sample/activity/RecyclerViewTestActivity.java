@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.actor.myandroidframework.widget.BaseItemDecoration;
+import com.actor.myandroidframework.recyclerview.BaseItemDecoration;
 import com.actor.sample.adapter.RecyclerViewTestAdapter;
 import com.actor.sample.bean.Item;
 import com.actor.sample.databinding.ActivityRecyclerViewTestBinding;

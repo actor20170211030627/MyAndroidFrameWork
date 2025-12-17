@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.adapter_recyclerview;
+package com.actor.myandroidframework.recyclerview;
 
 import android.view.View;
 
@@ -12,7 +12,6 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.dingmouren.layoutmanagergroup.picker.PickerLayoutManager;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,10 +20,6 @@ import java.util.List;
  * description: 可以滚动选择的Adapter, 仿 WheelView <br />
  * {@link 注意:}
  * <ol>
- *     <li>添加依赖: <br />
- *         //https://github.com/DingMouRen/LayoutManagerGroup RecyclerView的Item自动居中效果 <br />
- *         implementation 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
- *     </li>
  *     <li>
  *         RecyclerView布局可参考 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_wheel_view_test.xml" target="_blank">activity_wheel_view_test.xml</a> <br />
  *         垂直滚动item布局可参考 <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/item_wheel_view_vertical.xml" target="_blank">item_wheel_view_vertical.xml</a> <br />
@@ -42,24 +37,24 @@ import java.util.List;
 public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
 
     //当前选中item的真实position
-    protected int selectedPos = -1;
+    protected int     wheelViewSelectedPos = -1;
     //是否无限滚动
-    protected boolean isInfinityLoop = false;
+    protected boolean isInfinityLoop       = false;
     //是否可打印日志
     protected boolean loggable = false;
     //item点击是否自动滚动到中间
-    protected boolean              itemClickScroll2Center = true;
-    protected PickerLayoutManager2 pickerLayoutManager2;
+    protected boolean                itemClickScroll2Center = true;
+    protected WheelViewLayoutManager wheelViewLayoutManager;
 
     /**
      * @param layoutResId item布局
      * @param isInfinityLoop 是否无限循环
      * @param itemClickScroll2Center item点击是否自动滚动到中间
      */
-    public WheelViewAdapter(@NonNull PickerLayoutManager2 pickerLayoutManager2, @LayoutRes int layoutResId,
+    public WheelViewAdapter(@NonNull WheelViewLayoutManager wheelViewLayoutManager, @LayoutRes int layoutResId,
                             boolean isInfinityLoop, boolean itemClickScroll2Center) {
         super(layoutResId);
-        this.pickerLayoutManager2 = pickerLayoutManager2;
+        this.wheelViewLayoutManager = wheelViewLayoutManager;
         this.isInfinityLoop = isInfinityLoop;
         this.itemClickScroll2Center = itemClickScroll2Center;
         //if 点击item滚动到最中间
@@ -67,7 +62,7 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
             setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    if (position == selectedPos) return;
+                    if (position == wheelViewSelectedPos) return;
                     if (position < 0 || position >= getDefItemCount()) return;
                     RecyclerView recyclerView = getRecyclerViewOrNull();
                     if (recyclerView == null) return;
@@ -80,21 +75,21 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        recyclerView.setLayoutManager(pickerLayoutManager2);
-        pickerLayoutManager2.setOnSelectedViewListener(new PickerLayoutManager.OnSelectedViewListener() {
+        recyclerView.setLayoutManager(wheelViewLayoutManager);
+        wheelViewLayoutManager.setOnSelectedViewListener(new WheelViewLayoutManager.OnItemSelectedListener() {
             @Override
-            public void onSelectedView(View view, int position) {
+            public void onItemSelected(@NonNull View view, int position) {
                 if (loggable) {
-                    LogUtils.errorFormat("view=%s, position=%d, selectedPos=%d", view, position, selectedPos);
+                    LogUtils.errorFormat("view=%s, position=%d, selectedPos=%d", view, position, wheelViewSelectedPos);
                 }
-                if (position != selectedPos) {
-                    int oldPos = selectedPos;
-                    selectedPos = position;
+                if (position != wheelViewSelectedPos) {
+                    int oldPos = wheelViewSelectedPos;
+                    wheelViewSelectedPos = position;
                     //快速滑动的时候更新item可能报错:
                     //java.lang.IllegalStateException: Cannot call this method while RecyclerView is computing a layout or scrolling androidx.recyclerview.widget.RecyclerView...
                     try {
-                        notifyItemChanged(oldPos, false);
-                        notifyItemChanged(selectedPos, true);
+                        if (oldPos >= 0) notifyItemChanged(oldPos, false);
+                        notifyItemChanged(wheelViewSelectedPos, true);
                     } catch (IllegalStateException e) {
                         if (loggable) e.printStackTrace();
                     }
@@ -145,18 +140,18 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
     public void setList(@Nullable Collection<? extends T> list) {
         super.setList(list);
         if (list == null || list.isEmpty()) {
-            selectedPos = -1;
+            wheelViewSelectedPos = -1;
             return;
         }
         //先计算位置, 然后再滚动位置
         if (isInfinityLoop) {
-            selectedPos = getDefItemCount() / 2;
+            wheelViewSelectedPos = getDefItemCount() / 2;
             int size = list.size();
-            while (selectedPos % size != 0) {
-                selectedPos --;
+            while (wheelViewSelectedPos % size != 0) {
+                wheelViewSelectedPos--;
             }
         } else {
-            selectedPos = 0;
+            wheelViewSelectedPos = 0;
         }
         setCurrentPosition(0, false);
     }
@@ -193,7 +188,16 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
                 if (isSmoothScroll) {
                     recyclerView.smoothScrollToPosition(selectedPos);
                 } else {
+                    //scrollToPosition()方法不会回调到wheelViewLayoutManager的onItemSelected()方法...
+//                    this.wheelViewSelectedPos = selectedPos;
                     recyclerView.scrollToPosition(selectedPos);
+                    //必须等滚动完成后, 调用才有效
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            wheelViewLayoutManager.onScrollStateChanged(RecyclerView.SCROLL_STATE_IDLE);
+                        }
+                    });
                 }
             }
         } else {
@@ -202,7 +206,15 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
                 if (isSmoothScroll) {
                     recyclerView.smoothScrollToPosition(currentPosition);
                 } else {
+                    //scrollToPosition()方法不会回调到wheelViewLayoutManager的onItemSelected()方法...
+//                    this.wheelViewSelectedPos = currentPosition;
                     recyclerView.scrollToPosition(currentPosition);
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            wheelViewLayoutManager.onScrollStateChanged(RecyclerView.SCROLL_STATE_IDLE);
+                        }
+                    });
                 }
             }
         }
@@ -213,7 +225,7 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
      */
     @Nullable
     public T getSelectedItem() {
-        return getItemOrNull(selectedPos);
+        return getItemOrNull(wheelViewSelectedPos);
     }
 
 
@@ -225,7 +237,7 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
     protected abstract void convert(@NonNull BaseViewHolder holder, T item);
 
     /**
-     * RecyclerView滑动的时候, item选中位置 {@link #selectedPos} 会改变. if 你的item有选中&未选中状态, 请重写此方法做局部更新!
+     * RecyclerView滑动的时候, item选中位置 {@link #wheelViewSelectedPos} 会改变. if 你的item有选中&未选中状态, 请重写此方法做局部更新!
      * @param holder
      * @param item
      * @param payloads payloads.get(0) = true/false, 这个item是否是选中状态

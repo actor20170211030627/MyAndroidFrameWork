@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.actor.myandroidframework.widget.BaseItemDecoration;
+import com.actor.myandroidframework.recyclerview.BaseItemDecoration;
 import com.actor.picture_selector.adapter_recyclerview.AddAudioAdapter;
 import com.actor.picture_selector.adapter_recyclerview.AddPicAdapter;
 import com.actor.picture_selector.adapter_recyclerview.AddVideoAdapter;

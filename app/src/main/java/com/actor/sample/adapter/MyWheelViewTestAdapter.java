@@ -3,8 +3,9 @@ package com.actor.sample.adapter;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
-import com.actor.myandroidframework.adapter_recyclerview.PickerLayoutManager2;
-import com.actor.myandroidframework.adapter_recyclerview.WheelViewAdapter;
+import com.actor.myandroidframework.recyclerview.WheelViewAdapter;
+import com.actor.myandroidframework.recyclerview.WheelViewLayoutManager;
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.sample.R;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -24,18 +25,19 @@ public class MyWheelViewTestAdapter extends WheelViewAdapter<String> {
      * @param isInfinityLoop         是否无限循环
      * @param itemClickScroll2Center item点击是否自动滚动到中间
      */
-    public MyWheelViewTestAdapter(@NonNull PickerLayoutManager2 pickerLayoutManager2,
+    public MyWheelViewTestAdapter(@NonNull WheelViewLayoutManager wheelViewLayoutManager,
                                   @LayoutRes int layoutResId, boolean isInfinityLoop,
                                   boolean itemClickScroll2Center) {
-        super(pickerLayoutManager2, layoutResId, isInfinityLoop, itemClickScroll2Center);
+        super(wheelViewLayoutManager, layoutResId, isInfinityLoop, itemClickScroll2Center);
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, String item) {
+        LogUtils.errorFormat("holder = %s, item = %s", holder, item);
         holder.setVisible(R.id.iv, true).setVisible(R.id.tv, true)
                 .setImageResource(R.id.iv, R.drawable.logo)
                 .setText(R.id.tv, item);
-        if (holder.getAbsoluteAdapterPosition() == selectedPos) {
+        if (holder.getAbsoluteAdapterPosition() == wheelViewSelectedPos) {
             holder.setTextColorRes(R.id.tv, R.color.red);
         } else {
             holder.setTextColorRes(R.id.tv, R.color.black);

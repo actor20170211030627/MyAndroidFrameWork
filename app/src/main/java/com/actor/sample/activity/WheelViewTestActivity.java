@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 
-import com.actor.myandroidframework.adapter_recyclerview.PickerLayoutManager2;
+import com.actor.myandroidframework.recyclerview.WheelViewLayoutManager;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.adapter.MyWheelViewTestAdapter;
 import com.actor.sample.databinding.ActivityWheelViewTestBinding;
-import com.dingmouren.layoutmanagergroup.picker.PickerLayoutManager;
+import com.actor.sample.dialog.WheelViewTestDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +38,21 @@ public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBin
             mOptionsItems.add("item " + i);
         }
 
-        PickerLayoutManager2 layoutManager0 = new PickerLayoutManager2(this,
-                viewBinding.recyclerView0, PickerLayoutManager.VERTICAL, false, 3, 0.4f, true);
-        PickerLayoutManager2 layoutManager1 = new PickerLayoutManager2(this,
-                viewBinding.recyclerView1, PickerLayoutManager.VERTICAL, false, 3, 0.8f, true);
-        PickerLayoutManager2 layoutManager2 = new PickerLayoutManager2(this,
-                viewBinding.recyclerView2, PickerLayoutManager.HORIZONTAL, false, 3, 0.5f, true);
-        PickerLayoutManager2 layoutManager3 = new PickerLayoutManager2(this,
-                viewBinding.recyclerView3, PickerLayoutManager.HORIZONTAL, false, 3, 0.9f, true);
         //竖着滑动
+        WheelViewLayoutManager layoutManager0 = new WheelViewLayoutManager(this,
+                WheelViewLayoutManager.VERTICAL, 3, 0.4f, true)
+                .setLoggable(false);
+        WheelViewLayoutManager layoutManager1 = new WheelViewLayoutManager(this,
+                WheelViewLayoutManager.VERTICAL, 3, 0.8f, false)
+                .setLoggable(false);
+        //水平滑动
+        WheelViewLayoutManager layoutManager2 = new WheelViewLayoutManager(this,
+                WheelViewLayoutManager.HORIZONTAL, 3, 0.5f, true)
+                .setLoggable(false);
+        WheelViewLayoutManager layoutManager3 = new WheelViewLayoutManager(this,
+                WheelViewLayoutManager.HORIZONTAL, 3, 0.9f, true)
+                .setLoggable(false);
+
         mAdapter0 = new MyWheelViewTestAdapter(layoutManager0, R.layout.item_wheel_view_vertical, false, true);
         mAdapter1 = new MyWheelViewTestAdapter(layoutManager1, R.layout.item_wheel_view_vertical, true, true);
         mAdapter2 = new MyWheelViewTestAdapter(layoutManager2, R.layout.item_wheel_view_horizontal, false, true);
@@ -98,6 +104,11 @@ public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBin
             String selectedItem2 = mAdapter2.getSelectedItem();
             String selectedItem3 = mAdapter3.getSelectedItem();
             LogUtils.errorFormat("selectedItem0=%s, selectedItem1=%s, selectedItem2=%s, selectedItem3=%s", selectedItem0, selectedItem1, selectedItem2, selectedItem3);
+        });
+
+        //在Dialog中示例
+        viewBinding.btnShowInDialog.setOnClickListener(v -> {
+            new WheelViewTestDialog(this).show();
         });
     }
 }

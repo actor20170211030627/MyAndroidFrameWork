@@ -78,7 +78,7 @@
         <activity android:name=".activity.ViewPagerAndFragmentActivity" />
         <activity android:name=".activity.CustomViewActivity" />
         <activity android:name=".activity.NetWorkAndImageActivity" />
-        <activity android:name=".activity.BottomSheetDialogActivity" />
+        <activity android:name=".activity.DialogTestActivity" />
         <activity android:name=".activity.SwitcherActivity" />
         <activity
             android:name=".activity.MyBaseBottomActivity"

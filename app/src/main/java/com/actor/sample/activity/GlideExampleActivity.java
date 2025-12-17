@@ -13,7 +13,7 @@ import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 import com.actor.myandroidframework.utils.glide.GlideUtils;
 import com.actor.myandroidframework.utils.glide.GifImageViewTarget;
 import com.actor.myandroidframework.utils.glide.GifRequestListener;
-import com.actor.myandroidframework.widget.BaseItemDecoration;
+import com.actor.myandroidframework.recyclerview.BaseItemDecoration;
 import com.actor.sample.R;
 import com.actor.sample.adapter.GlideExampleAdapter;
 import com.actor.sample.databinding.ActivityGlideExampleBinding;

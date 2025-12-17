@@ -13,7 +13,7 @@ import com.actor.myandroidframework.dialog.BaseDialog;
 import com.actor.myandroidframework.fragment.BaseDialogFragment;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
-import com.actor.sample.databinding.ActivityBottomSheetDialogBinding;
+import com.actor.sample.databinding.ActivityDialogTestBinding;
 import com.actor.sample.dialog.BottomFloatEditorDialog;
 import com.actor.sample.dialog.MyBottomSheetDialogFragment;
 import com.actor.sample.dialog.TestDialog;
@@ -26,7 +26,7 @@ import com.blankj.utilcode.util.ScreenUtils;
  * Author     : ldf
  * Date       : 2019-9-6 on 14:24
  */
-public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetDialogBinding> {
+public class DialogTestActivity extends BaseActivity<ActivityDialogTestBinding> {
 
     private TestDialog                  alertDialog;
     private BaseDialogFragment          dialogFragment;
@@ -37,6 +37,8 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
     private BaseDialog leftDialog;
     private BaseDialog rightDialog;
     private BaseDialog topDialog;
+    private final String[]   messages   = {"Test", "所发生的反馈", null};
+    private       int        messagePos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,8 +190,20 @@ public class BottomSheetDialogActivity extends BaseActivity<ActivityBottomSheetD
             case R.id.btn_top_dialog://
                 topDialog.show();
                 break;
-            case R.id.btn_bottom_dialog1://从底部弹出的Dialog
+            case R.id.btn_bottom_dialog://从底部弹出的Dialog
                 bottomDialog.show();
+                break;
+            case R.id.btn_show_loading_dialog:
+                messagePos ++;
+                if (messagePos >= messages.length) messagePos = 0;
+                getNetWorkLoadingDialog()
+                        .setMessage(messages[messagePos])
+                        .setCancelAble(false)
+                        .isClickThrough(true)
+                        .show();
+                break;
+            case R.id.btn_dismiss_loading_dialog:
+                getNetWorkLoadingDialog().dismiss();
                 break;
             case R.id.btn_bottom_activity://从底部弹出的Activity
                 //不要弄元素共享动画, 否则动画有问题

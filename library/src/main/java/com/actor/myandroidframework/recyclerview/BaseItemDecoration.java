@@ -1,4 +1,4 @@
-package com.actor.myandroidframework.widget;
+package com.actor.myandroidframework.recyclerview;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
