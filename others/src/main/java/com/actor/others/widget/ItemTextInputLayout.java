@@ -45,7 +45,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
  *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
- *         <td nowrap="nowrap">{@link R.styleable#ItemTextInputLayout_itilArrowRightVisiable itilArrowRightVisiable}</td>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemTextInputLayout_itilArrowRightVisibility itilArrowRightVisibility}</td>
  *         <td nowrap="nowrap">visible/invisible/gone</td>
  *         <td>1.右侧箭头显示类型, 默认: 能输入时隐藏, 不能输入时显示</td>
  *     </tr>
@@ -95,7 +95,7 @@ import com.actor.myandroidframework.utils.TextUtils2;
  *         <td>10.最大输入长度</td>
  *     </tr>
  *     <tr>
- *         <td>{@link R.styleable#ItemTextInputLayout_itilRedStarVisiable itilRedStarVisiable}</td>
+ *         <td>{@link R.styleable#ItemTextInputLayout_itilRedStarVisibility itilRedStarVisibility}</td>
  *         <td>visible/invisible/gone</td>
  *         <td>11.左侧红点显示类型, 默认visible</td>
  *     </tr>
@@ -174,7 +174,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             //根据xml中属性, 给view赋值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemTextInputLayout);
             //左侧红点是否显示
-            int redStarVisiable = typedArray.getInt(R.styleable.ItemTextInputLayout_itilRedStarVisiable, VISIBLE);
+            int redStarVisibility = typedArray.getInt(R.styleable.ItemTextInputLayout_itilRedStarVisibility, VISIBLE);
             //EditText是否能输入
             boolean inputEnable = typedArray.getBoolean(R.styleable.ItemTextInputLayout_itilInputEnable, true);
             //左侧TextView的Text
@@ -196,7 +196,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             //输入限定(例如数字: digits=0123456789)
             String itilDigits = typedArray.getString(R.styleable.ItemTextInputLayout_itilDigits);
             //右侧箭头显示状态
-            int arrowRightVisiable = typedArray.getInt(R.styleable.ItemTextInputLayout_itilArrowRightVisiable, NOTHING);
+            int arrowRightVisibility = typedArray.getInt(R.styleable.ItemTextInputLayout_itilArrowRightVisibility, NOTHING);
             //EditText的PaddingRight
             int paddingRightText = typedArray.getDimensionPixelSize(R.styleable.ItemTextInputLayout_itilPaddingRightText, Integer.MIN_VALUE);
             //右侧箭头位置图片
@@ -209,7 +209,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
 
             initView(context, resourceId, containerMinHeight);
 
-            tvRedStar.setVisibility(redStarVisiable * INVISIBLE);
+            tvRedStar.setVisibility(redStarVisibility * INVISIBLE);
             if (itilInputType != NOTHING) setInputType(itilInputType);
             if (!inputEnable) setInputEnable(false);
             getTextViewItem().setText(itilItemName);
@@ -221,11 +221,11 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             setMarginTop(marginTop);
 
             if (!TextUtils.isEmpty(itilDigits)) setDigits(itilDigits, false);
-            if (arrowRightVisiable == NOTHING) {
+            if (arrowRightVisibility == NOTHING) {
                 if (inputEnable) {//如果能输入
                     ivArrowRight.setVisibility(GONE);//隐藏
                 } else ivArrowRight.setVisibility(VISIBLE);//显示
-            } else ivArrowRight.setVisibility(arrowRightVisiable * INVISIBLE);//根据属性来设置显示状态
+            } else ivArrowRight.setVisibility(arrowRightVisibility * INVISIBLE);//根据属性来设置显示状态
 
             //如果 hint = null
             if (itilHint == null) {

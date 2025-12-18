@@ -289,7 +289,7 @@
             app:irglCustomLayout="@layout/item_radio_group_layout"
             app:irglGravity="right|center_vertical"
             app:irglItemName="性别: "
-            app:irglRedStarVisiable="visible"
+            app:irglRedStarVisibility="visible"
             app:layout_constraintTop_toBottomOf="@id/tv5" />
 
         <Button
@@ -309,7 +309,7 @@
             app:islEntries="@array/languages"
             app:islItemName="请选择: "
             app:islMarginTop="20dp"
-            app:islRedStarVisiable="visible"
+            app:islRedStarVisibility="visible"
             app:layout_constraintTop_toBottomOf="@id/btn_check" />
 
         <!-- app:itilCustomLayout="@layout/item_text_input_layout" -->
@@ -326,7 +326,7 @@
             app:itilItemName="正则输入: "
             app:itilMarginTop="20dp"
             app:itilMaxLength="15"
-            app:itilRedStarVisiable="visible"
+            app:itilRedStarVisibility="visible"
             app:layout_constraintTop_toBottomOf="@id/item_spinner" />
 
         <Button
@@ -343,7 +343,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            app:itilArrowRightVisiable="gone"
+            app:itilArrowRightVisibility="gone"
             app:itilHint="测试不能输入"
             app:itilImeOptions="actionDone"
             app:itilInputType="text"

@@ -4,21 +4,21 @@
     <declare-styleable name="ChatLayout">
 
         <!--左边语音按钮是否显示-->
-        <attr name="clIvVoiceVisiable" format="enum" >
+        <attr name="clIvVoiceVisibility" format="enum" >
             <enum name="visible" value="0" />
             <enum name="invisible" value="1" />
             <enum name="gone" value="2" />
         </attr>
 
         <!--右边表情按钮是否显示-->
-        <attr name="clIvEmojiVisiable" format="enum" >
+        <attr name="clIvEmojiVisibility" format="enum" >
             <enum name="visible" value="0" />
             <enum name="invisible" value="1" />
             <enum name="gone" value="2" />
         </attr>
 
         <!--右边⊕按钮是否显示-->
-        <attr name="clIvPlusVisiable" format="enum" >
+        <attr name="clIvPlusVisibility" format="enum" >
             <enum name="visible" value="0" />
             <enum name="invisible" value="1" />
             <enum name="gone" value="2" />

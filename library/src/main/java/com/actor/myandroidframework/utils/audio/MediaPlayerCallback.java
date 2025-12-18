@@ -75,13 +75,36 @@ public abstract class MediaPlayerCallback implements
     }
 
     /**
-     * 播放的过程中, 出现的错误
-     * @return 如果自己处理错误, 则返回true. 否则返回false(会调用 {@link #onCompletion(MediaPlayer))。
+     * 播放的过程中, 出现的错误. if播放不存在的资源(404), 约30s才会回调...<br />
+     * Called to indicate an error.
+     *
+     * @param mp      the MediaPlayer the error pertains to
+     * @param what    the type of error that has occurred:
+     * <ul>
+     * <li>{@link MediaPlayer#MEDIA_ERROR_UNKNOWN}, 例: 404
+     * <li>{@link MediaPlayer#MEDIA_ERROR_SERVER_DIED}
+     * </ul>
+     * @param extra an extra code, specific to the error. Typically
+     * implementation dependent.
+     * <ul>
+     * <li>{@link MediaPlayer#MEDIA_ERROR_IO}
+     * <li>{@link MediaPlayer#MEDIA_ERROR_MALFORMED}
+     * <li>{@link MediaPlayer#MEDIA_ERROR_UNSUPPORTED}
+     * <li>{@link MediaPlayer#MEDIA_ERROR_TIMED_OUT}
+     * <li><code>MEDIA_ERROR_SYSTEM (-2147483648)</code> - low-level system error.
+     * </ul>
+     * @return True if the method handled the error, false if it didn't.
+     * Returning false, or not having an OnErrorListener at all, will
+     * cause the OnCompletionListener to be called.
+     * 如果自己处理错误, 则返回true. 否则返回false(会调用 {@link #onCompletion(MediaPlayer))。
      */
     @CallSuper
     public boolean onError(MediaPlayer mp, int what, int extra) {
         LogUtils.errorFormat("播放的过程中, 出现错误, what=%d, extra=%d", what, extra);
-        if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
+        /**
+         * 在这儿调用{@link MediaPlayer#release()}后, 会置空所有listener, 导致{@link #onCompletion(MediaPlayer)}不会被回调
+         */
+//        if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         return false;
     }
 

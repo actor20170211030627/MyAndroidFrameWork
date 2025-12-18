@@ -40,7 +40,7 @@ import java.util.List;
  *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
- *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islRedStarVisiable islRedStarVisiable}</td>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islRedStarVisibility islRedStarVisibility}</td>
  *         <td nowrap="nowrap">visible/invisible/gone</td>
  *         <td>1.左侧红点显示类型, 默认visible</td>
  *     </tr>
@@ -124,7 +124,7 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
             //读取自定义属性值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemSpinnerLayout);
             //左侧红点是否显示
-            int redStarVisiable = typedArray.getInt(R.styleable.ItemSpinnerLayout_islRedStarVisiable, 0);
+            int redStarVisibility = typedArray.getInt(R.styleable.ItemSpinnerLayout_islRedStarVisibility, 0);
             //左侧TextView的值
             String itemName = typedArray.getString(R.styleable.ItemSpinnerLayout_islItemName);
             //marginTop, 默认1dp
@@ -145,7 +145,7 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
             typedArray.recycle();
 
             inflate(context, resourceId, containerMinHeight);
-            getTextViewRedStar().setVisibility(redStarVisiable * INVISIBLE);//设置红点是否显示
+            getTextViewRedStar().setVisibility(redStarVisibility * INVISIBLE);//设置红点是否显示
             if (itemName != null) getTextViewItem().setText(itemName);
             setMarginTop(marginTop);
             if (entries != null) {

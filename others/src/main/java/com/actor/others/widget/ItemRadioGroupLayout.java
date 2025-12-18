@@ -38,7 +38,7 @@ import java.util.List;
  *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
- *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglRedStarVisiable irglRedStarVisiable}</td>
+ *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglRedStarVisibility irglRedStarVisibility}</td>
  *         <td nowrap="nowrap">visible/invisible/gone</td>
  *         <td>1.左侧红点显示类型, 默认visible</td>
  *     </tr>
@@ -131,7 +131,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             //读取自定义属性值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemRadioGroupLayout);
             //红点是否显示
-            int visiable = typedArray.getInt(R.styleable.ItemRadioGroupLayout_irglRedStarVisiable, 0);
+            int visible = typedArray.getInt(R.styleable.ItemRadioGroupLayout_irglRedStarVisibility, 0);
             //左侧TextView的Text
             String irglItemName = typedArray.getString(R.styleable.ItemRadioGroupLayout_irglItemName);
             //marginTop, 默认1dp
@@ -151,7 +151,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             typedArray.recycle();
 
             inflate(context, resourceId, containerMinHeight);
-            getTextViewRedStar().setVisibility(visiable * INVISIBLE);//设置红点是否显示
+            getTextViewRedStar().setVisibility(visible * INVISIBLE);//设置红点是否显示
             if (irglItemName != null) getTextViewItem().setText(irglItemName);
             setMarginTop(marginTop);
             if (entries != null && entries.length > 0) {

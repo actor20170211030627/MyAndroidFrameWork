@@ -19,7 +19,7 @@
             app:itilImeOptions="actionNext"
             app:itilInputType="text"
             app:itilItemName="Name姓名: "
-            app:itilRedStarVisiable="invisible" />
+            app:itilRedStarVisibility="invisible" />
 
         <com.actor.others.widget.ItemRadioGroupLayout
             android:id="@+id/irgl_sex"
@@ -51,7 +51,7 @@
                 app:itilImeOptions="actionDone"
                 app:itilInputType="textVisiblePassword"
                 app:itilItemName="key: "
-                app:itilRedStarVisiable="invisible" />
+                app:itilRedStarVisibility="invisible" />
 
             <com.actor.others.widget.ItemTextInputLayout
                 android:id="@+id/itil_value"
@@ -60,7 +60,7 @@
                 app:itilImeOptions="actionDone"
                 app:itilInputType="text"
                 app:itilItemName="value: "
-                app:itilRedStarVisiable="gone" />
+                app:itilRedStarVisibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

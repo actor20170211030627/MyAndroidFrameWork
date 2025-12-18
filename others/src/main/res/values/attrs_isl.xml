@@ -3,7 +3,7 @@
     <declare-styleable name="ItemSpinnerLayout">
 
         <!--左边的红点是否显示-->
-        <attr name="islRedStarVisiable" format="enum">
+        <attr name="islRedStarVisibility" format="enum">
             <enum name="visible" value="0"/>
             <enum name="invisible" value="1"/>
             <enum name="gone" value="2"/>

@@ -37,16 +37,21 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
     private String audioPath;
 
-    //刘明湘-漂洋过海来看你(抖音版ProgHouse)（阿祥 remix）
-    private final String MUSIC = "https://player.yinyueke.net/api/index.php?server=netease&type=url&id=1351664561";
+    //https://gitee.com/UYADDAYU/majsoul_custom_charactor
+//    private final String MUSIC = "https://gitee.com/UYADDAYU/majsoul_custom_charactor/raw/master/bgm/e1.mp3";
     //下方播放有点问题, 无语
 //    private final String MUSIC = "https://picture.halzwl.cn/picture/error/b24ecce9d181423dbc24eaf234181b61lmx-pyghlkn.mp3";
-//    private final String MUSIC = "http://qxbzlgx.mtwlkj.net/lmx-pyghlkn.mp3";
+    //刘明湘-漂洋过海来看你(抖音版ProgHouse)（阿祥 remix）
+    private final String MUSIC = "http://qxbzlgx.mtwlkj.net/lmx-pyghlkn.mp3";
 
     //本地声音
     private String pathWrong = PathUtils.getInternalAppFilesPath() + "/wrong.mp3";
-    //网络
+    //student 网络
     private String netStudent = "https://qc.zhizunnet.cn/words/enAudio/936.mp3";
+
+    //404 Not Found
+//    private String netPhoneticNotFound = "http://bdcyuyin.mtwlkj.net:8115/skill-yuyin/yinbiaofayin/us/a%CA%8A.mp3";
+    private String netPhoneticNotFound = "http://bdcyuyin.mtwlkj.net:8115/skill-yuyin/yinbiaofayin/us/aʊ.mp3";
 
     private int audioSessionIdMusic = -1;
 
@@ -136,20 +141,18 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, false, null);
                 break;
             case R.id.btn_start_play_raw2:  //不复用MP循环播放
-                MediaPlayerUtils.getInstance().playRaw(R.raw.right, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().playRaw(R.raw.right, true, true, true, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
-                        view.callOnClick();
                     }
                 });
                 break;
             case R.id.btn_start_play_raw3:  //复用MP循环播放
-                MediaPlayerUtils.getInstance().playRaw(R.raw.right, false, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().playRaw(R.raw.right, true, true, false, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
-                        view.callOnClick();
                     }
                 });
                 break;
@@ -162,20 +165,18 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 MediaPlayerUtils.getInstance().play(pathWrong, null);
                 break;
             case R.id.btn_start_play_local2:  //不复用MP循环播放'本地'
-                MediaPlayerUtils.getInstance().play(pathWrong, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().play(pathWrong, true, true, true, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
-                        view.callOnClick();
                     }
                 });
                 break;
             case R.id.btn_start_play_local3:  //复用MP循环播放'本地'
-                MediaPlayerUtils.getInstance().play(pathWrong, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().play(pathWrong, true, true, false, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
-                        view.callOnClick();
                     }
                 });
                 break;
@@ -188,25 +189,39 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 MediaPlayerUtils.getInstance().play(netStudent, null);
                 break;
             case R.id.btn_start_play_net2:  //不复用MP循环播放'网络'
-                MediaPlayerUtils.getInstance().play(netStudent, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().play(netStudent, true, true, true, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
-                        view.callOnClick();
                     }
                 });
                 break;
             case R.id.btn_start_play_net3:  //复用MP循环播放'网络'
-                MediaPlayerUtils.getInstance().play(netStudent, new MediaPlayerCallback() {
+                MediaPlayerUtils.getInstance().play(netStudent, true, true, false, new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
-                        view.callOnClick();
+                    }
+                });
+                break;
+            case R.id.btn_start_play_net_404_0:  //不复用MP播放'网络404'
+                MediaPlayerUtils.getInstance().play(netPhoneticNotFound, false, true, true, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                    }
+                });
+                break;
+            case R.id.btn_start_play_net_404_1:  //复用MP播放'网络404'
+                MediaPlayerUtils.getInstance().play(netPhoneticNotFound, false, true, false, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
                     }
                 });
                 break;
 
-            case R.id.btn_release_all:      //停止播放全部MP
+            case R.id.btn_release_all:      //stopAll()停止播放全部MP
                 MediaPlayerUtils.getInstance().stopAll();
                 break;
 

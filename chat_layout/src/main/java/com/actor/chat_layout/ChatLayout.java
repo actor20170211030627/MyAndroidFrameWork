@@ -89,17 +89,17 @@ import com.hjq.permissions.XXPermissions;
  *         <th align="center">说明docs</th>
  *     </tr>
  *     <tr>
- *         <td>{@link R.styleable#ChatLayout_clIvVoiceVisiable clIvVoiceVisiable}</td>
+ *         <td>{@link R.styleable#ChatLayout_clIvVoiceVisibility clIvVoiceVisibility}</td>
  *         <td>visible/invisible/gone</td>
  *         <td>1.左边语音按钮是否显示</td>
  *     </tr>
  *     <tr>
- *         <td>{@link R.styleable#ChatLayout_clIvEmojiVisiable clIvEmojiVisiable}</td>
+ *         <td>{@link R.styleable#ChatLayout_clIvEmojiVisibility clIvEmojiVisibility}</td>
  *         <td>visible/invisible/gone</td>
  *         <td>2.右边表情按钮是否显示</td>
  *     </tr>
  *     <tr>
- *         <td>{@link R.styleable#ChatLayout_clIvPlusVisiable clIvPlusVisiable}</td>
+ *         <td>{@link R.styleable#ChatLayout_clIvPlusVisibility clIvPlusVisibility}</td>
  *         <td>visible/invisible/gone</td>
  *         <td>3.右边⊕按钮是否显示</td>
  *     </tr>
@@ -154,9 +154,9 @@ public class ChatLayout extends LinearLayout {
 
     //虚拟键盘(输入法)
     protected InputMethodManager imm;
-    protected int ivVoiceVisiable;
-    protected int ivEmojiVisiable;
-    protected           int        ivPlusVisiable;
+    protected int ivVoiceVisibility;
+    protected int ivEmojiVisibility;
+    protected           int        ivPlusVisibility;
     protected           OnListener onListener;
     //键盘高度, 经我的手机测试: 手写:478 语音:477 26键:831
     public static final String     KEYBOARD_HEIGHT = "KEYBOARD_HEIGHT_FOR_CHAT_LAYOUT_ACTOR_APPLICATION";
@@ -224,20 +224,20 @@ public class ChatLayout extends LinearLayout {
         tabLayout = inflate.findViewById(R.id.tab_layout_for_chat_layout);
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChatLayout);
-            ivVoiceVisiable = typedArray.getInt(R.styleable.ChatLayout_clIvVoiceVisiable, VISIBLE) * INVISIBLE;
-            ivEmojiVisiable = typedArray.getInt(R.styleable.ChatLayout_clIvEmojiVisiable, VISIBLE) * INVISIBLE;
-            ivPlusVisiable = typedArray.getInt(R.styleable.ChatLayout_clIvPlusVisiable, VISIBLE) * INVISIBLE;
+            ivVoiceVisibility = typedArray.getInt(R.styleable.ChatLayout_clIvVoiceVisibility, VISIBLE) * INVISIBLE;
+            ivEmojiVisibility = typedArray.getInt(R.styleable.ChatLayout_clIvEmojiVisibility, VISIBLE) * INVISIBLE;
+            ivPlusVisibility = typedArray.getInt(R.styleable.ChatLayout_clIvPlusVisibility, VISIBLE) * INVISIBLE;
             Drawable background = typedArray.getDrawable(R.styleable.ChatLayout_clBtnSendBackground);
             tooShortRecording = typedArray.getInt(R.styleable.ChatLayout_clTooShortRecordingTimeMs, DELAY_TIME * 2);
             typedArray.recycle();
             //设置语音按钮是否显示
-            ivVoice.setVisibility(ivVoiceVisiable);
+            ivVoice.setVisibility(ivVoiceVisibility);
             //表情按钮是否显示
-            ivEmoji.setVisibility(ivEmojiVisiable);
+            ivEmoji.setVisibility(ivEmojiVisibility);
             //设置右边⊕号是否显示
-            ivSendPlus.setVisibility(ivPlusVisiable);
+            ivSendPlus.setVisibility(ivPlusVisibility);
             //发送按钮
-            btnSend.setVisibility(ivPlusVisiable == VISIBLE ? GONE : VISIBLE);
+            btnSend.setVisibility(ivPlusVisibility == VISIBLE ? GONE : VISIBLE);
             //背景
             if (background != null) btnSend.setBackground(background);
         }
@@ -282,7 +282,7 @@ public class ChatLayout extends LinearLayout {
                             if (Math.abs(endY - startY) < 15) {//点击
                                 if (onListener != null) onListener.onRecyclerViewTouchListener(v, event);
                                 etMsg.clearFocus();
-                                setKeyBoardVisiable(false);
+                                setKeyBoardVisible(false);
                                 viewPager.setVisibility(GONE);
                             }
                             break;
@@ -308,7 +308,7 @@ public class ChatLayout extends LinearLayout {
     public void setBottomFragment(FragmentManager fragmentManager, Fragment... moreFragments) {
         this.moreFragments = moreFragments;
         //emoji是否显示
-        int emojiFragmentSize = ivEmojiVisiable == VISIBLE ? 1 : 0;
+        int emojiFragmentSize = ivEmojiVisibility == VISIBLE ? 1 : 0;
         viewPagerAdapter = new ViewPagerAdapter(fragmentManager, moreFragments.length + emojiFragmentSize);
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -338,7 +338,7 @@ public class ChatLayout extends LinearLayout {
             switch (position) {
                 case 0:
                     //emoji是否显示
-                    boolean emojiFragmentVisible = ivEmojiVisiable == VISIBLE;
+                    boolean emojiFragmentVisible = ivEmojiVisibility == VISIBLE;
                     //如果不显示
                     if (!emojiFragmentVisible) {
                         return getMoreFragmentItem(position);
@@ -371,7 +371,7 @@ public class ChatLayout extends LinearLayout {
 
     protected Fragment getMoreFragmentItem(int position) {
         //emoji是否显示
-        int emojiFragmentSize = ivEmojiVisiable == VISIBLE ? 1 : 0;
+        int emojiFragmentSize = ivEmojiVisibility == VISIBLE ? 1 : 0;
         //应该在more中取第几个
         int pos = position - emojiFragmentSize;
         if (moreFragments != null && moreFragments.length > pos) return moreFragments[pos];
@@ -408,7 +408,7 @@ public class ChatLayout extends LinearLayout {
                 v.setVisibility(GONE);
                 ivKeyboard.setVisibility(VISIBLE);
                 tvPressSpeak.setVisibility(VISIBLE);
-                if (ivPlusVisiable == VISIBLE) {//如果ivPlus能显示
+                if (ivPlusVisibility == VISIBLE) {//如果ivPlus能显示
                     btnSend.setVisibility(GONE);
                     ivSendPlus.setVisibility(VISIBLE);
                 } else {//否则全隐藏,不然右侧会有个空白
@@ -417,7 +417,7 @@ public class ChatLayout extends LinearLayout {
                 etMsg.clearFocus();
                 etMsg.setVisibility(GONE);
                 viewPager.setVisibility(GONE);
-                setKeyBoardVisiable(false);
+                setKeyBoardVisible(false);
             }
         });
 
@@ -432,11 +432,11 @@ public class ChatLayout extends LinearLayout {
                 etMsg.setVisibility(VISIBLE);
                 flParent.setVisibility(VISIBLE);
                 //如果ivPlus不显示 或者 EditText里有字,都要显示发送按钮
-                if (ivPlusVisiable != VISIBLE || etMsg.getText().toString().length() > 0) btnSend.setVisibility(VISIBLE);
+                if (ivPlusVisibility != VISIBLE || etMsg.getText().toString().length() > 0) btnSend.setVisibility(VISIBLE);
                 etMsg.requestFocus();
                 // 输入法弹出之后，重新调整
                 setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                setKeyBoardVisiable(true);
+                setKeyBoardVisible(true);
             }
         });
 
@@ -449,7 +449,7 @@ public class ChatLayout extends LinearLayout {
                 if (onListener != null) {
                     onListener.onTvPressSpeakTouch(tvPressSpeak, event);
                     //如果语音按钮显示 && 按下录音View不为空
-                    if (ivVoiceVisiable == VISIBLE && voiceRecorderView != null) {
+                    if (ivVoiceVisibility == VISIBLE && voiceRecorderView != null) {
                         if (!hasPermission(Manifest.permission.RECORD_AUDIO)) {
                             onListener.onNoPermission(Manifest.permission.RECORD_AUDIO);
                         } else {
@@ -575,7 +575,7 @@ public class ChatLayout extends LinearLayout {
         });
 
         //文字改变监听,用于切换"发送按钮"和"右侧⊕",所以ivPlus能显示时才设置监听
-        if (ivPlusVisiable == VISIBLE) {
+        if (ivPlusVisibility == VISIBLE) {
             etMsg.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -660,7 +660,7 @@ public class ChatLayout extends LinearLayout {
 
     //当 表情 or "⊕"按钮点击的时候
     protected void onEmoji$PlusClicked(boolean isClickEmoji) {
-        if (ivVoiceVisiable == VISIBLE) ivVoice.setVisibility(VISIBLE);
+        if (ivVoiceVisibility == VISIBLE) ivVoice.setVisibility(VISIBLE);
         ivKeyboard.setVisibility(GONE);
         etMsg.setVisibility(VISIBLE);
         tvPressSpeak.setVisibility(GONE);
@@ -675,21 +675,21 @@ public class ChatLayout extends LinearLayout {
             }
         } else {
             //点击"⊕"号. 如果有emoji, 并且现在正在显示
-            if (ivEmojiVisiable == VISIBLE && selectedTabPosition == 0) {
+            if (ivEmojiVisibility == VISIBLE && selectedTabPosition == 0) {
                 TabLayout.Tab tabAt = tabLayout.getTabAt(1);
                 if (tabAt != null) tabAt.select();
             }
         }
 
-        //如果ivPlust不显示 or EditText里有内容
-        if (ivPlusVisiable != VISIBLE || etMsg.getText().toString().length() > 0) {
+        //如果ivPlus不显示 or EditText里有内容
+        if (ivPlusVisibility != VISIBLE || etMsg.getText().toString().length() > 0) {
             btnSend.setVisibility(VISIBLE);
         }
         if (KeyboardUtils.isSoftInputVisible((Activity) getContext())) {//输入法打开状态下
             // 设置为不会调整大小，以便输入法弹起时布局不会改变。若不设置此属性，输入法弹起时布局会闪一下
             setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
             viewPager.setVisibility(VISIBLE);
-            setKeyBoardVisiable(false);
+            setKeyBoardVisible(false);
             recyclerViewScroll2Last(0);
         } else {//输入法关闭状态下
             if (viewPager.getVisibility() != VISIBLE) {//bottomView是隐藏状态
@@ -701,7 +701,7 @@ public class ChatLayout extends LinearLayout {
                         // 设置为不会调整大小，以便输入弹起时布局不会改变。若不设置此属性，输入法弹起时布局会闪一下
                         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
                         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
-                        setKeyBoardVisiable(true);
+                        setKeyBoardVisible(true);
                         viewPager.postDelayed(new Runnable() {
                             @Override
                             public void run() { //输入法弹出之后，重新调整
@@ -719,7 +719,7 @@ public class ChatLayout extends LinearLayout {
                         // 设置为不会调整大小，以便输入弹起时布局不会改变。若不设置此属性，输入法弹起时布局会闪一下
                         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
                         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
-                        setKeyBoardVisiable(true);
+                        setKeyBoardVisible(true);
                         viewPager.postDelayed(new Runnable() {
                             @Override
                             public void run() { //输入法弹出之后，重新调整
@@ -815,8 +815,8 @@ public class ChatLayout extends LinearLayout {
     }
 
     //设置键盘是否显示
-    protected boolean setKeyBoardVisiable(boolean isVisiable) {
-        if (isVisiable) {
+    protected boolean setKeyBoardVisible(boolean isVisible) {
+        if (isVisible) {
             recyclerViewScroll2Last(300);
             return imm.showSoftInput(etMsg, 0);
         } else {

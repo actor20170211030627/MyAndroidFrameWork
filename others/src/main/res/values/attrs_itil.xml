@@ -4,7 +4,7 @@
     <declare-styleable name="ItemTextInputLayout">
 
         <!--左侧红点是否显示-->
-        <attr name="itilRedStarVisiable" format="enum">
+        <attr name="itilRedStarVisibility" format="enum">
             <!-- Visible on screen; the default value. -->
             <enum name="visible" value="0" />
             <!-- Not displayed, but taken into account during layout (space is left for it). -->
@@ -96,7 +96,7 @@
                 1.能输入的情况, 隐藏.
                 2.不能输入的情况, 显示.
                 可设置以下属性强制作用显示状态-->
-        <attr name="itilArrowRightVisiable" format="enum">
+        <attr name="itilArrowRightVisibility" format="enum">
             <enum name="visible" value="0" />
             <enum name="invisible" value="1" />
             <enum name="gone" value="2" />

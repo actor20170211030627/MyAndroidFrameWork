@@ -25,7 +25,9 @@ import java.util.Map;
 
 /**
  * description: 播放音频, 复用MediaPlayer播放完后默认不重置, 新的MediaPlayer播放完后要重置! <br />
- * if创建很多个MediaPlayer, 会报错: onError: what=1, extra=-19
+ * if创建很多个MediaPlayer, 会报错: onError: what=1, extra=-19 <br />
+ * <br />
+ * 更好兼容性，推荐使用 Google 的 <a href="https://github.com/google/ExoPlayer" target="_blank">ExoPlayer</a>
  *
  * @author     : ldf
  * @date       : 2019/5/30 on 17:43
