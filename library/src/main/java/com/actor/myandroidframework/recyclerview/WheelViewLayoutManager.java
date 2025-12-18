@@ -138,28 +138,59 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
     @Override
     public void onMeasure(@NonNull RecyclerView.Recycler recycler, @NonNull RecyclerView.State state, int widthSpec, int heightSpec) {
         if (loggable) {
-            LogUtils.errorFormat("getItemCount() = %d, state.getItemCount() = %d, widthSpec = %d, heightSpec = %d, state = %s",
-                    getItemCount(), state.getItemCount(), widthSpec, heightSpec, state);
-        }
+            LogUtils.errorFormat("recycler: recycler = %s \t recycler.getScrapList().size() = %d", recycler, recycler.getScrapList().size());
+            LogUtils.errorFormat("state = %s", state);
+            LogUtils.errorFormat("widthSpec = %d, heightSpec = %d", widthSpec, heightSpec);
 
-        int childCount = getChildCount();//        0                                                            0
-        if (loggable) LogUtils.errorFormat("childCount = %d, getScrapList().size() = %d", childCount, recycler.getScrapList().size());
+            int widthMode = View.MeasureSpec.getMode(widthSpec);
+            int heightMode = View.MeasureSpec.getMode(heightSpec);
+            int widthSize = View.MeasureSpec.getSize(widthSpec);
+            int heightSize = View.MeasureSpec.getSize(heightSpec);
+            int unspecified = View.MeasureSpec.UNSPECIFIED; // 0
+            int exactly = View.MeasureSpec.EXACTLY; // 1073741824
+            int atMost = View.MeasureSpec.AT_MOST; // -2147483648
+            LogUtils.errorFormat("widthMode = %d, widthSize = %d \t heightMode = %d, heightSize = %d",
+                    widthMode, widthSize, heightMode, heightSize);
+
+            int widthMode1 = getWidthMode();
+            int width = getWidth();
+            int heightMode1 = getHeightMode();
+            int height = getHeight();
+            LogUtils.errorFormat("LayoutManager: widthMode = %d, width = %d \t heightMode = %d, height = %d",
+                    widthMode1, width, heightMode1, height);
+
+            int width1 = mRecyclerView.getWidth();
+            int measuredWidth = mRecyclerView.getMeasuredWidth();
+            int height1 = mRecyclerView.getHeight();
+            int measuredHeight = mRecyclerView.getMeasuredHeight();
+            LogUtils.errorFormat("RecyclerView: width1 = %d, measuredWidth = %d \t height1 = %d, measuredHeight = %d",
+                    width1, measuredWidth, height1, measuredHeight);
+
+            LogUtils.errorFormat("getChildCount() = %d, getItemCount() = %d, state.getItemCount() = %d",
+                    getChildCount(), getItemCount(), state.getItemCount());
+        }
 
         //if有数据
         if (getItemCount() > 0 && mShowItemCount > 0) {
             View view = recycler.getViewForPosition(0);
             measureChildWithMargins(view, widthSpec, heightSpec);
+//            measureChild();
 
             int mItemViewWidth = view.getMeasuredWidth();
             int mItemViewHeight = view.getMeasuredHeight();
 //            mItemViewWidth = view.getMeasuredWidth() + getLeftDecorationWidth(view) + getRightDecorationWidth(view);
 //            mItemViewHeight = view.getMeasuredHeight() + getTopDecorationHeight(view) + getBottomDecorationHeight(view);
 
-            ViewParent viewParent = view.getParent();//null
-            View focusedChild = getFocusedChild();//   null
             if (loggable) {
-                LogUtils.errorFormat("mItemViewWidth = %d, mItemViewHeight = %d, childCount = %d, viewParent = %s, focusedChild = %s",
-                        mItemViewWidth, mItemViewHeight, childCount, viewParent, focusedChild);
+                int width1 = view.getWidth();
+                int measuredWidthAndState = view.getMeasuredWidthAndState();
+                int height1 = view.getHeight();
+                int measuredHeightAndState = view.getMeasuredHeightAndState();
+                LogUtils.errorFormat("recycler.getViewForPosition(0): width = %d, mItemViewWidth = %d, measuredWidthAndState = %d, height = %d, mItemViewHeight = %d, measuredHeightAndState = %d",
+                        width1, mItemViewWidth, measuredWidthAndState, height1, mItemViewHeight, measuredHeightAndState);
+                ViewParent viewParent = view.getParent();//null
+                View focusedChild = getFocusedChild();//   null
+                LogUtils.errorFormat("viewParent = %s, focusedChild = %s", viewParent, focusedChild);
             }
 
 
@@ -171,18 +202,55 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
                 //if只显示3个item: 让第0个原生不显示, 第1个item居中, 第2个item绘制在padding内
                 mRecyclerView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
 
-                //设置RecyclerView的尺寸
+                /**
+                 * 设置RecyclerView的尺寸
+                 * android:layout_height="wrap_content": 高度设置wrap_content
+                 *   ⚫在Activity中的RecyclerView中, RecyclerView会显示空白, 因为这时的mItemViewHeight=0的原因?
+                 *   ⚫但是在Dialog中却没事....
+                 */
                 setMeasuredDimension(mItemViewWidth * mShowItemCount, mItemViewHeight);
-                //要设置, 否则在Dialog中的RecyclerView滑动后, RecyclerView会显示空白, 原因???
-                mRecyclerView.setHasFixedSize(true);
+                //android:layout_height="wrap_content": 这时候在Activity中也不行
+//                setMeasuredDimension(mItemViewWidth * mShowItemCount, heightSpec);
+
+//                // View.MeasureSpec.UNSPECIFIED => View.MeasureSpec.EXACTLY
+//                int widthSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewWidth * mShowItemCount, View.MeasureSpec.EXACTLY);
+//                int heightSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewHeight, View.MeasureSpec.EXACTLY);
+//                if (loggable) {
+//                    int widthMode = View.MeasureSpec.getMode(mItemViewWidth * mShowItemCount);
+//                    LogUtils.errorFormat("setMeasuredDimension: widthMode = %d, width = %d", widthMode, mItemViewWidth * mShowItemCount);
+//                    int widthMode2 = View.MeasureSpec.getMode(widthSpec2);
+//                    int widthSize2 = View.MeasureSpec.getSize(widthSpec2);
+//                    LogUtils.errorFormat("setMeasuredDimension: widthMode2 = %d, widthSize2 = %d", widthMode2, widthSize2);
+//                }
+//                super.onMeasure(recycler, state, widthSpec2, heightSpec);
+
+//                mRecyclerView.setHasFixedSize(true);
             } else if (orientation == VERTICAL) {
                 int paddingVertical = (mShowItemCount - 1) / 2 * mItemViewHeight;
                 mRecyclerView.setClipToPadding(false);
                 mRecyclerView.setPadding(0, paddingVertical, 0, paddingVertical);
 
-                setMeasuredDimension(mItemViewWidth, mItemViewHeight * mShowItemCount);
-                //要设置, 否则在Dialog中的RecyclerView滑动后, RecyclerView会显示空白, 原因???
-                mRecyclerView.setHasFixedSize(true);
+                /**
+                 * 在Dialog中的RecyclerView滑动后, RecyclerView会显示空白, 因为这时的mItemViewWidth=0的原因?
+                 */
+//                setMeasuredDimension(mItemViewWidth, mItemViewHeight * mShowItemCount);
+
+                //下面这行可以了
+//                setMeasuredDimension(widthSpec, mItemViewHeight * mShowItemCount);
+
+                // View.MeasureSpec.UNSPECIFIED => View.MeasureSpec.EXACTLY
+                int heightSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewHeight * mShowItemCount, View.MeasureSpec.EXACTLY);
+                if (loggable) {
+                    int heightMode = View.MeasureSpec.getMode(mItemViewHeight * mShowItemCount);
+                    LogUtils.errorFormat("setMeasuredDimension: heightMode = %d, height = %d", heightMode, mItemViewHeight * mShowItemCount);
+                    int heightMode2 = View.MeasureSpec.getMode(heightSpec2);
+                    int heightSize2 = View.MeasureSpec.getSize(heightSpec2);
+                    LogUtils.errorFormat("setMeasuredDimension: heightMode2 = %d, heightSize2 = %d", heightMode2, heightSize2);
+                }
+//                setMeasuredDimension(widthSpec, heightSpec2);
+                super.onMeasure(recycler, state, widthSpec, heightSpec2);
+
+//                mRecyclerView.setHasFixedSize(true);
             }
         } else {
             super.onMeasure(recycler, state, widthSpec, heightSpec);
@@ -193,6 +261,9 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         super.onLayoutChildren(recycler, state);
         if (loggable) {
+            LogUtils.errorFormat("recycler: recycler = %s \t recycler.getScrapList().size() = %d", recycler, recycler.getScrapList().size());
+            LogUtils.errorFormat("state = %s", state);
+
             LogUtils.errorFormat("getItemCount() = %d, state.isPreLayout() = %b", getItemCount(), state.isPreLayout());
         }
 
@@ -234,9 +305,11 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
             }
             //childMid: (child的宽度 + Decoration宽度) / 2
             float childMid = (getDecoratedLeft(child) + getDecoratedRight(child)) / 2.0f;
-            if (loggable) LogUtils.errorFormat("childAt(%d) mid = %f, childMid = %f", i, mid, childMid);
 //            float scale = 1.0f + (-1 * (1 - mScale)) * Math.min(mid, Math.abs(mid - childMid)) / mid;
             float scale = 1.0f - (1 - mScale) * Math.min(mid, Math.abs(mid - childMid)) / mid;
+            if (loggable) {
+                LogUtils.errorFormat("childAt(%d) mid = %f, childMid = %f, scale = %f", i, mid, childMid, scale);
+            }
             child.setScaleX(scale);
             child.setScaleY(scale);
             if (mIsAlpha) {
@@ -261,7 +334,6 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
             }
             //childMid: (child的宽度 + Decoration宽度) / 2
             float childMid = (getDecoratedTop(child) + getDecoratedBottom(child)) / 2.0f;
-            if (loggable) LogUtils.errorFormat("childAt(%d) mid = %f, childMid = %f", i, mid, childMid);
             /**
              * 从RecyclerView的顶部开始:
              * Math.abs(mid - childMid)                            : item中心离RecyclerView中心的距离, mid~0
@@ -272,6 +344,9 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
              */
 //            float scale = 1.0f + (-1 * (1 - mScale)) * Math.min(mid, Math.abs(mid - childMid)) / mid;
             float scale = 1.0f - (1 - mScale) * Math.min(mid, Math.abs(mid - childMid)) / mid;
+            if (loggable) {
+                LogUtils.errorFormat("childAt(%d) mid = %f, childMid = %f, scale = %f", i, mid, childMid, scale);
+            }
             //缩放比例, scale = 1: 不缩放
             child.setScaleX(scale);
             child.setScaleY(scale);

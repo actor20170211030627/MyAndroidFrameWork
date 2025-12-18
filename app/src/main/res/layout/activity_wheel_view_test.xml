@@ -138,18 +138,34 @@
             tools:listitem="@layout/item_wheel_view_horizontal" />
 
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_get_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="getItem内容"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view3" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_items_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="items Content"
+            app:layout_constraintTop_toBottomOf="@id/btn_get_item" />
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_current_pos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:digits="@string/digits_phone"
             android:hint="currentPos"
             android:imeOptions="actionDone"
             android:inputType="number"
             android:text="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_view3" />
+            app:layout_constraintTop_toBottomOf="@id/tv_items_content" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sc_smooth_scroll"
@@ -168,19 +184,28 @@
             app:layout_constraintTop_toTopOf="@id/et_current_pos" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_get_item"
+            android:id="@+id/btn_show_single_vertical_in_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="getItem内容"
+            android:layout_marginTop="20dp"
+            android:text="在Dialog中示例单个垂直"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_current_pos" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_show_in_dialog"
+            android:id="@+id/btn_show_single_horizontal_in_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="在Dialog中示例"
+            android:text="在Dialog中示例单个水平"
+            app:layout_constraintStart_toEndOf="@id/btn_show_single_vertical_in_dialog"
+            app:layout_constraintTop_toTopOf="@id/btn_show_single_vertical_in_dialog" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_show_multi_in_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在Dialog中示例多个"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_get_item" />
+            app:layout_constraintTop_toBottomOf="@id/btn_show_single_vertical_in_dialog" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -10,7 +10,7 @@
     <!--
     注意:
       宽度可以设置成 match_parent/wrap_content,
-      高度不能设置成wrap_content, 否则RecyclerView显示会出问题, 甚至崩溃
+      高度不能设置成wrap_content, 否则RecyclerView显示会出问题
     -->
 
     <ImageView

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="110dp"
+    android:layout_width="wrap_content"
     android:layout_height="60dp"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
+    android:paddingStart="25dp"
+    android:paddingEnd="25dp"
     tools:context=".adapter.MyWheelViewTestAdapter">
     <!--
     注意:
       宽度可以设置成wrap_content,
-      高度不能设置成wrap_content, 否则RecyclerView显示不出来
+      高度不能设置成wrap_content, 否则RecyclerView在Activity中显示不出来, 在Dialog中却可以...
     -->
 
     <ImageView

@@ -1,38 +1,48 @@
-package com.actor.sample.activity;
+package com.actor.sample.dialog;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
+import com.actor.myandroidframework.dialog.ViewBindingDialog;
 import com.actor.myandroidframework.recyclerview.WheelViewLayoutManager;
+import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.adapter.MyWheelViewTestAdapter;
-import com.actor.sample.databinding.ActivityWheelViewTestBinding;
-import com.actor.sample.dialog.WheelViewMultiTestDialog;
-import com.actor.sample.dialog.WheelViewSingleHorizontalTestDialog;
-import com.actor.sample.dialog.WheelViewSingleVerticalTestDialog;
+import com.actor.sample.databinding.DialogWheelViewMultiTestBinding;
+import com.blankj.utilcode.util.SizeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * description: WheelView效果测试
+ * description: 在Dialog中测试WheelViewLayoutManager
  * company    :
- * @author    : ldf
- * date       : 2025/1/6 on 11:15
+ *
+ * @author : ldf
+ * date       : 2025/8/2 on 19
+ * @version 1.0
  */
-public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBinding> {
+public class WheelViewMultiTestDialog extends ViewBindingDialog<DialogWheelViewMultiTestBinding> {
 
     private MyWheelViewTestAdapter mAdapter0;
     private MyWheelViewTestAdapter mAdapter1;
     private MyWheelViewTestAdapter mAdapter2;
     private MyWheelViewTestAdapter mAdapter3;
 
+    public WheelViewMultiTestDialog(@NonNull Context context) {
+        super(context);
+        setWidthPercent(0.8647f, SizeUtils.dp2px(308f));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("WheelView测试");
 
         List<String> mOptionsItems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -40,19 +50,19 @@ public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBin
         }
 
         //竖着滑动
-        WheelViewLayoutManager layoutManager0 = new WheelViewLayoutManager(this,
+        WheelViewLayoutManager layoutManager0 = new WheelViewLayoutManager(getContext(),
                 WheelViewLayoutManager.VERTICAL, 3, 0.4f, true)
-                .setLoggable(false);
-        WheelViewLayoutManager layoutManager1 = new WheelViewLayoutManager(this,
+                .setLoggable(true);
+        WheelViewLayoutManager layoutManager1 = new WheelViewLayoutManager(getContext(),
                 WheelViewLayoutManager.VERTICAL, 3, 0.8f, false)
-                .setLoggable(false);
+                .setLoggable(true);
         //水平滑动
-        WheelViewLayoutManager layoutManager2 = new WheelViewLayoutManager(this,
+        WheelViewLayoutManager layoutManager2 = new WheelViewLayoutManager(getContext(),
                 WheelViewLayoutManager.HORIZONTAL, 3, 0.5f, true)
                 .setLoggable(false);
-        WheelViewLayoutManager layoutManager3 = new WheelViewLayoutManager(this,
+        WheelViewLayoutManager layoutManager3 = new WheelViewLayoutManager(getContext(),
                 WheelViewLayoutManager.HORIZONTAL, 3, 0.9f, true)
-                .setLoggable(true);
+                .setLoggable(false);
 
         mAdapter0 = new MyWheelViewTestAdapter(layoutManager0, R.layout.item_wheel_view_vertical, false, true);
         mAdapter1 = new MyWheelViewTestAdapter(layoutManager1, R.layout.item_wheel_view_vertical, true, true);
@@ -60,10 +70,10 @@ public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBin
         mAdapter3 = new MyWheelViewTestAdapter(layoutManager3, R.layout.item_wheel_view_horizontal, true, true);
 
         //设置是否能打印日志
-        mAdapter0.setLoggable(false);
-        mAdapter1.setLoggable(false);
+        mAdapter0.setLoggable(true);
+        mAdapter1.setLoggable(true);
         mAdapter2.setLoggable(false);
-        mAdapter3.setLoggable(true);
+        mAdapter3.setLoggable(false);
 
         //1.先设置Adapter
         viewBinding.recyclerView0.setAdapter(mAdapter0);
@@ -84,7 +94,7 @@ public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBin
             String selectedItem1 = mAdapter1.getSelectedItem();
             String selectedItem2 = mAdapter2.getSelectedItem();
             String selectedItem3 = mAdapter3.getSelectedItem();
-            String content = getStringFormat("selectedItem0=%s, selectedItem1=%s, selectedItem2=%s, selectedItem3=%s",
+            String content = TextUtils2.getStringFormat("selectedItem0=%s, selectedItem1=%s, selectedItem2=%s, selectedItem3=%s",
                     selectedItem0, selectedItem1, selectedItem2, selectedItem3);
             viewBinding.tvItemsContent.setText(content);
         });
@@ -108,19 +118,19 @@ public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBin
                 e.printStackTrace();
                 ToasterUtils.warningFormat("请输入正确的position: [0 ~ %d]", mOptionsItems.size() - 1);
             }
+
+            viewBinding.recyclerView1.post(() -> {
+                int width = viewBinding.recyclerView1.getWidth();
+                int measuredWidth = viewBinding.recyclerView1.getMeasuredWidth();
+                int height = viewBinding.recyclerView1.getHeight();
+                int measuredHeight = viewBinding.recyclerView1.getMeasuredHeight();
+                LogUtils.errorFormat("RecyclerView1: width = %d, measuredWidth = %d \t height = %d, measuredHeight = %d",
+                        width, measuredWidth, height, measuredHeight);
+            });
         });
 
-        //在Dialog中示例单个
-        viewBinding.btnShowSingleVerticalInDialog.setOnClickListener(v -> {
-            new WheelViewSingleVerticalTestDialog(this).show();
-        });
-        //在Dialog中示例单个
-        viewBinding.btnShowSingleHorizontalInDialog.setOnClickListener(v -> {
-            new WheelViewSingleHorizontalTestDialog(this).show();
-        });
-        //在Dialog中示例多个
-        viewBinding.btnShowMultiInDialog.setOnClickListener(v -> {
-            new WheelViewMultiTestDialog(this).show();
+        viewBinding.stvSure.setOnClickListener(v -> {
+            dismiss();
         });
     }
 }
