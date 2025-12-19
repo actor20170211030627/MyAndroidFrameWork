@@ -1,7 +1,10 @@
 package com.actor.sample;
 
-import com.actor.chat_layout.ChatLayoutKit;
-import com.actor.chat_layout.emoji.DefaultEmojiList;
+import androidx.annotation.Nullable;
+
+import com.actor.chat_layout.bean.Emoji;
+import com.actor.chat_layout.utils.EmojiUtils;
+import com.actor.chat_layout.emoji.TIMSDKEmoji;
 import com.actor.database.greendao.GreenDaoUtils;
 import com.actor.jpush.JPushUtils;
 import com.actor.map.baidu.BaiduLocationUtils;
@@ -16,6 +19,9 @@ import com.actor.qq_wechat.WeChatUtils;
 import com.actor.sample.utils.Global;
 import com.greendao.gen.ItemEntityDao;
 
+import java.util.Arrays;
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -25,6 +31,8 @@ import okhttp3.OkHttpClient;
  * @version 1.1
  */
 public class MyApplication extends ActorApplication {
+
+    public static List<Emoji> emojis0;
 
     @Override
     public void onCreate() {
@@ -53,9 +61,14 @@ public class MyApplication extends ActorApplication {
         /**
          * 聊天示例
          * 如果需要使用emoji表情, 需要在Application中初始化(如果不使用emoji, 不要初始化)
-         * 也可以不使用 DefaultEmojiList.DEFAULT_EMOJI_LIST 这些emoji, 可以自定义后传入
+         * 也可以不使用 TIMSDKEmoji.EMOJI_LIST 这些emoji, 自己自定义
          */
-        ChatLayoutKit.init(DefaultEmojiList.DEFAULT_EMOJI_LIST, "emoji");
+        EmojiUtils.loadEmojisFromAssets(Arrays.asList(TIMSDKEmoji.EMOJI_LIST), TIMSDKEmoji.EMOJI_ASSET_PATH, TIMSDKEmoji.EMOJI_SIZE, TIMSDKEmoji.EMOJI_SIZE, new EmojiUtils.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(@Nullable List<Emoji> emojis) {
+                emojis0 = emojis;
+            }
+        });
 
 
 

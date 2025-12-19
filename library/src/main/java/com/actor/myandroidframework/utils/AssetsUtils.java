@@ -2,6 +2,8 @@ package com.actor.myandroidframework.utils;
 
 import android.app.Application;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -86,6 +88,7 @@ public class AssetsUtils {
      * @return 所有文件/夹 名称
      */
     public static String[] getFiles(String assetsDirName) {
+        if (assetsDirName == null) return null;
         try {
             return CONTEXT.getAssets().list(assetsDirName);
         } catch (IOException e) {
@@ -99,8 +102,24 @@ public class AssetsUtils {
      * @param assetPath 文件在assets目录下的路径, 示例: china_city_data.json, xxx.txt
      * @return 返回一个输入流, 注意: 要关流
      */
-    public static InputStream open(String assetPath) throws IOException {
+    public static InputStream open(@NonNull String assetPath) throws IOException {
         //参2: 读取成哪种流, 默认: ACCESS_STREAMING
         return CONTEXT.getAssets().open(assetPath, AssetManager.ACCESS_STREAMING);
     }
+
+
+    /** Assets转Bitmap
+     * @param assetsPath 文件在assets目录下的路径, 示例: xxx.png, pics/xxx1.jpg
+     */
+    @Nullable
+    public static Bitmap toBitmap(@NonNull String assetsPath) {
+        try {
+            InputStream is = open(assetsPath);
+            return BitmapFactory.decodeStream(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

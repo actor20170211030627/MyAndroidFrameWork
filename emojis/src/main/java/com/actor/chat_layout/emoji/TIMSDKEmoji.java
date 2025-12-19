@@ -1,14 +1,32 @@
 package com.actor.chat_layout.emoji;
 
+import android.content.res.Resources;
+
 /**
  * Description: 默认表情列表
  * Author     : ldf
  * Date       : 2019/6/3 on 14:16
  */
-public class DefaultEmojiList {
+public class TIMSDKEmoji {
+
+    /**
+     * 默认表情的正则:
+     * \[    转义左中括号
+     * \S    匹配所有非空白字符
+     * ?     标记?之前的字符为"可选". 0 或 1 次
+     */
+    public static final    String EMOJI_REGEX = "\\[\\S+?]";
+
+    //emoji表情所在目录
+    public static final    String EMOJI_ASSET_PATH = "emoji";
+
+
+    //emoji宽高尺寸
+//    public static final int EMOJI_SIZE = SizeUtils.dp2px(25);
+    public static final int EMOJI_SIZE = (int) (Resources.getSystem().getDisplayMetrics().density * 25 + 0.5f);
 
     //默认emoji列表, 每行8个
-    public static final String[] DEFAULT_EMOJI_LIST = new String[]{
+    public static final String[] EMOJI_LIST = new String[]{
             "[龇牙]",   "[调皮]", "[流汗]",  "[偷笑]", "[再见]",  "[敲打]",  "[擦汗]", "[猪头]",
             "[玫瑰]",   "[流泪]", "[大哭]",  "[嘘]",   "[酷]",    "[抓狂]", "[委屈]",  "[便便]",
             "[炸弹]",   "[菜刀]", "[可爱]",  "[色]",   "[害羞]",  "[得意]",  "[吐]",   "[微笑]",

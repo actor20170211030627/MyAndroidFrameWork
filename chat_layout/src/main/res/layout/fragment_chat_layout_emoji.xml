@@ -20,15 +20,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="最近使用"
                 android:visibility="gone"
+                tools:text="最近使用"
                 tools:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="所有表情"
                 android:visibility="gone"
+                tools:text="所有表情"
                 tools:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView

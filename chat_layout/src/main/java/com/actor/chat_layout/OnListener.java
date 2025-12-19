@@ -80,5 +80,5 @@ public interface OnListener {
     /**
      * EditText的触摸事件,一般不用重写此方法监听
      */
-    default void onEditTextToucn(EditText etMsg, MotionEvent event) {}
+    default void onEditTextTouch(EditText etMsg, MotionEvent event) {}
 }

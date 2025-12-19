@@ -43,6 +43,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 //    private final String MUSIC = "https://picture.halzwl.cn/picture/error/b24ecce9d181423dbc24eaf234181b61lmx-pyghlkn.mp3";
     //刘明湘-漂洋过海来看你(抖音版ProgHouse)（阿祥 remix）
     private final String MUSIC = "http://qxbzlgx.mtwlkj.net/lmx-pyghlkn.mp3";
+    private final String MUSIC2 = "https://music.163.com/song/media/outer/url?id=1646740.mp3";
 
     //本地声音
     private String pathWrong = PathUtils.getInternalAppFilesPath() + "/wrong.mp3";

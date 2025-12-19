@@ -1,0 +1,13 @@
+<resources>
+    <string name="cancel">取消</string>
+    <string name="setting">设置</string>
+    <string name="no_permission_record_audio_tips">语音需要开启录音权限，否则这功能不能使用, 去开启吧</string>
+
+    <string name="swipe_up_to_cancel">手指上滑，取消发送</string>
+    <string name="swipe_up_to_cancel2">上滑取消录音</string>
+    <string name="release_to_cancel">松开手指，取消发送</string>
+    <string name="record_time_too_short">录音时间太短</string>
+    <string name="input_message">输入消息</string>
+    <string name="press_to_say">按住 说话</string>
+    <string name="send">发送</string>
+</resources>

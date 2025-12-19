@@ -5,10 +5,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.actor.chat_layout.emoji.FaceManager;
+import com.actor.chat_layout.utils.EmojiUtils;
+import com.actor.chat_layout.emoji.TIMSDKEmoji;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
+import com.actor.sample.MyApplication;
 import com.actor.sample.R;
 import com.actor.sample.info.MessageItem;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -50,7 +52,7 @@ public class ChatListAdapter extends BaseMultiItemQuickAdapter<MessageItem, Base
         TextView tv = helper.getView(R.id.tv);
         String message = item.message;
         if (message != null) {
-            FaceManager.handlerEmojiText(tv, FaceManager.EMOJI_REGEX, message);
+            EmojiUtils.handlerEmojiText(tv, MyApplication.emojis0, TIMSDKEmoji.EMOJI_REGEX, message);
         } else {
             tv.setText(TextUtils2.getStringFormat("audioPath = %s\ndurationMs = %dms", item.audioPath, item.durationMs));
         }

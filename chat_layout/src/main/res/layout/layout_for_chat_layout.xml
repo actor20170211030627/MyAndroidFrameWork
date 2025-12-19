@@ -43,13 +43,13 @@
             android:layout_margin="6dp"
             android:layout_weight="1"
             android:background="@drawable/selector_bg_et_msg_for_chat_layout"
-            android:hint="发送消息"
+            android:hint="@string/input_message"
             android:maxLines="5"
             android:minHeight="36dp"
             android:paddingStart="6dp" />
 
-        <TextView
-            android:id="@+id/tv_press_speak_for_chat_layout"
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/stv_press_speak_for_chat_layout"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginLeft="25dp"
@@ -57,11 +57,14 @@
             android:layout_marginRight="25dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_bg_press_speak_for_chat_layout"
             android:gravity="center"
-            android:text="按住 说话"
+            android:text="@string/press_to_say"
             android:textColor="#666666"
             android:visibility="gone"
+            app:shape_radius="8dp"
+            app:shape_solidColor="@color/white"
+            app:shape_strokeColor="@color/gray_6f7378_for_chat_layout"
+            app:shape_strokeSize="1dp"
             tools:visibility="visible" />
 
         <ImageView
@@ -88,7 +91,8 @@
                 android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:background="@drawable/selector_btn_send_for_chat_layout"
-                android:text="发送"
+                android:text="@string/send"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:visibility="gone"

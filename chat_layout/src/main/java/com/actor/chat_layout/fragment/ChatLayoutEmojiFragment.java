@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.actor.chat_layout.R;
 import com.actor.chat_layout.adapter.ChatLayoutEmojiAdapter;
 import com.actor.chat_layout.bean.Emoji;
-import com.actor.chat_layout.emoji.FaceManager;
+import com.actor.chat_layout.utils.EmojiUtils;
 import com.actor.myandroidframework.fragment.ActorBaseFragment;
 import com.actor.myandroidframework.recyclerview.BaseItemDecoration;
-import com.blankj.utilcode.util.ConvertUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 
@@ -26,28 +26,33 @@ import java.util.List;
  * Date       : 2019/6/2 on 20:08
  * @version 1.0
  */
-public class ChatLayoutEmojiFragment extends ActorBaseFragment implements View.OnClickListener {
+public class ChatLayoutEmojiFragment extends ActorBaseFragment {
+
+    public static final String                SPAN_COUNT = "SPAN_COUNT";
+    public static final String                ITEM_DECORATION = "ITEM_DECORATION";
+    public static final String                ITEMS = "ITEMS";
 
     protected RecyclerView recyclerView;
 
-    protected int                  dp10;
+    protected int                  itemDecorationPx;
     //加载的Emoji表情列表
-    protected List<Emoji>          emojiList;
+    protected static List<Emoji>          emojiList;
     protected OnEmojiClickListener   emojiClickListener;
     protected ChatLayoutEmojiAdapter myAdapter;
 
     /**
-     * @param spanCount 表情显示成多少列
-     * @param itemDecorationPx 表情之间间隔
-     * @param items 表情列表
+     * @param spanCount 表情显示成多少列, 例: 8
+     * @param itemDecorationPx 表情之间间隔, 例: SizeUtils.dp2px(10)
+     * @param emojiList 表情列表, 例: {@link EmojiUtils#loadEmojisFromAssets(List, String, int, int, EmojiUtils.OnLoadCompleteListener)} ()}
      */
-    public static ChatLayoutEmojiFragment newInstance(/*int spanCount, @Px int itemDecorationPx, ArrayList<ItemMore> items*/) {
+    public static ChatLayoutEmojiFragment newInstance(int spanCount, @Px int itemDecorationPx, @NonNull List<Emoji> emojiList) {
         ChatLayoutEmojiFragment fragment = new ChatLayoutEmojiFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(SPAN_COUNT, spanCount);
-//        args.putInt(ITEM_DECORATION, itemDecorationPx);
+        Bundle args = new Bundle();
+        args.putInt(SPAN_COUNT, spanCount);
+        args.putInt(ITEM_DECORATION, itemDecorationPx);
+        ChatLayoutEmojiFragment.emojiList = emojiList;
 //        args.putParcelableArrayList(ITEMS, items);
-//        fragment.setArguments(args);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -61,11 +66,14 @@ public class ChatLayoutEmojiFragment extends ActorBaseFragment implements View.O
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recycler_view_for_chat_layout_emoji_fragment);
         //删除
-        view.findViewById(R.id.iv_delete_for_chat_layout_emoji_fragment).setOnClickListener(this);
-
-        dp10 = ConvertUtils.dp2px(10);
-        //获取加载的Emoji表情列表
-        emojiList = FaceManager.getEmojiList();
+        view.findViewById(R.id.iv_delete_for_chat_layout_emoji_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (emojiClickListener != null) {
+                    emojiClickListener.onEmojiDelete();
+                }
+            }
+        });
 
         myAdapter = new ChatLayoutEmojiAdapter(emojiList);
         myAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -76,19 +84,8 @@ public class ChatLayoutEmojiFragment extends ActorBaseFragment implements View.O
                 }
             }
         });
-        recyclerView.addItemDecoration(new BaseItemDecoration(dp10, dp10));
+        recyclerView.addItemDecoration(new BaseItemDecoration(itemDecorationPx, itemDecorationPx));
         recyclerView.setAdapter(myAdapter);
-    }
-
-    //点击事件, 在 library 中不能用: switch case
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.iv_delete_for_chat_layout_emoji_fragment) {//删除
-            if (emojiClickListener != null) {
-                emojiClickListener.onEmojiDelete();
-            }
-        }
     }
 
     /**
@@ -113,6 +110,8 @@ public class ChatLayoutEmojiFragment extends ActorBaseFragment implements View.O
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //不能clear(), ∵是同1个引用
+//        if (emojiList != null) emojiList.clear();
         emojiList = null;
         emojiClickListener = null;
         myAdapter = null;

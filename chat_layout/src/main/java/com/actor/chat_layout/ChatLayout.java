@@ -6,12 +6,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,20 +24,14 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.actor.chat_layout.bean.Emoji;
-import com.actor.chat_layout.emoji.FaceManager;
-import com.actor.chat_layout.fragment.ChatLayoutEmojiFragment;
-import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.utils.MMKVUtils;
 import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
@@ -48,6 +39,7 @@ import com.actor.myandroidframework.utils.audio.MediaRecorderUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.hjq.permissions.XXPermissions;
+import com.hjq.shape.view.ShapeTextView;
 
 /**
  * description: 聊天控件, 低仿微信聊天界面按钮点击事件, 封装几个按钮及事件, 包含: <br/>
@@ -71,8 +63,8 @@ import com.hjq.permissions.XXPermissions;
  *         &emsp; //https://gitee.com/actor20170211030627/MyAndroidFrameWork <br/>
  *         &emsp; implementation 'com.gitee.actor20170211030627.MyAndroidFrameWork:emojis:gitee's latest version' <br/>
  *     </li>
- *     <li>2.如果需要使用emoji表情, 需要在Application中初始化: ChatLayoutKit.init();</li>
- *     <li>3.如果需要使用语音功能, 请使用: {@link MediaPlayerUtils}</li>
+ *     <li>2.如果需要使用emoji表情, 需要在Application中初始化, 例: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a> </li>
+ *     <li>3.如果需要使用录音: {@link MediaRecorderUtils}, 播放: {@link MediaPlayerUtils}</li>
  *     <li>4.示例使用见: <br/>
  *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" target="_blank">activity_chat.xml</a> <br/>
  *         &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" target="_blank">ChatActivity.java</a>
@@ -133,11 +125,11 @@ public class ChatLayout extends LinearLayout {
 
     protected ImageView    ivVoice;
     protected ImageView    ivKeyboard;
-    protected EditText     etMsg;
+    protected EditText      etMsg;
     //按住说话按钮
-    protected TextView     tvPressSpeak;
+    protected ShapeTextView stvPressSpeak;
     //表情
-    protected ImageView    ivEmoji;
+    protected ImageView     ivEmoji;
     protected FrameLayout  flParent;
     protected Button       btnSend;
     //右边⊕或ⓧ号
@@ -171,11 +163,6 @@ public class ChatLayout extends LinearLayout {
     protected boolean                    ispressedDown;
     //按下时的y坐标
     protected float                      startRecordY;
-    protected AlertDialog                mPermissionDialog;
-    @Nullable
-    protected ViewPagerAdapter viewPagerAdapter;
-    @Nullable
-    protected Fragment[]       moreFragments;
 
     public ChatLayout(Context context) {
         super(context);
@@ -209,7 +196,7 @@ public class ChatLayout extends LinearLayout {
         //中间"输入框"
         etMsg = inflate.findViewById(R.id.et_msg_for_chat_layout);
         //中间"按下说话"
-        tvPressSpeak = inflate.findViewById(R.id.tv_press_speak_for_chat_layout);
+        stvPressSpeak = inflate.findViewById(R.id.stv_press_speak_for_chat_layout);
         //右侧"表情"
         ivEmoji = inflate.findViewById(R.id.iv_emoji_for_chat_layout);
         //"更多⊕"和"发送"按钮
@@ -301,81 +288,12 @@ public class ChatLayout extends LinearLayout {
     }
 
     /**
-     * 设置下方显示的emoji & more Fragment
-     * @param fragmentManager Fragment管理器, Activity中传入getSupportFragmentManager()
-     * @param moreFragments 更多的Fragment, 可以使用默认的{@link com.actor.chat_layout.fragment.ChatLayoutMoreFragment}
+     * 设置下方ViewPager的Adapter, 显示emoji & more 等
+     * @param pagerAdapter ViewPager的Adapter
      */
-    public void setBottomFragment(FragmentManager fragmentManager, Fragment... moreFragments) {
-        this.moreFragments = moreFragments;
-        //emoji是否显示
-        int emojiFragmentSize = ivEmojiVisibility == VISIBLE ? 1 : 0;
-        viewPagerAdapter = new ViewPagerAdapter(fragmentManager, moreFragments.length + emojiFragmentSize);
-        viewPager.setAdapter(viewPagerAdapter);
+    public void setViewPagerAdapter(PagerAdapter pagerAdapter) {
+        viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
-        if (emojiFragmentSize == 1) {
-            //设置 TabLayout 的 TabItem 的 Icon
-            TabLayout.Tab tabAt = tabLayout.getTabAt(0);
-            if (tabAt != null) {
-                if (FaceManager.emojiResShowInTabLayout != null) {
-                    tabAt.setIcon(FaceManager.emojiResShowInTabLayout);
-                } else if (FaceManager.emojiDrawableShowInTabLayout != null) {
-                    tabAt.setIcon(FaceManager.emojiDrawableShowInTabLayout);
-                }
-            }
-        }
-    }
-
-    //ViewPager 的 Adapter
-    protected class ViewPagerAdapter extends BaseFragmentStatePagerAdapter {
-        protected ViewPagerAdapter(FragmentManager fm, int size) {
-            super(fm, size);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    //emoji是否显示
-                    boolean emojiFragmentVisible = ivEmojiVisibility == VISIBLE;
-                    //如果不显示
-                    if (!emojiFragmentVisible) {
-                        return getMoreFragmentItem(position);
-                    }
-                    //Emoji表情Fragment
-                    ChatLayoutEmojiFragment emojiFragment = ChatLayoutEmojiFragment.newInstance();
-                    emojiFragment.setOnEmojiClickListener(new ChatLayoutEmojiFragment.OnEmojiClickListener() {
-                        @Override
-                        public void onEmojiDelete() {
-                            KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL);
-                            etMsg.onKeyDown(KeyEvent.KEYCODE_DEL, event);
-                        }
-
-                        @Override
-                        public void onEmojiClick(Emoji emoji) {
-                            int start = etMsg.getSelectionStart();
-                            int end = etMsg.getSelectionEnd();
-                            Editable editable = etMsg.getText();
-                            if (start != end) editable.delete(start, end);//已选中
-                            editable.insert(start, emoji.filter);
-                            FaceManager.handlerEmojiText(etMsg, FaceManager.EMOJI_REGEX, editable);
-                        }
-                    });
-                    return emojiFragment;
-                default:
-                    return getMoreFragmentItem(position);
-            }
-        }
-    }
-
-    protected Fragment getMoreFragmentItem(int position) {
-        //emoji是否显示
-        int emojiFragmentSize = ivEmojiVisibility == VISIBLE ? 1 : 0;
-        //应该在more中取第几个
-        int pos = position - emojiFragmentSize;
-        if (moreFragments != null && moreFragments.length > pos) return moreFragments[pos];
-        return null;
     }
 
     /**
@@ -407,7 +325,7 @@ public class ChatLayout extends LinearLayout {
                 setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 v.setVisibility(GONE);
                 ivKeyboard.setVisibility(VISIBLE);
-                tvPressSpeak.setVisibility(VISIBLE);
+                stvPressSpeak.setVisibility(VISIBLE);
                 if (ivPlusVisibility == VISIBLE) {//如果ivPlus能显示
                     btnSend.setVisibility(GONE);
                     ivSendPlus.setVisibility(VISIBLE);
@@ -428,7 +346,7 @@ public class ChatLayout extends LinearLayout {
                 if (onListener != null) onListener.onIvKeyBoardClick(ivKeyboard);
                 v.setVisibility(GONE);
                 ivVoice.setVisibility(VISIBLE);
-                tvPressSpeak.setVisibility(GONE);
+                stvPressSpeak.setVisibility(GONE);
                 etMsg.setVisibility(VISIBLE);
                 flParent.setVisibility(VISIBLE);
                 //如果ivPlus不显示 或者 EditText里有字,都要显示发送按钮
@@ -441,13 +359,13 @@ public class ChatLayout extends LinearLayout {
         });
 
         //语音按钮
-        tvPressSpeak.setOnTouchListener(new OnTouchListener() {
+        stvPressSpeak.setOnTouchListener(new OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.onTouchEvent(event);
                 if (onListener != null) {
-                    onListener.onTvPressSpeakTouch(tvPressSpeak, event);
+                    onListener.onTvPressSpeakTouch(stvPressSpeak, event);
                     //如果语音按钮显示 && 按下录音View不为空
                     if (ivVoiceVisibility == VISIBLE && voiceRecorderView != null) {
                         if (!hasPermission(Manifest.permission.RECORD_AUDIO)) {
@@ -553,7 +471,7 @@ public class ChatLayout extends LinearLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.onTouchEvent(event);
-                if (onListener != null) onListener.onEditTextToucn(etMsg, event);
+                if (onListener != null) onListener.onEditTextTouch(etMsg, event);
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (viewPager.getVisibility() != GONE) {
                         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
@@ -634,28 +552,34 @@ public class ChatLayout extends LinearLayout {
         return XXPermissions.isGranted(getContext(), permission);
     }
     //显示没有权限的对话框, 跳转设置界面
-    public void showPermissionDialog() {
-        if (mPermissionDialog == null) {
-            mPermissionDialog = new AlertDialog.Builder(getContext())
-                    .setMessage("使用该功能，需要开启权限，鉴于您禁用相关权限，请手动设置开启权限")
-                    .setPositiveButton("设置", new DialogInterface.OnClickListener() {
+    public void showPermissionDialog(String permission) {
+        if (Manifest.permission.RECORD_AUDIO.equals(permission)) {
+            new AlertDialog.Builder(getContext())
+                    .setMessage(R.string.no_permission_record_audio_tips)
+                    .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
-                            Uri packageURI = Uri.parse("package:".concat(getContext().getPackageName()));
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                            getContext().startActivity(intent);
+                            XXPermissions.with(getContext())
+                                    .permission(permission)
+                                    .request(null);
+                            //跳转设置页面
+//                            Uri packageURI = Uri.parse("package:".concat(getContext().getPackageName()));
+//                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+//                            getContext().startActivity(intent);
                         }
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
                     })
-                    .create();
+                    .create()
+                    .show();
+        } else {
+            //do something by u self
         }
-        mPermissionDialog.show();
     }
 
     //当 表情 or "⊕"按钮点击的时候
@@ -663,7 +587,7 @@ public class ChatLayout extends LinearLayout {
         if (ivVoiceVisibility == VISIBLE) ivVoice.setVisibility(VISIBLE);
         ivKeyboard.setVisibility(GONE);
         etMsg.setVisibility(VISIBLE);
-        tvPressSpeak.setVisibility(GONE);
+        stvPressSpeak.setVisibility(GONE);
         flParent.setVisibility(VISIBLE);
         int selectedTabPosition = tabLayout.getSelectedTabPosition();
         //切换到某个Fragment
@@ -738,6 +662,26 @@ public class ChatLayout extends LinearLayout {
     }
 
     /**
+     * 当按下了删除键
+     */
+    public void onKeyDownDelete() {
+        KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL);
+        etMsg.onKeyDown(KeyEvent.KEYCODE_DEL, event);
+    }
+
+    /**
+     * 在当前光标处插入内容
+     */
+    public void insert(@NonNull CharSequence text) {
+        if (TextUtils.isEmpty(text)) return;
+        int start = etMsg.getSelectionStart();
+        int end = etMsg.getSelectionEnd();
+        Editable editable = etMsg.getText();
+        if (start != end) editable.delete(start, end);//已选中
+        editable.insert(start, text);
+    }
+
+    /**
      * 设置点击事件&其它事件的监听
      */
     public void setOnListener(OnListener onListener) {
@@ -768,8 +712,8 @@ public class ChatLayout extends LinearLayout {
     /**
      * 获取按住说话TextView
      */
-    public TextView getTvPressSpeak() {
-        return tvPressSpeak;
+    public ShapeTextView getTvPressSpeak() {
+        return stvPressSpeak;
     }
 
     /**
@@ -837,7 +781,7 @@ public class ChatLayout extends LinearLayout {
      */
     protected void recyclerViewScroll2Last(int delay) {
         if (recyclerView == null) return;
-        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+        RecyclerView.Adapter<?> adapter = recyclerView.getAdapter();
         if (adapter != null) {
             final int itemCount = adapter.getItemCount();
             if (itemCount > 0) {

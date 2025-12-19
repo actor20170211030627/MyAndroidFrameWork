@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="cancel">Cancel</string>
+    <string name="setting">Setting</string>
+    <string name="no_permission_record_audio_tips">Voice talk need the record audio permission, go to open!</string>
+
+    <string name="swipe_up_to_cancel">Swipe up to cancel</string>
+    <string name="swipe_up_to_cancel2">Swipe up to cancel</string>
+    <string name="release_to_cancel">Release finger to cancel</string>
+    <string name="record_time_too_short">Record time too short</string>
+    <string name="input_message">input message</string>
+    <string name="press_to_say">Press to speak</string>
+    <string name="send">Send</string>
+</resources>

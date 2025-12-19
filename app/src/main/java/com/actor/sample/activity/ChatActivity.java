@@ -1,5 +1,7 @@
 package com.actor.sample.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -11,14 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.actor.chat_layout.ChatLayout;
 import com.actor.chat_layout.OnListener;
 import com.actor.chat_layout.VoiceRecorderView;
-import com.actor.chat_layout.bean.ChatLayoutItemMore;
-import com.actor.chat_layout.fragment.ChatLayoutMoreFragment;
+import com.actor.chat_layout.bean.Emoji;
+import com.actor.myandroidframework.utils.AssetsUtils;
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
+import com.actor.sample.MyApplication;
 import com.actor.sample.R;
+import com.actor.sample.adapter.ChatLayoutViewPagerAdapter;
 import com.actor.sample.adapter.ChatListAdapter;
 import com.actor.sample.databinding.ActivityChatBinding;
 import com.actor.sample.info.MessageItem;
-import com.actor.sample.utils.CheckUpdateUtils;
+import com.blankj.utilcode.util.ImageUtils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -30,9 +35,8 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
     private VoiceRecorderView voiceRecorder;
     private ChatLayout        chatLayout;
 
-    private       ChatListAdapter               chatListAdapter;
-    private final List<MessageItem>             items           = new ArrayList<>();
-    private final ArrayList<ChatLayoutItemMore> bottomViewDatas = new ArrayList<>();
+    private       ChatListAdapter   chatListAdapter;
+    private final List<MessageItem> items           = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,34 +45,30 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
         voiceRecorder = viewBinding.voiceRecorder;
         chatLayout = viewBinding.chatLayout;
 
+        chatListAdapter = new ChatListAdapter(items);
+
         //消息列表
         items.clear();
-        chatListAdapter = new ChatListAdapter(items);
         for (int i = 0; i < 20; i++) {
             items.add(new MessageItem(i % 2 == 0, "Hello World!    " + i));
         }
 
-        //右下角⊕More
-        for (int i = 0; i < 8; i++) {
-            boolean flag = i % 2 == 0;
-            int imgRes = flag ? R.drawable.camera : R.drawable.picture;
-            bottomViewDatas.add(new ChatLayoutItemMore(imgRes, "Item" + i));
+        chatLayout.init(recyclerView, voiceRecorder);
+        chatLayout.setViewPagerAdapter(new ChatLayoutViewPagerAdapter(getSupportFragmentManager(), 2, chatLayout));
+
+        //设置 TabLayout 的 TabItem 的 Icon
+        TabLayout.Tab tabAt = chatLayout.getTabLayout().getTabAt(0);
+        List<Emoji> emojis0 = MyApplication.emojis0;
+        if (tabAt != null && emojis0 != null && !emojis0.isEmpty()) {
+            Emoji emoji = emojis0.get(0);
+            if (emoji.assetsPath != null) {
+                Bitmap bitmap = AssetsUtils.toBitmap(emoji.assetsPath);
+                LogUtils.errorFormat("bitmap = %s", bitmap);
+                Drawable drawable = ImageUtils.bitmap2Drawable(bitmap);
+                tabAt.setIcon(drawable);
+            }
         }
 
-        chatLayout.init(recyclerView, voiceRecorder);
-
-        //MoreFragment
-        ChatLayoutMoreFragment moreFragment = ChatLayoutMoreFragment.newInstance(4, 50, bottomViewDatas);
-        moreFragment.setOnItemClickListener(new ChatLayoutMoreFragment.OnItemClickListener() {
-            //更多点击
-            @Override
-            public void onItemClick(int position, ChatLayoutItemMore itemMore) {
-                ToasterUtils.info(itemMore.itemText);
-            }
-        });
-        chatLayout.setBottomFragment(getSupportFragmentManager(), moreFragment);
-        //set Tab Icon
-//        chatLayout.getTabLayout().getTabAt(0).setIcon(R.drawable.emoji_small);
         TabLayout.Tab tabAt1 = chatLayout.getTabLayout().getTabAt(1);
         if (tabAt1 != null) {
             tabAt1.setIcon(R.drawable.picture);
@@ -105,7 +105,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
             @Override
             public void onNoPermission(String permission) {
                 //可以调用默认处理方法. 你也可以不调用这个方法, 自己处理(call default request permission method, or deal by yourself)
-                chatLayout.showPermissionDialog();
+                chatLayout.showPermissionDialog(permission);
             }
 
             //录音成功, 你可以不重写这个方法(voice record success, overrideAble)
@@ -124,10 +124,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> {
             //还可重写其它方法override other method ...
         });
 
-        recyclerView.setAdapter(chatListAdapter = new ChatListAdapter(items));
-
-        //检查更新
-        new CheckUpdateUtils().check(this);
+        recyclerView.setAdapter(chatListAdapter);
     }
 
     /**

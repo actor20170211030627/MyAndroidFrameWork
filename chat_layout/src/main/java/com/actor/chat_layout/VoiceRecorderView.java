@@ -19,9 +19,11 @@ import androidx.annotation.RequiresApi;
  * date       : 2019/5/30 on 21:05 <br/>
  *
  * <br/>
- * 示例使用: <br/>
- *  &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" target="_blank">activity_chat.xml</a> <br/>
- *  &emsp; <a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" target="_blank">ChatActivity.java</a> <br/>
+ * 示例使用:
+ * <ul>
+ *     <li><a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/res/layout/activity_chat.xml" target="_blank">activity_chat.xml</a></li>
+ *     <li><a href = "https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ChatActivity.java" target="_blank">ChatActivity.java</a></li>
+ * </ul>
  *
  * @version 1.0
  */
@@ -75,7 +77,7 @@ public class VoiceRecorderView extends RelativeLayout {
         setVisibility(View.VISIBLE);
         mVolumeAnim.start();
         tvRecodingTips.setTextColor(Color.WHITE);
-        tvRecodingTips.setText("手指上滑，取消发送");
+        tvRecodingTips.setText(R.string.swipe_up_to_cancel);
     }
 
     /**
@@ -84,7 +86,7 @@ public class VoiceRecorderView extends RelativeLayout {
     public void release2CancelRecording() {
         ivRecordingIcon.setImageResource(R.drawable.ic_volume_cancel);
         tvRecodingTips.setTextColor(Color.RED);
-        tvRecodingTips.setText("松开手指，取消发送");
+        tvRecodingTips.setText(R.string.release_to_cancel);
     }
 
     /**
@@ -103,6 +105,6 @@ public class VoiceRecorderView extends RelativeLayout {
         mVolumeAnim.stop();
         ivRecordingIcon.setImageResource(R.drawable.ic_volume_wraning);
         tvRecodingTips.setTextColor(Color.WHITE);
-        tvRecodingTips.setText("录音时间太短");
+        tvRecodingTips.setText(R.string.record_time_too_short);
     }
 }
