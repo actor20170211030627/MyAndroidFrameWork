@@ -1,0 +1,7 @@
+<resources>
+    <string name="max_select_format">最多选择%d个</string>
+    <string name="max_select_zhang_format">最多选择%d张</string>
+    <string name="pls_open_record_permission_in_setting">请在设置开启录音权限.</string>
+    <string name="open_record_permission_failure">未获取到录音权限.</string>
+    <string name="no_record_kit_in_system">系统没有录音组件</string>
+</resources>

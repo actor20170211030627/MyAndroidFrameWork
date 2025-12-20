@@ -12,6 +12,7 @@ import com.actor.sample.databinding.ActivityWheelViewTestBinding;
 import com.actor.sample.dialog.WheelViewMultiTestDialog;
 import com.actor.sample.dialog.WheelViewSingleHorizontalTestDialog;
 import com.actor.sample.dialog.WheelViewSingleVerticalTestDialog;
+import com.blankj.utilcode.util.SizeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +40,30 @@ public class WheelViewTestActivity extends BaseActivity<ActivityWheelViewTestBin
             mOptionsItems.add("item " + i);
         }
 
+        int dp150 = SizeUtils.dp2px(150);
+        int dp230 = SizeUtils.dp2px(230);
         //竖着滑动
         WheelViewLayoutManager layoutManager0 = new WheelViewLayoutManager(this,
                 WheelViewLayoutManager.VERTICAL, 3, 0.4f, true)
-                .setLoggable(false);
+                .setLoggable(false)
+//                .setWidthHeight(dp150, dp230)
+                ;
         WheelViewLayoutManager layoutManager1 = new WheelViewLayoutManager(this,
                 WheelViewLayoutManager.VERTICAL, 3, 0.8f, false)
-                .setLoggable(false);
+                .setLoggable(false)
+//                .setWidthHeight(dp150, dp230)
+                ;
         //水平滑动
         WheelViewLayoutManager layoutManager2 = new WheelViewLayoutManager(this,
                 WheelViewLayoutManager.HORIZONTAL, 3, 0.5f, true)
-                .setLoggable(false);
+                .setLoggable(false)
+//                .setWidthHeight(dp230, dp150)
+                ;
         WheelViewLayoutManager layoutManager3 = new WheelViewLayoutManager(this,
                 WheelViewLayoutManager.HORIZONTAL, 3, 0.9f, true)
-                .setLoggable(true);
+                .setLoggable(true)
+//                .setWidthHeight(dp230, dp150)
+                ;
 
         mAdapter0 = new MyWheelViewTestAdapter(layoutManager0, R.layout.item_wheel_view_vertical, false, true);
         mAdapter1 = new MyWheelViewTestAdapter(layoutManager1, R.layout.item_wheel_view_vertical, true, true);

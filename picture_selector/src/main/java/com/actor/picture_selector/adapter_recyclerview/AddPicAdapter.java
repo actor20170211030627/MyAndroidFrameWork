@@ -104,7 +104,7 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                     if (isLastPos) {
                         //判断是否能选择更多
                         if (getItemCount() > maxFiles) {
-                            ToastUtils.showShort("最多选择%d张", maxFiles);
+                            ToastUtils.showShort(R.string.max_select_zhang_format, maxFiles);
                         } else {
                             Activity topActivity = ActivityUtils.getTopActivity();
                             if (topActivity == null) {

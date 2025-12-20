@@ -23,7 +23,7 @@ public class KeyBoardUtils {
      * LinearLayout:Title会被顶出外面
      * ScrollView/RecyclerView/ListView:Title会被顶出外面
      */
-    public static void keybordNoCoverView(Activity activity) {
+    public static void keyboardNoCoverView(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
@@ -34,7 +34,7 @@ public class KeyBoardUtils {
      * ScrollView/RecyclerView/ListView:EditText会弹到键盘上方,Title不会被弹出
      * 清单文件示例:android:windowSoftInputMode="stateHidden|adjustResize"
      */
-    public static void keybordNotCoverView(Activity activity) {
+    public static void keyboardNotCoverView(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
@@ -44,7 +44,7 @@ public class KeyBoardUtils {
      * LinearLayout:如果EditText在下方,会被键盘遮盖
      * ScrollView/RecyclerView/ListView:和上面一致
      */
-    private static void keybordNotCoverView2(Activity activity) {
+    private static void keyboardNotCoverView2(Activity activity) {
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
     }
 

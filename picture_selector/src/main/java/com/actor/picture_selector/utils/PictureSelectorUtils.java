@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.video.VideoProcessorUtils;
+import com.actor.picture_selector.R;
 import com.luck.picture.lib.animators.AnimationType;
 import com.luck.picture.lib.basic.PictureSelectionCameraModel;
 import com.luck.picture.lib.basic.PictureSelectionModel;
@@ -572,7 +573,7 @@ public class PictureSelectorUtils {
         if (intentRecord.resolveActivity(activity.getPackageManager()) != null) {
             activity.startActivityForResult(intentRecord, requestCode);
         } else {
-            ToastUtils.showToast(activity, "系统没有录音组件");
+            ToastUtils.showToast(activity, activity.getString(R.string.no_record_kit_in_system));
         }
     }
 
@@ -592,7 +593,7 @@ public class PictureSelectorUtils {
         if (intentRecord.resolveActivity(ConfigUtils.APPLICATION.getPackageManager()) != null) {
             fragment.startActivityForResult(intentRecord, requestCode);
         } else {
-            ToastUtils.showToast(fragment.getContext(), "系统没有录音组件");
+            ToastUtils.showToast(fragment.getContext(), fragment.getContext().getString(R.string.no_record_kit_in_system));
         }
     }
 

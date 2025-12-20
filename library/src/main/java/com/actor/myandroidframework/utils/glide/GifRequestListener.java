@@ -78,7 +78,6 @@ public class GifRequestListener implements RequestListener<GifDrawable> {
         return this;
     }
 
-    @Nullable
     public <T extends Object> T getRequestTag() {
         return (T) requestTag;
     }

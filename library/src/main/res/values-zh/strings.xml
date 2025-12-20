@@ -1,0 +1,4 @@
+<resources>
+    <string name="loading">正在加载,请稍候…</string>
+    <string name="no_data">暂无数据</string>
+</resources>

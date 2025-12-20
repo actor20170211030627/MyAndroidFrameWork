@@ -149,7 +149,7 @@ public class BaseWebView extends WebView {
      *            </table>
      */
     @Override
-    public void loadUrl(String url) {
+    public void loadUrl(@NonNull String url) {
         /**
          * js和java对象在webview的后台、私有线程交互的，所以要注意线程安全, 否则可能报错:
          * java.lang.Throwable: A WebView method was called on thread 'JavaBridge'. All WebView methods must be called on the same thread.
@@ -223,7 +223,7 @@ public class BaseWebView extends WebView {
      * @param resultCallback js的回调
      */
     @Override
-    public void evaluateJavascript(String script, @Nullable ValueCallback<String> resultCallback) {
+    public void evaluateJavascript(@NonNull String script, @Nullable ValueCallback<String> resultCallback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (threadId == ThreadUtils.getCurrentThreadId()) {
                 super.evaluateJavascript(script, resultCallback);

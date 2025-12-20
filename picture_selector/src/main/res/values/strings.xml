@@ -1,0 +1,7 @@
+<resources>
+    <string name="max_select_format">Max select %d</string>
+    <string name="max_select_zhang_format">Max select %d</string>
+    <string name="pls_open_record_permission_in_setting">Pls open record permission in setting.</string>
+    <string name="open_record_permission_failure">Open record permission failure.</string>
+    <string name="no_record_kit_in_system">No record kit in system</string>
+</resources>

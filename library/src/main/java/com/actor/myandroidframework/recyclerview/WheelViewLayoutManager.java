@@ -28,6 +28,11 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
     protected LinearSnapHelper       mLinearSnapHelper = new LinearSnapHelper();
     protected OnItemSelectedListener mOnItemSelectedListener;
     protected RecyclerView mRecyclerView;
+
+    //手动设置RecyclerView宽高
+    protected boolean isSetRecyclerViewWidthHeightByUser = false;
+    protected int recyclerViewWidth, recyclerViewHeight;
+
     protected boolean loggable = false;
 
     public WheelViewLayoutManager(Context context) {
@@ -196,61 +201,97 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
 
             int orientation = getOrientation();
             if (orientation == HORIZONTAL) {
-                int paddingHorizontal = (mShowItemCount - 1) / 2 * mItemViewWidth;
-                //RecyclerView不滑动时有padding. 滑动时, item可以滚动到RecyclerView的padding内
                 mRecyclerView.setClipToPadding(false);
-                //if只显示3个item: 让第0个原生不显示, 第1个item居中, 第2个item绘制在padding内
-                mRecyclerView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
 
-                /**
-                 * 设置RecyclerView的尺寸
-                 * android:layout_height="wrap_content": 高度设置wrap_content
-                 *   ⚫在Activity中的RecyclerView中, RecyclerView会显示空白, 因为这时的mItemViewHeight=0的原因?
-                 *   ⚫但是在Dialog中却没事....
-                 */
-                setMeasuredDimension(mItemViewWidth * mShowItemCount, mItemViewHeight);
-                //android:layout_height="wrap_content": 这时候在Activity中也不行
-//                setMeasuredDimension(mItemViewWidth * mShowItemCount, heightSpec);
+                //if手动设置RecyclerView的宽高
+                if (isSetRecyclerViewWidthHeightByUser) {
+                    int paddingHorizontal;
+                    if (mItemViewWidth > 0) {
+                        paddingHorizontal = (recyclerViewWidth - mItemViewWidth) / 2;
+                    } else {
+                        paddingHorizontal = (int) (recyclerViewWidth * 1f / mShowItemCount * (mShowItemCount / 2));
+                    }
+                    if (loggable) {
+                        LogUtils.errorFormat("recyclerViewWidth = %d, paddingHorizontal = %d", recyclerViewWidth, paddingHorizontal);
+                    }
+                    mRecyclerView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
+                    setWidthHeight(recyclerViewWidth, recyclerViewHeight);
+                } else {
+                    int paddingHorizontal = (mShowItemCount - 1) / 2 * mItemViewWidth;
+                    //RecyclerView不滑动时有padding. 滑动时, item可以滚动到RecyclerView的padding内
+                    //if只显示3个item: 让第0个原生不显示, 第1个item居中, 第2个item绘制在padding内
+                    mRecyclerView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
 
-//                // View.MeasureSpec.UNSPECIFIED => View.MeasureSpec.EXACTLY
-//                int widthSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewWidth * mShowItemCount, View.MeasureSpec.EXACTLY);
-//                int heightSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewHeight, View.MeasureSpec.EXACTLY);
-//                if (loggable) {
-//                    int widthMode = View.MeasureSpec.getMode(mItemViewWidth * mShowItemCount);
-//                    LogUtils.errorFormat("setMeasuredDimension: widthMode = %d, width = %d", widthMode, mItemViewWidth * mShowItemCount);
-//                    int widthMode2 = View.MeasureSpec.getMode(widthSpec2);
-//                    int widthSize2 = View.MeasureSpec.getSize(widthSpec2);
-//                    LogUtils.errorFormat("setMeasuredDimension: widthMode2 = %d, widthSize2 = %d", widthMode2, widthSize2);
-//                }
-//                super.onMeasure(recycler, state, widthSpec2, heightSpec);
+                    /**
+                     * 设置RecyclerView的尺寸
+                     * android:layout_height="wrap_content": 高度设置wrap_content
+                     *   ⚫在Activity中的RecyclerView中, RecyclerView会显示空白, 因为这时的mItemViewHeight=0的原因?
+                     *   ⚫但是在Dialog中却没事....
+                     */
+                    setMeasuredDimension(mItemViewWidth * mShowItemCount, mItemViewHeight);
+                    //android:layout_height="wrap_content": 这时候在Activity中也不行
+//                  setMeasuredDimension(mItemViewWidth * mShowItemCount, heightSpec);
 
-//                mRecyclerView.setHasFixedSize(true);
-            } else if (orientation == VERTICAL) {
-                int paddingVertical = (mShowItemCount - 1) / 2 * mItemViewHeight;
-                mRecyclerView.setClipToPadding(false);
-                mRecyclerView.setPadding(0, paddingVertical, 0, paddingVertical);
+//                  // View.MeasureSpec.UNSPECIFIED => View.MeasureSpec.EXACTLY
+//                  int widthSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewWidth * mShowItemCount, View.MeasureSpec.EXACTLY);
+//                  int heightSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewHeight, View.MeasureSpec.EXACTLY);
+//                  if (loggable) {
+//                      int widthMode = View.MeasureSpec.getMode(mItemViewWidth * mShowItemCount);
+//                      LogUtils.errorFormat("setMeasuredDimension: widthMode = %d, width = %d", widthMode, mItemViewWidth * mShowItemCount);
+//                      int widthMode2 = View.MeasureSpec.getMode(widthSpec2);
+//                      int widthSize2 = View.MeasureSpec.getSize(widthSpec2);
+//                      LogUtils.errorFormat("setMeasuredDimension: widthMode2 = %d, widthSize2 = %d", widthMode2, widthSize2);
+//                  }
+//                  super.onMeasure(recycler, state, widthSpec2, heightSpec);
 
-                /**
-                 * 在Dialog中的RecyclerView滑动后, RecyclerView会显示空白, 因为这时的mItemViewWidth=0的原因?
-                 */
-//                setMeasuredDimension(mItemViewWidth, mItemViewHeight * mShowItemCount);
-
-                //下面这行可以了
-//                setMeasuredDimension(widthSpec, mItemViewHeight * mShowItemCount);
-
-                // View.MeasureSpec.UNSPECIFIED => View.MeasureSpec.EXACTLY
-                int heightSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewHeight * mShowItemCount, View.MeasureSpec.EXACTLY);
-                if (loggable) {
-                    int heightMode = View.MeasureSpec.getMode(mItemViewHeight * mShowItemCount);
-                    LogUtils.errorFormat("setMeasuredDimension: heightMode = %d, height = %d", heightMode, mItemViewHeight * mShowItemCount);
-                    int heightMode2 = View.MeasureSpec.getMode(heightSpec2);
-                    int heightSize2 = View.MeasureSpec.getSize(heightSpec2);
-                    LogUtils.errorFormat("setMeasuredDimension: heightMode2 = %d, heightSize2 = %d", heightMode2, heightSize2);
+//                  mRecyclerView.setHasFixedSize(true);
                 }
-//                setMeasuredDimension(widthSpec, heightSpec2);
-                super.onMeasure(recycler, state, widthSpec, heightSpec2);
+            } else if (orientation == VERTICAL) {
+                mRecyclerView.setClipToPadding(false);
 
-//                mRecyclerView.setHasFixedSize(true);
+                //if手动设置RecyclerView的宽高
+                if (isSetRecyclerViewWidthHeightByUser) {
+                    int paddingVertical;
+                    if (mItemViewHeight > 0) {
+                        paddingVertical = (recyclerViewHeight - mItemViewHeight) / 2;
+                    } else {
+                        paddingVertical = (int) (recyclerViewHeight * 1f / mShowItemCount * (mShowItemCount / 2));
+                    }
+                    if (loggable) {
+                        LogUtils.errorFormat("recyclerViewHeight = %d, paddingVertical = %d", recyclerViewHeight, paddingVertical);
+                    }
+                    mRecyclerView.setPadding(0, paddingVertical, 0, paddingVertical);
+                    //在Dialog中最开始的宽度设置无效
+                    setWidthHeight(recyclerViewWidth, recyclerViewHeight);
+//                    int widthSpec2 = View.MeasureSpec.makeMeasureSpec(recyclerViewWidth, View.MeasureSpec.EXACTLY);
+//                    int heightSpec2 = View.MeasureSpec.makeMeasureSpec(recyclerViewHeight, View.MeasureSpec.EXACTLY);
+//                    super.onMeasure(recycler, state, widthSpec2, heightSpec2);
+                } else {
+                    int paddingVertical = (mShowItemCount - 1) / 2 * mItemViewHeight;
+                    mRecyclerView.setPadding(0, paddingVertical, 0, paddingVertical);
+
+                    /**
+                     * 在Dialog中的RecyclerView滑动后, RecyclerView会显示空白, 因为这时的mItemViewWidth=0的原因?
+                     */
+//                  setMeasuredDimension(mItemViewWidth, mItemViewHeight * mShowItemCount);
+
+                    //下面这行可以了
+//                  setMeasuredDimension(widthSpec, mItemViewHeight * mShowItemCount);
+
+                    // View.MeasureSpec.UNSPECIFIED => View.MeasureSpec.EXACTLY
+                    int heightSpec2 = View.MeasureSpec.makeMeasureSpec(mItemViewHeight * mShowItemCount, View.MeasureSpec.EXACTLY);
+                    if (loggable) {
+                        int heightMode = View.MeasureSpec.getMode(mItemViewHeight * mShowItemCount);
+                        LogUtils.errorFormat("setMeasuredDimension: heightMode = %d, height = %d", heightMode, mItemViewHeight * mShowItemCount);
+                        int heightMode2 = View.MeasureSpec.getMode(heightSpec2);
+                        int heightSize2 = View.MeasureSpec.getSize(heightSpec2);
+                        LogUtils.errorFormat("setMeasuredDimension: heightMode2 = %d, heightSize2 = %d", heightMode2, heightSize2);
+                    }
+//                  setMeasuredDimension(widthSpec, heightSpec2);
+                    super.onMeasure(recycler, state, widthSpec, heightSpec2);
+
+//                  mRecyclerView.setHasFixedSize(true);
+                }
             }
         } else {
             super.onMeasure(recycler, state, widthSpec, heightSpec);
@@ -388,6 +429,20 @@ public class WheelViewLayoutManager extends LinearLayoutManager {
 
     public void setOnSelectedViewListener(@Nullable OnItemSelectedListener listener) {
         this.mOnItemSelectedListener = listener;
+    }
+
+    /**
+     * 手动设置RecyclerView的宽高
+     * @param recyclerViewWidth RecyclerView的宽度
+     * @param recyclerViewHeight RecyclerView的高度
+     * @return
+     */
+    public WheelViewLayoutManager setWidthHeight(int recyclerViewWidth, int recyclerViewHeight) {
+        isSetRecyclerViewWidthHeightByUser = true;
+        this.recyclerViewWidth = recyclerViewWidth;
+        this.recyclerViewHeight = recyclerViewHeight;
+        if (mRecyclerView != null) setMeasuredDimension(recyclerViewWidth, recyclerViewHeight);
+        return this;
     }
 
     /**

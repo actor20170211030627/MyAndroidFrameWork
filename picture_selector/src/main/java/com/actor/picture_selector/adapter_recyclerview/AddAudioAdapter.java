@@ -108,7 +108,7 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
                     if (isLastPos) {
                         //判断是否能选择更多
                         if (getItemCount() > maxFiles) {
-                            ToastUtils.showShort("最多选择%d个", maxFiles);
+                            ToastUtils.showShort(R.string.max_select_format, maxFiles);
                         } else {
                             Activity topActivity = ActivityUtils.getTopActivity();
                             if (topActivity == null) {

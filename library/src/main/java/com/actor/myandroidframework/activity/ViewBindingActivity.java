@@ -1,10 +1,7 @@
 package com.actor.myandroidframework.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
@@ -57,37 +54,5 @@ public class ViewBindingActivity<VB extends ViewBinding> extends ActorBaseActivi
                 setContentView(viewBinding.getRoot());
             }
         }
-    }
-
-    /**
-     * 替换掉 Butterknife 的 @OnClick() 点击事件注解. 如果点击事件很多, 写起来很麻烦. <br />
-     * 1.Activity中可以在xml中的view写: <br />
-     *   &emsp; android:onClick="onViewClicked" <br />
-     * 2.然后Activity中的 重写 {@link #onViewClicked(View view)} (用 ButterKnife 生成).
-     * @param ids 要设置点击事件的view的id
-     *
-     */
-    protected void setOnClickListeners(@IdRes int... ids) {
-        if (viewBinding != null && ids != null && ids.length > 0) {
-            View root = viewBinding.getRoot();
-            for (int id : ids) {
-                root.findViewById(id).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onViewClicked(v);
-                    }
-                });
-            }
-        }
-    }
-
-    /**
-     * 就是和 ButterKnife 生成的点击事件一样的名称 <br />
-     * //https://github.com/JakeWharton/butterknife 可用于生成onViewClicked()方法 switch-case 的点击事件 <br />
-     * compileOnly 'com.jakewharton:butterknife:10.2.3' <br />
-     * //annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3' <br />
-     * @param view
-     */
-    public void onViewClicked(@NonNull View view) {
     }
 }

@@ -31,6 +31,8 @@ import java.util.List;
 public class WheelViewSingleVerticalTestDialog extends ViewBindingDialog<DialogWheelViewSingleVerticalTestBinding> {
 
     private MyWheelViewTestAdapter mAdapter0;
+    int dp150 = SizeUtils.dp2px(150);
+    int dp330 = SizeUtils.dp2px(330);
 
     public WheelViewSingleVerticalTestDialog(@NonNull Context context) {
         super(context);
@@ -49,7 +51,9 @@ public class WheelViewSingleVerticalTestDialog extends ViewBindingDialog<DialogW
         //竖着滑动
         WheelViewLayoutManager layoutManager0 = new WheelViewLayoutManager(getContext(),
                 WheelViewLayoutManager.VERTICAL, 3, 0.4f, true)
-                .setLoggable(true);
+                .setLoggable(true)
+//                .setWidthHeight(dp150, dp330)
+                ;
         mAdapter0 = new MyWheelViewTestAdapter(layoutManager0, R.layout.item_wheel_view_vertical, false, true);
 
         //设置是否能打印日志

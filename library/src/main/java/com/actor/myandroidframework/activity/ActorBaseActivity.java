@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.bean.OnActivityCallback;
 import com.actor.myandroidframework.dialog.LoadingDialog;
-import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogable;
+import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogAble;
 import com.actor.myandroidframework.service.ActorBaseService;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
@@ -38,7 +38,7 @@ import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
  *
  * @version 1.0
  */
-public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkLoadingDialogable {
+public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkLoadingDialogAble {
 
     //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
     protected AppCompatActivity         mActivity;
@@ -338,6 +338,10 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     public void setRequestCount(int requestCount) {
         requestCountOfShowLoadingDialog  = requestCount;
+    }
+
+
+    public void onViewClicked(@NonNull View view) {
     }
 
 

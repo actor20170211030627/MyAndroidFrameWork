@@ -56,7 +56,6 @@ public class DrawableRequestListener implements RequestListener<Drawable> {
         return false;
     }
 
-    @Nullable
     public <T extends Object> T getRequestTag() {
         return (T) requestTag;
     }

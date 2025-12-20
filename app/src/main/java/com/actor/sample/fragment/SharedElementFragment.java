@@ -138,8 +138,8 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
                 .into(viewBinding.iv);
     }
 
-    @Override
-    public void onViewClicked(View view) {
+
+    private void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_start_activity:   //点击跳转Activity
                 viewBinding.iv.setTransitionName("iv");

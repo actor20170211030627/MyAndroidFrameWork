@@ -123,7 +123,6 @@ public class GifImageViewTarget extends ImageViewTarget<GifDrawable> {
         return this;
     }
 
-    @Nullable
     public <T extends Object> T getRequestTag() {
         return (T) requestTag;
     }

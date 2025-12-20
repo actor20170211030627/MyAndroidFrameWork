@@ -329,7 +329,7 @@ public class QQUtils {
                 listener.onComplete(jsonObject);
                 return Constants.UI_ACTIVITY;
             } else {
-                LogUtils.error("QQ登录, 获取的jsonobject为空!");
+                LogUtils.error("QQ登录, 获取的jsonObject为空!");
             }
         }
         Map<String, Object> params = new HashMap<>();

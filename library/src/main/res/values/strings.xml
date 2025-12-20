@@ -1,22 +1,26 @@
 <resources>
     <!--为了打包的时候, BaseService不报错-->
-    <string name="app_name" />
+    <string name="app_name" translatable="false" />
     <!--手机-->
-    <string name="digits_phone">0123456789</string>
+    <string name="digits_phone" translatable="false">0123456789</string>
     <!--数字-->
-    <string name="digits_num">-0123456789.</string>
+    <string name="digits_num" translatable="false">-0123456789.</string>
     <!--正数-->
-    <string name="digits_num_unsigned">0123456789.</string>
+    <string name="digits_num_unsigned" translatable="false">0123456789.</string>
     <!--身份证-->
-    <string name="digits_id_card">0123456789xX</string>
+    <string name="digits_id_card" translatable="false">0123456789xX</string>
     <!--大小写字母-->
-    <string name="digits_26letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
-    <string name="digits_26letter_small">abcdefghijklmnopqrstuvwxyz</string>
-    <string name="digits_26letter_capital">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="digits_26letter" translatable="false">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="digits_26letter_small" translatable="false">abcdefghijklmnopqrstuvwxyz</string>
+    <string name="digits_26letter_capital" translatable="false">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <!--数字 + 大小写字母-->
-    <string name="digits_num_26letter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="digits_num_26letter" translatable="false">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
-    <string name="regex_num">[0-9]+</string>
-    <string name="regex_26letter">[a-zA-Z]+</string>
-    <string name="regex_chinese">[\u4E00-\u9FA5]+</string>
+    <string name="regex_num" translatable="false">[0-9]+</string>
+    <string name="regex_26letter" translatable="false">[a-zA-Z]+</string>
+    <string name="regex_chinese" translatable="false">[\u4E00-\u9FA5]+</string>
+
+
+    <string name="loading">Loading…</string>
+    <string name="no_data">No data</string>
 </resources>

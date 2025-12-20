@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
  * date       : 2020/6/13 on 21:08
  * @version 1.0
  */
-public interface ShowNetWorkLoadingDialogable {
+public interface ShowNetWorkLoadingDialogAble {
 
     @Nullable
     Dialog getNetWorkLoadingDialog();
