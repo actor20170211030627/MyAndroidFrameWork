@@ -24,8 +24,14 @@ public abstract class MediaPlayerCallback implements
 {
     boolean isAutoPlay = false;         //是否自动播放
     boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
+    boolean isStopped = false;          //是否调用了MediaPlayer.stop()
     Object tagMPC;            //标记本次播放, 例如可以传入RecyclerView中Item的position, 播放完成拿到tag做相应操作
     MediaPlayer mp;                     //播放器
+
+//    private enum PlayerState {
+//        IDLE, INITIALIZED, PREPARING, PREPARED,
+//        STARTED, PAUSED, STOPPED, COMPLETED, ERROR
+//    }
 
     public MediaPlayerCallback() {
     }
@@ -34,7 +40,6 @@ public abstract class MediaPlayerCallback implements
         this.tagMPC = tag;
     }
 
-    @Nullable
     public <T extends Object> T getPlayerTag() {
         return (T) tagMPC;
     }
@@ -42,12 +47,20 @@ public abstract class MediaPlayerCallback implements
     /**
      * 当准备完成后
      */
+    @Override
     @CallSuper
     public void onPrepared(MediaPlayer mp) {
         if (mp != null) {
             int audioSessionId = mp.getAudioSessionId();
             LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
-            if (isAutoPlay) MediaPlayerUtils.getInstance().start(audioSessionId);
+            if (isAutoPlay) {
+                if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(audioSessionId)) {
+                    MediaPlayerUtils.getInstance().start(audioSessionId);
+                } else {
+                    //防止 audioSessionId 已经被移除
+                    MediaPlayerUtils.getInstance().start(mp, this);
+                }
+            }
         }
     }
 
@@ -60,6 +73,7 @@ public abstract class MediaPlayerCallback implements
     public boolean onSetData2StartError(@Nullable MediaPlayer mp, @NonNull Exception e) {
         e.printStackTrace();
         LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
+        //if Map没查到AudioSessionId对应的MediaPlayer, 说明用户自己remove了, 就不要release()了
         if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         return false;
     }
@@ -98,7 +112,8 @@ public abstract class MediaPlayerCallback implements
      * cause the OnCompletionListener to be called.
      * 如果自己处理错误, 则返回true. 否则返回false(会调用 {@link #onCompletion(MediaPlayer))。
      */
-    @CallSuper
+    @Override
+//    @CallSuper
     public boolean onError(MediaPlayer mp, int what, int extra) {
         LogUtils.errorFormat("播放的过程中, 出现错误, what=%d, extra=%d", what, extra);
         /**
@@ -111,8 +126,10 @@ public abstract class MediaPlayerCallback implements
     /**
      * 播放完成
      */
+    @Override
     @CallSuper
     public void onCompletion(@Nullable MediaPlayer mp) {
+        //if Map没查到AudioSessionId对应的MediaPlayer, 说明用户自己remove了, 就不要release()了
         if (isNewMediaPlayer && mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         onCompletion2(mp);
     }

@@ -126,7 +126,6 @@
             android:background="#11005500"
             android:isIndicator="false"
             android:numStars="5"
-            android:padding="5dp"
             android:rating="2.3"
             android:stepSize="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +150,6 @@
             android:background="#11005500"
             android:isIndicator="false"
             android:numStars="5"
-            android:padding="5dp"
             android:rating="2.3"
             android:stepSize="0.1"
             app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +174,6 @@
             android:background="#11005500"
             android:isIndicator="false"
             android:numStars="5"
-            android:padding="5dp"
             android:rating="2.3"
             android:stepSize="0.1"
             app:layout_constraintStart_toStartOf="parent"
@@ -202,7 +199,6 @@
             android:background="#11005500"
             android:isIndicator="false"
             android:numStars="5"
-            android:padding="5dp"
             android:rating="2.3"
             android:stepSize="1.1"
             app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +223,6 @@
             android:background="#11005500"
             android:isIndicator="false"
             android:numStars="5"
-            android:padding="5dp"
             android:rating="2.3"
             android:stepSize="0.1"
             app:layout_constraintStart_toStartOf="parent"
@@ -252,7 +247,6 @@
             android:background="#11005500"
             android:isIndicator="false"
             android:numStars="5"
-            android:padding="5dp"
             android:rating="2.3"
             android:stepSize="0.1"
             app:layout_constraintStart_toStartOf="parent"
@@ -284,6 +278,7 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="200dp"
             android:layout_height="50dp"
+            android:layout_marginStart="5dp"
             android:background="#11005500"
             android:isIndicator="false"
             android:numStars="5"
@@ -305,6 +300,7 @@
             style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="1dp"
             android:background="#11005500"
             android:isIndicator="false"
@@ -330,6 +326,7 @@
             style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="1dp"
             android:background="#11005500"
             android:isIndicator="false"
@@ -349,6 +346,31 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/rb7" />
 
+        <!-- android:rating 将尾号的1改成0就啥都不显示了 -->
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rb8"
+            style="@style/Widget.AppCompat.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1dp"
+            android:background="#11005500"
+            android:isIndicator="false"
+            android:numStars="1"
+            android:rating="0.16666666418313980102539062500000001"
+            android:stepSize="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rb7" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="numStars=1, stepSize=0.3, 滑动时🌟显示错乱..."
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/rb8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rb8" />
+
 
         <TextView
             android:id="@+id/tv2"
@@ -361,7 +383,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rb7" />
+            app:layout_constraintTop_toBottomOf="@id/rb8" />
 
         <com.actor.myandroidframework.widget.BaseRatingBar
             android:id="@+id/brb_0"

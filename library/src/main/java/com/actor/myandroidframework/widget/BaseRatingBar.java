@@ -49,7 +49,7 @@ import com.blankj.utilcode.util.ImageUtils;
  *         <td>2</td>
  *         <td>{@link R.styleable#BaseRatingBar_brbNumStars brbNumStars}</td>
  *         <td>5</td>
- *         <td>星星总的显示个数</td>
+ *         <td>总的评分大小</td>
  *     </tr>
  *     <tr>
  *         <td>3</td>
@@ -67,7 +67,7 @@ import com.blankj.utilcode.util.ImageUtils;
  *         <td>5</td>
  *         <td>{@link R.styleable#BaseRatingBar_brbRating brbRating}</td>
  *         <td>0</td>
- *         <td>设置默认显示多少星星</td>
+ *         <td>设置默认显示多少评分</td>
  *     </tr>
  *     <tr>
  *         <td>6</td>
@@ -98,7 +98,7 @@ public class BaseRatingBar extends View {
     //单个星星宽高
     protected float    starWidthF = 0;
     protected int      starHeight = 0;
-    //目前绘制的星星数量
+    //目前绘制的评分大小
     protected float    starRating   = 0.0F;
     //步长
     protected float    starStepSize = 0.1F;
@@ -123,7 +123,7 @@ public class BaseRatingBar extends View {
 
     //绘制'满星'的画笔
     protected Paint                     paintFullStar;
-    //监听星星变化接口
+    //监听评分变化接口
     protected OnRatingBarChangeListener onRatingBarChangeListener;
 
     public BaseRatingBar(Context context) {
@@ -157,13 +157,13 @@ public class BaseRatingBar extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BaseRatingBar);
         //间隔
         starInterval = typedArray.getDimensionPixelSize(R.styleable.BaseRatingBar_brbStarInterval, 0);
-        //总的星星个数
+        //总的评分大小
         starCount = typedArray.getInteger(R.styleable.BaseRatingBar_brbNumStars, 5);
         //空的星星图片
         starEmptyDrawable = typedArray.getDrawable(R.styleable.BaseRatingBar_brbEmptyDrawable);
         //满的星星图片
         Drawable drawable = typedArray.getDrawable(R.styleable.BaseRatingBar_brbFullDrawable);
-        //目前绘制的星星数量
+        //目前绘制的评分大小
         starRating = typedArray.getFloat(R.styleable.BaseRatingBar_brbRating, 0);
         //步长
         starStepSize = typedArray.getFloat(R.styleable.BaseRatingBar_brbStepSize, 0.1F);
@@ -367,7 +367,7 @@ public class BaseRatingBar extends View {
     }
 
     /**
-     * 设置总的星星个数
+     * 设置总的评分大小
      * @see RatingBar#setNumStars(int)
      */
     public void setNumStars(@IntRange(from = 1) int numStars) {
@@ -378,7 +378,7 @@ public class BaseRatingBar extends View {
     }
 
     /**
-     * 获取总的星星的数目
+     * 获取总的评分大小
      * @see RatingBar#getNumStars()
      */
     public int getNumStars() {
@@ -386,7 +386,7 @@ public class BaseRatingBar extends View {
     }
 
     /**
-     * @param rating 设置目前绘制的星星数量, {@link RatingBar#setRating(float)}
+     * @param rating 设置目前绘制的评分大小, {@link RatingBar#setRating(float)}
      */
     public void setRating(float rating) {
         if (rating < 0) return;
@@ -403,16 +403,16 @@ public class BaseRatingBar extends View {
     }
 
     /**
-     * 依据步长 starStepSize 计算应该绘制的星星数量
-     * @param rating 得到的未经处理的星星🌟数量
-     * @return 返回符合逻辑的, 符合步数的星星数量
+     * 依据步长 starStepSize 计算应该绘制的评分大小
+     * @param rating 得到的未经处理的评分
+     * @return 返回符合逻辑的, 符合步数的评分大小
      */
     protected float calcRatingBaseOnStep(float rating) {
         if (rating <= 0) return 0;
         if (rating >= starCount) return starCount;
         /**
          * 为何要向上取整?
-         * 因为要考虑点击星星🌟的情况, 比如step=1且点击星星的时候, 只要点击到了这颗星星🌟, 那么这1整颗星星都要算上
+         * 因为要考虑点击星星🌟的情况, 比如step=1且点击星星🌟的时候, 只要点击到了这颗星星🌟, 那么这1整颗星星都要算上
          */
         rating = (float) (Math.ceil(rating / starStepSize) * starStepSize);
         if (rating >= starCount) return starCount;
@@ -420,7 +420,7 @@ public class BaseRatingBar extends View {
     }
 
     /**
-     * 获取绘制的星星数量
+     * 获取评分
      */
     public float getRating() {
         return starRating;
@@ -443,17 +443,17 @@ public class BaseRatingBar extends View {
     }
 
     /**
-     * 设置星星改变监听
+     * 设置改变监听
      */
-    public void setOnStarChangeListener(@Nullable OnRatingBarChangeListener onRatingBarChangeListener) {
+    public void setOnRatingBarChangeListener(@Nullable OnRatingBarChangeListener onRatingBarChangeListener) {
         this.onRatingBarChangeListener = onRatingBarChangeListener;
     }
     public interface OnRatingBarChangeListener {
         /**
-         * @param baseRatingBar 当前控件
-         * @param rating 目前的星星
+         * @param ratingBar 当前控件
+         * @param rating 目前评分
          * @param fromUser 是否用户在操作
          */
-        void onRatingChanged(@NonNull BaseRatingBar baseRatingBar, float rating, boolean fromUser);
+        void onRatingChanged(@NonNull BaseRatingBar ratingBar, float rating, boolean fromUser);
     }
 }

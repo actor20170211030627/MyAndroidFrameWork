@@ -124,7 +124,7 @@ public class MediaPlayerUtils {
                      boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
         if (TextUtils.isEmpty(audioPath)) {
             if (playerCallback != null) {
-                boolean isDealBySelf = playerCallback.onSetData2StartError(null, new IllegalStateException("audioPath is Empty!"));
+                boolean isDealBySelf = playerCallback.onSetData2StartError(null, new IllegalArgumentException("audioPath is Empty!"));
                 if (!isDealBySelf) {
                     playerCallback.onCompletion(null);
                 }
@@ -164,11 +164,11 @@ public class MediaPlayerUtils {
     protected void dealRecyclerPlayerIsPlaying() {
         //复用播放器, if还在播放, 先回调播放完成.
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-            stop(mMediaPlayer); //要调用停止, 否则if用户在 onCompletion()中又调用play/playRaw()方法的话, 有概率会递归栈溢出!
             int audioSessionId = mMediaPlayer.getAudioSessionId();
-            MediaPlayerCallback mpc = playerMap.get(audioSessionId);
+            //先.remove, 防止用户在 onCompletion()中又调用playRaw()
+            MediaPlayerCallback mpc = playerMap.remove(audioSessionId);
+            stop(mMediaPlayer, mpc); //要调用停止, 否则if用户在 onCompletion()中又调用play/playRaw()方法的话, 有概率会递归栈溢出!
             if (mpc != null) {
-                playerMap.put(audioSessionId, null);    //先手动置空回调, 防止用户在 onCompletion()中又调用playRaw()
                 mpc.onCompletion(null);    //复用的播放器不要释放
             }
         }
@@ -193,6 +193,7 @@ public class MediaPlayerUtils {
         };
         playerCallback.isAutoPlay = isAutoPlay;
         playerCallback.isNewMediaPlayer = isNewMediaPlayer;
+        playerCallback.isStopped = false;
         playerCallback.mp = mediaPlayer;
 
         int audioSessionId = mediaPlayer.getAudioSessionId();
@@ -209,6 +210,9 @@ public class MediaPlayerUtils {
          * 播放本地{@link MediaPlayer#create(Context, int)}的时候, 会自动准备完毕, if调用{@link MediaPlayer#prepare()} or {@link MediaPlayer#prepareAsync()}会报错:
          * prepareAsync called in state 8, mPlayer(0x7e0c7f62c0) <br />
          * 播放{@link AssetFileDescriptor} or 路径的时候, 就需要准备了. 主线程中异步准备, 准备监听完成后开始播放
+         *
+         * prepare()和prepareAsync()允许的状态: Initialized, Stopped
+         * prepare()和prepareAsync()禁止的状态: Idle, Error
          */
         if (isNeedPrepare) mediaPlayer.prepareAsync();
 //        mediaPlayer.prepare();
@@ -220,7 +224,7 @@ public class MediaPlayerUtils {
     /**
      * 获取'播放'的音频的当前进度 (要先设置音频)
      * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
-     * @return 单位ms
+     * @return 单位ms, if没找到 MediaPlayer 会返回-1
      */
     public int getCurrentPosition(int audioSessionId) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
@@ -229,20 +233,39 @@ public class MediaPlayerUtils {
     }
 
     /**
-     * 设置'播放'进度
+     * 设置'播放'进度, 设置后播放状态不变
      * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
      * @param msec 从开始搜寻到的位移，以毫秒为单位。if(msec)<0，将使用时间位置零。if(msec) > 持续时间，将使用持续时间。
      */
     public void seekTo(int audioSessionId, int msec) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
-        if (playerCallback == null || playerCallback.mp == null) return;
-        playerCallback.mp.seekTo(msec);
+        if (playerCallback == null) return;
+        seekTo(playerCallback.mp, playerCallback, msec);
+    }
+
+    /**
+     * 设置'播放'进度, 设置后播放状态不变
+     * @param msec 从开始搜寻到的位移，以毫秒为单位。if(msec)<0，将使用时间位置零。if(msec) > 持续时间，将使用持续时间。
+     * @deprecated 建议使用 {@link #seekTo(int, int)}
+     */
+    @Deprecated
+    public void seekTo(@Nullable MediaPlayer mediaPlayer, @Nullable MediaPlayerCallback playerCallback, int msec) {
+        if (mediaPlayer == null) return;
+        //seekTo()禁止的状态: Stopped, Idle, Initialized, Error 否则报错: what=-38, extra=0
+        //并且.stop()后, currentPos 已经 = 0
+        if (playerCallback != null && playerCallback.isStopped) return;
+        try {
+            //允许的状态: Prepared, Started, Paused, PlaybackCompleted
+            mediaPlayer.seekTo(msec);
+        } catch (IllegalStateException e) {
+            LogUtils.error("seekTo(int, int) 设置'播放'进度报错:", e);
+        }
     }
 
     /**
      * 获取'播放'的音频的总时长 (要先设置音频)
      * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
-     * @return 单位ms
+     * @return 单位ms, if没找到 MediaPlayer 会返回-1
      */
     public int getDuration(int audioSessionId) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
@@ -253,22 +276,32 @@ public class MediaPlayerUtils {
 
 
     /**
-     * 开始播放音频
+     * 开始播放 / 继续播放音频
      * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
      */
     public void start(int audioSessionId) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
-        if (playerCallback != null) start(playerCallback.mp, playerCallback);
+        if (playerCallback == null) {
+            LogUtils.errorFormat("audioSessionId = %d 的MediaPlayer不存在or已移除!", audioSessionId);
+        } else start(playerCallback.mp, playerCallback);
     }
 
     /**
-     * 开始播放音频
+     * 开始播放 / 继续播放音频
      * @deprecated 建议使用 {@link #start(int)}
      */
     @Deprecated
     public void start(@Nullable MediaPlayer mediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
+        if (mediaPlayer == null) return;
         try {
-            if (mediaPlayer != null) mediaPlayer.start();
+            if (playerCallback != null && playerCallback.isStopped) {
+                playerCallback.isStopped = false;
+                //禁止的状态: Stopped, Idle, Initialized, Error. if isStopped, 需要重新准备, 否则会报错: what=-38, extra=0
+                mediaPlayer.prepareAsync();
+            } else {
+                //允许的状态: Prepared, Paused, PlaybackCompleted
+                mediaPlayer.start();
+            }
         } catch (IllegalStateException e) {
             if (playerCallback != null) {
                 //                                                         null: 自己持有的Player, 自己去释放.
@@ -283,9 +316,12 @@ public class MediaPlayerUtils {
      * 继续播放的话调用 {@link #start(int)}, 或者 {@link #start(MediaPlayer, MediaPlayerCallback)}
      * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
      */
-    public void pause(int audioSessionId) {
+    public boolean pause(int audioSessionId) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
-        if (playerCallback != null) pause(playerCallback.mp);
+        if (playerCallback == null) {
+            LogUtils.errorFormat("audioSessionId = %d 的MediaPlayer不存在or已移除!", audioSessionId);
+            return false;
+        } else return pause(playerCallback.mp);
     }
 
     /**
@@ -294,21 +330,32 @@ public class MediaPlayerUtils {
      * @deprecated 建议使用 {@link #pause(int)}
      */
     @Deprecated
-    public void pause(@Nullable MediaPlayer mediaPlayer) {
+    public boolean pause(@Nullable MediaPlayer mediaPlayer) {
+        if (mediaPlayer == null) return false;
         try {
-            if (mediaPlayer != null) mediaPlayer.pause();
+            //禁止的状态: 其他所有状态. 一定要判断.isPlaying(), 否则如果.stop()了的话, 再调用.pause()会报错: what=-38, extra=0
+            if (mediaPlayer.isPlaying()) {
+                //允许的状态: Started, Paused
+                mediaPlayer.pause();
+                return true;
+            }
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            LogUtils.error("pause(MediaPlayer) 暂停播放音频报错:", e);
         }
+        return false;
     }
 
     /**
      * 停止播放音频
      * @param audioSessionId {@link MediaPlayer#getAudioSessionId()}, 用于确定哪一个播放器
      */
-    public void stop(int audioSessionId) {
+    public boolean stop(int audioSessionId) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
-        if (playerCallback != null) stop(playerCallback.mp);
+        if (playerCallback == null) {
+            LogUtils.errorFormat("audioSessionId = %d 的MediaPlayer不存在or已移除!", audioSessionId);
+            return false;
+        }
+        return stop(playerCallback.mp, playerCallback);
     }
 
     /**
@@ -316,13 +363,19 @@ public class MediaPlayerUtils {
      * @deprecated 建议使用 {@link #stop(int)}
      */
     @Deprecated
-    public void stop(@Nullable MediaPlayer mediaPlayer) {
+    public boolean stop(@Nullable MediaPlayer mediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
+        if (mediaPlayer == null) return false;
         try {
             //开始 or 暂停 后, 可以停止
-            if (mediaPlayer != null) mediaPlayer.stop();
+            //允许的状态: Prepared, Started, Stopped, Paused, PlaybackCompleted
+            //禁止的状态: Idle, Initialized, Error
+            if (playerCallback != null) playerCallback.isStopped = true;
+            mediaPlayer.stop();
+            return true;
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            LogUtils.error("stop(MediaPlayer) 停止播放音频报错:", e);
         }
+        return false;
     }
 
     /**
@@ -340,7 +393,11 @@ public class MediaPlayerUtils {
      */
     public boolean isPlaying(int audioSessionId) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
-        return playerCallback != null && playerCallback.mp != null && playerCallback.mp.isPlaying();
+        if (playerCallback == null) {
+            LogUtils.errorFormat("audioSessionId = %d 的MediaPlayer不存在or已移除!", audioSessionId);
+            return false;
+        }
+        return playerCallback.mp != null && playerCallback.mp.isPlaying();
     }
 
     /**
@@ -350,12 +407,15 @@ public class MediaPlayerUtils {
      */
     public boolean setPlaySpeed(int audioSessionId, @FloatRange(from = 0.f) float playSpeed) {
         MediaPlayerCallback playerCallback = playerMap.get(audioSessionId);
-        if (playerCallback == null) return false;
+        if (playerCallback == null) {
+            LogUtils.errorFormat("audioSessionId = %d 的MediaPlayer不存在or已移除!", audioSessionId);
+            return false;
+        }
         return setPlaySpeed(playerCallback.mp, playSpeed);
     }
 
     /**
-     * 设置速度系数
+     * 设置速度系数, 设置完成后会自动播放...
      * @param playSpeed 速度系数, 一般[0.5f~2.0f], 经Vivo X27 测试的允许范围[0.01~6.491], 超过就会设置失败.
      * @deprecated 建议使用 {@link #setPlaySpeed(int, float)}
      */
@@ -386,7 +446,7 @@ public class MediaPlayerUtils {
         MediaPlayerCallback playerCallback = playerMap.remove(audioSessionId);
         if (playerCallback != null) {
             MediaPlayer mp = playerCallback.mp;
-            release(mp);
+            release(mp, playerCallback);
             playerCallback.mp = null;
         }
     }
@@ -396,8 +456,8 @@ public class MediaPlayerUtils {
      * @deprecated 建议使用 {@link #release(int)}
      */
     @Deprecated
-    public void release(@Nullable MediaPlayer mediaPlayer) {
-        stop(mediaPlayer);
+    public void release(@Nullable MediaPlayer mediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
+        stop(mediaPlayer, playerCallback);
         if (mediaPlayer != null) {
             mediaPlayer.release();
             //默认播放器释放后, 要置空, 否则.reset()会报错

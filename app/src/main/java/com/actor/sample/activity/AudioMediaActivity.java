@@ -54,7 +54,8 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 //    private String netPhoneticNotFound = "http://bdcyuyin.mtwlkj.net:8115/skill-yuyin/yinbiaofayin/us/a%CA%8A.mp3";
     private String netPhoneticNotFound = "http://bdcyuyin.mtwlkj.net:8115/skill-yuyin/yinbiaofayin/us/aʊ.mp3";
 
-    private int audioSessionIdMusic = -1;
+    private MediaPlayer mpRaw, mpHttp;
+    private MediaPlayerCallback mpRawCallback, mpHttpCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     float speed = progress / 1000f;
-                    boolean isSuccess = MediaPlayerUtils.getInstance().setPlaySpeed(audioSessionIdMusic, speed);
+                    boolean isSuccess = MediaPlayerUtils.getInstance().setPlaySpeed(mpHttp, speed);
                     LogUtils.errorFormat("speed = %f, isSuccess = %b", speed, isSuccess);
                 }
             }
@@ -227,27 +228,31 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 break;
 
 
-            case R.id.btn_start_play:
-                MediaPlayerUtils.getInstance().play(MUSIC, new MediaPlayerCallback() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        super.onPrepared(mp);
-                        audioSessionIdMusic = mp.getAudioSessionId();
-                    }
-                    @Override
-                    public void onCompletion2(@Nullable MediaPlayer mp) {
-                        ToasterUtils.success("播放完成!");
-                    }
-                });
+            case R.id.btn_start_play_raw:
+                initMpRawAndPlay();
                 break;
-            case R.id.btn_pause_play:
-                MediaPlayerUtils.getInstance().pause(audioSessionIdMusic);
+            case R.id.btn_pause_play_raw:
+                MediaPlayerUtils.getInstance().pause(mpRaw);
                 break;
-            case R.id.btn_continue_play:
-                MediaPlayerUtils.getInstance().start(audioSessionIdMusic);
+            case R.id.btn_continue_play_raw:
+                MediaPlayerUtils.getInstance().start(mpRaw, mpRawCallback);
                 break;
-            case R.id.btn_stop_play:
-                MediaPlayerUtils.getInstance().stop(audioSessionIdMusic);
+            case R.id.btn_stop_play_raw:
+                MediaPlayerUtils.getInstance().stop(mpRaw, mpRawCallback);
+                break;
+
+
+            case R.id.btn_start_play_http:
+                initMpRawAndHttp();
+                break;
+            case R.id.btn_pause_play_http:
+                MediaPlayerUtils.getInstance().pause(mpHttp);
+                break;
+            case R.id.btn_continue_play_http:
+                MediaPlayerUtils.getInstance().start(mpHttp, mpHttpCallback);
+                break;
+            case R.id.btn_stop_play_http:
+                MediaPlayerUtils.getInstance().stop(mpHttp, mpHttpCallback);
                 break;
 
 
@@ -268,12 +273,62 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         }
     }
 
+    private void initMpRawAndPlay() {
+        if (mpRaw == null) {
+            mpRawCallback = new MediaPlayerCallback() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    super.onPrepared(mp);
+                    mpRaw = mp;
+                    //从MediaPlayerUtils中移除, 否则播放完成后会自动release()
+                    MediaPlayerUtils.getInstance().getAllPlayers().remove(mp.getAudioSessionId());
+                }
+                @Override
+                public void onCompletion2(@Nullable MediaPlayer mp) {
+                    ToasterUtils.success("播放完成!");
+                }
+            };
+            //为了不和下面那个 http 的长歌播放器复用到, 所以new 1个 MediaPlayer
+            MediaPlayerUtils.getInstance().playRaw(R.raw.am_487_833_s161603081658, true, mpRawCallback);
+        } else {
+            MediaPlayerUtils.getInstance().start(mpRaw, mpRawCallback);
+            //if .stop() 后, 调用了↑ .start() -> prepare(), 还在prepare中就调用seekTo()会报错...
+//            MediaPlayerUtils.getInstance().seekTo(mpRaw, mpRawCallback, 0);
+        }
+    }
+
+    private void initMpRawAndHttp() {
+        if (mpHttp == null) {
+            mpHttpCallback = new MediaPlayerCallback() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    super.onPrepared(mp);
+                    mpHttp = mp;
+                    //从MediaPlayerUtils中移除, 否则播放完成后会自动release()
+                    MediaPlayerUtils.getInstance().getAllPlayers().remove(mp.getAudioSessionId());
+                }
+                @Override
+                public void onCompletion2(@Nullable MediaPlayer mp) {
+                    ToasterUtils.success("播放完成!");
+                }
+            };
+            //为了不和上面那个 raw 的长歌播放器复用到, 所以new 1个 MediaPlayer
+            MediaPlayerUtils.getInstance().play(MUSIC, true, mpHttpCallback);
+        } else {
+            MediaPlayerUtils.getInstance().start(mpHttp, mpHttpCallback);
+            //if .stop() 后, 调用了↑ .start() -> prepare(), 还在prepare中就调用seekTo()会报错...
+//            MediaPlayerUtils.getInstance().seekTo(mpHttp, mpHttpCallback, 0);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //释放资源
         MediaRecorderUtils.getInstance().releaseMediaRecorder();
         MediaPlayerUtils.getInstance().releaseAll();
+        MediaPlayerUtils.getInstance().release(mpRaw, mpRawCallback);
+        MediaPlayerUtils.getInstance().release(mpHttp, mpHttpCallback);
         TextToSpeechUtils.shutdown();
     }
 }

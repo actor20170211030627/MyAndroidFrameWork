@@ -198,7 +198,63 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_start_play"
+            android:id="@+id/btn_start_play_raw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_CCC"
+            android:gravity="center"
+            android:onClick="onViewClicked"
+            android:padding="5dp"
+            android:text="开始播放raw音乐"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_release_all" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_pause_play_raw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@color/grey_CCC"
+            android:gravity="center"
+            android:onClick="onViewClicked"
+            android:padding="5dp"
+            android:text="暂停播放音乐"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_start_play_raw"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_raw" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_continue_play_raw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@color/grey_CCC"
+            android:gravity="center"
+            android:onClick="onViewClicked"
+            android:padding="5dp"
+            android:text="继续播放音乐"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_pause_play_raw"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_raw" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_stop_play_raw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@color/grey_CCC"
+            android:gravity="center"
+            android:onClick="onViewClicked"
+            android:padding="5dp"
+            android:text="停止播放音乐"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_continue_play_raw"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_raw" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_start_play_http"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -209,10 +265,10 @@
             android:text="开始播放http音乐"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_release_all" />
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_pause_play"
+            android:id="@+id/btn_pause_play_http"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -222,11 +278,11 @@
             android:padding="5dp"
             android:text="暂停播放音乐"
             android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/btn_start_play"
-            app:layout_constraintTop_toTopOf="@id/btn_start_play" />
+            app:layout_constraintStart_toEndOf="@id/btn_start_play_http"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_http" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_continue_play"
+            android:id="@+id/btn_continue_play_http"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -236,11 +292,11 @@
             android:padding="5dp"
             android:text="继续播放音乐"
             android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/btn_pause_play"
-            app:layout_constraintTop_toTopOf="@id/btn_start_play" />
+            app:layout_constraintStart_toEndOf="@id/btn_pause_play_http"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_http" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_stop_play"
+            android:id="@+id/btn_stop_play_http"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -250,8 +306,8 @@
             android:padding="5dp"
             android:text="停止播放音乐"
             android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/btn_continue_play"
-            app:layout_constraintTop_toTopOf="@id/btn_start_play" />
+            app:layout_constraintStart_toEndOf="@id/btn_continue_play_http"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_http" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv2"
@@ -260,7 +316,7 @@
             android:padding="5dp"
             android:text="播放速度系数:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_start_play" />
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_http" />
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/seek_bar_speed"
