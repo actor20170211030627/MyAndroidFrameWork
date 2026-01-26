@@ -43,14 +43,10 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
             names.clear();
             sharedElements.clear();
 
-            //获取activity返回的数据                         true: 重置数据
-            Object obj = SharedElementUtils.getInstantExtra(true);
-            int newPosition = -1;
-            if (obj instanceof Integer) {
-                newPosition = (int) obj;
+            //获取activity返回的数据
+            int newPosition = SharedElementUtils.getInstantExtra(-1);
+            if (newPosition >= 0) {
                 position2ViewPager = newPosition;
-            } else {
-                LogUtils.errorFormat("obj = %s not instanceof Integer", obj);
             }
             LogUtils.errorFormat("newPosition = %d, position2ViewPager = %d", newPosition, position2ViewPager);
 

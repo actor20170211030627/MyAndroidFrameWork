@@ -19,17 +19,13 @@ public class RatingBarActivity extends BaseActivity<ActivityRatingBarBinding> im
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("主页->自定义RatingBar");
-        BaseRatingBar brb1 = viewBinding.brb1;
-        BaseRatingBar brb2 = viewBinding.brb2;
-        BaseRatingBar brb3 = viewBinding.brb3;
-        BaseRatingBar brb4 = viewBinding.brb4;
-        BaseRatingBar brb5 = viewBinding.brb5;
-
-        brb1.setOnStarChangeListener(this);
-        brb2.setOnStarChangeListener(this);
-        brb3.setOnStarChangeListener(this);
-        brb4.setOnStarChangeListener(this);
-        brb5.setOnStarChangeListener(this);
+        viewBinding.brb0.setOnStarChangeListener(this);
+        viewBinding.brb1.setOnStarChangeListener(this);
+        viewBinding.brb2.setOnStarChangeListener(this);
+        viewBinding.brb3.setOnStarChangeListener(this);
+        viewBinding.brb4.setOnStarChangeListener(this);
+        viewBinding.brb5.setOnStarChangeListener(this);
+        viewBinding.brb6.setOnStarChangeListener(this);
     }
 
     @Override

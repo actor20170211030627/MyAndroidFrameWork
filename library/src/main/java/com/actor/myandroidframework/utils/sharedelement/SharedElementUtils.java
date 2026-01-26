@@ -327,7 +327,7 @@ public class SharedElementUtils {
      *         请在fragment的
      *         {@link BaseSharedElementCallback#onMapSharedElements(List, Map) exitSharedElementCallback.onMapSharedElements(List, Map)} <br />
      *         或 {@link BaseSharedElementCallback#onSharedElementsArrived(List, List, androidx.core.app.SharedElementCallback.OnSharedElementsReadyListener) exitSharedElementCallback.onSharedElementsArrived(List, List, OnSharedElementsReadyListener)} <br />
-     *         中调用{@link #getInstantExtra() SharedElementUtils.getInstantExtra()}获取并判断数据, 然后更新Fragment里的UI, 示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/fragment/SharedElementFragment.java" target="_blank">SharedElementFragment.java</a>
+     *         中调用{@link #getInstantExtra(Object) SharedElementUtils.getInstantExtra(T defaultValue)}获取并判断数据, 然后更新Fragment里的UI, 示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/fragment/SharedElementFragment.java" target="_blank">SharedElementFragment.java</a>
      *     </li>
      *     <li>if不是必须在activity返回fragment的{@link 共享动画执行完成前}更新fragment的UI的话, 可直接在 {@link com.actor.myandroidframework.bean.OnActivityCallback OnActivityCallback callback} 这个回调中获取数据再更新UI.</li>
      * </ol>
@@ -388,13 +388,13 @@ public class SharedElementUtils {
 
 
     /**
-     * 共享元素退出第2个Activity, 回到前1个Activity, 第2个Activity代码示例:
+     * 共享元素退出第2个Activity, 回到前1个页面, 第2个Activity代码示例:
      * <pre>
      * <code>@</code>Override
      * public void onBackPressed() {
      *     //{@link null super.onBackPressed(); //注意: 不要再写这句, 否则返回可能看不到元素共享效果}
      *     Intent intent = new Intent().putExtra("position", position);
-     *     SharedElementUtils.finishAfterTransition(this, enterSharedElementCallback, RESULT_OK, intent);
+     *     SharedElementUtils.finishAfterTransition(this, enterSharedElementCallback, RESULT_OK, intent, null);
      * }
      * </pre>
      * @param activity 要退出的Activity
@@ -409,7 +409,7 @@ public class SharedElementUtils {
      *                         所以就需要传入这个参数. <br />
      *                         然后你再在fragment的{@link BaseSharedElementCallback#onMapSharedElements(List, Map) exitSharedElementCallback.onMapSharedElements(List, Map)} <br />
      *                         或 {@link BaseSharedElementCallback#onSharedElementsArrived(List, List, androidx.core.app.SharedElementCallback.OnSharedElementsReadyListener) exitSharedElementCallback.onSharedElementsArrived(List, List, OnSharedElementsReadyListener)} <br />
-     *                         中调用 {@link #getInstantExtra() SharedElementUtils.getInstantExtra()} 方法获取并判断数据, 在动画执行完成前更新数据.
+     *                         中调用 {@link #getInstantExtra(Object) SharedElementUtils.getInstantExtra(T defaultValue)} 方法获取并判断数据, 在动画执行完成前更新数据.
      *                         </li>
      *                         <li>if你从activity返回fragment后, fragment那边不需要在元素共享动画执行前更新数据, 这个参数传null</li>
      *                     </ol>
@@ -432,43 +432,15 @@ public class SharedElementUtils {
 
     /**
      * 获取瞬时数据
-     * @param resetValue 获取数据后, 是否重置数据
-     */
-    @Nullable
-    public static Object getInstantExtra(boolean resetValue) {
-        Object instantExtra = SharedElementUtils.instantExtra;
-        if (resetValue) SharedElementUtils.instantExtra = null;
-        return instantExtra;
-    }
-
-    /**
-     * 获取瞬时数据
-     * @param resetValue 获取数据后, 是否重置数据
      * @param defaultValue 默认值. if没有没有值就返回默认值
      */
     @Nullable
-    protected static <T> T getInstantExtra(boolean resetValue, @Nullable T defaultValue) {
+    public static <T> T getInstantExtra(@Nullable T defaultValue) {
         Object instantExtra = SharedElementUtils.instantExtra;
-        if (resetValue) SharedElementUtils.instantExtra = null;
+        SharedElementUtils.instantExtra = null;
         if (instantExtra == null) return defaultValue;
-
-        // TODO: 转换还是崩溃ClassCastException
-        try {
-            T result = (T) instantExtra;
-            return result;
-        }
-        catch (ClassCastException e) {
-            LogUtils.error("瞬时数据转换失败:", e);
-            return defaultValue;
-        }
-//        catch (Error e) {
-//            LogUtils.error("瞬时数据转换失败:", e);
-//            return defaultValue;
-//        }
-//        catch (Throwable e) {
-//            LogUtils.error("瞬时数据转换失败:", e);
-//            return defaultValue;
-//        }
+        //if Class类型对不上, 这一句并不会报错, 会在返回后转换成具体类的时候才报错
+        return (T) instantExtra;
     }
 
     protected static void setInstantExtra(@Nullable Object instantExtra) {

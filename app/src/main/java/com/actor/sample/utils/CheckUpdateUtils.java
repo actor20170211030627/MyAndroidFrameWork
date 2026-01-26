@@ -92,17 +92,17 @@ public class CheckUpdateUtils {
                 .url(Global.DOWNLOAD_URL)
                 .listener(new OnDownloadListener() {
                     @Override
-                    public void onDownloadProgressChange(File file, int progress) {
+                    public void onDownloadProgressChange(@NonNull File file, int progress) {
                         LogUtils.errorFormat("下载文件: progress=%d", progress);
                         progressDialog.setProgress(progress);
                     }
                     @Override
-                    public void onDownloadSuccess(File file) {
+                    public void onDownloadSuccess(@NonNull File file) {
                         progressDialog.dismiss();
                         AppUtils.installApp(file);
                     }
                     @Override
-                    public void onDownloadFail(File file, Throwable throwable) {
+                    public void onDownloadFail(@NonNull File file, @NonNull Throwable throwable) {
                         progressDialog.dismiss();
                         ToasterUtils.error("下载失败, 请到Github下载.");
                     }
