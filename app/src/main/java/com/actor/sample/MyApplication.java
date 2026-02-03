@@ -3,8 +3,8 @@ package com.actor.sample;
 import androidx.annotation.Nullable;
 
 import com.actor.chat_layout.bean.Emoji;
-import com.actor.chat_layout.utils.EmojiUtils;
 import com.actor.chat_layout.emoji.TIMSDKEmoji;
+import com.actor.chat_layout.utils.EmojiUtils;
 import com.actor.database.greendao.GreenDaoUtils;
 import com.actor.jpush.JPushUtils;
 import com.actor.map.baidu.BaiduLocationUtils;

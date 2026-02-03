@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 /**
  * Description: 简单的log日志输出, 如果字符串过长, 会自动在框内多行输出. <br />
- *              如果想输出xml/json/漂亮格式, 或输出到文件, 请使用: {@link com.blankj.utilcode.util.LogUtils}. <br />
+ *              如果想输出xml/json/漂亮格式, 或输出到文件, 请使用: {@link com.blankj.utilcode.util.LogUtils} <br />
  * @author     : ldf <br />
  * Date       : 2018/4/18 on 11:07
  * @version 1.0.3
@@ -16,14 +16,15 @@ import androidx.annotation.Nullable;
 public class LogUtils {
     protected static final boolean       IS_DEBUG_MODE  = ConfigUtils.IS_APP_DEBUG;
     protected static final String        TAG            = "LogUtils";
-    protected static final String        LINE_SEP       = System.getProperty("line.separator");
-    protected static final String        TOP_CORNER     = "┌";
+    @NonNull
+    protected static final String        LINE_SEP       = System.getProperty("line.separator", "\n");
+    protected static final String        TOP_LINE       = "┌────────────────────────────────────────────────────────" + LINE_SEP;
     protected static final String        LEFT_BORDER    = "│ ";
-    protected static final String        BOTTOM_CORNER  = "└";
-    protected static final String        SIDE_DIVIDER   = "────────────────────────────────────────────────────────";
+    protected static final String        BOTTOM_LINE    = "└────────────────────────────────────────────────────────" + LINE_SEP;
 //    protected static final int           MAX_LEN        = 1100;// fit for Chinese character
     protected static final int           MAX_LEN        = 500;// 经实测, 1100感觉太长了
     protected static       int           mStackPosition = 4;
+    protected static final StringBuilder SB = new StringBuilder(MAX_LEN);
 
     /**
      * 如果你发现打印堆栈位置不对, 可重新设置位置.
@@ -114,14 +115,14 @@ public class LogUtils {
         if (!IS_DEBUG_MODE) return;
         if (level < Log.VERBOSE || level > Log.ASSERT) level = Log.ERROR;
         synchronized (TAG) {
-            print2Console(level, TOP_CORNER + SIDE_DIVIDER + LINE_SEP);
+            print2Console(level, TOP_LINE);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
             int pos = Math.min(stackTraceElements.length - 1, mStackPosition - 1);
             print2Console(level, LEFT_BORDER + stackTraceElements[pos] + " 打印堆栈信息:");
             for (StackTraceElement stackTraceElement : stackTraceElements) {
                 print2Console(level, LEFT_BORDER + "\tat " + stackTraceElement + LINE_SEP);
             }
-            print2Console(level, BOTTOM_CORNER + SIDE_DIVIDER + LINE_SEP);
+            print2Console(level, BOTTOM_LINE);
         }
     }
 
@@ -135,45 +136,58 @@ public class LogUtils {
         if (stackPosition < 0) stackPosition = mStackPosition;
         //堆栈跟踪
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        int pos = Math.min(stackTraceElements.length - 1, stackPosition);
-        StackTraceElement stackTraceElement = stackTraceElements[pos];
-        //文件名: LogUtils.java
-        String fileName = stackTraceElement.getFileName();
-        //类名: com.actor.myandroidframework.utils.LogUtils
-        String className = stackTraceElement.getClassName();
-        //方法名称: onCreate
-        String methodName = stackTraceElement.getMethodName();
-        //日志输出行数
-        int lineNumber = stackTraceElement.getLineNumber();
-        /**
-         * @param fileName 文件名 <br />
-         *                 1.即使写个项目中(不是在jar/aar中)不相关的文件名, 也能跳转... <br />
-         *                 2.如果项目中(不是在jar/aar中)有2个同名文件, 点击的时候会弹框自选跳转... <br />
-         *                 3.如果文件名固定写成jar/aar中的Xxx.java, 没有点击效果 <br />
-         */
-        String pre = TextUtils2.getStringFormat("%s.%s(%s:%d) ", className, methodName, fileName, lineNumber);
-        String result = msg + LINE_SEP + Log.getStackTraceString(tr);
-        int length = pre.length() + result.length();
-        if (tr == null && length <= MAX_LEN) {
-            printSubMsg(level, pre + result);
-        } else {
-            synchronized (TAG) {
-                pre = pre + LINE_SEP + result;
-                int index = 0, lineCount = ++ length / MAX_LEN;
-                print2Console(level, TOP_CORNER + SIDE_DIVIDER + LINE_SEP);
-                for (int i = 0; i < lineCount; i++, index += MAX_LEN) {
-                    String msgMaxLen = pre.substring(index, index + MAX_LEN);
-                    printSubMsg(level, msgMaxLen);
+//        StackTraceElement stackTraceElement = stackTraceElements[Math.min(stackTraceElements.length - 1, stackPosition)];
+//        //类名: com.actor.myandroidframework.utils.LogUtils
+//        String className = stackTraceElement.getClassName();
+//        //文件名: LogUtils.java
+//        String fileName = stackTraceElement.getFileName();
+//        //方法名称: onCreate
+//        String methodName = stackTraceElement.getMethodName();
+//        //日志输出行数
+//        int lineNumber = stackTraceElement.getLineNumber();
+//        /**
+//         * @param fileName 文件名 <br />
+//         *                 1.即使写个项目中(不是在jar/aar中)不相关的文件名, 也能跳转... <br />
+//         *                 2.如果项目中(不是在jar/aar中)有2个同名文件, 点击的时候会弹框自选跳转... <br />
+//         *                 3.如果文件名固定写成jar/aar中的Xxx.java, 没有点击效果 <br />
+//         */
+//        String pre = TextUtils2.getStringFormat("%s.%s(%s:%d) ", className, methodName, fileName, lineNumber);
+        String pre = stackTraceElements[Math.min(stackTraceElements.length - 1, stackPosition)] + " ";
+        String msgS = String.valueOf(msg);
+        String stackTraceString = Log.getStackTraceString(tr);
+        //                           ↓防止下方 SB.replace()的时候, ' ' 的长度比 LINE_SEP 的长度短, 导致字符串多复制1遍
+        int length = pre.length() + LINE_SEP.length() + msgS.length() + LINE_SEP.length() + stackTraceString.length();
+        SB.ensureCapacity(length);
+        SB.append(pre).append(msgS).append(LINE_SEP).append(stackTraceString);
+        if (tr == null && SB.length() <= MAX_LEN) {
+            printSubMsg(level, SB.toString(), true);
+            SB.setLength(0);
+            return;
+        }
+        synchronized (TAG) {
+            //if(tr != null 或者 字符串太长) => pre 和 后面的内容 分开打印
+            SB.replace(pre.length() - 1, pre.length(), LINE_SEP);
+            print2Console(level, TOP_LINE);
+            int index = 0, lineLength;
+            for (String line : SB.toString().split(LINE_SEP)) {
+                lineLength = line.length();
+                for (int i = 0, lineCount = lineLength / MAX_LEN; i < lineCount; i++, index += MAX_LEN) {
+                    printSubMsg(level, line.substring(index, index + MAX_LEN), false);
                 }
-                if (index != length) printSubMsg(level, pre.substring(index, length));
-                print2Console(level, BOTTOM_CORNER + SIDE_DIVIDER + LINE_SEP);
+                if (index != lineLength) printSubMsg(level, line.substring(index, lineLength), false);
+                index = 0;
             }
+            print2Console(level, BOTTOM_LINE);
+            SB.setLength(0);
         }
     }
 
-    protected static void printSubMsg(final int level, @NonNull final String msg) {
-        String[] lines = msg.split(LINE_SEP);
-        for (String line : lines) print2Console(level, LEFT_BORDER + line);
+    protected static void printSubMsg(final int level, @NonNull final String msg, boolean needSplit) {
+        if (needSplit) {
+            //split会去掉msg末尾换行\n
+            String[] lines = msg.split(LINE_SEP);
+            for (String line : lines) print2Console(level, LEFT_BORDER + line);
+        } else print2Console(level, LEFT_BORDER + msg);
     }
 
     protected static void print2Console(int level, @NonNull String msg) {

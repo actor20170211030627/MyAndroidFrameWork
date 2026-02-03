@@ -26,15 +26,23 @@ import com.actor.myandroidframework.utils.ViewBindingUtils;
 public class ViewBindingActivity<VB extends ViewBinding> extends ActorBaseActivity {
 
     /**
-     * 是否自动初始化viewBinding, 默认true
-     * 如果不初始化viewBinding:
-     *      1.子类不用传VB类型的泛型
+     * 是否自动初始化viewBinding, 默认true <br />
+     * 如果不初始化viewBinding: <br />
+     *      1.子类不用传VB类型的泛型 <br />
      *      2.调用 super.onCreate(savedInstanceState); 方法之前, 设置: needInitViewBinding = false;
      */
     protected boolean                   needInitViewBinding = true;
     /**
-     * 注意: 如果你的 XxxActivity<VB> 类中没有使用 viewBinding 这个变量,
-     *       那么在混淆代码后会变成 XxxActivity<Object>, 会导致 viewBinding 初始化失败!
+     * {@link 注意:}
+     * <ul>
+     *     <li>
+     *         如果你的 XxxActivity&lt;VB> 类中没有使用 viewBinding 这个变量,
+     *         那么在混淆代码后会变成 XxxActivity&lt;Object>, 会导致 viewBinding 初始化失败! <br />
+     *     </li>
+     *     <li>
+     *         所以不论如何都应该在你的 XxxActivity 中至少保持1个对 {@link #viewBinding} 的引用, 例: <b>{@link ViewBinding#getRoot() View v = viewBinding.getRoot();}</b>
+     *     </li>
+     * </ul>
      */
     protected VB                        viewBinding;
 

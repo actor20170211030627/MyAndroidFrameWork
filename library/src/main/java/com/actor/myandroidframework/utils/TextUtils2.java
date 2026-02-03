@@ -271,10 +271,10 @@ public class TextUtils2 {
      * @param format 示例: "name = %s, age = %d"
      * @param args   示例: "张三", 23
      */
-    @Nullable
+//    @Nullable
     public static String getStringFormat(@NonNull String format, @Nullable Object... args) {
-        //如果args为空, format会报错: MissingFormatArgumentException: Format specifier '%E'
-        if (format == null || args == null || args.length == 0) return format;
+        //if(format == "") format之后也是"", if args为空, format会报错: MissingFormatArgumentException: Format specifier '%E'
+        if (TextUtils.isEmpty(format) || args == null || args.length == 0) return format;
         return String.format(format, args);
     }
 
