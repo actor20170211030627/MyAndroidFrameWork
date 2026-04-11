@@ -37,11 +37,11 @@ public class DrawableRequestListener implements RequestListener<Drawable> {
     }
 
     /**
-     * 设置tag
-     * @param requestTag 可以标记一个tag, 比如position
+     * 对本次请求进行标记, if要标记多个参数可传入数组
+     * @param tag 标记, 例: position, object, { 1, true, "string", object }
      */
-    public DrawableRequestListener(Object requestTag) {
-        this.requestTag = requestTag;
+    public DrawableRequestListener(Object tag) {
+        this.requestTag = tag;
     }
 
     @Override

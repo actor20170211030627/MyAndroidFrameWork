@@ -115,11 +115,11 @@ public class GifImageViewTarget extends ImageViewTarget<GifDrawable> {
     }
 
     /**
-     * 设置tag
-     * @param requestTag 可以标记一个tag, 比如position
+     * 对本次请求进行标记, if要标记多个参数可传入数组
+     * @param tag 标记, 例: position, object, { 1, true, "string", object }
      */
-    public GifImageViewTarget setRequestTag(Object requestTag) {
-        this.requestTag = requestTag;
+    public GifImageViewTarget setRequestTag(Object tag) {
+        this.requestTag = tag;
         return this;
     }
 

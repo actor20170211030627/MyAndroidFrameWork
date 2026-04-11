@@ -31,13 +31,13 @@ import com.actor.myandroidframework.R;
  *        <td>1</td>
  *        <td>{@link R.styleable#LineView_lvDashGap lvDashGap}</td>
  *        <td>2dp</td>
- *        <td>虚线间隔长度: ▓▓ ▓▓</td>
+ *        <td>虚线间隔长度: ▓▓▓{@link ↔}▓▓▓</td>
  *    </tr>
  *    <tr>
  *        <td>2</td>
  *        <td>{@link R.styleable#LineView_lvDashWidth lvDashWidth}</td>
  *        <td>3dp</td>
- *        <td>虚线线段的长度</td>
+ *        <td>虚线线段的长度 ↑</td>
  *    </tr>
  *    <tr>
  *        <td>3</td>
@@ -61,13 +61,13 @@ import com.actor.myandroidframework.R;
  *        <td>6</td>
  *        <td>{@link R.styleable#LineView_lvLineColor lvLineColor}</td>
  *        <td>@color/red</td>
- *        <td>线颜色(if线是渐变的,可不设置这属性)</td>
+ *        <td>线颜色(if线是渐变的, 可不设置这属性)</td>
  *    </tr>
  *    <tr>
  *        <td>7</td>
  *        <td>{@link R.styleable#LineView_lvLineWidth lvLineWidth}</td>
  *        <td>2dp</td>
- *        <td>线宽(可不设置)(默认=LineView的宽/高)</td>
+ *        <td>线宽 {@link ↕}▓▓▓▓ (可不设置)(默认={@link LineView} 的高/宽)</td>
  *    </tr>
  *    <tr>
  *        <td>8</td>
@@ -88,9 +88,9 @@ import com.actor.myandroidframework.R;
  *     <li>
  *         if是在
  *         {@link androidx.recyclerview.widget.RecyclerView RecyclerView}
- *         中的Item列表布局中使用本控件{@link  LineView}, 而Item布局又是
+ *         中的Item列表布局中使用本控件{@link LineView}, 而Item布局又是
  *         {@link androidx.constraintlayout.widget.ConstraintLayout ConstraintLayout}的话, <br />
- *         一定要确保Item布局中{@link  LineView &lt;com.actor.myandroidframework.widget.LineView} <br />
+ *         一定要确保Item布局中{@link LineView &lt;com.actor.myandroidframework.widget.LineView} <br />
  *          的<b>android:layout_height{@link null ≠}"match_parent"</b>, 否则获取到的高度{@link #getHeight()}=0, <br />
  *          就会造成绘制不出来的情况...
  *     </li>
@@ -135,8 +135,12 @@ public class LineView extends View {
     }
 
     protected void init(Context context, @Nullable AttributeSet attrs) {
-        //关闭硬件加速(低版本手机(Honor 7A[Android 8.0])需要设置, 否则只能画实线, 虚线画不出来): android:layerType="software"
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        /**
+         * 1.关闭硬件加速, 软件绘制. (低版本手机(Honor 7A[Android 8.0])需要设置, 否则只能画实线, 虚线画不出来): android:layerType="software"
+         * 2.但是在AndroidStudio 2021.3 ~ 2022.2.1 版本, AS新版预览器 默认硬件加速正常工作, 新版预览器不兼容软件层绘制 → 直接不渲染 → 一片空白
+         *   而旧版 AS 2020.3.1 软件绘制预览反而正常...
+         */
+        if (!isInEditMode()) setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         if (attrs != null) {
             TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.LineView);
             //线颜色

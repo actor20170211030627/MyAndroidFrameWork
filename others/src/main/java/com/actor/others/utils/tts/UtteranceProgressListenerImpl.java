@@ -25,14 +25,15 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
     }
 
     /**
-     * @param tag 对本次请求进行标记
+     * 对本次播放进行标记, if要标记多个参数可传入数组
+     * @param tag 标记, 例: position, object, { 1, true, "string", object }
      */
     public UtteranceProgressListenerImpl(Object tag) {
         super();
         this.tag = tag;
     }
 
-    public <T extends Object> T getTag() {
+    public <T extends Object> T getTTSTag() {
         return (T) tag;
     }
 

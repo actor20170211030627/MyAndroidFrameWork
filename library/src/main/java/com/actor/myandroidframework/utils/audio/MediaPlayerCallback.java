@@ -25,7 +25,7 @@ public abstract class MediaPlayerCallback implements
     boolean isAutoPlay = false;         //是否自动播放
     boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
     boolean isStopped = false;          //是否调用了MediaPlayer.stop()
-    Object tagMPC;            //标记本次播放, 例如可以传入RecyclerView中Item的position, 播放完成拿到tag做相应操作
+    Object tagMPC;                      //标记
     MediaPlayer mp;                     //播放器
 
 //    private enum PlayerState {
@@ -36,6 +36,10 @@ public abstract class MediaPlayerCallback implements
     public MediaPlayerCallback() {
     }
 
+    /**
+     * 对本次播放进行标记, 例如可以传入RecyclerView中Item的position, 播放完成拿到tag做相应操作. if要标记多个参数可传入数组
+     * @param tag 标记, 例: position, object, { 1, true, "string", object }
+     */
     public MediaPlayerCallback(Object tag) {
         this.tagMPC = tag;
     }
