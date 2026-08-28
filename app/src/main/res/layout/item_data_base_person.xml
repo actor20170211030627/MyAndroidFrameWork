@@ -37,6 +37,14 @@
             android:padding="5dp"
             tools:text="身份证IdCard: " />
 
+        <com.actor.others.widget.ItemRadioGroupLayout
+            android:id="@+id/irgl_is_my_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:irglBtns="No否,Yes是"
+            app:irglItemName="是否是我朋友:"
+            app:irglRedStarVisibility="gone" />
+
         <TextView
             android:id="@+id/tv_params"
             android:layout_width="match_parent"

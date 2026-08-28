@@ -50,60 +50,59 @@ import java.util.List;
  *         (都是同一个东西)
  *     </li>
  *     <li>
- *         <a href="https://lbs.amap.com/api/android-sdk/guide/create-project/android-studio-create-project#gradle_sdk"
- *         target="_blank">添加依赖</a> <br />
- *         //2.1.在Project的gradle文件中添加: <br />
- *         <code>
- *             allprojects {                                            <br />
- *             &emsp;&emsp; repositories {                              <br />
- *             &emsp;&emsp;&emsp;&emsp; jcenter() // 或者 mavenCentral() <br />
- *             &emsp;&emsp; }                                           <br />
- *             }                                                        <br />
- *         </code>
- *         //2.2.在 module 的 gradle 文件中添加:                         <br />
- *         //在 defaultConfig { 标签中添加ndk                            <br />
- *         <code>
- *             ndk {                                                    <br />
- *             &emsp;&emsp; //"armeabi-v7a", "arm64-v8a", "armeabi", "x86", "x86_64", "mips", "mips64" <br />
- *             &emsp;&emsp; abiFilters "armeabi-v7a", "arm64-v8a"       <br />
- *             }
- *         </code>
+ *         <a href="https://lbs.amap.com/api/android-sdk/guide/create-project/android-studio-create-project#gradle_sdk" target="_blank">添加依赖</a>
+ *         <pre>
+ * //2.1.在Project的gradle文件中添加:
+ * allprojects {
+ *     repositories {
+ *         jcenter() // 或者 mavenCentral()
+ *     }
+ * }
+ * //2.2.在 module 的 gradle 文件中添加:
+ * //在 defaultConfig { 标签中添加ndk
+ * ndk {
+ *     //"armeabi-v7a", "arm64-v8a", "armeabi", "x86", "x86_64", "mips", "mips64"
+ *     abiFilters "armeabi-v7a", "arm64-v8a"
+ * }
+ *         </pre>
  *     </li>
  *     <li>
- *         //引入<a href="https://repo.maven.apache.org/maven2/com/amap/api/" target="_blank">最新版本的SDK(mavenCentral()仓库)</a>(不用全部引入, 按需引入)  <br />
- *         implementation 'com.amap.api:3dmap:latest.integration' //3D地图(9.3.0以后版本包含了location定位SDK,就不用导入location) <br />
- *         implementation 'com.amap.api:map2d:latest.integration' //2D地图 <br />
- *         implementation 'com.amap.api:navi-3dmap:latest.integration' //导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap) <br />
- *         implementation 'com.amap.api:search:latest.integration' //搜索 <br />
- *         implementation 'com.amap.api:location:latest.integration' //定位 <br />
- *         <br />
- *         //或者指定版本(目前工具类使用的下方版本) <br />
- *         implementation 'com.amap.api:3dmap:9.7.0' //3D地图(9.3.0以后版本包含了location定位SDK,就不用导入location) <br />
- *         implementation 'com.amap.api:map2d:6.0.0' //2D地图 <br />
- *         implementation 'com.amap.api:navi-3dmap:9.8.0_3dmap9.6.2' //导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap) <br />
- *         implementation 'com.amap.api:search:9.7.0' //搜索 <br />
- *         implementation 'com.amap.api:location:6.3.0' //定位 <br />
- *     </li>
+ *         //引入<a href="https://repo.maven.apache.org/maven2/com/amap/api/" target="_blank">SDK(mavenCentral()仓库)</a>(不用全部引入, 按需引入)
+ *         <pre>
+ * //1.引入Sdk最新版({@link null 不是很建议})
+ * implementation 'com.amap.api:3dmap:latest.integration' //3D地图(9.3.0以后版本包含了location定位SDK,就不用导入location)
+ * implementation 'com.amap.api:map2d:latest.integration' //2D地图
+ * implementation 'com.amap.api:navi-3dmap:latest.integration' //导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap)
+ * implementation 'com.amap.api:search:latest.integration' //搜索
+ * implementation 'com.amap.api:location:latest.integration' //定位
+ *
+ * //2.或者指定Sdk版本({@link null 推荐}, 目前工具类使用的下方版本)
+ * implementation 'com.amap.api:3dmap:9.7.0' //3D地图(9.3.0以后版本包含了location定位SDK,就不用导入location)
+ * implementation 'com.amap.api:map2d:6.0.0' //2D地图
+ * implementation 'com.amap.api:navi-3dmap:9.8.0_3dmap9.6.2' //导航(5.0.0以后版本包含了3D地图SDK,就不用导入3dmap)
+ * implementation 'com.amap.api:search:9.7.0' //搜索
+ * implementation 'com.amap.api:location:6.3.0' //定位
+ *         </pre>
  *     <li>
  *         在AndroidManifest.xml中添加
  *         <a href="https://lbs.amap.com/api/android-sdk/guide/create-project/dev-attention"
  *         target="_blank">&lt;meta-data</a>或调用 {@link GaoDe3DMapUtils#setApiKey(String) GaoDe3DMapUtils.setApiKey(String)}设置AK, (都可以,二选一) <br />
- *         在清单文件的&lt;application>标签里添加 &lt;meta-data 示例:  <br />
- *         <code>
- *             &lt;!--高德地图/定位设置AK，在&lt;pplication>标签中加入-->  <br />
- *             &lt;meta-data                                            <br />
- *             &emsp;&emsp; android:name="com.amap.api.v2.apikey"       <br />
- *             &emsp;&emsp; android:value="您申请的高德Api Key"/&gt;
- *         </code>
+ *         在清单文件的&lt;application>标签里添加 &lt;meta-data 示例:
+ *         <pre>
+ * &lt;meta-data
+ *     android:name="com.amap.api.v2.apikey"
+ *     android:value="您申请的高德Api Key">
+ *     &lt;!-- 高德地图/定位设置AK，在<application>标签中加入. value: 申请的AK -->
+ * &lt;/meta-data>
+ *         </pre>
  *     </li>
  *     <li>
- *         清单文件中 ★★★不用★★★
- *         <a href="https://lbs.amap.com/api/android-sdk/guide/create-project/dev-attention#permission"
+ *         清单文件中{@link null 不用}<a href="https://lbs.amap.com/api/android-sdk/guide/create-project/dev-attention#permission"
  *         target="_blank">添加权限</a>, 只要你导入这个模块的依赖, 就已经添加好了!
  *     </li>
  *     <li>
- *         <a href="https://lbs.amap.com/api/android-sdk/guide/create-project/dev-attention#obfuscated-code"
- *         target="_blank">代码混淆</a> ★★★已经在模块中完成★★★, 如果你需要混淆代码, 打开 minifyEnabled true 即可.
+ *         {@link null 不用}<a href="https://lbs.amap.com/api/android-sdk/guide/create-project/dev-attention#obfuscated-code"
+ *         target="_blank">代码混淆</a>, 已经在模块中完成, 如果你需要混淆代码, 打开 minifyEnabled true 即可.
  *     </li>
  *     <li>
  *         使用前, 先初始化: <br />

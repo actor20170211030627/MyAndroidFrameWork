@@ -117,6 +117,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_audio_media://音频录制&播放,视频播放
                 startActivity(new Intent(this, AudioMediaActivity.class), view);
                 break;
+            case R.id.btn_log_utils://LogUtils 测试
+                startActivity(new Intent(this, LogTestActivity.class), view);
+                break;
             case R.id.btn_other://线程, 权限, SPUtils, EventBus
                 startActivity(OtherActivity.class);
                 break;

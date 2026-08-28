@@ -15,6 +15,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activity.LogTestActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.SharedElement2Activity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -92,11 +96,11 @@
             </intent-filter>
         </activity>
 
-        <!-- QQ登录 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
+            <!-- QQ登录 -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -108,16 +112,17 @@
             </intent-filter>
         </activity>
 
-        <!-- 百度定位设置AK，在Application标签中加入 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX" />
+            android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX">
+            <!-- 百度地图/定位设置AK，在Application标签中加入 -->
+        </meta-data>
 
-        <!-- value:开发者申请的AK -->
-        <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="4dd161c2444279b04c5014f51912fcff" />
+            android:value="4dd161c2444279b04c5014f51912fcff">
+            <!-- 高德地图/定位设置AK，在 标签中加入. value: 申请的AK -->
+        </meta-data>
     </application>
 
 </manifest>

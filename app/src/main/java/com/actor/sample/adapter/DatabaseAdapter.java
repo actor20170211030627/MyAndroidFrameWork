@@ -3,11 +3,14 @@ package com.actor.sample.adapter;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.actor.database.greendao.GreenDaoUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
+import com.actor.others.widget.ItemRadioGroupLayout;
 import com.actor.sample.R;
 import com.actor.sample.database.ItemEntity;
+import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -17,6 +20,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.impl.ConfirmPopupView;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -29,12 +33,13 @@ import java.util.Map;
  */
 public class DatabaseAdapter extends BaseQuickAdapter<ItemEntity, BaseViewHolder> {
 
-    private static final ItemEntityDao DAO = GreenDaoUtils.getDaoSession().getItemEntityDao();
-    private int              deletePosition;
-    private ConfirmPopupView deletePopupView;
+    private final ItemEntityDao dao;
+    private       int           deletePosition;
+    private ConfirmPopupView    deletePopupView;
 
-    public DatabaseAdapter() {
+    public DatabaseAdapter(ItemEntityDao dao) {
         super(R.layout.item_data_base_person);
+        this.dao = dao;
         addChildClickViewIds(R.id.tv_delete);
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
@@ -49,6 +54,7 @@ public class DatabaseAdapter extends BaseQuickAdapter<ItemEntity, BaseViewHolder
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, ItemEntity item) {
+        int adapterPosition = helper.getAdapterPosition();
         Map<String, Object> params = item.getParams();
         String param = null;
         if (params != null && !params.isEmpty()) {
@@ -57,10 +63,21 @@ public class DatabaseAdapter extends BaseQuickAdapter<ItemEntity, BaseViewHolder
                 break;
             }
         }
-        helper.setText(R.id.tv_name, "Name姓名: " + item.getName())
+        ItemRadioGroupLayout<String> irglIsMyFriend = helper
+                .setText(R.id.tv_name, "Name姓名: " + item.getName())
                 .setText(R.id.tv_sex, "Sex性别: " + item.getSexStr())
                 .setText(R.id.tv_id_card, "身份证IdCard: " + item.getIdCard())
-                .setText(R.id.tv_params, param);
+                .setText(R.id.tv_params, param)
+                .getView(R.id.irgl_is_my_friend);
+        irglIsMyFriend.setOnCheckedChangeListener(null);
+        irglIsMyFriend.setCheckedPosition(item.isMyFriend ? 1 : 0);
+        irglIsMyFriend.getRadioGroup().setTag(adapterPosition);
+        irglIsMyFriend.setOnCheckedChangeListener((group, checkedId, position, reChecked) -> {
+            int adapterPosition2 = (int) group.getTag();
+            //更新数据
+            getItem(adapterPosition2).isMyFriend = position == 1;
+            LogUtils.json(LogUtils.E, getData());
+        });
     }
 
     private BasePopupView getDeleteDialog() {
@@ -71,10 +88,16 @@ public class DatabaseAdapter extends BaseQuickAdapter<ItemEntity, BaseViewHolder
                             @Override
                             public void onConfirm() {
                                 ItemEntity person = getItem(deletePosition);
-                                GreenDaoUtils.delete(DAO, person);
+                                GreenDaoUtils.delete(dao, person);
                                 removeAt(deletePosition);
                                 deletePopupView.dismiss();
                             }
                         }, null, false);
+    }
+
+    @Override
+    public void setList(@Nullable Collection<? extends ItemEntity> list) {
+        super.setList(list);
+        LogUtils.json(LogUtils.E, list);
     }
 }

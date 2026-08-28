@@ -61,14 +61,17 @@ import java.util.Map;
  *         6.需要在清单文件中<a href="https://wiki.connect.qq.com/qq%E7%99%BB%E5%BD%95" target="_blank">添加Activity标签</a>:
  *         <pre>
  *         &lt;activity
- *             &emsp; android:name="com.tencent.tauth.AuthActivity"
- *             &emsp; android:launchMode="singleTask"
- *             &emsp; android:noHistory="true">
- *             &emsp; &lt;intent-filter>
- *                 &emsp;&emsp; &lt;action android:name="android.intent.action.VIEW" /&gt;
- *                 &emsp;&emsp; &lt;category android:name="android.intent.category.DEFAULT" /&gt;
- *                 &emsp;&emsp; &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
- *                 &emsp;&emsp; &lt;data android:scheme="tencent222222" /&gt; &lt;!-- 这儿替换成: "tencent" + appid -->
+ *             android:name="com.tencent.tauth.AuthActivity"
+ *             android:launchMode="singleTask"
+ *             android:noHistory="true">
+ *             &lt;!-- QQ登录 -->
+ *             &lt;intent-filter>
+ *                 &lt;action android:name="android.intent.action.VIEW" /&gt;
+ *                 &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+ *                 &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+ *
+ *                 &lt;!-- 这儿替换成: "tencent" + appid -->
+ *                 &lt;data android:scheme="tencent222222" /&gt;
  *             &lt;/intent-filter>
  *         &lt;/activity>
  *         </pre>
@@ -178,11 +181,12 @@ public class QQUtils {
     ///////////////////////////////////////////////////////////////////////////
     /**
      * <a href="https://wiki.connect.qq.com/%E7%99%BB%E5%BD%95-%E6%A0%A1%E9%AA%8C%E7%99%BB%E5%BD%95%E6%80%81">登录/校验登录态</a> <br />
-     *
+     * 一键登录, 二维码登录, 账号密码登录
      * @param scope 应用需要获得哪些接口的权限，由“,”分隔。例如：
      *              SCOPE = “get_simple_userinfo,add_topic”；所有权限用“all”
-     * @param qrcode 是否开启二维码登录，没有安装手Q时候使用二维码登录，一般用电视等设备。
+     * @param qrcodeLogin 是否强制二维码登录，没有安装手Q时候使用二维码登录，一般用电视等设备。
      *               (如果true使用二维码, 就没有网页输入账号密码登录的界面了)
+     * @param namePsdLogin 是否强制输入账号密码登录
      * @param listener 登录回调, 可见示例: {@link #baseUiListener} <br />
      * {@link null 注意:}
      *        <ol>
@@ -190,7 +194,15 @@ public class QQUtils {
      *            <li>回调完成后保存session: {@link #initSessionCache(JSONObject)}</li>
      *        </ol>
      */
-    public static int login(@NonNull Activity activity, @NonNull String scope, boolean qrcode, @NonNull BaseUiListener listener) {
+    public static int login(@NonNull Activity activity, @NonNull String scope, boolean qrcodeLogin,
+                            boolean namePsdLogin, @NonNull BaseUiListener listener) {
+        if (qrcodeLogin || namePsdLogin) {
+            //强制唤起扫码界面（无论是否安装手Q）
+            activity.getIntent().putExtra(AuthAgent.KEY_FORCE_QR_LOGIN, true);
+        } else {
+            //要移除, 否则不能'一键登录'
+            activity.getIntent().removeExtra(AuthAgent.KEY_FORCE_QR_LOGIN);
+        }
         //校验登录态,如果缓存的登录态有效，可以直接使用缓存而不需要再次拉起手Q
         //https://wiki.connect.qq.com/当前会话是否有效
         boolean isValid = isSessionValid();
@@ -204,7 +216,7 @@ public class QQUtils {
                 LogUtils.error("QQ登录, 获取的jsonobject为空!");
             }
         }
-        int code = getTencent().login(activity, scope, listener, qrcode);
+        int code = getTencent().login(activity, scope, listener, qrcodeLogin);
         logResultCode(code);
         return code;
     }
@@ -213,26 +225,9 @@ public class QQUtils {
         @Override
         public void doComplete(@Nullable JSONObject response) {
             QQUtils.initSessionCache(response);
-//            LogUtils.error(String.valueOf(response));
+            LogUtils.error(response);
         }
     };
-
-    /**
-     * 强制二维码登录 or 强制输入账号密码登录
-     * @param qrcode 如果true, 强制二维码登录. 如果false, 强制输入账号密码登录
-     * @param listener 登录回调, 可见示例: {@link #baseUiListener} <br />
-     * {@link null 注意:}
-     *        <ol>
-     *            <li>需要重写方法可参考: {@link #onActivityResult(int, int, Intent)}</li>
-     *            <li>回调完成后保存session: {@link #initSessionCache(JSONObject)}</li>
-     *        </ol>
-     */
-    public static int loginQrCode$AccountPassword(@NonNull Activity activity, @NonNull String scope,
-                                                   boolean qrcode, @NonNull BaseUiListener listener) {
-        //强制唤起扫码界面（无论是否安装手Q）
-        activity.getIntent().putExtra(AuthAgent.KEY_FORCE_QR_LOGIN, true);
-        return login(activity, scope, qrcode, listener);
-    }
 
     /**
      * <a href="https://wiki.connect.qq.com/server-side%E7%99%BB%E5%BD%95%E6%A8%A1%E5%BC%8F">Server-Side登录模式</a> <br />
@@ -1001,9 +996,9 @@ public class QQUtils {
      */
     protected static void logResultCode(int code) {
         String[] codeMsg = {"异常", "正常", "使用Activity登陆", "使用H5登陆或显示下载页面"};
-        code += 1;
+        int pos = code + 1;
         String msg = null;
-        if (code >= 0 && code < codeMsg.length) msg = codeMsg[code];
+        if (pos >= 0 && pos < codeMsg.length) msg = codeMsg[pos];
         LogUtils.errorFormat("返回码: %d, %s", code, msg);
     }
 

@@ -20,6 +20,10 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public static void dropAllTables(Database db, boolean ifExists) {}
 
+    public static DaoSession newDevSession(Context context, String name) {
+        return null;
+    }
+
     public DaoMaster(SQLiteDatabase db) {
         this(new StandardDatabase(db));
     }
@@ -55,5 +59,4 @@ public class DaoMaster extends AbstractDaoMaster {
             super(context, name, factory);
         }
     }
-
 }

@@ -55,7 +55,7 @@ public class MyApplication extends ActorApplication {
          * @param daoClasses 数据库表对应的实体(ItemEntity.java)的dao, 示例:
          *                   ItemEntityDao.class(由'Build -> Make Project'生成), ...
          */
-        GreenDaoUtils.init(this, isAppDebug(), "test_db.db3", "123456", ItemEntityDao.class/*, ...*/);
+        GreenDaoUtils.init(this, isAppDebug(), "test_db.db3", "123456", true, null, ItemEntityDao.class/*, ...*/);
 
 
         /**

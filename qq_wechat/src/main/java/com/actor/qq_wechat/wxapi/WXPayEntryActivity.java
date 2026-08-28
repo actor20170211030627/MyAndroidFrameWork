@@ -6,12 +6,14 @@ import android.os.Bundle;
 import com.actor.myandroidframework.activity.ActorBaseActivity;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.qq_wechat.WeChatUtils;
+import com.actor.qq_wechat.WxOtherTypeCallback;
 import com.actor.qq_wechat.WxPayListener;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
@@ -69,18 +71,22 @@ public class WXPayEntryActivity extends ActorBaseActivity implements IWXAPIEvent
         }
         finish();
         if (baseResp == null) return;
-        //if是微信支付
-        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            WxPayListener wxPayListener = WeChatUtils.getWxPayListener();
-            if (wxPayListener != null) {
-                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                    wxPayListener.onPaySuccess(baseResp);
+        switch (baseResp.getType()) {
+            case ConstantsAPI.COMMAND_PAY_BY_WX:    //微信支付
+                WxPayListener wxPayListener = WeChatUtils.getWxPayListener();
+                if (wxPayListener == null) return;
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK && baseResp instanceof PayResp) {
+                    wxPayListener.onPaySuccess((PayResp) baseResp);
                 } else {
                     wxPayListener.onPayError(baseResp);
                 }
-            }
-        } else {
-            LogUtils.errorFormat("微信支付: baseResp.getType() = %d", baseResp.getType());
+                break;
+            case ConstantsAPI.COMMAND_UNKNOWN:    //0, 未知
+            default:
+                WxOtherTypeCallback wxOtherTypeCallback = new WxOtherTypeCallback(baseResp, baseResp.errCode == BaseResp.ErrCode.ERR_OK);
+                WeChatUtils.setWxOtherTypeCallback(wxOtherTypeCallback);
+                LogUtils.errorFormat("其余类型, 请在WeChatUtils.getWxOtherTypeCallback()中获取详情, baseResp.getType() = %d", baseResp.getType());
+                break;
         }
     }
 }

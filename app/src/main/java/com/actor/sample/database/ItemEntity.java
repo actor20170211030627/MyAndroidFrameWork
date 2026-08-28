@@ -9,7 +9,6 @@ import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.Date;
 import java.util.Map;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description: ItemEntity对应的数据库表的实体
@@ -32,6 +31,11 @@ public class ItemEntity {
     public static final int SEX_UNKNOWN = 2;//未知
     @Transient
     public static final String[] sexs = {"Girl女", "Boy男", "Unknown未知"};
+
+    //不映射到数据库, 是否是我的朋友
+    //测试字段: 用于测试修改这个值后再次相同条件查询, 查到后 isMyFriend 有冇被重置
+    @Transient
+    public boolean isMyFriend = false;
 
 
     //下方几个是正常数据库字段

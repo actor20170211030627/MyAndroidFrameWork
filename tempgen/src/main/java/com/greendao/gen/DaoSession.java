@@ -13,8 +13,19 @@ import java.util.Map;
  */
 public class DaoSession extends AbstractDaoSession {
 
-    public DaoSession(Database db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
-            daoConfigMap) {
+    private final DaoConfig xxxDaoConfig;
+
+//    private final XxxDao xxxDao;
+
+    public DaoSession(Database db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig> daoConfigMap) {
         super(db);
+        xxxDaoConfig = null;
     }
+
+    public void clear() {
+    }
+
+//    public XxxDao getXxxDao() {
+//        return xxxDao;
+//    }
 }

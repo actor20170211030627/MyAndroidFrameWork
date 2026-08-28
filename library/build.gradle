@@ -148,6 +148,7 @@ dependencies {
     //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
     //TODO: 考虑使用: https://github.com/liangjingkanji/BRV
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
+//    api "io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.4.1"  //Java 17
 
     //https://github.com/li-xiaojun/XPopup 各种Dialog & Popup (compileSdkVersion 29)
     api ('com.github.li-xiaojun:XPopup:2.10.0') {

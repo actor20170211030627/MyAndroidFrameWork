@@ -9,6 +9,8 @@ import com.actor.qq_wechat.WXOpenCustomerServiceChatListener;
 import com.actor.qq_wechat.WeChatUtils;
 import com.actor.qq_wechat.WxLaunchMiniProgramListener;
 import com.actor.qq_wechat.WxLoginListener;
+import com.actor.qq_wechat.WxOtherTypeCallback;
+import com.actor.qq_wechat.WxShareListener;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
@@ -17,6 +19,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
@@ -42,7 +45,7 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
         // 避免外部通过传递非法参数的Intent导致停留在透明界面，引起用户的疑惑
         boolean result =  iwxapi.handleIntent(getIntent(), this);
         if(!result){
-            LogUtils.error("微信登录参数不合法，未被SDK处理，退出");
+            LogUtils.error("参数不合法，未被SDK处理，退出");
             finish();
         }
     }
@@ -77,13 +80,8 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
             case ConstantsAPI.COMMAND_SENDAUTH:             //1, 微信登录
                 WxLoginListener wxLoginListener = WeChatUtils.getWxLoginListener();
                 if (wxLoginListener == null) return;
-                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                    if (baseResp instanceof SendAuth.Resp) {
-                        SendAuth.Resp resp = (SendAuth.Resp) baseResp;
-                        wxLoginListener.onLoginSuccess(resp);
-                    } else {
-                        wxLoginListener.onLoginError(baseResp);
-                    }
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK && baseResp instanceof SendAuth.Resp) {
+                    wxLoginListener.onLoginSuccess((SendAuth.Resp) baseResp);
                 } else {
                     wxLoginListener.onLoginError(baseResp);
                 }
@@ -91,13 +89,8 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
             case ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM://19, 拉起小程序
                 WxLaunchMiniProgramListener wxLaunchMiniProgramListener = WeChatUtils.getWxLaunchMiniProgramListener();
                 if (wxLaunchMiniProgramListener == null) return;
-                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                    if (baseResp instanceof WXLaunchMiniProgram.Resp) {
-                        WXLaunchMiniProgram.Resp resp = (WXLaunchMiniProgram.Resp) baseResp;
-                        wxLaunchMiniProgramListener.onLaunchMiniProgramSuccess(resp);
-                    } else {
-                        wxLaunchMiniProgramListener.onLaunchMiniProgramError(baseResp);
-                    }
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK && baseResp instanceof WXLaunchMiniProgram.Resp) {
+                    wxLaunchMiniProgramListener.onLaunchMiniProgramSuccess((WXLaunchMiniProgram.Resp) baseResp);
                 } else {
                     wxLaunchMiniProgramListener.onLaunchMiniProgramError(baseResp);
                 }
@@ -105,27 +98,27 @@ public class WXEntryActivity extends ActorBaseActivity implements IWXAPIEventHan
             case ConstantsAPI.COMMAND_OPEN_CUSTOMER_SERVICE_CHAT://37, APP拉起微信客服功能
                 WXOpenCustomerServiceChatListener wxOpenCustomerServiceChatListener = WeChatUtils.getWxOpenCustomerServiceChatListener();
                 if (wxOpenCustomerServiceChatListener == null) return;
-                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                    if (baseResp instanceof WXOpenCustomerServiceChat.Resp) {
-                        WXOpenCustomerServiceChat.Resp resp = (WXOpenCustomerServiceChat.Resp) baseResp;
-                        wxOpenCustomerServiceChatListener.onOpenCustomerServiceChatSuccess(resp);
-                    } else {
-                        wxOpenCustomerServiceChatListener.onOpenCustomerServiceChatError(baseResp);
-                    }
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK && baseResp instanceof WXOpenCustomerServiceChat.Resp) {
+                    wxOpenCustomerServiceChatListener.onOpenCustomerServiceChatSuccess((WXOpenCustomerServiceChat.Resp) baseResp);
                 } else {
                     wxOpenCustomerServiceChatListener.onOpenCustomerServiceChatError(baseResp);
                 }
                 break;
             case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX:    //2, 分享消息/图片/视频(...)到微信
-                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
-                    LogUtils.error("分享到微信可能成功。(∵用户取消分享也会回调成功)");
+                WxShareListener wxShareListener = WeChatUtils.getWxShareListener();
+                if (wxShareListener == null) return;
+                if (baseResp.errCode == BaseResp.ErrCode.ERR_OK && baseResp instanceof SendMessageToWX.Resp) {
+                    //经测试: 分享文字、图片、视频Url、链接Url、小程序、音乐、文件, 返回的都是 SendMessageToWX.Resp
+                    wxShareListener.onShareSuccess((SendMessageToWX.Resp) baseResp);
                 } else {
-                    LogUtils.error("分享到微信失败!");
+                    wxShareListener.onShareError(baseResp);
                 }
                 break;
             case ConstantsAPI.COMMAND_UNKNOWN:    //0, 未知
             default:
-                LogUtils.errorFormat("其余类型, baseResp.getType() = %d", baseResp.getType());
+                WxOtherTypeCallback wxOtherTypeCallback = new WxOtherTypeCallback(baseResp, baseResp.errCode == BaseResp.ErrCode.ERR_OK);
+                WeChatUtils.setWxOtherTypeCallback(wxOtherTypeCallback);
+                LogUtils.errorFormat("其余类型, 请在WeChatUtils.getWxOtherTypeCallback()中获取详情, baseResp.getType() = %d", baseResp.getType());
                 break;
         }
     }

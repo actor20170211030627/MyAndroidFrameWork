@@ -34,20 +34,20 @@ public interface WxLoginListener {
 
     /**
      * 登录失败, 用户可重写此方法, 也可不重写。<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Development_Guide.html#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E8%AF%B7%E6%B1%82-CODE">错误码</a>
-     * @param authResp 失败内容
+     * @param baseResp 失败内容
      */
-    default void onLoginError(@NonNull BaseResp authResp) {
-        switch (authResp.errCode) {
+    default void onLoginError(@NonNull BaseResp baseResp) {
+        switch (baseResp.errCode) {
             case BaseResp.ErrCode.ERR_USER_CANCEL:  //-2
                 ToasterUtils.warning("用户取消登录!");
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:  //-4
                 ToasterUtils.warning("用户拒绝授权!");
                 break;
-            case BaseResp.ErrCode.ERR_COMM:         //-1, 登录失败! 可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。
-            case BaseResp.ErrCode.ERR_SENT_FAILED:  //-3
-            case BaseResp.ErrCode.ERR_UNSUPPORT:    //-5
-            case BaseResp.ErrCode.ERR_BAN:          //-6
+            case BaseResp.ErrCode.ERR_COMM:         //-1 登录失败! 可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。
+            case BaseResp.ErrCode.ERR_SENT_FAILED:  //-3 发送失败
+            case BaseResp.ErrCode.ERR_UNSUPPORT:    //-5 sdk版本不适配?
+            case BaseResp.ErrCode.ERR_BAN:          //-6 app被禁止登录?
             default:
                 ToasterUtils.error("登录失败!");
                 break;

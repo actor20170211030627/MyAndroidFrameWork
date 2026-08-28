@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.AppUtils;
 
 /**
  * description: <a href="https://wiki.connect.qq.com/%e5%88%86%e4%ba%ab%e6%b6%88%e6%81%af%e5%88%b0qq%ef%bc%88%e6%97%a0%e9%9c%80qq%e7%99%bb%e5%bd%95%ef%bc%89">（模式5）分享携带ARK JSON串</a> <br />
- * 调用分享接口分享图文消息、纯图片、音乐时可以携带额外ARK（手Q轻应用）参数JSON串，分享将被展示成ARK消息。
+ * QQ Sdk 调用分享接口分享图文消息、纯图片、音乐时可以携带额外ARK（手Q轻应用）参数JSON串，分享将被展示成ARK消息。
  * @author : ldf
  * date       : 2024/1/26 on 12
  * @version 1.0

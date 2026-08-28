@@ -28,8 +28,8 @@ import java.util.Map;
  */
 public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
 
-    private static final ItemEntityDao   DAO       = GreenDaoUtils.getDaoSession().getItemEntityDao();
-    private final        DatabaseAdapter myAdapter = new DatabaseAdapter();
+    private final ItemEntityDao   dao       = GreenDaoUtils.getDaoSession().getItemEntityDao();
+    private final DatabaseAdapter myAdapter = new DatabaseAdapter(dao);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
 //                    }
 
                     //根据身份证查询, query by idCard
-                    ItemEntity person = GreenDaoUtils.queryUnique(DAO, ItemEntityDao.Properties.IdCard.eq(idCard));
+                    ItemEntity person = GreenDaoUtils.queryUnique(dao, ItemEntityDao.Properties.IdCard.eq(idCard));
                     if (person == null) {
                         String key = getText(viewBinding.itilKey);
                         Map<String, Object> params = null;
@@ -84,7 +84,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                                 Calendar.getInstance().getTime(),           //time
                                 viewBinding.irglSex.getCheckedPosition(),               //sex
                                 params);                                    //params
-                        long insertId = GreenDaoUtils.insert(DAO, person);
+                        long insertId = GreenDaoUtils.insert(dao, person);
                         person.setId(insertId);
                         myAdapter.addData(0, person);
                     } else {
@@ -95,7 +95,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
             case R.id.btn_update://根据身份证更改, update by idCard
                 if (isNoEmpty(viewBinding.itilIdcard)) {
                     String idCard = getText(viewBinding.itilIdcard);
-                    ItemEntity person = GreenDaoUtils.queryUnique(DAO, ItemEntityDao.Properties.IdCard.eq(idCard));
+                    ItemEntity person = GreenDaoUtils.queryUnique(dao, ItemEntityDao.Properties.IdCard.eq(idCard));
                     if (person != null) {
                         person.setName(getText(viewBinding.itilName));
                         person.setSex(viewBinding.irglSex.getCheckedPosition());
@@ -108,7 +108,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
                             }
                             params.put(key, getText(viewBinding.itilValue));
                         }
-                        GreenDaoUtils.update(DAO, person);
+                        GreenDaoUtils.update(dao, person);
                         queryAll();
                     } else {
                         ToasterUtils.error("未找到身份证对应的人(no idcard found)!");
@@ -118,7 +118,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
             case R.id.btn_query://根据身份证查找, query by idCard
                 if (isNoEmpty(viewBinding.itilIdcard)) {
                     String idCard = getText(viewBinding.itilIdcard);
-                    ItemEntity person = GreenDaoUtils.queryUnique(DAO, ItemEntityDao.Properties.IdCard.eq(idCard));
+                    ItemEntity person = GreenDaoUtils.queryUnique(dao, ItemEntityDao.Properties.IdCard.eq(idCard));
                     myAdapter.setList(null);
                     if (person != null) {
                         myAdapter.addData(person);
@@ -137,7 +137,7 @@ public class DatabaseActivity extends BaseActivity<ActivityDatabaseBinding> {
 
     //查找全部
     private void queryAll() {
-        List<ItemEntity> persons = GreenDaoUtils.queryAll(DAO);
+        List<ItemEntity> persons = GreenDaoUtils.queryAll(dao);
         myAdapter.setList(persons);
     }
 }

@@ -14,34 +14,27 @@ import com.amap.api.location.AMapLocationListener;
 /**
  * description: <a href="https://lbs.amap.com/api/android-location-sdk/locationsummary/" target="_blank">高德定位</a> <br />
  * <ul>
- *     <li>1-3,5,6. 见 {@link GaoDe3DMapUtils}</li>
+ *     <li>步骤 1-4 和 {@link GaoDe3DMapUtils} 一样</li>
  *     <li>
- *         4.在AndroidManifest.xml中添加
+ *         5.在AndroidManifest.xml中添加
  *         <a href="https://lbs.amap.com/api/android-sdk/guide/create-project/dev-attention"
  *         target="_blank">&lt;meta-data</a>或调用 {@link GaoDeLocationUtils#setApiKey(String) GaoDeLocationUtils.setApiKey(String)}设置AK, (都可以,二选一) <br />
- *         在清单文件的&lt;application>标签里添加 &lt;meta-data 示例:  <br />
- *         <code>
- *             &lt;!--高德地图/定位设置AK，在&lt;pplication>标签中加入-->  <br />
- *             &lt;meta-data                                            <br />
- *             &emsp;&emsp; android:name="com.amap.api.v2.apikey"       <br />
- *             &emsp;&emsp; android:value="您申请的高德Api Key"/&gt;
- *         </code>
+ *         在清单文件的&lt;application>标签里添加 &lt;meta-data 和 {@link GaoDe3DMapUtils} 的步骤5添加方式一样!
  *     </li>
  *     <li>
- *         7.清单文件中 ★★★不用★★★ 添加&lt;service, 只要你导入这个模块的依赖, 就已经添加好了!
- *     </li>
- *     <li>
- *         8.清单文件中 ★★★不用★★★
- *         <a href="https://lbs.amap.com/api/android-location-sdk/guide/android-location/getlocation"
+ *         6.清单文件中{@link null 不用}<a href="https://lbs.amap.com/api/android-location-sdk/guide/android-location/getlocation"
  *         target="_blank">添加权限</a>, 只要你导入这个模块的依赖, 就已经添加好了!
  *     </li>
  *     <li>
- *         9.使用前, 先初始化: <br />
+ *         7.清单文件中{@link null 不用}添加<a href="https://lbs.amap.com/api/android-location-sdk/guide/android-location/getlocation#androidmanifest" target="_blank">&lt;service</a>, 只要你导入这个模块的依赖, 就已经添加好了!
+ *     </li>
+ *     <li>
+ *         8.使用前, 先初始化: <br />
  *         {@link GaoDeLocationUtils#updatePrivacyShow(Context, boolean, boolean) GaoDeLocationUtils.updatePrivacyShow(Context, boolean, boolean)} <br />
  *         {@link GaoDeLocationUtils#updatePrivacyAgree(Context, boolean) GaoDeLocationUtils.updatePrivacyAgree(Context, boolean)}
  *     </li>
  *     <li>
- *         10.开始使用示例: <br />
+ *         9.开始使用示例: <br />
  *          {@link GaoDeLocationUtils#setLocationListener(AMapLocationListener) GaoDeLocationUtils.setLocationListener(AMapLocationListener)} <br />
  *          {@link GaoDeLocationUtils#startLocation() GaoDeLocationUtils.startLocation()} <br />
  *          <br />

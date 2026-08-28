@@ -95,13 +95,13 @@
 
     <application>
 
+        <!--百度地图-->
         <!-- https://lbsyun.baidu.com/index.php?title=android-locsdk/guide/create-project/android-studio -->
-        <!--百度定位设置AK，在Application标签中加入-->
-<!--
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="您申请的百度地图AK"/>
--->
+<!--        <meta-data-->
+<!--            android:name="com.baidu.lbsapi.API_KEY"-->
+<!--            android:value="您申请的百度地图AK">-->
+<!--            &lt;!&ndash; 百度地图/定位设置AK，在Application标签中加入 &ndash;&gt;-->
+<!--        </meta-data>-->
 
         <!-- 百度定位服务 -->
         <service
@@ -114,11 +114,11 @@
 
         <!-- 高德地图 -->
         <!-- https://lbs.amap.com/api/android-location-sdk/guide/android-location/getlocation#androidmanifest -->
-<!--
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="您申请的高德Api Key"/>
--->
+<!--        <meta-data-->
+<!--            android:name="com.amap.api.v2.apikey"-->
+<!--            android:value="您申请的高德Api Key">-->
+<!--            &lt;!&ndash; 高德地图/定位, value: 开发者申请的AK &ndash;&gt;-->
+<!--        </meta-data>-->
 
         <!-- https://lbs.amap.com/api/android-location-sdk/guide/android-location/getlocation#androidmanifest -->
         <!-- 高德定位需要的服务 -->

@@ -58,10 +58,11 @@ import java.util.List;
  *         target="_blank">&lt;meta-data</a>或调用 {@link BaiduMapUtils#setApiKey(String) BaiduMapUtils.setApiKey(String)}设置AK, (都可以,二选一) <br />
  *         在清单文件的&lt;application>标签里添加 &lt;meta-data 示例: <br />
  *         <code>
- *             &lt;!--百度定位设置AK，在Application标签中加入-->      <br />
  *             &lt;meta-data                                        <br />
  *             &emsp;&emsp; android:name="com.baidu.lbsapi.API_KEY" <br />
- *             &emsp;&emsp; android:value="您申请的百度地图AK"/&gt;   <br />
+ *             &emsp;&emsp; android:value="您申请的百度地图AK"&gt;   <br />
+ *             &lt;!--百度地图/定位设置AK，在Application标签中加入-->  <br />
+ *             &lt;/meta-data&gt;
  *         </code>                                                   <br />
  *         &ensp; 2.清单文件中 ★★★不用★★★ 添加&lt;service, 只要你导入这个模块的依赖, 就已经添加好了! <br />
  *     </li>

@@ -65,24 +65,26 @@ import java.io.File;
  *
  * <ol>
  *     <li>
- *         在gradle中<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">添加依赖</a>, 在<a href="https://central.sonatype.com/artifact/com.tencent.mm.opensdk/wechat-sdk-android" target="_blank">mavenCentral()</a>中可查看最新依赖版本号 <br />
- *         //微信登录&支付 <br />
- *         implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
+ *         在gradle中<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">添加依赖</a>, 在<a href="https://central.sonatype.com/artifact/com.tencent.mm.opensdk/wechat-sdk-android" target="_blank">mavenCentral()</a>中可查看最新依赖版本号
+ *         <pre>
+ * //微信登录&支付
+ * implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
+ *         </pre>
  *     </li>
  *     <li>
- *         WXEntryActivity: 微信登录回调页面, 已添加到框架中, 使用者不需要再关心这个类! <br />
- *         WXPayEntryActivity: 微信支付回调页面, 已添加到框架中, 使用者不需要再关心这个类!
+ *         {@link null 不用}再写{@link com.actor.qq_wechat.wxapi.WXEntryActivity WXEntryActivity}: 微信登录回调页面, 已添加到lib中, 使用者不需要再关心这个类! <br />
+ *         {@link null 不用}再写{@link com.actor.qq_wechat.wxapi.WXPayEntryActivity WXPayEntryActivity}: 微信支付回调页面, 已添加到lib中, 使用者不需要再关心这个类!
  *     </li>
  *     <li>
- *         已经添加<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">混淆</a>, 使用者可不再关心混淆问题.
+ *         {@link null 不用}<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">代码混淆</a>, 已经在模块中完成, 如果你需要混淆代码, 打开 minifyEnabled true 即可.
  *     </li>
  *     <li>
  *         在Application中初始化: {@link #setAppId(String) WeChatUtils.setAppId(String)}
  *     </li>
  *     <li>
  *         使用示例 <br />
- *         登录: {@link #login(String, String, WxLoginListener) WeChatUtils.login(String, String, WxLoginListener)} <br />
- *         支付: {@link #pay(String, String, String, String, String, WxPayListener) WeChatUtils.pay(...)} <br />
+ *         登录: {@link WeChatUtils}.{@link #login(String, String, WxLoginListener)} <br />
+ *         支付: {@link WeChatUtils}.{@link #pay(String, String, String, String, String, WxPayListener)} <br />
  *         更多使用示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java" target="_blank">ThirdActivity.java</a>
  *     </li>
  * </ol>
@@ -106,8 +108,13 @@ public class WeChatUtils {
      */
     protected static int thumbSize = 150;
 
+    protected static String packageValue = "Sign=WXPay";
+
     // IWXAPI 是第三方app和微信通信的openApi接口
     protected static IWXAPI api;
+
+    //分享回调
+    protected static WxShareListener wxShareListener;
 
     //支付回调
     protected static WxPayListener wxPayListener;
@@ -120,6 +127,9 @@ public class WeChatUtils {
 
     //APP拉起微信客服功能
     protected static WXOpenCustomerServiceChatListener wxOpenCustomerServiceChatListener;
+
+    //其它类型, 未设置Listener但是有回调
+    protected static WxOtherTypeCallback wxOtherTypeCallback;
 
     /**
      * @param appId 设置appId
@@ -139,6 +149,11 @@ public class WeChatUtils {
      */
     public static void setThumbSize(int thumbSize) {
         WeChatUtils.thumbSize = thumbSize;
+    }
+
+    public static void setPackageValue(String packageValue) {
+        if (TextUtils.isEmpty(packageValue)) return;
+        WeChatUtils.packageValue = packageValue;
     }
 
     public static IWXAPI getIWXAPI() {
@@ -176,8 +191,9 @@ public class WeChatUtils {
     }
 
     /**
-     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
-     * @return 检查微信版本支持 API 的情况
+     * <a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">Android.html</a>
+     * 检查微信版本支持 API 的情况
+     * @return WXAppSupportAPI
      * @see com.tencent.mm.opensdk.constants.Build
      */
     public static int getWXAppSupportAPI() {
@@ -197,21 +213,26 @@ public class WeChatUtils {
     // 下面是微信分享
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
-     * https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Share_and_Favorites/Android.html
+     * <a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html" target="_blank">Access_Guide/Android.html</a>
+     * <a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Share_and_Favorites/Android.html" target="_blank">Share_and_Favorites/Android.html</a><br />
      * sendReq 是第三方 app 主动发送消息给微信，发送完成之后会切回到第三方 app 界面。
      * @param text 分享文字, 长度需大于 0 且不超过 10KB
-     * @param scene 发送场景
-     *      @see  SendMessageToWX.Req#WXSceneSession 消息会发送至微信的会话内
-     *      @see  SendMessageToWX.Req#WXSceneTimeline 消息会发送至朋友圈
-     *      @see  SendMessageToWX.Req#WXSceneFavorite 收藏
+     * @param scene 发送场景:
+     *              <ul>
+     *                  <li>{@link SendMessageToWX.Req#WXSceneSession} 消息会发送至微信的会话内</li>
+     *                  <li>{@link SendMessageToWX.Req#WXSceneTimeline} 消息会发送至朋友圈</li>
+     *                  <li>{@link SendMessageToWX.Req#WXSceneFavorite} 收藏</li>
+     *              </ul>
+     * @param listener 分享回调
+     * @param listener 分享文件回调
      */
-    public static boolean sendReqText(@NonNull String text, int scene) {
+    public static boolean sendReqText(@NonNull String text, int scene, WxShareListener listener) {
         if (TextUtils.isEmpty(text)) return false;
         if (scene == SendMessageToWX.Req.WXSceneTimeline) {//如果发送到朋友圈
             //微信 4.2 以上支持发到朋友圈
             if (getWXAppSupportAPI() < Build.TIMELINE_SUPPORTED_SDK_INT) return false;
         }
+        WeChatUtils.wxShareListener = listener;
         WXTextObject textObject = new WXTextObject();
         textObject.text = text;             //长度需大于 0 且不超过 10KB
         WXMediaMessage mediaMessage = new WXMediaMessage();
@@ -235,8 +256,9 @@ public class WeChatUtils {
      * @param imagePath 图片的本地路径, 对应图片内容大小不超过 25MB
      * @param bitmap 图片的bitmap, {@link null 注意: 如果bitmap不为空, 自己调用方法: bitmap.recycle()}
      * @param scene 见↑
+     * @param listener 分享文件回调
      */
-    public static boolean sendReqImage(String imagePath, Bitmap bitmap, int scene) {
+    public static boolean sendReqImage(String imagePath, Bitmap bitmap, int scene, WxShareListener listener) {
         if (imagePath == null && bitmap == null) return false;
         Bitmap pathBitmap = null;
         if (bitmap == null) {
@@ -245,6 +267,7 @@ public class WeChatUtils {
             pathBitmap = ImageUtils.getBitmap(file);
             if (pathBitmap == null) return false;
         }
+        WeChatUtils.wxShareListener = listener;
         WXImageObject imgObj;
         Bitmap thumbBitmap;     //略缩图
         if (bitmap == null) {
@@ -283,9 +306,11 @@ public class WeChatUtils {
      * @param description 视频描述, 可传null
      * @param coverBitmap 视频封面, 可传null. {@link null 注意: 如果bitmap不为空, 自己调用方法: bitmap.recycle()}
      * @param scene 见↑
+     * @param listener 分享文件回调
      */
     public static boolean sendReqVideo(@NonNull String videoUrl, @Nullable String title, @Nullable String description,
-                                    @Nullable Bitmap coverBitmap, int scene) {
+                                    @Nullable Bitmap coverBitmap, int scene, WxShareListener listener) {
+        WeChatUtils.wxShareListener = listener;
         WXVideoObject video = new WXVideoObject();
         video.videoUrl = videoUrl;
 //        video.videoLowBandUrl;        //供低带宽的环境下使用的视频链接, 限制长度不超过 10KB
@@ -315,9 +340,11 @@ public class WeChatUtils {
      * @param description 网页描述, 可传null. {@link null 注意: 标题和描述不可同时为空, 否则会分享失败!}
      * @param bitmap 封面图片, 可传null. {@link null 注意: 如果bitmap不为空, 自己调用方法: bitmap.recycle()}
      * @param scene 见↑
+     * @param listener 分享文件回调
      */
     public static boolean sendReqWebpage(@NonNull String webpageUrl, @Nullable String title, @Nullable String description,
-                                      @Nullable Bitmap bitmap, int scene) {
+                                      @Nullable Bitmap bitmap, int scene, WxShareListener listener) {
+        WeChatUtils.wxShareListener = listener;
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = webpageUrl;
         WXMediaMessage msg = new WXMediaMessage(webpage);
@@ -357,18 +384,20 @@ public class WeChatUtils {
      *                        可以获取到 shareTicket，用于获取更多分享信息。详见<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html">小程序获取更多分享信息</a>，
      *                        最低客户端版本要求：6.5.13 <br />
      * @param miniprogramType 小程序的类型，默认正式版 <br />
-     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPTOGRAM_TYPE_RELEASE WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE} 正式版:0 <br />
-     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_TEST WXMiniProgramObject.MINIPROGRAM_TYPE_TEST} 测试版:1 <br />
-     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_PREVIEW WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW} 体验版:2 <br />
+     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPTOGRAM_TYPE_RELEASE} 正式版:0 <br />
+     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_TEST} 测试版:1 <br />
+     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_PREVIEW} 体验版:2 <br />
      * @param title 小程序标题, 可传null
      * @param description 小程序描述, 可传null
      * @param bitmap 小程序封面图片，小于128k, 不能传null. {@link null 注意: 自己调用方法: bitmap.recycle()}
      * @param scene 见↑, {@link null 注意: 目前只支持会话: SendMessageToWX.Req.WXSceneSession}，暂不支持分享至朋友圈。
+     * @param listener 分享文件回调
      */
     public static boolean sendReqMiniProgram(@NonNull String webpageUrl, @NonNull String userName,
                                              @Nullable String path, boolean withShareTicket, int miniprogramType,
                                              @Nullable String title, @Nullable String description,
-                                             @NonNull Bitmap bitmap, int scene) {
+                                             @NonNull Bitmap bitmap, int scene, WxShareListener listener) {
+        WeChatUtils.wxShareListener = listener;
         WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
         miniProgramObj.webpageUrl = webpageUrl; // 兼容低版本的网页链接
         miniProgramObj.miniprogramType = miniprogramType;
@@ -399,9 +428,11 @@ public class WeChatUtils {
      * @param description 音乐描述, 可传null {@link null 注意: 标题和描述不可同时为空, 否则会分享失败!}
      * @param bitmap 音乐封面, 可传null {@link null 注意: 如果bitmap不为空, 自己调用方法: bitmap.recycle()}
      * @param scene 见↑
+     * @param listener 分享文件回调
      */
     public static boolean sendReqMusic(@NonNull String musicUrl, @Nullable String title, @Nullable String description,
-                                    @Nullable Bitmap bitmap, int scene) {
+                                    @Nullable Bitmap bitmap, int scene, WxShareListener listener) {
+        WeChatUtils.wxShareListener = listener;
         WXMusicObject music = new WXMusicObject();
         //musicUrl 和 musicLowBandUrl 不能同时为空
         music.musicUrl = musicUrl;  //音频网页的 URL 地址, 限制长度不超过 10KB
@@ -433,9 +464,11 @@ public class WeChatUtils {
      * @param file 要分享的文件
      * @param title 分享到微信后显示的标题, 可传入: file.getName()
      * @param scene 见↑
+     * @param listener 分享文件回调
      */
-    public static boolean sendReqFile(@Nullable File file, @Nullable String title, int scene) {
+    public static boolean sendReqFile(@Nullable File file, @Nullable String title, int scene, WxShareListener listener) {
         if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return false;
+        WeChatUtils.wxShareListener = listener;
 
         ///data/user/0/com.package.name/no_backup/fonts/xxx.zip, Android 11 及以上系统的手机需要使用FileProvider 方式分享
 //        String absolutePath = file.getAbsolutePath();
@@ -478,6 +511,12 @@ public class WeChatUtils {
         req.message = msg;
         req.scene = scene;
         return getIWXAPI().sendReq(req);
+    }
+    @Nullable
+    public static WxShareListener getWxShareListener() {
+        WxShareListener listener = wxShareListener;
+        wxShareListener = null;
+        return listener;
     }
 
     /**
@@ -525,10 +564,8 @@ public class WeChatUtils {
     public static void sendResp(String text, Bundle bundle) {
         WXTextObject textObj = new WXTextObject();
         textObj.text = text;
-
         WXMediaMessage mediaMessage = new WXMediaMessage(textObj);
         mediaMessage.description = text;
-
         GetMessageFromWX.Resp resp = new GetMessageFromWX.Resp();
         // 将req的transaction设置到resp对象中，其中bundle为微信传递过来的Intent所带的内容，通过getExtras()方法获取
         resp.transaction = new GetMessageFromWX.Req(bundle).transaction;
@@ -554,14 +591,14 @@ public class WeChatUtils {
     public static boolean pay(@NonNull String partnerId, @NonNull String prepayId,
                               @NonNull String nonceStr, @NonNull String timeStamp,
                               @NonNull String sign, @NonNull WxPayListener payListener) {
-        wxPayListener = payListener;
+        WeChatUtils.wxPayListener = payListener;
         PayReq req = new PayReq();
         req.appId = getAppId();         //你的微信appId
         req.partnerId = partnerId;      //商户号
         req.prepayId = prepayId;        //预支付交易会话ID
         req.nonceStr = nonceStr;        //随机字符串
         req.timeStamp = timeStamp;      //时间戳
-        req.packageValue = "Sign=WXPay";//扩展字段,这里固定填写Sign=WXPay
+        req.packageValue = packageValue;//扩展字段,这里一般固定填写Sign=WXPay
         req.sign = sign;                //签名
 //        req.signType = ;                //签名类型, V3版本仅支持RSA
         //      req.extData         = "app data"; // optional
@@ -574,7 +611,7 @@ public class WeChatUtils {
         return listener;
     }
     /**
-     * 打开离线支付
+     * 打开离线支付, 没有回调
      */
     public static boolean payOffline() {
         if (getWXAppSupportAPI() >= Build.OFFLINE_PAY_SDK_INT) {
@@ -602,9 +639,10 @@ public class WeChatUtils {
      * @param state 用于保持请求和回调的状态，授权请求后原样带回给第三方。
      *              该参数可用于防止 csrf 攻击（跨站请求伪造攻击），建议第三方带上该参数，
      *              可设置为简单的随机数加 session 进行校验    (可以瞎填任何值)
+     * @param loginListener 登录回调
      */
     public static void login(@NonNull String scope, @Nullable String state, @NonNull WxLoginListener loginListener) {
-        wxLoginListener = loginListener;
+        WeChatUtils.wxLoginListener = loginListener;
         SendAuth.Req req = new SendAuth.Req();
         req.scope = scope;
         req.state = state;
@@ -648,10 +686,13 @@ public class WeChatUtils {
 //                    public void onQrcodeScanned() {
 //                    }
 //                    /**
-//                     * 用户点击授权后，回调该接口
+//                     * 授权结果，回调该接口
 //                     */
 //                    @Override
 //                    public void onAuthFinish(OAuthErrCode errCode, String authCode) {
+//                        if (errCode == OAuthErrCode.WechatAuth_Err_OK) {
+//                            //授权成功
+//                        }
 //                    }
 //                }
                 );
@@ -670,6 +711,7 @@ public class WeChatUtils {
      *                 该参数可用于防止 csrf 攻击（跨站请求伪造攻击），建议第三方带上该参数，
      *                 可设置为简单的随机数加 session 进行校验，开发者可以填写 a-zA-Z0-9 的参数值，
      *                 最多 128 字节，要求做 urlencode
+     * @return 是否跳转微信成功, 订阅消息没有是否订阅成功的回调?
      */
     public static boolean subscribeMessage(int scene, @NonNull String templateID, @Nullable String reserved) {
         //检查微信是否支持订阅消息
@@ -686,6 +728,7 @@ public class WeChatUtils {
     /**
      * 订阅小程序消息, 抄自 Demo 的 SubscribeMiniProgramMsgActivity.java
      * @param miniProgramAppId 小程序appId
+     * @return 是否跳转微信成功, 订阅小程序消息没有是否订阅成功的回调?
      */
     public static boolean subscribeMiniProgramMsg(@NonNull String miniProgramAppId) {
         //检查微信是否支持订阅消息
@@ -709,14 +752,14 @@ public class WeChatUtils {
      * @param path 小程序页面路径(/pages/index)；对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar" <br />
      *             可传null, 会跳转小程序首页. <br />
      * @param miniprogramType 小程序的类型，默认正式版 <br />
-     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPTOGRAM_TYPE_RELEASE WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE} 正式版:0 <br />
-     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_TEST WXMiniProgramObject.MINIPROGRAM_TYPE_TEST} 测试版:1 <br />
-     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_PREVIEW WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW} 体验版:2 <br />
+     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPTOGRAM_TYPE_RELEASE} 正式版:0 <br />
+     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_TEST} 测试版:1 <br />
+     *        &emsp;&emsp;{@link WXMiniProgramObject#MINIPROGRAM_TYPE_PREVIEW} 体验版:2 <br />
      * @param listener 跳转小程序后, 监听从小程序返回的值, 可传null <br />
      *                 小程序跳转回移动应用请参考<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/launchApp.html">《小程序开发文档》</a>
      */
     public static boolean launchMiniProgram(@NonNull String userName, @Nullable String path, int miniprogramType, @Nullable WxLaunchMiniProgramListener listener) {
-        wxLaunchMiniProgramListener = listener;
+        WeChatUtils.wxLaunchMiniProgramListener = listener;
         WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
         req.userName = userName;
         req.path = path;
@@ -736,14 +779,15 @@ public class WeChatUtils {
     // APP拉起微信客服功能
     ///////////////////////////////////////////////////////////////////////////
     /**
-     * 从APP拉起指定的微信客服会话
+     * 从APP拉起指定的客服微信会话
      * @param corpId 企业ID
      * @param kfUrl 客服URL, 示例: https://work.weixin.qq.com/kfid/kfcxxxxx
+     * @param listener 拉取结果回调
      */
     public static boolean openCustomerServiceChat(@NonNull String corpId, @NonNull String kfUrl, @Nullable WXOpenCustomerServiceChatListener listener) {
-        wxOpenCustomerServiceChatListener = listener;
         // 判断当前版本是否支持拉起客服会话
         if (getWXAppSupportAPI() >= Build.SUPPORT_OPEN_CUSTOMER_SERVICE_CHAT) {
+            WeChatUtils.wxOpenCustomerServiceChatListener = listener;
             WXOpenCustomerServiceChat.Req req = new WXOpenCustomerServiceChat.Req();
             req.corpId = corpId;
             req.url = kfUrl;
@@ -754,6 +798,21 @@ public class WeChatUtils {
     public static WXOpenCustomerServiceChatListener getWxOpenCustomerServiceChatListener() {
         WXOpenCustomerServiceChatListener listener = wxOpenCustomerServiceChatListener;
         wxOpenCustomerServiceChatListener = null;
+        return listener;
+    }
+
+
+    public static void setWxOtherTypeCallback(WxOtherTypeCallback wxOtherTypeCallback) {
+        WeChatUtils.wxOtherTypeCallback = wxOtherTypeCallback;
+    }
+
+    /**
+     * 其它类型, 未设置Listener但是有回调
+     * @return
+     */
+    public static WxOtherTypeCallback getWxOtherTypeCallback() {
+        WxOtherTypeCallback listener = wxOtherTypeCallback;
+        wxOtherTypeCallback = null;
         return listener;
     }
 

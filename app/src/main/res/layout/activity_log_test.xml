@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LogTestActivity">
+
+    <com.actor.others.widget.ItemSpinnerLayout
+        android:id="@+id/isl_msg_level"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:islEntriesString="Log.VERBOSE,Log.DEBUG,Log.INFO,Log.WARN,Log.ERROR,Log.ASSERT"
+        app:islItemName="日志等级:"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.actor.others.widget.ItemSpinnerLayout
+        android:id="@+id/isl_msg_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:islEntriesString="1行&amp;短日志,1行&amp;长日志,2行&amp;短日志,2行&amp;长日志,多行&amp;短日志,多行&amp;长日志"
+        app:islItemName="日志长度:"
+        app:layout_constraintTop_toBottomOf="@id/isl_msg_level" />
+
+    <com.actor.others.widget.ItemRadioGroupLayout
+        android:id="@+id/irgl_exception"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:irglBtns="否,是"
+        app:irglItemName="是否有Exception:"
+        app:layout_constraintTop_toBottomOf="@id/isl_msg_type" />
+
+    <com.actor.others.widget.ItemTextInputLayout
+        android:id="@+id/itil_format"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:itilDigits="@string/digits_phone"
+        app:itilHint="请输入数字"
+        app:itilImeOptions="actionDone"
+        app:itilInputType="number"
+        app:itilItemName="数字(测试格式化):"
+        app:itilMaxLength="10"
+        app:itilRedStarVisibility="invisible"
+        app:layout_constraintEnd_toStartOf="@id/btn_clear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/irgl_exception" />
+
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="清空"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/itil_format" />
+
+    <Button
+        android:id="@+id/btn_print"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="输出(print)"
+        android:transitionName="btnTest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itil_format" />
+
+    <Button
+        android:id="@+id/btn_println_stack_trance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="输出堆栈跟踪(printStackTrance)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_print" />
+
+    <com.actor.myandroidframework.widget.VerticalScrollableTextView
+        android:id="@+id/vstv_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="message"
+        android:maxLines="10"
+        android:padding="5dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/red"
+        android:textColorHint="@color/red_trans_CC99"
+        app:layout_constraintTop_toBottomOf="@id/btn_println_stack_trance"
+        app:shape_radius="5dp"
+        app:shape_strokeColor="@color/red_trans_CC99"
+        app:shape_strokeSize="1dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
