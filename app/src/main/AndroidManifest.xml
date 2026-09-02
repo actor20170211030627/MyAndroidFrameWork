@@ -67,7 +67,7 @@
         <activity android:name=".activity.JPushActivity" />
         <activity android:name=".activity.BaiDuMapActivity" />
         <activity android:name=".activity.GaoDeMapActivity" />
-        <activity android:name=".activity.ThirdActivity" />
+        <activity android:name=".activity.QQWeChatActivity" />
         <activity android:name=".activity.ViewPagerActivity" />
         <activity
             android:name=".activity.SharedElementActivity"

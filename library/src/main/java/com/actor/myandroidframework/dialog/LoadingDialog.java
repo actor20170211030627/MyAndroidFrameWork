@@ -51,8 +51,8 @@ public class LoadingDialog extends BaseDialog {
     protected void onCreate(Bundle savedInstanceState) {
         windowWidth = WindowManager.LayoutParams.WRAP_CONTENT;
         super.onCreate(savedInstanceState);
-        isPrintNameOnCreate = false;
-        isStatusBarDimmed(false);
+        loggable = false;
+        setDimEnable(false);
         ratioLayout = findViewById(R.id.ratio_layout_loading_dialog);
         progressBar = findViewById(R.id.progress_bar_loading_dialog);
         tvMessage = findViewById(R.id.tv_loading_dialog);

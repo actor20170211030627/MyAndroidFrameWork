@@ -84,7 +84,7 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
             Log.d/*LogUtils.debugInfo*/(tag, REQUEST_UP_LINE);
             logLines(tag, new String[]{URL_TAG + request.url()}, false);
             logLines(tag, getRequest(request), true);
-            logLines(tag, OMITTED_REQUEST, true);
+            if (false) logLines(tag, OMITTED_REQUEST, true);     //edited: 注销掉, 因为↑已经拿到了所有请求头
             Log.d/*LogUtils.debugInfo*/(tag, END_LINE);
         }
     }
@@ -158,7 +158,7 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
     private static void logLines(String tag, String[] lines, boolean withLineSize) {
         for (String line : lines) {
             int lineLength = line.length();
-            int MAX_LONG_SIZE = withLineSize ? 110 : lineLength;
+            int MAX_LONG_SIZE = withLineSize ? 210 : lineLength;    //edited: 110感觉有点短
             for (int i = 0; i <= lineLength / MAX_LONG_SIZE; i++) {
                 int start = i * MAX_LONG_SIZE;
                 int end = (i + 1) * MAX_LONG_SIZE;
@@ -213,10 +213,7 @@ public class DefaultFormatPrinter/* implements FormatPrinter*/ {
         Headers headers = request.headers();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < headers.size(); i++) {
-            sb.append(headers.name(i));
-            sb.append(": ");
-            sb.append(headers.value(i));
-            sb.append("\n");
+            sb.append(headers.name(i)).append(": ").append(headers.value(i)).append("\n");
         }
         String header = sb.toString();
         log = METHOD_TAG + request.method() + DOUBLE_SEPARATOR +

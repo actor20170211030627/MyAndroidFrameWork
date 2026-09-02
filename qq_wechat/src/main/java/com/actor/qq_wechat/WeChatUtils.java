@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.actor.myandroidframework.utils.ConfigUtils;
 import com.actor.myandroidframework.utils.FileUtils;
 import com.actor.myandroidframework.utils.LogUtils;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.UriUtils;
 import com.tencent.mm.opensdk.channel.MMessageActV2;
@@ -92,6 +93,13 @@ import java.io.File;
  * date       : 2020/3/14 on 11:46 <br />
  */
 public class WeChatUtils {
+
+    /**
+     * @see ConstantsAPI.WXApp#WXAPP_PACKAGE_NAME
+     */
+    protected static final String WXAPP_PACKAGE_NAME   = "com.tencent.mm";
+    protected static final String WXAPP_SHARE_ACTIVITY = "com.tencent.mm.ui.tools.ShareImgUI";
+    protected static final String WXAPP_LAUNCHER_UI    = "com.tencent.mm.ui.LauncherUI";
 
     // APP_ID 替换为你的应用从官方网站申请到的合法appID
     protected static String appId = "wx88888888";
@@ -527,23 +535,23 @@ public class WeChatUtils {
      */
     public static boolean sendReqFileByIntent(@NonNull Context context, @Nullable File file) {
         if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return false;
+        //朋友圈: ShareToTimeLineUI
+        if (!ActivityUtils.isActivityExists(WXAPP_PACKAGE_NAME, WXAPP_SHARE_ACTIVITY)) return false;
         Uri fileUri = UriUtils.file2Uri(file);
         /**
          * 对目标应用临时授权该Uri所代表的文件, 这句代码可选
-         * 不写{@link ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME}而是写"com.tencent.mm"是因为这是Intent分享, 可以不依赖微信sdk
+         * 不写 {@link ConstantsAPI.WXApp.WXAPP_PACKAGE_NAME} 是因为这是Intent分享, 可以不依赖微信sdk
          */
-        context.grantUriPermission("com.tencent.mm", fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        String mimeType = FileUtils.getMimeType(file.getAbsolutePath());
+        context.grantUriPermission(WXAPP_PACKAGE_NAME, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        String mimeType = FileUtils.getMimeType(fileUri);
         if (TextUtils.isEmpty(mimeType)) mimeType = "application/*";
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, file.getName()); //这参数没啥用, 不会在微信那边显示.
-        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
-        intent.setType(mimeType);
-        intent.setClassName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
+        Intent intent = new Intent(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, file.getName()) //这参数没啥用, 不会在微信那边显示.
+                .putExtra(Intent.EXTRA_STREAM, fileUri)
+                .setType(mimeType)
+                .setClassName(WXAPP_PACKAGE_NAME, WXAPP_SHARE_ACTIVITY);
+        if (!(context instanceof Activity)) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             //对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -586,11 +594,13 @@ public class WeChatUtils {
      * @param nonceStr 随机字符串
      * @param timeStamp 时间戳
      * @param sign 服务器调用微信的Sdk生成的签名
+     * @param extData 带往微信的额外数据, 最长1024, 可传null
      * @param payListener 支付回调
      */
     public static boolean pay(@NonNull String partnerId, @NonNull String prepayId,
                               @NonNull String nonceStr, @NonNull String timeStamp,
-                              @NonNull String sign, @NonNull WxPayListener payListener) {
+                              @NonNull String sign, @Nullable String extData, @NonNull WxPayListener payListener) {
+        if (extData != null && extData.length() > 1024) extData = extData.substring(0, 1024);
         WeChatUtils.wxPayListener = payListener;
         PayReq req = new PayReq();
         req.appId = getAppId();         //你的微信appId
@@ -601,7 +611,7 @@ public class WeChatUtils {
         req.packageValue = packageValue;//扩展字段,这里一般固定填写Sign=WXPay
         req.sign = sign;                //签名
 //        req.signType = ;                //签名类型, V3版本仅支持RSA
-        //      req.extData         = "app data"; // optional
+        req.extData = extData;          // optional
         return getIWXAPI().sendReq(req);
     }
     //获取支付监听
@@ -678,21 +688,24 @@ public class WeChatUtils {
 //                     */
 //                    @Override
 //                    public void onAuthGotQrcode(String qrcodeImgPath, byte[] imgBuf) {
+//                        GlideUtils.loadBytes(iv, imgBuf);
+//                        Bitmap bitmap = ImageUtils.bytes2Bitmap(imgBuf);
 //                    }
 //                    /**
 //                     * 用户扫描二维码之后，回调该接口
 //                     */
 //                    @Override
 //                    public void onQrcodeScanned() {
+//                        LogUtils.error("用户扫描二维码之后");
 //                    }
 //                    /**
 //                     * 授权结果，回调该接口
 //                     */
 //                    @Override
 //                    public void onAuthFinish(OAuthErrCode errCode, String authCode) {
-//                        if (errCode == OAuthErrCode.WechatAuth_Err_OK) {
-//                            //授权成功
-//                        }
+//                        if (errCode == OAuthErrCode.WechatAuth_Err_OK) {  //授权成功
+//                            //将 authCode 发送到你的服务器，换取用户信息
+//                        } else { }                                        //授权失败
 //                    }
 //                }
                 );
@@ -814,6 +827,33 @@ public class WeChatUtils {
         WxOtherTypeCallback listener = wxOtherTypeCallback;
         wxOtherTypeCallback = null;
         return listener;
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 其它功能
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 跳转微信扫码界面, 但拿不到扫码结果, if 你要拿到扫码结果, 可以让小程序返回, 参考: <br />
+     * {@link #launchMiniProgram(String, String, int, WxLaunchMiniProgramListener)}
+     * @return 是否跳转成功
+     */
+    public static boolean gotScan(@NonNull Context context) {
+        if (!ActivityUtils.isActivityExists(WXAPP_PACKAGE_NAME, WXAPP_LAUNCHER_UI)) return false;
+        try{
+            context.startActivity(new Intent(Intent.ACTION_VIEW)
+                    .setClassName(WXAPP_PACKAGE_NAME, WXAPP_LAUNCHER_UI)
+                    .putExtra("LauncherUI.Shortcut.LaunchType", "launch_type_scan_qrcode")
+                    //                                         参2: 不管context是不是Activity都要传, 否则跳不过去
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK)
+            );
+            return true;
+        } catch (Exception e) {
+            LogUtils.error("跳转微信扫码失败:", e);
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

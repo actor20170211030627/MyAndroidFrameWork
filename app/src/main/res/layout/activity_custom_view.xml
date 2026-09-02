@@ -70,6 +70,7 @@
             android:id="@+id/btn_spinner_clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="清空"
             app:layout_constraintBottom_toBottomOf="@id/ll"
             app:layout_constraintEnd_toStartOf="@id/btn_spinner_reset"
@@ -79,21 +80,39 @@
             android:id="@+id/btn_spinner_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
             android:text="设置数据"
             app:layout_constraintBottom_toBottomOf="@id/ll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/ll" />
+
+        <Button
+            android:id="@+id/btn_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="Check position"
+            android:transitionName="btnTest"
+            app:layout_constraintTop_toBottomOf="@id/ll" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/stv_result0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="result"
+            android:padding="5dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_check" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
             android:text="2.StateListImageView"
-            app:layout_constraintTop_toBottomOf="@id/ll" />
+            app:layout_constraintTop_toBottomOf="@id/stv_result0" />
 
         <com.actor.myandroidframework.widget.StateListImageView
             android:id="@+id/iv_sliv"
@@ -293,7 +312,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv5" />
 
         <Button
-            android:id="@+id/btn_check"
+            android:id="@+id/btn_check2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
@@ -310,7 +329,7 @@
             app:islItemName="请选择: "
             app:islMarginTop="20dp"
             app:islRedStarVisibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/btn_check" />
+            app:layout_constraintTop_toBottomOf="@id/btn_check2" />
 
         <!-- app:itilCustomLayout="@layout/item_text_input_layout" -->
         <com.actor.others.widget.ItemTextInputLayout

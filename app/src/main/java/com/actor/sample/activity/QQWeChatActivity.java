@@ -21,7 +21,7 @@ import com.actor.qq_wechat.WxLoginListener;
 import com.actor.qq_wechat.WxPayListener;
 import com.actor.qq_wechat.WxShareListener;
 import com.actor.sample.R;
-import com.actor.sample.databinding.ActivityThirdBinding;
+import com.actor.sample.databinding.ActivityQqWeChatBinding;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.PathUtils;
@@ -45,11 +45,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Description: 主页->第三方登录/分享
+ * Description: 主页->QQ微信登录/分享
  * Author     : ldf
  * Date       : 2020/3/13 on 12:11
  */
-public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
+public class QQWeChatActivity extends BaseActivity<ActivityQqWeChatBinding> {
 
     private final WxShareListener shareListener = new WxShareListener() {
         @Override
@@ -64,7 +64,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("主页->第三方登录/分享");
+        setTitle("主页->QQ微信登录/分享");
     }
 
     @Override
@@ -303,7 +303,7 @@ public class ThirdActivity extends BaseActivity<ActivityThirdBinding> {
             case R.id.btn_pay_wechat://微信支付
                 if (WeChatUtils.isWXAppInstalled()) {
                     //使用服务器返回的以下几个参数↓
-                    WeChatUtils.pay("partnerId", "prepayId", "nonceStr", "timeStamp", "sign", new WxPayListener() {
+                    WeChatUtils.pay("partnerId", "prepayId", "nonceStr", "timeStamp", "sign", null, new WxPayListener() {
                         @Override
                         public void onPaySuccess(@NonNull PayResp payResp) {
                             ToasterUtils.success("支付成功");

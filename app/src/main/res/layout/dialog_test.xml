@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape_cor5dp_white">
+    app:shape_radius="20dp"
+    app:shape_solidColor="@color/green_14B9C8">
 
     <Button
         android:id="@+id/btn_dismiss"
@@ -13,15 +14,6 @@
         android:text="dismiss"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/tv_tips"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="往上拉↑ or 往下拉↓"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <Button
         android:id="@+id/btn_ok"
@@ -42,4 +34,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="content内容" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.hjq.shape.layout.ShapeConstraintLayout>

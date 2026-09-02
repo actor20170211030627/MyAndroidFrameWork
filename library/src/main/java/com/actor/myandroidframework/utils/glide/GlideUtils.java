@@ -84,7 +84,7 @@ public class GlideUtils {
      */
     public static void loadRaw(@NonNull ImageView iv, @RawRes int rawId) {
         //这种也可以, rawName: res/raw 目录下的图片名称, 例: logo
-//        String raw = TextUtils2.getStringFormat("android.resource://%s/raw/%s", iv.getContext().getPackageName(), "rawName");
+//        String raw = TextUtils2.getStringFormat("android.resource://%s/raw/%s", iv.getContext().getPackageName(), "rawName(e.g. logo)");
         String raw = TextUtils2.getStringFormat("android.resource://%s/raw/%d", iv.getContext().getPackageName(), rawId);
         Glide.with(iv).load(raw).into(iv);
     }

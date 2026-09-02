@@ -15,9 +15,9 @@ import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
  */
 public interface WxLaunchMiniProgramListener {
     /**
-     * 拉起成功, 一定有返回值? <br />
+     * 拉起成功 <br />
      * <code>
-     *     //对应小程序组件 &lt;button open-type="launchApp"> 中的 app-parameter 属性 <br />
+     *     //对应小程序组件 &lt;button open-type="launchApp"> 中的 app-parameter 属性, 只有小程序主动调用 API 回传给 App 的时候才有值 <br />
      *     String extraData =launchMiniProResp.extMsg;
      * </code>
      */

@@ -15,6 +15,10 @@
 
         <!--Button按钮字体小写-->
         <item name="android:textAllCaps">false</item>
+        <!-- 导航栏透明 -->
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
+        <!-- 可设置状态栏颜色 -->
+<!--        <item name="android:statusBarColor">@color/black</item>-->
     </style>
 
     <style name="TranslucentStatusThemeForMyAndroidFrameWork" parent="AppThemeForMyAndroidFrameWork">

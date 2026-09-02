@@ -15,7 +15,6 @@ import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.myandroidframework.widget.BaseRadioGroup;
 import com.actor.myandroidframework.widget.BaseSpinner;
-import com.actor.others.widget.ItemSpinnerLayout;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityCustomViewBinding;
 import com.actor.sample.utils.Global;
@@ -31,9 +30,6 @@ import java.util.Collection;
  */
 public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> {
 
-    private BaseSpinner<String>  baseSpinner;
-    private ItemSpinnerLayout<String> itemSpinner;
-
     private final String[] btns         = {"只能输入数字", "只能输入字母,数字,中文", "只能输入小写字母"};
     private final String[] regexs_input = {"[0-9]+", "[a-zA-Z0-9\u4E00-\u9FA5]+", "[a-z]+"};
 
@@ -46,8 +42,6 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("主页->自定义View");
-        baseSpinner = viewBinding.baseSpinner;
-        itemSpinner = viewBinding.itemSpinner;
 
         viewBinding.itemRadioGroup.setOnCheckedChangeListener(new BaseRadioGroup.OnCheckedChangeListener2() {
             @Override
@@ -57,7 +51,7 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 ToasterUtils.info(format);
             }
         });
-        baseSpinner.setOnItemSelectedListener(new BaseSpinner.OnItemSelectedListener2() {
+        viewBinding.baseSpinner.setOnItemSelectedListener(new BaseSpinner.OnItemSelectedListener2() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LogUtils.errorFormat("选中了: %d", position);
@@ -92,22 +86,40 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
             }
         });
 
-        //清空
-        viewBinding.btnSpinnerClean.setOnClickListener(v -> {
-            viewBinding.baseSpinner2.setDatas((Collection) null);
-        });
-        //设置数据
-        viewBinding.btnSpinnerReset.setOnClickListener(v -> {
-            viewBinding.baseSpinner2.setDatas(new String[] {"白色文字浅灰背景", "下拉是红色字体"});
-        });
-
         //加载CardView里的图片
         Glide.with(this).load(Global.girl).into(viewBinding.ivInCardView);
+
+
+        String selectedItem = (String) viewBinding.baseSpinner.getSelectedItem();
+        int selectedItemPosition = viewBinding.baseSpinner.getSelectedItemPosition();
+        String itemAtPosition = (String) viewBinding.baseSpinner.getItemAtPosition(1);
+        String result00 = getStringFormat("BaseSpinner: selectedItemPosition=%d, selectedItem=%s, itemAtPosition=%s", selectedItemPosition, selectedItem, itemAtPosition);
+        viewBinding.stvResult0.setText(result00);
     }
 
     @Override
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.btn_spinner_clean:    //清空
+                viewBinding.baseSpinner2.setDatas((Collection) null);
+                break;
+            case R.id.btn_spinner_reset:    //设置数据
+                viewBinding.baseSpinner2.setDatas(new String[] {"白色文字浅灰背景", "下拉是红色字体"});
+                break;
+            case R.id.btn_check:
+                String selectedItem = (String) viewBinding.baseSpinner.getSelectedItem();
+                int selectedItemPosition = viewBinding.baseSpinner.getSelectedItemPosition();
+                String itemAtPosition = (String) viewBinding.baseSpinner.getItemAtPosition(1);
+                String result00 = getStringFormat("BaseSpinner: selectedItemPosition=%d, selectedItem=%s, itemAtPosition=%s", selectedItemPosition, selectedItem, itemAtPosition);
+                viewBinding.stvResult0.setText(result00);
+
+                String selectedItem1 = (String) viewBinding.itemSpinner.getSelectedItem();
+                int selectedItemPosition1 = viewBinding.itemSpinner.getSelectedItemPosition();
+                String itemAtPosition1 = (String) viewBinding.itemSpinner.getItemAtPosition(1);
+                String result01 = getStringFormat("\nItemSpinnerLayout: selectedItemPosition1=%d, selectedItem1=%s, itemAtPosition1=%s", selectedItemPosition1, selectedItem1, itemAtPosition1);
+                viewBinding.stvResult0.append(result01);
+                break;
+
             case R.id.btn_enable:   //enable的图片
                 viewBinding.ivSliv.setEnabled(!viewBinding.ivSliv.isEnabled());
                 viewBinding.btnEnable.setText("enable=" + viewBinding.ivSliv.isEnabled());
@@ -179,20 +191,12 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 viewBinding.roundCardView.setRadius(cardViewRadius[0], cardViewRadius[1], cardViewRadius[2], cardViewRadius[3]);
                 break;
 
-            case R.id.btn_check:
+            case R.id.btn_check2:
                 int checkedPosition = viewBinding.itemRadioGroup.getCheckedPosition();
                 viewBinding.itemRadioGroup.setCheckedPosition(2);
                 LogUtils.errorFormat("ItemRadioGroupLayout: checkedPosition=%s", checkedPosition);
                 viewBinding.itemRadioGroup.setDatas(new String[]{"11111", "2", "33"});
                 viewBinding.itemRadioGroup.addRadioButton("45");
-
-                String selectedItem = baseSpinner.getSelectedItem();
-                String itemAtPosition = baseSpinner.getItemAtPosition(1);
-                LogUtils.errorFormat("BaseSpinner: selectedItem=%s, itemAtPosition=%s", selectedItem, itemAtPosition);
-
-                String selectedItem1 = itemSpinner.getSelectedItem();
-                String itemAtPosition1 = itemSpinner.getItemAtPosition(1);
-                LogUtils.errorFormat("ItemSpinnerLayout: selectedItem1=%s, itemAtPosition1=%s", selectedItem1, itemAtPosition1);
                 break;
 
             case R.id.btn2:             //只能输入数字

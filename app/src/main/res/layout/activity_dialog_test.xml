@@ -1,136 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activity.DialogTestActivity">
 
-    <Button
-        android:id="@+id/btn_test_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="TestDialog"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_dialog_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="DialogFragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_test_dialog" />
-
-    <Button
-        android:id="@+id/btn_bottom_sheet_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="BottomSheetDialog"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_dialog_fragment" />
-
-    <Button
-        android:id="@+id/btn_bottom_sheet_dialog_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="BottomSheetDialogFragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_bottom_sheet_dialog" />
-
-    <TextView
-        android:id="@+id/tv_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="onViewClicked"
-        android:text="请输入内容↓"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_bottom_sheet_dialog_fragment" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_float_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="BottomFloatEditorDialog(就是BaseDialog)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_content" />
+        <Button
+            android:id="@+id/btn_test_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="TestDialog"
+            android:transitionName="btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_top_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="TopDialog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_float_edit" />
+        <Button
+            android:id="@+id/btn_bottom_sheet_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="BottomSheetDialog"
+            app:layout_constraintStart_toEndOf="@id/btn_test_dialog"
+            app:layout_constraintTop_toTopOf="@id/btn_test_dialog" />
 
-    <!--左侧弹出-->
-    <Button
-        android:id="@+id/btn_left_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="LeftDialog"
-        app:layout_constraintEnd_toStartOf="@id/btn_bottom_dialog"
-        app:layout_constraintTop_toBottomOf="@id/btn_top_dialog" />
+        <Button
+            android:id="@+id/btn_dialog_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="DialogFragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_test_dialog" />
 
-    <!--右侧弹出-->
-    <Button
-        android:id="@+id/btn_right_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="RightDialog"
-        app:layout_constraintStart_toEndOf="@id/btn_bottom_dialog"
-        app:layout_constraintTop_toTopOf="@id/btn_left_dialog" />
+        <Button
+            android:id="@+id/btn_bottom_sheet_dialog_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="BottomSheetDialogFragment"
+            app:layout_constraintStart_toEndOf="@id/btn_dialog_fragment"
+            app:layout_constraintTop_toTopOf="@id/btn_dialog_fragment" />
 
-    <Button
-        android:id="@+id/btn_bottom_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="BottomDialog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_left_dialog" />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="请输入内容↓"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_bottom_sheet_dialog_fragment" />
 
-    <Button
-        android:id="@+id/btn_show_loading_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="showLoadingDialog"
-        app:layout_constraintEnd_toStartOf="@id/btn_dismiss_loading_dialog"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_bottom_dialog" />
+        <Button
+            android:id="@+id/btn_float_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="BottomFloatEditorDialog(就是BaseDialog)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_content" />
 
-    <Button
-        android:id="@+id/btn_dismiss_loading_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onViewClicked"
-        android:text="showLoadingDialog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_show_loading_dialog"
-        app:layout_constraintTop_toBottomOf="@id/btn_bottom_dialog" />
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="2.LoadingDialog"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_float_edit" />
 
-    <Button
-        android:id="@+id/btn_bottom_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="onViewClicked"
-        android:text="BaseBottomActivity"
-        android:transitionName="btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_show_loading_dialog" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_show_loading_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="showLoadingDialog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv1" />
+
+        <Button
+            android:id="@+id/btn_dismiss_loading_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="dismissLoadingDialog"
+            app:layout_constraintStart_toEndOf="@id/btn_show_loading_dialog"
+            app:layout_constraintTop_toTopOf="@id/btn_show_loading_dialog" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="3.Dialog样式的Activity"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_show_loading_dialog" />
+
+        <Button
+            android:id="@+id/btn_bottom_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="BaseBottomActivity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv2" />
+
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="4.自定义Dialog"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_bottom_activity" />
+
+        <com.actor.others.widget.ItemRadioGroupLayout
+            android:id="@+id/irgl_orientation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:irglBtns="Center,←,↑,→,↓"
+            app:irglItemName="弹出方向:"
+            app:layout_constraintTop_toBottomOf="@id/tv3" />
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_constraintTop_toBottomOf="@id/irgl_orientation"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
+        <com.actor.others.widget.ItemSpinnerLayout
+            android:id="@+id/isl_width"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1px"
+            app:islEntriesString="match_parent,wrap_content,250dp(自定义)"
+            app:islItemName="宽度:"
+            app:layout_constraintTop_toBottomOf="@id/irgl_orientation" />
+
+        <com.actor.others.widget.ItemSpinnerLayout
+            android:id="@+id/isl_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1px"
+            app:islEntriesString="match_parent,wrap_content,300dp(自定义)"
+            app:islItemName="高度:"
+            app:layout_constraintTop_toBottomOf="@id/isl_width" />
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_constraintTop_toBottomOf="@id/isl_height"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_cancelable_on_back_pressed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isclChecked="true"
+            app:isclItemName="点击返回是否消失:"
+            app:layout_constraintTop_toBottomOf="@id/isl_height" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_cancelable_on_touch_outside"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isclChecked="true"
+            app:isclItemName="点击外部是否消失:"
+            app:layout_constraintTop_toBottomOf="@id/isl_cancelable_on_back_pressed" />
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_constraintTop_toBottomOf="@id/isl_cancelable_on_touch_outside"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_click_through"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isclItemName="点击穿透:"
+            app:layout_constraintTop_toBottomOf="@id/isl_cancelable_on_touch_outside" />
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_constraintTop_toBottomOf="@id/isl_click_through"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_dim_enable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isclChecked="true"
+            app:isclItemName="背景昏暗:"
+            app:layout_constraintTop_toBottomOf="@id/isl_click_through" />
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            app:layout_constraintTop_toBottomOf="@id/isl_dim_enable"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_is_draw_into_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1px"
+            app:isclChecked="false"
+            app:isclItemName="绘制进状态栏:"
+            app:layout_constraintTop_toBottomOf="@id/isl_dim_enable" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_status_bar_hide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1px"
+            app:isclChecked="false"
+            app:isclItemName="隐藏状态栏:"
+            app:layout_constraintTop_toBottomOf="@id/isl_is_draw_into_status_bar" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_is_draw_into_navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1px"
+            app:isclChecked="false"
+            app:isclItemName="绘制进导航栏:"
+            app:layout_constraintTop_toBottomOf="@id/isl_status_bar_hide" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl_navigation_bar_hide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1px"
+            app:isclChecked="false"
+            app:isclItemName="隐藏导航栏:"
+            app:layout_constraintTop_toBottomOf="@id/isl_is_draw_into_navigation_bar" />
+
+        <Button
+            android:id="@+id/btn_show_dialog_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="show()"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/isl_navigation_bar_hide" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

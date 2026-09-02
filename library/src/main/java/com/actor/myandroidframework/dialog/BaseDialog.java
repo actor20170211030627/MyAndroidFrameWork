@@ -4,13 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
+import android.view.MotionEvent;
 import android.view.Window;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
 import androidx.annotation.CallSuper;
@@ -29,22 +26,19 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.action.ActivityAction;
 import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.utils.LogUtils;
-import com.blankj.utilcode.util.BarUtils;
+import com.actor.myandroidframework.utils.WindowUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 
 /**
- * Description: Dialog基类, 各Dialog类型:
+ * Description: Dialog 封装 <br />
+ * 各Dialog类型:
  * <ol>
  *     <li>{@link Dialog}</li>
  *     <li>{@link android.app.AlertDialog} extends Dialog: setIcon, title, message, button x 3, setView, setContentView</li>
  *     <li>{@link androidx.appcompat.app.AppCompatDialog} extends Dialog</li>
  *     <li>{@link androidx.appcompat.app.AlertDialog} extends AppCompatDialog: setIcon, title, message, button x 3, setView, setContentView</li>
  * </ol>
- * {@link null 注意:} 如果'背景使用的shape' & 'shape下方有圆角' & '下方圆角位置的view有背景色',
- *     有可能会造成 '下方圆角被颜色覆盖' 的问题! 解决方法: <br />
- *     1. shape 加上 padding(bottom) 属性 <br />
- *     2. 下方圆角位置的view 加一个同样圆角的 shape <br />
- * <br />
+ *
  * @Author     : ldf
  * @Date       : 2020-1-21 on 16:49
  */
@@ -61,11 +55,16 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
 
     //按返回键的时候, 是否让Dialog cancel
     protected boolean mCancelableOnBackPressed = true;
+    protected boolean mCancelableOnTouchOutside = true;
     //Widow宽度
     protected int windowWidth = WindowManager.LayoutParams.MATCH_PARENT;
     protected int windowHeight = WindowManager.LayoutParams.WRAP_CONTENT;
+    //窗口偏移
+    protected int xOffset = 0, yOffset = 0;
+    //StatusBar & NavigationBar
+    protected boolean isDrawIntoStatusBar = false, isHideStatusBar = false, isDrawIntoNavigationBar = false, isHideNavigationBar = false;
     //onCreate的时候, 是否打印这个Dialog的名称
-    protected boolean isPrintNameOnCreate = true;
+    protected boolean loggable = true;
 
     public BaseDialog(@NonNull Context context) {
         //给dialog设置样式, 去掉标题栏, 宽度全屏
@@ -110,34 +109,50 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (isPrintNameOnCreate) LogUtils.error(this.getClass().getName());
+        if (loggable) LogUtils.error(this.getClass().getName());
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
         Window window = getWindow();
         if (window != null) {
             WindowManager.LayoutParams params = window.getAttributes(); //获取当前窗口的属性, 布局参数
             params.width = windowWidth;              //设置宽度, 默认全屏
             params.height = windowHeight;            //设置高度, 默认包裹内容
-            params.x = 0;
-            params.y = 0;//相对上方的偏移,负值忽略.
-//            params.dimAmount = dimAmount;
-//            int windowAnimations = params.windowAnimations;
-//            window.setAttributes(params);
+            params.x = xOffset;
+            params.y = yOffset;//相对上方的偏移,负值忽略.
 
             //FLAG_BLUR_BEHIND模糊(毛玻璃效果)
 //            window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-//            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+            //当 width = height = match_parent 的时候:
+            //  1.if <item name="android:windowFullscreen">true</item>, 1.隐藏顶部状态栏, 并填充进去 2.不隐藏底部状态栏, 并填充进去 (导致布局底部被导航栏遮挡)
+            //  2.if <item name="android:windowFullscreen">false</item>, 1.顶部状态栏不会被隐藏      2.顶部状态栏&底部导航栏会被系统绘制成黑色...
+            // 所以让宽度不要 = match_parent(-1) 或 边距+1
+            if (windowWidth == WindowManager.LayoutParams.MATCH_PARENT && windowHeight == WindowManager.LayoutParams.MATCH_PARENT) {
+//                params.width = ScreenUtils.getAppScreenWidth();   //设置固定宽度不好, 防止: 万一旋转屏幕 or app宽度发生了改变
+                if (xOffset <= 0) {
+                    xOffset = 1;
+                    params.x = 1;
+                }
+            }
+            // 监听布局变化（旋转屏幕会触发）
+//            window.getDecorView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//                @Override
+//                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                    LogUtils.errorFormat("v = %s, left = %d, top = %d, right = %d, bottom = %d", v, left, top, right, bottom);
+//                    LogUtils.errorFormat("oldLeft = %d, oldTop = %d, oldRight = %d, oldBottom = %d", oldLeft, oldTop, oldRight, oldBottom);
+//                    LogUtils.errorFormat("newWidth = %d, oldWidth = %d", right - left, oldRight - oldLeft);
+//                }
+//            });
         }
 
         super.setOnShowListener(this);
         super.setOnDismissListener(this);
-
+        applyDrawIntoStatusBarNavigationBar();
 //        findViewById();//子类可以初始化控件等
     }
 
     /**
-     * 设置宽度 <br />
-     * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
-     *                    解决方法: 宽度-1px
+     * 设置宽度
+     * @param width {@link WindowManager.LayoutParams#MATCH_PARENT} or {@link WindowManager.LayoutParams#WRAP_CONTENT} or 具体宽度
      */
     public BaseDialog setWidth(@Px int width) {
         this.windowWidth = width;
@@ -164,73 +179,11 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     }
 
     /**
-     * 设置高度 <br />
-     * {@link null 注意:} if宽度&高度都设置MATCH_PARENT, 会自动全屏(包括状态栏), 非常无语...
-     *                    解决方法: 宽度-1px
+     * 设置高度
+     * @param height {@link WindowManager.LayoutParams#MATCH_PARENT} or {@link WindowManager.LayoutParams#WRAP_CONTENT} or 具体高度
      */
     public BaseDialog setHeight(@Px int height) {
         this.windowHeight = height;
-        return this;
-    }
-
-    /**
-     * 设置状态栏透明(Dialog能绘制进状态栏) & 隐藏导航栏
-     */
-    public BaseDialog setStatusBarTransparent() {
-        Window window = getWindow();
-        if (window == null) return this;
-        //TODO: 下面这句代码实际效果使状态栏透明, 而不是彻底隐藏状态栏...
-        BarUtils.setStatusBarVisibility(window, false);
-        //隐藏导航栏
-        BarUtils.setNavBarVisibility(window, false);
-
-        /**
-         * 设置后, Dialog能绘制进状态栏了, 但是状态栏是透明的, 实际上还是存在能够看见的
-         */
-//        //允许绘制系统状态栏背景
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        //将状态栏设为透明，避免遮挡内容
-//        window.setStatusBarColor(Color.TRANSPARENT);
-//        // 允许内容延伸到状态栏区域（API 21+）
-//        View decorView = window.getDecorView();
-//        //                                                                  允许内容布局延伸到状态栏下方
-//        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//        //Android11, API 30+
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//          //禁用系统窗口适配，确保内容全屏
-//          window.setDecorFitsSystemWindows(false);
-//        }
-        return this;
-    }
-
-    /**
-     * 隐藏状态栏 & 导航栏
-     */
-    public BaseDialog setStatusBarAndNavigationBarHide() {
-        Window window = getWindow();
-        if (window == null) return this;
-            // 隐藏状态栏和导航栏的关键标志
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //允许内容布局延伸到状态栏下方
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY; // 沉浸式模式
-            View decorView = window.getDecorView();
-//            int systemUiVisibility = decorView.getSystemUiVisibility(); //0
-//            LogUtils.errorFormat("systemUiVisibility=%d", systemUiVisibility);
-            decorView.setSystemUiVisibility(uiOptions);
-
-            // 适配 Android 11+ 的弹窗行为（Android11, API 30+）
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                //禁用系统窗口适配，确保内容全屏
-                window.setDecorFitsSystemWindows(false);
-                WindowInsetsController controller = decorView.getWindowInsetsController();
-                if (controller != null) {
-                    controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-                    controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-                }
-            }
         return this;
     }
 
@@ -307,8 +260,6 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
      * </table>
      */
     public BaseDialog setCancelAble(boolean cancelAble) {
-//        setCancelable(cancelAble);
-//        setCanceledOnTouchOutside(cancelAble);
         setCancelAble(cancelAble, cancelAble);
         return this;
     }
@@ -328,6 +279,18 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     @Override
     public void setCancelable(boolean flag) {
         super.setCancelable(flag);
+        this.mCancelableOnBackPressed = flag;
+    }
+
+    /**
+     * 设置 '点击Dialog外部' 是否让Dialog cancel
+     * @deprecated 不要直接调用这个方法, 应该去调用{@link #setCancelAble(boolean)} or {@link #setCancelAble(boolean, boolean)}
+     */
+    @Deprecated
+    @Override
+    public void setCanceledOnTouchOutside(boolean cancel) {
+        super.setCanceledOnTouchOutside(cancel);
+        this.mCancelableOnTouchOutside = cancel;
     }
 
     /**
@@ -361,9 +324,19 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
      */
     public BaseDialog setGravityAndAnimation(int gravity, @StyleRes int windowAnimations) {
         Window window = getWindow();
-        if (window == null) return this;
-        window.setGravity(gravity);
-        window.setWindowAnimations(windowAnimations);
+        WindowUtils.setGravity(window, gravity);
+        WindowUtils.setWindowAnimations(window, windowAnimations);
+        return this;
+    }
+
+    /**
+     * Dialog弹起后, 在当前窗口（Dialog）后面的所有内容上，覆盖一层半透明的黑色遮罩（调光效果）。
+     * @param isDimEnable 是否变暗, 默认=true <br />
+     *                    if=true, {@link #setDimAmount(float)}才有效。<br />
+     *                    if=false, {@link #setDimAmount(float)}无效, 背景会全亮
+     */
+    public BaseDialog setDimEnable(boolean isDimEnable) {
+        WindowUtils.setDimEnable(getWindow(), isDimEnable);
         return this;
     }
 
@@ -378,45 +351,73 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     }
 
     /**
-     * Dialog弹起后, 状态栏是否变暗
-     * @param isStatusBarDimmed 是否变暗, 默认=true <br />
-     *                         if=true, {@link #setDimAmount(float)}才有效。<br />
-     *                          if=false, {@link #setDimAmount(float)}无效, 背景会全亮
+     * 设置点击穿透, 点击Dialog外部时, 是否将点击事件透传到Dialog的Window后面，默认是false
+     * @param isClickThrough 是否点击穿透
      */
-    public BaseDialog isStatusBarDimmed(boolean isStatusBarDimmed) {
-        Window window = getWindow();
-        if (window == null) return this;
-        if (isStatusBarDimmed) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        }
+    public BaseDialog setClickThrough(boolean isClickThrough) {
+        WindowUtils.setClickThrough(getWindow(), isClickThrough);
         return this;
     }
 
     /**
-     * 点击弹窗外部时, 是否将点击事件透传到Dialog的Window后面，默认是false
+     * 设置窗口x偏移量
+     * @param xOffset x方向偏移量
+     *        <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *            <tr>
+     *                <th align="center">Gravity</th>
+     *                <th align="center">xOffset 的作用</th>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#LEFT}</td>
+     *                <td>窗口<b>左边</b>相对于<b>屏幕左边</b>的距离</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#TOP}</td>
+     *                <td>窗口<b>左边</b>相对于<b>屏幕左边</b>的距离</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#RIGHT}</td>
+     *                <td>窗口<b>右边</b>相对于<b>屏幕右边</b>的距离</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#BOTTOM}</td>
+     *                <td>窗口<b>左边</b>相对于<b>屏幕左边</b>的距离</td>
+     *            </tr>
+     *        </table>
      */
-    public BaseDialog isClickThrough(boolean isClickThrough) {
-        Window window = getWindow();
-        if (window == null) return this;
-        if (isClickThrough) {
-            //将允许对话框外的事件被发送到后面的视图
-            window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-//            window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-            /**
-             * 允许对话框在被触摸时接收到外部的触摸事件, 示例代码:
-             * window.getDecorView().setOnTouchListener((v, event) -> {
-             *     if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-             *     }
-             *     return false;
-             * });
-             */
-            window.addFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
-        }
+    public BaseDialog setXOffset(int xOffset) {
+        this.xOffset = xOffset;
+        return this;
+    }
+
+    /**
+     * 设置窗口y偏移量
+     * @param yOffset y方向偏移量
+     *        <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *            <tr>
+     *                <th align="center">Gravity</th>
+     *                <th align="center">yOffset 的作用</th>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#LEFT}</td>
+     *                <td>窗口<b>垂直中心</b>相对于<b>屏幕垂直中心</b>的y方向距离</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#TOP}</td>
+     *                <td>窗口<b>顶边</b>相对于<b>屏幕顶边</b>的距离</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#RIGHT}</td>
+     *                <td>窗口<b>垂直中心</b>相对于<b>屏幕垂直中心</b>的y方向距离</td>
+     *            </tr>
+     *            <tr>
+     *                <td>{@link Gravity#BOTTOM}</td>
+     *                <td>窗口<b>底边</b>相对于<b>屏幕底边</b>的距离</td>
+     *            </tr>
+     *        </table>
+     */
+    public BaseDialog setYOffset(int yOffset) {
+        this.yOffset = yOffset;
         return this;
     }
 
@@ -490,11 +491,41 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
         onDismissListener = listener;
     }
 
+    public BaseDialog setDrawIntoStatusBar(boolean isDrawIntoStatusBar, boolean isHideStatusBar) {
+        this.isDrawIntoStatusBar = isDrawIntoStatusBar;
+        this.isHideStatusBar = isHideStatusBar;
+        return this;
+    }
+
+    public BaseDialog setDrawIntoNavigationBar(boolean isDrawIntoNavigationBar, boolean isHideNavigationBar) {
+        this.isDrawIntoNavigationBar = isDrawIntoNavigationBar;
+        this.isHideNavigationBar = isHideNavigationBar;
+        return this;
+    }
+
+    protected boolean applyDrawIntoStatusBarNavigationBar() {
+        if (loggable) {
+            LogUtils.errorFormat("isDrawIntoStatusBar = %b;\nisHideStatusBar = %b;\nisDrawIntoNavigationBar = %b;\nisHideNavigationBar = %b",
+                    isDrawIntoStatusBar, isHideStatusBar, isDrawIntoNavigationBar, isHideNavigationBar);
+        }
+        if (!isDrawIntoStatusBar && !isDrawIntoNavigationBar) return false;
+        return WindowUtils.drawIntoStatusBarAndNavigationBar(getWindow(), isDrawIntoStatusBar, isHideStatusBar, isDrawIntoNavigationBar, isHideNavigationBar, yOffset);
+    }
+
     @CallSuper
     @Override
     protected void onStart() {
         super.onStart();
         mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
+    }
+
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+            if (mCancelableOnTouchOutside) dismiss();
+            return true;
+        }
+        return super.onTouchEvent(event);
     }
 
     @CallSuper

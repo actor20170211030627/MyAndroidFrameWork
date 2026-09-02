@@ -155,7 +155,7 @@ import java.util.List;
  */
 public class BaseSpinner<T> extends AppCompatSpinner {
 
-    protected int prePosition = Integer.MIN_VALUE;
+    protected int prePosition = INVALID_POSITION;
     //spinner布局
     protected int spinnerRes = android.R.layout.simple_spinner_item;
     //下拉item布局
@@ -354,7 +354,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     /**
      * 设置数据, 填充Spinner <br />
      * T: 如果数据类型 "T" 不是CharSequence或String, 重写数据类型'T'的toString()方法即可, 列表item填充的时候会调用toString()的内容 <br />
-     * {@link 注意:} 每次填充的T数据类型应该一致
+     * {@link null 注意:} 每次填充的T数据类型应该一致
      */
     public void setDatas(@Nullable Collection<T> datas) {
         SpinnerAdapter adapter = getAdapter();
@@ -362,7 +362,7 @@ public class BaseSpinner<T> extends AppCompatSpinner {
         if (adapter instanceof ArrayAdapter) {
             ArrayAdapter<T> adapterI = (ArrayAdapter<T>) adapter;
             adapterI.clear();
-            prePosition = Integer.MIN_VALUE;
+            prePosition = INVALID_POSITION;
             if (datas != null && !datas.isEmpty()) {
                 isJustSetData = true;
                 adapterI.addAll(datas);
@@ -378,7 +378,8 @@ public class BaseSpinner<T> extends AppCompatSpinner {
      */
     @Override
     public int getSelectedItemPosition() {
-        return super.getSelectedItemPosition();
+//        return super.getSelectedItemPosition();   //在 onCreate() 获取的时候会返回 INVALID_POSITION
+        return prePosition;
     }
 
     /**

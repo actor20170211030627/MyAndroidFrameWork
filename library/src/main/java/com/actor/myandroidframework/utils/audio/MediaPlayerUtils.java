@@ -253,7 +253,7 @@ public class MediaPlayerUtils {
         if (mediaPlayer == null) return;
         //seekTo()禁止的状态: Stopped, Idle, Initialized, Error 否则报错: what=-38, extra=0
         //并且.stop()后, currentPos 已经 = 0
-        if (playerCallback != null && playerCallback.isStopped) return;
+        if (playerCallback != null && (!playerCallback.isPrepared || playerCallback.isStopped)) return;
         try {
             //允许的状态: Prepared, Started, Paused, PlaybackCompleted
             mediaPlayer.seekTo(msec);

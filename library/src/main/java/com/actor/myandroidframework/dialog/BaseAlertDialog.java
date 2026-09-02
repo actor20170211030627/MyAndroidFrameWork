@@ -94,7 +94,6 @@ import com.actor.myandroidframework.utils.LogUtils;
  */
 public abstract class BaseAlertDialog extends AlertDialog {
 
-    protected Window window;
     //按返回键的时候, 是否让Dialog cancel
     protected boolean mCancelableOnBackPressed = true;
     public boolean isDismissError = false;  //dismiss的时候, 是否出错了
@@ -115,7 +114,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
     }
 
     protected void init() {
-        window = getWindow();
+        Window window = getWindow();
         if (window != null) {
             /**
              * 背景透明, 不然设置自定义view {@link AlertDialog#setView(View)} 后, 后面有一个白色背景
@@ -185,6 +184,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
      * <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
      */
     public BaseAlertDialog typeSystemAlert() {
+        Window window = getWindow();
         if (window != null) {
             //系统界别的dialog，即全局性质的dialog(...)
             window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
@@ -223,6 +223,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
      * 设置窗口后面灰色大背景的亮度[0-1], 0最亮
      */
     public BaseAlertDialog setDimAmount(@FloatRange(from = 0, to = 1) float amount) {
+        Window window = getWindow();
         if (window != null) window.setDimAmount(amount);
         return this;
     }
@@ -232,6 +233,7 @@ public abstract class BaseAlertDialog extends AlertDialog {
      * @param gravity {@link android.view.Gravity}
      */
     public BaseAlertDialog setGravity(int gravity) {
+        Window window = getWindow();
         if (window != null) window.setGravity(gravity);
         return this;
     }

@@ -433,13 +433,13 @@ public class FileUtils {
         if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return;
         Uri fileUri = UriUtils.file2Uri(file);
         //if mimeType=font/ttf, 不能分享到微信, ∵微信的接受类型没有这个. 其它App同理.
-        String mimeType = FileUtils.getMimeType(file.getAbsolutePath());
+        String mimeType = getMimeType(fileUri);
         if (TextUtils.isEmpty(mimeType)) mimeType = "*/*";
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, "");
-        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
-        intent.setType(mimeType);
+        Intent intent = new Intent(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, "")
+                .putExtra(Intent.EXTRA_STREAM, fileUri)
+                .setType(mimeType);
         intent = Intent.createChooser(intent, title);
         if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -452,21 +452,25 @@ public class FileUtils {
     }
 
     /**
-     * <a href="https://stackoverflow.com/questions/8589645/how-to-determine-mime-type-of-file-in-android">获取文件的MimeType</a>
-     * @param url 文件路径或任何合适的URL
+     * 获取 文件路径/Url 的 MimeType
+     * @param path 文件路径
      */
     @Nullable
-    public static String getMimeType(String url) {
-        File file = new File(url);
-        if (!file.exists()) return null;
-        Uri fileUri = UriUtils.file2Uri(file);
+    public static String getMimeType(String path) {
+        //获取扩展: txt, mp3, mp4, png, jpg ...
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+    }
+
+    /**
+     * <a href="https://stackoverflow.com/questions/8589645/how-to-determine-mime-type-of-file-in-android">获取文件的MimeType</a>
+     * @param fileUri 文件URL
+     */
+    @Nullable
+    public static String getMimeType(Uri fileUri) {
+        if (fileUri == null) return null;
         String mimeType = Utils.getApp().getContentResolver().getType(fileUri);
         if (mimeType != null) return mimeType;
-
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension != null) {
-            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
-        }
-        return mimeType;
+        return getMimeType(fileUri.toString());
     }
 }

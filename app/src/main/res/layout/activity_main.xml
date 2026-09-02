@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="第三方登录/分享"
+            android:text="QQ微信登录/分享"
             android:transitionName="btn" />
 
         <Button

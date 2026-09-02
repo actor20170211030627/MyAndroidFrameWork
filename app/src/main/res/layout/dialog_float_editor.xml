@@ -1,53 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_cor5dp_white"
-    android:orientation="vertical">
+    app:shape_radius="20dp"
+    app:shape_solidColor="@color/white">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="取消"
+        android:textColor="#71777D"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="取消"
-            android:textColor="#71777D"
-            android:textSize="14sp" />
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Title"
+        android:textColor="#2B333B"
+        app:layout_constraintBottom_toBottomOf="@id/tv_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_cancel" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Title"
-            android:textColor="#2B333B" />
+    <TextView
+        android:id="@+id/tv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="发送"
+        android:textColor="#71777D"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_cancel" />
 
-        <TextView
-            android:id="@+id/tv_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发送"
-            android:textColor="#71777D"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <ImageView
+    <com.actor.myandroidframework.widget.LineView
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#D9DDE1" />
+        app:layout_constraintBottom_toBottomOf="@id/tv_cancel"
+        app:layout_constraintTop_toBottomOf="@id/isl_height"
+        app:lvGradientCenterColor="@color/green_0D6971"
+        app:lvGradientEndColor="@color/blue_5ECCFD"
+        app:lvGradientStartColor="@color/red" />
 
     <EditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="140dp"
+        android:layout_marginTop="1px"
         android:background="@null"
         android:gravity="top"
         android:paddingLeft="20dp"
@@ -57,13 +65,17 @@
         android:textColor="#2B333B"
         android:textColorHint="#B7BBBF"
         android:textCursorDrawable="@null"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_cancel" />
 
-    <TextView
+    <com.hjq.shape.view.ShapeTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red_FE588C"
         android:padding="15dp"
         android:text="这是下方文字, 用于占位, 测试输入法是否遮挡我.."
-        android:textColor="@color/white" />
-</LinearLayout>
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/et_content"
+        app:shape_radiusInBottomEnd="20dp"
+        app:shape_radiusInBottomStart="20dp"
+        app:shape_solidColor="@color/red_FE588C" />
+</com.hjq.shape.layout.ShapeConstraintLayout>

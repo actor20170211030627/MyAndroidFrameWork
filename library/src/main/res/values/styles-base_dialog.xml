@@ -16,8 +16,15 @@
         <!-- 半透明 -->
         <item name="android:windowIsTranslucent">true</item>
 
-        <!--全屏, 作用未知-->
-        <item name="android:windowFullscreen">true</item>
+        <!--
+         if=true: 当Dialog 的 width = height = match_parent 的时候, Dialog就会:
+                  1.隐藏顶部状态栏, 并填充进去
+                  2.不隐藏底部状态栏, 并填充进去 (导致布局底部被导航栏遮挡)
+         if=false:
+                  1.顶部状态栏不会被隐藏
+                  2.顶部状态栏&底部导航栏会被系统绘制成黑色...
+         -->
+        <item name="android:windowFullscreen">false</item>
 
         <!-- 窗口内容不覆盖, 作用未知 -->
         <item name="android:windowContentOverlay">@null</item>
@@ -48,7 +55,5 @@
         <!--<item name="android:configChanges">orientation|screenSize|keyboardHidden</item>-->
         <!-- 默认隐藏输入法 -->
         <!--<item name="android:windowSoftInputMode">stateHidden</item>-->
-        <!-- Dialog 全屏显示 -->
-        <!--<item name="android:windowFullscreen">true</item>-->
     </style>
 </resources>

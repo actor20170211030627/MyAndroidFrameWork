@@ -11,7 +11,7 @@
         <attr name="brbIsIndicator" format="boolean"/>
         <!-- 设置默认显示多少星星 -->
         <attr name="brbRating" format="float"/>
-        <!-- 步长, 每次星星🌟的最小加减数值, 默认0.1 -->
+        <!-- 步长, 每次星星 ★ 的最小加减数值, 默认0.1 -->
         <attr name="brbStepSize" format="float"/>
 
         <!--单个星星的宽高比 ratio = 宽/高, 默认=1 -->

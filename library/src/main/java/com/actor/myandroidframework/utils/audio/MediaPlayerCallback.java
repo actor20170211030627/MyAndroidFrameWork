@@ -22,6 +22,7 @@ public abstract class MediaPlayerCallback implements
         MediaPlayer.OnBufferingUpdateListener,  //缓冲进度监听
         MediaPlayer.OnSeekCompleteListener      //调用seekTo()完成后监听
 {
+    boolean isPrepared = false;         //是否准备完成
     boolean isAutoPlay = false;         //是否自动播放
     boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
     boolean isStopped = false;          //是否调用了MediaPlayer.stop()
@@ -55,6 +56,7 @@ public abstract class MediaPlayerCallback implements
     @CallSuper
     public void onPrepared(MediaPlayer mp) {
         if (mp != null) {
+            isPrepared = true;
             int audioSessionId = mp.getAudioSessionId();
             LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
             if (isAutoPlay) {
@@ -99,16 +101,16 @@ public abstract class MediaPlayerCallback implements
      * @param mp      the MediaPlayer the error pertains to
      * @param what    the type of error that has occurred:
      * <ul>
-     * <li>{@link MediaPlayer#MEDIA_ERROR_UNKNOWN}, 例: 404
-     * <li>{@link MediaPlayer#MEDIA_ERROR_SERVER_DIED}
+     * <li>{@link MediaPlayer#MEDIA_ERROR_UNKNOWN} = 1, 例: 404
+     * <li>{@link MediaPlayer#MEDIA_ERROR_SERVER_DIED} = 100
      * </ul>
      * @param extra an extra code, specific to the error. Typically
      * implementation dependent.
      * <ul>
-     * <li>{@link MediaPlayer#MEDIA_ERROR_IO}
-     * <li>{@link MediaPlayer#MEDIA_ERROR_MALFORMED}
-     * <li>{@link MediaPlayer#MEDIA_ERROR_UNSUPPORTED}
-     * <li>{@link MediaPlayer#MEDIA_ERROR_TIMED_OUT}
+     * <li>{@link MediaPlayer#MEDIA_ERROR_IO} = -1004;
+     * <li>{@link MediaPlayer#MEDIA_ERROR_MALFORMED} = -1007;
+     * <li>{@link MediaPlayer#MEDIA_ERROR_UNSUPPORTED} = -1010;
+     * <li>{@link MediaPlayer#MEDIA_ERROR_TIMED_OUT} = -110;
      * <li><code>MEDIA_ERROR_SYSTEM (-2147483648)</code> - low-level system error.
      * </ul>
      * @return True if the method handled the error, false if it didn't.

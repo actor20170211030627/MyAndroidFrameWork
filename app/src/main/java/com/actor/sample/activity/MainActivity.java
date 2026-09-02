@@ -66,8 +66,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_chat://聊天
                 startActivity(ChatActivity.class);
                 break;
-            case R.id.btn_third://第三方登录/分享
-                startActivity(new Intent(this, ThirdActivity.class), view);
+            case R.id.btn_third://QQ微信登录/分享
+                startActivity(new Intent(this, QQWeChatActivity.class), view);
                 break;
             case R.id.btn_baidu://百度定位/地图
                 startActivity(new Intent(this, BaiDuMapActivity.class), view);

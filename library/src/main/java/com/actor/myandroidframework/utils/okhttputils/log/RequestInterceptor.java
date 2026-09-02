@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -69,7 +68,8 @@ public class RequestInterceptor implements Interceptor {
         }
 
 
-        long t1 = System.nanoTime();
+        //edited:
+//        long t1 = System.nanoTime();
         Response originalResponse;
         try {
             originalResponse = chain.proceed(request);
@@ -78,7 +78,8 @@ public class RequestInterceptor implements Interceptor {
 //            Timber.w("Http Error: " + e);
             throw e;
         }
-        long t2 = System.nanoTime();
+        //edited:
+//        long t2 = System.nanoTime();
 
         ResponseBody responseBody = originalResponse.body();
 
@@ -97,10 +98,7 @@ public class RequestInterceptor implements Interceptor {
         final Headers headers = originalResponse.headers();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < headers.size(); i++) {
-            sb.append(headers.name(i));
-            sb.append(": ");
-            sb.append(headers.value(i));
-            sb.append("\n");
+            sb.append(headers.name(i)).append(": ").append(headers.value(i)).append("\n");
         }
         String header = sb.toString();
         final int code = originalResponse.code();
@@ -108,12 +106,19 @@ public class RequestInterceptor implements Interceptor {
         final String message = originalResponse.message();
         final String url = originalResponse.request().url().toString();
 
+        //added: 时间替换成这样计算
+        long timeMs = originalResponse.receivedResponseAtMillis() - originalResponse.sentRequestAtMillis();
         if (responseBody != null && isParseable(responseBody.contentType())) {
-            mPrinter.printJsonResponse(TimeUnit.NANOSECONDS.toMillis(t2 - t1), isSuccessful,
+            //edited: 修改时间
+//            mPrinter.printJsonResponse(TimeUnit.NANOSECONDS.toMillis(t2 - t1), isSuccessful,
+//                    code, header, responseBody.contentType(), bodyString, segmentList, message, url);
+            mPrinter.printJsonResponse(timeMs, isSuccessful,
                     code, header, responseBody.contentType(), bodyString, segmentList, message, url);
         } else {
-            mPrinter.printFileResponse(TimeUnit.NANOSECONDS.toMillis(t2 - t1),
-                    isSuccessful, code, header, segmentList, message, url);
+            //edited: 修改时间
+//            mPrinter.printFileResponse(TimeUnit.NANOSECONDS.toMillis(t2 - t1),
+//                    isSuccessful, code, header, segmentList, message, url);
+            mPrinter.printFileResponse(timeMs, isSuccessful, code, header, segmentList, message, url);
         }
 
 //        if (mHandler != null)//这里可以比客户端提前一步拿到服务器返回的结果,可以做一些操作,比如token超时,重新获取
