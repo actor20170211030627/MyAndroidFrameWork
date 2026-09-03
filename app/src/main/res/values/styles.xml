@@ -11,6 +11,11 @@
     <style name="AppTheme" parent="NoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
+<!--        <item name="android:windowActionBar">true</item>-->
+<!--        <item name="android:windowNoTitle">false</item>-->
+
+<!--        <item name="android:statusBarColor">@color/red</item>-->
+<!--        <item name="android:navigationBarColor">@color/red</item>-->
     </style>
 
 </resources>

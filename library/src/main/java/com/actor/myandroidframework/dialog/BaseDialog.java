@@ -128,9 +128,10 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
             // 所以让宽度不要 = match_parent(-1) 或 边距+1
             if (windowWidth == WindowManager.LayoutParams.MATCH_PARENT && windowHeight == WindowManager.LayoutParams.MATCH_PARENT) {
 //                params.width = ScreenUtils.getAppScreenWidth();   //设置固定宽度不好, 防止: 万一旋转屏幕 or app宽度发生了改变
-                if (xOffset <= 0) {
-                    xOffset = 1;
-                    params.x = 1;
+                //确保x不为0就行, -1在左右方向偏移上无效, 但能确保状态栏&导航栏不会被绘制成黑色
+                if (xOffset == 0) {
+                    xOffset = -1;
+                    params.x = xOffset;
                 }
             }
             // 监听布局变化（旋转屏幕会触发）
@@ -146,7 +147,6 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
 
         super.setOnShowListener(this);
         super.setOnDismissListener(this);
-        applyDrawIntoStatusBarNavigationBar();
 //        findViewById();//子类可以初始化控件等
     }
 
@@ -467,6 +467,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
+        applyDrawIntoStatusBarNavigationBar();
     }
     //每次dismiss的时候都会调用
     @Override
@@ -504,10 +505,8 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     }
 
     protected boolean applyDrawIntoStatusBarNavigationBar() {
-        if (loggable) {
-            LogUtils.errorFormat("isDrawIntoStatusBar = %b;\nisHideStatusBar = %b;\nisDrawIntoNavigationBar = %b;\nisHideNavigationBar = %b",
-                    isDrawIntoStatusBar, isHideStatusBar, isDrawIntoNavigationBar, isHideNavigationBar);
-        }
+//        LogUtils.errorFormat("isDrawIntoStatusBar = %b;\nisHideStatusBar = %b;\nisDrawIntoNavigationBar = %b;\nisHideNavigationBar = %b",
+//                isDrawIntoStatusBar, isHideStatusBar, isDrawIntoNavigationBar, isHideNavigationBar);
         if (!isDrawIntoStatusBar && !isDrawIntoNavigationBar) return false;
         return WindowUtils.drawIntoStatusBarAndNavigationBar(getWindow(), isDrawIntoStatusBar, isHideStatusBar, isDrawIntoNavigationBar, isHideNavigationBar, yOffset);
     }

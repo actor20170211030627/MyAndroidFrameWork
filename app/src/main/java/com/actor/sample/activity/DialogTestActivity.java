@@ -83,6 +83,25 @@ public class DialogTestActivity extends BaseActivity<ActivityDialogTestBinding> 
                     viewBinding.tvContent.setText(content);
                 }).show();
                 break;
+            case R.id.btn_show_loading_dialog:
+                messagePos ++;
+                if (messagePos >= messages.length) messagePos = 0;
+                getNetWorkLoadingDialog()
+                        .setMessage(messages[messagePos])
+                        .setCancelAble(false)
+                        .setClickThrough(true)
+                        .show();
+                break;
+            case R.id.btn_dismiss_loading_dialog:
+                getNetWorkLoadingDialog().dismiss();
+                break;
+            case R.id.btn_bottom_activity://从底部弹出的Activity
+                //不要弄元素共享动画, 否则动画有问题
+                startActivity(new Intent(this, MyBaseBottomActivity.class)/*, view*/);
+                //需要重写进入动画, 从底部弹出
+                overridePendingTransition(com.actor.myandroidframework.R.anim.bottom_slide_in, 0);
+                break;
+
 
             case R.id.btn_show_dialog_test:     //各种属性测试
                 int animPos = viewBinding.irglOrientation.getCheckedPosition();
@@ -102,25 +121,6 @@ public class DialogTestActivity extends BaseActivity<ActivityDialogTestBinding> 
                 baseDialog.findViewById(R.id.btn_dismiss).setOnClickListener(v -> baseDialog.dismiss());
                 baseDialog.findViewById(R.id.btn_ok).setOnClickListener(v -> ToasterUtils.success("Ok~"));
                 baseDialog.show();
-                break;
-
-            case R.id.btn_show_loading_dialog:
-                messagePos ++;
-                if (messagePos >= messages.length) messagePos = 0;
-                getNetWorkLoadingDialog()
-                        .setMessage(messages[messagePos])
-                        .setCancelAble(false)
-                        .setClickThrough(true)
-                        .show();
-                break;
-            case R.id.btn_dismiss_loading_dialog:
-                getNetWorkLoadingDialog().dismiss();
-                break;
-            case R.id.btn_bottom_activity://从底部弹出的Activity
-                //不要弄元素共享动画, 否则动画有问题
-                startActivity(new Intent(this, MyBaseBottomActivity.class)/*, view*/);
-                //需要重写进入动画, 从底部弹出
-                overridePendingTransition(com.actor.myandroidframework.R.anim.bottom_slide_in, 0);
                 break;
             default:
                 break;

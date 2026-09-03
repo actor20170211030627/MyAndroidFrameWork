@@ -1,11 +1,13 @@
 package com.actor.myandroidframework.utils;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 
 import androidx.annotation.StyleRes;
@@ -50,41 +52,51 @@ public class WindowUtils {
 
     /**
      * 设置 Window 根据 {@link Gravity} 不同而设置的偏移量
-     * @param x x方向偏移量
-     * @param y y方向偏移量
-     *          <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
-     *              <tr>
-     *                  <th align="center">Gravity</th>
-     *                  <th align="center">x 的作用</th>
-     *                  <th align="center">y 的作用</th>
-     *              </tr>
-     *              <tr>
-     *                  <td>{@link Gravity#LEFT}</td>
-     *                  <td>窗口<b>左边</b>相对于<b>屏幕左边</b>的距离</td>
-     *                  <td>窗口<b>垂直中心</b>相对于<b>屏幕垂直中心</b>的y方向距离</td>
-     *              </tr>
-     *              <tr>
-     *                  <td>{@link Gravity#TOP}</td>
-     *                  <td>窗口<b>左边</b>相对于<b>屏幕左边</b>的距离</td>
-     *                  <td>窗口<b>顶边</b>相对于<b>屏幕顶边</b>的距离</td>
-     *              </tr>
-     *              <tr>
-     *                  <td>{@link Gravity#RIGHT}</td>
-     *                  <td>窗口<b>右边</b>相对于<b>屏幕右边</b>的距离</td>
-     *                  <td>窗口<b>垂直中心</b>相对于<b>屏幕垂直中心</b>的y方向距离</td>
-     *              </tr>
-     *              <tr>
-     *                  <td>{@link Gravity#BOTTOM}</td>
-     *                  <td>窗口<b>左边</b>相对于<b>屏幕左边</b>的距离</td>
-     *                  <td>窗口<b>底边</b>相对于<b>屏幕底边</b>的距离</td>
-     *              </tr>
-     *          </table>
+     * @param xOffset x方向偏移量
+     * @param yOffset y方向偏移量
+     *                <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
+     *                    <tr>
+     *                        <th align="center">Gravity</th>
+     *                        <th align="center">xOffset 的作用<br />相对距离</th>
+     *                        <th align="center">yOffset 的作用<br />相对距离</th>
+     *                        <th align="center">说明</th>
+     *                    </tr>
+     *                    <tr>
+     *                        <td>{@link Gravity#CENTER}</td>
+     *                        <td>窗口<b>左边</b>⇆<b>屏幕左边</b></td>
+     *                        <td align="center">窗口<b>垂直中心</b><br />⇅<br /><b>屏幕垂直中心</b>的y方向距离</td>
+     *                    </tr>
+     *                    <tr>
+     *                        <td>{@link Gravity#LEFT}</td>
+     *                        <td>窗口<b>左边</b>⇆<b>屏幕左边</b></td>
+     *                        <td align="center">窗口<b>垂直中心</b><br />⇅<br /><b>屏幕垂直中心</b>的y方向距离</td>
+     *                        <td>xOffset 负值无效</td>
+     *                    </tr>
+     *                    <tr>
+     *                        <td>{@link Gravity#TOP}</td>
+     *                        <td>窗口<b>左边</b>⇆<b>屏幕左边</b></td>
+     *                        <td align="center">窗口<b>顶边</b><br />⇅<br /><b>屏幕顶边</b>的距离</td>
+     *                        <td>yOffset 负值无效</td>
+     *                    </tr>
+     *                    <tr>
+     *                        <td>{@link Gravity#RIGHT}</td>
+     *                        <td>窗口<b>右边</b>⇆<b>屏幕右边</b></td>
+     *                        <td align="center">窗口<b>垂直中心</b><br />⇅<br /><b>屏幕垂直中心</b>的y方向距离</td>
+     *                        <td>xOffset 负值无效</td>
+     *                    </tr>
+     *                    <tr>
+     *                        <td>{@link Gravity#BOTTOM}</td>
+     *                        <td>窗口<b>左边</b>⇆<b>屏幕左边</b></td>
+     *                        <td align="center">窗口<b>底边</b><br />⇅<br /><b>屏幕底边</b>的距离</td>
+     *                        <td>yOffset 负值无效</td>
+     *                    </tr>
+     *                </table>
      */
-    public static boolean setXY(Window window, int x, int y) {
+    public static boolean setOffset(Window window, int xOffset, int yOffset) {
         if (window == null) return false;
         WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.x = x;
-        attributes.y = y;
+        attributes.x = xOffset;
+        attributes.y = yOffset;
         window.setAttributes(attributes);
         return true;
     }
@@ -151,7 +163,71 @@ public class WindowUtils {
     }
 
     /**
-     * 将Window 画进 状态栏 & 导航栏
+     * 判断Window是否显示状态栏
+     */
+    public static boolean isStatusBarVisible(Window window) {
+        if (window == null) return false;
+        View decorView = window.getDecorView();
+
+        // 1. 先检查系统 UI 标志位（快速判断是否明确隐藏）
+        int visibility = decorView.getSystemUiVisibility();
+        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0) return false; // 状态栏明确隐藏
+
+        // 3. 低版本兼容, 从 Android 6.0(API Level 23) 开始，可以使用 WindowInsets 判断
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //if DecorView 尚未完全附着（attach）到窗口上, insets = null
+            WindowInsets insets = decorView.getRootWindowInsets();
+            // 2. 使用 WindowInsets 精确检测, Android 11+ (API Level 30) 有官方 API 直接判断可见性
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                // 直接调用 isVisible 判断状态栏是否可见（这是最准确的方式）
+                if (insets != null) return insets.isVisible(WindowInsets.Type.statusBars());
+            } else {
+                // 如果没设置隐藏标志，但顶部系统窗口插入高度 > 0，说明状态栏占用了空间（通常代表可见）
+                if (insets != null) return insets.getSystemWindowInsetTop() > 0;
+            }
+        }
+        // 检查窗口标志（适用于较早的隐藏方式）
+        boolean flagNotFullscreen = (window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == 0;
+        // 注意：如果应用了 SYSTEM_UI_FLAG_IMMERSIVE_STICKY，通常也同时设置了 FULLSCREEN，但以防万一，也可以单独判断，但通常不必要。
+        // 状态栏可见的条件：没有任何隐藏标志生效
+        return flagNotFullscreen;
+    }
+
+    /**
+     * 判断Window是否显示导航栏
+     */
+    public static boolean isNavigationBarVisible(Window window) {
+        if (window == null) return false;
+        //如果它为 true，直接返回
+        boolean sdkResult = BarUtils.isNavBarVisible(window);
+        if (sdkResult) return true;
+        //上方方法经常误判
+        View decorView = window.getDecorView();
+        int uiFlags = decorView.getSystemUiVisibility();
+
+        // 如果明确设置了 HIDE_NAVIGATION，则肯定不可见
+        if ((uiFlags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) != 0) return false;
+
+        // 从 Android 6.0(API Level 23) 开始，可以使用 WindowInsets 判断
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //if DecorView 尚未完全附着（attach）到窗口上, insets = null
+            WindowInsets insets = decorView.getRootWindowInsets();
+            // Android 11+ (API Level 30) 有官方 API 直接判断可见性
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (insets != null) return insets.isVisible(WindowInsets.Type.navigationBars());
+            } else {
+                // 兼容低版本：如果底部系统窗口高度 > 0，且没有隐藏标志，则认为可见
+                if (insets != null) {
+                    int bottomInset = insets.getSystemWindowInsetBottom();
+                    if (bottomInset > 0) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 将Window 画进 状态栏 & 导航栏, 在 {@link Window.Callback#onAttachedToWindow()} 之后调用
      * @param isDrawIntoStatusBar 是否画进状态栏
      * @param isHideStatusBar 是否隐藏状态栏, 只有 isDrawIntoStatusBar = true 的时候才管用
      * @param isDrawIntoNavigationBar 是否画进导航栏
@@ -169,7 +245,7 @@ public class WindowUtils {
         //window.DecorView(com.android.internal.policy.DecorView extends FrameLayout) -> LinearLayout -> [ViewStub, FrameLayout -> 自己写的View], ∴frameLayout is FrameLayout
         ViewGroup frameLayout = window.findViewById(android.R.id.content);
 
-        // ---------- 1. 基础环境初始化 ----------
+        // 基础环境初始化（清空干扰标志，设置必需标志）
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -179,7 +255,7 @@ public class WindowUtils {
         // 必须添加，使 setStatusBarColor 生效
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        // ---------- 2. 窗口布局始终覆盖状态栏和导航栏（因为浮动窗口下它们会联动，索性都覆盖） ----------
+        // 2. 窗口布局始终覆盖状态栏和导航栏（因为浮动窗口下它们会联动，索性都覆盖）
         int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
@@ -215,22 +291,24 @@ public class WindowUtils {
             window.setNavigationBarColor(tv.data);
         }
 
-        if (window.getAttributes().width == WindowManager.LayoutParams.MATCH_PARENT) {
-            boolean isPortrait = ScreenUtils.isPortrait();
-            int topPadding = isDrawIntoStatusBar ? 0 : BarUtils.getStatusBarHeight();
-            int bottomPadding = !isDrawIntoNavigationBar && isPortrait ? BarUtils.getNavBarHeight() : 0;
+        WindowManager.LayoutParams params = window.getAttributes();
+        boolean drawIntoStatusBar = isDrawIntoStatusBar || !isStatusBarVisible(window);
+        boolean drawIntoNavigationBar = (isDrawIntoNavigationBar || !isNavigationBarVisible(window)) && ScreenUtils.isPortrait();
+        if (window.getAttributes().height == WindowManager.LayoutParams.MATCH_PARENT) {
+            int top = drawIntoStatusBar ? 0 : BarUtils.getStatusBarHeight();
+            int bottom = drawIntoNavigationBar ? 0 : BarUtils.getNavBarHeight();
             // 设置内边距，将内容“挤出”系统栏区域
-            frameLayout.setPadding(0, topPadding, 0, bottomPadding);
+            frameLayout.setPadding(0, top, 0, bottom);
+            params.y = yOffset;
         } else {
             frameLayout.setPadding(0, 0, 0, 0);
-            WindowManager.LayoutParams params = window.getAttributes();
             if ((window.getAttributes().gravity  & Gravity.TOP) == Gravity.TOP) {
-                params.y = isDrawIntoStatusBar ? 0 : yOffset + BarUtils.getStatusBarHeight();
+                params.y = drawIntoStatusBar ? 0 : yOffset + BarUtils.getStatusBarHeight();
             } else if ((window.getAttributes().gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
-                params.y = isDrawIntoNavigationBar ? 0 : yOffset + BarUtils.getNavBarHeight();
+                params.y = drawIntoNavigationBar ? 0 : yOffset + BarUtils.getNavBarHeight();
             } else params.y = yOffset;
-            window.setAttributes(params);
         }
+        window.setAttributes(params);
         return false;
     }
 }

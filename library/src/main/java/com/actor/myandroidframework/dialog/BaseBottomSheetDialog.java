@@ -11,6 +11,7 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
+import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -78,7 +79,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
     };
 
     public BaseBottomSheetDialog(@NonNull Context context) {
-        super(context);
+        super(context, R.style.BaseDialogTheme);
         init();
     }
 
@@ -109,7 +110,7 @@ public abstract class BaseBottomSheetDialog extends BottomSheetDialog {
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
         //内容的背景设置成透明, 默认白色
-        ((View) view.getParent()).setBackgroundResource(android.R.color.transparent);
+//        ((View) view.getParent()).setBackgroundResource(android.R.color.transparent);
     }
 
     @Override
