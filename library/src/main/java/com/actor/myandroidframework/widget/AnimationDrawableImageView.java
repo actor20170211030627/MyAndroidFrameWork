@@ -22,6 +22,8 @@ import com.hjq.shape.view.ShapeImageView;
  *                                                  //background 和 src 应该只设置其中1个.
  * </pre>
  *
+ * @see DrawableTextView
+ *
  * @author : ldf
  * @date   : 2024/10/24 on 17
  */
@@ -108,5 +110,11 @@ public class AnimationDrawableImageView extends ShapeImageView {
 //            setImageDrawable(drawable);
 //            setImageDrawable(animationDrawable);
 //        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopPlayAnim();
     }
 }

@@ -52,7 +52,7 @@ public class RecyclerViewTestActivity extends BaseActivity<ActivityRecyclerViewT
         List<Item> items = mAdapterVertical.getData();
         items.clear();
         for (int i = 0; i < 72; i++) {
-            items.add(new Item("item " + i));
+            items.add(new Item("item" + i + ",点我!"));
         }
         mAdapterVertical.setList(items);
         mAdapterHorizontal.setList(items);

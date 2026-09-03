@@ -24,7 +24,6 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.bean.OnActivityCallback;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogAble;
-import com.actor.myandroidframework.service.ActorBaseService;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
@@ -241,15 +240,16 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
      * Android 8.0 之后调用这个方法, 必须满足以下2个条件:
      * 1.添加权限: <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
      * 2.在Service中必须调用 {@link android.app.Service#startForeground(int, Notification)}
-     * 可继承或参考 {@link ActorBaseService}
+     * 可继承或参考 {@link com.actor.myandroidframework.service.ActorBaseService}
      */
     @RequiresPermission(Manifest.permission.FOREGROUND_SERVICE)
     @Override
-    public ComponentName startForegroundService(Intent service) {
+    public ComponentName startForegroundService(Intent intent) {
+//        ContextCompat.startForegroundService(this, intent);
         //如果不判断, 低版本会崩溃
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            return super.startForegroundService(service.putExtra(ActorBaseService.IS_START_FOREGROUND_SERVICE, true));
-        } else return startService(service);
+            return super.startForegroundService(intent);
+        } else return startService(intent);
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -47,8 +47,7 @@ import com.hjq.shape.view.ShapeTextView;
  *      ...
  *      app:shape_solidColor="@color/blue" /&gt;    //背景色等...
  *
- * TODO: 2024/10/25 RecyclerView 中使用动画, 会出问题
- * {@link 注意:} if在RecyclerView 中使用动画, 动画可能会出问题, 停不下来等! 原因还未知. 请在RecyclerView中使用 {@link AnimationDrawableImageView}
+ * @see AnimationDrawableImageView
  */
 public class DrawableTextView extends ShapeTextView {
 
@@ -329,5 +328,11 @@ public class DrawableTextView extends ShapeTextView {
 //            }
 //            setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
 //        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopPlayAnim();
     }
 }
