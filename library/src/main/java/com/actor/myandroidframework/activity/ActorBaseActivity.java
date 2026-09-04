@@ -24,6 +24,7 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.bean.OnActivityCallback;
 import com.actor.myandroidframework.dialog.LoadingDialog;
 import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogAble;
+import com.actor.myandroidframework.service.ActorBaseService;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
@@ -230,6 +231,9 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     ///////////////////////////////////////////////////////////////////////////
     // 打开Service
     ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 启动后台服务
+     */
     @Override
     public ComponentName startService(Intent intent) {
         return super.startService(intent);
@@ -248,7 +252,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
 //        ContextCompat.startForegroundService(this, intent);
         //如果不判断, 低版本会崩溃
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            return super.startForegroundService(intent);
+            return super.startForegroundService(intent.putExtra(ActorBaseService.IS_START_FOREGROUND_SERVICE, true));
         } else return startService(intent);
     }
 

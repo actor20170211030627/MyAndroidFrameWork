@@ -149,10 +149,14 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 view.setSelected(!view.isSelected());
                 if (view.isSelected()) {
                     viewBinding.dtv1.setDrawableSize(Gravity.START, dp10 * 5, dp10 * 8);
+                    viewBinding.dtv1.setDrawableSize(Gravity.TOP, dp10 * 5, dp10 * 8);
                     viewBinding.dtv1.setDrawableSize(Gravity.END, dp10 * 8, dp10 * 5);
+                    viewBinding.dtv1.setDrawableSize(Gravity.BOTTOM, dp10 * 8, dp10 * 5);
                 } else {
                     viewBinding.dtv1.setDrawableSize(Gravity.START, dp10 * 8, dp10 * 5);
+                    viewBinding.dtv1.setDrawableSize(Gravity.TOP, dp10 * 8, dp10 * 5);
                     viewBinding.dtv1.setDrawableSize(Gravity.END, dp10 * 5, dp10 * 8);
+                    viewBinding.dtv1.setDrawableSize(Gravity.BOTTOM, dp10 * 5, dp10 * 8);
                 }
                 break;
             case R.id.dtv2: //DrawableTextView 播放动画

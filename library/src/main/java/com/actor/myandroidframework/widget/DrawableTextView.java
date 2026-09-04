@@ -32,6 +32,7 @@ import com.hjq.shape.view.ShapeTextView;
  *      ...
  *      android:drawablePadding="5dp"
  *      android:drawableStart="@drawable/xxx"   //可以是一个&lt;animation-list 播放动画
+ *      android:drawableEnd="@drawable/xxx"     //可以是一个&lt;animation-list 播放动画
  *      ...
  *      app:dtvWidth="25dp"                     //四周Drawable 宽度(默认图片宽度)
  *      app:dtvHeight="23dp"                    //四周Drawable 高度(默认图片高度)
@@ -54,7 +55,7 @@ public class DrawableTextView extends ShapeTextView {
     //stop()后, 动画是否要重置到第1帧
     protected boolean isReset2Frame0AfterStop = true;
 
-    protected int wrapContent = ViewGroup.LayoutParams.WRAP_CONTENT;
+    protected final int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
 
 //    protected int mDrawableWidth;
 //    protected int mDrawableHeight;
@@ -64,20 +65,25 @@ public class DrawableTextView extends ShapeTextView {
     protected int mDrawableBottomWidth, mDrawableBottomHeight;
 
     public DrawableTextView(@NonNull Context context) {
-        this(context, null);
+        super(context);
+        init(context, null, android.R.attr.textViewStyle);
     }
 
     public DrawableTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        init(context, attrs, android.R.attr.textViewStyle);
     }
 
     public DrawableTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs, defStyleAttr);
+    }
 
+    protected void init(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DrawableTextView);
         //all
-        int mDrawableWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvWidth, wrapContent);
-        int mDrawableHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvHeight, wrapContent);
+        int mDrawableWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvWidth, WRAP_CONTENT);
+        int mDrawableHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvHeight, WRAP_CONTENT);
         //←
         mDrawableStartWidth = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvStartWidth, mDrawableWidth);
         mDrawableStartHeight = array.getDimensionPixelSize(R.styleable.DrawableTextView_dtvStartHeight, mDrawableHeight);
@@ -111,19 +117,19 @@ public class DrawableTextView extends ShapeTextView {
      * @param gravity 位置: Gravity.START 等...
      */
     public void setDrawableSize(int gravity, @IntRange(from = 0) int width, @IntRange(from = 0) int height) {
-        if (gravity == Gravity.START || gravity == Gravity.LEFT) {
+        if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
             mDrawableStartWidth = width;
             mDrawableStartHeight = height;
-        } else if (gravity == Gravity.TOP) {
+        } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
             mDrawableTopWidth = width;
             mDrawableTopHeight = height;
-        } else if (gravity == Gravity.END || gravity == Gravity.RIGHT) {
+        } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
             mDrawableEndWidth = width;
             mDrawableEndHeight = height;
-        } else {
+        } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
             mDrawableBottomWidth = width;
             mDrawableBottomHeight = height;
-        }
+        } else return;
         refreshDrawablesSize();
     }
 
@@ -132,15 +138,15 @@ public class DrawableTextView extends ShapeTextView {
      * @param gravity 位置: Gravity.START 等...
      */
     public void setDrawableWidth(int gravity, @IntRange(from = 0) int width) {
-        if (gravity == Gravity.START || gravity == Gravity.LEFT) {
+        if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
             mDrawableStartWidth = width;
-        } else if (gravity == Gravity.TOP) {
+        } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
             mDrawableTopWidth = width;
-        } else if (gravity == Gravity.END || gravity == Gravity.RIGHT) {
+        } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
             mDrawableEndWidth = width;
-        } else {
+        } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
             mDrawableBottomWidth = width;
-        }
+        } else return;
         refreshDrawablesSize();
     }
 
@@ -149,28 +155,29 @@ public class DrawableTextView extends ShapeTextView {
      * @param gravity 位置: Gravity.START 等...
      */
     public void setDrawableHeight(int gravity, @IntRange(from = 0) int height) {
-        if (gravity == Gravity.START || gravity == Gravity.LEFT) {
+        if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
             mDrawableStartHeight = height;
-        } else if (gravity == Gravity.TOP) {
+        } else if ((gravity & Gravity.TOP) == Gravity.TOP) {
             mDrawableTopHeight = height;
-        } else if (gravity == Gravity.END || gravity == Gravity.RIGHT) {
+        } else if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
             mDrawableEndHeight = height;
-        } else {
+        } else if ((gravity & Gravity.BOTTOM) == Gravity.BOTTOM) {
             mDrawableBottomHeight = height;
-        }
+        } else return;
         refreshDrawablesSize();
     }
 
+    /**
+     * 这方法在构造方法调用 super.() 的时候会被调用, 即: 值还没有被初始化就已经调用了这方法
+     */
     @Override
     public void setCompoundDrawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
         super.setCompoundDrawables(left, top, right, bottom);
-        refreshDrawablesSize();
     }
 
     @Override
     public void setCompoundDrawablesRelative(@Nullable Drawable start, @Nullable Drawable top, @Nullable Drawable end, @Nullable Drawable bottom) {
         super.setCompoundDrawablesRelative(start, top, end, bottom);
-        refreshDrawablesSize();
     }
 
     /**
@@ -178,22 +185,24 @@ public class DrawableTextView extends ShapeTextView {
      */
     protected void refreshDrawablesSize() {
 //        if (!isAttachedToWindow()) {
-//            LogUtils.errorFormat("refreshDrawablesSize(): isAttachedToWindow() = false");
+//            LogUtils.error("isAttachedToWindow() = false");
 //            return;
 //        }
+        //在 super.setCompoundDrawables 之前调用, 否则 super.setCompoundDrawables 之后再调用值会被覆盖
+        Drawable[] compoundDrawablesRelative = getCompoundDrawablesRelative();
         Drawable[] compoundDrawables = getCompoundDrawables();
         if (compoundDrawables[0] != null || compoundDrawables[1] != null || compoundDrawables[2] != null || compoundDrawables[3] != null) {
             super.setCompoundDrawables(limitDrawableSize(0, compoundDrawables[0]),
                     limitDrawableSize(1, compoundDrawables[1]),
                     limitDrawableSize(2, compoundDrawables[2]),
                     limitDrawableSize(3, compoundDrawables[3]));
-            return;
         }
-        compoundDrawables = getCompoundDrawablesRelative();
-        super.setCompoundDrawablesRelative(limitDrawableSize(0, compoundDrawables[0]),
-                limitDrawableSize(1, compoundDrawables[1]),
-                limitDrawableSize(2, compoundDrawables[2]),
-                limitDrawableSize(3, compoundDrawables[3]));
+        if (compoundDrawablesRelative[0] != null || compoundDrawablesRelative[1] != null || compoundDrawablesRelative[2] != null || compoundDrawablesRelative[3] != null) {
+            super.setCompoundDrawablesRelative(limitDrawableSize(0, compoundDrawablesRelative[0]),
+                    limitDrawableSize(1, compoundDrawablesRelative[1]),
+                    limitDrawableSize(2, compoundDrawablesRelative[2]),
+                    limitDrawableSize(3, compoundDrawablesRelative[3]));
+        }
     }
 
     /**
@@ -215,8 +224,8 @@ public class DrawableTextView extends ShapeTextView {
             width = mDrawableBottomWidth;
             height = mDrawableBottomHeight;
         }
-        if (width == wrapContent) width = drawable.getIntrinsicWidth();
-        if (height == wrapContent) height = drawable.getIntrinsicHeight();
+        if (width == WRAP_CONTENT) width = drawable.getIntrinsicWidth();
+        if (height == WRAP_CONTENT) height = drawable.getIntrinsicHeight();
         drawable.setBounds(0, 0, width, height);
         return drawable;
     }
@@ -231,15 +240,26 @@ public class DrawableTextView extends ShapeTextView {
      * android.R.styleable#TextView_drawableBottom
      */
     public void startPlayAnim() {
+        //left, top, right, bottom 方向的
         Drawable[] compoundDrawables = getCompoundDrawables();
+        //start, top, end, bottom 方向的
         Drawable[] compoundDrawablesRelative = getCompoundDrawablesRelative();
+        Drawable background = getBackground();
 //        LogUtils.errorFormat("compoundDrawables(%s) = %s", compoundDrawables.toString(), Arrays.toString(compoundDrawables));
 //        LogUtils.errorFormat("compoundDrawablesRelative(%s) = %s", compoundDrawablesRelative.toString(), Arrays.toString(compoundDrawablesRelative));
+//        LogUtils.errorFormat("background = %s", background);
         for (Drawable compoundDrawable : compoundDrawables) {
             if (compoundDrawable instanceof AnimationDrawable) {
-                AnimationDrawable animationDrawable = (AnimationDrawable) compoundDrawable;
-                animationDrawable.start();
+                ((AnimationDrawable) compoundDrawable).start();
             }
+        }
+        for (Drawable compoundDrawable : compoundDrawablesRelative) {
+            if (compoundDrawable instanceof AnimationDrawable) {
+                ((AnimationDrawable) compoundDrawable).start();
+            }
+        }
+        if (background instanceof AnimationDrawable) {
+            ((AnimationDrawable) background).start();
         }
     }
 
@@ -249,8 +269,10 @@ public class DrawableTextView extends ShapeTextView {
     public void stopPlayAnim() {
         Drawable[] compoundDrawables = getCompoundDrawables();
         Drawable[] compoundDrawablesRelative = getCompoundDrawablesRelative();
+        Drawable background = getBackground();
 //        LogUtils.errorFormat("compoundDrawables(%s) = %s", compoundDrawables.toString(), Arrays.toString(compoundDrawables));
 //        LogUtils.errorFormat("compoundDrawablesRelative(%s) = %s", compoundDrawablesRelative.toString(), Arrays.toString(compoundDrawablesRelative));
+//        LogUtils.errorFormat("background = %s", background);
         for (int i = 0; i < compoundDrawables.length; i++) {
             Drawable compoundDrawable = compoundDrawables[i];
             if (compoundDrawable instanceof AnimationDrawable) {
@@ -260,13 +282,6 @@ public class DrawableTextView extends ShapeTextView {
 //                animationDrawable.unscheduleSelf(animationDrawable);
             }
         }
-//        setCompoundDrawables(null, null, null, null);
-//        if (compoundDrawables[0] != null || compoundDrawables[1] != null || compoundDrawables[2] != null || compoundDrawables[3] != null) {
-//            LogUtils.errorFormat("compoundDrawables[0]=%s", compoundDrawables[0]);
-//            setCompoundDrawables(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
-////            setCompoundDrawablesRelative(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3]);
-//        }
-
         for (int i = 0; i < compoundDrawablesRelative.length; i++) {
             Drawable drawable = compoundDrawablesRelative[i];
             if (drawable instanceof AnimationDrawable) {
@@ -276,11 +291,11 @@ public class DrawableTextView extends ShapeTextView {
 //                animationDrawable.unscheduleSelf(animationDrawable);
             }
         }
-//        setCompoundDrawablesRelative(null, null, null, null);
-//        if (compoundDrawablesRelative[0] != null || compoundDrawablesRelative[1] != null || compoundDrawablesRelative[2] != null || compoundDrawablesRelative[3] != null) {
-//            LogUtils.errorFormat("compoundDrawablesRelative[0]=%s", compoundDrawablesRelative[0]);
-//            setCompoundDrawablesRelative(compoundDrawablesRelative[0], compoundDrawablesRelative[1], compoundDrawablesRelative[2], compoundDrawablesRelative[3]);
-//        }
+        if (background instanceof AnimationDrawable) {
+            AnimationDrawable animationDrawable = (AnimationDrawable) background;
+            animationDrawable.stop();
+            reset2Frame0(0, animationDrawable, null);
+        }
     }
 
     public void setReset2Frame0AfterStop(boolean isReset2Frame0AfterStop) {
@@ -290,7 +305,7 @@ public class DrawableTextView extends ShapeTextView {
     /**
      * 重置到第1帧
      */
-    public void reset2Frame0(int position, AnimationDrawable animationDrawable, Drawable[] compoundDrawables) {
+    public void reset2Frame0(int position, @NonNull AnimationDrawable animationDrawable, @Nullable Drawable[] compoundDrawables) {
         if (!isReset2Frame0AfterStop) return;
         //同1个引用, 无效
 //        setImageDrawable(animationDrawable);

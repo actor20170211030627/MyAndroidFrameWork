@@ -155,11 +155,18 @@ import java.util.List;
  */
 public class BaseSpinner<T> extends AppCompatSpinner {
 
+    // TODO: 2026/8/28 在Dialog/ Service为context的 Dialog 中是否显示??
+
     protected int prePosition = INVALID_POSITION;
     //spinner布局
     protected int spinnerRes = android.R.layout.simple_spinner_item;
     //下拉item布局
     protected int ddvr = androidx.appcompat.R.layout.support_simple_spinner_dropdown_item;
+//    protected static final int MODE_DIALOG = 0;
+//    protected static final int MODE_DROPDOWN = 1;
+//    protected static final int MODE_THEME = -1;
+//    protected SpinnerPopup mPopup;
+//    protected String prompt;
     /**
      * 为什么有这个默认Listener?
      * 因为{@link #setDatas(Collection)}设置数据后, 会自动回调{@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)}, 无语...
@@ -195,37 +202,74 @@ public class BaseSpinner<T> extends AppCompatSpinner {
 
     public BaseSpinner(Context context) {
         super(context);
-        init(context, null);
+        init(context, null, -2);
     }
 
     public BaseSpinner(Context context, int mode) {
         super(context, mode);
-        init(context, null);
+        init(context, null, mode);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        init(context, attrs, -2);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
+        init(context, attrs, -2);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode) {
         super(context, attrs, defStyleAttr, mode);
-        init(context, attrs);
+        init(context, attrs, mode);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode, Resources.Theme popupTheme) {
         super(context, attrs, defStyleAttr, mode, popupTheme);
-        init(context, attrs);
+        init(context, attrs, mode);
     }
 
-    protected void init(Context context, @Nullable AttributeSet attrs) {
+    protected void init(Context context, @Nullable AttributeSet attrs, int mode) {
+//        switch (mode) {
+//            case MODE_DIALOG: {
+//                mPopup = new AppCompatSpinner.DialogPopup();
+//                mPopup.setPromptText(a.getString(androidx.appcompat.R.styleable.Spinner_android_prompt));
+//                break;
+//            }
+//            case MODE_DROPDOWN: {
+//                final DropdownPopup popup = new DropdownPopup(mPopupContext, attrs, defStyleAttr);
+//                final TintTypedArray pa = TintTypedArray.obtainStyledAttributes(
+//                        mPopupContext, attrs, androidx.appcompat.R.styleable.Spinner, defStyleAttr, 0);
+//                mDropDownWidth = pa.getLayoutDimension(androidx.appcompat.R.styleable.Spinner_android_dropDownWidth,
+//                        LayoutParams.WRAP_CONTENT);
+//                popup.setBackgroundDrawable(
+//                        pa.getDrawable(androidx.appcompat.R.styleable.Spinner_android_popupBackground));
+//                popup.setPromptText(a.getString(androidx.appcompat.R.styleable.Spinner_android_prompt));
+//                pa.recycle();
+//
+//                mPopup = popup;
+//                mForwardingListener = new ForwardingListener(this) {
+//                    @Override
+//                    public ShowableListMenu getPopup() {
+//                        return popup;
+//                    }
+//
+//                    @Override
+//                    @SuppressLint("SyntheticAccessor")
+//                    public boolean onForwardingStarted() {
+//                        if (!getInternalPopup().isShowing()) {
+//                            showPopup();
+//                        }
+//                        return true;
+//                    }
+//                };
+//            }
+//        }
+
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseSpinner);
+//            prompt = a.getString(androidx.appcompat.R.styleable.Spinner_android_prompt);
             spinnerRes = a.getResourceId(R.styleable.BaseSpinner_bsResource, spinnerRes);
             ddvr = a.getResourceId(R.styleable.BaseSpinner_bsDropDownViewResource, ddvr);
             //spinner的列表值, 用","隔开
