@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -37,6 +38,7 @@ import com.actor.myandroidframework.utils.audio.MediaPlayerUtils;
 import com.actor.myandroidframework.utils.audio.MediaRecorderCallback;
 import com.actor.myandroidframework.utils.audio.MediaRecorderUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.shape.view.ShapeTextView;
@@ -281,9 +283,8 @@ public class ChatLayout extends LinearLayout {
 
         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        int keyboardHeight = MMKVUtils.getInt(KEYBOARD_HEIGHT, 831);
+        int keyboardHeight = MMKVUtils.getInt(KEYBOARD_HEIGHT, SizeUtils.dp2px(250));
         setViewPagerHeight(keyboardHeight);
-        viewPager.setVisibility(GONE);
         if (voiceRecorderView != null) voiceRecorderView.setVisibility(GONE);
     }
 
@@ -299,7 +300,7 @@ public class ChatLayout extends LinearLayout {
     /**
      * 设置ViewPager高度
      */
-    protected void setViewPagerHeight(int keyboardHeight) {
+    protected void setViewPagerHeight(@Px int keyboardHeight) {
         ViewGroup.LayoutParams params = viewPager.getLayoutParams();//设置高度和键盘高度一致
         if (params.height != keyboardHeight) {
             params.height = keyboardHeight;

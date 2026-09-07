@@ -11,10 +11,9 @@ import com.blankj.utilcode.util.SizeUtils;
 public class Global {
 
     //林允儿
-//    public static final String girl = "https://timgsa.baidu.com/timg?image&quality=80&" +
-//            "size=b10000_10000&sec=1553570762&di=345ca57cc11ccf228e3ff8c2b33af03b&" +
-//            "src=http://ww2.sinaimg.cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
-    public static final String girl = "http://ww2.sinaimg.cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
+//    public static final String girl = "http://ww2.sinaimg.cn/large/9eb5883egw1euqvwfpmevj21kj2cok3p.jpg";
+    //风景🌄图片, 1291 x 726, ratio =1.778236914600551
+    public static final String girl = "https://picui.cn/background.jpg";
 
     public static final String BASE_URL2       = "https://www.wanandroid.com";
     public static final String BASE_URL_GITHUB = "https://api.github.com";

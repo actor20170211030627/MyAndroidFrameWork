@@ -287,6 +287,7 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
  * <a href="others/src/main/java/com/actor/others/utils/TextToSpeechUtils.java" target="_blank">TextToSpeechUtils</a> (Android自带文字转语音支持)
  * <a href="others/src/main/java/com/actor/others/widget/ItemRadioGroupLayout.java" target="_blank">ItemRadioGroupLayout</a> (RadioGroup选择)
  * <a href="others/src/main/java/com/actor/others/widget/ItemSpinnerLayout.java" target="_blank">ItemSpinnerLayout</a> (Spinner选择)
+ * <a href="others/src/main/java/com/actor/others/widget/ItemSwitchLayout.java" target="_blank">ItemSwitchLayout</a> (Switch选择)
  * <a href="others/src/main/java/com/actor/others/widget/ItemTextInputLayout.java" target="_blank">ItemTextInputLayout</a> (Text输入)
  * <a href="others/src/main/java/com/actor/others/widget/ShowPartImageView.java" target="_blank">ShowPartImageView</a> (仅显示图片指定部分的内容)
  */

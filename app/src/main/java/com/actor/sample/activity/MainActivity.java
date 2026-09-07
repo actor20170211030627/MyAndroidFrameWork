@@ -54,8 +54,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_popup_window://PopupWindow测试
                 startActivity(PopupWindowTestActivity.class);
                 break;
-            case R.id.btn_viewpager_about://ViewPager多层嵌套
-                startActivity(ViewPagerAndFragmentActivity.class);
+            case R.id.btn_viewpager_about://ViewPager测试
+                startActivity(new Intent(this, ViewPagerAndFragmentActivity.class), view);
                 break;
             case R.id.btn_select_file://文件选择
                 startActivity(new Intent(this, SelectFileActivity.class), view);

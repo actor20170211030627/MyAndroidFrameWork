@@ -5,11 +5,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
- * Description: <br />
- *      下拉刷新, 解决嵌套中的ViewPager横向滑动时, 非常容易把下拉刷新的小球拉下来的问题, 参考: <a href="https://blog.csdn.net/ding19972431/article/details/82114531" target="_blank">这儿</a>
+ * Description: 下拉刷新, 解决嵌套中的ViewPager横向滑动时, 非常容易把下拉刷新的小球拉下来的问题, 参考: <a href="https://blog.csdn.net/ding19972431/article/details/82114531" target="_blank">这儿</a>
  * <br />
  * Author     : ldf <br />
  * Date       : 2019/3/8 on 11:22 <br />
@@ -19,10 +20,15 @@ public class SwipeRefreshLayoutCompatViewPager extends SwipeRefreshLayout {
 
     private       float   startX;
     private       float   startY;
-    private       boolean mIsVpDragger;// 记录viewPager是否拖拽的标记
+    private       boolean isHorizontalMove;
     private final int     mTouchSlop;
 
-    public SwipeRefreshLayoutCompatViewPager(Context context, AttributeSet attrs) {
+    public SwipeRefreshLayoutCompatViewPager(@NonNull Context context) {
+        super(context);
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+    }
+
+    public SwipeRefreshLayoutCompatViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         /**
          * @see SwipeRefreshLayout#startDragging(float), 当下拉超过一定像素之后, 就开始下拉刷新逻辑
@@ -36,28 +42,24 @@ public class SwipeRefreshLayoutCompatViewPager extends SwipeRefreshLayout {
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                startY = ev.getY();
                 startX = ev.getX();
-                mIsVpDragger = false;
+                startY = ev.getY();
+                isHorizontalMove = false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                // 如果viewpager正在拖拽中，那么不拦截它的事件，直接return false；
-                if (mIsVpDragger) return false;
-
-                // 获取当前手指位置
-                float endY = ev.getY();
-                float endX = ev.getX();
-                float distanceX = Math.abs(endX - startX);
-                float distanceY = Math.abs(endY - startY);
-                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
+                // 如果父类正在拖拽中，那么不拦截它的事件，直接return false；
+                if (isHorizontalMove) return false;
+                float distanceX = Math.abs(ev.getX() - startX);
+                float distanceY = Math.abs(ev.getY() - startY);
+                // 如果X轴位移大于Y轴位移，那么将事件交给父类处理。
                 if (distanceX > mTouchSlop && distanceX > distanceY) {
-                    mIsVpDragger = true;
+                    isHorizontalMove = true;
                     return false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                mIsVpDragger = false;
+                isHorizontalMove = false;
                 break;
         }
         // 如果是Y轴位移大于X轴，事件交给swipeRefreshLayout处理。

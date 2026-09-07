@@ -2,6 +2,8 @@ package com.actor.sample.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.SeekBar;
@@ -26,6 +28,7 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * description: 音频录制, 音频播放, 视频播放
@@ -62,7 +65,26 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         super.onCreate(savedInstanceState);
         setTitle("Audio & Media");
         MediaRecorderUtils.getInstance().setMaxRecordTimeMs(10 * 1000);
-        TextToSpeechUtils.init(this, null, null);
+        TextToSpeechUtils.init(this, null, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    LogUtils.errorFormat("SpeechListener, 初始化成功!");
+                } else {
+                    LogUtils.errorFormat("SpeechListener, 初始化失败! status=%d", status);
+                }
+                Voice voice = TextToSpeechUtils.getVoice();
+                Voice defaultVoice = TextToSpeechUtils.getDefaultVoice();
+                Set<Voice> voices = TextToSpeechUtils.getVoices();
+                LogUtils.errorFormat("voice = %s", voice);
+                LogUtils.errorFormat("defaultVoice = %s", defaultVoice);
+                if (voices != null) {
+                    for (Voice voice1 : voices) {
+                        LogUtils.errorFormat("voice1 = %s", voice1);
+                    }
+                } else LogUtils.error("voices = null");
+            }
+        });
 
         //
         ResourceUtils.copyFileFromRaw(R.raw.wrong, pathWrong);

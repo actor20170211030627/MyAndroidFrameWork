@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.BlankFragment">
+    tools:context=".fragment.ViewPagerAndInnerFragment">
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:padding="5dp"
         tools:text="这是第1个Fragment" />
 
     <ToggleButton
@@ -20,16 +20,16 @@
         android:layout_margin="10dp"
         android:checked="true"
         android:disabledAlpha="0.5"
-        android:textOff="里面ViewPager左右滑动 = false"
-        android:textOn="里面ViewPager左右滑动 = true"
-        android:transitionName="btn" />
+        android:textOff="内层ViewPager左右滑动 = false"
+        android:textOn="内层ViewPager左右滑动 = true" />
 
     <com.actor.myandroidframework.widget.viewpager.ScrollableViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/red_trans_CC99">
 
-        <com.google.android.material.tabs.TabLayout
+        <com.actor.myandroidframework.widget.BaseTabLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:tabBackground="@drawable/selector_tablayout_blue_white"
@@ -50,6 +50,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的" />
-        </com.google.android.material.tabs.TabLayout>
+        </com.actor.myandroidframework.widget.BaseTabLayout>
     </com.actor.myandroidframework.widget.viewpager.ScrollableViewPager>
 </LinearLayout>

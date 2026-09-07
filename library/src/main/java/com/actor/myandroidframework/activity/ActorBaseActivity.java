@@ -41,7 +41,7 @@ import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkLoadingDialogAble {
 
     //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
-    protected AppCompatActivity         mActivity;
+    protected ActorBaseActivity         mActivity;
 
     /** Activity 回调集合 */
     @Nullable protected SparseArray<OnActivityCallback> mActivityCallbacks;

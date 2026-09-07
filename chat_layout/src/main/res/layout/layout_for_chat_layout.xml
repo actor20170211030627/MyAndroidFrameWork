@@ -110,16 +110,23 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager_for_chat_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        tools:layout_height="wrap_content">
+        android:layout_height="250dp"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_for_chat_layout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="#ebebeb"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="scrollable" />
+            app:tabMode="scrollable">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:icon="@drawable/ic_emoji_normal_for_chat_layout" />
+        </com.google.android.material.tabs.TabLayout>
     </androidx.viewpager.widget.ViewPager>
 </LinearLayout>

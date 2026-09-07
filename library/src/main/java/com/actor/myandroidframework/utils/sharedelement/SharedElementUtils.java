@@ -239,7 +239,7 @@ public class SharedElementUtils {
 
     /**
      * 启动之前被推迟的进入过渡动画。<br />
-     * {@link 注意:}
+     * {@link null 注意:}
      * if是在Activity中暂停的动画, 就要调用{@link #startPostponedEnterTransition(Activity)} 方法继续, 而不是调用本方法!
      */
     public static void startPostponedEnterTransition(Fragment fragment) {
@@ -287,7 +287,7 @@ public class SharedElementUtils {
 
 
     /**
-     * 共享元素方式跳转, {@link 注意:}
+     * 共享元素方式跳转, {@link null 注意:}
      * <ol>
      *     <li>if你元素共享跳转前后2个页面的共享元素views & 共享元素名称都不改变, 建议调用更简单的{@link #startActivityForResult(AppCompatActivity, Intent, int, View...)}方法.</li>
      *     <li>
@@ -314,7 +314,7 @@ public class SharedElementUtils {
     }
 
     /**
-     * 元素共享跳转, {@link 注意:}
+     * 元素共享跳转, {@link null 注意:}
      * <ol>
      *     <li>
      *         fragment跳转activity再返回后, 会先走当前fragment对应的Activity的 {@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)} 方法,
@@ -323,13 +323,13 @@ public class SharedElementUtils {
      *         以及fragment的 {@link Fragment#onResume() onResume()} 方法!
      *     </li>
      *     <li>
-     *         所以: 如果你要在activity返回fragment的{@link 共享动画执行完成前}获取数据并更新fragment的UI的话(比如更新元素共享图片),
+     *         所以: 如果你要在activity返回fragment的{@link null 共享动画执行完成前}获取数据并更新fragment的UI的话(比如更新元素共享图片),
      *         请在fragment的
      *         {@link BaseSharedElementCallback#onMapSharedElements(List, Map) exitSharedElementCallback.onMapSharedElements(List, Map)} <br />
      *         或 {@link BaseSharedElementCallback#onSharedElementsArrived(List, List, androidx.core.app.SharedElementCallback.OnSharedElementsReadyListener) exitSharedElementCallback.onSharedElementsArrived(List, List, OnSharedElementsReadyListener)} <br />
      *         中调用{@link #getInstantExtra(Object) SharedElementUtils.getInstantExtra(T defaultValue)}获取并判断数据, 然后更新Fragment里的UI, 示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/fragment/SharedElementFragment.java" target="_blank">SharedElementFragment.java</a>
      *     </li>
-     *     <li>if不是必须在activity返回fragment的{@link 共享动画执行完成前}更新fragment的UI的话, 可直接在 {@link com.actor.myandroidframework.bean.OnActivityCallback OnActivityCallback callback} 这个回调中获取数据再更新UI.</li>
+     *     <li>if不是必须在activity返回fragment的{@link null 共享动画执行完成前}更新fragment的UI的话, 可直接在 {@link com.actor.myandroidframework.bean.OnActivityCallback OnActivityCallback callback} 这个回调中获取数据再更新UI.</li>
      * </ol>
      * @param requestCode 请求码
      * @param exitSharedElementCallback 跳转前后回调, 回来后需要你自己在<code>callback</code>中获取元素改变信息
@@ -401,10 +401,10 @@ public class SharedElementUtils {
      * @param enterSharedElementCallback 要退出Activity的共享元素组装
      * @param resultCode 返回码: {@link Activity#RESULT_OK}, {@link Activity#RESULT_CANCELED}, {@link Activity#RESULT_FIRST_USER} 等
      * @param resultIntent if第2个Activity要返会数据回上一个Activity, 就传入intent, 否则传null
-     * @param instantExtra 暂存数据, if你是从<b>fragment</b>跳到这边来, 才{@link 可能}传这个数据:
+     * @param instantExtra 暂存数据, if你是从<b>fragment</b>跳到这边来, 才{@link null 可能}传这个数据:
      *                     <ol>
      *                         <li>if你从Fragment跳到activity这边来,
-     *                         且现在退出activity返回fragment后有数据需要在{@link 元素共享动画执行完成前}响应到Fragment(比如要在元素共享动画完成前更新Fragment中的元素共享图片),
+     *                         且现在退出activity返回fragment后有数据需要在{@link null 元素共享动画执行完成前}响应到Fragment(比如要在元素共享动画完成前更新Fragment中的元素共享图片),
      *                         由于返回后Fragment没有activity类似的{@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)}方法可以在元素共享动画执行完成前就能获取到返回数据,
      *                         所以就需要传入这个参数. <br />
      *                         然后你再在fragment的{@link BaseSharedElementCallback#onMapSharedElements(List, Map) exitSharedElementCallback.onMapSharedElements(List, Map)} <br />

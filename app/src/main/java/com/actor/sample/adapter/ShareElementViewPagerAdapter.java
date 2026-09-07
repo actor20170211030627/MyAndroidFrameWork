@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.actor.myandroidframework.adapter_viewpager.BaseFragmentPagerAdapter;
+import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
 import com.actor.sample.fragment.ViewPagerDetailFragment;
 
 /**
@@ -17,7 +17,7 @@ import com.actor.sample.fragment.ViewPagerDetailFragment;
  * date       : 2022/6/15 on 12
  * @version 1.0
  */
-public class ShareElementViewPagerAdapter extends BaseFragmentPagerAdapter {
+public class ShareElementViewPagerAdapter extends BaseFragmentStatePagerAdapter {
 
     public        ViewPagerDetailFragment currentFragment;
     private final int                     startPosition;

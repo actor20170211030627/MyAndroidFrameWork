@@ -25,9 +25,15 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * description: <a href="https://www.jianshu.com/p/6e9cc56f080b">android 语音合成(文字转语音播放)</a> <br />
- *              <a href="https://blog.csdn.net/long375577908/article/details/78437278">TextToSpeech的使用</a> <br />
- *              <a href="https://www.jianshu.com/p/d1767a397c10">文本转语音TTS开发Android11适配方案</a> <br />
+ * description:
+ * <ul>
+ *     <li><a href="https://www.jianshu.com/p/6e9cc56f080b">android 语音合成(文字转语音播放)</a></li>
+ *     <li><a href="https://www.jianshu.com/p/d1767a397c10">文本转语音TTS开发Android11适配方案</a></li>
+ *     <li><a href="https://github.com/Mindinventory/AutoHighlightTTS">AutoHighlightTTS</a>: 可分段播放/暂停(使用的句号切割&分段播放)</li>
+ *     <li><a href="https://github.com/dlutton/flutter_tts">flutter_tts</a>: 播放/暂停, 使用tts的回调方法: {@link UtteranceProgressListenerImpl#onRangeStart(String, int, int, int)}, 遗憾的是国内手机/厂商tts一般不支持</li>
+ *     <li>先将文本转换成语音: {@link #synthesizeToFile(CharSequence, Locale, Bundle, File, String, UtteranceProgressListenerImpl)}, 然后使用 {@link com.actor.myandroidframework.utils.audio.MediaPlayerUtils} 播放/暂停. 也可以精确到句子, 但不能精确到哪个字, 可参考: <a href="https://github.com/whyjr/TTSHelper">TTSHelper</a></li>
+ * </ul>
+ * <br />
  * 需要在清单文件中的&lt;manifest>标签里面添加: <br />
  * <pre>
  *     &lt;queries>
@@ -128,13 +134,17 @@ public class TextToSpeechUtils {
      * @param text 需要转化的文字
      * @param language 播放语言
      * @param queueMode 播放策略:
-     *      @see TextToSpeech#QUEUE_FLUSH 会替换原有文字
-     *      @see TextToSpeech#QUEUE_ADD 会将加入队列的待播报文字按顺序播放
+     *                  <ol>
+     *                      <li>{@link TextToSpeech#QUEUE_FLUSH}: 会替换原有文字</li>
+     *                      <li>{@link TextToSpeech#QUEUE_ADD}: 会将加入队列的待播报文字按顺序播放</li>
+     *                  </ol>
      * @param params TTS参数，可以是null
-     *      @see TextToSpeech.Engine#KEY_PARAM_STREAM 指定在说文本或播放文件时要使用的音频流类型。该值应为{@link AudioManager}中定义的STREAM_常量之一
-     *      @see TextToSpeech.Engine#KEY_PARAM_UTTERANCE_ID 说出文字，播放文件或静默持续时间之后，在{@link TextToSpeech.OnUtteranceCompletedListener}中标识话语
-     *      @see TextToSpeech.Engine#KEY_PARAM_VOLUME 指定相对于讲话文本时使用的当前流类型的音量的语音音量。音量被指定为从0到1的浮动范围，其中0是静默，而1是最大音量（默认行为）
-     *      @see TextToSpeech.Engine#KEY_PARAM_PAN 指定在说文本时如何从左向右平移语音。平移指定为介于-1到+1之间的浮点数，其中-1映射到左硬平移，0映射到硬左平移（默认行为），而+1映射到硬右平移
+     *               <ol>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_STREAM}: 指定在说文本或播放文件时要使用的音频流类型。该值应为{@link AudioManager}中定义的STREAM_常量之一</li>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_UTTERANCE_ID}: 说出文字，播放文件或静默持续时间之后，在{@link TextToSpeech.OnUtteranceCompletedListener}中标识话语</li>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_VOLUME}: 指定相对于讲话文本时使用的当前流类型的音量的语音音量。音量被指定为从0到1的浮动范围，其中0是静默，而1是最大音量（默认行为）</li>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_PAN}: 指定在说文本时如何从左向右平移语音。平移指定为介于-1到+1之间的浮点数，其中-1映射到左硬平移，0映射到硬左平移（默认行为），而+1映射到硬右平移</li>
+     *               </ol>
      *
      * @param utteranceId 此请求的唯一标识符
      * @param listener 播放回调
@@ -473,7 +483,9 @@ public class TextToSpeechUtils {
         return TextToSpeech.ERROR;
     }
 
-    // TODO: 2024/11/28 暂停, 也许可以参考 https://blog.csdn.net/hfut_why/article/details/95735345 ??
+    /**
+     * TODO: 2024/11/28 暂停, 见本文件顶部文档注释说明
+     */
     protected static void pause() {
     }
 
@@ -500,12 +512,29 @@ public class TextToSpeechUtils {
     }
 
     /**
-     * 文字输入到文件
-     * @param text 可为null ??
+     * 将整段文本合成为一个音频文件（如 .wav 或 .mp3）并保存到本地, 可使用 {@link com.actor.myandroidframework.utils.audio.MediaPlayerUtils} 播放, 实现暂停功能。<br />
+     * 缺点：合成音频需要时间，对于很长的文本可能会有短暂延迟；实现步骤比前两种复杂。
+     * @param text 要合成的文字内容, 不能传null
+     * @param language
+     * @param params 合成参数，如语速、音调、语言等。传 null 表示使用 TTS 默认设置
+     *               <ol>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_STREAM}: 指定在说文本或播放文件时要使用的音频流类型。该值应为{@link AudioManager}中定义的STREAM_常量之一</li>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_UTTERANCE_ID}: 说出文字，播放文件或静默持续时间之后，在{@link TextToSpeech.OnUtteranceCompletedListener}中标识话语</li>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_VOLUME}: 指定相对于讲话文本时使用的当前流类型的音量的语音音量。音量被指定为从0到1的浮动范围，其中0是静默，而1是最大音量（默认行为）</li>
+     *                   <li>{@link TextToSpeech.Engine#KEY_PARAM_PAN}: 指定在说文本时如何从左向右平移语音。平移指定为介于-1到+1之间的浮点数，其中-1映射到左硬平移，0映射到硬左平移（默认行为），而+1映射到硬右平移</li>
+     *               </ol>
+     * @param file 音频文件, 例: new File(getExternalCacheDir(), "tts.wav"), TTS 会将合成后的音频写入此文件。
+     * @param utteranceId 此请求的唯一标识符
+     * @param listener 播放回调
+     * @return {@link TextToSpeech#SUCCESS}, {@link TextToSpeech#ERROR}
      */
-    public static int synthesizeToFile(@Nullable CharSequence text, @Nullable Locale language,
+    public static int synthesizeToFile(@NonNull CharSequence text, @Nullable Locale language,
                                        @Nullable Bundle params, @NonNull File file, @Nullable String utteranceId,
                                        @Nullable UtteranceProgressListenerImpl listener) throws FileNotFoundException {
+        if (TextUtils.isEmpty(text)) {
+            if (listener != null) listener.onError(utteranceId, TextToSpeech.ERROR);
+            return TextToSpeech.ERROR;
+        }
         if (file == null) {
             LogUtils.error("file=null");
             if (listener != null) listener.onError(utteranceId, TextToSpeech.ERROR);
@@ -534,8 +563,9 @@ public class TextToSpeechUtils {
         } else {
             hashMap.clear();
             hashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+//            hashMap.put(TextToSpeech.Engine.KEY_PARAM_VOLUME, "1.0f");    //音量：float，仅部分引擎支持
             //还有一些其它参数...
-            return tts.synthesizeToFile(text == null ? null : text.toString(), hashMap, file.getAbsolutePath());
+            return tts.synthesizeToFile(text.toString(), hashMap, file.getAbsolutePath());
         }
     }
 }

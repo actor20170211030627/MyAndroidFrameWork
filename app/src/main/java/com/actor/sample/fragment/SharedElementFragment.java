@@ -19,7 +19,7 @@ import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.R;
 import com.actor.sample.activity.SharedElement2Activity;
 import com.actor.sample.activity.SharedElementRecyclerViewActivity;
-import com.actor.sample.activity.ViewPagerActivity;
+import com.actor.sample.activity.SharedElementViewPagerActivity;
 import com.actor.sample.databinding.FragmentSharedElementBinding;
 import com.actor.sample.utils.Global;
 import com.actor.sample.utils.ImageConstants;
@@ -151,7 +151,7 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
                 break;
             case R.id.btn_start_activity_for_result:    //5.fragment.startActivityForResult()
                 if (true) {
-                    startActivityForResult(ViewPagerActivity.getIntent(mActivity, position2ViewPager, true),
+                    startActivityForResult(SharedElementViewPagerActivity.getIntent(mActivity, position2ViewPager, true),
                             new OnActivityCallback() {
                                 @Override
                                 public void onActivityResult(int resultCode, @Nullable Intent data) {
@@ -174,7 +174,7 @@ public class SharedElementFragment extends BaseFragment<FragmentSharedElementBin
                      * 这个方法也可以, 但下一页更改了共享元素的话, 返回后会可能找不到共享元素, 或者加载图片会闪动!
                      */
                     viewBinding.iv.setTransitionName(Global.getListTransitionName(position2ViewPager, false));
-                    startActivityForResult(ViewPagerActivity.getIntent(mActivity, position2ViewPager, false),
+                    startActivityForResult(SharedElementViewPagerActivity.getIntent(mActivity, position2ViewPager, false),
                             new OnActivityCallback() {
                                 @Override
                                 public void onActivityResult(int resultCode, @Nullable Intent data) {

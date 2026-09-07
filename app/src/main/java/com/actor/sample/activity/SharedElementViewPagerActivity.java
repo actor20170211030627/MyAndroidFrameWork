@@ -9,7 +9,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.sharedelement.BaseSharedElementCallback;
 import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
 import com.actor.sample.adapter.ShareElementViewPagerAdapter;
-import com.actor.sample.databinding.ActivityViewPagerBinding;
+import com.actor.sample.databinding.ActivitySharedElementViewPagerBinding;
 import com.actor.sample.utils.Global;
 import com.actor.sample.utils.ImageConstants;
 import com.blankj.utilcode.util.GsonUtils;
@@ -23,9 +23,11 @@ import java.util.Map;
  * @author    : ldf
  * date       : 2025/5/10 on 14:23
  */
-public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
+public class SharedElementViewPagerActivity extends BaseActivity<ActivitySharedElementViewPagerBinding> {
 
     public static final String                    IS_CHANGE_TRANSITION       = "IS_CHANGE_TRANSITION";
+    private ShareElementViewPagerAdapter myAdapter;
+    private boolean isChangeTransition = true;
     private final       BaseSharedElementCallback enterSharedElementCallback = new BaseSharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
@@ -44,11 +46,9 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
             LogUtils.errorFormat("names = %s", GsonUtils.toJson(names));
         }
     }.setLogPageTag("页面B");
-    private ShareElementViewPagerAdapter myAdapter;
-    private boolean isChangeTransition = true;
 
     public static Intent getIntent(Context context, int position, boolean isChangeTransition) {
-        return new Intent(context, ViewPagerActivity.class)
+        return new Intent(context, SharedElementViewPagerActivity.class)
                 .putExtra(Global.START_POSITION, position)
                 .putExtra(IS_CHANGE_TRANSITION, isChangeTransition);
     }
@@ -83,23 +83,18 @@ public class ViewPagerActivity extends BaseActivity<ActivityViewPagerBinding> {
 
     @Override
     public void onBackPressed() {
+        int currentItem = viewBinding.viewPager.getCurrentItem();
+        Intent intent = new Intent().putExtra(Global.CONTENT, "result ok!").putExtra(Global.POSITION, currentItem);
         if (isChangeTransition) {
-//        super.onBackPressed();
-            int currentItem = viewBinding.viewPager.getCurrentItem();
-            Intent intent = new Intent().putExtra(Global.CONTENT, "result ok!")
-                    .putExtra(Global.POSITION, currentItem);
             SharedElementUtils.finishAfterTransition(this, enterSharedElementCallback, RESULT_OK, intent, currentItem);
         } else {
             //也可以直接返回
-            int currentItem = viewBinding.viewPager.getCurrentItem();
             String transitionName = Global.getListTransitionName(currentItem, isChangeTransition);
 
             //对当前iv重新设置transitionName, 否则page改变后可能没元素共享动画!
             View iv = myAdapter.currentFragment.getSharedElementView();
             iv.setTransitionName(transitionName);
 
-            Intent intent = new Intent().putExtra(Global.CONTENT, "result ok!")
-                    .putExtra(Global.POSITION, currentItem);
             setResult(RESULT_OK, intent);
             super.onBackPressed();
         }

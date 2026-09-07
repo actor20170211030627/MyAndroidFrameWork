@@ -65,8 +65,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
-            android:text="ViewPager多层嵌套"
-            android:transitionName="btn" />
+            android:text="ViewPager测试"
+            android:transitionName="btn_view_pager" />
 
         <Button
             android:id="@+id/btn_select_file"

@@ -25,6 +25,24 @@ public class ScrollableViewPager extends ViewPager {
     }
 
     /**
+     * 返回空闲状态下, ViewPager <b>当前页面两侧</b>保留的页数。默认为1。
+     * @return 默认 = {@link #DEFAULT_OFFSCREEN_PAGES} = 1
+     */
+    @Override
+    public int getOffscreenPageLimit() {
+        return super.getOffscreenPageLimit();
+    }
+
+    /**
+     * 设置空闲状态下 ViewPager <b>当前页面两侧</b>应保留的页数。超过此限制的页面将在需要时从Adapter重新创建。
+     * @param limit 必须 ≧ 1
+     */
+    @Override
+    public void setOffscreenPageLimit(int limit) {
+        super.setOffscreenPageLimit(limit);
+    }
+
+    /**
      * 在onTouchEvent中不做任何事情，ViewPager就不能左右滑动(详情查看源码)
      * @param ev
      * @return
@@ -48,6 +66,15 @@ public class ScrollableViewPager extends ViewPager {
         if (!scrollable) return false;
         return super.onInterceptTouchEvent(ev);
 //        return true;//拦截, 子类不能获取响应触摸事件
+    }
+
+    /**
+     * 获取当前显示Page的position, ≧0, if没有填充 = 0
+     * @return ≧0
+     */
+    @Override
+    public int getCurrentItem() {
+        return super.getCurrentItem();
     }
 
     /**

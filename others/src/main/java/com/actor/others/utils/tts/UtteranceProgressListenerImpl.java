@@ -37,11 +37,13 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
         return (T) tag;
     }
 
+    /**
+     * @param utteranceId 此请求的唯一标识符, 调用 speak()的时候传入的参数
+     */
     @Override
     public final void onStart(String utteranceId) {
         //子线程
-        boolean isMainThread = ThreadUtils.isMainThread();
-        LogUtils.errorFormat("onStart: isMainThread=%b, utteranceId=%s", isMainThread, utteranceId);
+        LogUtils.errorFormat("onStart: utteranceId=%s", utteranceId);
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -56,8 +58,7 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
     @Override
     public final void onDone(String utteranceId) {
         //子线程
-        boolean isMainThread = ThreadUtils.isMainThread();
-        LogUtils.errorFormat("onDone: isMainThread=%b, utteranceId=%s", isMainThread, utteranceId);
+        LogUtils.errorFormat("onDone: utteranceId=%s", utteranceId);
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -70,8 +71,7 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
 
     @Override
     public final void onError(String utteranceId) {
-        boolean isMainThread = ThreadUtils.isMainThread();
-        LogUtils.errorFormat("onError: isMainThread=%b, utteranceId=%s", isMainThread, utteranceId);
+        LogUtils.errorFormat("onError: utteranceId=%s", utteranceId);
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -107,8 +107,7 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
         } else {
             onError(utteranceId);
         }
-        boolean isMainThread = ThreadUtils.isMainThread();
-        LogUtils.errorFormat("onError: isMainThread=%b, utteranceId=%s, errorCode=%d", isMainThread, utteranceId, errorCode);
+        LogUtils.errorFormat("onError: utteranceId=%s, errorCode=%d", utteranceId, errorCode);
     }
 
     /**
@@ -127,8 +126,7 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
             super.onStop(utteranceId, interrupted);
         }
         //子线程
-        boolean isMainThread = ThreadUtils.isMainThread();
-        LogUtils.errorFormat("onStop: isMainThread=%b, utteranceId=%s, interrupted=%b", isMainThread, utteranceId, interrupted);
+        LogUtils.errorFormat("onStop: utteranceId=%s, interrupted=%b", utteranceId, interrupted);
         //手动调用stop()后, 不会自动回调 onDone().
         onDone(utteranceId);
     }
@@ -149,9 +147,8 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
             super.onBeginSynthesis(utteranceId, sampleRateInHz, audioFormat, channelCount);
         }
         //子线程
-        boolean isMainThread = ThreadUtils.isMainThread();
-        LogUtils.errorFormat("onBeginSynthesis: isMainThread=%b, utteranceId=%s, sampleRateInHz=%d, audioFormat=%d, channelCount=%d",
-                isMainThread, utteranceId, sampleRateInHz, audioFormat, channelCount);
+        LogUtils.errorFormat("onBeginSynthesis: utteranceId=%s, sampleRateInHz=%d, audioFormat=%d, channelCount=%d",
+                utteranceId, sampleRateInHz, audioFormat, channelCount);
     }
 
     /**
@@ -170,20 +167,20 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
             super.onAudioAvailable(utteranceId, audio);
         }
         //子线程
-//        boolean isMainThread = ThreadUtils.isMainThread();
-//        LogUtils.errorFormat("onAudioAvailable: isMainThread=%b, utteranceId=%s, audio=%s",
-//                isMainThread, utteranceId, audio);
+//        LogUtils.errorFormat("onAudioAvailable: utteranceId=%s, audio=%s", utteranceId, audio);
     }
 
     /**
      * 当TTS服务要用给定的utteranceId说出指定范围的话语时，就会调用这个函数。<br />
      * 当音频应该在扬声器上开始播放时，调用此方法。请注意，这与音频一生成就调用的onAudioAvailable不同。<br />
      * 例如，该信息可用于在朗读时突出显示文本的范围。<br />
-     * 仅在引擎通过调用synthesis callback . rangestart(int，int，int)提供计时信息时调用。
-     * @param utteranceId Unique id identifying the synthesis request.
-     * @param start The start index of the range in the utterance text.
-     * @param end The end index of the range (exclusive) in the utterance text.
-     * @param frame The position in frames in the audio of the request where this range is spoken.
+     * 仅在引擎通过调用synthesis callback . rangestart(int，int，int)提供计时信息时调用。<br />
+     * {@link null 注意:} <br />
+     *      只有 Google TTS 引擎 和部分第三方高级引擎（如微软 Azure TTS、Amazon Polly）才完整实现了这个方法，用于支持“朗读高亮”这类高级功能。国内手机自带tts和讯飞等并没有实现这个方法, 就没有回调这个方法...
+     * @param utteranceId 此请求的唯一标识符
+     * @param start The start index of the range in the utterance text. 播放的字符串的起始位置
+     * @param end The end index of the range (exclusive) in the utterance text. 播放的字符串的end位置
+     * @param frame The position in frames in the audio of the request where this range is spoken. 此范围的请求在音频帧中的位置
      */
 //    @RequiresApi(api = Build.VERSION_CODES.O)   //Android 8.0, Api 26
     @Override
@@ -191,7 +188,6 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             super.onRangeStart(utteranceId, start, end, frame);
         }
-        boolean isMainThread = ThreadUtils.isMainThread();
-        LogUtils.errorFormat("onRangeStart: isMainThread=%b, utteranceId=%s, start=%d, end=%d, frame=%d", isMainThread, utteranceId, start, end, frame);
+        LogUtils.errorFormat("onRangeStart: utteranceId=%s, start=%d, end=%d, frame=%d", utteranceId, start, end, frame);
     }
 }

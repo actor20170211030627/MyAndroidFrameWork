@@ -3,7 +3,6 @@ package com.actor.sample.fragment;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,8 +11,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
-import com.actor.myandroidframework.widget.viewpager.ScrollableViewPager;
-import com.actor.sample.databinding.FragmentBlankBinding;
+import com.actor.sample.databinding.FragmentViewPagerAndInnerBinding;
 import com.actor.sample.utils.Global;
 
 /**
@@ -21,18 +19,15 @@ import com.actor.sample.utils.Global;
  * Author     : ldf
  * Date       : 2019-9-6 on 16:40
  */
-public class BlankFragment extends BaseFragment<FragmentBlankBinding> {
-
-    private TextView            tvContent;
-    private ScrollableViewPager viewPager;
+public class ViewPagerAndInnerFragment extends BaseFragment<FragmentViewPagerAndInnerBinding> {
 
     private int    id;
-    private String content;
-    private String[] titles = {"Table0", "Table1"};
+    private       String   content;
+    private final String[] titles = {"Tab0", "Tab1"};
 
     //1.
-    public static BlankFragment newInstance(int id, String content) {
-        BlankFragment fragment = new BlankFragment();
+    public static ViewPagerAndInnerFragment newInstance(int id, String content) {
+        ViewPagerAndInnerFragment fragment = new ViewPagerAndInnerFragment();
         Bundle args = new Bundle();
         args.putInt(Global.ID, id);
         args.putString(Global.CONTENT, content);
@@ -55,12 +50,10 @@ public class BlankFragment extends BaseFragment<FragmentBlankBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvContent = viewBinding.tvContent;
-        viewPager = viewBinding.viewPager;
         viewBinding.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> onCheckedChanged(/*buttonView, */isChecked));
 
-        tvContent.setText(content);
-        viewPager.setAdapter(new MyInnerAdapter(getChildFragmentManager(), titles));
+        viewBinding.tvContent.setText(content);
+        viewBinding.viewPager.setAdapter(new MyInnerAdapter(getChildFragmentManager(), titles));
         //request internet...
     }
 
@@ -82,13 +75,13 @@ public class BlankFragment extends BaseFragment<FragmentBlankBinding> {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return BlankFragment2.newInstance(position, content);
+            return ViewPagerAndInnerInnerFragment.newInstance(position, content);
         }
     }
 
 //    @OnCheckedChanged({R.id.toggle_button})
     public void onCheckedChanged(/*CompoundButton buttonView, */boolean isChecked){
-        viewPager.setHorizontalScrollable(isChecked);
+        viewBinding.viewPager.setHorizontalScrollable(isChecked);
         ToasterUtils.infoFormat("里面ViewPager左右滑动 = %b", isChecked);
     }
 }

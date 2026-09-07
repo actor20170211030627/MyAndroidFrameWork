@@ -166,7 +166,7 @@ public class SharedElementActivity extends BaseActivity<ActivitySharedElementBin
         myAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             isClickFromRecyclerView = true;
             positionRecyclerView = position;
-            startActivityForResult(ViewPagerActivity.getIntent(this, position, true), new OnActivityCallback() {
+            startActivityForResult(SharedElementViewPagerActivity.getIntent(this, position, true), new OnActivityCallback() {
                         @Override
                         public void onActivityResult(int resultCode, @Nullable Intent data) {
                             isClickFromRecyclerView = false;

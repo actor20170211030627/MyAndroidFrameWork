@@ -1,0 +1,14 @@
+<com.actor.myandroidframework.widget.SwipeRefreshLayoutCompatViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ViewPagerAndInnerInnerFragment">
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        tools:text="第1个Tab, content=第1个Fragment" />
+</com.actor.myandroidframework.widget.SwipeRefreshLayoutCompatViewPager>

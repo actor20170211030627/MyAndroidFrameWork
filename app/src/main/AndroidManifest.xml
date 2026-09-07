@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.actor.sample">
+    package="com.actor.sample" >
     <!-- 安装/更新App -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
@@ -13,7 +13,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning" >
         <activity
             android:name=".activity.LogTestActivity"
             android:exported="false"
@@ -68,7 +68,7 @@
         <activity android:name=".activity.BaiDuMapActivity" />
         <activity android:name=".activity.GaoDeMapActivity" />
         <activity android:name=".activity.QQWeChatActivity" />
-        <activity android:name=".activity.ViewPagerActivity" />
+        <activity android:name=".activity.SharedElementViewPagerActivity" />
         <activity
             android:name=".activity.SharedElementActivity"
             android:exported="false"
@@ -88,7 +88,7 @@
             android:name=".activity.MyBaseBottomActivity"
             android:theme="@style/BaseBottomActivity" />
         <activity android:name=".activity.DatabaseActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,7 +99,8 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true">
+            android:noHistory="true" >
+
             <!-- QQ登录 -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -114,13 +115,14 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX">
+            android:value="u5Xz2U2d6hSgaqEcDG2Z8MlQqNhVO1VX" >
+
             <!-- 百度地图/定位设置AK，在Application标签中加入 -->
         </meta-data>
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="4dd161c2444279b04c5014f51912fcff">
+            android:value="4dd161c2444279b04c5014f51912fcff" >
+
             <!-- 高德地图/定位设置AK，在 标签中加入. value: 申请的AK -->
         </meta-data>
     </application>
