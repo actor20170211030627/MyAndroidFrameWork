@@ -34,6 +34,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv0" />
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_loggable_fragments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="打印日志:"
+            android:textOff="false"
+            android:textOn="true"
+            app:layout_constraintBottom_toBottomOf="@id/toggle_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toggle_button"
+            app:showText="true"
+            app:switchPadding="5dp" />
+
         <com.actor.myandroidframework.widget.viewpager.ScrollableViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
@@ -69,19 +83,33 @@
             android:id="@+id/tv1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
-            android:text="2.ViewPager &amp; BasePagerAdapter"
+            android:text="2.BasePagerAdapter"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/view_pager" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_loggable_pager_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="打印日志:"
+            android:textOff="false"
+            android:textOn="true"
+            app:layout_constraintBottom_toBottomOf="@id/tv1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv1"
+            app:showText="true"
+            app:switchPadding="5dp" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_position_pager_adapter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:digits="@string/digits_phone"
-            android:hint="输入pos to add/remove"
+            android:hint="pos to add/remove"
             android:imeOptions="actionNext"
             android:inputType="number"
             app:layout_constraintEnd_toStartOf="@id/btn_add_page_adapter"
@@ -126,12 +154,12 @@
             android:hint="输入 toPos"
             android:imeOptions="actionNext"
             android:inputType="number"
-            app:layout_constraintEnd_toStartOf="@id/btn_exchange_page"
+            app:layout_constraintEnd_toStartOf="@id/btn_exchange_pager_adapter"
             app:layout_constraintStart_toEndOf="@id/et_exchange_from_position_pager_adapter"
             app:layout_constraintTop_toTopOf="@id/et_exchange_from_position_pager_adapter" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_exchange_page"
+            android:id="@+id/btn_exchange_pager_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onViewClicked"
@@ -142,37 +170,254 @@
         <com.actor.myandroidframework.widget.viewpager.ScrollableViewPager
             android:id="@+id/view_pager_pager_adapter"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="80dp"
             app:layout_constraintTop_toBottomOf="@id/et_exchange_from_position_pager_adapter" />
 
         <com.actor.myandroidframework.widget.BaseTabLayout
             android:id="@+id/tab_layout_indicator"
             android:layout_width="match_parent"
             android:layout_height="14dp"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="@id/view_pager_pager_adapter"
             app:tabBackground="@drawable/selector_circle_red_blue"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            app:tabMaxWidth="14dp" />
+            app:tabMaxWidth="14dp">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.actor.myandroidframework.widget.BaseTabLayout>
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:background="@color/red_trans_CC99"
             android:padding="5dp"
-            android:text="3.ViewPager &amp; BaseFragmentPagerAdapter"
+            android:text="3.BaseFragmentPagerAdapter"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/view_pager_pager_adapter" />
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_loggable_fragment_pager_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="打印日志:"
+            android:textOff="false"
+            android:textOn="true"
+            app:layout_constraintBottom_toBottomOf="@id/tv2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv2"
+            app:showText="true"
+            app:switchPadding="5dp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_position_fragment_pager_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:digits="@string/digits_phone"
+            android:hint="pos to add/remove"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@id/btn_add_fragment_page_adapter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_fragment_page_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="addPage"
+            app:layout_constraintEnd_toStartOf="@id/btn_remove_fragment_page_adapter"
+            app:layout_constraintTop_toTopOf="@id/et_position_fragment_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_remove_fragment_page_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="removePage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_position_fragment_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_exchange_from_position_fragment_pager_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:digits="@string/digits_phone"
+            android:hint="输入 fromPos"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@id/et_exchange_to_position_fragment_pager_adapter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_position_fragment_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_exchange_to_position_fragment_pager_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:digits="@string/digits_phone"
+            android:hint="输入 toPos"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@id/btn_exchange_fragment_pager_adapter"
+            app:layout_constraintStart_toEndOf="@id/et_exchange_from_position_fragment_pager_adapter"
+            app:layout_constraintTop_toTopOf="@id/et_exchange_from_position_fragment_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_exchange_fragment_pager_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="交换Page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_exchange_from_position_fragment_pager_adapter" />
 
         <com.actor.myandroidframework.widget.viewpager.ScrollableViewPager
             android:id="@+id/view_pager_fragment_pager_adapter"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintTop_toBottomOf="@id/tv2" />
+            android:layout_height="80dp"
+            app:layout_constraintTop_toBottomOf="@id/et_exchange_from_position_fragment_pager_adapter" />
+
+        <com.actor.myandroidframework.widget.BaseTabLayout
+            android:id="@+id/tab_layout_indicator_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            app:layout_constraintBottom_toBottomOf="@id/view_pager_fragment_pager_adapter"
+            app:tabBackground="@drawable/selector_circle_red_blue"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="14dp">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.actor.myandroidframework.widget.BaseTabLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/red_trans_CC99"
+            android:padding="5dp"
+            android:text="4.BaseFragmentStatePagerAdapter"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/view_pager_fragment_pager_adapter" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_loggable_fragment_state_pager_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="打印日志:"
+            android:textOff="false"
+            android:textOn="true"
+            app:layout_constraintBottom_toBottomOf="@id/tv3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv3"
+            app:showText="true"
+            app:switchPadding="5dp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_position_fragment_state_pager_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:digits="@string/digits_phone"
+            android:hint="pos to add/remove"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@id/btn_add_fragment_state_page_adapter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv3" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_fragment_state_page_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="addPage"
+            app:layout_constraintEnd_toStartOf="@id/btn_remove_fragment_state_page_adapter"
+            app:layout_constraintTop_toTopOf="@id/et_position_fragment_state_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_remove_fragment_state_page_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="removePage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_position_fragment_state_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_exchange_from_position_fragment_state_pager_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:digits="@string/digits_phone"
+            android:hint="输入 fromPos"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@id/et_exchange_to_position_fragment_state_pager_adapter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_position_fragment_state_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_exchange_to_position_fragment_state_pager_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:digits="@string/digits_phone"
+            android:hint="输入 toPos"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@id/btn_exchange_fragment_state_pager_adapter"
+            app:layout_constraintStart_toEndOf="@id/et_exchange_from_position_fragment_state_pager_adapter"
+            app:layout_constraintTop_toTopOf="@id/et_exchange_from_position_fragment_state_pager_adapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_exchange_fragment_state_pager_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="交换Page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_exchange_from_position_fragment_state_pager_adapter" />
+
+        <com.actor.myandroidframework.widget.viewpager.ScrollableViewPager
+            android:id="@+id/view_pager_fragment_state_pager_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:layout_constraintTop_toBottomOf="@id/et_exchange_from_position_fragment_state_pager_adapter" />
+
+        <com.actor.myandroidframework.widget.BaseTabLayout
+            android:id="@+id/tab_layout_indicator_fragment_state"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            app:layout_constraintBottom_toBottomOf="@id/view_pager_fragment_state_pager_adapter"
+            app:tabBackground="@drawable/selector_circle_red_blue"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="14dp">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.actor.myandroidframework.widget.BaseTabLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

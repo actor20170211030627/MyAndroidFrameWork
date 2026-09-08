@@ -27,41 +27,37 @@ import java.util.List;
  */
 public abstract class BasePagerAdapter extends PagerAdapter {
 
-    protected int                sizeForAdapter            = 0;
-    protected final List<String> titlesForTabLayout        = new ArrayList<>();
-    protected final List<View>   mPageViews                = new ArrayList<>();
-    protected boolean            isRemoveOffscreenPosition = false;
+    protected final List<CharSequence> titles                    = new ArrayList<>();
+    protected final List<View>         mPageViews                = new ArrayList<>();
+    protected       boolean            isRemoveOffscreenPosition = false;
     //是否可打印日志
-    protected boolean            loggable                  = false;
+    protected boolean                  loggable                  = false;
 
     public BasePagerAdapter(@IntRange(from = 0) int size) {
-        if (size < 0) return;
-        this.sizeForAdapter = size;
-        for (int i = 0; i < sizeForAdapter; i++) {
-            titlesForTabLayout.add(null);
+        if (size <= 0) return;
+        for (int i = 0; i < size; i++) {
+            titles.add(null);
             mPageViews.add(null);
         }
     }
 
-    public BasePagerAdapter(String[] titles) {
+    public BasePagerAdapter(CharSequence[] titles) {
         if (titles != null) {
-            this.sizeForAdapter = titles.length;
-            Collections.addAll(titlesForTabLayout, titles);
-            for (int i = 0; i < sizeForAdapter; i++) mPageViews.add(null);
+            Collections.addAll(this.titles, titles);
+            for (int i = 0; i < titles.length; i++) mPageViews.add(null);
         }
     }
 
-    public BasePagerAdapter(Collection<String> titles) {
+    public BasePagerAdapter(Collection<CharSequence> titles) {
         if (titles != null) {
-            this.sizeForAdapter = titles.size();
-            titlesForTabLayout.addAll(titles);
-            for (int i = 0; i < sizeForAdapter; i++) mPageViews.add(null);
+            this.titles.addAll(titles);
+            for (int i = 0; i < titles.size(); i++) mPageViews.add(null);
         }
     }
 
     @Override
     public int getCount() {
-        return sizeForAdapter;
+        return titles.size();
     }
 
     /**
@@ -84,7 +80,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
         View view = mPageViews.get(position);
         if (loggable) LogUtils.errorFormat("position = %d, mPageViews.size() = %d, view = %s", position, mPageViews.size(), view);
         if (view == null) {
-            view = instantiateItem2(container, position);
+            view = getItem(container, position);
             mPageViews.set(position, view);
         }
         if (container != view.getParent()) {
@@ -108,13 +104,12 @@ public abstract class BasePagerAdapter extends PagerAdapter {
      * @return
      */
     @NonNull
-    public abstract View instantiateItem2(@NonNull ViewGroup container, int position);
+    public abstract View getItem(@NonNull ViewGroup container, int position);
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position < 0 || position >= titlesForTabLayout.size()) return null;
-        return titlesForTabLayout.get(position);
+        return position >= 0 && titles.size() > position ? titles.get(position) : null;
     }
 
     /**
@@ -144,10 +139,10 @@ public abstract class BasePagerAdapter extends PagerAdapter {
      * 销毁Item, 并不是移除Item
      * @param container ViewPager
      * @param position 要销毁的position, 在 [{@link ViewPager#getCurrentItem()} ± {@link ViewPager#getOffscreenPageLimit()}] 范围之内, 超出范围的并不会调用此方法
-     * @param object {@link #instantiateItem2(ViewGroup, int)} 返回的View
+     * @param object {@link #getItem(ViewGroup, int)} 返回的View
      */
     @Override
-    public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
 //        super.destroyItem(container, position, object);
         if (loggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
         container.removeView((View) object);
@@ -156,7 +151,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     }
 
     /**
-     * @param view {@link #instantiateItem2(ViewGroup, int)} 返回的View
+     * @param view {@link #getItem(ViewGroup, int)} 返回的View
      * @param object ↑
      */
     @Override
@@ -166,24 +161,21 @@ public abstract class BasePagerAdapter extends PagerAdapter {
 
     /**
      * 处理数据变化时的位置映射, 这个方法的返回值决定了 ViewPager 如何应对数据变化
-     * @param object {@link #instantiateItem2(ViewGroup, int)} 返回的View
+     * @param object {@link #getItem(ViewGroup, int)} 返回的View
      */
     @Override
     public int getItemPosition(@NonNull Object object) {
 //        return super.getItemPosition(object);
         int index = mPageViews.indexOf(object);
         if (loggable) LogUtils.errorFormat("object = %s, index = %d", object, index);
-        if (index == -1) {
-            // 该 View 已不在数据源中（即已被 removePage 移除）, 返回 POSITION_NONE，告诉 ViewPager 销毁它
-            return POSITION_NONE;
-        } else {
-            // 返回该 View 现在的实际位置, 如果位置没变，ViewPager 会复用；如果变了，ViewPager 会尝试重新布局
-            return index;
-        }
+        // 该 View 已不在数据源中（即已被 removePage 移除）, 返回 POSITION_NONE，告诉 ViewPager 销毁它
+        if (index == -1) return POSITION_NONE;
+        // 返回该 View 现在的实际位置, 如果位置没变，ViewPager 会复用；如果变了，ViewPager 会尝试重新布局
+        return index;
     }
 
     /**
-     * 在指定位置添加页面, 在 {@link #instantiateItem2(ViewGroup, int)} 初始化你添加的Page
+     * 在指定位置添加页面, 在 {@link #getItem(ViewGroup, int)} 初始化你添加的Page
      * @param position 插入的位置（0 到 size）
      * @param title    该页面标题
      * @return 返回真正的插入位置
@@ -191,12 +183,9 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     public int addPage(int position, @Nullable String title) {
         if (position < 0) {
             position = 0;
-        } else if (position > sizeForAdapter) position = sizeForAdapter;
-        sizeForAdapter ++;
-        titlesForTabLayout.add(position, title);
+        } else if (position > titles.size()) position = titles.size();
+        titles.add(position, title);
         mPageViews.add(position, null);
-//        //container 默认3个child, 指定position很容易索引越界
-//        container.addView(view, position);
         notifyDataSetChanged();
         return position;
     }
@@ -211,9 +200,8 @@ public abstract class BasePagerAdapter extends PagerAdapter {
         int offscreenPageLimit = viewPager.getOffscreenPageLimit();
         int currentItem = viewPager.getCurrentItem();
         if (loggable) LogUtils.errorFormat("offscreenPageLimit = %d, currentItem = %d, position = %d, mPageViews.size() = %d", offscreenPageLimit, currentItem, position, mPageViews.size());
-        if (position < 0 || position >= mPageViews.size()) return null;
-        sizeForAdapter --;
-        titlesForTabLayout.remove(position);
+        if (position < 0 || position >= titles.size()) return null;
+        titles.remove(position);
         View view = mPageViews.remove(position);
         isRemoveOffscreenPosition = Math.abs(position - currentItem) <= offscreenPageLimit;
         notifyDataSetChanged();
@@ -226,14 +214,14 @@ public abstract class BasePagerAdapter extends PagerAdapter {
      * @param toPosition   目标位置
      */
     public void exchangePage(int fromPosition, int toPosition) {
-        int size = mPageViews.size();
+        int size = titles.size();
         if (fromPosition < 0 || fromPosition >= size || toPosition < 0 || toPosition >= size) {
-            if (loggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, mPageViews.size() = %d", fromPosition, toPosition, size);
+            if (loggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, titles.size() = %d", fromPosition, toPosition, size);
             return;
         }
         if (fromPosition == toPosition) return;
         // 交换列表中的两个元素
-        Collections.swap(titlesForTabLayout, fromPosition, toPosition);
+        Collections.swap(titles, fromPosition, toPosition);
         Collections.swap(mPageViews, fromPosition, toPosition);
         // 通知 ViewPager 数据变了，它会根据 getItemPosition 重新映射
         notifyDataSetChanged();

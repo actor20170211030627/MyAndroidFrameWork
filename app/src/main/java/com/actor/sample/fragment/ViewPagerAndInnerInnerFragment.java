@@ -19,13 +19,13 @@ import com.actor.sample.utils.Global;
 public class ViewPagerAndInnerInnerFragment extends BaseFragment<FragmentViewPagerAndInnerInnerBinding> {
 
     private int position;
-    private String content;
+    private CharSequence content;
 
-    public static ViewPagerAndInnerInnerFragment newInstance(int position, String content) {
+    public static ViewPagerAndInnerInnerFragment newInstance(int position, CharSequence content) {
         ViewPagerAndInnerInnerFragment fragment = new ViewPagerAndInnerInnerFragment();
         Bundle args = new Bundle();
         args.putInt(Global.POSITION, position);
-        args.putString(Global.CONTENT, content);
+        args.putCharSequence(Global.CONTENT, content);
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,7 +36,7 @@ public class ViewPagerAndInnerInnerFragment extends BaseFragment<FragmentViewPag
         Bundle arguments = getArguments();
         if (arguments != null) {
             position = arguments.getInt(Global.POSITION, -1);
-            content = arguments.getString(Global.CONTENT);
+            content = arguments.getCharSequence(Global.CONTENT);
         }
     }
 
