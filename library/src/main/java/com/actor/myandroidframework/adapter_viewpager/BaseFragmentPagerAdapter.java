@@ -1,7 +1,7 @@
 package com.actor.myandroidframework.adapter_viewpager;
 
 import android.os.Parcelable;
-import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -31,6 +31,7 @@ import java.util.List;
  *     <li>由于 Fragment 实例被保留，开发者不需要手动保存<b>状态</b>。Fragment 内部的 <code>onSaveInstanceState</code> 和 <code>onViewStateRestored</code> 会正常伴随 detach/attach 工作。</li>
  *     <li>{@link null 缺点:} 如果页面非常多，内存中会同时持有所有 Fragment 实例，容易导致内存压力。</li>
  *     <li>生命周期: 重复执行 onCreateView -> onDestroyView, 不会执行onDestroy</li>
+ *     <li>如果 Fragment 不想被回收导致重走生命周期, 可以设置:viewpager.setOffscreenPageLimit(int limit);</li>
  * </ol>
  * <br />
  * ★注意事项★:(以前的注意事项, 现在不一定适用) <br />
@@ -59,12 +60,12 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     protected final List<CharSequence>     titles                    = new ArrayList<>();
     protected final List<Fragment>         fragments                 = new ArrayList<>();
+    protected final SparseIntArray         itemIds                   = new SparseIntArray();
     protected       boolean                isRemoveOffscreenPosition = false;
     //是否可打印日志
-    protected boolean                      loggable                  = false;
-    protected final SparseArray<Integer>   itemIds                   = new SparseArray<>();
-    protected int                          itemId;
-    protected       FragmentTransaction    mCurTransaction;
+    protected       boolean                loggable                  = false;
+    protected       int                    itemId;
+    protected       FragmentTransaction    mCurTransaction2;
     protected       OnFragmentInitListener onFragmentInitListener;
 
     public BaseFragmentPagerAdapter(@NonNull FragmentManager fm, int size) {
@@ -82,9 +83,9 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         super(fm, behavior);
         for (int i = 0; i < size; i++) {
             this.titles.add(null);
-            fragments.add(null);
-            itemIds.put(i, i);
-            itemId = size;
+            this.fragments.add(null);
+            this.itemIds.put(i, i);
+            this.itemId = size;
         }
     }
 
@@ -96,24 +97,24 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         if (titles != null) {
             Collections.addAll(this.titles, titles);
             for (int i = 0; i < titles.length; i++) {
-                fragments.add(null);
-                itemIds.put(i, i);
-                itemId = titles.length;
+                this.fragments.add(null);
+                this.itemIds.put(i, i);
+                this.itemId = titles.length;
             }
         }
     }
 
-    public BaseFragmentPagerAdapter(@NonNull FragmentManager fm, List<CharSequence> titles) {
+    public BaseFragmentPagerAdapter(@NonNull FragmentManager fm, List<String> titles) {
         this(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, titles);
     }
-    public BaseFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior, List<CharSequence> titles) {
+    public BaseFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior, List<String> titles) {
         super(fm, behavior);
         if (titles != null) {
             this.titles.addAll(titles);
             for (int i = 0; i < titles.size(); i++) {
-                fragments.add(null);
-                itemIds.put(i, i);
-                itemId = titles.size();
+                this.fragments.add(null);
+                this.itemIds.put(i, i);
+                this.itemId = titles.size();
             }
         }
     }
@@ -207,7 +208,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public long getItemId(int position) {
 //        return super.getItemId(position);
-        LogUtils.errorFormat("position = %d, itemId = %d", position, itemIds.get(position));
+        if (loggable) LogUtils.errorFormat("position = %d, itemId = %d", position, itemIds.get(position));
         return itemIds.get(position);
     }
 
@@ -217,13 +218,13 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
      * @param title    该页面标题
      * @return 返回真正的插入位置
      */
-    public int addFragment(int position, @Nullable String title) {
+    public int addFragment(int position, @Nullable CharSequence title) {
         if (position < 0) {
             position = 0;
         } else if (position > titles.size()) position = titles.size();
         titles.add(position, title);
         fragments.add(position, null);
-        for (int i = itemIds.size() - 1; i >= position; i--) itemIds.put(i + 1, itemIds.valueAt(i));
+        for (int i = itemIds.size() - 1; i >= position; i--) itemIds.put(i + 1, itemIds.get(i));
         itemIds.put(position, itemId ++);
         notifyDataSetChanged();
         return position;
@@ -242,8 +243,8 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         if (loggable) LogUtils.errorFormat("offscreenPageLimit = %d, currentItem = %d, position = %d, fragments.size() = %d", offscreenPageLimit, currentItem, position, fragments.size());
         titles.remove(position);
         Fragment fragment = fragments.remove(position);
-        for (int i = position; i < itemIds.size() - 1; i++) itemIds.put(i, itemIds.valueAt(i + 1));
-        itemIds.remove(itemIds.size() - 1);
+        for (int i = position; i < itemIds.size() - 1; i++) itemIds.put(i, itemIds.get(i + 1));
+        itemIds.removeAt(itemIds.size() - 1);
         isRemoveOffscreenPosition = Math.abs(position - currentItem) <= offscreenPageLimit;
         notifyDataSetChanged();
         return fragment;
@@ -264,8 +265,8 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         // 交换列表中的两个元素
         Collections.swap(titles, fromPosition, toPosition);
         Collections.swap(fragments, fromPosition, toPosition);
-        Integer fromItemId = itemIds.get(fromPosition);
-        Integer toItemId = itemIds.get(toPosition);
+        int fromItemId = itemIds.get(fromPosition);
+        int toItemId = itemIds.get(toPosition);
         itemIds.put(fromPosition, toItemId);
         itemIds.put(toPosition, fromItemId);
         // 通知 ViewPager 数据变了，它会根据 getItemPosition 重新映射
@@ -287,7 +288,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Nullable
     protected FragmentTransaction getParentFragmentTransaction() {
-        if (mCurTransaction != null) return mCurTransaction;
+        if (mCurTransaction2 != null) return mCurTransaction2;
         Field[] declaredFields = FragmentPagerAdapter.class.getDeclaredFields();
         for (Field declaredField : declaredFields) {
             // 原始类型必须是 FragmentTransaction
@@ -295,12 +296,12 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
                 declaredField.setAccessible(true); // 突破private
                 try {
                     FragmentTransaction fragmentTransaction = (FragmentTransaction) declaredField.get(this);
-                    if (fragmentTransaction != null) return mCurTransaction = fragmentTransaction;
+                    if (fragmentTransaction != null) return mCurTransaction2 = fragmentTransaction;
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
         }
-        return this.mCurTransaction = ReflectUtils.reflect(this).field("mCurTransaction").get();
+        return this.mCurTransaction2 = ReflectUtils.reflect(this).field("mCurTransaction").get();
     }
 }

@@ -12,7 +12,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.actor.myandroidframework.utils.LogUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,8 +21,10 @@ import java.util.List;
  * <pre>
  * viewPager.setAdapter(new BasePagerAdapter(titles));
  * </pre>
- * Author     : ldf
- * Date       : 2019/3/27 on 20:03
+ * 如果 Fragment 不想被回收导致重走生命周期, 可以设置:viewpager.setOffscreenPageLimit(int limit); <br />
+ * <br />
+ * @author     : ldf
+ * @date       : 2019/3/27 on 20:03
  */
 public abstract class BasePagerAdapter extends PagerAdapter {
 
@@ -48,7 +49,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
         }
     }
 
-    public BasePagerAdapter(Collection<CharSequence> titles) {
+    public BasePagerAdapter(List<String> titles) {
         if (titles != null) {
             this.titles.addAll(titles);
             for (int i = 0; i < titles.size(); i++) mPageViews.add(null);
@@ -180,7 +181,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
      * @param title    该页面标题
      * @return 返回真正的插入位置
      */
-    public int addPage(int position, @Nullable String title) {
+    public int addPage(int position, @Nullable CharSequence title) {
         if (position < 0) {
             position = 0;
         } else if (position > titles.size()) position = titles.size();

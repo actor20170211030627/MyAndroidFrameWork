@@ -35,7 +35,7 @@ public class ScrollableViewPager extends ViewPager {
 
     /**
      * 设置空闲状态下 ViewPager <b>当前页面两侧</b>应保留的页数。超过此限制的页面将在需要时从Adapter重新创建。
-     * @param limit 必须 ≧ 1
+     * @param limit 必须 ≧ 1, 取值范围: [1, items.Size() - 1]
      */
     @Override
     public void setOffscreenPageLimit(int limit) {

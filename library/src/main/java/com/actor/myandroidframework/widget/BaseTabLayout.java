@@ -66,8 +66,8 @@ import com.google.android.material.tabs.TabLayout;
  *  items.add(new Item(R.drawable.selector_tab_item_icon1, "首页"));
  *  items.add(new Item(R.drawable.selector_tab_item_icon2, "联系人"));
  *  items.add(new Item(R.drawable.selector_tab_item_icon3, "个人中心"));
- *  //设置多少页不会被回收
- *  viewPager.setOffscreenPageLimit(items.size());
+ *  //设置当前页面两侧多少页不会被回收, 取值范围: [1, items.Size() - 1]
+ *  viewPager.setOffscreenPageLimit(1);
  *  viewPager.setAdapter(new MyPagerAdapter());
  *  tabLayout.setupWithViewPager(viewPager);
  *
