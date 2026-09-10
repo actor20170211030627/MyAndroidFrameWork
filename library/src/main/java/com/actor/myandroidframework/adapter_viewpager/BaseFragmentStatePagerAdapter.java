@@ -84,15 +84,14 @@ import java.util.List;
  */
 public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
-    protected final List<CharSequence>             titles                    = new ArrayList<>();
-    protected final List<Fragment>                 fragments                 = new ArrayList<>();
-    protected       boolean                        isRemoveOffscreenPosition = false;
+    private   final List<CharSequence>  titles                    = new ArrayList<>();
+    protected final List<Fragment>      adapterFragments          = new ArrayList<>();
+    protected       boolean             isRemoveOffscreenPosition = false;
     //是否可打印日志
-    protected       boolean                        loggable                  = false;
-    protected       ArrayList<Fragment>            mFragments2;
+    protected       boolean             adapterLoggable           = false;
+    protected       ArrayList<Fragment> mFragments2;
     protected       ArrayList<Fragment.SavedState> mSavedState2;
     protected       FragmentManager                fragmentManager;
-    protected       OnFragmentInitListener         onFragmentInitListener;
 
     public BaseFragmentStatePagerAdapter(@NonNull FragmentManager fm, int size) {
         this(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, size);
@@ -131,7 +130,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
 
     protected void init(FragmentManager fm) {
 //        this.fragmentManager = fm;
-        for (int i = 0; i < titles.size(); i++) fragments.add(null);
+        for (int i = 0; i < titles.size(); i++) adapterFragments.add(null);
         ArrayList<Fragment> mFragments = getParentFragments();
         ArrayList<Fragment.SavedState> mSavedState = getParentSavedState();
         if (mFragments != null) while (mFragments.size() < titles.size()) mFragments.add(null);
@@ -155,7 +154,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
         int offscreenPageLimit = viewPager.getOffscreenPageLimit();
         int currentItem = viewPager.getCurrentItem();
         if (Math.abs(position - currentItem) <= offscreenPageLimit) return (T) super.instantiateItem(viewPager, position);
-        return (T) fragments.get(position); //安慰代码
+        return (T) adapterFragments.get(position); //安慰代码
     }
 
     //获取每个pager的title
@@ -180,16 +179,13 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Override
     public Fragment instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        if (loggable) LogUtils.errorFormat("position = %d, fragments.size() = %d, fragment = %s", position, fragments.size(), fragment);
-        fragments.set(position, fragment);
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, fragments.size() = %d, fragment = %s", position, adapterFragments.size(), fragment);
+        adapterFragments.set(position, fragment);
         if (fragment.getFragmentManager() == null) {
             //应该不会再出现这种情况了, if进来了, 说明父类 mFragments 对fragment有缓存, 请检查父类 mFragments 对象里的内容和 fragments 里的内容的差别!
-            if (loggable) LogUtils.error("fragmentManager = null!!!");
+            if (adapterLoggable) LogUtils.error("fragmentManager = null!!!");
 //            boolean isSuccess = fragmentSetFragmentManager(fragment);
 //            if (loggable) LogUtils.errorFormat("fragmentManager = null!!!, isSuccess = %b", isSuccess);
-        }
-        if (onFragmentInitListener != null) {
-            onFragmentInitListener.onFragmentInited(container, position, fragment);
         }
         return fragment;
     }
@@ -197,13 +193,13 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         super.destroyItem(container, position, object);
-        if (loggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
         if (isRemoveOffscreenPosition) {
             ArrayList<Fragment> mFragments = getParentFragments();
             ArrayList<Fragment.SavedState> mSavedState = getParentSavedState();
             if (mFragments != null) mFragments.remove(position);
             if (mSavedState != null) mSavedState.remove(position);
-        } else fragments.set(position, null);
+        } else adapterFragments.set(position, null);
         isRemoveOffscreenPosition = false;
     }
 
@@ -214,7 +210,7 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
      */
     @Override
     public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        if (loggable) LogUtils.errorFormat("position = %d, object = %s", position, object);
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, object = %s", position, object);
         //instantiateItem()里父类 mFragments.remove不干净的问题, 应该修复了, 所以下方代码用不上了
         /**
          * mCurTransaction.setMaxLifecycle(fragment, Lifecycle.State.RESUMED); =>
@@ -238,8 +234,8 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     @Override
     public int getItemPosition(@NonNull Object object) {
 //        return super.getItemPosition(object);
-        int index = fragments.indexOf(object);
-        if (loggable) LogUtils.errorFormat("index = %d, object = %s", index, object);
+        int index = adapterFragments.indexOf(object);
+        if (adapterLoggable) LogUtils.errorFormat("index = %d, object = %s", index, object);
         // 该 View 已不在数据源中（即已被 removePage 移除）, 返回 POSITION_NONE，告诉 ViewPager 销毁它
         if (index == -1) return POSITION_NONE;
         // 返回该 View 现在的实际位置, 如果位置没变，ViewPager 会复用；如果变了，ViewPager 会尝试重新布局
@@ -259,11 +255,11 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
         ArrayList<Fragment> mFragments = getParentFragments();
         ArrayList<Fragment.SavedState> mSavedState = getParentSavedState();
         if (mFragments == null || mSavedState == null) {
-            if (loggable) LogUtils.errorFormat("mFragments = %s\nmSavedState = %s", mFragments, mSavedState);
+            if (adapterLoggable) LogUtils.errorFormat("mFragments = %s\nmSavedState = %s", mFragments, mSavedState);
             return -1;
         }
         titles.add(position, title);
-        fragments.add(position, null);
+        adapterFragments.add(position, null);
         mFragments.add(position, null);
         mSavedState.add(position, null);
         notifyDataSetChanged();
@@ -284,10 +280,10 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     public Fragment removeFragment(@NonNull ViewPager viewPager, int position) {
         int offscreenPageLimit = viewPager.getOffscreenPageLimit();
         int currentItem = viewPager.getCurrentItem();
-        if (loggable) LogUtils.errorFormat("position = %d, currentItem = %d, offscreenPageLimit = %d, fragments.size() = %d", position, currentItem, offscreenPageLimit, fragments.size());
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, currentItem = %d, offscreenPageLimit = %d, fragments.size() = %d", position, currentItem, offscreenPageLimit, adapterFragments.size());
         if (position < 0 || position >= titles.size()) return null;
         titles.remove(position);
-        Fragment fragment = fragments.remove(position);
+        Fragment fragment = adapterFragments.remove(position);
         isRemoveOffscreenPosition = Math.abs(position - currentItem) <= offscreenPageLimit;
         if (!isRemoveOffscreenPosition) {
             ArrayList<Fragment> mFragments = getParentFragments();
@@ -307,13 +303,13 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     public void exchangeFragment(int fromPosition, int toPosition) {
         int size = titles.size();
         if (fromPosition < 0 || fromPosition >= size || toPosition < 0 || toPosition >= size) {
-            if (loggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, titles.size() = %d", fromPosition, toPosition, size);
+            if (adapterLoggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, titles.size() = %d", fromPosition, toPosition, size);
             return;
         }
         if (fromPosition == toPosition) return;
         // 交换列表中的两个元素
         Collections.swap(titles, fromPosition, toPosition);
-        Collections.swap(fragments, fromPosition, toPosition);
+        Collections.swap(adapterFragments, fromPosition, toPosition);
         ArrayList<Fragment> mFragments = getParentFragments();
         ArrayList<Fragment.SavedState> mSavedState = getParentSavedState();
         if (mFragments != null) Collections.swap(mFragments, fromPosition, toPosition);
@@ -323,15 +319,12 @@ public abstract class BaseFragmentStatePagerAdapter extends FragmentStatePagerAd
     }
 
     public BaseFragmentStatePagerAdapter setLoggable(boolean loggable) {
-        this.loggable = loggable;
+        this.adapterLoggable = loggable;
         return this;
     }
 
-    /**
-     * 设置Fragment初始化监听
-     */
-    public void setOnFragmentInitListener(OnFragmentInitListener onFragmentInitListener) {
-        this.onFragmentInitListener = onFragmentInitListener;
+    public List<CharSequence> getTitles() {
+        return titles;
     }
 
     protected ArrayList<Fragment> getParentFragments() {

@@ -4,7 +4,7 @@
         <!-- 去掉标题栏 -->
         <item name="windowNoTitle">true</item>
 
-        <!-- 无边框 -->
+        <!--  去除默认边框 -->
         <item name="android:windowFrame">@null</item>
 
         <!-- 背景透明: 去掉弹窗背景(原生背景带有外边距), 改为透明色, 如果不改, Dialog有一个默认padding -->
@@ -26,7 +26,7 @@
          -->
         <item name="android:windowFullscreen">false</item>
 
-        <!-- 窗口内容不覆盖, 作用未知 -->
+        <!-- 去除内容覆盖层（部分系统版本上也有边框效果） -->
         <item name="android:windowContentOverlay">@null</item>
 
         <!-- 遮盖层: 显示区域以外是否使用黑色半透明背景 -->
@@ -34,7 +34,7 @@
 
 
 
-        <!-- 无标题 -->
+        <!-- 去除标题栏 -->
         <item name="android:windowNoTitle">true</item>
 
         <!-- 动画效果 -->

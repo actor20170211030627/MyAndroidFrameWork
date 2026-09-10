@@ -2,14 +2,15 @@ package com.actor.sample.fragment;
 
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.actor.myandroidframework.adapter_viewpager.BaseFragmentStatePagerAdapter;
+import com.actor.myandroidframework.adapter_viewpager.BaseFragmentPagerAdapter;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.databinding.FragmentViewPagerAndInnerBinding;
 import com.actor.sample.utils.Global;
@@ -24,6 +25,18 @@ public class ViewPagerAndInnerFragment extends BaseFragment<FragmentViewPagerAnd
     private int    id;
     private       String   content;
     private final String[] titles = {"Tab0", "Tab1"};
+    private MyInnerAdapter myInnerAdapter;
+
+    private class MyInnerAdapter extends BaseFragmentPagerAdapter {
+        public MyInnerAdapter() {
+            super(getChildFragmentManager(), titles);
+        }
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return ViewPagerAndInnerInnerFragment.newInstance(position, content);
+        }
+    }
 
     //1.
     public static ViewPagerAndInnerFragment newInstance(int id, String content) {
@@ -46,37 +59,40 @@ public class ViewPagerAndInnerFragment extends BaseFragment<FragmentViewPagerAnd
         }
     }
 
-    //3.初始化数据
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewBinding.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> onCheckedChanged(/*buttonView, */isChecked));
 
         viewBinding.tvContent.setText(content);
-        viewBinding.viewPager.setAdapter(new MyInnerAdapter(getChildFragmentManager(), titles));
-        //request internet...
-    }
+        viewBinding.viewPager.setAdapter(myInnerAdapter = new MyInnerAdapter());
 
-    //4.可见变化监听, 当isVisibleToUser = true时, 可懒加载数据(请求网络)
-    //也可以直接在 onViewCreated 中提前请求数据
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        //request internet...
-    }
+        //TabLayout 赋值
+        viewBinding.tabLayout.setTabConfigurationStrategy((tab, position) -> {
+            TextView tv = (TextView) tab.getCustomView();
+            if (tv != null) tv.setText("tab" + position);
+        });
 
-    //
-    private class MyInnerAdapter extends BaseFragmentStatePagerAdapter {
-
-        public MyInnerAdapter(FragmentManager fm, @NonNull String[] titles) {
-            super(fm, titles);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return ViewPagerAndInnerInnerFragment.newInstance(position, content);
-        }
+        //Add Fragment
+        viewBinding.btnAddFragmentPageAdapter.setOnClickListener((btn) -> {
+            String trim = viewBinding.etPositionFragmentPagerAdapter.getText().toString().trim();
+            if (TextUtils.isEmpty(trim)) {
+                ToasterUtils.warning(viewBinding.etPositionFragmentPagerAdapter.getHint());
+            } else {
+                int positionAdd = Integer.parseInt(trim);
+                myInnerAdapter.addFragment(positionAdd, "addFragment, position = " + positionAdd);
+            }
+        });
+        //Remove Fragment
+        viewBinding.btnRemoveFragmentPageAdapter.setOnClickListener((btn) -> {
+            String trim = viewBinding.etPositionFragmentPagerAdapter.getText().toString().trim();
+            if (TextUtils.isEmpty(trim)) {
+                ToasterUtils.warning(viewBinding.etPositionFragmentPagerAdapter.getHint());
+            } else {
+                int positionRemove = Integer.parseInt(trim);
+                myInnerAdapter.removeFragment(viewBinding.viewPager, positionRemove);
+            }
+        });
     }
 
 //    @OnCheckedChanged({R.id.toggle_button})

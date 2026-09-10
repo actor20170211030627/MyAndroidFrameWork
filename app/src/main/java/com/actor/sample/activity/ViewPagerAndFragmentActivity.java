@@ -30,26 +30,9 @@ public class ViewPagerAndFragmentActivity extends BaseActivity<ActivityViewPager
     private final String[]         titles             = {"全部", "选项", "我的", "设置", "我的1", "我的2", "我的3"};
     private final String[]         titlesPagerAdapter = {"position = 0", "position = 1", "position = 2", "position = 3", "position = 4", "position = 5"};
 
+    //1.Fragment多层嵌套
     private MyFragmentsAdapter myFragmentsAdapter;
-    private MyBaseFragmentPagerAdapter myBaseFragmentPagerAdapter;
-    private MyBaseFragmentStatePagerAdapter myBaseFragmentStatePagerAdapter;
-
-    private class MyFragmentsAdapter extends BaseFragmentStatePagerAdapter {
-        public MyFragmentsAdapter() {
-            super(mActivity.getSupportFragmentManager(), ViewPagerAndFragmentActivity.this.titles);
-        }
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return ViewPagerAndInnerFragment.newInstance(position, "第1个Fragment");
-                default:
-                    return ViewPagerAndInnerFragment.newInstance(position, getStringFormat("第%d个Fragment", position + 1));
-            }
-        }
-    }
-
+    //2.BasePagerAdapter
     private final BasePagerAdapter pagerAdapter = new BasePagerAdapter(titlesPagerAdapter) {
         @NonNull
         @Override
@@ -63,6 +46,26 @@ public class ViewPagerAndFragmentActivity extends BaseActivity<ActivityViewPager
             return textView;
         }
     };
+    //3.BaseFragmentPagerAdapter
+    private MyBaseFragmentPagerAdapter myBaseFragmentPagerAdapter;
+    //4.BaseFragmentStatePagerAdapter
+    private MyBaseFragmentStatePagerAdapter myBaseFragmentStatePagerAdapter;
+
+    private class MyFragmentsAdapter extends BaseFragmentStatePagerAdapter {
+        public MyFragmentsAdapter() {
+            super(mActivity.getSupportFragmentManager(), titles);
+        }
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return ViewPagerAndInnerFragment.newInstance(position, "第1个Fragment");
+                default:
+                    return ViewPagerAndInnerFragment.newInstance(position, getStringFormat("第%d个Fragment", position + 1));
+            }
+        }
+    }
 
     private class MyBaseFragmentPagerAdapter extends BaseFragmentPagerAdapter {
         public MyBaseFragmentPagerAdapter() {

@@ -95,15 +95,14 @@ import java.util.List;
  */
 public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    protected final List<CharSequence>     titles                    = new ArrayList<>();
-    protected final List<Fragment>         fragments                 = new ArrayList<>();
-    protected final SparseIntArray         itemIds                   = new SparseIntArray();
-    protected       boolean                isRemoveOffscreenPosition = false;
+    private   final List<CharSequence> titles                    = new ArrayList<>();
+    protected final List<Fragment>     adapterFragments          = new ArrayList<>();
+    protected final SparseIntArray     adapterItemIds            = new SparseIntArray();
+    protected       boolean            isRemoveOffscreenPosition = false;
     //是否可打印日志
-    protected       boolean                loggable                  = false;
-    protected       int                    itemId;
-    protected       FragmentTransaction    mCurTransaction2;
-    protected       OnFragmentInitListener onFragmentInitListener;
+    protected       boolean             adapterLoggable          = false;
+    protected       int                 adapterItemId;
+    private         FragmentTransaction mCurTransaction2;
 
     public BaseFragmentPagerAdapter(@NonNull FragmentManager fm, int size) {
         this(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, size);
@@ -120,9 +119,9 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         super(fm, behavior);
         for (int i = 0; i < size; i++) {
             this.titles.add(null);
-            this.fragments.add(null);
-            this.itemIds.put(i, i);
-            this.itemId = size;
+            this.adapterFragments.add(null);
+            this.adapterItemIds.put(i, i);
+            this.adapterItemId = size;
         }
     }
 
@@ -134,9 +133,9 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         if (titles != null) {
             Collections.addAll(this.titles, titles);
             for (int i = 0; i < titles.length; i++) {
-                this.fragments.add(null);
-                this.itemIds.put(i, i);
-                this.itemId = titles.length;
+                this.adapterFragments.add(null);
+                this.adapterItemIds.put(i, i);
+                this.adapterItemId = titles.length;
             }
         }
     }
@@ -149,9 +148,9 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         if (titles != null) {
             this.titles.addAll(titles);
             for (int i = 0; i < titles.size(); i++) {
-                this.fragments.add(null);
-                this.itemIds.put(i, i);
-                this.itemId = titles.size();
+                this.adapterFragments.add(null);
+                this.adapterItemIds.put(i, i);
+                this.adapterItemId = titles.size();
             }
         }
     }
@@ -169,7 +168,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
      */
     @Nullable
     public <T extends Fragment> T getFragment(int position) {
-        return position >= 0 && fragments.size() > position ? (T) fragments.get(position) : null;
+        return position >= 0 && adapterFragments.size() > position ? (T) adapterFragments.get(position) : null;
     }
 
     //获取每个pager的title
@@ -193,18 +192,15 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        if (loggable) LogUtils.errorFormat("position = %d, fragments.size() = %d, fragment = %s", position, fragments.size(), fragment);
-        fragments.set(position, fragment);
-        if (onFragmentInitListener != null) {
-            onFragmentInitListener.onFragmentInited(container, position, fragment);
-        }
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, fragments.size() = %d, fragment = %s", position, adapterFragments.size(), fragment);
+        adapterFragments.set(position, fragment);
         return fragment;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         super.destroyItem(container, position, object);
-        if (loggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
         if (isRemoveOffscreenPosition) {
             FragmentTransaction mCurTransaction = getParentFragmentTransaction();
             //彻底移除销毁: onDestroy -> onDetach
@@ -235,8 +231,8 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getItemPosition(@NonNull Object object) {
 //        return super.getItemPosition(object);
-        int index = fragments.indexOf(object);
-        if (loggable) LogUtils.errorFormat("object = %s, index = %d", object, index);
+        int index = adapterFragments.indexOf(object);
+        if (adapterLoggable) LogUtils.errorFormat("object = %s, index = %d", object, index);
         // 该 View 已不在数据源中（即已被 removePage 移除）, 返回 POSITION_NONE，告诉 ViewPager 销毁它
         if (index == -1) return POSITION_NONE;
         // 返回该 View 现在的实际位置, 如果位置没变，ViewPager 会复用；如果变了，ViewPager 会尝试重新布局
@@ -246,8 +242,8 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public long getItemId(int position) {
 //        return super.getItemId(position);
-        if (loggable) LogUtils.errorFormat("position = %d, itemId = %d", position, itemIds.get(position));
-        return itemIds.get(position);
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, itemId = %d", position, adapterItemIds.get(position));
+        return adapterItemIds.get(position);
     }
 
     /**
@@ -261,9 +257,9 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
             position = 0;
         } else if (position > titles.size()) position = titles.size();
         titles.add(position, title);
-        fragments.add(position, null);
-        for (int i = itemIds.size() - 1; i >= position; i--) itemIds.put(i + 1, itemIds.get(i));
-        itemIds.put(position, itemId ++);
+        adapterFragments.add(position, null);
+        for (int i = adapterItemIds.size() - 1; i >= position; i--) adapterItemIds.put(i + 1, adapterItemIds.get(i));
+        adapterItemIds.put(position, adapterItemId++);
         notifyDataSetChanged();
         return position;
     }
@@ -278,11 +274,11 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         if (position < 0 || position >= titles.size()) return null;
         int offscreenPageLimit = viewPager.getOffscreenPageLimit();
         int currentItem = viewPager.getCurrentItem();
-        if (loggable) LogUtils.errorFormat("offscreenPageLimit = %d, currentItem = %d, position = %d, fragments.size() = %d", offscreenPageLimit, currentItem, position, fragments.size());
+        if (adapterLoggable) LogUtils.errorFormat("offscreenPageLimit = %d, currentItem = %d, position = %d, fragments.size() = %d", offscreenPageLimit, currentItem, position, adapterFragments.size());
         titles.remove(position);
-        Fragment fragment = fragments.remove(position);
-        for (int i = position; i < itemIds.size() - 1; i++) itemIds.put(i, itemIds.get(i + 1));
-        itemIds.removeAt(itemIds.size() - 1);
+        Fragment fragment = adapterFragments.remove(position);
+        for (int i = position; i < adapterItemIds.size() - 1; i++) adapterItemIds.put(i, adapterItemIds.get(i + 1));
+        adapterItemIds.removeAt(adapterItemIds.size() - 1);
         isRemoveOffscreenPosition = Math.abs(position - currentItem) <= offscreenPageLimit;
         if (!isRemoveOffscreenPosition && fragment != null) {
             FragmentTransaction mCurTransaction = getParentFragmentTransaction();
@@ -301,31 +297,28 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     public void exchangeFragment(int fromPosition, int toPosition) {
         int size = titles.size();
         if (fromPosition < 0 || fromPosition >= size || toPosition < 0 || toPosition >= size) {
-            if (loggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, titles.size() = %d", fromPosition, toPosition, size);
+            if (adapterLoggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, titles.size() = %d", fromPosition, toPosition, size);
             return;
         }
         if (fromPosition == toPosition) return;
         // 交换列表中的两个元素
         Collections.swap(titles, fromPosition, toPosition);
-        Collections.swap(fragments, fromPosition, toPosition);
-        int fromItemId = itemIds.get(fromPosition);
-        int toItemId = itemIds.get(toPosition);
-        itemIds.put(fromPosition, toItemId);
-        itemIds.put(toPosition, fromItemId);
+        Collections.swap(adapterFragments, fromPosition, toPosition);
+        int fromItemId = adapterItemIds.get(fromPosition);
+        int toItemId = adapterItemIds.get(toPosition);
+        adapterItemIds.put(fromPosition, toItemId);
+        adapterItemIds.put(toPosition, fromItemId);
         // 通知 ViewPager 数据变了，它会根据 getItemPosition 重新映射
         notifyDataSetChanged();
     }
 
     public BaseFragmentPagerAdapter setLoggable(boolean loggable) {
-        this.loggable = loggable;
+        this.adapterLoggable = loggable;
         return this;
     }
 
-    /**
-     * 设置Fragment初始化监听
-     */
-    public void setOnFragmentInitListener(OnFragmentInitListener onFragmentInitListener) {
-        this.onFragmentInitListener = onFragmentInitListener;
+    public List<CharSequence> getTitles() {
+        return titles;
     }
 
 

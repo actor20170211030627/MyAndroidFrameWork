@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseTabLayout">
+        <attr name="tabItemLayout" format="reference">
+            <!-- TabLayout 里的 TabItem 的自定义布局, 此属性对 ViewPager2 无效, e.g. R.layout.xxx -->
+        </attr>
+    </declare-styleable>
+</resources>

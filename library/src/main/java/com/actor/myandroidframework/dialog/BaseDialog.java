@@ -119,7 +119,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
             params.x = xOffset;
             params.y = yOffset;//相对上方的偏移,负值忽略.
 
-            //FLAG_BLUR_BEHIND模糊(毛玻璃效果)
+            //在 API 14 以下的设备上，加这个 Flag 确实能让 Dialog 背景产生模糊效果。在 API 14 及以上，这个 Flag 完全无效
 //            window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 
             //当 width = height = match_parent 的时候:

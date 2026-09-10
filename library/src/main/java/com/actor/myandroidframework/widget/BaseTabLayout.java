@@ -3,16 +3,19 @@ package com.actor.myandroidframework.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.actor.myandroidframework.R;
+import com.actor.myandroidframework.utils.LogUtils;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * description: 让 TabLayout 更方便设置自定义View, 示例流程:
@@ -27,6 +30,7 @@ import com.google.android.material.tabs.TabLayout;
  *     app:tabIndicator="color|drawable"            //自定义Indicator
  *     app:tabIndicatorColor="color"                //下方指示器颜色
  *     app:tabIndicatorGravity="bottom"             //指示器位置, 默认在内容下方(top,center,stretch[填充])
+ *     app:tabInlineLabel="false"           /icon 和 text 是否显示在同一行
  *     app:tabGravity="fill|center|start"   //TabItem 在'整个 TabLayout' 中: center居中(wrap_content)，如果是fill(TabItem的宽度)，则是充满
  *     app:tabMode="auto|fixed|scrollable"  //fixed:平分控件的宽度.
  * 	   app:tabTextColor="color"             //Tab文字颜色
@@ -66,13 +70,10 @@ import com.google.android.material.tabs.TabLayout;
  *  items.add(new Item(R.drawable.selector_tab_item_icon1, "首页"));
  *  items.add(new Item(R.drawable.selector_tab_item_icon2, "联系人"));
  *  items.add(new Item(R.drawable.selector_tab_item_icon3, "个人中心"));
- *  //设置当前页面两侧多少页不会被回收, 取值范围: [1, items.Size() - 1]
- *  viewPager.setOffscreenPageLimit(1);
- *  viewPager.setAdapter(new MyPagerAdapter());
- *  tabLayout.setupWithViewPager(viewPager);
  *
- *  //if要自定义view, 在 {@link ViewPager#setAdapter(PagerAdapter)} & {@link #setupWithViewPager(ViewPager)} 后
- *  tabLayout.{@link #setCustomView(int, InitItemListener)};
+ * //先设置Adapter
+ *  viewPager.setAdapter(new MyPagerAdapter());
+ *  tabLayout.{@link #setupWithViewPager(ViewPager, boolean, TabLayoutMediator.TabConfigurationStrategy)}
  * </pre>
  *
  * @author : ldf
@@ -81,32 +82,68 @@ import com.google.android.material.tabs.TabLayout;
  */
 public class BaseTabLayout extends TabLayout {
 
-    public BaseTabLayout(Context context) {
+    protected       int                                        tabItemLayoutRes     = 0; //Resources.ID_NULL;
+    protected final SparseArray<Object>                        tabLayoutCustomViews = new SparseArray<>();
+    protected       boolean                                    setupWithViewPager2  = false;
+    protected       boolean                                    tabLayoutLoggable    = false;
+    protected       TabLayoutMediator.TabConfigurationStrategy tabConfigurationStrategy;
+
+    public BaseTabLayout(@NonNull Context context) {
         super(context);
+        init(context, null);
     }
-
-    public BaseTabLayout(Context context, AttributeSet attrs) {
+    public BaseTabLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
+    }
+    public BaseTabLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
 
-    public BaseTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    protected void init(@NonNull Context context, @Nullable AttributeSet attrs) {
+        if (attrs == null) return;
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseTabLayout);
+        tabItemLayoutRes = a.getResourceId(R.styleable.BaseTabLayout_tabItemLayout, 0);
+        a.recycle();
     }
 
     @Override
     public void setupWithViewPager(@Nullable ViewPager viewPager) {
         super.setupWithViewPager(viewPager);
     }
-
-    /**
-     * @param autoRefresh 如果给定ViewPager的内容发生更改({@link androidx.viewpager.widget.PagerAdapter#notifyDataSetChanged()})，此布局是否应刷新其内容 <br />
-     *                    {@link null 注意:} if {@link com.google.android.material.tabs.TabLayout.Tab}是自定义View, 当 {@link androidx.viewpager.widget.PagerAdapter#notifyDataSetChanged()} 刷新后, Tab的自定义{@link com.google.android.material.tabs.TabLayout.Tab#customView}会被移除并重新填充成{@link com.google.android.material.tabs.TabLayout.TabView}, 见: {@link #populateFromPagerAdapter()} <br />
-     *                    所以: if 你的 {@link androidx.viewpager.widget.PagerAdapter} 会调用 {@link androidx.viewpager.widget.PagerAdapter#notifyDataSetChanged()} 改变页面布局, TabLayout的Item不变的话, 可以将这个参数传false <br />
-     *                    否则: 需要重新调用 {@link #setCustomView(int, InitItemListener)} 再次初始化{@link com.google.android.material.tabs.TabLayout.Tab#customView}
-     */
     @Override
     public void setupWithViewPager(@Nullable ViewPager viewPager, boolean autoRefresh) {
         super.setupWithViewPager(viewPager, autoRefresh);
+    }
+    /**
+     * @param viewPager ViewPager
+     * @param autoRefresh 如果给定ViewPager的内容发生更改({@link androidx.viewpager.widget.PagerAdapter#notifyDataSetChanged()})，TabLayout是否应刷新其内容
+     * @param tabConfigurationStrategy 设置Tab发生变动时, 对Tab赋值
+     */
+    public void setupWithViewPager(@Nullable ViewPager viewPager, boolean autoRefresh, TabLayoutMediator.TabConfigurationStrategy tabConfigurationStrategy) {
+        super.setupWithViewPager(viewPager, autoRefresh);
+        this.tabConfigurationStrategy = tabConfigurationStrategy;
+    }
+
+    /**
+     * 给 ViewPager2 设置好 Adapter 后，创建 TabLayoutMediator 并调用 attach()
+     * @param viewPager2 ViewPager2
+     * @param autoRefresh 是否自动刷新Item
+     * @param smoothScroll 是否平滑滑动
+     * @param tabConfigurationStrategy 给tab设置值
+     */
+    public void setupWithViewPager2(@NonNull ViewPager2 viewPager2, boolean autoRefresh, boolean smoothScroll,
+                                    TabLayoutMediator.TabConfigurationStrategy tabConfigurationStrategy) {
+        if (tabConfigurationStrategy == null) tabConfigurationStrategy = new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull Tab tab, int position) {
+//                tab.setCustomView(xxx)    //if有自定义View, 要先设置
+//                tab.text = "Tab ${position + 1}";
+            }
+        };
+        new TabLayoutMediator(this, viewPager2, autoRefresh, smoothScroll, tabConfigurationStrategy).attach();
+        setupWithViewPager2 = true;
     }
 
     /**
@@ -116,52 +153,151 @@ public class BaseTabLayout extends TabLayout {
      * @return
      */
     @Nullable
-    public Tab setCustomView(int position, @LayoutRes int layoutRes) {
+    public void setCustomView(int position, @LayoutRes int layoutRes) {
         Tab tabAt = getTabAt(position);
-        if (tabAt != null) return tabAt.setCustomView(layoutRes);
-        return null;
+        if (tabAt == null) return;
+        tabAt = tabAt.setCustomView(layoutRes);
+        tabLayoutCustomViews.put(position, layoutRes);
+        if (tabConfigurationStrategy != null) tabConfigurationStrategy.onConfigureTab(tabAt, position);
     }
 
     @Nullable
-    public Tab setCustomView(int position, @Nullable View view) {
+    public void setCustomView(int position, @Nullable View view) {
         Tab tabAt = getTabAt(position);
-        if (tabAt != null) return tabAt.setCustomView(view);
-        return null;
+        if (tabAt == null) return;
+        tabAt = tabAt.setCustomView(view);
+        tabLayoutCustomViews.put(position, view);
+        if (tabConfigurationStrategy != null) tabConfigurationStrategy.onConfigureTab(tabAt, position);
     }
 
     /**
      * 给所有 TabItem 设置自定义View
      * @param layoutRes item 的 layout
-     * @param listener 初始化 TabLayout 的 item监听
      */
-    public void setCustomView(@LayoutRes int layoutRes, @Nullable InitItemListener listener) {
-        int tabCount = getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            View view = activity.getLayoutInflater().inflate(layoutRes, this, false);//itemView
-            if (listener != null) {
-                listener.initItem(i, view);
-            }
-            getTabAt(i).setCustomView(view);//设置自定义View
-        }
+    public void setCustomViews(@LayoutRes int layoutRes) {
+        this.tabItemLayoutRes = layoutRes;
+        tabLayoutCustomViews.clear();
+        for (int i = 0; i < getTabCount(); i++) setCustomView(i, layoutRes);
     }
 
     /**
-     * 初始化 TabLayout 的 item监听
+     * 获取指定TabItem
+     * @param index 第几个
+     * @return TabItem or null
      */
-    public interface InitItemListener {
+    @Nullable
+    @Override
+    public Tab getTabAt(int index) {
+        return super.getTabAt(index);
+    }
 
+    /**
+     * 创建1个Tab
+     */
+    @NonNull
+    @Override
+    public Tab newTab() {
+//        if (tabLayoutLoggable) LogUtils.errorFormat("newTab");
+//        if (tabLayoutLoggable) LogUtils.printlnStackTrance(Log.ERROR);
+        return super.newTab();
+    }
+
+    @Override
+    public void addTab(@NonNull Tab tab) {
+        super.addTab(tab);
+    }
+
+    @Override
+    public void addTab(@NonNull Tab tab, boolean setSelected) {
+        super.addTab(tab, setSelected);
+    }
+
+    @Override
+    public void addTab(@NonNull Tab tab, int position) {
+        super.addTab(tab, position);
+    }
+
+    @Override
+    public void addTab(@NonNull Tab tab, int position, boolean setSelected) {
         /**
-         * @param position 第几个TabItem
-         * @param tab 这个TabItem填充的View, 示例初始化:
-         *    <pre>
-         *        View customView = tab.getCustomView(); <br />
-         *        ImageView iv = customView.findViewById(R.id.iv); <br />
-         *        TextView tv = customView.findViewById(R.id.tv); <br />
-         *        Item item = items.get(position); <br />
-         *        tv.setText(item.name); <br />
-         *        iv.setImageResource(item.resId);
-         *    </pre>
+         * {@link TabLayoutMediator#populateTabsFromPagerAdapter()} newTab();
+         * 后直接调用了 tabConfigurationStrategy.onConfigureTab(tab, i);
+         * 然后才调用 tabLayout.addTab(tab, false); 所以本方法就不用再手动添加 customView 了
          */
-        void initItem(int position, View itemView);
+        if (setupWithViewPager2) {
+            super.addTab(tab, position, setSelected);
+            return;
+        }
+        Object o = tabLayoutCustomViews.get(position, tabItemLayoutRes);
+        if (o instanceof View) {
+            tab.setCustomView((View) o);
+        } else if (o instanceof Integer && ((Integer) o) != 0) {
+            tab.setCustomView((Integer) o);
+        }
+        if (tabConfigurationStrategy != null) tabConfigurationStrategy.onConfigureTab(tab, position);
+        super.addTab(tab, position, setSelected);
+    }
+
+    @Override
+    public void removeTab(@NonNull Tab tab) {
+        super.removeTab(tab);
+        if (tabLayoutLoggable) LogUtils.errorFormat("removeTab");
+    }
+
+    /**
+     * 移除Tab, position后面的会自动往前补齐, position位置也会被重新填写
+     * @param position
+     */
+    @Override
+    public void removeTabAt(int position) {
+        if (position < 0 || position >= getTabCount()) return;
+        super.removeTabAt(position);
+        tabLayoutCustomViews.remove(position);
+        if (tabLayoutLoggable) LogUtils.errorFormat("removeTabAt");
+    }
+
+    @Override
+    public void removeAllTabs() {
+        super.removeAllTabs();
+        //每次ViewPager 的 PagerAdapter notifyDataSetChanged 的时候, 都会调用这个方法, 所以这儿不clear
+//        tabLayoutCustomViews.clear();
+        if (tabLayoutLoggable) LogUtils.errorFormat("removeAllTabs");
+    }
+
+    //选中tab
+    @Override
+    public void selectTab(@Nullable Tab tab) {
+        super.selectTab(tab);
+    }
+    //选中tab, updateIndicator: 是否动画到选中的tab
+    @Override
+    public void selectTab(@Nullable Tab tab, boolean updateIndicator) {
+        super.selectTab(tab, updateIndicator);
+    }
+
+    /**
+     * 设置Tab发生变动时, 对Tab赋值
+     * @param tabConfigurationStrategy tab配置策略, 使用例:
+     * <pre>
+     *     tab.text = "xxx"; <br />
+     *     tab.icon = xxx; <br />
+     *     View customView = tabConfigurationStrategy.getCustomView(); <br />
+     *     if (customView != null) customView.xxx()
+     * </pre>
+     */
+    public void setTabConfigurationStrategy(TabLayoutMediator.TabConfigurationStrategy tabConfigurationStrategy) {
+        this.tabConfigurationStrategy = tabConfigurationStrategy;
+        if (tabConfigurationStrategy != null) {
+            //tab已经从xml中加载了
+            for (int i = 0; i < getTabCount(); i++) {
+                Tab tabAt = getTabAt(i);
+                if (tabAt != null) this.tabConfigurationStrategy.onConfigureTab(tabAt, i);
+            }
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
     }
 }

@@ -132,7 +132,7 @@ public abstract class WheelViewAdapter<T> extends BaseQuickAdapter<T, BaseViewHo
 
     /**
      * 设置数据 <br />
-     * {@link 注意:} 需要先 {@link RecyclerView#setAdapter(RecyclerView.Adapter)} 之后, 才调用这个方法,
+     * {@link null 注意:} 需要先 {@link RecyclerView#setAdapter(RecyclerView.Adapter)} 之后, 才调用这个方法,
      * 否则无限滚动模式的话会找不到RecyclerView, 见下方代码.
      * @param list
      */

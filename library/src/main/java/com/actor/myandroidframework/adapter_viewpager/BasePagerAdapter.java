@@ -27,11 +27,11 @@ import java.util.List;
  */
 public abstract class BasePagerAdapter extends PagerAdapter {
 
-    protected final List<CharSequence> titles                    = new ArrayList<>();
-    protected final List<View>         mPageViews                = new ArrayList<>();
+    private   final List<CharSequence> titles     = new ArrayList<>();
+    protected final List<View>         mPageViews = new ArrayList<>();
     protected       boolean            isRemoveOffscreenPosition = false;
     //是否可打印日志
-    protected boolean                  loggable                  = false;
+    protected boolean                  adapterLoggable           = false;
 
     public BasePagerAdapter(@IntRange(from = 0) int size) {
         if (size <= 0) return;
@@ -78,7 +78,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     @Override
     public final Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view = mPageViews.get(position);
-        if (loggable) LogUtils.errorFormat("position = %d, mPageViews.size() = %d, view = %s", position, mPageViews.size(), view);
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, mPageViews.size() = %d, view = %s", position, mPageViews.size(), view);
         if (view == null) {
             view = getItem(container, position);
             mPageViews.set(position, view);
@@ -144,7 +144,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
 //        super.destroyItem(container, position, object);
-        if (loggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
+        if (adapterLoggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
         container.removeView((View) object);
         if (!isRemoveOffscreenPosition) mPageViews.set(position, null);
         isRemoveOffscreenPosition = false;
@@ -167,7 +167,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     public int getItemPosition(@NonNull Object object) {
 //        return super.getItemPosition(object);
         int index = mPageViews.indexOf(object);
-        if (loggable) LogUtils.errorFormat("object = %s, index = %d", object, index);
+        if (adapterLoggable) LogUtils.errorFormat("object = %s, index = %d", object, index);
         // 该 View 已不在数据源中（即已被 removePage 移除）, 返回 POSITION_NONE，告诉 ViewPager 销毁它
         if (index == -1) return POSITION_NONE;
         // 返回该 View 现在的实际位置, 如果位置没变，ViewPager 会复用；如果变了，ViewPager 会尝试重新布局
@@ -199,7 +199,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     public View removePage(@NonNull ViewPager viewPager, int position) {
         int offscreenPageLimit = viewPager.getOffscreenPageLimit();
         int currentItem = viewPager.getCurrentItem();
-        if (loggable) LogUtils.errorFormat("offscreenPageLimit = %d, currentItem = %d, position = %d, mPageViews.size() = %d", offscreenPageLimit, currentItem, position, mPageViews.size());
+        if (adapterLoggable) LogUtils.errorFormat("offscreenPageLimit = %d, currentItem = %d, position = %d, mPageViews.size() = %d", offscreenPageLimit, currentItem, position, mPageViews.size());
         if (position < 0 || position >= titles.size()) return null;
         titles.remove(position);
         View view = mPageViews.remove(position);
@@ -216,7 +216,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     public void exchangePage(int fromPosition, int toPosition) {
         int size = titles.size();
         if (fromPosition < 0 || fromPosition >= size || toPosition < 0 || toPosition >= size) {
-            if (loggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, titles.size() = %d", fromPosition, toPosition, size);
+            if (adapterLoggable) LogUtils.errorFormat("索引越界, 不能交换位置: fromPosition = %d, toPosition = %d, titles.size() = %d", fromPosition, toPosition, size);
             return;
         }
         if (fromPosition == toPosition) return;
@@ -228,7 +228,11 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     }
 
     public BasePagerAdapter setLoggable(boolean loggable) {
-        this.loggable = loggable;
+        this.adapterLoggable = loggable;
         return this;
+    }
+
+    public List<CharSequence> getTitles() {
+        return titles;
     }
 }
