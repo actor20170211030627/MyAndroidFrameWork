@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ViewBindingUtils;
 
 /**
@@ -44,6 +45,7 @@ public class ViewBindingFragment<VB extends ViewBinding> extends ActorBaseFragme
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (loggable) LogUtils.error(this);
         return initViewBinding$setContentView(inflater, container, savedInstanceState);
     }
 

@@ -30,8 +30,45 @@ import java.util.List;
  *     <li>当用户滑回来时，{@link FragmentPagerAdapter#instantiateItem(ViewGroup, int)} 调用 <code>mCurTransaction.attach(fragment)</code> 重新绑定视图，无需重新创建实例。</li>
  *     <li>由于 Fragment 实例被保留，开发者不需要手动保存<b>状态</b>。Fragment 内部的 <code>onSaveInstanceState</code> 和 <code>onViewStateRestored</code> 会正常伴随 detach/attach 工作。</li>
  *     <li>{@link null 缺点:} 如果页面非常多，内存中会同时持有所有 Fragment 实例，容易导致内存压力。</li>
- *     <li>生命周期: 重复执行 onCreateView -> onDestroyView, 不会执行onDestroy</li>
- *     <li>如果 Fragment 不想被回收导致重走生命周期, 可以设置:viewpager.setOffscreenPageLimit(int limit);</li>
+ *     <li>
+ *         Fragment 从创建 到 划出屏幕 的生命周期
+ *         <ul>
+ *             <li>
+ *                 当 {@link #mBehavior} == {@link #BEHAVIOR_SET_USER_VISIBLE_HINT} 时:
+ *                 <ol>
+ *                     <li>当Page划入 {@link ViewPager#getOffscreenPageLimit()} 范围时创建: setUserVisibleHint(false) -> onAttach -> onCreate -> onCreateView -> onViewCreated -> onActivityCreated -> onStart -> onResume</li>
+ *                     <li>当Page划入可视范围时: setUserVisibleHint(true)</li>
+ *                     <li>当Page划出屏幕, 但还在 {@link ViewPager#getOffscreenPageLimit()} 范围内时: setUserVisibleHint(false)</li>
+ *                     <li>当Page划出 {@link ViewPager#getOffscreenPageLimit()} 范围后: onPause -> onStop -> onDestroyView</li>
+ *                     <li>当Page重新划入 {@link ViewPager#getOffscreenPageLimit()} 范围内时: setUserVisibleHint(false) -> onCreateView -> onViewCreated -> onActivityCreated -> onStart -> onResume</li>
+ *                     <li>
+ *                         当调用 {@link #removeFragment(ViewPager, int)} 时:
+ *                         <ul>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围内: onPause -> onStop -> onDestroyView -> onDestroy -> onDetach</li>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围外: onDestroy -> onDetach</li>
+ *                         </ul>
+ *                     </li>
+ *                 </ol>
+ *             </li>
+ *             <li>当 {@link #mBehavior} == {@link #BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT} 时:
+ *                 <ol>
+ *                     <li>当Page划入 {@link ViewPager#getOffscreenPageLimit()} 范围时创建: onAttach -> onCreate -> onCreateView -> onViewCreated -> onActivityCreated -> onStart</li>
+ *                     <li>当Page划入可视范围时: onResume</li>
+ *                     <li>当Page划出屏幕, 但还在 {@link ViewPager#getOffscreenPageLimit()} 范围内时: onPause</li>
+ *                     <li>当Page划出 {@link ViewPager#getOffscreenPageLimit()} 范围后: onStop -> onDestroyView</li>
+ *                     <li>当Page重新划入 {@link ViewPager#getOffscreenPageLimit()} 范围内时: onCreateView -> onViewCreated -> onActivityCreated -> onStart</li>
+ *                     <li>
+ *                         当调用 {@link #removeFragment(ViewPager, int)} 时:
+ *                         <ul>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围内: [if可视: onPause] -> onStop -> onDestroyView -> onDestroy -> onDetach</li>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围外: onDestroy -> onDetach</li>
+ *                         </ul>
+ *                     </li>
+ *                 </ol>
+ *             </li>
+ *         </ul>
+ *     </li>
+ *     <li>如果 Fragment 不想被回收导致onDestroyView, 可以设置:viewpager.setOffscreenPageLimit(int limit);</li>
  * </ol>
  * <br />
  * ★注意事项★:(以前的注意事项, 现在不一定适用) <br />
@@ -170,10 +207,11 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         if (loggable) LogUtils.errorFormat("position = %d, isRemoveOffscreenPosition = %b", position, isRemoveOffscreenPosition);
         if (isRemoveOffscreenPosition) {
             FragmentTransaction mCurTransaction = getParentFragmentTransaction();
-            //彻底移除销毁
-            if (mCurTransaction != null) mCurTransaction.remove((Fragment) object);
+            //彻底移除销毁: onDestroy -> onDetach
+            if (mCurTransaction != null) mCurTransaction.remove((Fragment) object).commitNow();
         } else {
-            fragments.set(position, null);
+            //removeFragment 的时候要调用后续周期方法, 所以这儿不要set null
+//            fragments.set(position, null);
         }
         isRemoveOffscreenPosition = false;
     }
@@ -246,6 +284,11 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         for (int i = position; i < itemIds.size() - 1; i++) itemIds.put(i, itemIds.get(i + 1));
         itemIds.removeAt(itemIds.size() - 1);
         isRemoveOffscreenPosition = Math.abs(position - currentItem) <= offscreenPageLimit;
+        if (!isRemoveOffscreenPosition && fragment != null) {
+            FragmentTransaction mCurTransaction = getParentFragmentTransaction();
+            //onDestroy -> onDetach
+            if (mCurTransaction != null) mCurTransaction.remove(fragment).commitNow();
+        }
         notifyDataSetChanged();
         return fragment;
     }

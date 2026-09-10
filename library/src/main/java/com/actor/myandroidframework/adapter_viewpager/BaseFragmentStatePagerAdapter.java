@@ -33,7 +33,44 @@ import java.util.List;
  *         在销毁 Fragment 前，会自动调用 {@link Fragment#onSaveInstanceState(Bundle)}，并将这个用户的 Bundle 状态保存在 FragmentManager 的 SavedState 列表中。<br />
  *         当用户滑回来重建 Fragment 时，{@link #getItem(int)} 返回的 Fragment 在 onCreate 阶段会自动接收到之前保存的 Bundle，从而实现状态恢复（比如保持文本输入、滚动位置等）。
  *     </li>
- *     <li>生命周期: 在ViewPager左右滑动过程中, 至少执行4个生命周期, onCreate -> onCreateView -> onDestoryView -> onDestroy, 即 Fragment 在滑动过程中被销毁了</li>
+ *     <li>
+ *         Fragment 从创建 到 划出屏幕 的生命周期
+ *         <ul>
+ *             <li>
+ *                 当 {@link #mBehavior} == {@link #BEHAVIOR_SET_USER_VISIBLE_HINT} 时:
+ *                 <ol>
+ *                     <li>当Page划入 {@link ViewPager#getOffscreenPageLimit()} 范围时创建: setUserVisibleHint(false) -> onAttach -> onCreate -> onCreateView -> onViewCreated -> onActivityCreated -> onStart -> onResume</li>
+ *                     <li>当Page划入可视范围时: setUserVisibleHint(true)</li>
+ *                     <li>当Page划出屏幕, 但还在 {@link ViewPager#getOffscreenPageLimit()} 范围内时: setUserVisibleHint(false)</li>
+ *                     <li>当Page划出 {@link ViewPager#getOffscreenPageLimit()} 范围后: onPause -> onStop -> onDestroyView ->onDestroy -> onDetach</li>
+ *                     <li>当Page重新划入 {@link ViewPager#getOffscreenPageLimit()} 范围内时: 同1</li>
+ *                     <li>
+ *                         当调用 {@link #removeFragment(ViewPager, int)} 时:
+ *                         <ul>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围内: onPause -> onStop -> onDestroyView -> onDestroy -> onDetach</li>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围外: 无</li>
+ *                         </ul>
+ *                     </li>
+ *                 </ol>
+ *             </li>
+ *             <li>当 {@link #mBehavior} == {@link #BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT} 时:
+ *                 <ol>
+ *                     <li>当Page划入 {@link ViewPager#getOffscreenPageLimit()} 范围时创建: onAttach -> onCreate -> onCreateView -> onViewCreated -> onActivityCreated -> onStart</li>
+ *                     <li>当Page划入可视范围时: onResume</li>
+ *                     <li>当Page划出屏幕, 但还在 {@link ViewPager#getOffscreenPageLimit()} 范围内时: onPause</li>
+ *                     <li>当Page划出 {@link ViewPager#getOffscreenPageLimit()} 范围后: onStop -> onDestroyView -> onDestroy -> onDetach</li>
+ *                     <li>当Page重新划入 {@link ViewPager#getOffscreenPageLimit()} 范围内时: 同1</li>
+ *                     <li>
+ *                         当调用 {@link #removeFragment(ViewPager, int)} 时:
+ *                         <ul>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围内: [if可视: onPause] -> onStop -> onDestroyView -> onDestroy -> onDetach</li>
+ *                             <li>if Page在 {@link ViewPager#getOffscreenPageLimit()} 范围外: 无</li>
+ *                         </ul>
+ *                     </li>
+ *                 </ol>
+ *             </li>
+ *         </ul>
+ *     </li>
  *     <li>如果 Fragment 不想被回收, 可以设置:viewpager.setOffscreenPageLimit(int limit);</li>
  * </ol>
  * <br />

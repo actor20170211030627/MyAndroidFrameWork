@@ -21,6 +21,8 @@ public class BlankFragment extends BaseFragment<FragmentBlankBinding> {
     private int position;
     private CharSequence content;
 
+    { loggable = true; }
+
     public static BlankFragment newInstance(int position, CharSequence content) {
         LogUtils.errorFormat("position = %d, content = %s", position, content);
         BlankFragment fragment = new BlankFragment();

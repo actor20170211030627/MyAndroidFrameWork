@@ -659,7 +659,7 @@ public class GreenDaoUtils {
     }
 
     /**
-     * 查询最大数值, 如果多行拥有相同最大数值(e.g VersionCode)，会抛异常 <br />
+     * 查询最大数值, 如果多行拥有相同最大数值(e.g. VersionCode)，会抛异常 <br />
      * e.g. WHERE VersionCode = (SELECT MAX(VersionCode) FROM table_name)
      * @param dao 具体实体对应的dao
      * @param properties 查询条件, 例: XxxDao.Properties.VersionCode(查询最新版本号)
@@ -670,7 +670,7 @@ public class GreenDaoUtils {
     }
 
     /**
-     * 查询最尐数值, 如果多行拥有相同尐数值(e.g VersionCode)，会抛异常 <br />
+     * 查询最尐数值, 如果多行拥有相同尐数值(e.g. VersionCode)，会抛异常 <br />
      * e.g. WHERE VersionCode = (SELECT MIN(VersionCode) FROM table_name)
      * @param dao 具体实体对应的dao
      * @param properties 查询条件, 例: XxxDao.Properties.VersionCode(查询最新版本号)

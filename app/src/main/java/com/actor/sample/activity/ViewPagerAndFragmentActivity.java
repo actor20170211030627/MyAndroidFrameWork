@@ -89,7 +89,7 @@ public class ViewPagerAndFragmentActivity extends BaseActivity<ActivityViewPager
         @Override
         public Fragment getItem(int position) {
             CharSequence pageTitle = getPageTitle(position);
-            LogUtils.errorFormat("position = %d, pageTitle = %s", position, pageTitle);
+            LogUtils.errorFormat("%s: position = %d, pageTitle = %s", this, position, pageTitle);
             switch (position) {
                 case 0:
                 default:

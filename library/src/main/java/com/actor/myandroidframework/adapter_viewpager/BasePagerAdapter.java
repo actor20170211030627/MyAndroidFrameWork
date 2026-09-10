@@ -21,8 +21,7 @@ import java.util.List;
  * <pre>
  * viewPager.setAdapter(new BasePagerAdapter(titles));
  * </pre>
- * 如果 Fragment 不想被回收导致重走生命周期, 可以设置:viewpager.setOffscreenPageLimit(int limit); <br />
- * <br />
+ * 2.如果 Page 对应的 View 不想被回收, 可以设置: {@link ViewPager#setOffscreenPageLimit(int)}; <br />
  * @author     : ldf
  * @date       : 2019/3/27 on 20:03
  */
