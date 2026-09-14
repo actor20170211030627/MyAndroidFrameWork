@@ -2,7 +2,7 @@
  * 下载 Github 上的 publish-maven.gradle, 用于将 library 打包并发布到本地maven .aar / sourcesJar / javadocJar
  *
  * 1.在 library 的 gradle 的  apply plugin: 'com.android.library'  后面或 plugins{} 后面添加:
- *   apply from: "https://raw.githubusercontent.com/actor20170211030627/MyAndroidFrameWork/refs/heads/master/scripts/publish-maven_download-github.gradle"
+ *   apply from: "https://raw.githubusercontent.com/actor20170211030627/MyAndroidFrameWork/refs/heads/master/scripts/download/publish-maven_download-github.gradle"
  *
  * 2.在 gradle.properties 中添加你的 PUBLISH_GROUP_ID, 例:
  *   PUBLISH_GROUP_ID = com.github.actor20170211030627.MyAndroidFrameWork

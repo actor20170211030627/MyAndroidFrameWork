@@ -43,6 +43,6 @@ dependencies {
     }
 
     //GreenDao数据库
-//    compileOnly project(path: ':tempgen') //tempgen已禁止打包
+//    compileOnly project(path: ':tempgen') //tempgen已禁止打包, jitpack打包的时候用↓
     compileOnly files('../tempgen/libs/tempgen-2.2.1.jar')
 }

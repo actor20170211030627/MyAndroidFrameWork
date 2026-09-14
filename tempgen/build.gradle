@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 
+//用来生成.jar
 //apply from: rootProject.file('scripts/publish-1.0.0.gradle')
 
 android {
@@ -31,7 +32,7 @@ android.libraryVariants.all { variant ->
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])
+//    implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])
 
     //https://github.com/greenrobot/greenDAO 数据库
     compileOnly 'org.greenrobot:greendao:3.3.0'

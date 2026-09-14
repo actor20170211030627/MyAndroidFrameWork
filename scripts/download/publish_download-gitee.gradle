@@ -2,7 +2,7 @@
  * 下载 Gitee 上的 publish.gradle, 用于将 library 打包成 .aar / sourcesJar / javadoc / javadocJar
  *
  * 1.在 library 的 gradle 的  apply plugin: 'com.android.library'  后面或 plugins{} 后面添加:
- *   apply from: "https://raw.giteeusercontent.com/actor20170211030627/MyAndroidFrameWork/raw/master/scripts/publish_download-gitee.gradle"
+ *   apply from: "https://raw.giteeusercontent.com/actor20170211030627/MyAndroidFrameWork/raw/master/scripts/download/publish_download-gitee.gradle"
  *
  * 2.详细使用请查看 publishScriptName 这个文件
  */

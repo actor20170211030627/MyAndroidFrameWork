@@ -45,6 +45,6 @@ dependencies {
 //    compileOnly 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
 
     //JCore
-//    compileOnly project(path: ':tempgen') //tempgen已禁止打包
+//    compileOnly project(path: ':tempgen') //tempgen已禁止打包, jitpack打包的时候用↓
     compileOnly files('../tempgen/libs/tempgen-2.2.1.jar')
 }
