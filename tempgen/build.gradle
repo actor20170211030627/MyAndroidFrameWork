@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 
+//apply from: rootProject.file('scripts/publish-1.0.0.gradle')
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
@@ -10,6 +12,8 @@ android {
         versionName "1.0"
 
         consumerProguardFiles 'consumer-rules.pro'
+        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
+        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
     }
 
     buildTypes {
