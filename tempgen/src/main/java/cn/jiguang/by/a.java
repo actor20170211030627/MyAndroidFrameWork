@@ -1,0 +1,7 @@
+package cn.jiguang.by;
+
+public class a {
+    public static boolean a() {
+        return false;
+    }
+}

@@ -12,7 +12,8 @@ import org.greenrobot.greendao.identityscope.IdentityScopeType;
 
 //不能写个 greendao.java 类, 因为 app 模块 生成的代码有 package com.greendao.gen; 这个包名, if 写成.java 会和 app 模块的 package 冲突, 编译不通过
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1;
+    //不能final, 否则编译后会直接赋值过去
+    public static /*final*/ int SCHEMA_VERSION = 1;
 
     public static void createAllTables(Database db, boolean ifNotExists) {}
 
