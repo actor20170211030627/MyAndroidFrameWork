@@ -6,6 +6,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.others.widget.ItemTextInputLayout;
 import com.actor.sample.R;
@@ -81,7 +83,7 @@ public class IsEmptyActivity extends BaseActivity<ActivityIsEmptyBinding> implem
 
 //    @OnClick(R.id.btn_is_empty)
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         /**
          * @param objs 参数的类型为:
          * <ol>

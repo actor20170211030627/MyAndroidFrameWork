@@ -82,7 +82,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_get_easy_http://EasyHttp方式获取数据
                 getByEasyHttp();
@@ -95,7 +95,8 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                 break;
             case R.id.btn_select_pic://选择图片
                 PictureSelectorUtils.create(this, null)
-                        .selectImage(false)
+                        .selectImage()
+                        .setCompress(true)
                         .setSingleSelect(true)
                         .setShowCamera(true)
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
@@ -103,8 +104,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                             public void onResult(ArrayList<LocalMedia> result) {
                                 LocalMedia localMedia = result.get(0);
                                 PictureSelectorUtils.printLocalMedia(localMedia);
-//                                picPath = localMedia.getRealPath();   //没有sd卡读权限, 不能传这个
-                                picPath = localMedia.getSandboxPath();
+                                picPath = localMedia.getAvailablePath();
                             }
                             @Override
                             public void onCancel() {
@@ -142,7 +142,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
     }
 
     private void downloadFile() {
-        showNetWorkLoadingDialog();
+        showLoadingDialog();
         EasyHttp.download(this)
                 .url(Global.GRADLE_DOWNLOAD_URL)
                 .file(new File(PathUtils.getFilesPathExternalFirst(), FileUtils.getFileNameFromUrl(Global.GRADLE_DOWNLOAD_URL)))
@@ -154,12 +154,12 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                     }
                     @Override
                     public void onDownloadSuccess(@NonNull File file) {
-                        dismissNetWorkLoadingDialog();
+                        dismissLoadingDialog();
                         ToasterUtils.successFormat("下载完成: %s", file.getAbsolutePath());
                     }
                     @Override
                     public void onDownloadFail(@NonNull File file, @NonNull Throwable throwable) {
-                        dismissNetWorkLoadingDialog();
+                        dismissLoadingDialog();
                         ToasterUtils.errorFormat("下载错误: %s", throwable.getMessage());
                     }
                 }).start();
@@ -169,7 +169,7 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
      * 上传单个图片/文件
      */
     protected void uploadFile(@NonNull String filePath) {
-        showNetWorkLoadingDialog();
+        showLoadingDialog();
         EasyHttp.post(this)
                 .api(new EasyHttpUploadFileInfo(filePath))
                 .request(new OnUpdateListener<String>() {
@@ -179,12 +179,12 @@ public class NetWorkAndImageActivity extends BaseActivity<ActivityNetWorkAndImag
                     }
                     @Override
                     public void onUpdateSuccess(@NonNull String result) {
-                        dismissNetWorkLoadingDialog();
+                        dismissLoadingDialog();
                         ToasterUtils.success(result);
                     }
                     @Override
                     public void onUpdateFail(@NonNull Throwable throwable) {
-                        dismissNetWorkLoadingDialog();
+                        dismissLoadingDialog();
                         ToasterUtils.error(throwable.getMessage());
                     }
                 });

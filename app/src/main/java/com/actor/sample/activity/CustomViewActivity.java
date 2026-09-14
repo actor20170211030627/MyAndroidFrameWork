@@ -4,9 +4,11 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.LogUtils;
@@ -17,11 +19,17 @@ import com.actor.myandroidframework.widget.BaseRadioGroup;
 import com.actor.myandroidframework.widget.BaseSpinner;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityCustomViewBinding;
+import com.actor.sample.dialog.SpinnerShowingDialog;
 import com.actor.sample.utils.Global;
 import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+import com.hjq.window.EasyWindow;
+import com.hjq.window.OnWindowViewClickListener;
+import com.hjq.window.draggable.SpringBackWindowDraggableRule;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Description: 主页->自定义View
@@ -68,56 +76,55 @@ public class CustomViewActivity extends BaseActivity<ActivityCustomViewBinding> 
                 ToasterUtils.info("啥都没选中!");
             }
         });
-        viewBinding.baseSpinner2.setOnItemSelectedListener(new BaseSpinner.OnItemSelectedListener2() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LogUtils.errorFormat("选中了: %d", position);
-                ToasterUtils.infoFormat("选中了: %d", position);
-            }
-            @Override
-            public void onItemReSelected(AdapterView<?> parent, View view, int position, long id) {
-                LogUtils.errorFormat("重复选中了: %d", position);
-                ToasterUtils.infoFormat("重复选中了: %d", position);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                LogUtils.error("啥都没选中!");
-                ToasterUtils.info("啥都没选中!");
-            }
-        });
+        viewBinding.baseSpinner2.setOnItemSelectedListener((BaseSpinner.OnItemSelectedListener2) viewBinding.baseSpinner.getOnItemSelectedListener());
 
         //加载CardView里的图片
         Glide.with(this).load(Global.girl).into(viewBinding.ivInCardView);
-
-
-        String selectedItem = (String) viewBinding.baseSpinner.getSelectedItem();
-        int selectedItemPosition = viewBinding.baseSpinner.getSelectedItemPosition();
-        String itemAtPosition = (String) viewBinding.baseSpinner.getItemAtPosition(1);
-        String result00 = getStringFormat("BaseSpinner: selectedItemPosition=%d, selectedItem=%s, itemAtPosition=%s", selectedItemPosition, selectedItem, itemAtPosition);
-        viewBinding.stvResult0.setText(result00);
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_spinner_clean:    //清空
-                viewBinding.baseSpinner2.setDatas((Collection) null);
+                viewBinding.baseSpinner2.setData((List) null);
                 break;
             case R.id.btn_spinner_reset:    //设置数据
-                viewBinding.baseSpinner2.setDatas(new String[] {"白色文字浅灰背景", "下拉是红色字体"});
+                viewBinding.baseSpinner2.setData(new String[] {"白色文字浅灰背景", "下拉是红色字体"});
                 break;
             case R.id.btn_check:
                 String selectedItem = (String) viewBinding.baseSpinner.getSelectedItem();
                 int selectedItemPosition = viewBinding.baseSpinner.getSelectedItemPosition();
                 String itemAtPosition = (String) viewBinding.baseSpinner.getItemAtPosition(1);
-                String result00 = getStringFormat("BaseSpinner: selectedItemPosition=%d, selectedItem=%s, itemAtPosition=%s", selectedItemPosition, selectedItem, itemAtPosition);
+                String result00 = getStringFormat("BaseSpinner: selectedItemPosition=%d,\nselectedItem=%s,\nitemAtPosition=%s", selectedItemPosition, selectedItem, itemAtPosition);
                 viewBinding.stvResult0.setText(result00);
 
-                String selectedItem1 = (String) viewBinding.itemSpinner.getSelectedItem();
-                int selectedItemPosition1 = viewBinding.itemSpinner.getSelectedItemPosition();
-                String itemAtPosition1 = (String) viewBinding.itemSpinner.getItemAtPosition(1);
-                String result01 = getStringFormat("\nItemSpinnerLayout: selectedItemPosition1=%d, selectedItem1=%s, itemAtPosition1=%s", selectedItemPosition1, selectedItem1, itemAtPosition1);
+                String selectedItem1 = (String) viewBinding.baseSpinner2.getSelectedItem();
+                int selectedItemPosition1 = viewBinding.baseSpinner2.getSelectedItemPosition();
+                String itemAtPosition1 = (String) viewBinding.baseSpinner2.getItemAtPosition(1);
+                String result01 = getStringFormat("\n\nItemSpinnerLayout: selectedItemPosition1=%d,\nselectedItem1=%s,\nitemAtPosition1=%s", selectedItemPosition1, selectedItem1, itemAtPosition1);
                 viewBinding.stvResult0.append(result01);
+                break;
+            case R.id.btn_spinner_show_in_dialog:   //在普通Dialog显示
+                new SpinnerShowingDialog(this, "测试 Spinner 在 Dialog 中显示").show();
+                break;
+            case R.id.btn_spinner_show_in_application_dialog:   //在全局Dialog显示(需要有悬浮窗权限)
+                if (XXPermissions.isGranted(this, Permission.SYSTEM_ALERT_WINDOW)) {
+                    EasyWindow.with(getApplication())
+                            .setContentView(R.layout.dialog_spinner_showing)
+                            .setWindowDraggableRule(new SpringBackWindowDraggableRule())
+                            .setWindowSize(SizeUtils.dp2px(200), WindowManager.LayoutParams.WRAP_CONTENT)
+                            .setTextByTextView(R.id.tv_title, "全局显示, 可返回桌面")
+                            .setOnClickListenerByView(R.id.stv, new OnWindowViewClickListener<View>() {
+                                @Override
+                                public void onClick(@NonNull EasyWindow<?> easyWindow, @NonNull View view) {
+                                    easyWindow.cancel();
+                                }
+                            }).show();
+                } else {
+                    XXPermissions.with(this)
+                            .permission(Permission.SYSTEM_ALERT_WINDOW)
+                            .request(null);
+                }
                 break;
 
             case R.id.btn_enable:   //enable的图片

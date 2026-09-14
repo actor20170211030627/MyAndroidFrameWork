@@ -53,14 +53,14 @@ public class GlideExampleAdapter extends BaseQuickAdapter<String, BaseViewHolder
         setOnItemClickListener((adapter, view, position) -> {
             if (position == TYPES.length - 1) {
                 PictureSelectorUtils.create(this.activity, null)
-                        .selectImage(false)
+                        .selectImage()
+                        .setCompress(false)
                         .setSingleSelect(true)
                         .setShowCamera(false)
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
-                                //content://media/external/file/122414
-                                contentProvider = result.get(0).getPath();
+                                contentProvider = result.get(0).getAvailablePath();
                                 String path = TextUtils2.getStringFormat("选择图片, path = %s", contentProvider);
                                 LogUtils.error(path);
                                 ToastUtils.showShort(path);

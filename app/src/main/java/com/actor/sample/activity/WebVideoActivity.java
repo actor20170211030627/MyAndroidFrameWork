@@ -29,7 +29,7 @@ public class WebVideoActivity extends BaseActivity<ActivityWebVideoBinding> {
         super.onCreate(savedInstanceState);
         setTitle("播放网页视频");
 
-        showNetWorkLoadingDialog();
+        showLoadingDialog();
         viewBinding.webView.init(new BaseWebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -39,7 +39,7 @@ public class WebVideoActivity extends BaseActivity<ActivityWebVideoBinding> {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                dismissNetWorkLoadingDialog();
+                dismissLoadingDialog();
             }
         }, (BaseWebChromeClient) null   //第2参数传null, 原因↙
 

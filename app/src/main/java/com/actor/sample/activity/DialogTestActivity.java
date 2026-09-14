@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.actor.myandroidframework.action.AnimAction;
 import com.actor.myandroidframework.dialog.BaseBottomSheetDialog;
 import com.actor.myandroidframework.dialog.BaseDialog;
@@ -41,7 +43,7 @@ public class DialogTestActivity extends BaseActivity<ActivityDialogTestBinding> 
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_test_dialog://普通Dialog
                 new TestDialog(this).show();
@@ -86,14 +88,14 @@ public class DialogTestActivity extends BaseActivity<ActivityDialogTestBinding> 
             case R.id.btn_show_loading_dialog:
                 messagePos ++;
                 if (messagePos >= messages.length) messagePos = 0;
-                getNetWorkLoadingDialog()
+                getLoadingDialog()
                         .setMessage(messages[messagePos])
                         .setCancelAble(false)
                         .setClickThrough(true)
                         .show();
                 break;
             case R.id.btn_dismiss_loading_dialog:
-                getNetWorkLoadingDialog().dismiss();
+                getLoadingDialog().dismiss();
                 break;
             case R.id.btn_bottom_activity://从底部弹出的Activity
                 //不要弄元素共享动画, 否则动画有问题

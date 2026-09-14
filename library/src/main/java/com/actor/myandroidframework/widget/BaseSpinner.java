@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 
@@ -16,7 +19,6 @@ import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.utils.LogUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -147,7 +149,7 @@ import java.util.List;
  * @author     : ldf
  * @date       : 2019/10/20 on 16:21
  *
- * @param <T> 填充Item的数据类型, 见{@link #setDatas(Collection)}, 示例:<pre> {@code
+ * @param <T> 填充Item的数据类型, 见{@link #setData(List)}, 示例:<pre> {@code
  * private BaseSpinner<User> spinner;
  *
  * User = spinner.getSelectedItem();//获取当前已选择的User
@@ -155,21 +157,15 @@ import java.util.List;
  */
 public class BaseSpinner<T> extends AppCompatSpinner {
 
-    // TODO: 2026/8/28 在Dialog/ Service为context的 Dialog 中是否显示??
-
     protected int prePosition = INVALID_POSITION;
     //spinner布局
     protected int spinnerRes = android.R.layout.simple_spinner_item;
     //下拉item布局
     protected int ddvr = androidx.appcompat.R.layout.support_simple_spinner_dropdown_item;
-//    protected static final int MODE_DIALOG = 0;
-//    protected static final int MODE_DROPDOWN = 1;
-//    protected static final int MODE_THEME = -1;
-//    protected SpinnerPopup mPopup;
-//    protected String prompt;
+
     /**
      * 为什么有这个默认Listener?
-     * 因为{@link #setDatas(Collection)}设置数据后, 会自动回调{@link OnItemSelectedListener2#onItemSelected(AdapterView, View, int, long)}, 无语...
+     * 因为{@link #setData(List)}设置数据后, 会自动回调{@link OnItemSelectedListener#onItemSelected(AdapterView, View, int, long)}, 无语...
      */
     protected OnItemSelectedListener2 defaultSelectedListener = new OnItemSelectedListener2() {
         @Override
@@ -197,76 +193,39 @@ public class BaseSpinner<T> extends AppCompatSpinner {
             if (onItemSelectedListener2 != null) onItemSelectedListener2.onNothingSelected(parent);
         }
     };
-    protected OnItemSelectedListener2 onItemSelectedListener2;
     protected boolean                 isJustSetData = false;
 
     public BaseSpinner(Context context) {
-        super(context);
-        init(context, null, -2);
+        super(context = getContextThemeWrapper(context));
+        init(context, null);
     }
 
     public BaseSpinner(Context context, int mode) {
-        super(context, mode);
-        init(context, null, mode);
+        super(context = getContextThemeWrapper(context), mode);
+        init(context, null);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs, -2);
+        super(context = getContextThemeWrapper(context), attrs);
+        init(context, attrs);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs, -2);
+        super(context = getContextThemeWrapper(context), attrs, defStyleAttr);
+        init(context, attrs);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode) {
-        super(context, attrs, defStyleAttr, mode);
-        init(context, attrs, mode);
+        super(context = getContextThemeWrapper(context), attrs, defStyleAttr, mode);
+        init(context, attrs);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode, Resources.Theme popupTheme) {
-        super(context, attrs, defStyleAttr, mode, popupTheme);
-        init(context, attrs, mode);
+        super(context = getContextThemeWrapper(context), attrs, defStyleAttr, mode, popupTheme);
+        init(context, attrs);
     }
 
-    protected void init(Context context, @Nullable AttributeSet attrs, int mode) {
-//        switch (mode) {
-//            case MODE_DIALOG: {
-//                mPopup = new AppCompatSpinner.DialogPopup();
-//                mPopup.setPromptText(a.getString(androidx.appcompat.R.styleable.Spinner_android_prompt));
-//                break;
-//            }
-//            case MODE_DROPDOWN: {
-//                final DropdownPopup popup = new DropdownPopup(mPopupContext, attrs, defStyleAttr);
-//                final TintTypedArray pa = TintTypedArray.obtainStyledAttributes(
-//                        mPopupContext, attrs, androidx.appcompat.R.styleable.Spinner, defStyleAttr, 0);
-//                mDropDownWidth = pa.getLayoutDimension(androidx.appcompat.R.styleable.Spinner_android_dropDownWidth,
-//                        LayoutParams.WRAP_CONTENT);
-//                popup.setBackgroundDrawable(
-//                        pa.getDrawable(androidx.appcompat.R.styleable.Spinner_android_popupBackground));
-//                popup.setPromptText(a.getString(androidx.appcompat.R.styleable.Spinner_android_prompt));
-//                pa.recycle();
-//
-//                mPopup = popup;
-//                mForwardingListener = new ForwardingListener(this) {
-//                    @Override
-//                    public ShowableListMenu getPopup() {
-//                        return popup;
-//                    }
-//
-//                    @Override
-//                    @SuppressLint("SyntheticAccessor")
-//                    public boolean onForwardingStarted() {
-//                        if (!getInternalPopup().isShowing()) {
-//                            showPopup();
-//                        }
-//                        return true;
-//                    }
-//                };
-//            }
-//        }
-
+    protected void init(Context context, @Nullable AttributeSet attrs) {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseSpinner);
 //            prompt = a.getString(androidx.appcompat.R.styleable.Spinner_android_prompt);
@@ -290,12 +249,12 @@ public class BaseSpinner<T> extends AppCompatSpinner {
                 //是Arrays.asList();返回的List, 没有重写clear()方法, 不能调用clear()方法, 否则报错
 //                adapter.clear();
                 setArrayAdapter();
-                setDatas(list);
+                setData(list);
             } else {
                 setArrayAdapter();
                 if (items != null && !items.isEmpty()) {
                     String[] split = items.split(",");
-                    setDatas((T[]) split);
+                    setData((T[]) split);
                 }
             }
         }
@@ -352,18 +311,18 @@ public class BaseSpinner<T> extends AppCompatSpinner {
 //    @Override
     public void setOnItemSelectedListener(@Nullable OnItemSelectedListener2 listener) {
 //        super.setOnItemSelectedListener(defaultSelectedListener);
-        this.onItemSelectedListener2 = listener;
+        defaultSelectedListener.onItemSelectedListener2 = listener;
     }
 
-    public interface OnItemSelectedListener2 extends OnItemSelectedListener {
-
+    public abstract static class OnItemSelectedListener2 implements OnItemSelectedListener {
+        protected OnItemSelectedListener2 onItemSelectedListener2;
         //再次选择了同一个item
-        default void onItemReSelected(AdapterView<?> parent, View view, int position, long id/*, boolean fromUser*/) {
+        public void onItemReSelected(AdapterView<?> parent, View view, int position, long id/*, boolean fromUser*/) {
         }
 
         //Adapter为空的时候就会调用到这个方法
         @Override
-        default void onNothingSelected(AdapterView<?> parent) {
+        public void onNothingSelected(AdapterView<?> parent) {
         }
     }
 
@@ -382,17 +341,17 @@ public class BaseSpinner<T> extends AppCompatSpinner {
 
     /**
      * 设置数据, 填充Spinner
-     * @param datas 传入CharSequence[] 或 String[]
+     * @param items 传入CharSequence[] 或 String[]
      */
-    public void setDatas(@Nullable T[] datas) {
-        if (datas == null || datas.length == 0) {
-            setDatas((Collection<T>) null);
+    public void setData(@Nullable T[] items) {
+        if (items == null || items.length == 0) {
+            setData((List<T>) null);
             return;
         }
         //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
         List<T> list = new ArrayList<>();
-        Collections.addAll(list, datas);
-        setDatas(list);
+        Collections.addAll(list, items);
+        setData(list);
     }
 
     /**
@@ -400,16 +359,16 @@ public class BaseSpinner<T> extends AppCompatSpinner {
      * T: 如果数据类型 "T" 不是CharSequence或String, 重写数据类型'T'的toString()方法即可, 列表item填充的时候会调用toString()的内容 <br />
      * {@link null 注意:} 每次填充的T数据类型应该一致
      */
-    public void setDatas(@Nullable Collection<T> datas) {
+    public void setData(@Nullable List<T> items) {
         SpinnerAdapter adapter = getAdapter();
         //如果不是ArrayAdapter, 那就是你自定义了Adapter, 需要你自己处理.
         if (adapter instanceof ArrayAdapter) {
             ArrayAdapter<T> adapterI = (ArrayAdapter<T>) adapter;
             adapterI.clear();
             prePosition = INVALID_POSITION;
-            if (datas != null && !datas.isEmpty()) {
+            if (items != null && !items.isEmpty()) {
                 isJustSetData = true;
-                adapterI.addAll(datas);
+                adapterI.addAll(items);
                 prePosition = 0;
             }
         } else {
@@ -446,6 +405,14 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     }
 
     /**
+     * 返回多少条数据
+     */
+    @Override
+    public int getCount() {
+        return super.getCount();
+    }
+
+    /**
      * 设置默认的Adapter成ArrayAdapter
      */
     public void setArrayAdapter() {
@@ -463,5 +430,19 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     @Override
     public void setAdapter(SpinnerAdapter adapter) {
         super.setAdapter(adapter);
+    }
+
+    /**
+     * 当 context 是Application 的时候, spinnerMode=dialog点击无反应, spinnerMode=dropdown点击报错
+     * android.view.InflateException: Binary XML file line #19: Failed to resolve attribute at index 1: TypedValue{t=0x2/d=0x7f04015b a=-1}
+     * Caused by: java.lang.UnsupportedOperationException: Failed to resolve attribute at index 1: TypedValue{t=0x2/d=0x7f04015b a=-1}
+     *     at android.content.res.TypedArray.getLayoutDimension(TypedArray.java:816)
+     * 乺: 将 Application 包装成 ContextThemeWrapper, 让 Spinner 能够在 SYSTEM_ALERT_WINDOW 全局悬浮窗里也能够下拉
+     */
+    @NonNull
+    protected static Context getContextThemeWrapper(Context context) {
+        if (context instanceof ContextThemeWrapper) return context;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) return context.createWindowContext(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, null);
+        return new ContextThemeWrapper(context, com.google.android.material.R.style.Theme_AppCompat_Light_NoActionBar);
     }
 }

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.widget.BaseTextSwitcher;
 import com.actor.myandroidframework.widget.BaseViewSwitcher;
@@ -61,7 +63,7 @@ public class SwitcherActivity extends BaseActivity<ActivitySwitcherBinding> {
 
 //    @OnClick({R.id.btn_start, R.id.btn_stop})
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_start:
                 bts.startSwitch();

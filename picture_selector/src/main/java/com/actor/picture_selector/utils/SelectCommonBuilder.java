@@ -2,7 +2,6 @@ package com.actor.picture_selector.utils;
 
 import android.content.Context;
 
-import com.actor.myandroidframework.utils.video.VideoProcessorUtils;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 
@@ -22,19 +21,17 @@ public class SelectCommonBuilder {
 
     /**
      * 选择图片
-     * @param isCompress 图片是否压缩
      */
-    public SelectImageBuilder selectImage(boolean isCompress) {
+    public SelectImageBuilder selectImage() {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
-        utils.isCompress = isCompress;
         utils.selectionModel = selector.openGallery(SelectMimeType.ofImage());
         return new SelectImageBuilder();
     }
 
     /**
      * 选择视频 <br />
-     * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
-     * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
+     * 如果要压缩视频, 需要在回调后自己手动调用代码压缩, 可使用:
+     * @see com.actor.myandroidframework.utils.video.VideoProcessorUtils#compressVideo(Context, String, com.actor.myandroidframework.utils.video.VideoProcessorUtils.OnCompressListener)
      */
     public SelectVideoBuilder selectVideo() {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
@@ -44,13 +41,9 @@ public class SelectCommonBuilder {
 
     /**
      * 选择图片&视频
-     * @param isCompress 图片是否压缩 <br />
-     * 如果要压缩视频, 需要自己手动调用代码压缩, 可使用:
-     * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
      */
-    public SelectImageBuilder selectImage$Video(boolean isCompress) {
+    public SelectImageBuilder selectImage$Video() {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
-        utils.isCompress = isCompress;
         utils.selectionModel = selector.openGallery(SelectMimeType.ofAll());
         return new SelectImageBuilder();
     }
@@ -67,11 +60,9 @@ public class SelectCommonBuilder {
 
     /**
      * 拍照
-     * @param isCompress 图片是否压缩
      */
-    public TakePhotoBuilder takePhoto(boolean isCompress) {
+    public TakePhotoBuilder takePhoto() {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
-        utils.isCompress = isCompress;
         utils.selectionCameraModel = selector.openCamera(SelectMimeType.ofImage());
         utils.isShowOriginal = false;   //默认不 开启原图☑选项 (拍照, 在这儿设置其实无用)
         return new TakePhotoBuilder();
@@ -105,7 +96,7 @@ public class SelectCommonBuilder {
     public PictureSelectorUtils selectSystemFile(int selectMimeType) {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
         utils.selectionSystemModel = selector.openSystemGallery(selectMimeType);
-        utils.isShowOriginal = false;   //默认不 开启原图☑选项 (系统选择, 在这儿设置其实无用)
+        utils.isShowOriginal = true;   //开启原图☑选项 (系统选择, 在这儿设置其实无用)
         return utils;
     }
 

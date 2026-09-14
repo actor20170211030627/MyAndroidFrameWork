@@ -86,7 +86,7 @@ public class VideoProcessorUtils {
                                     });
                                 }
                             })
-                            .process();
+                            .process(); //线程: VideoDecodeThread.java
                 } catch (Exception e) {
                     ThreadUtils.runOnUiThread(new Runnable() {
                         @Override
@@ -118,19 +118,34 @@ public class VideoProcessorUtils {
      * @param videoPath 视频地址
      * @param reverseAudio 是否逆序音频
      */
-    public static void reverseVideo(Context context, String videoPath, boolean reverseAudio) {
+    public static void reverseVideo(Context context, String videoPath, boolean reverseAudio, @NonNull OnCompressListener listener) {
         File file = getOutputVideoPath(videoPath);
-        //视频逆序
-        try {
-            VideoProcessor.reverseVideo(context, new VideoProcessor.MediaSource(videoPath), file.getPath(), reverseAudio, new VideoProgressListener() {
-                @Override
-                public void onProgress(float progress) {
-
+        ThreadUtils.runOnSubThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //线程: VideoDecodeThread.java
+                    VideoProcessor.reverseVideo(context, new VideoProcessor.MediaSource(videoPath), file.getPath(), reverseAudio, new VideoProgressListener() {
+                        @Override
+                        public void onProgress(float progress) {//progress: 0-1
+                            ThreadUtils.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    listener.onCompress(progress, file);
+                                }
+                            });
+                        }
+                    });
+                } catch (Exception e) {
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onFailure(e);
+                        }
+                    });
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            }
+        });
     }
 
     /**

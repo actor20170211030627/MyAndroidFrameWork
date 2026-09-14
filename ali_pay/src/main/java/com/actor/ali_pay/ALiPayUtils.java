@@ -132,7 +132,7 @@ public class ALiPayUtils {
      *         shouldOverrideUrlLoading(..) 无法拦截直接调用 loadUrl(url) 打开的第一个 url，
      *         如果需要拦截直接打开的支付宝网页支付 URL，可改为使用 shouldInterceptRequest(..) 。
      *     </li>
-     *     <li>按照文档, 调用次接口还需要2个权限, 需要自己添加: READ_PHONE_STATE, WRITE_EXTERNAL_STORAGE</li>
+     *     <li>按照文档, 调用此接口还需要2个权限, 需要自己添加: {@link Manifest.permission#READ_PHONE_STATE}, {@link Manifest.permission#WRITE_EXTERNAL_STORAGE}</li>
      * </ol>
      *
      * @param url 重写拦截方法后, 拦截的网站，在网站中下订单并唤起支付宝；

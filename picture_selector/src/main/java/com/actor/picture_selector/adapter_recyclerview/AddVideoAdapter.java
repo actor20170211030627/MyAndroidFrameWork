@@ -85,7 +85,8 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
         this.lastItemPic = lastItemPic;
         this.deletePic = deletePic;
         this.itemClickListener = listener;
-        initAddLocalMediaAble();
+        getSelectFiles().clear();
+        getUploads().clear();
         addChildClickViewIds(R.id.iv_for_file_select, R.id.iv_delete_for_file_select);
         addData(EXTRA_LAST_MEDIA);//添加一个+号
 
@@ -166,7 +167,7 @@ public class AddVideoAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
         if (isLastPos) {
             Glide.with(iv).load(lastItemPic).into(iv);
         } else {
-            Glide.with(iv).load(item.getPath()).into(iv);
+            Glide.with(iv).load(item.getAvailablePath()).into(iv);
         }
     }
 

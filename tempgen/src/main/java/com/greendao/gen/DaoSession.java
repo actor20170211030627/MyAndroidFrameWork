@@ -8,9 +8,6 @@ import org.greenrobot.greendao.internal.DaoConfig;
 
 import java.util.Map;
 
-/**
- * 这个DaoSession的作用只起到能编译通过, 在使用中需要自己Build -> Make Project, 生成DaoSession, 否则空指针
- */
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig xxxDaoConfig;

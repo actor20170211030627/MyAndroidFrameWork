@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityMainBinding;
 import com.actor.sample.utils.CheckUpdateUtils;
@@ -37,7 +39,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_internet://网络&图片
                 startActivity(new Intent(this, NetWorkAndImageActivity.class), viewBinding.iv);

@@ -1,0 +1,102 @@
+/**
+ * 将 library 打包成 .aar / sourcesJar / javadoc / javadocJar
+ * 1.if手动下载到"项目/scripts"目录下, 在 library 的 gradle 的  apply plugin: 'com.android.library'  后面或 plugins{} 后面添加:
+ *     apply from: rootProject.file('scripts/publish-1.0.0.gradle') //推荐
+ *     apply from: "../scripts/publish-1.0.0.gradle"                //或这样
+ *   if 是使用的 publish_download-github.gradle 或 publish_download-gitee.gradle 下载本文件, 就不要写 ↑ 这些
+ *
+ * 2.默认情况下:
+ *   Gradle窗口 → Tasks → other → assembleRelease        : 生成 build/outputs/aar/moduleName-release.aar
+ *   Gradle窗口 → Tasks → other → javadocJar             : 生成 build/libs/moduleName-javadoc.jar
+ *   Gradle窗口 → moduleName → Tasks → other → sourcesJar: 生成 build/libs/moduleName-sources.jar
+ *
+ * 3.当前修改后:
+ *   Gradle窗口 → Tasks → other → assembleDebug: 生成 build/outputs/aar/moduleName-release.aar & moduleName-javadoc.jar & moduleName-sources.jar
+ */
+
+afterEvaluate {
+    // 把源码打包成 -sources.jar，发布后 IDE 能直接看源码
+    def sourcesJar = tasks.register('sourcesJar', Jar) {
+        from android.sourceSets.main.java.srcDirs
+        archiveClassifier.set('sources')
+    }
+
+    // 根据 Java 注释生成 HTML 文档
+    def javadoc = tasks.register('javadoc', Javadoc) {
+        failOnError false       //防止 @param 缺失、HTML 标签不闭合等报错
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.compile     //编译时需要的依赖（编译源码用）, Gradle 7.0 起已被彻底移除为↓
+//        classpath += configurations.compileClasspath.get()
+        options.encoding = 'UTF-8'
+        options.charSet = 'UTF-8'
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    //把 javadoc 任务生成的 HTML 文档（build/docs/javadoc/ 目录下的所有文件）打包成一个 -javadoc.jar
+    def javadocJar = tasks.register('javadocJar', Jar) {
+        dependsOn javadoc
+        archiveClassifier.set('javadoc')
+//        from javadoc.destinationDir       // 旧式：直接访问任务属性
+        from javadoc.get().destinationDir   // 新式：通过 TaskProvider.get() 拿任务
+    }
+
+
+    // 声明"发布时要带上这些产物"↑，JitPack 会识别
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+//        archives cleanClassesJar // 如需替换默认 classes.jar
+    }
+
+
+    /**
+     * Debug生成测试
+     */
+    def sourcesJarDebug = tasks.register('sourcesJarDebug', Jar) {
+        from android.sourceSets.main.java.srcDirs
+        archiveClassifier.set('sources')
+        destinationDirectory.set(file("$buildDir/outputs/aar")) //默认生成在build/libs
+    }
+
+    def javadocJarDebug = tasks.register('javadocJarDebug', Jar) {
+        dependsOn javadoc
+        archiveClassifier.set('javadoc')
+        from javadoc.get().destinationDir
+        destinationDirectory.set(file("$buildDir/outputs/aar")) //默认生成在build/libs
+    }
+    // 让 assembleDebug 依赖两个 jar 任务, 即: 先在output/libs目录下生成 javadoc.jar & sources.jar
+    tasks.named("assembleDebug").configure {
+        dependsOn sourcesJarDebug
+        dependsOn javadocJarDebug
+    }
+
+
+    // 不生成 BuildConfig.class
+//    generateReleaseBuildConfig.enabled = false
+//    generateDebugBuildConfig.enabled = false
+    /**
+     * resValue 是 AGP 提供的一个 DSL，让你在 build.gradle 里动态往 res/values/ 里塞资源。它在构建时生成一个 XML，合并进最终资源。例:
+     * android {
+     *     defaultConfig {
+     *         resValue "color", "primary", "#FF0000"
+     *     }
+     * }
+     */
+//    generateReleaseResValues.enabled = false
+//    generateDebugResValues.enabled = false
+}
+
+// Javadoc 全局配置, 防止编码问题
+tasks.withType(Javadoc).configureEach {
+    failOnError = false
+//    options.addStringOption('encoding', 'UTF-8')        // 源码编码
+//    options.addStringOption('charSet', 'UTF-8')         // 输出编码
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
+    options.author = true
+    options.version = true
+//    options.links = ['http://docs.oracle.com/javase/7/docs/api']
+    options.links = ['https://developer.android.com/reference/']
+    options.addStringOption('Xdoclint:none', '-quiet')  // 关闭严格检查，避免格式问题失败
+}

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.activity.BaseBottomActivity;
@@ -37,7 +38,7 @@ public class MyBaseBottomActivity extends BaseBottomActivity {
     }
 
 //    @OnClick({R.id.btn_dismiss, R.id.btn_ok, R.id.tv_content})
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_dismiss:
                 finish();

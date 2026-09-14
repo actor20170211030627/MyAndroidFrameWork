@@ -68,7 +68,7 @@ public class QQWeChatActivity extends BaseActivity<ActivityQqWeChatBinding> {
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_login_qq://登录
                 QQUtils.login(this, "all", false, false, listener);
@@ -102,7 +102,8 @@ public class QQWeChatActivity extends BaseActivity<ActivityQqWeChatBinding> {
                 break;
             case R.id.btn_share_img://分享图片
                 PictureSelectorUtils.create(this, null)
-                        .selectImage(false)
+                        .selectImage()
+                        .setCompress(false)
                         .setSingleSelect(true)
                         .setShowCamera(true)
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
@@ -110,7 +111,7 @@ public class QQWeChatActivity extends BaseActivity<ActivityQqWeChatBinding> {
                             public void onResult(ArrayList<LocalMedia> result) {
                                 LocalMedia localMedia = result.get(0);
                                 PictureSelectorUtils.printLocalMedia(localMedia);
-                                QQUtils.shareToQQImg(mActivity, localMedia.getRealPath(), "点我返回哟哟a", null, null,
+                                QQUtils.shareToQQImg(mActivity, localMedia.getAvailablePath(), "点我返回哟哟a", null, null,
                                         new BaseUiListener() {
                                             @Override
                                             public void doComplete(@Nullable JSONObject response) {
@@ -237,14 +238,15 @@ public class QQWeChatActivity extends BaseActivity<ActivityQqWeChatBinding> {
                 break;
             case R.id.btn_share_image://分享图片
                 PictureSelectorUtils.create(this, null)
-                        .selectImage(false)
+                        .selectImage()
+                        .setCompress(false)
                         .setSingleSelect(true)
                         .forResult(new OnResultCallbackListener<LocalMedia>() {
                             @Override
                             public void onResult(ArrayList<LocalMedia> result) {
                                 LocalMedia localMedia = result.get(0);
                                 PictureSelectorUtils.printLocalMedia(localMedia);
-                                WeChatUtils.sendReqImage(result.get(0).getRealPath(), null, SendMessageToWX.Req.WXSceneSession, shareListener);
+                                WeChatUtils.sendReqImage(localMedia.getAvailablePath(), null, SendMessageToWX.Req.WXSceneSession, shareListener);
                             }
                             @Override
                             public void onCancel() {

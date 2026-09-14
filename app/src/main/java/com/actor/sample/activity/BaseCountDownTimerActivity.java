@@ -3,6 +3,8 @@ package com.actor.sample.activity;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.actor.myandroidframework.utils.BaseCountDownTimer;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityBaseCountDownTimerBinding;
@@ -35,7 +37,7 @@ public class BaseCountDownTimerActivity extends BaseActivity<ActivityBaseCountDo
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_2:
                 countDownTimer.start();

@@ -1,0 +1,43 @@
+/**
+ * 打包 & 发布到本地 Maven
+ * 1.在 gradle.properties 中添加你的 PUBLISH_GROUP_ID, 例:
+ *   PUBLISH_GROUP_ID = com.github.actor20170211030627.MyAndroidFrameWork
+ *
+ * 2.在 library 的 gradle 的  apply plugin: 'com.android.library'  后面或 plugins{} 后面添加:
+ *     apply from: rootProject.file('scripts/publish-maven-1.0.0.gradle')   //推荐
+ *     apply from: "../publish-maven-1.0.0.gradle"                  //或这样
+ *   if 是使用的 publish-maven_download-github.gradle 或 publish-maven_download-gitee.gradle 下载本文件, 就不要写 ↑ 这些
+ *
+ * 3.Maven打包发布到 C:\Users\Administrator\.m2\repository\ 目录下生成 .aar (默认没有sources.jar & javadoc.jar, 但我👇加上了):
+ *   Gradle窗口 → Tasks → publishing → publishToMavenLocal             : 所有 library 都 maven 打包
+ *   Gradle窗口 → moduleName → Tasks → publishing → publishToMavenLocal: 只 moduleName 模块 moven 打包
+ *
+ * 4.使用本地 maven 包:
+ *  mavenLocal()                                                    //在项目的 build.gradle → allprojects → repositories 中添加
+ *  implementation 'PUBLISH_GROUP_ID(1的配置):libraryName:version'  //在 module 的 build.gradle 中添加依赖
+ */
+
+// 先 apply publish-1.0.0.gradle，让它把 sourcesJar / javadoc / javadocJar 注册好
+// 本地需要先写 ↓, 但是通过 publish-maven_download 下载的文件已经apply了, 这儿就不需要 ↓ 了
+//apply from: rootProject.file('scripts/publish-1.0.0.gradle')
+
+apply plugin: 'maven-publish'
+
+// 发布配置需要在 afterEvaluate 里，等 android {} 配置完成
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // groupId / artifactId / version 都从当前模块读取
+                groupId = project.findProperty('PUBLISH_GROUP_ID') ?: 'com.github.actor20170211030627.MyAndroidFrameWork'
+                artifactId = project.name                       //模块名
+                version = android.defaultConfig.versionName     // 版本名称, build.gradle -> android -> defaultConfig -> versionName
+                from components.release                         // 指定发布 release variant 的产物（AAR） + POM + .module
+
+                // 手动带上 sources / javadoc (maven 默认不会打这2个jar包)
+                artifact tasks.named('sourcesJar').get()
+                artifact tasks.named('javadocJar').get()
+            }
+        }
+    }
+}

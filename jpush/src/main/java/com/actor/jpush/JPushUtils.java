@@ -12,6 +12,7 @@ import com.actor.myandroidframework.utils.LogUtils;
 
 import java.util.Set;
 
+import cn.jiguang.api.JCoreInterface;
 import cn.jiguang.api.utils.JCollectionAuth;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.CustomPushNotificationBuilder;
@@ -38,16 +39,18 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  *         <ol>
  *             <li>
  *                 如您需要接入地理围栏业务，建议集成以下权限（可选）<br />
- *                 <b>“</b>官方aar中默认已经自动集成了地理围栏业务的定位权限(ACCESS_COARSE_LOCATION,
- *                 ACCESS_FINE_LOCATION, ACCESS_BACKGROUND_LOCATION), 我已经移除了, 无语...<br />
- *                 可点击 {@link cn.jpush.client.android.R.style.JPushTheme} 下方的<b>AndroidManifest.xml</b>查看它明明已集成...<b>”</b> <br />
- *                 <b>注意:</b> 如果你需要以上3个定位权限, 需要在清单文件中配置: <br />
- *                 &lt;!--允许应用获取粗略位置--> <br />
- *                 &lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /&gt; <br />
- *                 &lt;!--允许应用获取精准位置--> <br />
- *                 &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt; <br />
- *                 &lt;!--Android Q适配 应用后台定位权限 --> <br />
- *                 &lt;uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /&gt;
+ *                 官方aar中默认已经自动集成了地理围栏业务的定位权限({@link android.Manifest.permission#ACCESS_COARSE_LOCATION ACCESS_COARSE_LOCATION},
+ *                 {@link android.Manifest.permission#ACCESS_FINE_LOCATION ACCESS_FINE_LOCATION}, {@link android.Manifest.permission#ACCESS_BACKGROUND_LOCATION ACCESS_BACKGROUND_LOCATION}),
+ *                 可点击 {@link cn.jpush.client.android.R.style.JPushTheme} 下方的<b>AndroidManifest.xml</b>查看它明明已集成, 我已经移除了! <br />
+ *                 {@link null 注意:} 如果你需要以上3个定位权限, 需要在清单文件中配置:
+ * <pre>
+ * &lt;!--允许应用获取粗略位置-->
+ * &lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /&gt;
+ * &lt;!--允许应用获取精准位置-->
+ * &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;
+ * &lt;!--Android Q适配 应用后台定位权限 -->
+ * &lt;uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /&gt;
+ * </pre>
  *             </li>
  *             <li>
  *                 如您需要对应设备通知相关的能力，建议集成以下权限（可选）<br />
@@ -56,8 +59,8 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  *             </li>
  *             <li>
  *                 用于生成准确的推送目标 ID（极光RID)，保证消息推送的精准送达，合理分配厂商推送通道，以提升消息送达率（可选） <br />
- *                 <b>“</b>官方aar中明明已经集成了生成准确的推送目标 ID的权限(READ_PHONE_STATE,
- *                 QUERY_ALL_PACKAGES, GET_TASKS, ACCESS_WIFI_STATE), 官方文档也不改, 还是继续写着要手动集成...<br />
+ *                 <b>“</b>官方aar中明明已经集成了生成准确的推送目标 ID的权限({@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE},
+ *                 {@link android.Manifest.permission#QUERY_ALL_PACKAGES QUERY_ALL_PACKAGES}, {@link android.Manifest.permission#GET_TASKS GET_TASKS}, {@link android.Manifest.permission#ACCESS_WIFI_STATE ACCESS_WIFI_STATE}), 官方文档也不改, 还是继续写着要手动集成...<br />
  *                 可点击 {@link cn.jpush.client.android.R.style.JPushTheme} 下方的<b>AndroidManifest.xml</b>查看它明明已集成...<b>”</b>
  *             </li>
  *         </ol>
@@ -68,31 +71,36 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  *         5.项目的build.gradle中<a href="https://docs.jiguang.cn/jpush/client/Android/android_guide#配置-mavencentral-支持" target="_blank">配置 mavenCentral 支持</a>
  *         <ol>
  *             <li>
- *                 在工程build.gradle配置脚本中buildscript和allprojects段中添加 <br />
- *                 mavenCentral()
+ *                 在工程 build.gradle 配置脚本中 buildscript 和 allprojects 段中添加 <br />
+ *                 <code>mavenCentral()</code>
  *             </li>
- *             <li>
- *                 在模块build.gradle中配置 <br />
- *                 android { <br />
- *                     &emsp; defaultConfig { <br />
- *                     &emsp;&emsp; ndk {//选择要添加的对应 cpu 类型的 .so 库 <br />
- *                         &emsp;&emsp;&emsp; //"armeabi-v7a", "arm64-v8a", "armeabi", "x86", "x86_64", "mips", "mips64" <br />
- *                         &emsp;&emsp;&emsp; abiFilters "armeabi-v7a", "arm64-v8a" <br />
- *                     &emsp;&emsp; } <br />
- *                     &emsp;&emsp; manifestPlaceholders = [ <br />
- *                         &emsp;&emsp;&emsp; JPUSH_PKGNAME : applicationId, <br />
- *                         &emsp;&emsp;&emsp; JPUSH_APPKEY : "你的 Appkey ", //JPush 上注册的包名对应的 Appkey. <br />
- *                         &emsp;&emsp;&emsp; JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.(下载渠道) <br />
- *                     &emsp;&emsp;] <br />
- *                     &emsp; } <br />
- *                 } <br />
- *                 dependencies { <br />
- *                     &emsp; 可点击查看<a href="https://repo.maven.apache.org/maven2/cn/jiguang/sdk/jpush/">最新版本号</a> <br />
- *                     &emsp; //https://docs.jiguang.cn/jpush/client/Android/android_guide#配置-mavencentral-支持 <br />
- *                     &emsp; implementation 'cn.jiguang.sdk:jpush:5.2.2'   //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置 <br />
- *                     &emsp; implementation 'cn.jiguang.sdk:joperate:2.0.2'//可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能 <br />
- *                     //另外还可集成Google Play版本, 具体见文档 <br />
- *                 }
+ *             <li>在模块 build.gradle 中配置
+ * <pre>
+ * android {
+ *     defaultConfig {
+ *         ndk {//选择要添加的对应 cpu 类型的 .so 库
+ *             //"armeabi-v7a", "arm64-v8a", "armeabi", "x86", "x86_64", "mips", "mips64"
+ *             abiFilters "armeabi-v7a", "arm64-v8a"
+ *         }
+ *         manifestPlaceholders = [
+ *             JPUSH_PKGNAME : applicationId,
+ *             JPUSH_APPKEY : "你的 Appkey ", //JPush 上注册的包名对应的 Appkey.
+ *             JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.(下载渠道)
+ *         ]
+ *     }
+ * }
+ * dependencies {
+ *     可点击查看<a href="https://repo.maven.apache.org/maven2/cn/jiguang/sdk/jpush/">cn.jiguang.sdk:jpush 最新版本号</a>
+ *     //https://docs.jiguang.cn/jpush/client/Android/android_guide#配置-mavencentral-支持
+ *     implementation ('cn.jiguang.sdk:jpush:5.2.2') { //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+ *     //      exclude group: 'cn.jiguang.sdk', module: 'jcore'  //+ JCore 包最新版
+ *     }
+ *     可点击查看<a href="https://repo.maven.apache.org/maven2/cn/jiguang/sdk/jcore/">cn.jiguang.sdk:jcore 最新版本号</a>
+ *     implementation 'cn.jiguang.sdk:jcore:4.5.0'    //可选，JCore 包，if你发现↑自动集成的有问题, 可以使用这个和↑同一天发布的包
+ *     implementation 'cn.jiguang.sdk:joperate:2.0.2'//可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
+ *     //另外还可集成Google Play版本, 具体见文档
+ * }
+ * </pre>
  *             </li>
  *         </ol>
  *     </li>
@@ -141,6 +149,21 @@ import cn.jpush.android.ups.UPSUnRegisterCallBack;
  */
 public class JPushUtils {
 
+    private static final String[][] AUTH = {
+            {"by", "3.3.0", "3.3.1", "3.3.2", "3.3.4"},
+            {"ca", "3.3.5", "3.3.6"},
+            {"cm", "4.0.0"},
+            {"cp", "4.1.0",                 "4.8.0", "4.8.2"},
+            {"cn", "4.1.6", "4.2.0",        "4.6.0", "4.6.1", "4.7.0", "4.7.3"},
+            {"ci", "4.2.2", "4.2.3", "4.2.4"},
+            {"cf", "4.3.3", "4.4.0", "4.4.3", "4.4.5", "4.4.6"},
+            {"cg", "4.5.0", "4.5.3", "4.5.7"},
+            {"co", "4.7.9"},
+            {"bz", "4.9.0", "4.9.1", "4.9.5", "5.2.0", "5.2.2", "5.2.5", "5.2.7", "5.2.8"},
+            {"bv", "5.0.0", "5.0.2", "5.0.4", "5.1.0", "5.1.1"},
+            {"av", "5.3.0", "5.3.1", "5.3.6", "5.3.7", "5.4.0", "5.4.3", "5.4.7", "5.4.8", "5.4.9", "5.5.0", "5.5.1", "5.5.2", "5.5.4"}
+    };
+
     ///////////////////////////////////////////////////////////////////////////
     // 隐私确认接口与 SDK 推送业务功能启用
     ///////////////////////////////////////////////////////////////////////////
@@ -162,12 +185,31 @@ public class JPushUtils {
      *     <li>{@link cn.jiguang.api.JCoreManager#onEvent(Context, String, int, String, android.os.Bundle, Object...)}, (参3=96, 参6=auth)</li>
      *     <li>{@link cn.jiguang.api.JCoreManager#onEvent(Context, String, int, boolean, String, android.os.Bundle, Object...)}, (参3=96, 参4=false, 参7=auth)</li>
      * </ol>
+     * {@link cn.jiguang.api.JCoreManager#init(Context)}
      */
     protected static boolean isAuth() {
-//        return cn.jiguang.cg.a.a();
-//        return cn.jiguang.cn.a.a();
-//        return cn.jiguang.cp.a.b();
-        return false;   //↑ 经常变动, 不可靠. 如果要判断是否已经同意, 应该自己sp存储!
+        if (getVersionCode() < 330) return true;
+        for (String[] row : AUTH) {
+            for (int i = 1; i < row.length; i++) {
+                if (getVersionName().equals(row[i])) {
+                    switch (row[0]) {
+                        case "by": return cn.jiguang.by.a.a();
+                        case "ca": return cn.jiguang.ca.a.a();
+                        case "cm": return cn.jiguang.cm.a.a();
+                        case "cp": return cn.jiguang.cp.a.a();
+                        case "cn": return cn.jiguang.cn.a.a();
+                        case "ci": return cn.jiguang.ci.a.a();
+                        case "cf": return cn.jiguang.cf.a.a();
+                        case "cg": return cn.jiguang.cg.a.a();
+                        case "co": return cn.jiguang.co.a.a();
+                        case "bz": return cn.jiguang.bz.b.a();
+                        case "bv": return cn.jiguang.bv.b.a();
+                        case "av": return cn.jiguang.av.b.a();
+                    }
+                }
+            }
+        }
+        return false;   //代码混淆经常变动, 需自己去找cn.jiguang.xx.x.a()方法. 或者自己sp存储
     }
 
 
@@ -897,6 +939,30 @@ public class JPushUtils {
                                       @IntRange(from = 0, to = 23) int endHour,
                                       @IntRange(from = 0, to = 59) int endMinute) {
         JPushInterface.setSilenceTime(context, startHour, startMinute, endHour, endMinute);
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 版本 API
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * 获取版本号
+     * @return sdk版本号
+     */
+    public static int getVersionCode() {
+//        return cn.jcore.client.android.BuildConfig.VERSION_CODE;  //❌️一直 = 1
+//        return cn.jiguang.android.BuildConfig.VERSION_CODE;       //✅️
+        return JCoreInterface.getJCoreSDKVersionInt();
+    }
+
+    /**
+     * 获取版本名称
+     * @return sdk版本名称
+     */
+    public static String getVersionName() {
+//        return cn.jcore.client.android.BuildConfig.VERSION_NAME;  //✅️
+        return cn.jiguang.android.BuildConfig.VERSION_NAME;
     }
 
 

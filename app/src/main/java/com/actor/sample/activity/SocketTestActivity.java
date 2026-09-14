@@ -169,7 +169,7 @@ public class SocketTestActivity extends BaseActivity<ActivitySocketTestBinding> 
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_socket_connet:
                 //开始连Socket

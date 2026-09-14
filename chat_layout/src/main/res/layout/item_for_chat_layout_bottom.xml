@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".adapter.ChatLayoutMoreAdapter">
 
     <com.actor.myandroidframework.widget.RatioLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangle_corners_10"
         app:ratio="1">
 
         <ImageView
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shape_rectangle_corners_10"
+            android:adjustViewBounds="true"
             android:padding="5dp"
             android:scaleType="fitCenter"
             tools:src="@drawable/face_delete" />
@@ -28,5 +30,5 @@
         android:layout_marginTop="6dp"
         android:gravity="center"
         android:textColor="@color/gray_6f7378_for_chat_layout"
-        tools:text="相册" />
+        tools:text="Gallery" />
 </LinearLayout>

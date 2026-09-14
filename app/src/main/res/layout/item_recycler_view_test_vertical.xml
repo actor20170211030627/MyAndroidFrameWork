@@ -14,11 +14,13 @@
         android:drawableStart="@drawable/frame_anim_audio_playing"
         android:drawablePadding="5dp"
         android:gravity="center"
+        android:paddingStart="5dp"
         android:paddingTop="10dp"
+        android:paddingEnd="5dp"
         android:paddingBottom="10dp"
-        android:text="item0,点我!"
         android:textColor="@color/black"
         app:dtvIsReset2Frame0AfterAnimStop="true"
         app:dtvStartHeight="15dp"
-        app:dtvStartWidth="15dp" />
+        app:dtvStartWidth="15dp"
+        tools:text="item0,点我!" />
 </FrameLayout>

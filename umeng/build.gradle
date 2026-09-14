@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
 }
+apply from: rootProject.file('scripts/publish-1.0.0.gradle')
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -12,6 +13,8 @@ android {
         versionName         rootProject.ext.android.versionName
 
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
+        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
     }
 
     buildTypes {
@@ -20,51 +23,10 @@ android {
         }
     }
 
-    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
-    // 打包源码jar
-    task sourcesJar(type: Jar) {
-        from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
-    }
-    task javadoc(type: Javadoc) {
-        failOnError false
-        source = android.sourceSets.main.java.sourceFiles
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-        classpath += configurations.compile
-    }
-    // 打包文档jar
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-    artifacts {
-        archives sourcesJar
-        archives javadocJar
-    }
-    // javadoc configuration
-    javadoc {
-        options{
-            encoding "UTF-8"
-            charSet 'UTF-8'
-            author true
-            version true
-            links "http://docs.oracle.com/javase/7/docs/api"
-//            title javadocName
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
-
-afterEvaluate {
-    // 排除 BuildConfig.class 和 R.class
-    generateReleaseBuildConfig.enabled = false
-    generateDebugBuildConfig.enabled = false
-    generateReleaseResValues.enabled = false
-    generateDebugResValues.enabled = false
 }
 
 dependencies {

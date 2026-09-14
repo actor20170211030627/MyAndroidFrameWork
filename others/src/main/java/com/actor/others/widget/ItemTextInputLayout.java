@@ -28,14 +28,12 @@ import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.others.R;
 import com.actor.others.RegexFilter;
-import com.actor.myandroidframework.utils.TextUtils2;
 
 /**
- * Description: 常用的Item输入布局,这是一个组合控件. <br/>
- * Author     : ldf <br/>
- * Date       : 2019/7/10 on 17:20 <br/>
+ * Description: 常用的Item输入布局,这是一个组合控件.
  * <br/>
  * 全部属性都是itil开头: <br/>
  * <table border="2px" bordercolor="red" cellspacing="0px" cellpadding="5px">
@@ -126,7 +124,32 @@ import com.actor.myandroidframework.utils.TextUtils2;
  *     </tr>
  * </table>
  *
- * TODO: 2021/6/1 使用layout的方式, 在页面测试ViewPager+3个Fragment+多个ItemTextInputLayout的过程中, 发现会有et里面数据填充混乱的问题, 感觉可能是编译版本过高, 或者id不再是final等原因, 具体待探索
+ * {@link null 注意:} if 使用 R.layout.xxx 的方式填充本布局, 在页面测试 ViewPager + 3个Fragment + 多个 ItemTextInputLayout 的过程中,
+ * 发现会有 editText 里面数据填充混乱的问题, 发生原因: <br />
+ * <ol>
+ *     <li>
+ *         Fragment 的生命周期与 View 复用：<br />
+ *         ViewPager 默认只保留当前页及相邻页（setOffscreenPageLimit 默认为 1）。
+ *         滑动时，较远的 Fragment 的 View 被销毁（onDestroyView），但其状态可能被系统保存。
+ *         当再次滑回时，Fragment 的 View 会重建，如果此时状态恢复不当，就会导致 EditText 内容错乱。
+ *     </li>
+ *     <li>
+ *         自定义 View 未正确保存内部状态：<br />
+ *         ItemTextInputLayout 作为 LinearLayout 的子类，若未重写 {@link #onSaveInstanceState()} 和 {@link #onRestoreInstanceState(android.os.Parcelable)}，
+ *         其内部 EditText 的状态可能无法跟随其父容器正确保存和恢复。
+ *         特别是当内部 EditText 的 ID 在多个实例中重复时，Android 的默认状态保存机制会因 ID 冲突而无法区分，
+ *         导致恢复时数据“张冠李戴”。
+ *     </li>
+ *     <li>
+ *         EditText ID 冲突：<br />
+ *         这是最直接的原因。如果 R.layout.item_text_input_layout 中的 EditText 使用了固定的 ID（如 android:id="@+id/edit_text"），
+ *         那么当同一个布局被多个 ItemTextInputLayout 实例（在不同 Fragment 中）填充时，就会产生多个具有相同 ID 的 View。
+ *         Android 的 View 状态保存机制依赖于 ID 的唯一性，ID 冲突会导致状态恢复时发生混乱，例如所有 EditText 都显示为最后一个实例输入的内容。
+ *     </li>
+ * </ol>
+ *
+ * @author     : ldf
+ * @date       : 2019/7/10 on 17:20
  */
 public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetTextAble {
 
@@ -235,10 +258,12 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
                         trim = trim.substring(0, trim.length() - 1);
                     }
                     if (inputEnable) {//能输入
-                        setHint("请输入".concat(trim));//"请输入" + item名称
+                        String plsInput = context.getString(R.string.pls_input);
+                        setHint(plsInput.concat(trim));//"请输入" + item名称
                     } else {//不能输入
                         if (ivArrowRight.getVisibility() == VISIBLE) {//右侧箭头显示
-                            setHint("请选择".concat(trim));//"请输入请选择 + item名称
+                            String plsSelect = context.getString(R.string.pls_select);
+                            setHint(plsSelect.concat(trim));//"请输入请选择 + item名称
                         } else {
                             //不能输入 & 右侧箭头不显示, 就不setHint()
                         }
@@ -283,7 +308,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             //TextView(Item)
             tvItem = new TextView(context);
             tvItem.setMinWidth(dp2px(90));
-            tvItem.setTextColor(getResources().getColor(com.actor.myandroidframework.R.color.gray_666));
+            tvItem.setTextColor(getResources().getColor(com.actor.myandroidframework.R.color.gray_333));
             tvItem.setTextSize(15);
             llContentForItil.addView(tvItem);
             //EditText
@@ -312,6 +337,8 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             tvItem = inflate.findViewById(R.id.tv_item_name_for_itil);
             et1 = inflate.findViewById(R.id.et_input_for_itil);
             ivArrowRight = inflate.findViewById(R.id.iv_arrow_right_for_itil);
+            //重新赋值id, 防止多个itil复用的时候, 恢复的时候被系统根据 R.id.et_input_for_itil 这个不变的id写入错误的值
+            et1.setId(View.generateViewId());
         }
         //如果xml中设置了android:onClick, 则clickListener不为空
         if (clickListener != null) setOnClickListener(clickListener);
@@ -469,12 +496,15 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
     public void setInputEnable(boolean enable) {
         EditText editText = getEditText();
 //        setInputType(enable ? inputType, EditorInfo.TYPE_NULL);
-//        editText.setEnabled(enable);//这样不能编辑,可用于隐藏输入法,但是EditText的点击事件无反应,不能做点击事件
+        //同时禁掉点击、焦点和输入，还会把文字变灰, 能隐藏输入法, 但是EditText的点击事件无反应, 不能做点击事件
+//        editText.setEnabled(enable);
         //要设置focusable, 否则点击事件要第2次才有反应
         editText.setFocusable(enable);
         editText.setClickable(!enable);
+//        editText.setKeyListener(null);    //会丢失原有的 KeyListener（比如数字键盘、多行等），恢复时要保存原始值。
         editText.setLongClickable(enable);//长按显示粘贴
         editText.setFocusableInTouchMode(enable);
+        editText.setShowSoftInputOnFocus(enable);
 //        if (enable) editText.requestFocus();//把光标移动到这一个et1,但是不弹出键盘
         if (hintTextColors == null) {
             hintTextColors = editText.getHintTextColors();

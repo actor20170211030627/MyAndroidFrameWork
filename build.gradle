@@ -17,6 +17,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+        //这就是 AGP( Android Gradle Plugin) 版本，是 Google 官方为 Android 项目开发的 Gradle 插件。它的作用是：编译、打包、资源处理、依赖管理、构建任务
 //        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'com.android.tools.build:gradle:4.1.2'
 //        classpath 'com.android.tools.build:gradle:4.2.2'
@@ -31,7 +32,7 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenLocal()
+        mavenLocal()    // 让 Gradle 能在本地 Maven 仓库中查找依赖
         maven { url 'D://repository' }
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/central' }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
 }
+apply from: rootProject.file('scripts/publish-1.0.0.gradle')
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -12,6 +13,8 @@ android {
         versionName         rootProject.ext.android.versionName
 
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
+        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
     }
 
     buildTypes {
@@ -20,51 +23,10 @@ android {
         }
     }
 
-    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
-    // 打包源码jar
-    task sourcesJar(type: Jar) {
-        from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
-    }
-    task javadoc(type: Javadoc) {
-        failOnError false
-        source = android.sourceSets.main.java.sourceFiles
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-        classpath += configurations.compile
-    }
-    // 打包文档jar
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-    artifacts {
-        archives sourcesJar
-        archives javadocJar
-    }
-    // javadoc configuration
-    javadoc {
-        options{
-            encoding "UTF-8"
-            charSet 'UTF-8'
-            author true
-            version true
-            links "http://docs.oracle.com/javase/7/docs/api"
-//            title javadocName
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
-
-afterEvaluate {
-    // 排除 BuildConfig.class 和 R.class
-    generateReleaseBuildConfig.enabled = false
-    generateDebugBuildConfig.enabled = false
-    generateReleaseResValues.enabled = false
-    generateDebugResValues.enabled = false
 }
 
 dependencies {
@@ -76,6 +38,12 @@ dependencies {
     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
     //https://docs.jiguang.cn/jpush/client/Android/android_guide#配置-mavencentral-支持
-    compileOnly 'cn.jiguang.sdk:jpush:5.2.2'    //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+    compileOnly ('cn.jiguang.sdk:jpush:5.2.2') {    //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+        exclude group: 'cn.jiguang.sdk', module: 'jcore'  //+ JCore 包最新版
+    }
+//    compileOnly 'cn.jiguang.sdk:jcore:4.5.0'    //可选，JCore 包，if你发现↑自动集成的有问题, 可以使用这个和↑同一天发布的包
 //    compileOnly 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
+
+    //JCore
+    compileOnly project(path: ':tempgen')
 }

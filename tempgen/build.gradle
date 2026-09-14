@@ -19,12 +19,11 @@ android {
     }
 }
 
-afterEvaluate {
-    // 排除 BuildConfig.class 和 R.class
-    generateReleaseBuildConfig.enabled = false
-    generateDebugBuildConfig.enabled = false
-    generateReleaseResValues.enabled = false
-    generateDebugResValues.enabled = false
+// 禁用所有 variant 的 AAR 打包
+android.libraryVariants.all { variant ->
+    tasks.named("bundle${variant.name.capitalize()}Aar").configure {
+        enabled = false
+    }
 }
 
 dependencies {

@@ -66,8 +66,30 @@ android {
     }
 }
 
+/**
+ * 新建kotlin项目, 能得到合适的版本号:
+ * implementation 'androidx.core:core-ktx:1.8.0'
+ * implementation 'androidx.appcompat:appcompat:1.4.1'
+ * implementation 'com.google.android.material:material:1.5.0'
+ * implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+ */
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])
+
+    //https://github.com/material-components/material-components-android BottomSheetDialog等
+    implementation (rootProject.ext.dependencies.material_material) {
+        exclude group: 'androidx.appcompat', module: 'appcompat'                //1.1.0
+        exclude group: 'androidx.recyclerview', module: 'recyclerview'          //1.1.0
+        exclude group: 'androidx.constraintlayout', module: 'constraintlayout'  //2.0.1
+    }
+
+    implementation (rootProject.ext.dependencies.androidx_recyclerview) {
+        transitive = false
+    }
+
+    //https://github.com/androidx/constraintlayout 约束布局
+    implementation rootProject.ext.dependencies.androidx_constraintlayout
 
     //https://github.com/google/flexbox-layout
 //    implementation 'com.google.android:flexbox:1.0.0'
@@ -86,6 +108,9 @@ dependencies {
     implementation "net.zetetic:android-database-sqlcipher:4.4.3@aar"
     implementation "androidx.sqlite:sqlite:2.1.0"
 
+    // 悬浮窗框架：https://github.com/getActivity/EasyWindow
+    implementation 'com.github.getActivity:EasyWindow:15.8'
+
 
 
     //https://bintray.com/wechat-sdk-team/maven 微信登录支付,不包含统计功能
@@ -93,7 +118,10 @@ dependencies {
 
     //https://docs.jiguang.cn//jpush/client/Android/android_guide/ 极光推送
     //http://docs.jiguang.cn/jpush/updates/ 最新版本号
-    implementation 'cn.jiguang.sdk:jpush:5.2.2'    //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+    implementation ('cn.jiguang.sdk:jpush:5.2.2') {  //必选, 注意：5.0.0 版本开始可以自动拉取 JCore 包，无需另外配置
+//        exclude group: 'cn.jiguang.sdk', module: 'jcore'  //+ JCore 包最新版
+    }
+//    implementation 'cn.jiguang.sdk:jcore:4.5.0'    //可选，JCore 包，if你发现↑自动集成的有问题, 可以使用这个和↑同一天发布的包
 //    implementation 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
 
 
@@ -154,8 +182,4 @@ dependencies {
 
     //https://github.com/square/leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:3.0-alpha-1'
-
-    //https://github.com/JakeWharton/butterknife 用于生成点击事件
-    compileOnly 'com.jakewharton:butterknife:10.2.3'
-//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 }

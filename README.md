@@ -1,21 +1,20 @@
 ## MyAndroidFrameWork
+
 > <a href="https://github.com/actor20170211030627/MyAndroidFrameWork" target="_blank">Github</a>, 
 > <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork" target="_blank">Gitee码云</a>
->
+> 
 > 注意: 这是 <font color='red' size='6'><b>Androidx</b></font> 版, 非Androidx版本在&nbsp;
 > <a style="font-size:23px" href="./README-1.4.1.md"><s>这儿 </s></a>
 > &nbsp;(非Androidx版本不再维护) <br/>
->
+> 
 > > Androidx版本能很好向下兼容, 包括jar包依赖也能自动转换, 所以建议转换成Androidx.
 
-
 ## 安卓常用组件&框架(懒得每次都搭架子...)
+
 ### 1.集成框架包括如下列表, 具体见 <a href="library/build.gradle" target="_blank">build.gradle</a>:
+
 <pre>
-<ol><li>api "com.google.android.material:material:1.5.0"</li>
-<li>api "androidx.appcompat:appcompat:1.4.1"</li>
-<li>api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"</li>
-<li>api "androidx.constraintlayout:constraintlayout:2.1.4"</li>
+<ol><li>api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"</li>
 <li>//https://github.com/google/gson
 //不混淆解析类, 示例: -keep class com.package.xxx.info.** { *; }
 api 'com.google.code.gson:gson:2.10.1'
@@ -53,13 +52,16 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 </pre>
 
 ## 2.一些控件和工具类等
+
 **2.1.RecyclerView**
+
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/recyclerview/BaseItemDecoration.java" target="_blank">BaseItemDecoration</a> (RecyclerView的Item间隔)
 <a href="library/src/main/java/com/actor/myandroidframework/recyclerview/WheelViewAdapter.java" target="_blank">WheelViewAdapter</a> (WheelView滚动效果的Adapter)
 </pre>
 
 **2.2.ViewPager的Adapter**
+
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentPagerAdapter.java" target="_blank">BaseFragmentPagerAdapter</a> (管理Fragment)
 <a href="library/src/main/java/com/actor/myandroidframework/adapter_viewpager/BaseFragmentStatePagerAdapter.java" target="_blank">BaseFragmentStatePagerAdapter</a> (管理Fragment)
@@ -67,6 +69,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 </pre>
 
 **2.3.Dialog(继承对应Dialog并自定义界面, 不用再关注style等. )**
+
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseAlertDialog.java" target="_blank">BaseAlertDialog</a> (AlertDialog简单说明)
 <a href="library/src/main/java/com/actor/myandroidframework/dialog/BaseBottomSheetDialog.java" target="_blank">BaseBottomSheetDialog</a> (从底部弹出并停留底部, 可二次滑动)
@@ -78,6 +81,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 </pre>
 
 **2.4.Utils工具类**
+
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaPlayerUtils.java" target="_blank">MediaPlayerUtils</a> (播放音频)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/audio/MediaRecorderUtils.java" target="_blank">MediaRecorderUtils</a> (录音)
@@ -91,7 +95,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 <a href="library/src/main/java/com/actor/myandroidframework/utils/Base64Utils.java" target="_blank">Base64Utils</a> (Base64编解码)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BaseCountDownTimer.java" target="_blank">BaseCountDownTimer</a> (倒计时, 可暂停, 继续, 获取计时时间)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/BRVUtils.java" target="_blank">BRVUtils</a> (BaseRecyclerView框架辅助)
-<a href="library/src/main/java/com/actor/myandroidframework/utils/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
+<a href="library/src/main/java/com/actor/myandroidframework/utils/click/ClickUtils2.java" target="_blank">ClickUtils2</a> (防止2次点击)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/FontUtils.java" target="_blank">FontUtils</a> (字体)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/LogUtils.java" target="_blank">LogUtils</a> (Log简单打印)
 <a href="library/src/main/java/com/actor/myandroidframework/utils/MMKVUtils.java" target="_blank">MMKVUtils</a> (数据缓存)
@@ -103,6 +107,7 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 </pre>
 
 **2.5.Widget小控件**
+
 <pre>
 <a href="library/src/main/java/com/actor/myandroidframework/widget/viewpager/ScrollableViewPager.java" target="_blank">ScrollableViewPager</a> (ViewPager是否能左右滑动)
 <a href="library/src/main/java/com/actor/myandroidframework/widget/webview/BaseWebView.java" target="_blank">BaseWebView</a> (WebView简单封装)
@@ -126,25 +131,34 @@ api 'com.github.li-xiaojun:XPopup:2.10.0'
 </pre>
 
 ## 3.Screenshot
-<img src="captures/BaseTextSwitcher_And_BaseViewSwitcher.gif" width=33%></img>
-<img src="captures/BaseBottomSheetDialogFragment.gif" width=33%></img>
-<img src="captures/BaseRatingBar.gif" width=33%></img>
-<img src="captures/chatlayout.png" width=33%></img>
-<img src="captures/chat_layout.gif" width=33%></img>
+
+| Dialog                                          | FileSelector                   | ChatLayout                                                     |
+|:-----------------------------------------------:|:------------------------------:|:--------------------------------------------------------------:|
+| ![](captures/BaseBottomSheetDialogFragment.gif) | ![](captures/FileSelector.png) | ![](captures/chatlayout.png)<br/>![](captures/chat_layout.gif) |
+| **QQ WeChat**                                   | **WheelView**                  | **RatingBar**                                                  |
+| ![](captures/QQWeChat.jpg)                      | ![](captures/WheelView.jpg)    | ![](captures/BaseRatingBar.gif)                                |
+| **LineView**                                    | **WebView**                    | **MediaPlayer**                                                |
+| ![](captures/LineView.jpg)                      | ![](captures/WebView.jpg)      | ![](captures/MediaPlayer.jpg)                                  |
+| **LogUtils**                                    |                                |                                                                |
+| ![](captures/LogUtils.png)                      |                                |                                                                |
 
 ## 4.Sample
-<a href="https://github.com/actor20170211030627/MyAndroidFrameWork/releases/latest/download/app-debug.apk" target="_blank">download apk</a> or scan qrcode: <br />
+
+<a href="https://github.com/actor20170211030627/MyAndroidFrameWork/releases/latest/download/app-debug.apk" target="_blank">download apk</a> or scan qrcode: 
 <img src="captures/qrcode_download_apk.png" width=33%></img>
 
 ## 5.minSdkVersion [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
+
     如果您项目的minSdkVersion小于21, 集成后可能会报错: Manifest merger failed with multiple errors, see logs
 
 ## 6.How to
+
 To get a Git project into your build:
 
 **Step 1.** Add the JitPack repository to your build file
 
 Add it in your root build.gradle at the end of repositories:
+
 <pre>
     allprojects {
         repositories {
@@ -161,6 +175,7 @@ Add it in your root build.gradle at the end of repositories:
 
 **Step 2.** Add the dependency, the latest version(最新版本):
 Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) &nbsp; <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork)
+
 <pre>
     android {
       ...
@@ -294,9 +309,8 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
  implementation 'com.github.actor20170211030627.MyAndroidFrameWork:others:github's latest version'
 </pre>
 
-
-
 ## 7.<code>AndroidManifest.xml</code>合并清单文件报错
+
 <pre>
 <ol>
 <li>如果报错: AndroidManifest.xml:15:5-134:19: AAPT: error: attribute android:requestLegacyExternalStorage not found.
@@ -309,6 +323,7 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
 </pre>
 
 ## 8.项目中已经添加了混淆文件, 如果需要混淆, 只需在自己项目中打开混淆配置:
+
 <pre>
     android {
         ...
@@ -322,6 +337,7 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
 </pre>
 
 ## 9.使用步骤
+
 <pre>
 1.写一个 Application extends ActorApplication, 然后重写方法, 可参考: <a href="app/src/main/java/com/actor/sample/MyApplication.java" target="_blank">MyApplication</a>  (非必须继承, ActorApplication里有一些配置, 可把配置代码copy到自己Application)
 2.写一个 BaseActivity extends ActorBaseActivity(或ViewBindingActivity)(非必须继承), 然后你的Activity 继承 BaseActivity
@@ -332,4 +348,5 @@ implementation 'com.github.actor20170211030627.MyAndroidFrameWork:ali_pay:github
 ## 10.有问题请升级到最新版本: Github:[![](https://jitpack.io/v/actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#actor20170211030627/MyAndroidFrameWork) <s>Gitee:</s>[![](https://jitpack.io/v/com.gitee.actor20170211030627/MyAndroidFrameWork.svg)](https://jitpack.io/#com.gitee.actor20170211030627/MyAndroidFrameWork), 或提交 <a href="https://github.com/actor20170211030627/MyAndroidFrameWork/issues" target="_blank">issues</a>, 发邮箱: <a href="mailto:1455198886@qq.com">email</a>
 
 ## 11.License
+
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)

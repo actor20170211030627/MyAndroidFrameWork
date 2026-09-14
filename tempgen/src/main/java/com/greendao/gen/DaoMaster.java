@@ -10,9 +10,7 @@ import org.greenrobot.greendao.database.DatabaseOpenHelper;
 import org.greenrobot.greendao.database.StandardDatabase;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 
-/**
- * 这个DaoMaster的作用只起到能编译通过, 在使用中需要自己Build -> Make Project, 生成DaoMaster, 否则空指针
- */
+//不能写个 greendao.java 类, 因为 app 模块 生成的代码有 package com.greendao.gen; 这个包名, if 写成.java 会和 app 模块的 package 冲突, 编译不通过
 public class DaoMaster extends AbstractDaoMaster {
     public static final int SCHEMA_VERSION = 1;
 

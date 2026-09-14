@@ -1,5 +1,6 @@
 package com.actor.picture_selector.adapter_recyclerview;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.actor.picture_selector.R;
@@ -31,13 +32,13 @@ import java.util.Map;
  *     List<LocalMedia> selectFiles = picAdapter.getSelectFiles();
  *     for (LocalMedia selectFile : selectFiles) {
  *         //如果这个文件还未上传到服务器
- *         if (!picAdapter.hasUpload(selectFile.getRealPath())) {
+ *         if (!picAdapter.hasUpload(selectFile.getAvailablePath())) {
  *             //上传文件, 并设置上传结果, data是上传文件后返回的json解析的实体类 例:
- *             picAdapter.setUpload(selectFile.getRealPath(), (UploadFileInfo) data);
+ *             picAdapter.setUpload(selectFile.getAvailablePath(), (UploadFileInfo) data);
  *         }
  *     }
  * }
- * //获取已上传文件Map<文件路径, UploadInfo>, 注意: 如果上传了1次后又选择了新的文件, 那么上传路径有可能=null
+ * //获取已上传文件Map<文件路径, UploadFileInfo>, 注意: 如果上传了1次后又选择了新的文件, 那么上传路径有可能=null
  * Map<String, UploadFileInfo> alreadyUploads = picAdapter.getAlreadyUploadFiles();
  * } </pre>
  *
@@ -70,13 +71,8 @@ public interface AddLocalMediaAble<UploadInfo> {
     @Deprecated
     public abstract Map<String, UploadInfo> getUploads();
 
-
-    public default void initAddLocalMediaAble() {
-        getSelectFiles().clear();
-        getUploads().clear();
-    }
     /**
-     * 是否有图片选择
+     * 是否有图片/视频/音频选择
      */
     default boolean hasFileSelected() {
         return !getSelectFiles().isEmpty();
@@ -93,11 +89,12 @@ public interface AddLocalMediaAble<UploadInfo> {
 
     /**
      * 设置文件上传路径
-     * @param path 文件
-     * @param uploadPath 上传路径
+     * @param path 文件路径
+     * @param uploadInfo 上传返回的信息
      */
-    default void setUpload(String path, UploadInfo uploadPath) {
-        getUploads().put(path, uploadPath);
+    default void setUpload(String path, UploadInfo uploadInfo) {
+        if (TextUtils.isEmpty(path)) return;
+        getUploads().put(path, uploadInfo);
     }
 
     /**
@@ -107,8 +104,8 @@ public interface AddLocalMediaAble<UploadInfo> {
     default Map<String, UploadInfo> getAlreadyUploadFiles() {
         Map<String, UploadInfo> alreadyUploads = new LinkedHashMap<>();
         for (LocalMedia localMedia : getSelectFiles()) {
-            String realPath = localMedia.getRealPath();
-            alreadyUploads.put(realPath, getUploads().get(realPath));
+            String path = localMedia.getAvailablePath();
+            alreadyUploads.put(path, getUploads().get(path));
         }
         return alreadyUploads;
     }

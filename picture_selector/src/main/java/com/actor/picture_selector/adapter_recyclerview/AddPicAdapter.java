@@ -85,7 +85,8 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
         this.lastItemPic = lastItemPic;
         this.deletePic = deletePic;
         this.itemClickListener = listener;
-        initAddLocalMediaAble();
+        getSelectFiles().clear();
+        getUploads().clear();
         addChildClickViewIds(R.id.iv_for_file_select, R.id.iv_delete_for_file_select);
         addData(EXTRA_LAST_MEDIA);
 
@@ -113,13 +114,15 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
                             switch (selectType) {
                                 case 0://拍照
                                     PictureSelectorUtils.create(topActivity, localMedias)
-                                            .takePhoto(true)
+                                            .takePhoto()
+                                            .setCompress(true)
                                             .setCrop(false)
                                             .forResult(onResultCallbackListener);
                                     break;
                                 case 1://选择图片
                                     PictureSelectorUtils.create(topActivity, localMedias)
-                                            .selectImage(true)
+                                            .selectImage()
+                                            .setCompress(true)
                                             .setMaxSelect(maxFiles)
                                             .setShowCamera(isShowCamera)
                                             .setIsShowOriginal(isShowOriginal)
@@ -157,7 +160,7 @@ public class AddPicAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Base
         if (isLastPos) {
             Glide.with(iv).load(lastItemPic).into(iv);
         } else {
-            Glide.with(iv).load(item.getPath()).into(iv);
+            Glide.with(iv).load(item.getAvailablePath()).into(iv);
         }
     }
 

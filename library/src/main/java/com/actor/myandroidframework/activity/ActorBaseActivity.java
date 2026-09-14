@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.actor.myandroidframework.R;
 import com.actor.myandroidframework.bean.OnActivityCallback;
 import com.actor.myandroidframework.dialog.LoadingDialog;
-import com.actor.myandroidframework.dialog.ShowNetWorkLoadingDialogAble;
+import com.actor.myandroidframework.dialog.ShowLoadingDialogAble;
 import com.actor.myandroidframework.service.ActorBaseService;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.TextUtils2;
@@ -38,7 +38,7 @@ import com.actor.myandroidframework.utils.sharedelement.SharedElementUtils;
  *
  * @version 1.0
  */
-public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkLoadingDialogAble {
+public class ActorBaseActivity extends AppCompatActivity implements ShowLoadingDialogAble {
 
     //在网络请求中传入LifecycleOwner, ∴用AppCompatActivity
     protected ActorBaseActivity         mActivity;
@@ -322,12 +322,10 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     // 显示加载Dialog
     ///////////////////////////////////////////////////////////////////////////
     private LoadingDialog netWorkLoadingDialog;
-    //网络请求次数.(一个页面有可能有很多个请求)
-    private int requestCountOfShowLoadingDialog = 0;
 
     @Override
     @Nullable
-    public LoadingDialog getNetWorkLoadingDialog() {
+    public LoadingDialog getLoadingDialog() {
         if (mActivity == null) return null;
         if (netWorkLoadingDialog == null) {
             netWorkLoadingDialog = new LoadingDialog(mActivity);
@@ -335,16 +333,19 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
         }
         return netWorkLoadingDialog;
     }
-    @Override
-    public int getRequestCount() {
-        return requestCountOfShowLoadingDialog;
-    }
-    @Override
-    public void setRequestCount(int requestCount) {
-        requestCountOfShowLoadingDialog  = requestCount;
-    }
 
 
+    /**
+     * 接收 activity layout xml 中的点击事件, {@link null 注意:} fragment layout xml 也会反射到这儿来!
+     * @param view xml 中设置 <code>android:onClick="onViewClicked"</code> 的View, 例:
+     * <pre>
+     * &lt;Button <br />
+     *     android:id="@+id/btn" <br />
+     *     android:layout_width="wrap_content" <br />
+     *     android:layout_height="wrap_content" <br />
+     *     android:onClick="onViewClicked" /&gt;
+     * </pre>
+     */
     public void onViewClicked(@NonNull View view) {
     }
 
@@ -365,7 +366,7 @@ public class ActorBaseActivity extends AppCompatActivity implements ShowNetWorkL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        dismissNetWorkLoadingDialog();
+        dismissLoadingDialog();
         if (mActivityCallbacks != null) {
             mActivityCallbacks.clear();
             mActivityCallbacks = null;

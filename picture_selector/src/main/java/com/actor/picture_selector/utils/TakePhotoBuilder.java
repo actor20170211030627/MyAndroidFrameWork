@@ -16,7 +16,16 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 public class TakePhotoBuilder {
 
     /**
-     * 是否裁剪图片
+     * 选择图片 是否压缩, 默认 false
+     */
+    public TakePhotoBuilder setCompress(boolean isCompress) {
+        PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
+        utils.isCompress = isCompress;
+        return this;
+    }
+
+    /**
+     * 是否裁剪图片, 默认 false
      */
     public TakePhotoBuilder setCrop(boolean crop) {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +14,7 @@ import androidx.annotation.RequiresPermission;
 import androidx.fragment.app.Fragment;
 
 import com.actor.myandroidframework.utils.ConfigUtils;
-import com.actor.myandroidframework.utils.video.VideoProcessorUtils;
+import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.picture_selector.R;
 import com.luck.picture.lib.animators.AnimationType;
 import com.luck.picture.lib.basic.PictureSelectionCameraModel;
@@ -364,7 +363,7 @@ public class PictureSelectorUtils {
 
     /**
      * 打开相机拍照. 如果要压缩视频, 可使用:
-     * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
+     * @see com.actor.myandroidframework.utils.video.VideoProcessorUtils#compressVideo(Context, String, com.actor.myandroidframework.utils.video.VideoProcessorUtils.OnCompressListener)
      * @param cameraModel "拍照/录视频" 配置, 可自定义
      * @param listener 回调
      * @deprecated 传入自定义配置后调用.
@@ -479,7 +478,7 @@ public class PictureSelectorUtils {
     /**
      * 选择系统图片/视频/音频. 使用系统库，将不支持某些 API 函数. <br />
      * 如果要压缩视频, 可使用:
-     * @see VideoProcessorUtils#compressVideo(Context, String, VideoProcessorUtils.OnCompressListener)
+     * @see com.actor.myandroidframework.utils.video.VideoProcessorUtils#compressVideo(Context, String, com.actor.myandroidframework.utils.video.VideoProcessorUtils.OnCompressListener)
      * @param systemModel 配置, 可自定义
      * @param listener 回调
      * @deprecated 传入自定义配置后调用.
@@ -637,29 +636,32 @@ public class PictureSelectorUtils {
 
 
 
-    private static final String TAG = "PictureSelectorUtils";
 
     /**
      * 打印 LocalMedia 信息
      */
     public static void printLocalMedia(@Nullable LocalMedia media) {
         if (media == null) return;
-        Log.i(TAG, "文件名getFileName()                             :" + media.getFileName());
-        Log.i(TAG, "是否压缩isCompressed()                          :" + media.isCompressed());
-        Log.i(TAG, "压缩路径getCompressPath()                       :" + media.getCompressPath());
-        Log.i(TAG, "初始路径getPath()                               :" + media.getPath());
-        Log.i(TAG, "绝对路径getRealPath()                           :" + media.getRealPath());
-        Log.i(TAG, "是否裁剪isCut()                                 :" + media.isCut());
-        Log.i(TAG, "裁剪路径getCutPath()                            :" + media.getCutPath());
-        Log.i(TAG, "是否开启原图isOriginal()                        :" + media.isOriginal());
-        Log.i(TAG, "原图路径getOriginalPath()                       :" + media.getOriginalPath());
-        Log.i(TAG, "沙盒路径getSandboxPath()                        :" + media.getSandboxPath());
-        Log.i(TAG, "水印路径getWatermarkPath()                      :" + media.getWatermarkPath());
-        Log.i(TAG, "视频缩略图getVideoThumbnailPath()               :" + media.getVideoThumbnailPath());
-        Log.i(TAG, "原始宽高getWidth(),getHeight()                  :" + media.getWidth() + "x" + media.getHeight());
-        Log.i(TAG, "裁剪宽高getCropImageWidth(),getCropImageHeight():" + media.getCropImageWidth() + "x" + media.getCropImageHeight());
-        Log.i(TAG, "文件大小getSize()                               :" + PictureFileUtils.formatAccurateUnitFileSize(media.getSize()));
-        Log.i(TAG, "文件时长getDuration()                           :" + media.getDuration());
+        LogUtils.errorFormat("文件名       getFileName()                                   :%s", media.getFileName());
+        LogUtils.errorFormat("获取存在Path getAvailablePath()                              :%s", media.getAvailablePath());
+        LogUtils.errorFormat("是否压缩     isCompressed()                                  :%b", media.isCompressed());
+        LogUtils.errorFormat("压缩路径     getCompressPath()                               :%s", media.getCompressPath());
+        LogUtils.errorFormat("初始路径     getPath()                                       :%s", media.getPath());
+        LogUtils.errorFormat("绝对路径     getRealPath()                                   :%s", media.getRealPath());
+        LogUtils.errorFormat("是否裁剪     isCut()                                         :%b", media.isCut());
+        LogUtils.errorFormat("裁剪路径     getCutPath()                                    :%s", media.getCutPath());
+        LogUtils.errorFormat("是否开启原图 isOriginal()                                    :%b", media.isOriginal());
+        LogUtils.errorFormat("原图路径     getOriginalPath()                               :%s", media.getOriginalPath());
+        LogUtils.errorFormat("是否沙盒路径 isToSandboxPath()                               :%b", media.isToSandboxPath());
+        LogUtils.errorFormat("沙盒路径     getSandboxPath()                                :%s", media.getSandboxPath());
+        LogUtils.errorFormat("是否水印路径 isWatermarkPath()                               :%b", media.isWatermarkPath());
+        LogUtils.errorFormat("水印路径     getWatermarkPath()                              :%s", media.getWatermarkPath());
+        LogUtils.errorFormat("是否来自拍照 isCameraSource()                                :%b", media.isCameraSource());
+        LogUtils.errorFormat("视频缩略图   getVideoThumbnailPath()                         :%s(未调用setVideoThumbnailListener(), ∴这儿返回null)", media.getVideoThumbnailPath());
+        LogUtils.errorFormat("原始宽高     getWidth() = %d,          getHeight() = %d         ", media.getWidth(), media.getHeight());
+        LogUtils.errorFormat("裁剪宽高     getCropImageWidth() = %d, getCropImageHeight() = %d", media.getCropImageWidth(), media.getCropImageHeight());
+        LogUtils.errorFormat("文件大小     getSize()                                       :%s", PictureFileUtils.formatAccurateUnitFileSize(media.getSize()));
+        LogUtils.errorFormat("文件时长     getDuration()                                   :%d", media.getDuration());
     }
 
 

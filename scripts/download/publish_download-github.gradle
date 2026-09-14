@@ -1,0 +1,26 @@
+/**
+ * 下载 Github 上的 publish.gradle, 用于将 library 打包成 .aar / sourcesJar / javadoc / javadocJar
+ *
+ * 1.在 library 的 gradle 的  apply plugin: 'com.android.library'  后面或 plugins{} 后面添加:
+ *   apply from: "https://raw.githubusercontent.com/actor20170211030627/MyAndroidFrameWork/refs/heads/master/scripts/publish_download-github.gradle"
+ *
+ * 2.详细使用请查看 publishScriptName 这个文件
+ */
+
+//脚本名称
+def publishScriptName = 'publish-1.0.0.gradle'
+
+def baseUrl = "https://raw.githubusercontent.com/actor20170211030627/MyAndroidFrameWork/refs/heads/master/scripts"
+def localDir = new File(rootProject.projectDir, ".gradle/scripts")
+localDir.mkdirs()
+
+def localFile = new File(localDir, publishScriptName)
+if (!localFile.exists()) {
+    try {
+        localFile.text = new URL("${baseUrl}/${publishScriptName}").getText('UTF-8')
+        println("${publishScriptName} 已下载到: ${localDir.absolutePath}, 使用方法见 ${publishScriptName} 内说明")
+    } catch (Exception e) {
+        throw new GradleException("无法下载 ${publishScriptName}，请检查网络或访问 ${baseUrl}", e)
+    }
+}
+apply from: localFile

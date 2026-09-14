@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.actor.jpush.JPushEvent;
 import com.actor.jpush.JPushUtils;
 import com.actor.jpush.PushMessageService;
@@ -39,7 +41,7 @@ public class JPushActivity extends BaseActivity<ActivityJpushBinding> {
 
 //    @OnClick({R.id.btn_start, R.id.btn_stop})
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_start://开始接收
                 JPushUtils.resumePush(mActivity);//恢复推送服务

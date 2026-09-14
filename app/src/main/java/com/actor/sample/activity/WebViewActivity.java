@@ -9,6 +9,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
@@ -91,7 +92,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebViewBinding> {
 
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_alert:
                 viewBinding.webView.alert("你好Alert!", valueCallback);

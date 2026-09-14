@@ -89,7 +89,8 @@ public class AddAudioAdapter<UploadInfo> extends BaseQuickAdapter<LocalMedia, Ba
         this.normalItemPic = normalItemPic;
         this.deletePic = deletePic;
         this.itemClickListener = listener;
-        initAddLocalMediaAble();
+        getSelectFiles().clear();
+        getUploads().clear();
         addChildClickViewIds(R.id.iv_for_file_select, R.id.iv_delete_for_file_select);
         addData(EXTRA_LAST_MEDIA);//添加一个+号
 

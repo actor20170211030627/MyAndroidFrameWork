@@ -13,6 +13,7 @@ import com.actor.sample.bean.Item;
 import com.actor.sample.databinding.ActivityRecyclerViewTestBinding;
 import com.blankj.utilcode.util.SizeUtils;
 import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.List;
@@ -79,6 +80,7 @@ public class RecyclerViewTestActivity extends BaseActivity<ActivityRecyclerViewT
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount, getOrientation(), false);
         if (selectedItemPosition == 0) {
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                //item元素在GridLayoutManager中占据的格子数量‌。默认占据1个格子。
                 @Override
                 public int getSpanSize(int position) {
                     //用第1个预览效果
@@ -105,22 +107,26 @@ public class RecyclerViewTestActivity extends BaseActivity<ActivityRecyclerViewT
     }
 
     private void setFlexboxLayoutManager() {
-        int flexDirection = (getOrientation() == RecyclerView.VERTICAL) ? FlexDirection.ROW : FlexDirection.COLUMN;
-        viewBinding.recyclerView.setLayoutManager(new FlexboxLayoutManager(this, flexDirection));
+        int selectedItemPosition = viewBinding.bsSpanFlexWrap.getSelectedItemPosition();
+        int count = viewBinding.bsSpanFlexWrap.getCount();
+        //
+        int flexWrap = selectedItemPosition == 0 || selectedItemPosition == count - 1 ? FlexWrap.WRAP : selectedItemPosition - 1;
+        int flexDirection = getOrientation() == RecyclerView.VERTICAL ? FlexDirection.ROW : FlexDirection.COLUMN;
+        viewBinding.recyclerView.setLayoutManager(new FlexboxLayoutManager(this, flexDirection, flexWrap));
         viewBinding.recyclerView.setAdapter(mAdapterFlexbox);
 //        setAdapter();
+    }
+
+    private void setAdapter() {
+        if (getOrientation() == RecyclerView.VERTICAL) {
+            viewBinding.recyclerView.setAdapter(mAdapterVertical);
+        } else {
+            viewBinding.recyclerView.setAdapter(mAdapterHorizontal);
+        }
     }
 
     //方向
     private int getOrientation() {
         return viewBinding.switchOrientation.isChecked() ? RecyclerView.VERTICAL : RecyclerView.HORIZONTAL;
-    }
-
-    private void setAdapter() {
-        if (viewBinding.switchOrientation.isChecked()) {
-            viewBinding.recyclerView.setAdapter(mAdapterVertical);
-        } else {
-            viewBinding.recyclerView.setAdapter(mAdapterHorizontal);
-        }
     }
 }

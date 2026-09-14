@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
 }
+apply from: rootProject.file('scripts/publish-1.0.0.gradle')
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -12,6 +13,8 @@ android {
         versionName         rootProject.ext.android.versionName
 
         consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
+        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
     }
 
     buildTypes {
@@ -20,72 +23,62 @@ android {
         }
     }
 
-    //以下为配置library注释在打包jar后保留:https://www.jianshu.com/p/b04ef4029b90
-    // 打包源码jar
-    task sourcesJar(type: Jar) {
-        from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
-    }
-    task javadoc(type: Javadoc) {
-        failOnError false
-        source = android.sourceSets.main.java.sourceFiles
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-        classpath += configurations.compile
-    }
-    // 打包文档jar
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-    artifacts {
-        archives sourcesJar
-        archives javadocJar
-    }
-    // javadoc configuration
-    javadoc {
-        options{
-            encoding "UTF-8"
-            charSet 'UTF-8'
-            author true
-            version true
-            links "http://docs.oracle.com/javase/7/docs/api"
-//            title javadocName
-        }
-    }
-
     //Android8, 在android节点内添加
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    packagingOptions {
-        // 剔除这个包下的所有文件（不会移除签名信息）
-        exclude 'META-INF/*******'
-    }
-}
-
-afterEvaluate {
-    // 排除 BuildConfig.class 和 R.class
-    generateReleaseBuildConfig.enabled = false
-    generateDebugBuildConfig.enabled = false
-    generateReleaseResValues.enabled = false
-    generateDebugResValues.enabled = false
 }
 
 dependencies {
+    //AppCompatActivity
+    // compileOnly: AAPT: error: resource style/Theme.AppCompat.Light.NoActionBar (aka com.actor.picture_selector:style/Theme.AppCompat.Light.NoActionBar) not found.
+    implementation rootProject.ext.dependencies.appcompat_appcompat
+
+    compileOnly (rootProject.ext.dependencies.androidx_recyclerview) {
+        transitive = false
+    }
+
+    //compileOnly 找不到 layout_constraintDimensionRatio
+    implementation rootProject.ext.dependencies.androidx_constraintlayout
+
     //基础库
     compileOnly project(path: ':library')
 
     //https://github.com/LuckSiege/PictureSelector 选择图片(裁剪,压缩,自定义相机)、视频、音频(minSdkVersion 21)
-    api 'io.github.lucksiege:pictureselector:v3.11.2'
+    api ('io.github.lucksiege:pictureselector:v3.11.2') {
+//        transitive = false
+        exclude group: 'androidx.appcompat', module: 'appcompat'                //1.3.1
+        exclude group: 'androidx.recyclerview', module: 'recyclerview'          //1.2.1
+        //排除编译会报错: androidx.activity.result.ActivityResultLauncher
+//        exclude group: 'androidx.activity', module: 'activity'                  //1.3.1
+        exclude group: 'androidx.fragment', module: 'fragment'                  //1.3.1
+        exclude group: 'androidx.exifinterface', module: 'exifinterface'        //1.3.3
+        exclude group: 'androidx.viewpager2', module: 'viewpager2'              //1.0.0
+        exclude group: 'androidx.constraintlayout', module: 'constraintlayout'  //2.1.4
+    }
 
     // 图片压缩 (按需引入)
     compileOnly 'io.github.lucksiege:compress:v3.11.2'
 
     // 图片裁剪 (按需引入)
-    compileOnly 'io.github.lucksiege:ucrop:v3.11.2'
+    compileOnly ('io.github.lucksiege:ucrop:v3.11.2') {
+        exclude group: 'androidx.appcompat', module: 'appcompat'        //1.3.1
+        exclude group: 'androidx.exifinterface', module: 'exifinterface'//1.3.3
+        exclude group: 'androidx.transition', module: 'transition'      //1.4.1
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'         //3.12.13
+        exclude group: 'androidx.recyclerview', module: 'recyclerview'  //1.2.1
+        exclude group: 'com.google.code.gson', module: 'gson'           //2.8.6
+    }
 
     // 自定义相机 (按需引入)
-    compileOnly 'io.github.lucksiege:camerax:v3.11.2'
+    compileOnly ('io.github.lucksiege:camerax:v3.11.2') {
+//        exclude group: 'androidx.camera', module: 'camera-view'         //1.2.1
+//        exclude group: 'androidx.camera', module: 'camera-lifecycle'    //1.3.1
+//        exclude group: 'androidx.camera', module: 'camera-core'         //1.2.1
+//        exclude group: 'androidx.camera', module: 'camera-camera2'      //1.2.1
+        exclude group: 'androidx.appcompat', module: 'appcompat'            //1.3.1
+        exclude group: 'androidx.transition', module: 'transition'          //1.4.1
+        exclude group: 'androidx.concurrent', module: 'concurrent-futures'  //1.1.1
+    }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    app:shape_radius="30dp"
+    app:shape_solidColor="@color/white"
+    tools:context=".dialog.SpinnerShowingDialog">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red_trans_CC99"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        tools:text="测试 Spinner 在 Dialog 中显示" />
+
+    <com.actor.myandroidframework.widget.BaseSpinner
+        android:id="@+id/bs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:entries="@array/languages"
+        android:padding="10dp"
+        android:spinnerMode="dropdown" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/stv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        app:shape_radius="10dp"
+        app:shape_solidColor="@color/blue_5ECCFD" />
+</com.hjq.shape.layout.ShapeLinearLayout>

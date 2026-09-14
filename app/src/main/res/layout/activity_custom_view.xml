@@ -95,13 +95,33 @@
             android:transitionName="btnTest"
             app:layout_constraintTop_toBottomOf="@id/ll" />
 
+        <Button
+            android:id="@+id/btn_spinner_show_in_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="在普通Dialog显示"
+            android:transitionName="btnTest"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_check" />
+
+        <Button
+            android:id="@+id/btn_spinner_show_in_application_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="在全局Window显示(悬浮窗权限)"
+            android:transitionName="btnTest"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_check" />
+
         <com.hjq.shape.view.ShapeTextView
             android:id="@+id/stv_result0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="result"
             android:padding="5dp"
-            app:layout_constraintTop_toBottomOf="@id/btn_check" />
+            app:layout_constraintTop_toBottomOf="@id/btn_spinner_show_in_dialog" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -311,7 +331,7 @@
             app:irglCheckedPosition="0"
             app:irglCustomLayout="@layout/item_radio_group_layout"
             app:irglGravity="right|center_vertical"
-            app:irglItemName="性别: "
+            app:irglItemName="ItemRadioGroupLayout: "
             app:irglRedStarVisibility="visible"
             app:layout_constraintTop_toBottomOf="@id/tv5" />
 
@@ -330,7 +350,7 @@
             android:layout_height="wrap_content"
             app:islCustomLayout="@layout/item_spinner_layout"
             app:islEntries="@array/languages"
-            app:islItemName="请选择: "
+            app:islItemName="ItemSpinnerLayout: "
             app:islMarginTop="20dp"
             app:islRedStarVisibility="visible"
             app:layout_constraintTop_toBottomOf="@id/btn_check2" />
@@ -346,7 +366,7 @@
             app:itilImeOptions="actionNext"
             app:itilInputEnable="true"
             app:itilInputType="text"
-            app:itilItemName="正则输入: "
+            app:itilItemName="ItemTextInputLayout: "
             app:itilMarginTop="20dp"
             app:itilMaxLength="15"
             app:itilRedStarVisibility="visible"
@@ -370,7 +390,7 @@
             app:itilHint="测试不能输入"
             app:itilImeOptions="actionDone"
             app:itilInputType="text"
-            app:itilItemName="不能输入:"
+            app:itilItemName="ItemTextInputLayout:"
             app:itilMarginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/btn2" />
 
@@ -390,8 +410,16 @@
             android:onClick="onViewClicked"
             app:itilHint="测试不能输入的'点击事件'"
             app:itilInputEnable="false"
-            app:itilItemName="测试点击:"
+            app:itilItemName="ItemTextInputLayout:"
             app:itilMarginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/btn_input_enable" />
+
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isclChecked="true"
+            app:isclItemName="ItemSwitchLayout:"
+            app:layout_constraintTop_toBottomOf="@id/itil_can_not_input2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

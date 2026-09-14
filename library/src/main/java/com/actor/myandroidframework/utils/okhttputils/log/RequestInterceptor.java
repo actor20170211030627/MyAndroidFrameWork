@@ -10,6 +10,7 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -210,7 +211,7 @@ public class RequestInterceptor implements Interceptor {
                     body = ((WrapperRequestBody) body).getRequestBody();
                 }
             }
-            //added: 含文件表单的解析
+            //added: 包含多种类型的Body, 可能含文件表单
             if (body instanceof MultipartBody) {
                 StringBuilder sb = new StringBuilder();
                 List<MultipartBody.Part> parts = ((MultipartBody) body).parts();
@@ -244,18 +245,38 @@ public class RequestInterceptor implements Interceptor {
 //                    boolean duplex = body1.isDuplex();
 //                    boolean oneShot = body1.isOneShot();
 //                    String s = body1.toString();
+                    boolean isForm = isForm(mediaType); //application/x-www-form-urlencoded
                     if (mediaType == null || isText(mediaType)
                             || isJson(mediaType) || isXml(mediaType)
-//                            || isForm(mediaType)
+                            || isForm
                     ) {
                         body1.writeTo(requestbuffer);
-                        sb.append(", value=\"");
-                        sb.append(requestbuffer.readString(charset));
+                        String partStr = requestbuffer.readString(charset);
+                        //只有 FormBody 会被 OkHttp 自动 URL 编码
+                        if (isForm && UrlEncoderUtils.hasUrlEncoded(partStr)) {
+                            try {
+                                partStr = URLDecoder.decode(partStr, convertCharset(charset));
+                            } catch (IllegalArgumentException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        sb.append(", value=\"").append(partStr).append("\"");
 //                        requestbuffer.flush();
-                        sb.append("\"");
                     }
                 }
                 json = sb.toString();
+            } else if (body instanceof FormBody) {
+                //Added, application/x-www-form-urlencoded: 表单数据(不含文件), 参数会被encode
+                body.writeTo(requestbuffer);
+                json = requestbuffer.readString(charset);
+                //只有 FormBody 会被 OkHttp 自动 URL 编码
+                if (UrlEncoderUtils.hasUrlEncoded(json)) {
+                    try {
+                        json = URLDecoder.decode(json, convertCharset(charset));
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    }
+                }
             } else {
                 body.writeTo(requestbuffer);
 //                Charset charset = Charset.forName("UTF-8");
@@ -266,19 +287,20 @@ public class RequestInterceptor implements Interceptor {
                 /*String */json = requestbuffer.readString(charset);
             }
 
-            if (UrlEncoderUtils.hasUrlEncoded(json)) {
-                try {
-                    /**
-                     * TODO: 2024/1/8 以后去官网看看作者怎么改的
-                     * Edited:
-                     * https://github.com/JessYanCoding/MVPArt/issues/18
-                     * if自己上传服务器的String参数包含 "%u7", 就会解码错误, 导致崩溃
-                     */
-                    json = URLDecoder.decode(json, convertCharset(charset));
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                }
-            }
+            //Edited: 应该只有 FormBody 才会主动的 encode, 其余的不管了
+//            if (UrlEncoderUtils.hasUrlEncoded(json)) {
+//                try {
+//                    /**
+//                     * TODO: 2024/1/8 以后去官网看看作者怎么改的
+//                     * Edited:
+//                     * https://github.com/JessYanCoding/MVPArt/issues/18
+//                     * if自己上传服务器的String参数包含 "%u7", 就会解码错误, 导致崩溃
+//                     */
+//                    json = URLDecoder.decode(json, convertCharset(charset));
+//                } catch (IllegalArgumentException e) {
+//                    e.printStackTrace();
+//                }
+//            }
             return CharacterHandler.jsonFormat(json);
         } catch (IOException e) {
             e.printStackTrace();

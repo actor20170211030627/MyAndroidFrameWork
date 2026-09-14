@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
-    app:ratio="1">
+    app:ratio="1"
+    tools:context=".adapter.ChatLayoutEmojiAdapter">
 
     <ImageView
         android:id="@+id/iv_item_for_chat_layout_emoji_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/face_delete" />
+        android:scaleType="fitCenter"
+        tools:src="@drawable/selector_btn_emoji_for_chat_layout" />
 </com.actor.myandroidframework.widget.RatioLayout>

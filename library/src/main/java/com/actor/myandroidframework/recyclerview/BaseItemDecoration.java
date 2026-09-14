@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.actor.myandroidframework.utils.LogUtils;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexLine;
+import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
  *     <li>{@link LinearLayoutManager}</li>
  *     <li>{@link GridLayoutManager}</li>
  *     <li>{@link StaggeredGridLayoutManager}</li>
- *     <li>{@link FlexboxLayoutManager}</li>
+ *     <li>{@link FlexboxLayoutManager}, {@link com.google.android.flexbox.FlexboxItemDecoration}</li>
  * </ul>
  * 示例用法:
  * <pre>
@@ -98,14 +99,79 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         LogUtils.errorFormat("%s 还未适配间隙的设定!", layoutManager);
     }
 
+    /**
+     * 在 item 绘制之前, 在 item 下面, 画分割线、背景、间距里的填充
+     * @param c
+     * @param parent
+     * @param state
+     */
     @Override
     public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDraw(c, parent, state);
+        //drawable
+//        if (mDivider == null) return;
+//
+//        int childCount = parent.getChildCount();
+//        for (int i = 0; i < childCount; i++) {
+//            View child = parent.getChildAt(i);
+//
+//            // 用 getChildViewHolder 拿 position，比 getChildAdapterPosition 更稳
+//            RecyclerView.ViewHolder holder = parent.getChildViewHolder(child);
+//            int position = holder.getAbsoluteAdapterPosition();
+//            if (position == RecyclerView.NO_POSITION) continue;
+//
+//            // 取出这个 item 在 getItemOffsets 里设置的偏移
+//            RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) child.getLayoutParams();
+//            int left = child.getLeft() - lp.leftMargin;
+//            int top = child.getTop() - lp.topMargin;
+//            int right = child.getRight() + lp.rightMargin;
+//            int bottom = child.getBottom() + lp.bottomMargin;
+//
+//            // 在 item 的左侧区域画分割线
+//            if (lp.leftMargin > 0) {
+//                mDivider.setBounds(left, top, left + lp.leftMargin, bottom);
+//                mDivider.draw(c);
+//            }
+//
+//            // 在 item 的上方区域画分割线
+//            if (lp.topMargin > 0) {
+//                mDivider.setBounds(left, top, right, top + lp.topMargin);
+//                mDivider.draw(c);
+//            }
+//        }
     }
 
+    /**
+     * 在 item 绘制之后, 在 item 上面, 画悬浮效果、遮罩、覆盖在内容上的装饰、覆盖层、边框、阴影
+     * @param c
+     * @param parent
+     * @param state
+     */
     @Override
     public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
+        //drawable
+//        if (mDivider == null) return;
+//
+//        int childCount = parent.getChildCount();
+//        for (int i = 0; i < childCount; i++) {
+//            View child = parent.getChildAt(i);
+//            RecyclerView.ViewHolder holder = parent.getChildViewHolder(child);
+//            int position = holder.getAbsoluteAdapterPosition();
+//            if (position == RecyclerView.NO_POSITION) continue;
+//
+//            RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) child.getLayoutParams();
+//            int left = child.getLeft() - lp.leftMargin;
+//            int top = child.getTop() - lp.topMargin;
+//            int right = child.getRight() + lp.rightMargin;
+//            int bottom = child.getBottom() + lp.bottomMargin;
+//
+//            // 例如：在 item 底部画一条悬浮线
+//            if (lp.bottomMargin > 0) {
+//                mDivider.setBounds(left, bottom - lp.bottomMargin, right, bottom);
+//                mDivider.draw(c);
+//            }
+//        }
     }
 
     /**
@@ -260,7 +326,17 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
                                                        @NonNull RecyclerView parent,
                                                        @NonNull RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view); // item position
+        //viewHolder = null
+//        RecyclerView.ViewHolder containingViewHolder = parent.findContainingViewHolder(view);
+//        if (containingViewHolder != null) position = containingViewHolder.getAbsoluteAdapterPosition();
+        //能正确得出position
+//        RecyclerView.ViewHolder childViewHolder = parent.getChildViewHolder(view);
+//        if (childViewHolder != null) position = childViewHolder.getAbsoluteAdapterPosition();
+
+        //水平排布: FlexDirection.ROW,FlexDirection.ROW_REVERSE, 垂直排布: FlexDirection.COLUMN, FlexDirection.COLUMN_REVERSE
         int flexDirection = fblm.getFlexDirection();
+        //FlexWrap.NOWRAP(不换行), FlexWrap.WRAP(正常换行), FlexWrap.WRAP_REVERSE(反向换行, 第一行/列从右边开始排列)
+        int flexWrap = fblm.getFlexWrap();
 
         if (loggable) {
             LogUtils.error("///////////////////////////////////////////////////////////////////////////");
@@ -292,9 +368,16 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
 
         /**
          * 垂直排布, 水平方向滑动
-         * TODO: 这种"垂直排布, 水平方向滑动"方式, if item比较多能够水平滑动, 就会显示有问题, 原因未知!
+         * TODO: 这种"垂直排布, 水平方向滑动"方式, if item比较多能够水平滑动,  往回滑的时候就会显示有问题, 原因未知!
+         * 即使官方的 {@link com.google.android.flexbox.FlexboxItemDecoration} 往回滑的时候也有这个问题...
          */
         if (flexDirection == FlexDirection.COLUMN || flexDirection == FlexDirection.COLUMN_REVERSE) {
+            if (flexWrap == FlexWrap.NOWRAP) {
+                outRect.left = 0;
+                outRect.top = position == 0 ? 0 : (int) verticalSpacing;
+                return;
+            }
+
             //下方注释的是测试代码! item比较多能够水平滑动, 显示就会错乱
 //            if (true) {
 //                if (position == 11) outRect.set(5, 10, 15, 20);
@@ -325,6 +408,12 @@ public class BaseItemDecoration extends RecyclerView.ItemDecoration {
         }
         //水平排布, 垂直方向滑动
         if (flexDirection == FlexDirection.ROW || flexDirection == FlexDirection.ROW_REVERSE) {
+            if (flexWrap == FlexWrap.NOWRAP) {
+                outRect.left = position == 0 ? 0 : (int) horizontalSpacing;
+                outRect.top = 0;
+                return;
+            }
+
             if (itemLinePps > 0) {
                 //上一行的信息(不是position所在行)
                 FlexLine flexLine = flexLines.get(itemLinePps - 1);

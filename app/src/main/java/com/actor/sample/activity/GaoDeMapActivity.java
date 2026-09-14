@@ -106,7 +106,7 @@ public class GaoDeMapActivity extends BaseActivity<ActivityGaoDeMapBinding> {
     }
 
     @Override
-    public void onViewClicked(View view) {
+    public void onViewClicked(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_get_address_by_latlng_geo://坐标→'SDK'→地址
                 GaoDeGeoCoderUtils.getAddressByGeocodeSearch(new LatLonPoint(43.795592, 87.593087),

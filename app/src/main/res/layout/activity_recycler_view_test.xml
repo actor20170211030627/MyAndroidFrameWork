@@ -77,4 +77,13 @@
         android:text="FlexboxLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.actor.myandroidframework.widget.BaseSpinner
+        android:id="@+id/bs_span_flex_wrap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bsEntriesString="点击设置FlexWrap,FlexWrap.NOWRAP,FlexWrap.WRAP,FlexWrap.WRAP_REVERSE(会报错)"
+        app:layout_constraintBottom_toBottomOf="@id/btn_flexbox_layout_manager"
+        app:layout_constraintStart_toEndOf="@id/btn_flexbox_layout_manager"
+        app:layout_constraintTop_toTopOf="@id/btn_flexbox_layout_manager" />
 </androidx.constraintlayout.widget.ConstraintLayout>

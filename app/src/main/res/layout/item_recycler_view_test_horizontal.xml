@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     tools:context=".adapter.RecyclerViewTestAdapter">
 
-    <TextView
-        android:id="@+id/tv_contact"
+    <com.actor.myandroidframework.widget.DrawableTextView
+        android:id="@+id/dtv_contact"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:drawableTop="@drawable/frame_anim_audio_playing"
+        android:drawablePadding="5dp"
         android:gravity="center"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:textColor="@color/black"
-        tools:text="item0" />
+        app:dtvIsReset2Frame0AfterAnimStop="true"
+        app:dtvStartHeight="15dp"
+        app:dtvStartWidth="15dp"
+        tools:text="item0,点我!" />
 </FrameLayout>
