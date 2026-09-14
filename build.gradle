@@ -4,7 +4,6 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         mavenLocal()
-        maven { url 'D://repository' }
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
@@ -33,7 +32,6 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()    // 让 Gradle 能在本地 Maven 仓库中查找依赖
-        maven { url 'D://repository' }
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
