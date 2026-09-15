@@ -4,4 +4,4 @@ include ':app', ':library', ':picture_selector', ':database',
         ':qq_wechat', ':ali_pay',
         ':umeng', ':jpush', ':mp_android_chart',
         ':others'
-include ':tempgen'
+//include ':tempgen'
