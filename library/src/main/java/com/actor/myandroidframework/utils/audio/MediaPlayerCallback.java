@@ -50,22 +50,27 @@ public abstract class MediaPlayerCallback implements
     }
 
     /**
-     * 当准备完成后
+     * 当准备完成后, if是循环播放, 只会回调这个方法1次
      */
     @Override
     @CallSuper
     public void onPrepared(MediaPlayer mp) {
-        if (mp != null) {
-            isPrepared = true;
-            int audioSessionId = mp.getAudioSessionId();
-            LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
-            if (isAutoPlay) {
-                if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(audioSessionId)) {
-                    MediaPlayerUtils.getInstance().start(audioSessionId);
-                } else {
-                    //防止 audioSessionId 已经被移除
-                    MediaPlayerUtils.getInstance().start(mp, this);
-                }
+        if (mp == null) {
+            LogUtils.error("mp = null!!!");
+            return;
+        }
+        isPrepared = true;
+        int audioSessionId = mp.getAudioSessionId();
+        LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
+        //在 onPrepare 中添加id, 否则 MediaPlayerUtils 中添加的id可能还未初始化or其它问题
+        if (!isNewMediaPlayer) MediaPlayerUtils.getInstance().DEFAULT_AUDIO_SESSION_ID = audioSessionId;
+        MediaPlayerUtils.getInstance().getAllPlayers().put(audioSessionId, this);
+        if (isAutoPlay) {
+            if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(audioSessionId)) {
+                MediaPlayerUtils.getInstance().start(audioSessionId);
+            } else {
+                //防止 audioSessionId 已经被移除
+                MediaPlayerUtils.getInstance().start(mp, this);
             }
         }
     }
@@ -116,12 +121,14 @@ public abstract class MediaPlayerCallback implements
      * @return True if the method handled the error, false if it didn't.
      * Returning false, or not having an OnErrorListener at all, will
      * cause the OnCompletionListener to be called.
-     * 如果自己处理错误, 则返回true. 否则返回false(会调用 {@link #onCompletion(MediaPlayer))。
+     * 如果自己处理错误, 则返回true. 否则返回false(会调用 {@link #onCompletion(MediaPlayer)})。
      */
     @Override
 //    @CallSuper
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        LogUtils.errorFormat("播放的过程中, 出现错误, what=%d, extra=%d", what, extra);
+        if (mp == null) {
+            LogUtils.errorFormat("播放的过程中, 出现错误: what=%d, extra=%d", what, extra);
+        } else LogUtils.errorFormat("播放的过程中, 出现错误: audioSessionId = %d, what=%d, extra=%d", mp.getAudioSessionId(), what, extra);
         /**
          * 在这儿调用{@link MediaPlayer#release()}后, 会置空所有listener, 导致{@link #onCompletion(MediaPlayer)}不会被回调
          */
@@ -130,11 +137,14 @@ public abstract class MediaPlayerCallback implements
     }
 
     /**
-     * 播放完成
+     * 播放完成, if是循环播放, 不会回调这个方法
      */
     @Override
     @CallSuper
     public void onCompletion(@Nullable MediaPlayer mp) {
+        if (mp == null) {
+            LogUtils.error("播放完成");
+        } else LogUtils.errorFormat("播放完成: audioSessionId = %d", mp.getAudioSessionId());
         //if Map没查到AudioSessionId对应的MediaPlayer, 说明用户自己remove了, 就不要release()了
         if (isNewMediaPlayer && mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
         onCompletion2(mp);

@@ -69,7 +69,7 @@ public class ItemSwitchLayout extends LinearLayout {
 
     protected TextView     tvRedStar, tvItem;
     protected SwitchCompat switchCompat;
-    protected LinearLayout llContentForIrgl;
+    protected LinearLayout llContentForIscl;
     protected Space        spaceMarginTop;
     //px = dp * density;
     protected float        density;
@@ -108,7 +108,7 @@ public class ItemSwitchLayout extends LinearLayout {
             //红点是否显示
             int visible = typedArray.getInt(R.styleable.ItemSwitchLayout_isclRedStarVisibility, 0);
             //左侧TextView的Text
-            String irglItemName = typedArray.getString(R.styleable.ItemSwitchLayout_isclItemName);
+            String isclItemName = typedArray.getString(R.styleable.ItemSwitchLayout_isclItemName);
             //marginTop, 默认1dp
             int marginTop = typedArray.getDimensionPixelSize(R.styleable.ItemSwitchLayout_isclMarginTop, (int) density);
             //是否选中
@@ -121,13 +121,13 @@ public class ItemSwitchLayout extends LinearLayout {
 
             inflate(context, resourceId, containerMinHeight);
             getTextViewRedStar().setVisibility(visible * INVISIBLE);//设置红点是否显示
-            if (irglItemName != null) getTextViewItem().setText(irglItemName);
+            if (isclItemName != null) getTextViewItem().setText(isclItemName);
             setMarginTop(marginTop);
             setChecked(checked);
         }
         //默认白色背景
         if (getBackground() == null) {
-            llContentForIrgl.setBackgroundColor(Color.WHITE);
+            llContentForIscl.setBackgroundColor(Color.WHITE);
         }
     }
 
@@ -137,10 +137,10 @@ public class ItemSwitchLayout extends LinearLayout {
         //传null表示当前布局没有父控件,大部分都传null
         //传this表示已当前相对布局为这个布局的父控件,这样做了以后,当前空的布局就有内容了
         View inflate = View.inflate(context, resource, this);
-        llContentForIrgl = inflate.findViewById(R.id.ll_content_for_irgl);
-        spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_irgl);
-        tvRedStar = inflate.findViewById(R.id.tv_red_star_for_irgl);
-        tvItem = inflate.findViewById(R.id.tv_item_for_irgl);
+        llContentForIscl = inflate.findViewById(R.id.ll_content_for_iscl);
+        spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_iscl);
+        tvRedStar = inflate.findViewById(R.id.tv_red_star_for_iscl);
+        tvItem = inflate.findViewById(R.id.tv_item_for_iscl);
         switchCompat = inflate.findViewById(R.id.switch_for_isl);
     }
 

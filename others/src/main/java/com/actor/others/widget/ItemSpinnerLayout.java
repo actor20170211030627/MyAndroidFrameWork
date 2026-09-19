@@ -17,8 +17,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatSpinner;
 
+import com.actor.myandroidframework.widget.BaseSpinner;
 import com.actor.others.R;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ import java.util.List;
 public class ItemSpinnerLayout<T> extends LinearLayout {
 
     protected TextView         tvRedStar, tvItem;
-    protected AppCompatSpinner spinner;
+    protected BaseSpinner<T>   spinner;
     protected Space            spaceMarginTop;
     protected LinearLayout     llContentForIsl;
     protected float            density;//px = dp * density;
@@ -189,6 +189,10 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
      */
     public TextView getTextViewItem() {
         return tvItem;
+    }
+
+    public BaseSpinner<T> getSpinner() {
+        return spinner;
     }
 
     /**

@@ -75,6 +75,7 @@ public class RatioLayout extends FrameLayout {
 
     //宽高比例, ratio = 宽/高
     protected float ratio;
+    protected boolean loggable;
 
     // 监听子View尺寸变化
     private final OnLayoutChangeListener mChildLayoutChangeListener = new OnLayoutChangeListener() {
@@ -175,7 +176,7 @@ public class RatioLayout extends FrameLayout {
             return;
         }
 
-        //高度确定，宽度不确定
+        //宽度不确定，高度确定
         if (widthMode != MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
             int innerHeightSize = heightSize - getPaddingTop() - getPaddingBottom();
             widthSize = (int) (innerHeightSize * ratio + 0.5F);
@@ -208,9 +209,13 @@ public class RatioLayout extends FrameLayout {
             return;
         }
 
-        //其它情况
-        if (!isInEditMode()) {
-            LogUtils.errorFormat("widthMode = %d, widthSize = %d \t heightMode = %d, heightSize = %d", widthMode, widthSize, heightMode, heightSize);
+        //宽高都确定
+        if (widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY) {
+        } else {
+            //其它情况
+            if (loggable && !isInEditMode()) {
+                LogUtils.errorFormat("widthMode = %s, widthSize = %d \t heightMode = %s, heightSize = %d", getModeString(widthMode), widthSize, getModeString(heightMode), heightSize);
+            }
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -264,5 +269,16 @@ public class RatioLayout extends FrameLayout {
         for (int i = 0; i < getChildCount(); i++) {
             getChildAt(i).removeOnLayoutChangeListener(mChildLayoutChangeListener);
         }
+    }
+
+    protected String getModeString(int mode) {
+        if (mode == MeasureSpec.UNSPECIFIED) return "UNSPECIFIED";
+        if (mode == MeasureSpec.EXACTLY) return "EXACTLY";
+        if (mode == MeasureSpec.AT_MOST) return "AT_MOST";
+        return "Unknown";
+    }
+
+    public void setLoggable(boolean loggable) {
+        this.loggable = loggable;
     }
 }

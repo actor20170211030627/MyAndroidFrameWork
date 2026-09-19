@@ -53,6 +53,11 @@ public class MediaPlayerUtils {
         return playerMap;
     }
 
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 播放 R.raw.xxx 音频
+    ///////////////////////////////////////////////////////////////////////////
     public void playRaw(@RawRes int rawId, @Nullable MediaPlayerCallback playerCallback) {
         playRaw(rawId, true, playerCallback);
     }
@@ -60,12 +65,12 @@ public class MediaPlayerUtils {
         playRaw(rawId, false, true, isNewMediaPlayer, playerCallback);
     }
     /**
-     * 播放R.raw.xxx 音频
-     * @param rawId 资源id
+     * 播放 R.raw.xxx 音频
+     * @param rawId R.raw.xxx 资源id
      * @param isLooping 是否循环播放
      * @param isAutoPlay 准备完成后, 是否自动播放
-     * @param playerCallback 播放回调
      * @param isNewMediaPlayer 是否使用新的MediaPlayer, 而不是已存在的那个.(如果想同时播放多个, 传true)
+     * @param playerCallback 播放回调
      */
     public void playRaw(@RawRes int rawId, boolean isLooping, boolean isAutoPlay,
                         boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
@@ -77,7 +82,6 @@ public class MediaPlayerUtils {
             } else {
                 if (mMediaPlayer == null) {
                     mMediaPlayer = MediaPlayer.create(ConfigUtils.APPLICATION, rawId);
-                    DEFAULT_AUDIO_SESSION_ID = mMediaPlayer.getAudioSessionId();
                 } else {
                     AssetFileDescriptor afd = ConfigUtils.APPLICATION.getResources().openRawResourceFd(rawId);
                     if (afd == null) {
@@ -106,6 +110,10 @@ public class MediaPlayerUtils {
         }
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 播放 本地 or 网络 音频
+    ///////////////////////////////////////////////////////////////////////////
     public void play(@Nullable String audioPath, @Nullable MediaPlayerCallback playerCallback) {
         play(audioPath, false, playerCallback);
     }
@@ -113,21 +121,19 @@ public class MediaPlayerUtils {
         play(audioPath, false, true, isNewMediaPlayer, playerCallback);
     }
     /**
-     * 播放音频
+     * 播放 本地 or 网络 音频
      * @param audioPath 本地/网络音频
      * @param isLooping 是否循环播放
      * @param isAutoPlay 准备完成后, 是否自动播放
-     * @param playerCallback 播放监听
      * @param isNewMediaPlayer 是否使用新的MediaPlayer, 而不是已存在的那个.(如果想同时播放多个, 传true)
+     * @param playerCallback 播放监听
      */
     public void play(@Nullable String audioPath, boolean isLooping, boolean isAutoPlay,
                      boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
         if (TextUtils.isEmpty(audioPath)) {
             if (playerCallback != null) {
                 boolean isDealBySelf = playerCallback.onSetData2StartError(null, new IllegalArgumentException("audioPath is Empty!"));
-                if (!isDealBySelf) {
-                    playerCallback.onCompletion(null);
-                }
+                if (!isDealBySelf) playerCallback.onCompletion(null);
             }
             return;
         }
@@ -138,7 +144,6 @@ public class MediaPlayerUtils {
             } else {
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
-                    DEFAULT_AUDIO_SESSION_ID = mMediaPlayer.getAudioSessionId();
                 } else {
                     //处理复用的mMediaPlayer正在播放的问题
                     dealRecyclerPlayerIsPlaying();
@@ -154,6 +159,66 @@ public class MediaPlayerUtils {
                 if (mediaPlayer == mMediaPlayer) mediaPlayer = null;    //复用的播放器不要释放
                 boolean isDealBySelf = playerCallback.onSetData2StartError(mediaPlayer, e);
                 if (!isDealBySelf) playerCallback.onCompletion(mediaPlayer);
+            }
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // 播放 Assets 里的音频
+    ///////////////////////////////////////////////////////////////////////////
+    public void playAssets(@NonNull String fileName, @Nullable MediaPlayerCallback playerCallback) {
+        playAssets(fileName, true, playerCallback);
+    }
+    public void playAssets(@NonNull String fileName, boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
+        playAssets(fileName, false, true, isNewMediaPlayer, playerCallback);
+    }
+    /**
+     * 播放 assets 里音频
+     * @param fileName 文件在assets目录下的路径, 示例: xxx.aac, audios/xxx.mp3
+     * @param isLooping 是否循环播放
+     * @param isAutoPlay 准备完成后, 是否自动播放
+     * @param isNewMediaPlayer 是否使用新的MediaPlayer, 而不是已存在的那个.(如果想同时播放多个, 传true)
+     * @param playerCallback 播放回调
+     */
+    public void playAssets(@NonNull String fileName, boolean isLooping, boolean isAutoPlay,
+                           boolean isNewMediaPlayer, @Nullable MediaPlayerCallback playerCallback) {
+//        MediaPlayerUtils.getInstance().play("file:///android_asset/words/a.mp3", null)    //失败, MediaPlayer 不识别 android_asset 这个 scheme
+        if (TextUtils.isEmpty(fileName)) {
+            if (playerCallback != null) {
+                boolean isDealBySelf = playerCallback.onSetData2StartError(null, new IllegalArgumentException("fileName is Empty!"));
+                if (!isDealBySelf) playerCallback.onCompletion(null);
+            }
+            return;
+        }
+        try (AssetFileDescriptor afd = ConfigUtils.APPLICATION.getAssets().openFd(fileName)) {
+            MediaPlayer mediaPlayer = null;
+            try {
+                if (isNewMediaPlayer) {
+                    mediaPlayer = new MediaPlayer();
+                } else {
+                    if (mMediaPlayer == null) {
+                        mMediaPlayer = new MediaPlayer();
+                    } else {
+                        //处理复用的mMediaPlayer正在播放的问题
+                        dealRecyclerPlayerIsPlaying();
+                        mMediaPlayer.reset();
+                    }
+                    mediaPlayer = mMediaPlayer;
+                }
+                mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                commonSetAndPlay(mediaPlayer, true, isLooping, isAutoPlay, isNewMediaPlayer, playerCallback);
+            } catch (IOException | IllegalArgumentException | IllegalStateException e) {
+                if (playerCallback != null) {
+                    if (mediaPlayer == mMediaPlayer) mediaPlayer = null;    //复用的播放器不要释放
+                    boolean isDealBySelf = playerCallback.onSetData2StartError(mediaPlayer, e);
+                    if (!isDealBySelf) playerCallback.onCompletion(mediaPlayer);
+                }
+            }
+        } catch (IOException e) {
+            LogUtils.error("Assets file open failed(Assets音频文件打开失败):", e);
+            if (playerCallback != null) {
+                boolean isDealBySelf = playerCallback.onSetData2StartError(null, e);
+                if (!isDealBySelf) playerCallback.onCompletion(null);
             }
         }
     }
@@ -196,8 +261,6 @@ public class MediaPlayerUtils {
         playerCallback.isStopped = false;
         playerCallback.mp = mediaPlayer;
 
-        int audioSessionId = mediaPlayer.getAudioSessionId();
-        playerMap.put(audioSessionId, playerCallback);
         //准备完成监听
         mediaPlayer.setOnPreparedListener(playerCallback);
         //播放出错监听

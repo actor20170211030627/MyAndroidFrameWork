@@ -5,6 +5,8 @@ import android.os.Build;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 
+import androidx.annotation.RequiresApi;
+
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.ThreadUtils;
 
@@ -99,15 +101,15 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
      * @param utteranceId The utterance ID of the utterance.
      * @param errorCode one of the ERROR_* codes from {@link TextToSpeech}
      */
-//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)    //Android 5.0, Api 21
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)    //Android 5.0, Api 21
     @Override
-    public void onError(String utteranceId, int errorCode) {
+    public final void onError(String utteranceId, int errorCode) {
+        LogUtils.errorFormat("onError: utteranceId=%s, errorCode=%d", utteranceId, errorCode);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             super.onError(utteranceId, errorCode);
         } else {
             onError(utteranceId);
         }
-        LogUtils.errorFormat("onError: utteranceId=%s, errorCode=%d", utteranceId, errorCode);
     }
 
     /**

@@ -182,6 +182,30 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 break;
 
 
+            case R.id.btn_start_play_assets0:  //不复用MP播放
+                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", null);
+                break;
+            case R.id.btn_start_play_assets1:  //复用MP播放
+                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", false, null);
+                break;
+            case R.id.btn_start_play_assets2:  //不复用MP循环播放
+                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", true, true, true, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                    }
+                });
+                break;
+            case R.id.btn_start_play_assets3:  //复用MP循环播放
+                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", true, true, false, new MediaPlayerCallback() {
+                    @Override
+                    public void onCompletion2(@Nullable MediaPlayer mp) {
+                        LogUtils.error("onCompletion");
+                    }
+                });
+                break;
+
+
             case R.id.btn_start_play_local0:  //不复用MP播放'本地'
                 MediaPlayerUtils.getInstance().play(pathWrong, true, null);
                 break;

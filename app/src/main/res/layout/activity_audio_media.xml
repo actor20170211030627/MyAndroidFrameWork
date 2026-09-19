@@ -95,6 +95,43 @@
             app:layout_constraintTop_toTopOf="@id/btn_start_play_raw2" />
 
         <Button
+            android:id="@+id/btn_start_play_assets0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="onViewClicked"
+            android:text="不复用MP播放assets"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw2" />
+
+        <Button
+            android:id="@+id/btn_start_play_assets1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="复用MP播放assets"
+            app:layout_constraintStart_toEndOf="@id/btn_start_play_assets0"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_assets0" />
+
+        <Button
+            android:id="@+id/btn_start_play_assets2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="不复用MP循环播放assets"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_assets0" />
+
+        <Button
+            android:id="@+id/btn_start_play_assets3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onViewClicked"
+            android:text="复用MP循环播放assets"
+            app:layout_constraintStart_toEndOf="@id/btn_start_play_assets2"
+            app:layout_constraintTop_toTopOf="@id/btn_start_play_assets2" />
+
+        <Button
             android:id="@+id/btn_start_play_local0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,7 +139,7 @@
             android:onClick="onViewClicked"
             android:text="不复用MP播放'本地'"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw2" />
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_assets3" />
 
         <Button
             android:id="@+id/btn_start_play_local1"

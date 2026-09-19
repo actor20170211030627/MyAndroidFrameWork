@@ -54,6 +54,7 @@ public class TextToSpeechUtils {
 
     protected static TextToSpeech tts;
     protected static HashMap<String, String> hashMap;
+    protected static boolean isInitSuccess = false;
 
     /**
      * 调用这个方法初始化
@@ -62,18 +63,20 @@ public class TextToSpeechUtils {
      */
     public static void init(@NonNull Context context, @Nullable String engine, @Nullable TextToSpeech.OnInitListener listener) {
         if (tts == null) {
-            if (listener == null) listener = new TextToSpeech.OnInitListener() {
+            tts = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {
 //                    boolean isMainThread = ThreadUtils.isMainThread();//主线程
+                    //初始化失败, 调用 speak 的时候, 没有回调
+                    isInitSuccess = status == TextToSpeech.SUCCESS;
                     if (status == TextToSpeech.SUCCESS) {
-                        LogUtils.errorFormat("SpeechListener, 初始化成功!");
+//                        LogUtils.errorFormat("SpeechListener, 初始化成功!");
                     } else {
                         LogUtils.errorFormat("SpeechListener, 初始化失败! status=%d", status);
                     }
+                    if (listener != null) listener.onInit(status);
                 }
-            };
-            tts = new TextToSpeech(context, listener, engine);
+            }, engine);
         }
         if (hashMap == null) hashMap = new HashMap<>();
     }
@@ -87,7 +90,7 @@ public class TextToSpeechUtils {
         if (language == null) {
             return TextToSpeech.ERROR;
         }
-        if (tts == null) {
+        if (!isInitSuccess || tts == null) {
             LogUtils.error("语音引擎初始化失败, 请重新尝试!");
             return TextToSpeech.ERROR;
         }
@@ -156,7 +159,7 @@ public class TextToSpeechUtils {
             if (listener != null) listener.onDone(utteranceId);
             return TextToSpeech.SUCCESS;
         }
-        if (tts == null) {
+        if (!isInitSuccess || tts == null) {
             LogUtils.error("语音引擎初始化失败, 请重新尝试!");
             if (listener != null) listener.onError(utteranceId, TextToSpeech.ERROR);
             return TextToSpeech.ERROR;
@@ -195,7 +198,7 @@ public class TextToSpeechUtils {
         if (TextUtils.isEmpty(text)) {
             return TextToSpeech.ERROR;
         }
-        if (tts == null) {
+        if (!isInitSuccess || tts == null) {
             LogUtils.error("语音引擎初始化失败, 请重新尝试!");
             return TextToSpeech.ERROR;
         }
@@ -361,7 +364,7 @@ public class TextToSpeechUtils {
         if (TextUtils.isEmpty(earcon)) {
             return TextToSpeech.ERROR;
         }
-        if (tts == null) {
+        if (!isInitSuccess || tts == null) {
             LogUtils.error("语音引擎初始化失败, 请重新尝试!");
             return TextToSpeech.ERROR;
         }
@@ -388,7 +391,7 @@ public class TextToSpeechUtils {
             if (listener != null) listener.onDone(utteranceId);
             return TextToSpeech.SUCCESS;
         }
-        if (tts == null) {
+        if (!isInitSuccess || tts == null) {
             LogUtils.error("语音引擎初始化失败, 请重新尝试!");
             if (listener != null) listener.onError(utteranceId, TextToSpeech.ERROR);
             return TextToSpeech.ERROR;
@@ -420,7 +423,7 @@ public class TextToSpeechUtils {
      */
     public static int playSilentUtterance(long durationInMs, int queueMode, @Nullable String utteranceId,
                                           @Nullable UtteranceProgressListenerImpl listener) {
-        if (tts == null) {
+        if (!isInitSuccess || tts == null) {
             LogUtils.error("语音引擎初始化失败, 请重新尝试!");
             if (listener != null) listener.onError(utteranceId, TextToSpeech.ERROR);
             return TextToSpeech.ERROR;
@@ -540,7 +543,7 @@ public class TextToSpeechUtils {
             if (listener != null) listener.onError(utteranceId, TextToSpeech.ERROR);
             return TextToSpeech.ERROR;
         }
-        if (tts == null) {
+        if (!isInitSuccess || tts == null) {
             LogUtils.error("语音引擎初始化失败, 请重新尝试!");
             if (listener != null) listener.onError(utteranceId, TextToSpeech.ERROR);
             return TextToSpeech.ERROR;

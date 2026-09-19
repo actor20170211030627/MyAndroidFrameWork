@@ -10,6 +10,7 @@ import android.text.format.Formatter;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RawRes;
@@ -400,15 +401,18 @@ public class FileUtils {
      * 分享图文
      * @param content 文本内容
      * @param resId R.drawable.xxx, R.mipmap.xxx, R.raw.xxx
+     * @param requestCode 请求码, 只有 context
      */
-    public static void shareTextImage(@NonNull Context context, @Nullable String content, @DrawableRes @RawRes int resId) {
+    public static void shareTextImage(@NonNull Context context, @Nullable String content, @DrawableRes @RawRes int resId, @IntRange(from = 0) int requestCode) {
         Uri res2Uri = UriUtils.res2Uri(String.valueOf(resId));
         //这种方式分享, QQ接收不到并提示: "图片不存在!"...
 //        Intent shareIntent = IntentUtils.getShareTextImageIntent(content, res2Uri);
         // /data/user/0/com.actor.sample/cache/1737354890556
         File file = UriUtils.uri2File(res2Uri);
         Intent shareIntent = IntentUtils.getShareTextImageIntent(content, file);
-        context.startActivity(shareIntent);
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(shareIntent, requestCode);
+        } else context.startActivity(shareIntent);
     }
 
     /**
@@ -416,20 +420,24 @@ public class FileUtils {
      * 分享图文, 调用系统分享
      * @param content 文本内容
      * @param filePath 本地文件路径, if传null, 有的应用不支持'仅接收文本内容', 那是那个应用的问题!
+     * @param requestCode 请求码
      */
-    public static void shareTextImage(@NonNull Context context, @Nullable String content, @Nullable String filePath) {
+    public static void shareTextImage(@NonNull Context context, @Nullable String content, @Nullable String filePath, @IntRange(from = 0) int requestCode) {
         boolean isFile = com.blankj.utilcode.util.FileUtils.isFile(filePath);
         if (TextUtils.isEmpty(content) && !isFile) return;
         Intent shareIntent = IntentUtils.getShareTextImageIntent(content, filePath);
-        context.startActivity(shareIntent);
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(shareIntent, requestCode);
+        } else context.startActivity(shareIntent);
     }
 
     /**
      * 分享文件, 调用系统分享
      * @param file 本地文件
      * @param title 分享标题, 例: 请选择需要分享的应用程序
+     * @param requestCode 请求码
      */
-    public static void shareFile(@NonNull Context context, @Nullable File file, @Nullable String title) {
+    public static void shareFile(@NonNull Context context, @Nullable File file, @Nullable String title, @IntRange(from = 0) int requestCode) {
         if (!com.blankj.utilcode.util.FileUtils.isFile(file)) return;
         Uri fileUri = UriUtils.file2Uri(file);
         //if mimeType=font/ttf, 不能分享到微信, ∵微信的接受类型没有这个. 其它App同理.
@@ -448,7 +456,9 @@ public class FileUtils {
             //对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
-        context.startActivity(intent);
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(intent, requestCode);
+        } else context.startActivity(intent);
     }
 
     /**
