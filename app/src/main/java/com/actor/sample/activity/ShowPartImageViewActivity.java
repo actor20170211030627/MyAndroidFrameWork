@@ -1,6 +1,7 @@
 package com.actor.sample.activity;
 
 import android.os.Bundle;
+import android.view.Gravity;
 
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityShowPartImageViewBinding;
@@ -21,22 +22,22 @@ public class ShowPartImageViewActivity extends BaseActivity<ActivityShowPartImag
         viewBinding.btnTopOrBottom.setOnClickListener(v -> {
             v.setSelected(!v.isSelected());
             if (v.isSelected()) {
-                viewBinding.spiv40.setShowGravity(1);
-                viewBinding.spiv42.setShowGravity(1);
+                viewBinding.spiv40.setShowGravity(Gravity.BOTTOM);
+                viewBinding.spiv42.setShowGravity(Gravity.BOTTOM);
             } else {
-                viewBinding.spiv40.setShowGravity(0);
-                viewBinding.spiv42.setShowGravity(0);
+                viewBinding.spiv40.setShowGravity(Gravity.TOP);
+                viewBinding.spiv42.setShowGravity(Gravity.TOP);
             }
         });
         //top/bottom
         viewBinding.btnLeftOrRight.setOnClickListener(v -> {
             v.setSelected(!v.isSelected());
             if (v.isSelected()) {
-                viewBinding.spiv41.setShowGravity(3);
-                viewBinding.spiv43.setShowGravity(3);
+                viewBinding.spiv41.setShowGravity(Gravity.RIGHT);
+                viewBinding.spiv43.setShowGravity(Gravity.RIGHT);
             } else {
-                viewBinding.spiv41.setShowGravity(2);
-                viewBinding.spiv43.setShowGravity(2);
+                viewBinding.spiv41.setShowGravity(Gravity.LEFT);
+                viewBinding.spiv43.setShowGravity(Gravity.LEFT);
             }
         });
         //

@@ -1,4 +1,8 @@
 <resources>
     <string name="pls_input">Pls input</string>
     <string name="pls_select">Pls select</string>
+
+    <!--ItemAddMinusLayout.java-->
+    <string name="default_hint_already_max_value">Already Maximum</string>
+    <string name="default_hint_already_min_value">Already Minimum</string>
 </resources>

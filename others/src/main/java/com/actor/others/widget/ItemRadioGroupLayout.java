@@ -2,7 +2,6 @@ package com.actor.others.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -75,7 +74,7 @@ import java.util.List;
  *     <tr>
  *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglContainerMinHeight irglContainerMinHeight}</td>
  *         <td>49dp</td>
- *         <td>8.主container的最小高度, 默认49dp(目前还未扩展, 设置了也没啥用...)</td>
+ *         <td>8.主container的最小高度, 默认49dp</td>
  *     </tr>
  *     <tr>
  *         <td nowrap="nowrap">{@link R.styleable#ItemRadioGroupLayout_irglCustomLayout irglCustomLayout}</td>
@@ -92,12 +91,12 @@ import java.util.List;
  */
 public class ItemRadioGroupLayout<T> extends LinearLayout {
 
-    protected TextView                tvRedStar, tvItem;
+    protected TextView          tvRedStar, tvItem;
     protected BaseRadioGroup<T> radioGroup;
-    protected LinearLayout            llContentForIrgl;
-    protected Space                   spaceMarginTop;
+    protected Space             spaceMarginTop;
+    protected LinearLayout      llContainer;
     //px = dp * density;
-    protected float                   density;
+    protected float             density;
 
     public ItemRadioGroupLayout(Context context) {
         super(context);
@@ -131,7 +130,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             //读取自定义属性值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemRadioGroupLayout);
             //红点是否显示
-            int visible = typedArray.getInt(R.styleable.ItemRadioGroupLayout_irglRedStarVisibility, 0);
+            int redStarVisibility = typedArray.getInt(R.styleable.ItemRadioGroupLayout_irglRedStarVisibility, VISIBLE);
             //左侧TextView的Text
             String irglItemName = typedArray.getString(R.styleable.ItemRadioGroupLayout_irglItemName);
             //marginTop, 默认1dp
@@ -151,8 +150,8 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             typedArray.recycle();
 
             inflate(context, resourceId, containerMinHeight);
-            getTextViewRedStar().setVisibility(visible * INVISIBLE);//设置红点是否显示
-            if (irglItemName != null) getTextViewItem().setText(irglItemName);
+            getTextViewRedStar().setVisibility(redStarVisibility);
+            getTextViewItem().setText(irglItemName);
             setMarginTop(marginTop);
             if (entries != null && entries.length > 0) {
                 setDatas(entries);
@@ -163,10 +162,6 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             setCheckedPosition(irglCheckedPosition);
             setGravityRadioGroup(gravity);
         }
-        //默认白色背景
-        if (getBackground() == null) {
-            llContentForIrgl.setBackgroundColor(Color.WHITE);
-        }
     }
 
     protected void inflate(Context context, @LayoutRes int resource, int containerMinHeight) {
@@ -175,11 +170,13 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
         //传null表示当前布局没有父控件,大部分都传null
         //传this表示已当前相对布局为这个布局的父控件,这样做了以后,当前空的布局就有内容了
         View inflate = View.inflate(context, resource, this);
-        llContentForIrgl = inflate.findViewById(R.id.ll_content_for_irgl);
+        llContainer = inflate.findViewById(R.id.ll_content_for_irgl);
         spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_irgl);
         tvRedStar = inflate.findViewById(R.id.tv_red_star_for_irgl);
         tvItem = inflate.findViewById(R.id.tv_item_for_irgl);
         radioGroup = inflate.findViewById(R.id.rg_for_irgl);
+        //如果是wrap_content, 设置最小高度
+        llContainer.setMinimumHeight(containerMinHeight);
     }
 
     /**
@@ -203,7 +200,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
             //Arrays.asList 返回的List是Arrays的内部类, 没有重写add等方法
             List<CharSequence> list = new ArrayList<>();
             Collections.addAll(list, datas);
-            setDatas((List<T>) list);
+            setData((List<T>) list);
         }
     }
 
@@ -220,7 +217,7 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
      *            重写数据类型的toString()方法即可, RadioButton 填充的时候会调用toString()的内容
      * 注意: 每次填充的T数据类型应该一致
      */
-    public void setDatas(List<T> datas) {
+    public void setData(List<T> datas) {
         radioGroup.setDatas(datas);
     }
 
@@ -229,6 +226,10 @@ public class ItemRadioGroupLayout<T> extends LinearLayout {
      */
     public void addRadioButton(T data) {
         radioGroup.addRadioButton(data);
+    }
+
+    public LinearLayout getContainer() {
+        return llContainer;
     }
 
     /**

@@ -401,9 +401,9 @@ public class SharedElementUtils {
      * @param enterSharedElementCallback 要退出Activity的共享元素组装
      * @param resultCode 返回码: {@link Activity#RESULT_OK}, {@link Activity#RESULT_CANCELED}, {@link Activity#RESULT_FIRST_USER} 等
      * @param resultIntent if第2个Activity要返会数据回上一个Activity, 就传入intent, 否则传null
-     * @param instantExtra 暂存数据, if你是从<b>fragment</b>跳到这边来, 才{@link null 可能}传这个数据:
+     * @param instantExtra 暂存数据, if你是从<b>fragment</b>跳到当前activity这边来, 现在要传回数据到<b>fragment</b>, 才{@link null 可能}传这个数据:
      *                     <ol>
-     *                         <li>if你从Fragment跳到activity这边来,
+     *                         <li>if你是从Fragment跳到当前activity这边来,
      *                         且现在退出activity返回fragment后有数据需要在{@link null 元素共享动画执行完成前}响应到Fragment(比如要在元素共享动画完成前更新Fragment中的元素共享图片),
      *                         由于返回后Fragment没有activity类似的{@link Activity#onActivityReenter(int, Intent) onActivityReenter(int, Intent)}方法可以在元素共享动画执行完成前就能获取到返回数据,
      *                         所以就需要传入这个参数. <br />
@@ -443,6 +443,10 @@ public class SharedElementUtils {
         return (T) instantExtra;
     }
 
+    /**
+     * 暂存数据, if要标记多个参数可传入数组
+     * @param instantExtra 数据, 例: position, object, new Object[]{ 1, true, "string", object }
+     */
     protected static void setInstantExtra(@Nullable Object instantExtra) {
         SharedElementUtils.instantExtra = instantExtra;
     }

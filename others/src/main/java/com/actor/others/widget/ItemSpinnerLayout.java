@@ -2,7 +2,6 @@ package com.actor.others.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -67,7 +66,7 @@ import java.util.List;
  *     <tr>
  *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islContainerMinHeight islContainerMinHeight}</td>
  *         <td>49dp</td>
- *         <td>6.主container的最小高度, 默认49dp(目前还未扩展, 设置了也没啥用...)</td>
+ *         <td>6.主container的最小高度, 默认49dp</td>
  *     </tr>
  *     <tr>
  *         <td nowrap="nowrap">{@link R.styleable#ItemSpinnerLayout_islCustomLayout islCustomLayout}</td>
@@ -85,12 +84,12 @@ import java.util.List;
  */
 public class ItemSpinnerLayout<T> extends LinearLayout {
 
-    protected TextView         tvRedStar, tvItem;
-    protected BaseSpinner<T>   spinner;
-    protected Space            spaceMarginTop;
-    protected LinearLayout     llContentForIsl;
-    protected float            density;//px = dp * density;
-    protected ArrayAdapter<T>  arrayAdapter;
+    protected TextView        tvRedStar, tvItem;
+    protected BaseSpinner<T>  spinner;
+    protected LinearLayout    llContainer;
+    protected Space           spaceMarginTop;
+    protected float           density;//px = dp * density;
+    protected ArrayAdapter<T> arrayAdapter;
 
     public ItemSpinnerLayout(Context context) {
         super(context);
@@ -124,7 +123,7 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
             //读取自定义属性值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemSpinnerLayout);
             //左侧红点是否显示
-            int redStarVisibility = typedArray.getInt(R.styleable.ItemSpinnerLayout_islRedStarVisibility, 0);
+            int redStarVisibility = typedArray.getInt(R.styleable.ItemSpinnerLayout_islRedStarVisibility, VISIBLE);
             //左侧TextView的值
             String itemName = typedArray.getString(R.styleable.ItemSpinnerLayout_islItemName);
             //marginTop, 默认1dp
@@ -145,8 +144,8 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
             typedArray.recycle();
 
             inflate(context, resourceId, containerMinHeight);
-            getTextViewRedStar().setVisibility(redStarVisibility * INVISIBLE);//设置红点是否显示
-            if (itemName != null) getTextViewItem().setText(itemName);
+            getTextViewRedStar().setVisibility(redStarVisibility);
+            getTextViewItem().setText(itemName);
             setMarginTop(marginTop);
             if (entries != null) {
                 setDatas(entries);
@@ -155,22 +154,24 @@ public class ItemSpinnerLayout<T> extends LinearLayout {
                 setDatas(split);
             }
         }
-        //默认白色背景
-        if (getBackground() == null) {
-            llContentForIsl.setBackgroundColor(Color.WHITE);
-        }
     }
     protected void inflate(Context context, @LayoutRes int resource, int containerMinHeight) {
-        View view = inflate(context, R.layout.item_spinner_layout, this);
-        llContentForIsl = view.findViewById(R.id.ll_content_for_isl);
+        View view = inflate(context, resource, this);
+        llContainer = view.findViewById(R.id.ll_content_for_isl);
         spaceMarginTop = view.findViewById(R.id.space_margin_top_for_isl);
         tvRedStar = view.findViewById(R.id.tv_red_star_for_isl);
         tvItem = view.findViewById(R.id.tv_item_for_isl);
         spinner = view.findViewById(R.id.spinner_for_isl);
+        //如果是wrap_content, 设置最小高度
+        llContainer.setMinimumHeight(containerMinHeight);
 
         arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
+    }
+
+    public LinearLayout getContainer() {
+        return llContainer;
     }
 
     /**

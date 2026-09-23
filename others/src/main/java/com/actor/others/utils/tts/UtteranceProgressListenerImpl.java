@@ -28,7 +28,7 @@ public abstract class UtteranceProgressListenerImpl extends UtteranceProgressLis
 
     /**
      * 对本次播放进行标记, if要标记多个参数可传入数组
-     * @param tag 标记, 例: position, object, { 1, true, "string", object }
+     * @param tag 标记, 例: position, object, new Object[]{ 1, true, "string", object }
      */
     public UtteranceProgressListenerImpl(Object tag) {
         super();

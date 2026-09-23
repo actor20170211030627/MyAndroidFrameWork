@@ -6,8 +6,8 @@
         <!--左边的红点是否显示-->
         <attr name="isclRedStarVisibility" format="enum">
             <enum name="visible" value="0" />
-            <enum name="invisible" value="1" />
-            <enum name="gone" value="2" />
+            <enum name="invisible" value="4" />
+            <enum name="gone" value="8" />
         </attr>
 
         <!--左边的文字-->

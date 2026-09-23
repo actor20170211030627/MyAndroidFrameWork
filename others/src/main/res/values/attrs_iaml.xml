@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--这是ItemAddMinusLayout的属性-->
+    <declare-styleable name="ItemAddMinusLayout">
+
+        <!--左侧红点是否显示-->
+        <!-- 解析成int类型,enum:只能选择一个状态.    flag:可用|连接多个状态.-->
+        <attr name="iamlRedStarVisibility" format="enum">
+            <!-- Visible on screen; the default value. -->
+            <enum name="visible" value="0"/>
+            <!-- Not displayed, but taken into account during layout (space is left for it). -->
+            <enum name="invisible" value="4"/>
+            <!-- Completely hidden, as if the view had not been added. -->
+            <enum name="gone" value="8"/>
+        </attr>
+
+        <!--左边的文字-->
+        <attr name="iamlItemName" format="string"/>
+
+        <!--默认值-->
+        <attr name="iamlValue" format="integer"/>
+
+        <!--最大值-->
+        <attr name="iamlMaxValue" format="integer"/>
+
+        <!--最小值-->
+        <attr name="iamlMinValue" format="integer"/>
+
+        <!--已经是最大值了的提示-->
+        <attr name="iamlAlreadyMaxValueHint" format="string" />
+
+        <!--已经是最小值了的提示-->
+        <attr name="iamlAlreadyMinValueHint" format="string" />
+
+        <!--marginTop距离顶部的间距, 默认1dp-->
+        <attr name="iamlMarginTop" format="dimension" />
+
+        <!--主container的最小高度, 默认49dp-->
+        <attr name="iamlContainerMinHeight" format="dimension" />
+
+        <!--不使用默认布局, 自定义布局-->
+        <attr name="iamlCustomLayout" format="reference" />
+    </declare-styleable>
+</resources>

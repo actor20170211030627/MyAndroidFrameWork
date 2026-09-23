@@ -8,9 +8,9 @@
             <!-- Visible on screen; the default value. -->
             <enum name="visible" value="0" />
             <!-- Not displayed, but taken into account during layout (space is left for it). -->
-            <enum name="invisible" value="1" />
+            <enum name="invisible" value="4" />
             <!-- Completely hidden, as if the view had not been added. -->
-            <enum name="gone" value="2" />
+            <enum name="gone" value="8" />
         </attr>
 
         <!--左边的文字-->
@@ -98,8 +98,8 @@
                 可设置以下属性强制作用显示状态-->
         <attr name="itilArrowRightVisibility" format="enum">
             <enum name="visible" value="0" />
-            <enum name="invisible" value="1" />
-            <enum name="gone" value="2" />
+            <enum name="invisible" value="4" />
+            <enum name="gone" value="8" />
         </attr>
 
         <!--输入框中文字Gravity, 默认start|center_vertical-->

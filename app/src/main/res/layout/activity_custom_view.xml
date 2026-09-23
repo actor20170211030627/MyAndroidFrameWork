@@ -323,6 +323,21 @@
             android:text="5.other模块的其它"
             app:layout_constraintTop_toBottomOf="@id/btn_left_top" />
 
+        <com.actor.others.widget.ItemAddMinusLayout
+            android:id="@+id/item_add_minus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iamlAlreadyMaxValueHint="已经是最大值了!!!"
+            app:iamlAlreadyMinValueHint="不能更小了!!"
+            app:iamlContainerMinHeight="100dp"
+            app:iamlItemName="ItemAddMinusLayout: "
+            app:iamlMaxValue="5"
+            app:iamlMinValue="1"
+            app:iamlRedStarVisibility="visible"
+            app:iamlValue="3"
+            app:layout_constraintTop_toBottomOf="@id/tv5"
+            tools:minHeight="40dp" />
+
         <com.actor.others.widget.ItemRadioGroupLayout
             android:id="@+id/item_radio_group"
             android:layout_width="match_parent"
@@ -333,7 +348,7 @@
             app:irglGravity="right|center_vertical"
             app:irglItemName="ItemRadioGroupLayout: "
             app:irglRedStarVisibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/tv5" />
+            app:layout_constraintTop_toBottomOf="@id/item_add_minus" />
 
         <Button
             android:id="@+id/btn_check2"
@@ -355,6 +370,14 @@
             app:islRedStarVisibility="visible"
             app:layout_constraintTop_toBottomOf="@id/btn_check2" />
 
+        <com.actor.others.widget.ItemSwitchLayout
+            android:id="@+id/isl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isclChecked="true"
+            app:isclItemName="ItemSwitchLayout:"
+            app:layout_constraintTop_toBottomOf="@id/item_spinner" />
+
         <!-- app:itilCustomLayout="@layout/item_text_input_layout" -->
         <com.actor.others.widget.ItemTextInputLayout
             android:id="@+id/itil1"
@@ -370,7 +393,7 @@
             app:itilMarginTop="20dp"
             app:itilMaxLength="15"
             app:itilRedStarVisibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/item_spinner" />
+            app:layout_constraintTop_toBottomOf="@id/isl" />
 
         <Button
             android:id="@+id/btn2"
@@ -413,13 +436,5 @@
             app:itilItemName="ItemTextInputLayout:"
             app:itilMarginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/btn_input_enable" />
-
-        <com.actor.others.widget.ItemSwitchLayout
-            android:id="@+id/isl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:isclChecked="true"
-            app:isclItemName="ItemSwitchLayout:"
-            app:layout_constraintTop_toBottomOf="@id/itil_can_not_input2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

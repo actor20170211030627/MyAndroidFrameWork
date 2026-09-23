@@ -15,8 +15,9 @@
         android:id="@+id/ll_content_for_irgl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:gravity="center_vertical"
-        android:minHeight="50dp"
+        android:minHeight="@dimen/item_radio_group_layout_container_min_height"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">

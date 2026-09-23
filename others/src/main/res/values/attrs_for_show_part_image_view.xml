@@ -3,11 +3,14 @@
     <declare-styleable name="ShowPartImageView">
         <!--显示图片的哪部分-->
         <attr name="spivShowGravity" format="enum">
-            <!--顶部-->
-            <enum name="top" value="0" />
-            <enum name="bottom" value="1" />
-            <enum name="left" value="2" />
-            <enum name="right" value="3" />
+            <!-- Push object to the top of its container, not changing its size. -->
+            <enum name="top" value="0x30" />
+            <!-- Push object to the bottom of its container, not changing its size. -->
+            <enum name="bottom" value="0x50" />
+            <!-- Push object to the left of its container, not changing its size. -->
+            <enum name="left" value="0x03" />
+            <!-- Push object to the right of its container, not changing its size. -->
+            <enum name="right" value="0x05" />
         </attr>
 
         <!--

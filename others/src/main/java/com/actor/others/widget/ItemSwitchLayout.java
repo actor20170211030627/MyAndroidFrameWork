@@ -2,7 +2,6 @@ package com.actor.others.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -55,7 +54,7 @@ import com.actor.others.R;
  *     <tr>
  *         <td nowrap="nowrap">{@link R.styleable#ItemSwitchLayout_isclContainerMinHeight isclContainerMinHeight}</td>
  *         <td>49dp</td>
- *         <td>5.主container的最小高度, 默认49dp(目前还未扩展, 设置了也没啥用...)</td>
+ *         <td>5.主container的最小高度, 默认49dp</td>
  *     </tr>
  *     <tr>
  *         <td nowrap="nowrap">{@link R.styleable#ItemSwitchLayout_isclCustomLayout isclCustomLayout}</td>
@@ -69,8 +68,8 @@ public class ItemSwitchLayout extends LinearLayout {
 
     protected TextView     tvRedStar, tvItem;
     protected SwitchCompat switchCompat;
-    protected LinearLayout llContentForIscl;
     protected Space        spaceMarginTop;
+    protected LinearLayout llContainer;
     //px = dp * density;
     protected float        density;
 
@@ -106,7 +105,7 @@ public class ItemSwitchLayout extends LinearLayout {
             //读取自定义属性值
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemSwitchLayout);
             //红点是否显示
-            int visible = typedArray.getInt(R.styleable.ItemSwitchLayout_isclRedStarVisibility, 0);
+            int redStarVisibility = typedArray.getInt(R.styleable.ItemSwitchLayout_isclRedStarVisibility, VISIBLE);
             //左侧TextView的Text
             String isclItemName = typedArray.getString(R.styleable.ItemSwitchLayout_isclItemName);
             //marginTop, 默认1dp
@@ -120,14 +119,10 @@ public class ItemSwitchLayout extends LinearLayout {
             typedArray.recycle();
 
             inflate(context, resourceId, containerMinHeight);
-            getTextViewRedStar().setVisibility(visible * INVISIBLE);//设置红点是否显示
-            if (isclItemName != null) getTextViewItem().setText(isclItemName);
+            getTextViewRedStar().setVisibility(redStarVisibility);
+            getTextViewItem().setText(isclItemName);
             setMarginTop(marginTop);
             setChecked(checked);
-        }
-        //默认白色背景
-        if (getBackground() == null) {
-            llContentForIscl.setBackgroundColor(Color.WHITE);
         }
     }
 
@@ -137,11 +132,13 @@ public class ItemSwitchLayout extends LinearLayout {
         //传null表示当前布局没有父控件,大部分都传null
         //传this表示已当前相对布局为这个布局的父控件,这样做了以后,当前空的布局就有内容了
         View inflate = View.inflate(context, resource, this);
-        llContentForIscl = inflate.findViewById(R.id.ll_content_for_iscl);
+        llContainer = inflate.findViewById(R.id.ll_content_for_iscl);
         spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_iscl);
         tvRedStar = inflate.findViewById(R.id.tv_red_star_for_iscl);
         tvItem = inflate.findViewById(R.id.tv_item_for_iscl);
         switchCompat = inflate.findViewById(R.id.switch_for_isl);
+        //如果是wrap_content, 设置最小高度
+        llContainer.setMinimumHeight(containerMinHeight);
     }
 
     /**
@@ -158,6 +155,10 @@ public class ItemSwitchLayout extends LinearLayout {
         ViewGroup.LayoutParams layoutParams = spaceMarginTop.getLayoutParams();
         layoutParams.height = px;
         spaceMarginTop.setLayoutParams(layoutParams);
+    }
+
+    public LinearLayout getContainer() {
+        return llContainer;
     }
 
     /**

@@ -10,8 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.view.Gravity;
 
-import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -51,8 +51,8 @@ import com.actor.others.R;
  */
 public class ShowPartImageView extends AppCompatImageView {
 
-    //显示哪部分, 0: top,  1: bottom,  2: left,  3: right
-    protected int     showGravity                           = 0;
+    //显示哪部分: top, bottom, left, right
+    protected int     showGravity                           = Gravity.TOP;
     /**
      * 当图片太宽的时候, Gravity=right 时, 图片drawable是否和ImageView的'右侧'对齐
      * 当图片太高的时候, Gravity=bottom 时, 图片drawable是否和ImageView的'底部'对齐
@@ -145,10 +145,10 @@ public class ShowPartImageView extends AppCompatImageView {
 //        LogUtils.errorFormat("widthRatio=%f, heightRatio=%f", widthRatio, heightRatio);
 
         matrix.reset();
-        if (showGravity == 0) {         //top
+        if (showGravity == Gravity.TOP) {
             matrix.setRectToRect(new RectF(0f, 0f, intrinsicWidth, ivHeight * widthRatio),
                     new RectF(0, 0, ivWidth, ivHeight), Matrix.ScaleToFit.FILL);
-        } else if (showGravity == 1) {  //bottom
+        } else if (showGravity == Gravity.BOTTOM) {
             if (isAlignGravityWhenIv2WidthOrIv2Height) {//当图片很高时, 图片的显示内容和图片底部对齐
                 matrix.setRectToRect(new RectF(0f, intrinsicHeight - ivHeight * widthRatio, intrinsicWidth, intrinsicHeight),
                         new RectF(0, 0, ivWidth, ivHeight), Matrix.ScaleToFit.FILL);
@@ -156,7 +156,7 @@ public class ShowPartImageView extends AppCompatImageView {
                 matrix.setRectToRect(new RectF(0f, Math.max(0f, intrinsicHeight - ivHeight * widthRatio), intrinsicWidth, Math.max(intrinsicHeight, ivHeight * widthRatio)),
                         new RectF(0, 0, ivWidth, ivHeight), Matrix.ScaleToFit.FILL);
             }
-        } else if (showGravity == 2) {  //left
+        } else if (showGravity == Gravity.LEFT) {
             matrix.setRectToRect(new RectF(0f, 0f, ivWidth * heightRatio, intrinsicHeight),
                     new RectF(0, 0, ivWidth, ivHeight), Matrix.ScaleToFit.FILL);
         } else {                        //right
@@ -180,9 +180,10 @@ public class ShowPartImageView extends AppCompatImageView {
 
     /**
      * 显示图片的哪部分
-     * @param gravity 0: top,  1: bottom,  2: left,  3: right
+     * @param gravity See {@link Gravity#TOP}, {@link Gravity#BOTTOM}, {@link Gravity#LEFT}, {@link Gravity#RIGHT}
      */
-    public void setShowGravity(@IntRange(from = 0, to = 3) int gravity) {
+    public void setShowGravity(int gravity) {
+        if (gravity != Gravity.TOP && gravity != Gravity.BOTTOM && gravity != Gravity.LEFT && gravity != Gravity.RIGHT) return;
         if (this.showGravity != gravity) {
             this.showGravity = gravity;
             calcMatrix();

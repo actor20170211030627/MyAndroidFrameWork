@@ -3,7 +3,6 @@ package com.actor.others.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
@@ -153,12 +152,12 @@ import com.actor.others.RegexFilter;
  */
 public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetTextAble {
 
-    protected          TextView        tvRedStar;
-    protected          TextView        tvItem;
-    protected          EditText        et1;
-    protected          ImageView       ivArrowRight;
-    protected          LinearLayout    llContentForItil;
-    protected          Space   spaceMarginTop;
+    protected          TextView     tvRedStar;
+    protected          TextView     tvItem;
+    protected          EditText     et1;
+    protected          ImageView    ivArrowRight;
+    protected          Space        spaceMarginTop;
+    protected          LinearLayout llContainer;
     protected static final int         NOTHING = -1;
     //px = dp * density;
     protected float    density;
@@ -232,7 +231,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
 
             initView(context, resourceId, containerMinHeight);
 
-            tvRedStar.setVisibility(redStarVisibility * INVISIBLE);
+            tvRedStar.setVisibility(redStarVisibility);
             if (itilInputType != NOTHING) setInputType(itilInputType);
             if (!inputEnable) setInputEnable(false);
             getTextViewItem().setText(itilItemName);
@@ -248,7 +247,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
                 if (inputEnable) {//如果能输入
                     ivArrowRight.setVisibility(GONE);//隐藏
                 } else ivArrowRight.setVisibility(VISIBLE);//显示
-            } else ivArrowRight.setVisibility(arrowRightVisibility * INVISIBLE);//根据属性来设置显示状态
+            } else ivArrowRight.setVisibility(arrowRightVisibility);
 
             //如果 hint = null
             if (itilHint == null) {
@@ -276,10 +275,6 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             setPaddingRightText(paddingRightText);
             if (arrowSrc != null) setIvArrowRight(arrowSrc, null, null);
         }
-        //默认白色背景
-        if (getBackground() == null) {
-            llContentForItil.setBackgroundColor(Color.WHITE);
-        }
     }
 
     protected void initView(Context context, @LayoutRes int resource, int containerMinHeight) {
@@ -291,26 +286,24 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             spaceMarginTop.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp2px(1)));
             addView(spaceMarginTop);
             //Container
-            llContentForItil = new LinearLayout(context);
-            llContentForItil.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            llContentForItil.setGravity(Gravity.CENTER_VERTICAL);
-            llContentForItil.setOrientation(HORIZONTAL);
-            llContentForItil.setPadding(dp2px(10), 0, 0, 0);
-            //如果是wrap_content, 设置最小高度
-            llContentForItil.setMinimumHeight(containerMinHeight);
-            addView(llContentForItil);
+            llContainer = new LinearLayout(context);
+            llContainer.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            llContainer.setGravity(Gravity.CENTER_VERTICAL);
+            llContainer.setOrientation(HORIZONTAL);
+            llContainer.setPadding(dp2px(10), 0, 0, 0);
+            addView(llContainer);
             //RedStart
             tvRedStar = new TextView(context);
             tvRedStar.setText("* ");
             tvRedStar.setTextColor(context.getResources().getColor(com.actor.myandroidframework.R.color.red_D90000));
             tvRedStar.setTextSize(20);
-            llContentForItil.addView(tvRedStar);
+            llContainer.addView(tvRedStar);
             //TextView(Item)
             tvItem = new TextView(context);
             tvItem.setMinWidth(dp2px(90));
             tvItem.setTextColor(getResources().getColor(com.actor.myandroidframework.R.color.gray_333));
             tvItem.setTextSize(15);
-            llContentForItil.addView(tvItem);
+            llContainer.addView(tvItem);
             //EditText
             et1 = new EditText(context);
             et1.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1F));
@@ -318,7 +311,7 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             et1.setMinHeight(dp2px(40));
             et1.setTextColor(getResources().getColor(com.actor.myandroidframework.R.color.gray_999));
             et1.setTextSize(15);
-            llContentForItil.addView(et1);
+            llContainer.addView(et1);
             //IvArrow
             ivArrowRight = new ImageView(context);
             LayoutParams ivLayoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp2px(25));
@@ -327,11 +320,11 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             ivArrowRight.setAdjustViewBounds(true);
             ivArrowRight.setScaleType(ImageView.ScaleType.CENTER_CROP);
             ivArrowRight.setImageResource(R.drawable.arrow_right_gray_dcdcdc);
-            llContentForItil.addView(ivArrowRight);
+            llContainer.addView(ivArrowRight);
         } else {
             //从Xml布局中填充View, 并找到子view
             View inflate = inflate(context, resource, this);
-            llContentForItil = inflate.findViewById(R.id.ll_content_for_itil);
+            llContainer = inflate.findViewById(R.id.ll_content_for_itil);
             spaceMarginTop = inflate.findViewById(R.id.space_margin_top_for_itil);
             tvRedStar = inflate.findViewById(R.id.tv_red_star_for_itil);
             tvItem = inflate.findViewById(R.id.tv_item_name_for_itil);
@@ -340,8 +333,14 @@ public class ItemTextInputLayout extends LinearLayout implements TextUtils2.GetT
             //重新赋值id, 防止多个itil复用的时候, 恢复的时候被系统根据 R.id.et_input_for_itil 这个不变的id写入错误的值
             et1.setId(View.generateViewId());
         }
+        //如果是wrap_content, 设置最小高度
+        llContainer.setMinimumHeight(containerMinHeight);
         //如果xml中设置了android:onClick, 则clickListener不为空
         if (clickListener != null) setOnClickListener(clickListener);
+    }
+
+    public LinearLayout getContainer() {
+        return llContainer;
     }
 
     /**

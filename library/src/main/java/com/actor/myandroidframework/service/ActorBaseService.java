@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.actor.myandroidframework.utils.LogUtils;
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.NotificationUtils;
 import com.blankj.utilcode.util.Utils;
 
@@ -38,8 +38,8 @@ public abstract class ActorBaseService extends Service {
     /** 是否以 startForegroundService 的方式启动 */
     public static final String IS_START_FOREGROUND_SERVICE = "IS_START_FOREGROUND_SERVICE";
 
-    /** channel id: “通知类型”的id, 每一种通知🔔用同一个 id, 相同 channelId 的通知会合并 */
-    protected           String channelId                   = toString();
+    /** channel id: “通知类型”的id, 每一种通知🔔用同一个 id, 相同 channelId 的通知会合并, 例: "my_media_channel" */
+    protected           String channelId                   = getClass().getName();
     /** channel name: 给这个通知频道取个名字 */
     protected           String channelName                 = AppUtils.getAppName();
     /** 通知显示的标题 */
@@ -147,14 +147,8 @@ public abstract class ActorBaseService extends Service {
     }
 
     protected Notification createNotification() {
-        // 创建通知的 Intent
-        Intent notifyIntent = new Intent();
-        try {
-            //点击后打开你的 Activity, 否则点击了没反应
-            notifyIntent = new Intent(this, Class.forName(ActivityUtils.getLauncherActivity()));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        // 创建通知的 Intent, 点击后打开你的 Activity, 否则点击了没反应
+        Intent notifyIntent = IntentUtils.getLaunchAppIntent(getPackageName());
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, notifyIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE, (Bundle) null
         );
