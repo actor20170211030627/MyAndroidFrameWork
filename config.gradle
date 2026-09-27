@@ -27,6 +27,7 @@ ext {
             "cardview_v7"              : "androidx.cardview:cardview:${version.androidSupportSdkVersion}",
             "legacy_support_v4"        : 'androidx.legacy:legacy-support-v4:1.0.0',
             "androidx_annotation"      : 'androidx.annotation:annotation:1.2.0',
+            "androidx_lifecycle"       : 'androidx.lifecycle:lifecycle-common:2.3.1',
             "androidx_recyclerview"    : 'androidx.recyclerview:recyclerview:1.2.1',
             "androidx_viewpager"       : 'androidx.viewpager:viewpager:1.0.0',
             "androidx_core"            : 'androidx.core:core:1.6.0',

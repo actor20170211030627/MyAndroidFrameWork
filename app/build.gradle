@@ -64,6 +64,16 @@ android {
         daoPackage 'com.greendao.gen'   //dao的包名，包名默认是entity所在的包
         targetGenDir 'src/main/java'    //生成数据库文件的目录
     }
+
+    packagingOptions {
+//        exclude 'META-INF/**/*.version' //只删掉那些 .version 文件
+//        exclude 'META-INF/com/android/build/gradle/app-metadata.properties'   //删不掉, 由 Android Gradle 插件（AGP）在构建时强制生成，它的作用是向 Google Play 等平台声明你的 App 包含了哪些依赖库。从 AGP 4.0.0 版本开始，它就变成了一个强制环节。
+        exclude 'META-INF/**'   //** 匹配 META-INF/ 下所有层级的文件和文件夹
+        exclude 'META-INF/*'    // * 只匹配当前目录下的文件，不递归子目录
+        //*.kotlin_builtins 文件, 是 Kotlin 编译器的“地图”或“说明书”，用来定义 Int、String、Collection 等 Kotlin 内置类型的元数据。它们的主要作用是在编译期间帮助编译器正确理解类型，并生成最终的 .class 字节码。
+        exclude 'kotlin/**'
+        exclude 'kotlin/*'
+    }
 }
 
 /**

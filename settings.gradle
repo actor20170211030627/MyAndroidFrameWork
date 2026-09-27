@@ -5,3 +5,4 @@ include ':app', ':library', ':picture_selector', ':database',
         ':umeng', ':jpush', ':mp_android_chart',
         ':others'
 //include ':tempgen'
+//include ':pgyer'

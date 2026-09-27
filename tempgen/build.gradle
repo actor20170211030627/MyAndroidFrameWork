@@ -22,9 +22,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    //Android8, 在android节点内添加
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
-// 禁用所有 variant 的 AAR 打包
+// 禁用所有 variant 的 AAR 打包 (无用, jitpack.io 会报错找不到 tempgen.jar/aar)
 android.libraryVariants.all { variant ->
     tasks.named("bundle${variant.name.capitalize()}Aar").configure {
         enabled = false

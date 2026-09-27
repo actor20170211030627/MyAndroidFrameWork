@@ -659,10 +659,10 @@ public class GreenDaoUtils {
     }
 
     /**
-     * 查询最大数值, 如果多行拥有相同最大数值(e.g. VersionCode)，会抛异常 <br />
-     * e.g. WHERE VersionCode = (SELECT MAX(VersionCode) FROM table_name)
+     * 查询最大数值, 如果多行拥有相同最大数值(e.g. VersionCode)，会抛异常, 例: <br />
+     * <code>WHERE VersionCode = (SELECT MAX(VersionCode) FROM table_name)</code>
      * @param dao 具体实体对应的dao
-     * @param properties 查询条件, 例: XxxDao.Properties.VersionCode(查询最新版本号)
+     * @param properties 查询条件, 例: <code>XxxDao.Properties.VersionCode</code> (查询最新版本号)
      * @return 查询到的实体列表
      */
     public static <T, K> T queryMaxUnique(@NonNull AbstractDao<T, K> dao, @NonNull Property... properties) {
@@ -670,10 +670,10 @@ public class GreenDaoUtils {
     }
 
     /**
-     * 查询最尐数值, 如果多行拥有相同尐数值(e.g. VersionCode)，会抛异常 <br />
-     * e.g. WHERE VersionCode = (SELECT MIN(VersionCode) FROM table_name)
+     * 查询最尐数值, 如果多行拥有相同尐数值(e.g. VersionCode)，会抛异常, 例: <br />
+     * <code>WHERE VersionCode = (SELECT MIN(VersionCode) FROM table_name)</code>
      * @param dao 具体实体对应的dao
-     * @param properties 查询条件, 例: XxxDao.Properties.VersionCode(查询最新版本号)
+     * @param properties 查询条件, 例: <code>XxxDao.Properties.VersionCode</code> (查询最新版本号)
      * @return 查询到的实体列表
      */
     public static <T, K> T queryMinUnique(@NonNull AbstractDao<T, K> dao, @NonNull Property... properties) {
@@ -684,8 +684,8 @@ public class GreenDaoUtils {
      * 自定义sql语句/参数, 查询
      * @param dao 具体实体对应的dao
      * @param where sql语句, 前面已经加了"SELECT * FROM tb_name", 所以这儿从'WHERE'开始写. <br />
-     *              例: WHERE VERSION_CODE = (SELECT MAX(VERSION_CODE) FROM TABLENAME) <br />
-     *              或: WHERE _id = ?
+     *              例: <code>WHERE VERSION_CODE = (SELECT MAX(VERSION_CODE) FROM TABLENAME)</code> <br />
+     *              或: <code>WHERE _id = ?</code>
      * @param selectionArg 查询参数, 没有就不传
      * @return 查询到的 列表
      */
@@ -697,8 +697,8 @@ public class GreenDaoUtils {
      * 自定义sql语句/参数, 查询
      * @param dao 具体实体对应的dao
      * @param where sql语句, 前面已经加了"SELECT * FROM tb_name", 所以这儿从'WHERE'开始写. <br />
-     *              例: WHERE VERSION_CODE = (SELECT MAX(VERSION_CODE) FROM TABLENAME) <br />
-     *              或: WHERE _id = ?
+     *              例: <code>WHERE VERSION_CODE = (SELECT MAX(VERSION_CODE) FROM TABLENAME)</code> <br />
+     *              或: <code>WHERE _id = ?</code>
      * @param selectionArg 查询参数
      * @return 查询到的 实体{@link Query#unique()} / 列表{@link Query#list()}
      */
@@ -767,25 +767,28 @@ public class GreenDaoUtils {
     /**
      * 自定义sql语句/参数, 查询
      * @param string sql语句, 前面已经加了"SELECT * FROM tb_name WHERE", 所以这儿写WHERE后面的sql, 例:
-     *               <ul>
-     *                   <li>(<code>"VERSION_CODE = (SELECT MAX(VERSION_CODE) FROM XxxDao.TABLENAME)"</code>)</li>
-     *                   <li>(<code>XxxDao.Properties.Id.columnName + " = ?", 123</code>)</li>
+     *               <ol>
+     *                   <li><code>VERSION_CODE = (SELECT MAX(VERSION_CODE) FROM XxxDao.TABLENAME)</code></li>
+     *                   <li><code>XxxDao.Properties.Id.columnName + " = ?", 123</code></li>
      *                   <li>
-     *                       (<code>"TRIM(" + XxxDao.Properties.Name.columnName + ") = ''"</code>)<br />
+     *                       <code>"TRIM(" + XxxDao.Properties.Name.columnName + ") = ''"</code><br />
      *                       等价于: <a href=''><code>TRIM(NAME) = ''</code></a> //这儿的NAME是表字段
      *                   </li>
+     *               </ol>
+     *               <br />
+     *               <ul>
      *                   <li>
      *                       {@link null 错误示范:}<br />
-     *                       (<code>"TRIM(?) = ''", XxxDao.Properties.Name.columnName</code>)<br />
+     *                       <code>"TRIM(?) = ''", XxxDao.Properties.Name.columnName</code><br />
      *                       等价于: <a href=''><code>TRIM('NAME') = ''</code></a><br />
      *                       //这儿的 <code>NAME</code> 是<b>字符串常量</b>, 不是表字段名, 验证: 比如将这儿的参2随意写个值都不会报错<br />
      *                       //相当于 <code>bool equals = "NAME".equals("")</code> 这个判断条件永远=false, 这判断条件是废了
      *                   </li>
-     *               </ul>
+     *               </ul> <br />
      * @param values 查询参数(例上方的id=123), 没有就不填. {@link null 注意: 绝对不能用来填列名 / 表名 / SQL函数名, 只能填值（字面量）}
      * @return 查询到的 实体{@link Query#unique()} / 列表{@link Query#list()}
      */
-    public static WhereCondition getStringCondition(@NonNull String string, @Nullable Object... values) {
+    public static WhereCondition.StringCondition getStringCondition(@NonNull String string, @Nullable Object... values) {
         if (values == null || values.length == 0) return new WhereCondition.StringCondition(string);
         return new WhereCondition.StringCondition(string, values);
     }

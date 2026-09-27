@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.library'
+}
+
+//用来生成.aar 并 发布到 maven
+apply from: rootProject.file('scripts/publish-1.0.0.gradle')
+apply from: rootProject.file('scripts/publish-maven-1.0.0.gradle')
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion       rootProject.ext.android.minSdkVersion
+        targetSdkVersion    rootProject.ext.android.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        consumerProguardFiles 'consumer-rules.pro'
+        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
+        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
+    }
+
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //Android8, 在android节点内添加
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+//    implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])
+
+//    compileOnly rootProject.ext.dependencies.androidx_annotation
+    compileOnly rootProject.ext.dependencies.androidx_lifecycle
+
+    //https://github.com/getActivity/EasyHttp 轮子哥网络请求框架
+    compileOnly 'com.github.getActivity:EasyHttp:13.0'
+}

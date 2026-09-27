@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.actor.sample" >
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 安装/更新App -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <!-- 显示在其它窗口上 -->
