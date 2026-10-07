@@ -3,7 +3,6 @@ package com.actor.myandroidframework.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -17,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.annotation.StyleRes;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -93,7 +93,7 @@ public abstract class BaseDialog extends Dialog implements ActivityAction, Lifec
     protected void init() {
 //        Window window = getWindow();//获取当前dialog所在的窗口对象
         int layoutResId = getLayoutResId();
-        if (layoutResId != Resources.ID_NULL) setContentView(layoutResId);
+        if (layoutResId != ResourcesCompat.ID_NULL) setContentView(layoutResId);
 
 //        findViewById();//子类可以初始化控件
     }

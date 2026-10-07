@@ -53,6 +53,7 @@ public class Global {
     public static final String ID = "ID";
     public static final String POSITION = "POSITION";
     public static final String START_POSITION = "START_POSITION";
+    public static final String IS_CHECK_UPDATE = "IS_CHECK_UPDATE";
 
 
 

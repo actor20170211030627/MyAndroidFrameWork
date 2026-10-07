@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 //用来生成.jar
-//apply from: rootProject.file('scripts/publish-1.0.0.gradle')
+apply from: rootProject.file('scripts/publish-1.0.0.gradle')
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion       rootProject.ext.android.minSdkVersion
         targetSdkVersion    rootProject.ext.android.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
 
         consumerProguardFiles 'consumer-rules.pro'
         buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
@@ -31,11 +31,11 @@ android {
 }
 
 // 禁用所有 variant 的 AAR 打包 (无用, jitpack.io 会报错找不到 tempgen.jar/aar)
-android.libraryVariants.all { variant ->
-    tasks.named("bundle${variant.name.capitalize()}Aar").configure {
-        enabled = false
-    }
-}
+//android.libraryVariants.all { variant ->
+//    tasks.named("bundle${variant.name.capitalize()}Aar").configure {
+//        enabled = false
+//    }
+//}
 
 dependencies {
 //    implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])

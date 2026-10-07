@@ -46,7 +46,12 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 //    private final String MUSIC = "https://picture.halzwl.cn/picture/error/b24ecce9d181423dbc24eaf234181b61lmx-pyghlkn.mp3";
     //刘明湘-漂洋过海来看你(抖音版ProgHouse)（阿祥 remix）
     private final String MUSIC = "http://qxbzlgx.mtwlkj.net/lmx-pyghlkn.mp3";
-    private final String MUSIC2 = "https://music.163.com/song/media/outer/url?id=1646740.mp3";
+    //听力
+    private final String MUSIC2 = "https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3";
+    //一般般音频
+    private final String MUSIC3 = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3";
+    //MP3 流
+    private final String MUSIC_STREAM = "https://fffiloni-hf-radio.hf.space/stream.mp3";
 
     //本地声音
     private String pathWrong = PathUtils.getInternalAppFilesPath() + "/wrong.mp3";
@@ -58,7 +63,6 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
     private String netPhoneticNotFound = "http://bdcyuyin.mtwlkj.net:8115/skill-yuyin/yinbiaofayin/us/aʊ.mp3";
 
     private MediaPlayer mpRaw, mpHttp;
-    private MediaPlayerCallback mpRawCallback, mpHttpCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +152,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 break;
             case R.id.btn_play_record:  //播放录音
                 if (!TextUtils.isEmpty(audioPath)) {
-                    MediaPlayerUtils.getInstance().play(audioPath, true, new MediaPlayerCallback() {
+                    MediaPlayerUtils.withAudioPath(audioPath).isNewMediaPlayer(true).play(new MediaPlayerCallback() {
                         @Override
                         public void onCompletion2(@Nullable MediaPlayer mp) {
                             LogUtils.errorFormat("播放完成: audioPath=%s", audioPath);
@@ -159,13 +163,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_raw0:  //不复用MP播放
-                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, null);
+                MediaPlayerUtils.withRaw(R.raw.one_kun).play(null);
                 break;
             case R.id.btn_start_play_raw1:  //复用MP播放
-                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, false, null);
+                MediaPlayerUtils.withRaw(R.raw.one_kun).isNewMediaPlayer(false).play(null);
                 break;
             case R.id.btn_start_play_raw2:  //不复用MP循环播放
-                MediaPlayerUtils.getInstance().playRaw(R.raw.right, true, true, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.withRaw(R.raw.right).isNewMediaPlayer(true).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -173,7 +177,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_start_play_raw3:  //复用MP循环播放
-                MediaPlayerUtils.getInstance().playRaw(R.raw.right, true, true, false, new MediaPlayerCallback() {
+                MediaPlayerUtils.withRaw(R.raw.right).isNewMediaPlayer(false).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -183,13 +187,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_assets0:  //不复用MP播放
-                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", null);
+                MediaPlayerUtils.withAssets("audio/wrong.mp3").play(null);
                 break;
             case R.id.btn_start_play_assets1:  //复用MP播放
-                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", false, null);
+                MediaPlayerUtils.withAssets("audio/wrong.mp3").isNewMediaPlayer(false).play(null);
                 break;
             case R.id.btn_start_play_assets2:  //不复用MP循环播放
-                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", true, true, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAssets("audio/wrong.mp3").isNewMediaPlayer(true).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -197,7 +201,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_start_play_assets3:  //复用MP循环播放
-                MediaPlayerUtils.getInstance().playAssets("audio/wrong.mp3", true, true, false, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAssets("audio/wrong.mp3").isNewMediaPlayer(false).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -207,13 +211,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_local0:  //不复用MP播放'本地'
-                MediaPlayerUtils.getInstance().play(pathWrong, true, null);
+                MediaPlayerUtils.withAudioPath(pathWrong).isNewMediaPlayer(true).play(null);
                 break;
             case R.id.btn_start_play_local1:  //复用MP播放'本地'
-                MediaPlayerUtils.getInstance().play(pathWrong, null);
+                MediaPlayerUtils.withAudioPath(pathWrong).play(null);
                 break;
             case R.id.btn_start_play_local2:  //不复用MP循环播放'本地'
-                MediaPlayerUtils.getInstance().play(pathWrong, true, true, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAudioPath(pathWrong).isNewMediaPlayer(true).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -221,7 +225,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_start_play_local3:  //复用MP循环播放'本地'
-                MediaPlayerUtils.getInstance().play(pathWrong, true, true, false, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAudioPath(pathWrong).isNewMediaPlayer(false).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -231,13 +235,13 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
 
             case R.id.btn_start_play_net0:  //不复用MP播放'网络'
-                MediaPlayerUtils.getInstance().play(netStudent, true, null);
+                MediaPlayerUtils.withAudioPath(netStudent).isNewMediaPlayer(true).play(null);
                 break;
             case R.id.btn_start_play_net1:  //复用MP播放'网络'
-                MediaPlayerUtils.getInstance().play(netStudent, null);
+                MediaPlayerUtils.withAudioPath(netStudent).play(null);
                 break;
             case R.id.btn_start_play_net2:  //不复用MP循环播放'网络'
-                MediaPlayerUtils.getInstance().play(netStudent, true, true, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAudioPath(netStudent).isNewMediaPlayer(true).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -245,7 +249,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_start_play_net3:  //复用MP循环播放'网络'
-                MediaPlayerUtils.getInstance().play(netStudent, true, true, false, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAudioPath(netStudent).isNewMediaPlayer(false).isLooping(true).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -253,7 +257,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_start_play_net_404_0:  //不复用MP播放'网络404'
-                MediaPlayerUtils.getInstance().play(netPhoneticNotFound, false, true, true, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAudioPath(netPhoneticNotFound).isNewMediaPlayer(true).isLooping(false).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -261,7 +265,7 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 });
                 break;
             case R.id.btn_start_play_net_404_1:  //复用MP播放'网络404'
-                MediaPlayerUtils.getInstance().play(netPhoneticNotFound, false, true, false, new MediaPlayerCallback() {
+                MediaPlayerUtils.withAudioPath(netPhoneticNotFound).isNewMediaPlayer(false).isLooping(false).play(new MediaPlayerCallback() {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         LogUtils.error("onCompletion");
@@ -281,24 +285,24 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 MediaPlayerUtils.getInstance().pause(mpRaw);
                 break;
             case R.id.btn_continue_play_raw:
-                MediaPlayerUtils.getInstance().start(mpRaw, mpRawCallback);
+                MediaPlayerUtils.getInstance().start(mpRaw, null);
                 break;
             case R.id.btn_stop_play_raw:
-                MediaPlayerUtils.getInstance().stop(mpRaw, mpRawCallback);
+                MediaPlayerUtils.getInstance().stop(mpRaw, null);
                 break;
 
 
             case R.id.btn_start_play_http:
-                initMpRawAndHttp();
+                initMpHttpAndPlay();
                 break;
             case R.id.btn_pause_play_http:
                 MediaPlayerUtils.getInstance().pause(mpHttp);
                 break;
             case R.id.btn_continue_play_http:
-                MediaPlayerUtils.getInstance().start(mpHttp, mpHttpCallback);
+                MediaPlayerUtils.getInstance().start(mpHttp, null);
                 break;
             case R.id.btn_stop_play_http:
-                MediaPlayerUtils.getInstance().stop(mpHttp, mpHttpCallback);
+                MediaPlayerUtils.getInstance().stop(mpHttp, null);
                 break;
 
 
@@ -321,47 +325,19 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
     private void initMpRawAndPlay() {
         if (mpRaw == null) {
-            mpRawCallback = new MediaPlayerCallback() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    super.onPrepared(mp);
-                    mpRaw = mp;
-                    //从MediaPlayerUtils中移除, 否则播放完成后会自动release()
-                    MediaPlayerUtils.getInstance().getAllPlayers().remove(mp.getAudioSessionId());
-                }
-                @Override
-                public void onCompletion2(@Nullable MediaPlayer mp) {
-                    ToasterUtils.success("播放完成!");
-                }
-            };
-            //为了不和下面那个 http 的长歌播放器复用到, 所以new 1个 MediaPlayer
-            MediaPlayerUtils.getInstance().playRaw(R.raw.am_487_833_s161603081658, true, mpRawCallback);
+            mpRaw = MediaPlayerUtils.withRaw(R.raw.am_487_833_s161603081658).isNewMediaPlayer(true).playAndExcludeFromMap(null);
         } else {
-            MediaPlayerUtils.getInstance().start(mpRaw, mpRawCallback);
+            MediaPlayerUtils.getInstance().start(mpRaw, null);
             //if .stop() 后, 调用了↑ .start() -> prepare(), 还在prepare中就调用seekTo()会报错...
 //            MediaPlayerUtils.getInstance().seekTo(mpRaw, mpRawCallback, 0);
         }
     }
 
-    private void initMpRawAndHttp() {
+    private void initMpHttpAndPlay() {
         if (mpHttp == null) {
-            mpHttpCallback = new MediaPlayerCallback() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    super.onPrepared(mp);
-                    mpHttp = mp;
-                    //从MediaPlayerUtils中移除, 否则播放完成后会自动release()
-                    MediaPlayerUtils.getInstance().getAllPlayers().remove(mp.getAudioSessionId());
-                }
-                @Override
-                public void onCompletion2(@Nullable MediaPlayer mp) {
-                    ToasterUtils.success("播放完成!");
-                }
-            };
-            //为了不和上面那个 raw 的长歌播放器复用到, 所以new 1个 MediaPlayer
-            MediaPlayerUtils.getInstance().play(MUSIC, true, mpHttpCallback);
+            mpHttp = MediaPlayerUtils.withAudioPath(MUSIC_STREAM).isNewMediaPlayer(true).playAndExcludeFromMap(null);
         } else {
-            MediaPlayerUtils.getInstance().start(mpHttp, mpHttpCallback);
+            MediaPlayerUtils.getInstance().start(mpHttp, null);
             //if .stop() 后, 调用了↑ .start() -> prepare(), 还在prepare中就调用seekTo()会报错...
 //            MediaPlayerUtils.getInstance().seekTo(mpHttp, mpHttpCallback, 0);
         }
@@ -373,8 +349,8 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         //释放资源
         MediaRecorderUtils.getInstance().releaseMediaRecorder();
         MediaPlayerUtils.getInstance().releaseAll();
-        MediaPlayerUtils.getInstance().release(mpRaw, mpRawCallback);
-        MediaPlayerUtils.getInstance().release(mpHttp, mpHttpCallback);
+        MediaPlayerUtils.getInstance().release(mpRaw, null);
+        MediaPlayerUtils.getInstance().release(mpHttp, null);
         TextToSpeechUtils.shutdown();
     }
 }

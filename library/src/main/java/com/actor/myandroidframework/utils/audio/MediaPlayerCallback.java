@@ -22,9 +22,10 @@ public abstract class MediaPlayerCallback implements
         MediaPlayer.OnBufferingUpdateListener,  //缓冲进度监听
         MediaPlayer.OnSeekCompleteListener      //调用seekTo()完成后监听
 {
-    boolean isPrepared = false;         //是否准备完成
+    boolean  isDealMediaPlayerBySelf = false;   //创建的MediaPlayer是否不受 {@link #stopAll()} & {@link #releaseAll()} 的影响自己管理?
     boolean isAutoPlay = false;         //是否自动播放
     boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
+    boolean isPrepared = false;         //是否准备完成
     boolean isStopped = false;          //是否调用了MediaPlayer.stop()
     Object tagMPC;                      //标记
     MediaPlayer mp;                     //播放器
@@ -64,6 +65,8 @@ public abstract class MediaPlayerCallback implements
         LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
         //在 onPrepare 中添加id, 否则 MediaPlayerUtils 中添加的id可能还未初始化or其它问题
         if (!isNewMediaPlayer) MediaPlayerUtils.getInstance().DEFAULT_AUDIO_SESSION_ID = audioSessionId;
+//        if (!isNewMediaPlayer || !isExcludeFromMap) MediaPlayerUtils.getInstance().getAllPlayers().put(audioSessionId, this);
+        //不做 ↑ 判断还是要put进去, 因为还需要调用 MediaPlayerUtils.getInstance().start(mp, null) 等方法
         MediaPlayerUtils.getInstance().getAllPlayers().put(audioSessionId, this);
         if (isAutoPlay) {
             if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(audioSessionId)) {
@@ -84,8 +87,11 @@ public abstract class MediaPlayerCallback implements
     public boolean onSetData2StartError(@Nullable MediaPlayer mp, @NonNull Exception e) {
         e.printStackTrace();
         LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
-        //if Map没查到AudioSessionId对应的MediaPlayer, 说明用户自己remove了, 就不要release()了
-        if (mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
+        if (isNewMediaPlayer && mp != null && !isDealMediaPlayerBySelf) {
+            if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(mp.getAudioSessionId())) {
+                MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
+            } else MediaPlayerUtils.getInstance().release(mp, this);
+        }
         return false;
     }
 
@@ -145,8 +151,11 @@ public abstract class MediaPlayerCallback implements
         if (mp == null) {
             LogUtils.error("播放完成");
         } else LogUtils.errorFormat("播放完成: audioSessionId = %d", mp.getAudioSessionId());
-        //if Map没查到AudioSessionId对应的MediaPlayer, 说明用户自己remove了, 就不要release()了
-        if (isNewMediaPlayer && mp != null) MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
+        if (isNewMediaPlayer && mp != null && !isDealMediaPlayerBySelf) {
+            if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(mp.getAudioSessionId())) {
+                MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
+            } else MediaPlayerUtils.getInstance().release(mp, this);
+        }
         onCompletion2(mp);
     }
 

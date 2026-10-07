@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -66,7 +67,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
  */
 public class BaseTabLayout extends TabLayout {
 
-    protected       int                                        tabItemLayoutRes     = 0; //Resources.ID_NULL;
+    protected       int                                        tabItemLayoutRes     = ResourcesCompat.ID_NULL;
     protected final SparseIntArray                             tabLayoutCustomViews = new SparseIntArray();
     protected       boolean                                    setupWithViewPager2  = false;
     protected       boolean                                    tabLayoutLoggable    = false;
@@ -89,7 +90,7 @@ public class BaseTabLayout extends TabLayout {
     protected void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         if (attrs == null) return;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BaseTabLayout);
-        tabItemLayoutRes = a.getResourceId(R.styleable.BaseTabLayout_btlTabItemLayout, 0);
+        tabItemLayoutRes = a.getResourceId(R.styleable.BaseTabLayout_btlTabItemLayout, ResourcesCompat.ID_NULL);
         a.recycle();
     }
 

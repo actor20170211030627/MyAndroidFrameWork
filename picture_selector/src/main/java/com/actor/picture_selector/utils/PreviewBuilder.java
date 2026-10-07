@@ -24,7 +24,7 @@ import java.util.List;
  * date       : 2023/4/2 on 13
  * @version 1.0
  */
-public class PreviewConfiger {
+public class PreviewBuilder {
 
     protected PictureSelectionPreviewModel selectionPreviewModel;
     protected ArrayList<LocalMedia> selectionData;
@@ -40,7 +40,7 @@ public class PreviewConfiger {
      * @param selectionDatas 预览集合, if这儿传null, 那你需要在其它地方传入数据.
      *                       为何一定要ArrayList, 可能怕Array.asList()增加&删除的时候报错...
      */
-    public PreviewConfiger(PictureSelectionPreviewModel selectionPreviewModel, @Nullable List<LocalMedia> selectionDatas) {
+    public PreviewBuilder(PictureSelectionPreviewModel selectionPreviewModel, @Nullable List<LocalMedia> selectionDatas) {
         this.selectionPreviewModel = selectionPreviewModel;
         if (selectionDatas instanceof ArrayList) {
             this.selectionData = (ArrayList<LocalMedia>) selectionDatas;
@@ -53,7 +53,7 @@ public class PreviewConfiger {
      * 预览缩放效果模式(共享元素动画)
      * @param list$recy 传入ListView 或 RecyclerView
      */
-    public PreviewConfiger setPreviewZoomEffect(@Nullable ViewGroup list$recy) {
+    public PreviewBuilder setPreviewZoomEffect(@Nullable ViewGroup list$recy) {
         if (list$recy instanceof ListView || list$recy instanceof RecyclerView) {
             this.list$recy = list$recy;
         } else {
@@ -66,7 +66,7 @@ public class PreviewConfiger {
      * 全屏预览(点击的时候)(仅对图片有效), 默认true
      * @param isPreviewFullScreenMode 预览的时候是否全屏
      */
-    public PreviewConfiger setIsPreviewFullScreenMode(boolean isPreviewFullScreenMode) {
+    public PreviewBuilder setIsPreviewFullScreenMode(boolean isPreviewFullScreenMode) {
         this.isPreviewFullScreenMode = isPreviewFullScreenMode;
         return this;
     }
@@ -75,7 +75,7 @@ public class PreviewConfiger {
      * 自动播放视频(点击视频预览的时候才自动播放, 预览左右滑到时不会自动部分), 默认true
      * @param isAutoVideoPlay 是否自动播放
      */
-    public PreviewConfiger setIsAutoVideoPlay(boolean isAutoVideoPlay) {
+    public PreviewBuilder setIsAutoVideoPlay(boolean isAutoVideoPlay) {
         this.isAutoVideoPlay = isAutoVideoPlay;
         return this;
     }
@@ -84,7 +84,7 @@ public class PreviewConfiger {
      * 是否隐藏"下载"按钮, 默认true
      * @param isHidePreviewDownload 是否隐藏"下载"按钮
      */
-    public PreviewConfiger setIsHidePreviewDownload(boolean isHidePreviewDownload) {
+    public PreviewBuilder setIsHidePreviewDownload(boolean isHidePreviewDownload) {
         this.isHidePreviewDownload = isHidePreviewDownload;
         return this;
     }
@@ -92,7 +92,7 @@ public class PreviewConfiger {
     /**
      * @param externalPreviewEventListener 外部预览监听事件(删除, 长按下载), if不关心这些事件, 可传null
      */
-    public PreviewConfiger setPreviewEventListener(@Nullable OnExternalPreviewEventListener externalPreviewEventListener) {
+    public PreviewBuilder setPreviewEventListener(@Nullable OnExternalPreviewEventListener externalPreviewEventListener) {
         this.externalPreviewEventListener = externalPreviewEventListener;
         return this;
     }
@@ -166,20 +166,20 @@ public class PreviewConfiger {
     ///////////////////////////////////////////////////////////////////////////
     // 预览图片/视频(不包括网络视频)
     ///////////////////////////////////////////////////////////////////////////
-    public PreviewConfiger setPath(@NonNull String path) {
+    public PreviewBuilder setPath(@NonNull String path) {
         if (TextUtils.isEmpty(path)) return this;
         LocalMedia localMedia = LocalMedia.generateLocalMedia(ConfigUtils.APPLICATION, path);
         setLocalMedia(localMedia);
         return this;
     }
-    public PreviewConfiger setLocalMedia(LocalMedia media) {
+    public PreviewBuilder setLocalMedia(LocalMedia media) {
         if (media == null) return this;
         ArrayList<LocalMedia> medias = new ArrayList<>(1);
         medias.add(media);
         selectionData = medias;
         return this;
     }
-    public PreviewConfiger setPaths(List<String> paths) {
+    public PreviewBuilder setPaths(List<String> paths) {
         if (paths == null || paths.isEmpty()) return this;
         ArrayList<LocalMedia> medias = new ArrayList<>(paths.size());
         for (String path : paths) {

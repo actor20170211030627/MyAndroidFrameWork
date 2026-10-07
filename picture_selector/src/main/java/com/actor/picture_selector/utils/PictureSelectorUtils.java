@@ -670,7 +670,7 @@ public class PictureSelectorUtils {
      */
     public static ImageEngine getImageEngine() {
         if (imageEngine == null) {
-            imageEngine = new ImageEngineImpl();
+            imageEngine = new GlideEngine();
         }
         return imageEngine;
     }

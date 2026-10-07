@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 
@@ -196,32 +193,32 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     protected boolean                 isJustSetData = false;
 
     public BaseSpinner(Context context) {
-        super(context = getContextThemeWrapper(context));
+        super(context);
         init(context, null);
     }
 
     public BaseSpinner(Context context, int mode) {
-        super(context = getContextThemeWrapper(context), mode);
+        super(context, mode);
         init(context, null);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs) {
-        super(context = getContextThemeWrapper(context), attrs);
+        super(context, attrs);
         init(context, attrs);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context = getContextThemeWrapper(context), attrs, defStyleAttr);
+        super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode) {
-        super(context = getContextThemeWrapper(context), attrs, defStyleAttr, mode);
+        super(context, attrs, defStyleAttr, mode);
         init(context, attrs);
     }
 
     public BaseSpinner(Context context, AttributeSet attrs, int defStyleAttr, int mode, Resources.Theme popupTheme) {
-        super(context = getContextThemeWrapper(context), attrs, defStyleAttr, mode, popupTheme);
+        super(context, attrs, defStyleAttr, mode, popupTheme);
         init(context, attrs);
     }
 
@@ -430,19 +427,5 @@ public class BaseSpinner<T> extends AppCompatSpinner {
     @Override
     public void setAdapter(SpinnerAdapter adapter) {
         super.setAdapter(adapter);
-    }
-
-    /**
-     * 当 context 是Application 的时候, spinnerMode=dialog点击无反应, spinnerMode=dropdown点击报错
-     * android.view.InflateException: Binary XML file line #19: Failed to resolve attribute at index 1: TypedValue{t=0x2/d=0x7f04015b a=-1}
-     * Caused by: java.lang.UnsupportedOperationException: Failed to resolve attribute at index 1: TypedValue{t=0x2/d=0x7f04015b a=-1}
-     *     at android.content.res.TypedArray.getLayoutDimension(TypedArray.java:816)
-     * 乺: 将 Application 包装成 ContextThemeWrapper, 让 Spinner 能够在 SYSTEM_ALERT_WINDOW 全局悬浮窗里也能够下拉
-     */
-    @NonNull
-    protected static Context getContextThemeWrapper(Context context) {
-        if (context instanceof ContextThemeWrapper) return context;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) return context.createWindowContext(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, null);
-        return new ContextThemeWrapper(context, com.google.android.material.R.style.Theme_AppCompat_Light_NoActionBar);
     }
 }

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.actor.myandroidframework.utils.SPUtils;
 import com.actor.sample.R;
 import com.actor.sample.databinding.ActivityMainBinding;
 import com.actor.sample.utils.CheckUpdateUtils;
@@ -35,7 +36,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         tvVersion.setText(getStringFormat("VersionName: %s(VersionCode: %d)", appInfo.getVersionName(), appInfo.getVersionCode()));
 
         //检查更新
-        new CheckUpdateUtils().check(this);
+        if (!SPUtils.getBoolean(Global.IS_CHECK_UPDATE, false)) {
+            new CheckUpdateUtils().check(this);
+        }
     }
 
     @Override

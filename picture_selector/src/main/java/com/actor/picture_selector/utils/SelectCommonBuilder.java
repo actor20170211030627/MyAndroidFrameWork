@@ -103,8 +103,8 @@ public class SelectCommonBuilder {
     /**
      * 预览图片/视频/音频
      */
-    public PreviewConfiger openPreview() {
+    public PreviewBuilder openPreview() {
         PictureSelectorUtils utils = PictureSelectorUtils.getInstance(false);
-        return new PreviewConfiger(selector.openPreview(), utils.selectionData);
+        return new PreviewBuilder(selector.openPreview(), utils.selectionData);
     }
 }

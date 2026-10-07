@@ -40,7 +40,7 @@ public class ChatListAdapter extends BaseMultiItemQuickAdapter<MessageItem, Base
                 if (message != null) {
                     ToasterUtils.info(message);
                 } else {
-                    MediaPlayerUtils.getInstance().play(item.audioPath, false, true, false, null);
+                    MediaPlayerUtils.withAudioPath(item.audioPath).isNewMediaPlayer(false).play(null);
                 }
             }
         });

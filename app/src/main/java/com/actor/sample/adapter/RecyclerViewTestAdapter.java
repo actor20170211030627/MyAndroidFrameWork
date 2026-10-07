@@ -31,7 +31,7 @@ public class RecyclerViewTestAdapter extends BaseQuickAdapter<Item, BaseViewHold
             switch (view.getId()) {
             case R.id.dtv_contact:
                 ((DrawableTextView) view).startPlayAnim();
-                MediaPlayerUtils.getInstance().playRaw(R.raw.one_kun, new MediaPlayerCallback(position) {
+                MediaPlayerUtils.withRaw(R.raw.one_kun).play(new MediaPlayerCallback(position) {
                     @Override
                     public void onCompletion2(@Nullable MediaPlayer mp) {
                         int tagPos = getPlayerTag();

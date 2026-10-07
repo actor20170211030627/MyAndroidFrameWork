@@ -10,6 +10,7 @@ import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.utils.LogUtils;
+import com.actor.myandroidframework.utils.SPUtils;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.info.CheckUpdateInfo;
 import com.blankj.utilcode.util.ActivityUtils;
@@ -44,6 +45,7 @@ public class CheckUpdateUtils {
                 .request(new OnHttpListener<CheckUpdateInfo.CheckUpdateBean>() {
                     @Override
                     public void onHttpSuccess(@NonNull CheckUpdateInfo.CheckUpdateBean result) {
+                        SPUtils.putBoolean(Global.IS_CHECK_UPDATE, true, SPUtils.ExpireInDay);
                         List<CheckUpdateInfo.CheckUpdateBean.ElementsBean> elements = result.elements;
                         if (elements != null && !elements.isEmpty()) {
                             CheckUpdateInfo.CheckUpdateBean.ElementsBean elementsBean = elements.get(0);
