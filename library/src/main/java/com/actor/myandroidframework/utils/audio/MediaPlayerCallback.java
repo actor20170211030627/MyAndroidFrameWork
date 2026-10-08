@@ -24,11 +24,15 @@ public abstract class MediaPlayerCallback implements
 {
     boolean  isDealMediaPlayerBySelf = false;   //创建的MediaPlayer是否不受 {@link #stopAll()} & {@link #releaseAll()} 的影响自己管理?
     boolean isAutoPlay = false;         //是否自动播放
+    boolean isPlayAbleOnPrepared = true;//prepared 后, 是否能自动播放(为了不污染↑的值, 所以新增了这个值)
     boolean isNewMediaPlayer = false;   //是否使用新的MediaPlayer
+
+    boolean isPreparing = false;        //是否正在准备中
     boolean isPrepared = false;         //是否准备完成
     boolean isStopped = false;          //是否调用了MediaPlayer.stop()
-    Object tagMPC;                      //标记
     MediaPlayer mp;                     //播放器
+
+    Object tagMPC;                      //标记
 
 //    private enum PlayerState {
 //        IDLE, INITIALIZED, PREPARING, PREPARED,
@@ -60,21 +64,14 @@ public abstract class MediaPlayerCallback implements
             LogUtils.error("mp = null!!!");
             return;
         }
+        isPreparing = false;
         isPrepared = true;
         int audioSessionId = mp.getAudioSessionId();
         LogUtils.errorFormat("onPrepared, audioSessionId=%d", audioSessionId);
         //在 onPrepare 中添加id, 否则 MediaPlayerUtils 中添加的id可能还未初始化or其它问题
         if (!isNewMediaPlayer) MediaPlayerUtils.getInstance().DEFAULT_AUDIO_SESSION_ID = audioSessionId;
-//        if (!isNewMediaPlayer || !isExcludeFromMap) MediaPlayerUtils.getInstance().getAllPlayers().put(audioSessionId, this);
-        //不做 ↑ 判断还是要put进去, 因为还需要调用 MediaPlayerUtils.getInstance().start(mp, null) 等方法
-        MediaPlayerUtils.getInstance().getAllPlayers().put(audioSessionId, this);
-        if (isAutoPlay) {
-            if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(audioSessionId)) {
-                MediaPlayerUtils.getInstance().start(audioSessionId);
-            } else {
-                //防止 audioSessionId 已经被移除
-                MediaPlayerUtils.getInstance().start(mp, this);
-            }
+        if (isAutoPlay && isPlayAbleOnPrepared) {
+            MediaPlayerUtils.getInstance().start(audioSessionId);
         }
     }
 
@@ -88,16 +85,14 @@ public abstract class MediaPlayerCallback implements
         e.printStackTrace();
         LogUtils.error("从'设置数据 -> 开始播放'这个过程中(还没有开始播放), 出现错误!");
         if (isNewMediaPlayer && mp != null && !isDealMediaPlayerBySelf) {
-            if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(mp.getAudioSessionId())) {
-                MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
-            } else MediaPlayerUtils.getInstance().release(mp, this);
+            MediaPlayerUtils.getInstance().release(mp);
         }
         return false;
     }
 
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
-//        LogUtils.errorFormat("缓冲: AudioSessionId=%d, percent=%d", mp.getAudioSessionId(), percent);
+        if (percent % 5 == 0) LogUtils.errorFormat("缓冲: AudioSessionId=%d, percent=%d", mp.getAudioSessionId(), percent);
     }
 
     @Override
@@ -152,9 +147,7 @@ public abstract class MediaPlayerCallback implements
             LogUtils.error("播放完成");
         } else LogUtils.errorFormat("播放完成: audioSessionId = %d", mp.getAudioSessionId());
         if (isNewMediaPlayer && mp != null && !isDealMediaPlayerBySelf) {
-            if (MediaPlayerUtils.getInstance().getAllPlayers().containsKey(mp.getAudioSessionId())) {
-                MediaPlayerUtils.getInstance().release(mp.getAudioSessionId());
-            } else MediaPlayerUtils.getInstance().release(mp, this);
+            MediaPlayerUtils.getInstance().release(mp);
         }
         onCompletion2(mp);
     }

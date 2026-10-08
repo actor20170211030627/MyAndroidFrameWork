@@ -8,6 +8,11 @@
     <!-- 显示在其它窗口上 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <!-- bugly: https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=1.0.0 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:name=".MyApplication"
         android:icon="@drawable/logo"

@@ -144,7 +144,7 @@ public class MediaPlayerBuilder {
          */
         @Deprecated
         @Nullable
-        public MediaPlayer playAndExcludeFromMap(@Nullable MediaPlayerCallback playerCallback) {
+        public MediaPlayer playAndDealMediaPlayerBySelf(@Nullable MediaPlayerCallback playerCallback) {
             if (playerCallback != null) playerCallback.isDealMediaPlayerBySelf = true;
             if (context == null) context = ConfigUtils.APPLICATION;
             MediaPlayer mediaPlayer2;

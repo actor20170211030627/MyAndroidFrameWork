@@ -18,6 +18,7 @@ import com.actor.qq_wechat.QQUtils;
 import com.actor.qq_wechat.WeChatUtils;
 import com.actor.sample.utils.Global;
 import com.greendao.gen.ItemEntityDao;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.Arrays;
 import java.util.List;
@@ -107,6 +108,11 @@ public class MyApplication extends ActorApplication {
 
         //在Application中设置appId
         WeChatUtils.setAppId("wx88888888");
+
+
+        //https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=1.0.0
+        CrashReport.initCrashReport(this, "f64919d5cd", isAppDebug());
+//        CrashReport.testJavaCrash();
     }
 
     @Override

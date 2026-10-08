@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.actor.myandroidframework.utils.LogUtils;
 import com.actor.myandroidframework.utils.SPUtils;
+import com.actor.myandroidframework.utils.TextUtils2;
 import com.actor.myandroidframework.utils.toaster.ToasterUtils;
 import com.actor.sample.info.CheckUpdateInfo;
 import com.blankj.utilcode.util.ActivityUtils;
@@ -68,17 +69,20 @@ public class CheckUpdateUtils {
         Activity topActivity = ActivityUtils.getTopActivity();
         if (topActivity == null || topActivity.isDestroyed()) return;
         if (alertDialog == null) {
+            String finalNewVersionName = newVersionName;
             alertDialog = new AlertDialog.Builder(topActivity)
                     .setTitle("Update: 有新版本")
                     .setMessage("有新版本: ".concat(newVersionName).concat(", 快更新吧!"))
-                    .setPositiveButton("Ok", (dialog, which) -> downloadApk(topActivity))
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                        downloadApk(topActivity, finalNewVersionName);
+                    })
                     .setNegativeButton("Cancel", null)
                     .create();
         }
         alertDialog.show();
     }
 
-    private void downloadApk(Activity topActivity) {
+    private void downloadApk(Activity topActivity, String versionName) {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(topActivity);
             progressDialog.setCancelable(false);
@@ -91,7 +95,7 @@ public class CheckUpdateUtils {
             tag = (LifecycleOwner) topActivity;
         }
         EasyHttp.download(tag)
-                .url(Global.DOWNLOAD_URL)
+                .url(TextUtils2.getStringFormat(Global.DOWNLOAD_URL, versionName))
                 .listener(new OnDownloadListener() {
                     @Override
                     public void onDownloadProgressChange(@NonNull File file, int progress) {

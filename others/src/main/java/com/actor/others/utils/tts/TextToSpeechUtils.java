@@ -494,6 +494,7 @@ public class TextToSpeechUtils {
 
     /**
      * 中断当前任务，不管是播放还是转化文件，抛弃队列内的其他任务
+     * @return {@link TextToSpeech#SUCCESS} 成功, {@link TextToSpeech#ERROR} 失败
      */
     public static int stop() {
         if (tts != null) {
@@ -506,6 +507,7 @@ public class TextToSpeechUtils {
      * 释放引擎使用的资源
      */
     public static void shutdown() {
+        boolean isStopSuccess = stop() == TextToSpeech.SUCCESS;
         if (tts != null) {
             tts.shutdown();
             tts = null;

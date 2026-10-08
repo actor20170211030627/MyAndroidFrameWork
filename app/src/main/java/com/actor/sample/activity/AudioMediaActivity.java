@@ -285,24 +285,27 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
                 MediaPlayerUtils.getInstance().pause(mpRaw);
                 break;
             case R.id.btn_continue_play_raw:
-                MediaPlayerUtils.getInstance().start(mpRaw, null);
+                MediaPlayerUtils.getInstance().start(mpRaw);
                 break;
             case R.id.btn_stop_play_raw:
-                MediaPlayerUtils.getInstance().stop(mpRaw, null);
+                MediaPlayerUtils.getInstance().stop(mpRaw);
                 break;
 
 
             case R.id.btn_start_play_http:
-                initMpHttpAndPlay();
+                initMpHttpAndPlay(MUSIC2);
+                break;
+            case R.id.btn_start_play_http_stream:
+                initMpHttpAndPlay(MUSIC_STREAM);
                 break;
             case R.id.btn_pause_play_http:
                 MediaPlayerUtils.getInstance().pause(mpHttp);
                 break;
             case R.id.btn_continue_play_http:
-                MediaPlayerUtils.getInstance().start(mpHttp, null);
+                MediaPlayerUtils.getInstance().start(mpHttp);
                 break;
             case R.id.btn_stop_play_http:
-                MediaPlayerUtils.getInstance().stop(mpHttp, null);
+                MediaPlayerUtils.getInstance().stop(mpHttp);
                 break;
 
 
@@ -325,22 +328,28 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
 
     private void initMpRawAndPlay() {
         if (mpRaw == null) {
-            mpRaw = MediaPlayerUtils.withRaw(R.raw.am_487_833_s161603081658).isNewMediaPlayer(true).playAndExcludeFromMap(null);
+            mpRaw = MediaPlayerUtils.withRaw(R.raw.am_487_833_s161603081658).isNewMediaPlayer(true).playAndDealMediaPlayerBySelf(null);
         } else {
-            MediaPlayerUtils.getInstance().start(mpRaw, null);
+            MediaPlayerUtils.getInstance().start(mpRaw);
             //if .stop() 后, 调用了↑ .start() -> prepare(), 还在prepare中就调用seekTo()会报错...
 //            MediaPlayerUtils.getInstance().seekTo(mpRaw, mpRawCallback, 0);
         }
     }
 
-    private void initMpHttpAndPlay() {
+    private String currentPlayingHttpPath;
+    private void initMpHttpAndPlay(String path) {
         if (mpHttp == null) {
-            mpHttp = MediaPlayerUtils.withAudioPath(MUSIC_STREAM).isNewMediaPlayer(true).playAndExcludeFromMap(null);
+            mpHttp = MediaPlayerUtils.withAudioPath(path).isNewMediaPlayer(true).playAndDealMediaPlayerBySelf(null);
         } else {
-            MediaPlayerUtils.getInstance().start(mpHttp, null);
+            if (path.equals(currentPlayingHttpPath)) {
+                MediaPlayerUtils.getInstance().start(mpHttp);
+            } else {
+                MediaPlayerUtils.withAudioPath(path).setMediaPlayer(mpHttp).isNewMediaPlayer(true).playAndDealMediaPlayerBySelf(null);
+            }
             //if .stop() 后, 调用了↑ .start() -> prepare(), 还在prepare中就调用seekTo()会报错...
 //            MediaPlayerUtils.getInstance().seekTo(mpHttp, mpHttpCallback, 0);
         }
+        currentPlayingHttpPath = path;
     }
 
     @Override
@@ -349,8 +358,8 @@ public class AudioMediaActivity extends BaseActivity<ActivityAudioMediaBinding> 
         //释放资源
         MediaRecorderUtils.getInstance().releaseMediaRecorder();
         MediaPlayerUtils.getInstance().releaseAll();
-        MediaPlayerUtils.getInstance().release(mpRaw, null);
-        MediaPlayerUtils.getInstance().release(mpHttp, null);
+        MediaPlayerUtils.getInstance().release(mpRaw);
+        MediaPlayerUtils.getInstance().release(mpHttp);
         TextToSpeechUtils.shutdown();
     }
 }

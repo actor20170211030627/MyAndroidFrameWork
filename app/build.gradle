@@ -162,6 +162,13 @@ dependencies {
 //    implementation 'com.amap.api:location:6.3.0' //定位 <br />
 
 
+    //https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=1.0.0
+    //Maven Central仓库: https://repo1.maven.org/maven2/com/tencent/bugly/
+    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+    //4.0.0之前版本，还需要添加nativecrashreport依赖
+//    implementation 'com.tencent.rqd:nativecrashreport:latest.release'
+
+
 
     //https://gitee.com/actor20170211030627/MyAndroidFrameWork
     implementation project(path: ':library')

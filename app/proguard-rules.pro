@@ -22,3 +22,7 @@
 
 # gson 不混淆Bean类:
  -keep class com.actor.sample.info.** { *; }
+
+# bugly https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=1.0.0
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

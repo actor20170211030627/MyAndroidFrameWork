@@ -85,7 +85,7 @@ import java.io.File;
  *     <li>
  *         使用示例 <br />
  *         登录: {@link WeChatUtils}.{@link #login(String, String, WxLoginListener)} <br />
- *         支付: {@link WeChatUtils}.{@link #pay(String, String, String, String, String, WxPayListener)} <br />
+ *         支付: {@link WeChatUtils}.{@link #pay(String, String, String, String, String, String, WxPayListener)} <br />
  *         更多使用示例: <a href="https://gitee.com/actor20170211030627/MyAndroidFrameWork/blob/master/app/src/main/java/com/actor/sample/activity/ThirdActivity.java" target="_blank">ThirdActivity.java</a>
  *     </li>
  * </ol>
@@ -108,8 +108,8 @@ public class WeChatUtils {
      * 应用密钥 AppSecret，在微信开放平台提交应用审核通过后获得(不要放在客户端!!!)
      * @deprecated Appsecret 是应用接口使用密钥，泄漏后将可能导致应用数据泄漏、应用的用户数据泄漏等高风险后果；存储在客户端，极有可能被恶意窃取（如反编译获取Appsecret）；
      */
-//    @Deprecated
-//    protected static String appSecret = "wx88888888";
+    @Deprecated
+    private static String appSecret = "wx88888888";
 
     /**
      * 分享图片的时候, 略缩图宽高

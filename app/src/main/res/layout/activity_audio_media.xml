@@ -52,8 +52,9 @@
             android:id="@+id/tv0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:background="@color/red_trans_CC99"
+            android:padding="5dp"
             android:text="MP: 指的是MediaPlayer"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/btn_play_record" />
@@ -94,11 +95,21 @@
             app:layout_constraintStart_toEndOf="@id/btn_start_play_raw2"
             app:layout_constraintTop_toTopOf="@id/btn_start_play_raw2" />
 
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw2"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
         <Button
             android:id="@+id/btn_start_play_assets0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:onClick="onViewClicked"
             android:text="不复用MP播放assets"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,11 +142,21 @@
             app:layout_constraintStart_toEndOf="@id/btn_start_play_assets2"
             app:layout_constraintTop_toTopOf="@id/btn_start_play_assets2" />
 
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_assets3"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
         <Button
             android:id="@+id/btn_start_play_local0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:onClick="onViewClicked"
             android:text="不复用MP播放'本地'"
             app:layout_constraintStart_toStartOf="parent"
@@ -168,11 +189,21 @@
             app:layout_constraintStart_toEndOf="@id/btn_start_play_local2"
             app:layout_constraintTop_toTopOf="@id/btn_start_play_local2" />
 
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_local2"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
         <Button
             android:id="@+id/btn_start_play_net0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:onClick="onViewClicked"
             android:text="不复用MP播放'网络'"
             app:layout_constraintStart_toStartOf="parent"
@@ -205,10 +236,21 @@
             app:layout_constraintStart_toEndOf="@id/btn_start_play_net2"
             app:layout_constraintTop_toTopOf="@id/btn_start_play_net2" />
 
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_net2"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
         <Button
             android:id="@+id/btn_start_play_net_404_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:onClick="onViewClicked"
             android:text="不复用MP播放'网络404'"
             app:layout_constraintStart_toStartOf="parent"
@@ -228,17 +270,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:background="@color/blue_5ECCFD"
             android:onClick="onViewClicked"
-            android:text="stopAll()停止播放全部MP"
+            android:padding="5dp"
+            android:text="stopAll(): 停止播放上面全部MediaPlayer"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_start_play_net_404_0" />
 
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_release_all"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_start_play_raw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="14dp"
             android:background="@color/grey_CCC"
             android:gravity="center"
             android:onClick="onViewClicked"
@@ -290,6 +344,15 @@
             app:layout_constraintStart_toEndOf="@id/btn_continue_play_raw"
             app:layout_constraintTop_toTopOf="@id/btn_start_play_raw" />
 
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_start_play_http"
             android:layout_width="wrap_content"
@@ -305,6 +368,20 @@
             app:layout_constraintTop_toBottomOf="@id/btn_start_play_raw" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_start_play_http_stream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/grey_CCC"
+            android:gravity="center"
+            android:onClick="onViewClicked"
+            android:padding="5dp"
+            android:text="开始播放http 流"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_http" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_pause_play_http"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -315,6 +392,7 @@
             android:padding="5dp"
             android:text="暂停播放音乐"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btn_start_play_http_stream"
             app:layout_constraintStart_toEndOf="@id/btn_start_play_http"
             app:layout_constraintTop_toTopOf="@id/btn_start_play_http" />
 
@@ -330,7 +408,7 @@
             android:text="继续播放音乐"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_pause_play_http"
-            app:layout_constraintTop_toTopOf="@id/btn_start_play_http" />
+            app:layout_constraintTop_toTopOf="@id/btn_pause_play_http" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_stop_play_http"
@@ -344,7 +422,7 @@
             android:text="停止播放音乐"
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/btn_continue_play_http"
-            app:layout_constraintTop_toTopOf="@id/btn_start_play_http" />
+            app:layout_constraintTop_toTopOf="@id/btn_pause_play_http" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv2"
@@ -353,7 +431,7 @@
             android:padding="5dp"
             android:text="播放速度系数:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_start_play_http" />
+            app:layout_constraintTop_toBottomOf="@id/btn_start_play_http_stream" />
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/seek_bar_speed"
@@ -367,11 +445,21 @@
             app:layout_constraintStart_toEndOf="@id/tv2"
             app:layout_constraintTop_toTopOf="@id/tv2" />
 
+
+        <com.actor.myandroidframework.widget.LineView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tv2"
+            app:lvGradientCenterColor="@color/green_0D6971"
+            app:lvGradientEndColor="@color/blue_5ECCFD"
+            app:lvGradientStartColor="@color/red" />
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="13dp"
             android:hint="请输入要读取的内容"
             android:text="I have an eraser.\n我有块橡皮。"
             app:layout_constraintTop_toBottomOf="@id/tv2" />
