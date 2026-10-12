@@ -2,22 +2,22 @@ plugins {
     id 'com.android.library'
 }
 
-//用来生成.aar 并 发布到 maven
+//用来生成.aar
 apply from: rootProject.file('scripts/publish-1.0.0.gradle')
+//并 发布到 maven, 供其它项目调用
 apply from: rootProject.file('scripts/publish-maven-1.0.0.gradle')
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion       rootProject.ext.android.minSdkVersion
-        targetSdkVersion    rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
+        minSdkVersion    rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        //单独版本
+        versionCode      1
+        versionName      "1.0"
 
         consumerProguardFiles 'consumer-rules.pro'
-        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
-        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
     }
 
     buildTypes {

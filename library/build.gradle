@@ -5,15 +5,12 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion       rootProject.ext.android.minSdkVersion
-        targetSdkVersion    rootProject.ext.android.targetSdkVersion
-        versionCode         rootProject.ext.android.versionCode
-        versionName         rootProject.ext.android.versionName
+        minSdkVersion    rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode      rootProject.ext.android.versionCode
+        versionName      rootProject.ext.android.versionName
 
         consumerProguardFiles 'consumer-rules.pro'
-        //手动把版本信息写进 BuildConfig
-        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
-        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
     }
 
     buildTypes {

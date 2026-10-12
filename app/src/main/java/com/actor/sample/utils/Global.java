@@ -17,18 +17,17 @@ public class Global {
     public static final String BASE_URL2       = "https://www.wanandroid.com";
     public static final String BASE_URL_GITHUB = "https://api.github.com";
 
-    public static final String CHECK_UPDATE = "https://gitee.com/actor20170211030627/" +
-            "MyAndroidFrameWork" +
-            "/raw/master/" +
-            "apk" +
-            "/build/outputs/apk/debug/output-metadata.json";
+    //Click 'Run'
+//    public static final String CHECK_UPDATE = "https://gitee.com/actor20170211030627/" +
+//            "MyAndroidFrameWork/raw/master/app/build/outputs/apk/debug/output-metadata.json";
+    //Build -> Output -> Apk -> debug
+    public static final String CHECK_UPDATE = "https://raw.giteeusercontent.com/actor20170211030627/" +
+            "MyAndroidFrameWork/raw/master/app/debug/output-metadata.json";
 
     //https://github.com/actor20170211030627/MyAndroidFrameWork/releases/download/2.1.9/app-debug.apk
     public static final String DOWNLOAD_URL = "https://github.com/actor20170211030627/" +
             "MyAndroidFrameWork" +
-            "/releases/download/%s" +
-            "app" +
-            "-debug.apk";
+            "/releases/download/%s/%s";
 
 
     //thanks: https://downloads.gradle.org/distributions/ 10.09MB

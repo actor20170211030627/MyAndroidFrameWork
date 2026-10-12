@@ -15,7 +15,7 @@
         android:id="@+id/ll_content_for_iaml"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#FFF"
         android:gravity="center_vertical"
         android:minHeight="@dimen/item_add_minus_layout_container_min_height"
         android:orientation="horizontal"
@@ -59,7 +59,7 @@
             android:minEms="2"
             android:padding="5dp"
             android:text="0"
-            android:textColor="@color/black"
+            android:textColor="#000"
             android:textSize="16sp" />
 
         <ImageView

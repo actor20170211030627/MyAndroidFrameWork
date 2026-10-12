@@ -48,14 +48,12 @@ public class CheckUpdateUtils {
                     public void onHttpSuccess(@NonNull CheckUpdateInfo.CheckUpdateBean result) {
                         SPUtils.putBoolean(Global.IS_CHECK_UPDATE, true, SPUtils.ExpireInDay);
                         List<CheckUpdateInfo.CheckUpdateBean.ElementsBean> elements = result.elements;
-                        if (elements != null && !elements.isEmpty()) {
-                            CheckUpdateInfo.CheckUpdateBean.ElementsBean elementsBean = elements.get(0);
-                            if (elementsBean != null) {
-                                int versionCode = AppUtils.getAppVersionCode();
-                                if (versionCode < elementsBean.versionCode) {
-                                    showDialog(elementsBean.versionName);
-                                }
-                            }
+                        if (elements == null || elements.isEmpty()) return;
+                        CheckUpdateInfo.CheckUpdateBean.ElementsBean elementsBean = elements.get(0);
+                        if (elementsBean == null) return;
+                        int versionCode = AppUtils.getAppVersionCode();
+                        if (versionCode < elementsBean.versionCode) {
+                            showDialog(elementsBean);
                         }
                     }
                     @Override
@@ -64,17 +62,16 @@ public class CheckUpdateUtils {
                 });
     }
 
-    private void showDialog(String newVersionName) {
-        if (newVersionName == null) newVersionName = "";
+    private void showDialog(@NonNull CheckUpdateInfo.CheckUpdateBean.ElementsBean elementsBean) {
+        if (elementsBean.versionName == null) elementsBean.versionName = "";
         Activity topActivity = ActivityUtils.getTopActivity();
         if (topActivity == null || topActivity.isDestroyed()) return;
         if (alertDialog == null) {
-            String finalNewVersionName = newVersionName;
             alertDialog = new AlertDialog.Builder(topActivity)
                     .setTitle("Update: 有新版本")
-                    .setMessage("有新版本: ".concat(newVersionName).concat(", 快更新吧!"))
+                    .setMessage("有新版本: ".concat(elementsBean.versionName).concat(", 快更新吧!"))
                     .setPositiveButton("Ok", (dialog, which) -> {
-                        downloadApk(topActivity, finalNewVersionName);
+                        downloadApk(topActivity, elementsBean);
                     })
                     .setNegativeButton("Cancel", null)
                     .create();
@@ -82,7 +79,7 @@ public class CheckUpdateUtils {
         alertDialog.show();
     }
 
-    private void downloadApk(Activity topActivity, String versionName) {
+    private void downloadApk(@NonNull Activity topActivity, @NonNull CheckUpdateInfo.CheckUpdateBean.ElementsBean elementsBean) {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(topActivity);
             progressDialog.setCancelable(false);
@@ -95,7 +92,7 @@ public class CheckUpdateUtils {
             tag = (LifecycleOwner) topActivity;
         }
         EasyHttp.download(tag)
-                .url(TextUtils2.getStringFormat(Global.DOWNLOAD_URL, versionName))
+                .url(TextUtils2.getStringFormat(Global.DOWNLOAD_URL, elementsBean.versionName, elementsBean.outputFile))
                 .listener(new OnDownloadListener() {
                     @Override
                     public void onDownloadProgressChange(@NonNull File file, int progress) {

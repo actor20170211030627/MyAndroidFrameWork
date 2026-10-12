@@ -16,7 +16,7 @@
         android:id="@+id/ll_content_for_isl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#FFF"
         android:gravity="center_vertical"
         android:minHeight="@dimen/item_spinner_layout_container_min_height"
         android:orientation="horizontal"

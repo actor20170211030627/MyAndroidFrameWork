@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.Date;
 import java.util.Map;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description: ItemEntity对应的数据库表的实体

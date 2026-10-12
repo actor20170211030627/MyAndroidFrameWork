@@ -1,13 +1,8 @@
 /build/cache
 /build/generated
 /build/intermediates
-/build/outputs/apk/androidTest
-/build/outputs/apk/debug/*.apk
-/build/outputs/apk/release
-/build/outputs/logs
-/build/outputs/mapping
-/build/outputs/sdk-dependencies
+/build/outputs
 /build/reports
 /build/tmp
-/debug
+/debug/*.apk
 /release

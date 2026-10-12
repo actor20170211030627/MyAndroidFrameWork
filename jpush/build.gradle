@@ -7,14 +7,12 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion       rootProject.ext.android.minSdkVersion
-        targetSdkVersion    rootProject.ext.android.targetSdkVersion
-        versionCode         rootProject.ext.android.versionCode
-        versionName         rootProject.ext.android.versionName
+        minSdkVersion    rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode      rootProject.ext.android.versionCode
+        versionName      rootProject.ext.android.versionName
 
         consumerProguardFiles "consumer-rules.pro"
-        buildConfigField "int", "VERSION_CODE", "${defaultConfig.versionCode}"
-        buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
     }
 
     buildTypes {
@@ -42,7 +40,7 @@ dependencies {
         exclude group: 'cn.jiguang.sdk', module: 'jcore'  //+ JCore 包最新版
     }
 //    compileOnly 'cn.jiguang.sdk:jcore:4.5.0'    //可选，JCore 包，if你发现↑自动集成的有问题, 可以使用这个和↑同一天发布的包
-//    compileOnly 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
+//    compileOnly 'cn.jiguang.sdk:joperate:2.2.0' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
 
     //JCore
 //    compileOnly project(path: ':tempgen') //tempgen已禁止打包, jitpack打包的时候用↓

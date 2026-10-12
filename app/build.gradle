@@ -9,10 +9,10 @@ android {
 
     defaultConfig {
         applicationId "com.actor.sample"
-        minSdkVersion       rootProject.ext.android.minSdkVersion
-        targetSdkVersion    rootProject.ext.android.targetSdkVersion
-        versionCode         rootProject.ext.android.versionCode
-        versionName         rootProject.ext.android.versionName
+        minSdkVersion    rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode      rootProject.ext.android.versionCode
+        versionName      rootProject.ext.android.versionName
         multiDexEnabled true
 
         //在 defaultConfig { 中添加ndk
@@ -132,7 +132,7 @@ dependencies {
 //        exclude group: 'cn.jiguang.sdk', module: 'jcore'  //+ JCore 包最新版
     }
 //    implementation 'cn.jiguang.sdk:jcore:4.5.0'    //可选，JCore 包，if你发现↑自动集成的有问题, 可以使用这个和↑同一天发布的包
-//    implementation 'cn.jiguang.sdk:joperate:2.0.2' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
+//    implementation 'cn.jiguang.sdk:joperate:2.2.0' //可选，集成极光分析SDK后，即可支持行为触发推送消息、推送转化率统计，用户行为分析和用户标签等功能
 
 
     // 图片压缩 (按需引入): 如果你需要使用压缩图片功能, 需要添加下面这行依赖

@@ -4,16 +4,14 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         mavenLocal()
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://developer.huawei.com/repo/' }
         maven { url 'https://repo1.maven.org/maven2/' }
-        maven { url 'https://www.jitpack.io' }
         maven { url 'https://jitpack.io' }
         mavenCentral()
         google()
-        jcenter()
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url 'https://maven.aliyun.com/repository/central' }
+//        maven { url 'https://maven.aliyun.com/repository/public' }
+//        maven { url 'https://developer.huawei.com/repo/' }
     }
     dependencies {
         //这就是 AGP( Android Gradle Plugin) 版本，是 Google 官方为 Android 项目开发的 Gradle 插件。它的作用是：编译、打包、资源处理、依赖管理、构建任务
@@ -32,16 +30,15 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()    // 让 Gradle 能在本地 Maven 仓库中查找依赖
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://developer.huawei.com/repo/' }
         maven { url 'https://repo1.maven.org/maven2/' }
-        maven { url 'https://www.jitpack.io' }
         maven { url 'https://jitpack.io' }
         mavenCentral()
         google()
-        jcenter()
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url 'https://maven.aliyun.com/repository/central' } //源地址: https://repo1.maven.org/maven2/
+        maven { url 'https://maven.aliyun.com/repository/public' }  //源地址: central仓和jcenter仓的聚合仓 (Android-PickerView)
+//        maven { url 'https://developer.huawei.com/repo/' }
+//        jcenter()
     }
 }
 
